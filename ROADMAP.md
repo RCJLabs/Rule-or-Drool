@@ -242,30 +242,39 @@ Log the seed and card id (debug panel) for anything odd; runs replay exactly fro
   method also keeps build output out of git history.
 - The old `gh-pages` branch is now unused. It is harmless, but delete it if you want the
   branch list clean; nothing reads it any more.
-- **The deploy job is gated on the repository default branch.** Enabling Pages creates the
-  `github-pages` environment, which GitHub restricts to the default branch. That branch is
-  still `claude/new-session-x759ml`, so the deploy job triggered by a push to `main` is
-  rejected before its first step, with no log to read: a one-second failure that looks like
-  a broken workflow and is not one. Proved by dispatching the identical commit from the
-  current default branch, which deployed successfully. Switching the default branch to
-  `main` fixes it for good.
+- **The deploy job is gated by the `github-pages` environment's branch list, and that list
+  does not follow the default branch.** Enabling Pages created the environment while
+  `claude/new-session-x759ml` was still the default, and GitHub wrote that branch name into
+  the environment's deployment-branch policy. Changing the repository default branch to
+  `main` afterwards did not rewrite it: pushes to `main` are still rejected before the
+  deploy job's first step, a one-second failure with no log, which looks like a broken
+  workflow and is not one. The build half passes every time.
+
+  Established by three observations, not inference: the same commit deploys successfully
+  when dispatched from `claude/new-session-x759ml`; a push to `main` failed identically both
+  before and after the default branch changed; and `deploy-pages` itself succeeds, which it
+  only does when the Pages source is "GitHub Actions". So Pages is configured correctly and
+  only the branch list is wrong.
+
+  **The fix is one setting:** Settings → Environments → `github-pages` → Deployment branches
+  and tags → add `main`, or switch it to "No restriction". Nothing in the repository needs
+  changing, and the API path that would let a session do this is blocked by the sandbox.
 
 ### Deploying
 
 The site is live at https://rcjlabs.github.io/Rule-or-Drool/ and Pages is already enabled
 with its source set to "GitHub Actions". No settings visit was needed for that.
 
-- **One thing left, and it matters:** Settings → General → Default branch → `main`. GitHub
-  made the first branch pushed to an empty repo the default, which was the feature branch.
-  Until that changes, a push to `main` starts a Deploy run whose deploy job is rejected by
-  the `github-pages` environment (default-branch-only policy) and shows up red after one
-  second. The build half still passes; nothing is broken in the code.
-- Until then, deploy by dispatching the workflow from the current default branch: Actions →
-  Deploy → Run workflow → pick `claude/new-session-x759ml`. That is how the live build got
-  there.
-- Once the default branch is `main`: push to `main` and it runs check, build and deploy, and
-  the site updates a minute or two later. Other branches and pull requests run CI only, so a
-  push to `main` no longer triggers two duplicate runs.
+- **One thing left:** Settings → Environments → `github-pages` → Deployment branches and
+  tags → add `main` (or "No restriction"). Until then a push to `main` starts a Deploy run
+  whose deploy job is rejected after one second, as described above. The default branch is
+  already `main`; that was a separate change and it did not fix this one.
+- Until then, deploy by dispatching the workflow from the branch the environment does allow:
+  Actions → Deploy → Run workflow → pick `claude/new-session-x759ml`. That is how every live
+  build so far got there, and both branches point at the same commit.
+- Once `main` is on the environment's list: push to `main` and it runs check, build and
+  deploy, and the site updates a minute or two later. Other branches and pull requests run
+  CI only, so a push to `main` no longer triggers two duplicate runs.
 - The repository's default branch was set to the first branch pushed
   (`claude/new-session-x759ml`). Switch it to `main` in Settings → General so pull requests
   target the right branch.
