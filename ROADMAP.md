@@ -233,16 +233,20 @@ Log the seed and card id (debug panel) for anything odd; runs replay exactly fro
   `cursive`. On devices without any of them (Linux, some Android) the fallback is whatever
   the browser maps `cursive` to, sometimes a serif. Bundling a font would fix it and is a
   phase 7 decision (offline size).
-- The `gh-pages` branch method was chosen over the GitHub Actions Pages source because it
-  can auto-enable Pages on a public repo without a settings change. Not verified until the
-  first deploy ran; see the deploy section.
+- The `gh-pages` branch method was chosen over the GitHub Actions Pages source in the hope
+  that GitHub would auto-enable Pages on a public repo. It did not: the first Deploy run was
+  green and the branch is correct, but GitHub ran no Pages build, so Pages needs enabling
+  once by hand (see the deploy section). Either method needs that one click; this one needs
+  no further settings after it.
 
 ### Deploying
 
+- **One-time step, still to do:** Settings → Pages → Source "Deploy from a branch", branch
+  `gh-pages`, folder `/ (root)`, Save. GitHub then builds the site within a minute and every
+  later push to `gh-pages` republishes automatically. The Deploy workflow has already pushed
+  a correct `gh-pages` branch (`.nojekyll`, `index.html`, assets under `/Rule-or-Drool/`).
 - `main` is the deploy branch. Pushing to it publishes within a couple of minutes. Feature
   branches only run CI.
-- If the site 404s after the first green Deploy run, it needs one manual step: Settings →
-  Pages → Source "Deploy from a branch", branch `gh-pages`, folder `/ (root)`, Save.
 - The repository's default branch was set to the first branch pushed
   (`claude/new-session-x759ml`). Switch it to `main` in Settings → General so pull requests
   target the right branch.
