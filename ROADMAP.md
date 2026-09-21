@@ -242,6 +242,101 @@ Log the seed and card id (debug panel) for anything odd; runs replay exactly fro
   method also keeps build output out of git history.
 - The old `gh-pages` branch is now unused. It is harmless, but delete it if you want the
   branch list clean; nothing reads it any more.
+- **The deploy job is gated by the `github-pages` environment's branch list, and `main` is
+  still not on it.** The environment was created while `claude/new-session-x759ml` was the
+  repository default, and GitHub wrote that branch into its deployment-branch policy.
+  Neither changing the default branch to `main` nor editing the environment has yet cleared
+  it. A push or dispatch on `main` is rejected before the deploy job's first step: a
+  one-second failure with no log, which looks like a broken workflow and is not one. The
+  build half passes every time.
+
+  The cleanest test, run on commit `9b450d8` minutes apart: dispatching the workflow on
+  `main` failed, and dispatching the identical commit on `claude/new-session-x759ml`
+  deployed successfully. That rules out the event type and the commit, and leaves the
+  branch. `deploy-pages` itself succeeds, so Pages is correctly configured with the
+  "GitHub Actions" source; only the branch list is wrong.
+
+  **Two ways to fix it, both in the UI, since the environments API is blocked from a
+  session.** Either set Settings → Environments → `github-pages` → Deployment branches and
+  tags to "No restriction", or delete the `github-pages` environment outright: the next
+  deploy recreates it, and it will pick up `main` now that `main` is the default branch.
+  A "Selected branches and tags" list only matches an entry spelled exactly `main`, and a
+  tag rule or a pattern like `main/*` will not match.
+
+## Phase 3: what shipped
+
+Live at https://rcjlabs.github.io/Rule-or-Drool/ (deploys from `main`, see below).
+
+- **App shell**: Vite + React + TypeScript, `src/main.tsx` and `src/ui/`. Procedural SVG
+  and CSS only, system fonts only, no art assets. Mobile first; keyboard on desktop.
+- **Setup screen**: pick a side (party names from `strings.ts`), a seed (shown on the ending
+  screen so odd runs can be reported and replayed), continue a saved run.
+- **Play screen**: four meter silhouettes filled to their value (Mood's mouth follows the
+  value; meters under 15 or over 85 pulse red). One card: procedural portrait, speaker name
+  and role, text. Drag to swipe; the choice label for that side fades in with the drag, and
+  affected meters show a dot sized by magnitude with direction hidden (section 9). Keyboard:
+  an arrow peeks, the same arrow again (or Enter) commits, Escape cancels. Era name and year
+  in the footer with a progress bar. A hint line shows until the first swipe.
+- **Era transition** overlay between eras; the next card is not drawn until dismissed.
+- **Ending screen**: ending title and text, the epilogue with its band named, run stats.
+- **Frame theming as the trajectory meter**: `themeFor(drift)` puts the frame in stage 1 at
+  |drift| 10, stage 2 at 30, stage 3 at 55, on live drift, so signs show before the ±25 band
+  line and before an era boundary. Decay: louder palette per stage; a sponsor banner at stage 1,
+  a news ticker at 2, an AD badge and a crooked layout at 3; Comic-style font from stage 2;
+  meter labels dumb down ("Vibes", "Cash", "Cops", "Gov Stuff", then worse); card text gets
+  the `degrade()` typo transform (0.3 at stage 2, 0.6 at stage 3). Ascent: calmer blue-grey
+  palette, serif type and more whitespace from stage 2, thinner rules and more line-height at 3.
+- **Portraits**: procedural SVG per role (cap, wig, glasses, top hat, headset, monocle, bandana,
+  rosette) with skin, hair, background, head shape and eye spacing varied by seed and advisor.
+- **Local save** after every step under `RUN_SAVE_VERSION`; a different version is ignored.
+- **Debug mode**: add `?debug=1` to the URL for a panel with drift, band, theme, era, card id,
+  flags and queue. `[` and `]` shift drift by 10 so every look can be checked in seconds.
+- **Deploy**: `.github/workflows/deploy.yml` runs on every push to `main`: check, build, and
+  publish `dist/` to the `gh-pages` branch. CI now also builds.
+- **Tests**: 122 passing (UI: degrade, theme, flow, save, App keyboard flow, saved-run resume,
+  theming via the debug nudge, CardView drag threshold, Ending). A headless Chromium run of the
+  production build went setup → drag → Decay/Ascent looks → era transition → ending with no
+  page errors before this was pushed.
+
+### First human playtest: what to look for
+
+Section 13 says the harness cannot tell whether temptation feels tempting. Only this can.
+
+1. **Temptation.** Note cards where the honest side was the obvious pick anyway, and cards
+   where you took the easy side knowing better. Both lists are content bugs of different kinds.
+2. **Hidden drift.** Which stage-1 sign did you notice first (palette, banner, tilt, labels)?
+   Did a band change ever feel arbitrary? Use `?debug=1` on a second run to compare.
+3. **Dots.** Is magnitude-only enough to plan, or does hiding direction just feel random?
+4. **Elections.** Did rigging feel like a choice or an obligation? Was the honest loss fair?
+5. **Feel.** Does the drag ever fight the browser (scroll, back-swipe, text selection)? Is the
+   card reachable one-handed? Is the fly-off too slow?
+6. **Voice.** Anything that reads as a real party, person or country. Anything that is not
+   funny by the third time.
+
+Log the seed and card id (debug panel) for anything odd; runs replay exactly from a seed.
+
+### Decisions made in phase 3
+
+- The theme follows live drift, not the era-locked band, per section 9's "early signs".
+- Keyboard uses peek-then-confirm so labels stay hidden until you ask, like a drag.
+- The era transition holds the next draw so the interstitial is not skippable by accident.
+- Choice labels are only visible while dragging or peeking (Reigns convention). Screen-reader
+  users cannot choose yet: known limit, fix in phase 6 or 7 with hidden buttons.
+- Sponsor names are procedural placeholders; the meter label variants and era jump texts
+  live in `strings.ts` for editing.
+- Decay's font stack asks for Comic Sans, Chalkboard or Marker Felt and falls back to
+  `cursive`. On devices without any of them (Linux, some Android) the fallback is whatever
+  the browser maps `cursive` to, sometimes a serif. Bundling a font would fix it and is a
+  phase 7 decision (offline size).
+- Deploying goes through the **GitHub Actions Pages pipeline** (`configure-pages`,
+  `upload-pages-artifact`, `deploy-pages`), not a `gh-pages` branch. The first attempt used
+  the branch method on the theory that GitHub would auto-enable Pages for a public repo. It
+  did not, and the branch method has no way to ask for it. `configure-pages` with
+  `enablement: true` does, and it worked: `deploy-pages` then published successfully, which
+  it only does when the Pages source is "GitHub Actions". Nobody had to open Settings. The
+  method also keeps build output out of git history.
+- The old `gh-pages` branch is now unused. It is harmless, but delete it if you want the
+  branch list clean; nothing reads it any more.
 - **The deploy job is gated by the `github-pages` environment's branch list, and that list
   does not follow the default branch.** Enabling Pages created the environment while
   `claude/new-session-x759ml` was still the default, and GitHub wrote that branch name into
@@ -265,10 +360,11 @@ Log the seed and card id (debug panel) for anything odd; runs replay exactly fro
 The site is live at https://rcjlabs.github.io/Rule-or-Drool/ and Pages is already enabled
 with its source set to "GitHub Actions". No settings visit was needed for that.
 
-- **One thing left:** Settings → Environments → `github-pages` → Deployment branches and
-  tags → add `main` (or "No restriction"). Until then a push to `main` starts a Deploy run
-  whose deploy job is rejected after one second, as described above. The default branch is
-  already `main`; that was a separate change and it did not fix this one.
+- **One thing left:** clear the `github-pages` environment's branch restriction, either by
+  setting it to "No restriction" or by deleting the environment and letting the next deploy
+  recreate it. Until then a push to `main` starts a Deploy run whose deploy job is rejected
+  after one second, as described above. Both the default-branch change and an edit to the
+  environment have already been tried and did not clear it.
 - Until then, deploy by dispatching the workflow from the branch the environment does allow:
   Actions → Deploy → Run workflow → pick `claude/new-session-x759ml`. That is how every live
   build so far got there, and both branches point at the same commit.
