@@ -1,0 +1,130 @@
+[
+  {
+    "id": "arc_pu1",
+    "type": "arc",
+    "arc": "arc_purge",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The committee wants a register of members whose commitment has been questioned. It promises the register is only a register.",
+    "left": {
+      "label": "Open the register",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "next": "arc_pu2",
+      "setFlags": [
+        "purge_begun"
+      ]
+    },
+    "right": {
+      "label": "Refuse the register",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "arc_pu2",
+    "type": "arc",
+    "arc": "arc_purge",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Your health minister is on the register. She built the clinics. She once used a word that has since been retired.",
+    "cond": {
+      "flags": [
+        "purge_begun"
+      ]
+    },
+    "left": {
+      "label": "Expel her",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "next": "arc_pu3",
+      "fireSpeaker": true
+    },
+    "right": {
+      "label": "Burn the register",
+      "fx": {
+        "mood": -4,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5,
+      "clearFlags": [
+        "purge_begun"
+      ]
+    }
+  },
+  {
+    "id": "arc_pu3",
+    "type": "arc",
+    "arc": "arc_purge",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Your name is on the register now. Somebody added it last week, using the procedure you signed.",
+    "cond": {
+      "flags": [
+        "purge_begun"
+      ]
+    },
+    "left": {
+      "label": "Submit to the process",
+      "drift": 3,
+      "ending": "purge_consumed"
+    },
+    "right": {
+      "label": "Purge the purgers",
+      "fx": {
+        "order": 3,
+        "mood": -2,
+        "inst": -3
+      },
+      "drift": -5,
+      "clearFlags": [
+        "purge_begun"
+      ]
+    }
+  }
+]

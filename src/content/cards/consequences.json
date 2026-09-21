@@ -19,17 +19,17 @@
     "left": {
       "label": "Ask him to retire",
       "fx": {
-        "mood": -4,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Print it on posters",
       "fx": {
-        "mood": 2,
-        "order": -4,
-        "inst": -2
+        "mood": 1,
+        "order": -3,
+        "inst": -1
       },
       "drift": -3
     }
@@ -54,20 +54,20 @@
     "left": {
       "label": "Cap the stakes",
       "fx": {
-        "money": -7,
+        "money": -6,
         "mood": -1,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Add a second draw",
       "fx": {
-        "money": 6,
-        "mood": 2,
-        "inst": -2
+        "money": 7,
+        "mood": 1,
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -91,18 +91,18 @@
       "label": "Repeal the oath",
       "fx": {
         "order": -6,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Reinstate nobody",
       "fx": {
-        "order": 5,
+        "order": 3,
         "mood": 1,
-        "inst": -4
+        "inst": -3
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -125,20 +125,20 @@
     "left": {
       "label": "Negotiate as equals",
       "fx": {
-        "money": -5,
+        "money": -4,
         "mood": -2,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Cut their supply runs",
       "fx": {
-        "order": 4,
+        "order": 3,
         "money": 2,
-        "inst": -4
+        "inst": -3
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -161,17 +161,90 @@
     "left": {
       "label": "Count them properly",
       "fx": {
-        "money": -7,
-        "inst": 4
+        "money": -6,
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Redraw the map",
       "fx": {
-        "mood": 2,
-        "order": -4,
-        "inst": -4
+        "mood": 1,
+        "order": -3,
+        "inst": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q_empty_shelves",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "weight": 0,
+    "text": "The price cap held. The shelves did not. There is bread at the official price and no bread at any price.",
+    "left": {
+      "label": "Lift the cap",
+      "fx": {
+        "mood": -4,
+        "money": 2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Arrest a grocer",
+      "fx": {
+        "order": 2,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q_province_walks",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "weight": 0,
+    "text": "The two provinces have stopped sending tax and started sending lawyers. Their flags went up on Tuesday.",
+    "left": {
+      "label": "Give them their language",
+      "fx": {
+        "mood": -3,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Send the garrison",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "money": -5,
+        "inst": -3
       },
       "drift": -4
     }

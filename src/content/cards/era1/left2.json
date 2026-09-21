@@ -1,0 +1,731 @@
+[
+  {
+    "id": "l09_wealth_tax",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A wealth tax would raise a great deal, if the wealthy stayed. Nine of them have already booked flights.",
+    "oneShot": true,
+    "left": {
+      "label": "Pass it with teeth",
+      "fx": {
+        "money": 4,
+        "mood": 2,
+        "inst": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass it with holes",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l10_clinic_queue",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The free clinics work and the queue is eleven weeks. More clinics take four years. A press release takes one.",
+    "left": {
+      "label": "Build more clinics",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Announce a target",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l11_old_guard",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The founders of the movement want their seats back. They have earned them, and they are wrong about everything.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire them kindly",
+      "fx": {
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give them ministries",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l12_solidarity_fund",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The solidarity fund has no audit and a very warm reputation. Auditing it would be an act of aggression.",
+    "left": {
+      "label": "Audit it anyway",
+      "fx": {
+        "money": 3,
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Double it instead",
+      "fx": {
+        "mood": 3,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l13_teacher_strike",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The teachers are striking for smaller classes. You agree with them publicly and cannot afford them privately.",
+    "left": {
+      "label": "Meet the demand",
+      "fx": {
+        "money": -6,
+        "mood": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Split the union",
+      "fx": {
+        "order": 3,
+        "money": 3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l14_land_reform",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Four families own the valley. Redistribution is popular, legal, and would take eleven years of courtrooms.",
+    "oneShot": true,
+    "left": {
+      "label": "Go through the courts",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Seize it by decree",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l15_green_levy",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The carbon levy works. It also falls hardest on the people who drive furthest to the worst jobs.",
+    "left": {
+      "label": "Rebate the poorest",
+      "fx": {
+        "money": -4,
+        "mood": 2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Exempt everyone loud",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l16_worker_seats",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Workers on company boards: a real reform. The firms offer to fund your party instead, generously.",
+    "oneShot": true,
+    "left": {
+      "label": "Legislate the seats",
+      "fx": {
+        "money": -3,
+        "mood": 2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the donation",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l17_squatters",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Four hundred families have occupied an empty tower owned by a shell company in a country you cannot pronounce.",
+    "left": {
+      "label": "Buy the tower",
+      "fx": {
+        "money": -6,
+        "mood": 2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Clear it at dawn",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "mood": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l18_ministry_of_joy",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A new ministry for wellbeing is proposed. It would have a budget, a logo, and no powers whatsoever.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund clinics instead",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Approve the logo",
+      "fx": {
+        "mood": 2,
+        "money": -1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l19_price_controls",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Capping food prices would help every household this month and empty the shelves by autumn.",
+    "left": {
+      "label": "Subsidise producers",
+      "fx": {
+        "money": -6,
+        "mood": 2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cap the prices",
+      "fx": {
+        "mood": 3,
+        "money": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_empty_shelves",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "l20_party_school",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The party academy trains organisers. It has begun training civil servants, and marking them.",
+    "left": {
+      "label": "Separate the two",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Expand the academy",
+      "fx": {
+        "order": 2,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l21_debt_jubilee",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Cancelling household debt would free a million people and ruin four banks you also regulate.",
+    "oneShot": true,
+    "left": {
+      "label": "Cancel the worst of it",
+      "fx": {
+        "money": -6,
+        "mood": 3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cancel all of it",
+      "fx": {
+        "mood": 3,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "l22_nationalise_rail",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The railway is privately owned, publicly subsidised and consistently late. Taking it back costs a fortune.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it at a fair price",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Renew the contract",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l23_denunciation_line",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A hotline for reporting reactionary remarks has been set up by volunteers. It is extremely popular.",
+    "left": {
+      "label": "Shut it down",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give it an office",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l24_heretic_minister",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "Your health minister published a paper in her twenties that the movement has just read and disliked.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep her",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Replace her today",
+      "fx": {
+        "mood": 3,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3,
+      "fireSpeaker": true
+    }
+  },
+  {
+    "id": "l25_free_everything",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The conference has voted that everything should be free. The conference has not voted on how.",
+    "left": {
+      "label": "Cost it publicly",
+      "fx": {
+        "mood": -3,
+        "inst": 3,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Announce it anyway",
+      "fx": {
+        "mood": 3,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l26_loyal_press",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A friendly paper will print whatever the movement sends it. All it asks for is the advertising contract.",
+    "oneShot": true,
+    "left": {
+      "label": "Advertise everywhere",
+      "fx": {
+        "money": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give it the contract",
+      "fx": {
+        "mood": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "media_captured"
+      ]
+    }
+  },
+  {
+    "id": "l27_childcare",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Universal childcare pays for itself in eighteen years, which is sixteen years after you leave office.",
+    "oneShot": true,
+    "left": {
+      "label": "Start it now",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "mood": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pilot it in one city",
+      "fx": {
+        "money": -2,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l28_coop_banks",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Cooperative banks lend where the big ones will not. Regulating them properly would slow them to a crawl.",
+    "left": {
+      "label": "Regulate them properly",
+      "fx": {
+        "money": -2,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave them alone",
+      "fx": {
+        "money": 5,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l29_open_budget",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Publishing every ministry's spending line by line would be a first. It would also be a weekly humiliation.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish all of it",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish the totals",
+      "fx": {
+        "mood": 1,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l30_sabbatical",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement wants a four-day week in the public sector. The hospitals ask which day they should close.",
+    "left": {
+      "label": "Hire for the fifth day",
+      "fx": {
+        "money": -6,
+        "mood": 3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let them work it out",
+      "fx": {
+        "mood": 3,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

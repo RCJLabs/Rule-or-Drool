@@ -1,0 +1,602 @@
+[
+  {
+    "id": "br03_security_firm",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The security firm that polices three districts has offered to police three more, at a discount, before the audit.",
+    "oneShot": true,
+    "left": {
+      "label": "Audit first",
+      "fx": {
+        "money": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the discount",
+      "fx": {
+        "money": 6,
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br04_founder_family",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The founding family now holds four ministries. Each appointment was defensible. Together they are a surname.",
+    "left": {
+      "label": "Break it up",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a fifth",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br05_flat_tax",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A flat tax is simple, fair-sounding, and moves four billion a year from the bottom half to the top tenth.",
+    "oneShot": true,
+    "left": {
+      "label": "Simplify without that",
+      "fx": {
+        "money": 2,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pass the flat tax",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br06_school_vouchers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Vouchers let parents choose. The good schools fill up in a week and the rest become the schools nobody chose.",
+    "left": {
+      "label": "Fund the worst schools",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Issue the vouchers",
+      "fx": {
+        "mood": 3,
+        "money": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br07_loyalty_promotion",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Two colonels are up for the northern command. One is better. The other was in the room on the difficult night.",
+    "oneShot": true,
+    "left": {
+      "label": "Promote the better one",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promote the loyal one",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br08_language_law",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "One official language, enforced in schools and courts. Two provinces have spoken something else for four centuries.",
+    "left": {
+      "label": "Fund both languages",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "One language",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_province_walks",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "br09_pension_privatise",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Privatising pensions fixes the books this decade and moves the risk onto people who cannot price it.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the state scheme",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Privatise it",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "pension_raided"
+      ],
+      "enqueue": [
+        {
+          "id": "q_pension_gap",
+          "delay": 22
+        }
+      ]
+    }
+  },
+  {
+    "id": "br10_border_contractors",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Contractors run the border camps. The inspectors have been refused entry twice, politely, by men with lanyards.",
+    "left": {
+      "label": "Force the inspection",
+      "fx": {
+        "money": -2,
+        "mood": -2,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Extend the contract",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br11_judicial_appointments",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Nine judges retire this year. A committee of your choosing would replace them, lawfully, for a generation.",
+    "oneShot": true,
+    "left": {
+      "label": "Use the bar's list",
+      "fx": {
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appoint the nine",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "br12_resource_royalty",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The mining royalty is the lowest on the continent. Raising it would be a betrayal, say the four men it would affect.",
+    "left": {
+      "label": "Raise the royalty",
+      "fx": {
+        "money": 6,
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Freeze it for a decade",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br13_charity_hospitals",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Charitable foundations would run the rural hospitals. They are generous, competent, and answer to their donors.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep them public",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hand them over",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br14_national_service",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Conscription would fix the recruitment gap and put a uniform on every eighteen-year-old who voted against you.",
+    "left": {
+      "label": "Pay soldiers better",
+      "fx": {
+        "money": -6,
+        "order": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Conscript them",
+      "fx": {
+        "order": 4,
+        "mood": -1,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br15_heritage_channel",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A state heritage channel would run the national story continuously. Historians have asked which version.",
+    "left": {
+      "label": "Let historians write it",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Commission the script",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "money": -2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br16_oath_of_office",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "A new oath for public servants. It mentions the nation, the constitution, and, in clause four, the government of the day.",
+    "left": {
+      "label": "Strike clause four",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep clause four",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "br17_founders_estate",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "The founder's country house is to become a national monument. It is still lived in, by the founder's grandson.",
+    "left": {
+      "label": "Buy it outright",
+      "fx": {
+        "money": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Fund the upkeep",
+      "fx": {
+        "money": -2,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br18_fiscal_council",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An independent fiscal council would score every promise you make, in public, before you make it.",
+    "oneShot": true,
+    "left": {
+      "label": "Create it",
+      "fx": {
+        "mood": -3,
+        "money": 2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Score them yourself",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br19_property_registry",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A full register of who owns what would secure every honest title and expose about two hundred dishonest ones.",
+    "left": {
+      "label": "Publish the register",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Register only new sales",
+      "fx": {
+        "money": 3,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "br20_rule_of_law_summit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Your predecessors bent four rules that you have kept. Writing them down as law would bind you too.",
+    "oneShot": true,
+    "left": {
+      "label": "Write them down",
+      "fx": {
+        "order": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the convention",
+      "fx": {
+        "order": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

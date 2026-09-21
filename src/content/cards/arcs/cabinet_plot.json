@@ -20,11 +20,11 @@
     "left": {
       "label": "Bury it",
       "fx": {
-        "money": 5,
+        "money": 6,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5,
+      "drift": -4,
       "next": "arc_cp2",
       "setFlags": [
         "buried_the_audit"
@@ -33,11 +33,11 @@
     "right": {
       "label": "Sack them publicly",
       "fx": {
-        "money": -5,
+        "money": -4,
         "mood": -2,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 5,
+      "drift": 4,
       "fireSpeaker": true
     }
   },
@@ -67,21 +67,21 @@
     "left": {
       "label": "Give them the nephew",
       "fx": {
-        "money": -6,
+        "money": -7,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5,
+      "drift": -4,
       "next": "arc_cp3"
     },
     "right": {
       "label": "Cut them loose",
       "fx": {
-        "money": -4,
+        "money": -3,
         "order": -4,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 5,
+      "drift": 4,
       "fireSpeaker": true,
       "clearFlags": [
         "buried_the_audit"
@@ -113,17 +113,17 @@
     },
     "left": {
       "label": "Make them a minister",
-      "drift": -8,
+      "drift": -7,
       "ending": "blackmailed"
     },
     "right": {
       "label": "Confess first",
       "fx": {
-        "mood": -8,
-        "money": -4,
-        "inst": 4
+        "mood": -6,
+        "money": -3,
+        "inst": 3
       },
-      "drift": 9,
+      "drift": 8,
       "clearFlags": [
         "buried_the_audit"
       ]

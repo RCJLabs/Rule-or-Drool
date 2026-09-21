@@ -1,0 +1,807 @@
+[
+  {
+    "id": "a21_hospital_wait",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The waiting lists are published monthly. There is a way to count them that makes them shorter without treating anyone.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the real count",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Use the new method",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a22_train_line",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The northern line would repay itself in thirty years. A bypass around the capital repays itself in headlines.",
+    "left": {
+      "label": "Build the northern line",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Build the bypass",
+      "fx": {
+        "mood": 3,
+        "money": -1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a23_whistleblower",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A clerk has documents showing the procurement fraud. She would like protection. The fraud is in your ministry.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect her",
+      "fx": {
+        "mood": -2,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Question her loyalty",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a24_foreign_base",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A larger country would like a base on your coast. It offers money, protection and an opinion on your elections.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the base",
+      "fx": {
+        "money": -4,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sign the lease",
+      "fx": {
+        "money": 7,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a25_statistics_office",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The statistics office keeps publishing numbers before you have seen them. It is the last office that does.",
+    "left": {
+      "label": "Leave it independent",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Move it in-house",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a26_prison_build",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The prisons are at double capacity. Sentencing reform empties them slowly and looks soft for a decade.",
+    "left": {
+      "label": "Reform sentencing",
+      "fx": {
+        "money": 3,
+        "mood": -3,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Build two more",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "money": -5
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a27_flood_maps",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "New flood maps would stop building in the valley and halve the value of eleven thousand homes overnight.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the maps",
+      "fx": {
+        "mood": -4,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Delay the review",
+      "fx": {
+        "mood": 2,
+        "money": 5,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_coast_flood",
+          "delay": 30
+        }
+      ]
+    }
+  },
+  {
+    "id": "a28_pharma_price",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "One firm sets the price of the only drug that works. It explains that research is expensive, at length.",
+    "left": {
+      "label": "Break the patent",
+      "fx": {
+        "money": -2,
+        "mood": 3,
+        "inst": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pay what they ask",
+      "fx": {
+        "money": -2,
+        "mood": 1,
+        "inst": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a29_civil_register",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Two hundred thousand people have no papers and therefore no clinic, no school and no vote. Fixing that takes years.",
+    "oneShot": true,
+    "left": {
+      "label": "Register them all",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave the list as is",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_uncounted",
+          "delay": 22
+        }
+      ]
+    }
+  },
+  {
+    "id": "a30_minister_drunk",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A minister crashed a state car into a wall at four in the morning. There were no other cars and one wall.",
+    "oneShot": true,
+    "left": {
+      "label": "Sack him today",
+      "fx": {
+        "mood": 2,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 3,
+      "fireSpeaker": true
+    },
+    "right": {
+      "label": "Call it exhaustion",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a31_water_meters",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Metering water would cut waste by a third and arrive as a bill in every poor household in the country.",
+    "left": {
+      "label": "Meter it, rebate it",
+      "fx": {
+        "money": -2,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep it unmetered",
+      "fx": {
+        "mood": 2,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_taps_dry",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "a32_army_pay",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The garrison has not been paid for two months. The general mentions this calmly, which is somehow worse.",
+    "left": {
+      "label": "Pay them from reserves",
+      "fx": {
+        "money": -6,
+        "order": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promise them land",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a33_exam_reform",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Results are up every year because the exam is easier every year. Fixing it means a decade of falling results.",
+    "oneShot": true,
+    "left": {
+      "label": "Fix the exam",
+      "fx": {
+        "mood": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Celebrate the results",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "schools_starved"
+      ],
+      "enqueue": [
+        {
+          "id": "q_illiterate_ballot",
+          "delay": 26
+        }
+      ]
+    }
+  },
+  {
+    "id": "a34_land_registry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Nobody can prove who owns the old quarter. Everyone there has been paying rent to someone for a century.",
+    "left": {
+      "label": "Settle it in court",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell it to a developer",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a35_ambulance_fleet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Half the ambulances do not start. The garage bill is unglamorous and the ribbon-cutting is already booked.",
+    "left": {
+      "label": "Fix the ambulances",
+      "fx": {
+        "money": -4,
+        "mood": 1,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cut the ribbon",
+      "fx": {
+        "mood": 3,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a36_energy_deal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A twenty-year gas contract at a good price, from a country that will own your winters.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay more, stay free",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sign the twenty years",
+      "fx": {
+        "money": 7,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a37_referendum_wording",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The referendum question can be written two ways. One of them wins.",
+    "oneShot": true,
+    "left": {
+      "label": "Use the neutral one",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Use the other one",
+      "fx": {
+        "mood": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a38_talent_show",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The broadcaster wants you as a judge on the talent show. Eleven million people watch it. Nobody watches the news.",
+    "left": {
+      "label": "Decline politely",
+      "fx": {
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the chair",
+      "fx": {
+        "mood": 3,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a39_rubbish_contract",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "The waste contract is up. The incumbent has not collected properly in four years and has excellent lawyers.",
+    "left": {
+      "label": "Retender it openly",
+      "fx": {
+        "money": -2,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Roll it over quietly",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a40_emergency_decree",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "There is a decree power from a war nobody remembers. It has never been repealed, and it would save you a vote.",
+    "left": {
+      "label": "Repeal it",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Dust it off",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "a41_basic_research",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The physics institute cannot say what its work is for. That is what basic research means, and it is why it works.",
+    "left": {
+      "label": "Fund it without asking",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Demand deliverables",
+      "fx": {
+        "money": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a42_anticorruption_unit",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An independent anti-corruption unit would be genuinely independent. That is the part your cabinet has noticed.",
+    "oneShot": true,
+    "left": {
+      "label": "Make it independent",
+      "fx": {
+        "mood": -2,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it reporting to you",
+      "fx": {
+        "order": 2,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a43_succession_plan",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nobody in the cabinet could do your job. Some leaders regard that as an achievement rather than a warning.",
+    "left": {
+      "label": "Train a successor",
+      "fx": {
+        "mood": -2,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Stay indispensable",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a44_civic_lottery",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A citizens' assembly chosen by lot would decide the pension question. It might decide it better than you.",
+    "oneShot": true,
+    "left": {
+      "label": "Convene the assembly",
+      "fx": {
+        "money": -2,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the decision",
+      "fx": {
+        "order": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

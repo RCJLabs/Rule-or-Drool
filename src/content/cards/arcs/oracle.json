@@ -1,0 +1,136 @@
+[
+  {
+    "id": "arc_or1",
+    "type": "arc",
+    "arc": "arc_oracle",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A planning model outperforms the ministry on every past decision it has been tested against. It cannot explain a single one.",
+    "left": {
+      "label": "Adopt its advice",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "mood": 1
+      },
+      "drift": -3,
+      "next": "arc_or2",
+      "setFlags": [
+        "oracle_running"
+      ]
+    },
+    "right": {
+      "label": "Keep deciding yourself",
+      "fx": {
+        "money": -3,
+        "inst": 3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "arc_or2",
+    "type": "arc",
+    "arc": "arc_oracle",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Three ministries now do what the model says. It has been right every time, and no official can say why about any of it.",
+    "cond": {
+      "flags": [
+        "oracle_running"
+      ]
+    },
+    "left": {
+      "label": "Demand it show working",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5,
+      "clearFlags": [
+        "oracle_running"
+      ]
+    },
+    "right": {
+      "label": "Give it a fourth",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "next": "arc_or3"
+    }
+  },
+  {
+    "id": "arc_or3",
+    "type": "arc",
+    "arc": "arc_oracle",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The model recommends postponing the election on grounds it will not disclose. Its record so far is perfect.",
+    "cond": {
+      "flags": [
+        "oracle_running"
+      ]
+    },
+    "left": {
+      "label": "Switch it off",
+      "fx": {
+        "money": -6,
+        "mood": -3,
+        "inst": 4
+      },
+      "drift": 7,
+      "clearFlags": [
+        "oracle_running"
+      ]
+    },
+    "right": {
+      "label": "Follow the advice",
+      "fx": {
+        "order": 3,
+        "money": 3,
+        "inst": -3
+      },
+      "drift": -8,
+      "clearFlags": [
+        "oracle_running"
+      ],
+      "setFlags": [
+        "cheated_election"
+      ]
+    }
+  }
+]

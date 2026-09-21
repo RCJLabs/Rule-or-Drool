@@ -3,19 +3,37 @@ import { buildLibrary } from "../engine/library";
 
 import era1Any from "./cards/era1/any.json";
 import era1Gated from "./cards/era1/gated.json";
+import era1Any2 from "./cards/era1/any2.json";
 import era1Left from "./cards/era1/left.json";
+import era1Left2 from "./cards/era1/left2.json";
 import era1Right from "./cards/era1/right.json";
+import era1Right2 from "./cards/era1/right2.json";
 import era1Queued from "./cards/era1/queued.json";
 import era1Elections from "./cards/era1/elections.json";
 import era2Any from "./cards/era2/any.json";
+import era2Any2 from "./cards/era2/any2.json";
 import era2Sides from "./cards/era2/sides.json";
+import era2Left2 from "./cards/era2/left2.json";
+import era2Right2 from "./cards/era2/right2.json";
 import era2Queued from "./cards/era2/queued.json";
 import era3Any from "./cards/era3/any.json";
+import era3Any2 from "./cards/era3/any2.json";
 import era3Sides from "./cards/era3/sides.json";
+import era3Left2 from "./cards/era3/left2.json";
+import era3Right2 from "./cards/era3/right2.json";
 import era3Legacy from "./cards/era3/legacy.json";
 import arcTermLimits from "./cards/arcs/term_limits.json";
 import arcCabinetPlot from "./cards/arcs/cabinet_plot.json";
 import arcMoonshot from "./cards/arcs/moonshot.json";
+import arcPurge from "./cards/arcs/purge.json";
+import arcStrongman from "./cards/arcs/strongman.json";
+import arcImpeachment from "./cards/arcs/impeachment.json";
+import arcSuccession from "./cards/arcs/succession.json";
+import arcSecession from "./cards/arcs/secession.json";
+import arcPress from "./cards/arcs/press.json";
+import arcPlague from "./cards/arcs/plague.json";
+import arcOracle from "./cards/arcs/oracle.json";
+import arcWater from "./cards/arcs/water.json";
 import consequences from "./cards/consequences.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
@@ -44,19 +62,37 @@ export const content: Content = {
   cards: [
     ...asCards(era1Any, "era1/any.json"),
     ...asCards(era1Gated, "era1/gated.json"),
+    ...asCards(era1Any2, "era1/any2.json"),
     ...asCards(era1Left, "era1/left.json"),
+    ...asCards(era1Left2, "era1/left2.json"),
     ...asCards(era1Right, "era1/right.json"),
+    ...asCards(era1Right2, "era1/right2.json"),
     ...asCards(era1Queued, "era1/queued.json"),
     ...asCards(era1Elections, "era1/elections.json"),
     ...asCards(era2Any, "era2/any.json"),
+    ...asCards(era2Any2, "era2/any2.json"),
     ...asCards(era2Sides, "era2/sides.json"),
+    ...asCards(era2Left2, "era2/left2.json"),
+    ...asCards(era2Right2, "era2/right2.json"),
     ...asCards(era2Queued, "era2/queued.json"),
     ...asCards(era3Any, "era3/any.json"),
+    ...asCards(era3Any2, "era3/any2.json"),
     ...asCards(era3Sides, "era3/sides.json"),
+    ...asCards(era3Left2, "era3/left2.json"),
+    ...asCards(era3Right2, "era3/right2.json"),
     ...asCards(era3Legacy, "era3/legacy.json"),
     ...asCards(arcTermLimits, "arcs/term_limits.json"),
     ...asCards(arcCabinetPlot, "arcs/cabinet_plot.json"),
     ...asCards(arcMoonshot, "arcs/moonshot.json"),
+    ...asCards(arcPurge, "arcs/purge.json"),
+    ...asCards(arcStrongman, "arcs/strongman.json"),
+    ...asCards(arcImpeachment, "arcs/impeachment.json"),
+    ...asCards(arcSuccession, "arcs/succession.json"),
+    ...asCards(arcSecession, "arcs/secession.json"),
+    ...asCards(arcPress, "arcs/press.json"),
+    ...asCards(arcPlague, "arcs/plague.json"),
+    ...asCards(arcOracle, "arcs/oracle.json"),
+    ...asCards(arcWater, "arcs/water.json"),
     ...asCards(consequences, "consequences.json"),
   ],
   arcs: arcs as unknown as Arc[],

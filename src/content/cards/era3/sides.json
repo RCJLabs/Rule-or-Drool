@@ -19,18 +19,18 @@
       "fx": {
         "order": -5,
         "money": -2,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Renew them quietly",
       "fx": {
-        "order": 5,
-        "money": 4,
-        "inst": -2
+        "order": 3,
+        "money": 5,
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -50,19 +50,19 @@
     "left": {
       "label": "Just build housing",
       "fx": {
-        "money": -8,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Add a third lottery",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -83,20 +83,20 @@
     "left": {
       "label": "End the practice",
       "fx": {
-        "mood": -5,
+        "mood": -3,
         "order": -4,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Make it official",
       "fx": {
-        "order": 5,
-        "money": 4,
-        "inst": -4
+        "order": 3,
+        "money": 5,
+        "inst": -3
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -118,18 +118,18 @@
       "fx": {
         "money": -6,
         "order": -2,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Licence two more",
       "fx": {
-        "money": 7,
-        "order": 4,
-        "inst": -4
+        "money": 9,
+        "order": 3,
+        "inst": -3
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -150,17 +150,17 @@
     "left": {
       "label": "Rebuild from scratch",
       "fx": {
-        "money": -11,
+        "money": -10,
         "mood": -2,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Restart it and pray",
       "fx": {
-        "mood": -2,
-        "order": -5,
+        "mood": -1,
+        "order": -3,
         "inst": -1
       },
       "drift": -3

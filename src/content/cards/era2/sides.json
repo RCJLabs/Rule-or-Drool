@@ -17,20 +17,20 @@
     "left": {
       "label": "Pay for it properly",
       "fx": {
-        "money": -8,
-        "mood": 6,
-        "inst": 2
+        "money": -6,
+        "mood": 4,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Announce it, fund half",
       "fx": {
-        "mood": 5,
+        "mood": 3,
         "money": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -50,19 +50,19 @@
     "left": {
       "label": "End the screening",
       "fx": {
-        "mood": -5,
-        "inst": 2
+        "mood": -3,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Extend it to the courts",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -82,19 +82,19 @@
     "left": {
       "label": "Back a competent one",
       "fx": {
-        "mood": -5,
-        "inst": 2
+        "mood": -3,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Back the surname",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -117,18 +117,18 @@
       "fx": {
         "order": -6,
         "money": -2,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Deputise them",
       "fx": {
-        "order": 6,
-        "money": 4,
-        "inst": -4
+        "order": 4,
+        "money": 5,
+        "inst": -3
       },
-      "drift": -5
+      "drift": -4
     }
   }
 ]

@@ -7,9 +7,9 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 1 | Engine + harness | Done |
 | 2 | Validator (`scripts/validate-content.ts`) | Done |
 | 3 | Swipe UI, first human playtest | Built and deployed; playtest is yours |
-| 4 | Elections, arcs, cabinet, run setup; harness targets met | **Done** (this commit) |
-| 5 | Bulk content to MVP scope | Next |
-| 6 | Meta: codex, objectives, unlocks, daily seed, save migration | |
+| 4 | Elections, arcs, cabinet, run setup; harness targets met | Done |
+| 5 | Bulk content to MVP scope | **Done** (this commit) |
+| 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Next |
 | 7 | PWA, then TWA | |
 
 ## Phase 1: what shipped
@@ -362,11 +362,90 @@ Three findings, each established by measurement rather than taste:
   occasional compromise. Worth revisiting in phase 5 if playtests say good feels impossible
   rather than expensive.
 
-## Phase 5 notes (next)
+## Phase 5: what shipped
 
-`npm run validate:mvp` is the gate: every era, 25 cards per cell, warnings fatal. It
-currently reports 12 thin cells, all of them era 2 and 3 at 16–23 cards against 25. That is
-the phase 5 target, roughly 170 more cards. Generate by era, band and alignment in batches of
-20–30, run the validator, then edit by hand; section 13 is right that the edit pass is the
-bottleneck. Keep the per-side effect budget in view while writing: the balance above is a
-property of the whole deck, and `npm test` will catch a batch that breaks it.
+Every number in the section 10 MVP column is met, and `npm run validate:mvp` passes with
+zero errors and zero warnings. That gate is now what CI runs, so the scope cannot silently
+regress.
+
+| | MVP target | Shipped |
+|---|---|---|
+| Cards | ~300 | 323 |
+| Arcs | 12 | 12 |
+| Endings | 20 | 20 |
+| Advisors | 12 | 18 |
+| Traits, flaws, crises | 4 each | 4 each |
+| Alignment-neutral share | ~50% | 50% exactly |
+| Cards per era × band × align | 25 minimum | 29 to 75 |
+
+- **262 event cards** across three eras, 130 alignment-neutral, 66 left and 66 right. Era 1
+  is heaviest as the plan asks. Era 2 is automation, captured feeds, private policing and
+  the first orbital ring; era 3 is code nobody can read, hereditary offices, the heat belt
+  and the long ship.
+- **Nine new arcs**, twelve in total: `purge` and `strongman` give each alignment its own
+  road down, and `impeachment`, `succession`, `secession`, `press`, `plague`, `oracle` and
+  `water` are open to both. Seven of them carry an ending.
+- **Six new endings** fill the ouster list section 5.5 names: impeachment, assassination and
+  exile, plus leader-for-life, stepping down cleanly, and being consumed by your own purge.
+  A 12,000-run sample reaches **all twenty**, none orphaned.
+- **Arcs now fire 4.3 times per run** against a budget of four to six, so plot varies
+  between runs the way section 5.7 intends.
+
+### Rebalancing after the content tripled
+
+Tripling the deck broke the balance, as expected, and the per-side budget showed exactly
+where. The new cards leaned on Institutions and swung harder than the old ones:
+
+| | Institutions swing | Random median | Mixed reaches Ascent |
+|---|---|---|---|
+| After writing, before tuning | tempting −2.65, honest +3.16 | 33 cards | 8% |
+| After tuning | tempting −1.77, honest +1.99 | 50 cards | 22.8% |
+
+Four passes got there, each aimed at one measured problem: scale Institutions and Mood back
+toward the phase 4 budget, compress all magnitudes by 15% because the new cards had larger
+individual swings and were ending random runs too early, ease the honest Money cost because
+bankruptcy had grown to 42% of all ousters, and re-centre `eraMeterPull`.
+
+**`eraMeterPull` moved from 0.65 to 0.22**, which looks dramatic and is not. A bigger deck
+with twelve arcs supplies its own variance and its own recovery, so the artificial pull back
+toward the middle at each era boundary is doing far less work than it was with 39 cards. It
+remains the most sensitive constant in the game: Ascent runs 19% at 0.18, 23% at 0.22 and
+37% at 0.35.
+
+Final state over 40,000 runs, all five targets passing:
+
+| Target | Result |
+|---|---|
+| random: median run 40–60 cards | 50 |
+| random: no single ouster cause above 35% | bankruptcy 17.8% |
+| greedy: ends in Decay ≥ 70% | 77.6% |
+| saint: ousted before era 2 ≥ 60% | 100% |
+| mixed: reaches Ascent 15–30% | 22.8% |
+
+### What phase 5 did not do
+
+- **The human voice pass is still owed.** Section 13 predicted the edit pass would be the
+  bottleneck and it was right about the shape of the problem, if not the source: these cards
+  were written in one long sitting to a fixed effect budget, which keeps them balanced and
+  makes them rhyme. Read them in batches of twenty and cut the ones that land the same joke
+  twice. The structure will survive edits; `npm test` catches anything that breaks balance.
+- **The saint bot still dies before era 2 in every run.** Unchanged from phase 4 and still
+  the most questionable number in the build. Honest play remains fatal without compromise
+  rather than merely expensive. A playtest, not the harness, should decide whether that is
+  the satire working or an option that is not really an option.
+- **Some endings are very rare.** Anarchy appears in one run in ten thousand and exile in
+  about one in eight hundred. For a codex of collectibles that is arguably correct, but if
+  phase 6 wants them findable, the meter-extreme endings need cards that push Order and
+  Institutions to the floor rather than the ceiling.
+- **The bundle grew to 396 kB, 114 kB gzipped**, most of it inlined content JSON. Fine over
+  the network today; worth revisiting in phase 7, where the service worker has to cache it
+  for offline play.
+
+## Phase 6 notes (next)
+
+Codex of endings and epilogues, run objectives, unlockable archetypes, a daily seed, and
+save migration. Two things already in place help: every ending carries a title and text in
+`endings.json` and all twenty are reachable, so the codex has real content to unlock; and
+`RUN_SAVE_VERSION` already gates run saves, so meta state needs its own key and its own
+version rather than sharing one. Run objectives can read `GameState` directly, since flags,
+cheats and drift are all in it.

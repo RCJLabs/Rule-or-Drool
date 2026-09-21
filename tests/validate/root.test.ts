@@ -20,9 +20,24 @@ describe("validateRoot: shipped content", () => {
     expect(report.issues.filter((i) => i.code === "cell-thin")).toEqual([]);
   });
 
-  it("still falls short of the phase 5 MVP cell target", () => {
+  it("meets the phase 5 MVP cell target with no warnings", () => {
     const report = validateRoot("src/content", { eras: "all", minCell: 25 });
-    expect(report.issues.filter((i) => i.code === "cell-thin").length).toBeGreaterThan(0);
+    expect(report.issues).toEqual([]);
+  });
+
+  it("holds the MVP content scope from section 10", () => {
+    const events = content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0);
+    const any = events.filter((c) => c.align === "any").length;
+    expect(content.cards.length).toBeGreaterThanOrEqual(300);
+    expect(content.arcs.length).toBeGreaterThanOrEqual(12);
+    expect(content.endings.length).toBeGreaterThanOrEqual(20);
+    expect(content.advisors.length).toBeGreaterThanOrEqual(12);
+    for (const kind of ["crisis", "trait", "flaw"] as const) {
+      expect(content.modifiers.filter((m) => m.kind === kind).length, kind).toBeGreaterThanOrEqual(4);
+    }
+    // Section 10: about half the cards should be alignment-neutral.
+    expect(any / events.length).toBeGreaterThan(0.4);
+    expect(any / events.length).toBeLessThan(0.6);
   });
 
   it("cross-checks disk against the imported bundle", () => {
@@ -111,7 +126,11 @@ describe("validate-content CLI", () => {
     expect(broken.status).toBe(1);
     expect(broken.stdout).toMatch(/^ERROR/m);
 
-    const gate = cli("--eras", "all", "--min-cell", "25", "--quiet");
+    const mvp = cli("--eras", "all", "--min-cell", "25", "--strict");
+    expect(mvp.status, mvp.stdout + mvp.stderr).toBe(0);
+
+    // The cell gate still bites when a cell really is thin.
+    const gate = cli("--eras", "all", "--min-cell", "400", "--quiet");
     expect(gate.status).toBe(1);
     expect(gate.stdout).toContain("cell-thin");
 

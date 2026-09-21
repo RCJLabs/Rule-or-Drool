@@ -1,0 +1,730 @@
+[
+  {
+    "id": "r09_army_contract",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The new rifles are late, expensive and made in your strongest province. A foreign bid is half the price.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy the cheaper rifles",
+      "fx": {
+        "money": 4,
+        "mood": -3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the jobs at home",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "money": -2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r10_tax_amnesty",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An amnesty would bring money home from abroad. It would also tell everyone that waiting works.",
+    "oneShot": true,
+    "left": {
+      "label": "Collect what is owed",
+      "fx": {
+        "money": 3,
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Declare the amnesty",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r11_police_budget",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Crime is down and the police want more anyway. The chief is a friend and mentions this often.",
+    "left": {
+      "label": "Hold the budget",
+      "fx": {
+        "money": 3,
+        "order": -4,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give them the rise",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "money": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r12_family_bill",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A bill to reward large families polls beautifully. The demographers say it will not work and never has.",
+    "left": {
+      "label": "Fund childcare instead",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass the bill",
+      "fx": {
+        "mood": 3,
+        "money": -2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r13_mine_permit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A copper seam sits under a watershed. The mine would employ nine thousand people for eleven years.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the water",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Grant the permit",
+      "fx": {
+        "money": 7,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_taps_dry",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "r14_civil_service_cut",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Cutting the civil service by a fifth is popular. Nobody has said which fifth, or who signs the permits afterwards.",
+    "oneShot": true,
+    "left": {
+      "label": "Cut waste carefully",
+      "fx": {
+        "money": 2,
+        "mood": -2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cut a fifth by Friday",
+      "fx": {
+        "money": 7,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r15_veterans_club",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The officers' association would like a say in promotions. It says this would protect standards.",
+    "left": {
+      "label": "Keep promotions civil",
+      "fx": {
+        "order": -4,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let them advise",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r16_heritage_law",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A heritage bill would fix the cathedral roof and also define who counts as heritage. Page nine is the problem.",
+    "left": {
+      "label": "Fund the roof only",
+      "fx": {
+        "money": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass it whole",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r17_sovereign_fund",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The gas revenue could go into a locked fund for the next century, or into this year's tax cut.",
+    "oneShot": true,
+    "left": {
+      "label": "Lock the fund",
+      "fx": {
+        "money": -2,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cut taxes now",
+      "fx": {
+        "mood": 3,
+        "money": 3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r18_gun_law",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Rural licences are a formality. Tightening them costs you four provinces and saves an unknowable number of people.",
+    "left": {
+      "label": "Tighten the licences",
+      "fx": {
+        "mood": -3,
+        "order": 3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Loosen them further",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "order": -2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r19_church_tax",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The church pays no tax on its commercial estate. Saying so out loud is a full week of trouble.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax the estate",
+      "fx": {
+        "money": 4,
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Extend the exemption",
+      "fx": {
+        "mood": 2,
+        "money": -2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r20_strike_ban",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Banning strikes in essential services would end the disruption. Essential is defined on the last page, broadly.",
+    "left": {
+      "label": "Negotiate instead",
+      "fx": {
+        "money": -4,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass the ban",
+      "fx": {
+        "order": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r21_import_tariff",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A tariff would save the last domestic factory and raise the price of everything it makes for everyone else.",
+    "left": {
+      "label": "Let the factory go",
+      "fx": {
+        "money": 3,
+        "mood": -3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Raise the tariff",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r22_honours_list",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The honours list is due. Eleven names earned it. Four more have been suggested by people who fund you.",
+    "left": {
+      "label": "Print eleven names",
+      "fx": {
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Print fifteen",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r23_enemy_within",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A columnist has named the enemy within. He is vague about who, which is the useful part.",
+    "left": {
+      "label": "Name nobody",
+      "fx": {
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Agree, vaguely",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r24_general_election_ad",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The campaign film has a shot of the rival that was taken in bad light, and a voiceover that is technically true.",
+    "oneShot": true,
+    "left": {
+      "label": "Recut it honestly",
+      "fx": {
+        "mood": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Air it tonight",
+      "fx": {
+        "mood": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "r25_cousin_ministry",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Your brother-in-law would like the ports. He has run a marina, successfully, for one season.",
+    "oneShot": true,
+    "left": {
+      "label": "Appoint a professional",
+      "fx": {
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give him the ports",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "took_the_skim"
+      ]
+    }
+  },
+  {
+    "id": "r26_parade",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "A military parade would cost a hospital wing and look magnificent from the reviewing stand.",
+    "left": {
+      "label": "Build the wing",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Hold the parade",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "money": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r27_deficit_rule",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A binding deficit rule would tie your own hands and every successor's. That is the entire point of it.",
+    "oneShot": true,
+    "left": {
+      "label": "Bind yourself",
+      "fx": {
+        "mood": -3,
+        "money": 2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the flexibility",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r28_judicial_pay",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Judges are paid badly enough that the good ones leave for firms. Raising it looks like paying off the courts.",
+    "left": {
+      "label": "Raise it and explain",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it alone",
+      "fx": {
+        "money": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r29_apprentice_scheme",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Real apprenticeships take employers four years to train. A certificate scheme takes six weeks and counts the same.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund real training",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "mood": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hand out certificates",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r30_border_audit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "An audit of the border service would find the smuggling. It would also find who in your party benefits.",
+    "oneShot": true,
+    "left": {
+      "label": "Order the audit",
+      "fx": {
+        "money": 2,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Praise the service",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

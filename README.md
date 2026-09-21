@@ -9,9 +9,10 @@ before changing anything.
 
 ## Status
 
-Phase 4 of 7: engine, balance harness, content validator, swipe UI, and the systems layer
-(elections, arcs, cabinet traits, run setup) with all section 8 balance targets met across
-130 cards and three eras. Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
+Phase 5 of 7: engine, balance harness, content validator, swipe UI, the systems layer
+(elections, arcs, cabinet traits, run setup), and content at full MVP scope: 323 cards,
+12 arcs and 20 endings across three eras, with all section 8 balance targets met.
+Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
 numbers; `[` and `]` shift drift to preview the frame theming).
 
 ## Commands
@@ -23,7 +24,7 @@ npm run build          # production build to dist/ (npm run preview serves it)
 npm test               # vitest: engine, content, harness and UI tests
 npm run typecheck      # tsc --noEmit
 npm run validate       # content validator; exit 1 on any error
-npm run validate:mvp   # the phase 5 gate: every era, 25 cards per cell, warnings fail
+npm run validate:mvp   # the MVP gate CI runs: every era, 25 cards per cell, warnings fail
 npm run check          # typecheck + test + validate (what CI runs)
 npm run simulate       # 10k seeded runs per bot, prints the section 8 report
 npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThreshold=30

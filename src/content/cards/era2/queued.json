@@ -18,20 +18,20 @@
     "left": {
       "label": "Buy the contract out",
       "fx": {
-        "money": -10,
+        "money": -9,
         "order": -2,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Renew for ten years",
       "fx": {
-        "order": 5,
+        "order": 3,
         "money": 2,
-        "inst": -4
+        "inst": -3
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -53,17 +53,17 @@
     "left": {
       "label": "Rebuild it now",
       "fx": {
-        "money": -10,
+        "money": -9,
         "mood": -2,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Blame the weather",
       "fx": {
-        "mood": -4,
-        "order": -4,
+        "mood": -2,
+        "order": -3,
         "inst": -1
       },
       "drift": -3

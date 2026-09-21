@@ -68,5 +68,35 @@
     "id": "blackmailed",
     "title": "A Quiet Arrangement",
     "text": "You were not removed. You were kept, like a signature on a file, by people who had the file."
+  },
+  {
+    "id": "impeachment",
+    "title": "Removed by Vote",
+    "text": "The chamber found against you by nine votes. It was the last institution still able to count."
+  },
+  {
+    "id": "assassination",
+    "title": "An Internal Matter",
+    "text": "The man you made powerful decided the arrangement had become inefficient. The state funeral was very well attended."
+  },
+  {
+    "id": "exile",
+    "title": "A Standing Invitation",
+    "text": "A friendly country offered you a house by a lake. You took it while the offer was still phrased as an offer."
+  },
+  {
+    "id": "leader_for_life",
+    "title": "Leader for Life",
+    "text": "They gave you the title, the portrait and the rest of your life in the same building. It was a long life."
+  },
+  {
+    "id": "stepped_down",
+    "title": "Handed Over",
+    "text": "You left on a Tuesday, on time, to someone competent. The country barely noticed, which was the achievement."
+  },
+  {
+    "id": "purge_consumed",
+    "title": "Insufficiently Committed",
+    "text": "The list you started reached your own name. You signed it yourself, which they said showed real discipline."
   }
 ]

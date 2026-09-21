@@ -1,0 +1,458 @@
+[
+  {
+    "id": "cl03_committee_of_committees",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A decision now requires forty signatures. Nobody can name a decision that was improved by the last thirty.",
+    "oneShot": true,
+    "left": {
+      "label": "Cut it to five",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a review panel",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl04_heritage_of_struggle",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Descendants of the founding organisers hold reserved seats. The struggle ended before any of them were born.",
+    "left": {
+      "label": "Open the seats",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Reserve nine more",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl05_allocation_appeal",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "There is no appeal against the allocation board. There was going to be one. It was on the agenda for eleven years.",
+    "left": {
+      "label": "Create the appeal",
+      "fx": {
+        "money": -3,
+        "mood": 2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it final",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl06_universal_everything",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Nine universal programmes. Four work. Nobody has been able to say which four out loud since the 2090s.",
+    "oneShot": true,
+    "left": {
+      "label": "Evaluate all nine",
+      "fx": {
+        "money": 3,
+        "mood": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Announce a tenth",
+      "fx": {
+        "mood": 3,
+        "money": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl07_mutual_aid_state",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Mutual aid networks now deliver more food than the ministry. They did not ask permission and do not want funding.",
+    "left": {
+      "label": "Fix the ministry",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Register the networks",
+      "fx": {
+        "order": 3,
+        "money": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl08_language_of_policy",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Policy documents are written in a dialect only the ministry speaks. It is precise, and it excludes everyone.",
+    "left": {
+      "label": "Write in plain words",
+      "fx": {
+        "mood": 2,
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish a glossary",
+      "fx": {
+        "mood": 1,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl09_climate_tribunal",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A tribunal would try the century's worst emitters. Most are dead. Their firms and their heirs are not.",
+    "oneShot": true,
+    "left": {
+      "label": "Try the firms",
+      "fx": {
+        "money": 4,
+        "mood": 2,
+        "order": -3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Try the dead",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl10_work_quota",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "With most work automated, the state assigns the rest. The assignments are fair and nobody chose any of them.",
+    "left": {
+      "label": "Let people choose",
+      "fx": {
+        "money": -4,
+        "order": -3,
+        "inst": 3,
+        "mood": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Optimise the roster",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl11_solidarity_abroad",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The southern federation asks for help with its own heat belt. Helping costs a decade of your own relocation budget.",
+    "oneShot": true,
+    "left": {
+      "label": "Send the help",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Send condolences",
+      "fx": {
+        "money": 3,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl12_permanent_congress",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "The party congress has been in continuous session for four years. It has passed nothing and expelled sixty people.",
+    "left": {
+      "label": "Dissolve it",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let it sit",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl13_virtue_score",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Citizens are rated on community contribution. The rating decides housing. Nobody remembers agreeing to it.",
+    "left": {
+      "label": "Abolish the rating",
+      "fx": {
+        "order": -5,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Weight it for loyalty",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cl14_lottery_of_lotteries",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "School places are allocated by lottery, appealed by lottery, and the appeals are heard in an order chosen by lottery.",
+    "left": {
+      "label": "Build more schools",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Add a priority tier",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl15_deliberative_state",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Citizens' assemblies have decided four hard questions well. The fifth is whether they should replace the legislature.",
+    "oneShot": true,
+    "left": {
+      "label": "Put it to them",
+      "fx": {
+        "mood": -2,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the legislature",
+      "fx": {
+        "order": 2,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl16_endowment",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An endowment for the next three centuries. Every government after you will be tempted to spend it, including yours.",
+    "left": {
+      "label": "Lock it beyond reach",
+      "fx": {
+        "money": -6,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Leave a spending clause",
+      "fx": {
+        "money": 5,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  }
+]

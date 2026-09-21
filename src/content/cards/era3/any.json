@@ -17,15 +17,15 @@
     "left": {
       "label": "Rewrite it properly",
       "fx": {
-        "money": -10,
-        "inst": 2
+        "money": -9,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Leave it running",
       "fx": {
-        "money": 5,
+        "money": 6,
         "mood": 1
       },
       "drift": -3,
@@ -54,20 +54,20 @@
     "left": {
       "label": "Negotiate a treaty",
       "fx": {
-        "money": -4,
-        "inst": 2,
+        "money": -3,
+        "inst": 1,
         "mood": -2
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Tax them anyway",
       "fx": {
-        "money": 7,
-        "mood": 2,
-        "inst": -2
+        "money": 9,
+        "mood": 1,
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_orbit_secedes",
@@ -94,20 +94,20 @@
     "left": {
       "label": "Move them north, funded",
       "fx": {
-        "money": -10,
-        "mood": 5,
-        "inst": 2
+        "money": -9,
+        "mood": 3,
+        "inst": 1
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Announce a study",
       "fx": {
         "money": 2,
-        "mood": 2,
+        "mood": 1,
         "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -128,16 +128,16 @@
       "label": "Staff it",
       "fx": {
         "money": -6,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Abolish the duties",
       "fx": {
-        "money": 5,
+        "money": 6,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     }
@@ -160,19 +160,19 @@
     "left": {
       "label": "Veto it",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Sign it",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "order": 2,
-        "inst": -4
+        "inst": -3
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -193,19 +193,19 @@
     "left": {
       "label": "Start the nine years",
       "fx": {
-        "money": -7,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Record her instead",
       "fx": {
         "money": 2,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -225,19 +225,19 @@
     "left": {
       "label": "Open them",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Extend the seal",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -258,11 +258,11 @@
     "left": {
       "label": "Build it",
       "fx": {
-        "money": -10,
-        "inst": 2,
+        "money": -9,
+        "inst": 1,
         "mood": 2
       },
-      "drift": 5,
+      "drift": 4,
       "setFlags": [
         "long_ship"
       ]
@@ -270,11 +270,11 @@
     "right": {
       "label": "Build stadiums",
       "fx": {
-        "mood": 5,
+        "mood": 3,
         "money": 1,
         "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -295,19 +295,19 @@
     "left": {
       "label": "Destroy them",
       "fx": {
-        "money": -4,
-        "inst": 2,
+        "money": -3,
+        "inst": 1,
         "mood": 2
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Sell the lease",
       "fx": {
-        "money": 7,
-        "inst": -2
+        "money": 9,
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -328,19 +328,19 @@
       "label": "Dismantle it",
       "fx": {
         "order": -6,
-        "money": -4,
-        "inst": 4
+        "money": -3,
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Add a few categories",
       "fx": {
-        "order": 6,
+        "order": 4,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5,
+      "drift": -4,
       "enqueue": [
         {
           "id": "q_uncounted",
@@ -367,19 +367,19 @@
     "left": {
       "label": "Buy it back",
       "fx": {
-        "money": -10,
-        "mood": 6,
-        "inst": 2
+        "money": -9,
+        "mood": 4,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Take a directorship",
       "fx": {
-        "money": 7,
-        "inst": -2
+        "money": 9,
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -401,17 +401,17 @@
       "label": "Count them",
       "fx": {
         "money": -6,
-        "inst": 4,
+        "inst": 3,
         "mood": -2
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Use the estimate",
       "fx": {
-        "money": 4,
+        "money": 5,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     }
@@ -433,19 +433,19 @@
     "left": {
       "label": "Publish the notes",
       "fx": {
-        "mood": -6,
-        "inst": 2
+        "mood": -4,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Add a second statue",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "money": -2,
         "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -468,18 +468,18 @@
       "fx": {
         "order": -6,
         "money": 6,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Double the garrison",
       "fx": {
-        "order": 6,
+        "order": 4,
         "mood": 1,
-        "money": -5
+        "money": -6
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -499,19 +499,19 @@
     "left": {
       "label": "Rewrite them openly",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Interpret them yourself",
       "fx": {
-        "order": 4,
+        "order": 3,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -529,19 +529,19 @@
     "left": {
       "label": "Keep the old one",
       "fx": {
-        "money": -5,
-        "inst": 2
+        "money": -4,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Approve the remix",
       "fx": {
-        "money": 6,
-        "mood": 2,
-        "inst": -2
+        "money": 7,
+        "mood": 1,
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -559,20 +559,20 @@
     "left": {
       "label": "Teach reading instead",
       "fx": {
-        "money": -7,
+        "money": -6,
         "mood": -2,
-        "inst": 4
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Shorten it again",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -596,16 +596,16 @@
     "left": {
       "label": "Finish it",
       "fx": {
-        "money": -8,
-        "mood": 6,
-        "inst": 2
+        "money": -6,
+        "mood": 4,
+        "inst": 1
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Leave it as a monument",
       "fx": {
-        "money": 4,
+        "money": 5,
         "mood": 1,
         "inst": -1
       },
@@ -627,19 +627,19 @@
     "left": {
       "label": "Let it be dull",
       "fx": {
-        "mood": -5,
-        "inst": 2,
+        "mood": -3,
+        "inst": 1,
         "money": 2
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Invent a story",
       "fx": {
-        "mood": 2,
-        "inst": -2
+        "mood": 1,
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   }
 ]

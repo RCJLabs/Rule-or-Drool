@@ -1,0 +1,129 @@
+[
+  {
+    "id": "arc_se1",
+    "type": "arc",
+    "arc": "arc_secession",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The eastern province has voted to leave, narrowly, in a referendum you said was not binding and they say was.",
+    "left": {
+      "label": "Negotiate terms",
+      "fx": {
+        "mood": -3,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4,
+      "next": "arc_se2",
+      "setFlags": [
+        "east_talks"
+      ]
+    },
+    "right": {
+      "label": "Send the garrison",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "money": -5,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "arc_se2",
+    "type": "arc",
+    "arc": "arc_secession",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Talks have stalled on the pipeline and the debt. They are willing to wait. Your own provinces are watching how this ends.",
+    "cond": {
+      "flags": [
+        "east_talks"
+      ]
+    },
+    "left": {
+      "label": "Let them go",
+      "fx": {
+        "money": -4,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 6,
+      "clearFlags": [
+        "east_talks"
+      ]
+    },
+    "right": {
+      "label": "Blockade the pipeline",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "money": -3,
+        "inst": -3
+      },
+      "drift": -5,
+      "next": "arc_se3"
+    }
+  },
+  {
+    "id": "arc_se3",
+    "type": "arc",
+    "arc": "arc_secession",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The blockade failed and the province has friends abroad. The garrison commander has stopped returning calls.",
+    "cond": {
+      "flags": [
+        "east_talks"
+      ]
+    },
+    "left": {
+      "label": "Take the lake house",
+      "drift": 3,
+      "ending": "exile"
+    },
+    "right": {
+      "label": "Fight for the east",
+      "fx": {
+        "order": -4,
+        "money": -9,
+        "mood": -2
+      },
+      "drift": -5,
+      "clearFlags": [
+        "east_talks"
+      ]
+    }
+  }
+]

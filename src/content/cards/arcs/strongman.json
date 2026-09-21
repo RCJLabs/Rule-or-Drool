@@ -1,0 +1,123 @@
+[
+  {
+    "id": "arc_sm1",
+    "type": "arc",
+    "arc": "arc_strongman",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The general offers to handle the opposition's organisers privately. He does not say what handle means and you do not ask.",
+    "left": {
+      "label": "Let him handle it",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "next": "arc_sm2",
+      "setFlags": [
+        "general_unleashed"
+      ]
+    },
+    "right": {
+      "label": "Tell him no",
+      "fx": {
+        "order": -4,
+        "inst": 3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "arc_sm2",
+    "type": "arc",
+    "arc": "arc_strongman",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "It worked. He would now like the interior ministry as well, for efficiency, and mentions how quiet the streets are.",
+    "cond": {
+      "flags": [
+        "general_unleashed"
+      ]
+    },
+    "left": {
+      "label": "Give him the ministry",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -6,
+      "next": "arc_sm3"
+    },
+    "right": {
+      "label": "Retire him now",
+      "fx": {
+        "order": -5,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5,
+      "fireSpeaker": true,
+      "clearFlags": [
+        "general_unleashed"
+      ]
+    }
+  },
+  {
+    "id": "arc_sm3",
+    "type": "arc",
+    "arc": "arc_strongman",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "He proposes you take the title permanently. It is phrased as a request. The garrison has already been told.",
+    "cond": {
+      "flags": [
+        "general_unleashed"
+      ]
+    },
+    "left": {
+      "label": "Accept the title",
+      "drift": -8,
+      "ending": "leader_for_life"
+    },
+    "right": {
+      "label": "Refuse him",
+      "drift": 5,
+      "ending": "assassination"
+    }
+  }
+]

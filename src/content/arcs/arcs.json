@@ -2,22 +2,307 @@
   {
     "id": "arc_term_limits",
     "align": "any",
-    "entry": { "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"], "meters": { "mood": { "lt": 45 } }, "notFlags": ["elections_abolished"] },
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "mood": {
+          "lt": 45
+        }
+      },
+      "notFlags": [
+        "elections_abolished"
+      ]
+    },
     "weight": 3,
-    "cards": ["arc_tl1", "arc_tl2", "arc_tl3"]
+    "cards": [
+      "arc_tl1",
+      "arc_tl2",
+      "arc_tl3"
+    ]
   },
   {
     "id": "arc_cabinet_plot",
     "align": "any",
-    "entry": { "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"], "flags": ["advisor_corrupt"] },
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "flags": [
+        "advisor_corrupt"
+      ]
+    },
     "weight": 2,
-    "cards": ["arc_cp1", "arc_cp2", "arc_cp3"]
+    "cards": [
+      "arc_cp1",
+      "arc_cp2",
+      "arc_cp3"
+    ]
   },
   {
     "id": "arc_moonshot",
     "align": "any",
-    "entry": { "eras": [1, 2, 3], "bands": ["muddle", "ascent"], "meters": { "inst": { "gt": 52 } } },
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "inst": {
+          "gt": 52
+        }
+      }
+    },
     "weight": 2,
-    "cards": ["arc_ms1", "arc_ms2", "arc_ms3", "arc_ms4"]
+    "cards": [
+      "arc_ms1",
+      "arc_ms2",
+      "arc_ms3",
+      "arc_ms4"
+    ]
+  },
+  {
+    "id": "arc_purge",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "flags": [
+        "advisor_zealot"
+      ]
+    },
+    "weight": 3,
+    "cards": [
+      "arc_pu1",
+      "arc_pu2",
+      "arc_pu3"
+    ]
+  },
+  {
+    "id": "arc_strongman",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "order": {
+          "gt": 52
+        }
+      }
+    },
+    "weight": 3,
+    "cards": [
+      "arc_sm1",
+      "arc_sm2",
+      "arc_sm3"
+    ]
+  },
+  {
+    "id": "arc_impeachment",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "inst": {
+          "gt": 40
+        }
+      },
+      "notFlags": [
+        "elections_abolished"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_im1",
+      "arc_im2",
+      "arc_im3"
+    ]
+  },
+  {
+    "id": "arc_succession",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_su1",
+      "arc_su2",
+      "arc_su3"
+    ]
+  },
+  {
+    "id": "arc_secession",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "mood": {
+          "lt": 60
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_se1",
+      "arc_se2",
+      "arc_se3"
+    ]
+  },
+  {
+    "id": "arc_press",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "notFlags": [
+        "media_captured"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_pr1",
+      "arc_pr2",
+      "arc_pr3"
+    ]
+  },
+  {
+    "id": "arc_plague",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_pl1",
+      "arc_pl2",
+      "arc_pl3"
+    ]
+  },
+  {
+    "id": "arc_oracle",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "inst": {
+          "gt": 35
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_or1",
+      "arc_or2",
+      "arc_or3"
+    ]
+  },
+  {
+    "id": "arc_water",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_wa1",
+      "arc_wa2",
+      "arc_wa3"
+    ]
   }
 ]

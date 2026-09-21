@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit",
     "validate": "tsx scripts/validate-content.ts",
     "validate:mvp": "tsx scripts/validate-content.ts --eras all --min-cell 25 --strict",
-    "check": "npm run typecheck && npm test && npm run validate",
+    "check": "npm run typecheck && npm test && npm run validate:mvp",
     "simulate": "tsx scripts/simulate.ts"
   },
   "devDependencies": {

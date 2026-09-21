@@ -17,15 +17,15 @@
     "left": {
       "label": "Retrain them",
       "fx": {
-        "money": -8,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Tax the machines lightly",
       "fx": {
-        "money": 6,
+        "money": 7,
         "mood": 1,
         "inst": -1
       },
@@ -50,19 +50,19 @@
     "left": {
       "label": "Put it under law",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Hold the dial yourself",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5,
+      "drift": -4,
       "setFlags": [
         "feed_captured"
       ]
@@ -85,20 +85,20 @@
     "left": {
       "label": "Split it evenly",
       "fx": {
-        "mood": -5,
-        "inst": 2,
+        "mood": -3,
+        "inst": 1,
         "money": -1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Give it to your province",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": -2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -119,19 +119,19 @@
     "left": {
       "label": "Keep it public",
       "fx": {
-        "money": -7,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Sign the contract",
       "fx": {
-        "money": 6,
-        "order": 4,
-        "inst": -2
+        "money": 7,
+        "order": 3,
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_private_guns",
@@ -159,19 +159,19 @@
       "label": "Void them all",
       "fx": {
         "order": -5,
-        "money": -4,
-        "inst": 4
+        "money": -3,
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Let them stand",
       "fx": {
         "order": 2,
-        "money": 4,
-        "inst": -2
+        "money": 5,
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -191,10 +191,10 @@
     "left": {
       "label": "Start it anyway",
       "fx": {
-        "money": -8,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 4,
+      "drift": 3,
       "setFlags": [
         "ring_started"
       ]
@@ -202,8 +202,8 @@
     "right": {
       "label": "Spend it on today",
       "fx": {
-        "money": 4,
-        "mood": 2
+        "money": 5,
+        "mood": 1
       },
       "drift": -3
     }
@@ -225,16 +225,16 @@
     "left": {
       "label": "Pay it down",
       "fx": {
-        "money": -7,
-        "mood": -5,
-        "inst": 2
+        "money": -6,
+        "mood": -3,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Roll it over",
       "fx": {
-        "money": 6,
+        "money": 7,
         "mood": 1,
         "inst": -1
       },
@@ -265,20 +265,20 @@
     "left": {
       "label": "Clean the river",
       "fx": {
-        "money": -8,
-        "mood": 5,
+        "money": -6,
+        "mood": 3,
         "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Rename it a canal",
       "fx": {
-        "money": 4,
+        "money": 5,
         "mood": 1,
         "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -298,8 +298,8 @@
     "left": {
       "label": "Pay the pensions",
       "fx": {
-        "money": -7,
-        "mood": 6,
+        "money": -6,
+        "mood": 4,
         "order": 1
       },
       "drift": 3
@@ -307,11 +307,11 @@
     "right": {
       "label": "Clear the lawn",
       "fx": {
-        "order": 5,
-        "mood": -2,
+        "order": 3,
+        "mood": -1,
         "money": 2
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_coffins_home",
@@ -337,18 +337,18 @@
     "left": {
       "label": "Say it on television",
       "fx": {
-        "mood": -6,
-        "money": 4,
-        "inst": 2
+        "mood": -4,
+        "money": 3,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Keep it quiet",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 2,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     }
@@ -371,17 +371,17 @@
     "left": {
       "label": "Rebuild the grid",
       "fx": {
-        "money": -10,
-        "inst": 2,
+        "money": -9,
+        "inst": 1,
         "mood": 2
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Buy more generators",
       "fx": {
         "money": 2,
-        "mood": 2,
+        "mood": 1,
         "inst": -1
       },
       "drift": -3,
@@ -411,19 +411,19 @@
     "left": {
       "label": "Obey the court",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Add six judges",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
-        "inst": -4
+        "inst": -3
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -444,7 +444,7 @@
       "label": "End it slowly",
       "fx": {
         "money": 6,
-        "mood": -5,
+        "mood": -3,
         "inst": 1
       },
       "drift": 3
@@ -452,7 +452,7 @@
     "right": {
       "label": "Subsidise cake too",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "money": -2,
         "inst": -1
       },
@@ -484,17 +484,17 @@
       "label": "Save the archive",
       "fx": {
         "money": -6,
-        "inst": 2,
+        "inst": 1,
         "mood": -2
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Digitise the good bits",
       "fx": {
         "money": 2,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     }
@@ -516,8 +516,8 @@
     "left": {
       "label": "Debate them",
       "fx": {
-        "mood": -5,
-        "inst": 2,
+        "mood": -3,
+        "inst": 1,
         "order": 1
       },
       "drift": 3
@@ -525,11 +525,11 @@
     "right": {
       "label": "Investigate them",
       "fx": {
-        "order": 5,
+        "order": 3,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -549,18 +549,18 @@
       "label": "Refuse",
       "fx": {
         "money": -6,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Take the sponsorship",
       "fx": {
-        "money": 7,
+        "money": 9,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5,
+      "drift": -4,
       "enqueue": [
         {
           "id": "q_lottery_rot",
@@ -586,14 +586,14 @@
       "fx": {
         "money": -6,
         "mood": -2,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Go on as a guest",
       "fx": {
-        "mood": 5,
+        "mood": 3,
         "inst": -1
       },
       "drift": -3
@@ -615,10 +615,10 @@
     "left": {
       "label": "Fund forty years",
       "fx": {
-        "money": -7,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Fund four",
@@ -646,11 +646,11 @@
     "left": {
       "label": "Open everything",
       "fx": {
-        "mood": -5,
-        "inst": 4,
+        "mood": -3,
+        "inst": 3,
         "order": -2
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Open the dull ones",

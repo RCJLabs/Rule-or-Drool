@@ -1,0 +1,110 @@
+[
+  {
+    "id": "arc_im1",
+    "type": "arc",
+    "arc": "arc_impeachment",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The legislature has opened an inquiry into the procurement year. It has subpoena powers and a chair who dislikes you.",
+    "left": {
+      "label": "Hand over everything",
+      "fx": {
+        "mood": -3,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4,
+      "next": "arc_im2"
+    },
+    "right": {
+      "label": "Dissolve the committee",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "arc_im2",
+    "type": "arc",
+    "arc": "arc_impeachment",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The inquiry has found the transfers. Two are yours. Your lawyers mention a privilege nobody has claimed since the war.",
+    "left": {
+      "label": "Waive the privilege",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Claim the privilege",
+      "fx": {
+        "order": 2,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -5,
+      "next": "arc_im3"
+    }
+  },
+  {
+    "id": "arc_im3",
+    "type": "arc",
+    "arc": "arc_impeachment",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "The chamber votes tomorrow. You have the numbers if four members are persuaded, and there are ways to persuade four members.",
+    "left": {
+      "label": "Let the vote happen",
+      "drift": 6,
+      "ending": "impeachment"
+    },
+    "right": {
+      "label": "Persuade the four",
+      "fx": {
+        "money": -6,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -7
+    }
+  }
+]

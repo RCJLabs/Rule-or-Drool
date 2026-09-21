@@ -91,7 +91,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   arcEntryProb: 0.2,
   arcBudgetMin: 4,
   arcBudgetMax: 6,
-  eraMeterPull: 0.65,
+  eraMeterPull: 0.22,
   meterStart: 50,
   meterStartMin: 25,
   meterStartMax: 75,

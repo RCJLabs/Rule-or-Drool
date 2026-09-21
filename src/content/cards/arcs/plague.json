@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_pl1",
+    "type": "arc",
+    "arc": "arc_plague",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A new fever, doubling weekly. Acting now looks like panic and costs a fortune. Acting in three weeks looks like competence, too late.",
+    "left": {
+      "label": "Act now",
+      "fx": {
+        "money": -6,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 5,
+      "next": "arc_pl2",
+      "setFlags": [
+        "fever_owned"
+      ]
+    },
+    "right": {
+      "label": "Wait for certainty",
+      "fx": {
+        "mood": 2,
+        "money": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_fever_spreads",
+          "delay": 6
+        }
+      ]
+    }
+  },
+  {
+    "id": "arc_pl2",
+    "type": "arc",
+    "arc": "arc_plague",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "There is enough treatment for a fifth of the country. Who gets it can be decided by need, by lottery, or by who you owe.",
+    "cond": {
+      "flags": [
+        "fever_owned"
+      ]
+    },
+    "left": {
+      "label": "By need, published",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 5,
+      "next": "arc_pl3"
+    },
+    "right": {
+      "label": "Ministers and donors",
+      "fx": {
+        "mood": 2,
+        "money": 5,
+        "inst": -3
+      },
+      "drift": -6,
+      "clearFlags": [
+        "fever_owned"
+      ]
+    }
+  },
+  {
+    "id": "arc_pl3",
+    "type": "arc",
+    "arc": "arc_plague",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "It is over. Forty thousand people died and the decisions that killed some of them are all written down somewhere.",
+    "cond": {
+      "flags": [
+        "fever_owned"
+      ]
+    },
+    "left": {
+      "label": "Hold a public inquiry",
+      "fx": {
+        "mood": -3,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 6,
+      "clearFlags": [
+        "fever_owned"
+      ]
+    },
+    "right": {
+      "label": "Declare victory",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "clearFlags": [
+        "fever_owned"
+      ]
+    }
+  }
+]

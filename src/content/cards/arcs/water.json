@@ -1,0 +1,143 @@
+[
+  {
+    "id": "arc_wa1",
+    "type": "arc",
+    "arc": "arc_water",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The aquifer has eleven years left at current use. Rationing starts a fight. Drilling deeper buys four years and ends the argument.",
+    "left": {
+      "label": "Start rationing",
+      "fx": {
+        "money": -3,
+        "mood": -4,
+        "inst": 3
+      },
+      "drift": 5,
+      "next": "arc_wa2",
+      "setFlags": [
+        "water_rationed"
+      ]
+    },
+    "right": {
+      "label": "Drill deeper",
+      "fx": {
+        "money": -2,
+        "mood": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_taps_dry",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "arc_wa2",
+    "type": "arc",
+    "arc": "arc_water",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The rationing is working and there are queues at every standpipe. The capital's queues are shorter, and people have noticed.",
+    "cond": {
+      "flags": [
+        "water_rationed"
+      ]
+    },
+    "left": {
+      "label": "Ration the capital too",
+      "fx": {
+        "mood": -4,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 5,
+      "next": "arc_wa3"
+    },
+    "right": {
+      "label": "Exempt the capital",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "clearFlags": [
+        "water_rationed"
+      ]
+    }
+  },
+  {
+    "id": "arc_wa3",
+    "type": "arc",
+    "arc": "arc_water",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The aquifer has stabilised. There is money now for desalination, or for making sure everyone remembers whose rationing it was.",
+    "cond": {
+      "flags": [
+        "water_rationed"
+      ]
+    },
+    "left": {
+      "label": "Build desalination",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "mood": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "water_rationed"
+      ]
+    },
+    "right": {
+      "label": "Fund the campaign",
+      "fx": {
+        "mood": 3,
+        "money": -2,
+        "inst": -3
+      },
+      "drift": -5,
+      "clearFlags": [
+        "water_rationed"
+      ]
+    }
+  }
+]

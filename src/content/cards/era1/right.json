@@ -17,11 +17,11 @@
     "left": {
       "label": "Sign it into law",
       "fx": {
-        "order": 6,
+        "order": 4,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_oath_purge",
@@ -55,7 +55,7 @@
     "left": {
       "label": "Sign it",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
         "inst": -1
       },
@@ -64,7 +64,7 @@
     "right": {
       "label": "Veto it",
       "fx": {
-        "mood": -5,
+        "mood": -3,
         "inst": 1
       },
       "drift": 3
@@ -88,9 +88,9 @@
     "left": {
       "label": "Hand them over",
       "fx": {
-        "money": 6,
+        "money": 7,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3,
       "setFlags": [
@@ -106,7 +106,7 @@
     "right": {
       "label": "Keep them public",
       "fx": {
-        "money": -7,
+        "money": -6,
         "inst": 1
       },
       "drift": 3
@@ -130,7 +130,7 @@
       "label": "Build it taller",
       "fx": {
         "money": -2,
-        "mood": 4,
+        "mood": 2,
         "order": 2
       },
       "drift": -3
@@ -138,8 +138,8 @@
     "right": {
       "label": "Fund the courts instead",
       "fx": {
-        "money": -5,
-        "inst": 2,
+        "money": -4,
+        "inst": 1,
         "mood": -2
       },
       "drift": 3
@@ -163,11 +163,11 @@
     "left": {
       "label": "Golf partner",
       "fx": {
-        "money": 4,
+        "money": 5,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_refinery_fire",
@@ -178,8 +178,8 @@
     "right": {
       "label": "Lowest bid",
       "fx": {
-        "money": 4,
-        "mood": -5,
+        "money": 3,
+        "mood": -3,
         "inst": 1
       },
       "drift": 3
@@ -200,16 +200,16 @@
     "left": {
       "label": "Gild it",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "order": 1,
         "money": -1
       },
-      "drift": -4
+      "drift": -3
     },
     "right": {
       "label": "Change the subject",
       "fx": {
-        "mood": -5,
+        "mood": -3,
         "inst": 1
       },
       "drift": 3
@@ -232,9 +232,9 @@
     "left": {
       "label": "Give it to the generals",
       "fx": {
-        "order": 6,
+        "order": 4,
         "money": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     },
@@ -242,7 +242,7 @@
       "label": "Keep it civilian",
       "fx": {
         "order": -5,
-        "inst": 2,
+        "inst": 1,
         "mood": 2
       },
       "drift": 3
@@ -266,11 +266,11 @@
     "left": {
       "label": "Let it self-inspect",
       "fx": {
-        "money": 6,
+        "money": 7,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_refinery_fire",
@@ -282,7 +282,7 @@
       "label": "Send real inspectors",
       "fx": {
         "money": -6,
-        "inst": 2
+        "inst": 1
       },
       "drift": 3
     }

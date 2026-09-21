@@ -1,0 +1,458 @@
+[
+  {
+    "id": "cr03_private_courts",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Most commercial disputes are settled in private arbitration now. It is fast, cheap, and its rulings are secret.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the rulings",
+      "fx": {
+        "money": -2,
+        "mood": 2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Extend it to tenancy",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr04_founder_cult",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Schoolchildren learn the founder's speeches by heart. Historians have found that he did not give two of them.",
+    "left": {
+      "label": "Correct the syllabus",
+      "fx": {
+        "mood": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Add a third speech",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr05_estate_tax",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Nothing has been inherited and taxed in ninety years. Nine families now own more than the treasury.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax the estates",
+      "fx": {
+        "money": 6,
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Confirm the exemption",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr06_company_schools",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Four firms run the schools in their towns. The graduates are well trained, and trained for exactly one employer.",
+    "left": {
+      "label": "Set a public syllabus",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Licence two more",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr07_officer_dynasty",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The general staff is drawn from eleven families. They are professional, loyal, and cannot imagine anyone else.",
+    "left": {
+      "label": "Open the academy",
+      "fx": {
+        "order": -4,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Confirm the tradition",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr08_charter_towns",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Charter towns write their own law within limits. Three have quietly amended the limits and nobody checked.",
+    "oneShot": true,
+    "left": {
+      "label": "Enforce the limits",
+      "fx": {
+        "money": -3,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Widen the charters",
+      "fx": {
+        "money": 7,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr09_security_bonds",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Policing is funded by bonds sold to the districts policed. The poorest districts have the fewest patrols and the most crime.",
+    "left": {
+      "label": "Fund it centrally",
+      "fx": {
+        "money": -6,
+        "order": 2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Issue more bonds",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr10_heirloom_offices",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Four ministries have passed from parent to child twice running. Each appointment was signed by somebody's cousin.",
+    "left": {
+      "label": "Require open competition",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sign the fifth",
+      "fx": {
+        "order": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr11_orbital_lords",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The colonies are run by the firms that built them. Their crews have contracts, not citizenship.",
+    "oneShot": true,
+    "left": {
+      "label": "Grant them citizenship",
+      "fx": {
+        "money": -4,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Honour the contracts",
+      "fx": {
+        "money": 7,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr12_tradition_bill",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A bill defining the national character. It is nine pages of warmth and one page of who is left out.",
+    "left": {
+      "label": "Strike the last page",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pass it entire",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr13_debtors_work",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Unpayable debts can be worked off in company towns. It is voluntary, in the way that hunger is voluntary.",
+    "left": {
+      "label": "Cancel the debts",
+      "fx": {
+        "money": -6,
+        "mood": 2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Standardise the terms",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr14_hereditary_guard",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The palace guard is recruited from one valley and has been for sixty years. They are magnificent and answer to a family.",
+    "left": {
+      "label": "Rotate the regiment",
+      "fx": {
+        "order": -5,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Double their pay",
+      "fx": {
+        "order": 3,
+        "money": -3,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr15_constitutional_audit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A full audit of which constitutional conventions still bind anyone. The honest answer is fewer than people assume.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the audit",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep it internal",
+      "fx": {
+        "order": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cr16_quiet_handover",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Your opponent is ready to govern and says so without theatre. Handing over cleanly would set a precedent worth more than a term.",
+    "oneShot": true,
+    "left": {
+      "label": "Prepare the handover",
+      "fx": {
+        "mood": -2,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Find one more reason",
+      "fx": {
+        "order": 2,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  }
+]

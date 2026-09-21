@@ -17,7 +17,7 @@
     "left": {
       "label": "Roof the stadium",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 1
       },
       "drift": -3,
@@ -34,7 +34,7 @@
     "right": {
       "label": "Fund the schools",
       "fx": {
-        "money": -7,
+        "money": -6,
         "inst": 1
       },
       "drift": 3
@@ -57,7 +57,7 @@
     "left": {
       "label": "Blame the last guy",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 1
       },
       "drift": -2
@@ -65,8 +65,8 @@
     "right": {
       "label": "Own the numbers",
       "fx": {
-        "mood": -5,
-        "inst": 2
+        "mood": -3,
+        "inst": 1
       },
       "drift": 3
     }
@@ -89,7 +89,7 @@
     "left": {
       "label": "Close it and fix it",
       "fx": {
-        "money": -7,
+        "money": -6,
         "inst": 1
       },
       "drift": 3
@@ -98,7 +98,7 @@
       "label": "Order a re-inspection",
       "fx": {
         "mood": 1,
-        "money": 4
+        "money": 5
       },
       "drift": -2,
       "setFlags": [
@@ -130,16 +130,16 @@
     "left": {
       "label": "Take the money",
       "fx": {
-        "money": 7,
+        "money": 9,
         "mood": 1,
         "inst": -1
       },
-      "drift": -4
+      "drift": -3
     },
     "right": {
       "label": "Decline politely",
       "fx": {
-        "money": -4,
+        "money": -3,
         "inst": 1
       },
       "drift": 2
@@ -162,8 +162,8 @@
     "left": {
       "label": "Let them march",
       "fx": {
-        "order": -7,
-        "mood": 5,
+        "order": -8,
+        "mood": 3,
         "inst": 1
       },
       "drift": 3
@@ -171,7 +171,7 @@
     "right": {
       "label": "Ban it for traffic",
       "fx": {
-        "order": 5,
+        "order": 3,
         "mood": 1
       },
       "drift": -3
@@ -195,8 +195,8 @@
     "left": {
       "label": "Publish and collect",
       "fx": {
-        "money": 5,
-        "mood": -5,
+        "money": 4,
+        "mood": -3,
         "inst": 1
       },
       "drift": 3
@@ -204,9 +204,9 @@
     "right": {
       "label": "Lose the file",
       "fx": {
-        "money": 5,
+        "money": 6,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3,
       "enqueue": [
@@ -235,10 +235,10 @@
     "left": {
       "label": "Fund the seawall",
       "fx": {
-        "money": -8,
+        "money": -6,
         "inst": 1
       },
-      "drift": 4,
+      "drift": 3,
       "setFlags": [
         "seawall"
       ]
@@ -246,7 +246,7 @@
     "right": {
       "label": "Order another study",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 1
       },
       "drift": -2,
@@ -275,19 +275,19 @@
     "left": {
       "label": "Renew it",
       "fx": {
-        "mood": -5,
-        "inst": 2
+        "mood": -3,
+        "inst": 1
       },
       "drift": 3
     },
     "right": {
       "label": "Renew it for a friend",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "money": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "setFlags": [
         "media_captured"
       ]
@@ -311,8 +311,8 @@
     "left": {
       "label": "Appoint the jurist",
       "fx": {
-        "inst": 2,
-        "mood": -5,
+        "inst": 1,
+        "mood": -3,
         "money": -1
       },
       "drift": 3
@@ -320,12 +320,12 @@
     "right": {
       "label": "Appoint the cousin",
       "fx": {
-        "inst": -2,
-        "order": 4,
-        "mood": 2,
+        "inst": -1,
+        "order": 3,
+        "mood": 1,
         "money": 2
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_cousin_ruling",
@@ -351,7 +351,7 @@
     "left": {
       "label": "Send the army",
       "fx": {
-        "order": 6,
+        "order": 4,
         "mood": -1
       },
       "drift": -2
@@ -360,7 +360,7 @@
       "label": "Send the negotiators",
       "fx": {
         "order": -6,
-        "mood": 5
+        "mood": 3
       },
       "drift": 3
     }
@@ -382,7 +382,7 @@
     "left": {
       "label": "Launch it",
       "fx": {
-        "money": 7,
+        "money": 9,
         "mood": 1,
         "inst": -1
       },
@@ -397,7 +397,7 @@
     "right": {
       "label": "Refuse",
       "fx": {
-        "money": -5
+        "money": -4
       },
       "drift": 2
     }
@@ -420,15 +420,15 @@
     "left": {
       "label": "Close the port",
       "fx": {
-        "money": -8,
+        "money": -6,
         "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Keep it open",
       "fx": {
-        "money": 5,
+        "money": 6,
         "mood": 1
       },
       "drift": -3,
@@ -457,9 +457,9 @@
     "left": {
       "label": "Overrule the town",
       "fx": {
-        "money": 4,
+        "money": 5,
         "order": 2,
-        "mood": -2
+        "mood": -1
       },
       "drift": -3
     },
@@ -467,7 +467,7 @@
       "label": "Hold a referendum",
       "fx": {
         "money": -6,
-        "inst": 2,
+        "inst": 1,
         "mood": 2
       },
       "drift": 3
@@ -491,11 +491,11 @@
     "left": {
       "label": "Leak the photos",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "order": 1,
         "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "setFlags": [
         "dirty_politics"
       ]
@@ -503,7 +503,7 @@
     "right": {
       "label": "Sit on them",
       "fx": {
-        "mood": -5
+        "mood": -3
       },
       "drift": 3
     }
@@ -526,14 +526,14 @@
       "label": "Count everyone",
       "fx": {
         "money": -6,
-        "inst": 2
+        "inst": 1
       },
       "drift": 3
     },
     "right": {
       "label": "Sample nice districts",
       "fx": {
-        "money": 4,
+        "money": 5,
         "mood": 1,
         "inst": -1
       },
@@ -566,7 +566,7 @@
     "left": {
       "label": "Declare it",
       "fx": {
-        "mood": 5,
+        "mood": 3,
         "money": -1
       },
       "drift": -3
@@ -574,7 +574,7 @@
     "right": {
       "label": "Absolutely not",
       "fx": {
-        "mood": -5
+        "mood": -3
       },
       "drift": 2
     }
@@ -596,8 +596,8 @@
     "left": {
       "label": "Raise the fees",
       "fx": {
-        "money": 7,
-        "mood": -5
+        "money": 6,
+        "mood": -3
       },
       "drift": 3
     },
@@ -635,15 +635,15 @@
     "left": {
       "label": "Top it up",
       "fx": {
-        "money": -8,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Let them find out",
       "fx": {
-        "money": 6,
+        "money": 7,
         "mood": 1
       },
       "drift": -3,
@@ -675,20 +675,20 @@
     "left": {
       "label": "Fire them all",
       "fx": {
-        "money": -5,
+        "money": -4,
         "order": -4,
-        "inst": 2
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Take a cut yourself",
       "fx": {
-        "money": 6,
+        "money": 7,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_refinery_fire",
@@ -714,7 +714,7 @@
     "left": {
       "label": "Ration it now",
       "fx": {
-        "mood": -6,
+        "mood": -4,
         "inst": 1,
         "money": 2
       },
@@ -723,7 +723,7 @@
     "right": {
       "label": "Wait for rain",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 1
       },
       "drift": -3,

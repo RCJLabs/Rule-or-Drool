@@ -1,0 +1,466 @@
+[
+  {
+    "id": "c20_orbital_medicine",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The colonies make a drug that cannot be made on the ground. They will sell it, at a price set in orbit.",
+    "oneShot": true,
+    "left": {
+      "label": "Build our own lab",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay their price",
+      "fx": {
+        "money": -3,
+        "mood": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c21_ancestral_debt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A debt your predecessors rolled over eleven times is due. The interest alone is a hospital network.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay it and say why",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Roll it a twelfth time",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c22_last_forest",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The last old forest is worth more as timber than as a forest, by every measure anyone bothered to write down.",
+    "left": {
+      "label": "Write a new measure",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sell the timber",
+      "fx": {
+        "money": 7,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c23_migration_north",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Eleven million people are moving north inside your own borders. The northern provinces have noticed.",
+    "left": {
+      "label": "Fund the north",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Slow the permits",
+      "fx": {
+        "order": 3,
+        "money": 3,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c24_old_treaty",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A treaty signed in your first era obliges you to defend a country that no longer exists under that name.",
+    "oneShot": true,
+    "left": {
+      "label": "Honour the spirit",
+      "fx": {
+        "money": -4,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Discover a loophole",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c25_archive_of_lies",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Four generations of official statistics have been quietly revised. The revisions are also in the archive.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish both versions",
+      "fx": {
+        "mood": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Publish the tidy one",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c26_reactor_life",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The reactor's licence expires. Extending it is safe for probably another decade, on a definition of probably.",
+    "left": {
+      "label": "Build the replacement",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Extend the licence",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_system_fails",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "c27_lost_language",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Nine hundred people still speak the valley language. Recording it properly costs about one week of the feed's budget.",
+    "left": {
+      "label": "Record all of it",
+      "fx": {
+        "money": -2,
+        "mood": 1,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Put it in a museum",
+      "fx": {
+        "mood": 1,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c28_pension_age",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "People live thirty years longer than when the pension was designed. Nobody has moved the age since.",
+    "oneShot": true,
+    "left": {
+      "label": "Move it, and say why",
+      "fx": {
+        "money": 6,
+        "mood": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it to the next",
+      "fx": {
+        "mood": 2,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c29_orbital_defence",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Rocks in orbit can be moved. Everyone knows this now. A treaty forbidding it needs someone to go first.",
+    "left": {
+      "label": "Sign first",
+      "fx": {
+        "order": -4,
+        "money": 2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Build the capability",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "money": -6,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c30_sponsored_ballot",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The ballot paper has advertising on the reverse now. It funds the whole election and nobody has complained.",
+    "left": {
+      "label": "Fund elections publicly",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sell the front too",
+      "fx": {
+        "money": 7,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c31_holiday_of_holidays",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "There are now forty-one national holidays. The ministry of holidays has proposed a holiday to celebrate them.",
+    "left": {
+      "label": "Cut it to nine",
+      "fx": {
+        "mood": -4,
+        "money": 3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Approve the forty-second",
+      "fx": {
+        "mood": 3,
+        "money": -3,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c32_slow_law",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A rule that no law may take effect for two years after passing. It would make bad law harder and good law slower.",
+    "oneShot": true,
+    "left": {
+      "label": "Adopt the delay",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the speed",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c33_handover_protocol",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Four centuries of handovers and no written protocol for any of them. Writing one now would outlast everything else you do.",
+    "left": {
+      "label": "Write the protocol",
+      "fx": {
+        "mood": -2,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Trust the convention",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

@@ -1,0 +1,588 @@
+[
+  {
+    "id": "bl03_allocation_board",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Housing, clinics and school places are allocated by one board now. Its chair has held the seat for nineteen years.",
+    "oneShot": true,
+    "left": {
+      "label": "Term-limit the board",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Widen its remit",
+      "fx": {
+        "order": 2,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl04_retraining_fraud",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The retraining scheme has enrolled four hundred thousand people and placed nine hundred in jobs.",
+    "oneShot": true,
+    "left": {
+      "label": "Rebuild it honestly",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish the enrolments",
+      "fx": {
+        "mood": 3,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl05_movement_pension",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Movement veterans receive a pension from the state for services to the movement. It is not in any statute.",
+    "left": {
+      "label": "End it",
+      "fx": {
+        "money": 3,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Index it to inflation",
+      "fx": {
+        "mood": 2,
+        "money": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl06_community_courts",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Neighbourhood assemblies now settle small disputes. They are fast, popular, and have started settling large ones.",
+    "left": {
+      "label": "Draw a hard line",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them expand",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl07_automation_levy",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A levy per machine would fund the income scheme. The firms will move the machines and keep the profits abroad.",
+    "left": {
+      "label": "Tax the profits instead",
+      "fx": {
+        "money": 3,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Levy the machines",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "bl08_cultural_quota",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A quota of approved content on the national feed. Everyone agrees with the principle and nobody agrees on the list.",
+    "left": {
+      "label": "Fund, do not mandate",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish the list",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl09_strike_against_you",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The transport union is striking against a government it helped elect, over a policy it helped write.",
+    "left": {
+      "label": "Concede the point",
+      "fx": {
+        "money": -6,
+        "mood": 2,
+        "order": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Declare it political",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl10_free_university",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Free universities have doubled enrolment and halved the funding per student. The degrees are worth less every year.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund per student",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Open two more",
+      "fx": {
+        "mood": 3,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl11_rent_board",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The rent board has not approved a new building in six years. Every decision was defensible. Nothing was built.",
+    "left": {
+      "label": "Set a deadline to decide",
+      "fx": {
+        "mood": -2,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a review stage",
+      "fx": {
+        "mood": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl12_internationalism",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A neighbouring movement asks for money and guns. You agree with them. Their methods are becoming unmentionable.",
+    "oneShot": true,
+    "left": {
+      "label": "Send neither",
+      "fx": {
+        "mood": -3,
+        "order": 2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Send both quietly",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "money": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl13_care_workers",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Care work is the largest employer in the country and the worst paid. Fixing that is a third of the budget.",
+    "left": {
+      "label": "Pay them properly",
+      "fx": {
+        "money": -6,
+        "mood": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give them a medal",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl14_data_commons",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Public ownership of the feed's data would be a genuine first. The ministry that would hold it is the one you control.",
+    "oneShot": true,
+    "left": {
+      "label": "Give it to a trust",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold it in the ministry",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl15_purity_history",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "The movement's founder said several things in 2031 that the movement would now like never to have been said.",
+    "left": {
+      "label": "Leave the record alone",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Correct the archive",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "bl16_congress_applause",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The party congress applauded for nineteen minutes. Nobody wanted to be the first to stop.",
+    "left": {
+      "label": "Cut the ovation",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let it run",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl17_volunteer_militia",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Volunteer brigades are keeping order in the suburbs. They wear the movement's colours and answer to the committee.",
+    "oneShot": true,
+    "left": {
+      "label": "Stand them down",
+      "fx": {
+        "order": -5,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Issue them radios",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "bl18_universal_service",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A year of civic service for everyone at eighteen. It works in three countries and is hated in all of them for a decade.",
+    "oneShot": true,
+    "left": {
+      "label": "Legislate it",
+      "fx": {
+        "money": -6,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it voluntary",
+      "fx": {
+        "mood": 2,
+        "money": -1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "bl19_sunset_clauses",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Every programme the movement built could be given an expiry date, forcing each one to justify itself again.",
+    "left": {
+      "label": "Sunset them all",
+      "fx": {
+        "mood": -3,
+        "money": 3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Exempt the popular ones",
+      "fx": {
+        "mood": 2,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "bl20_opposition_funding",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "State funding for opposition parties would keep them alive. Yours has won four elections and would rather they were not.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund them",
+      "fx": {
+        "money": -2,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them wither",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  }
+]

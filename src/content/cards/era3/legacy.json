@@ -23,10 +23,10 @@
     "left": {
       "label": "Return it with interest",
       "fx": {
-        "money": -8,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 5,
+      "drift": 4,
       "clearFlags": [
         "took_the_skim"
       ]
@@ -36,9 +36,9 @@
       "fx": {
         "money": -2,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -4
+      "drift": -3
     }
   },
   {
@@ -65,10 +65,10 @@
     "left": {
       "label": "Hand it to a regulator",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 5,
+      "drift": 4,
       "clearFlags": [
         "feed_captured"
       ]
@@ -76,11 +76,11 @@
     "right": {
       "label": "Leave it running",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -106,19 +106,19 @@
     "left": {
       "label": "Crew it on merit",
       "fx": {
-        "mood": -5,
-        "inst": 4
+        "mood": -3,
+        "inst": 3
       },
-      "drift": 5
+      "drift": 4
     },
     "right": {
       "label": "Crew it with donors",
       "fx": {
-        "money": 7,
+        "money": 9,
         "mood": 1,
-        "inst": -2
+        "inst": -1
       },
-      "drift": -5
+      "drift": -4
     }
   },
   {
@@ -143,17 +143,17 @@
     "left": {
       "label": "Fund two, properly",
       "fx": {
-        "money": -7,
-        "inst": 2
+        "money": -6,
+        "inst": 1
       },
-      "drift": 4
+      "drift": 3
     },
     "right": {
       "label": "Fund all nine",
       "fx": {
-        "money": -4,
-        "mood": 4,
-        "inst": -2
+        "money": -5,
+        "mood": 2,
+        "inst": -1
       },
       "drift": -3
     }

@@ -17,16 +17,16 @@
     "left": {
       "label": "Expel her",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     },
     "right": {
       "label": "Keep the coalition",
       "fx": {
-        "mood": -5,
+        "mood": -3,
         "inst": 1
       },
       "drift": 3
@@ -49,7 +49,7 @@
     "left": {
       "label": "Make it free",
       "fx": {
-        "mood": 5,
+        "mood": 3,
         "money": -2
       },
       "drift": -3,
@@ -63,7 +63,7 @@
     "right": {
       "label": "Means-test it",
       "fx": {
-        "mood": -5,
+        "mood": -3,
         "money": 2,
         "inst": 1
       },
@@ -88,7 +88,7 @@
     "left": {
       "label": "Freeze rents",
       "fx": {
-        "mood": 4,
+        "mood": 2,
         "money": 1
       },
       "drift": -3,
@@ -102,7 +102,7 @@
     "right": {
       "label": "Build instead",
       "fx": {
-        "money": -7,
+        "money": -6,
         "inst": 1
       },
       "drift": 3,
@@ -129,11 +129,11 @@
     "left": {
       "label": "Approve it",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": 1,
         "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "enqueue": [
         {
           "id": "q_uncounted",
@@ -144,8 +144,8 @@
     "right": {
       "label": "Audit the list",
       "fx": {
-        "mood": -5,
-        "inst": 2
+        "mood": -3,
+        "inst": 1
       },
       "drift": 3
     }
@@ -165,7 +165,7 @@
     "left": {
       "label": "Adopt the list",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 2,
         "inst": -1
       },
@@ -174,7 +174,7 @@
     "right": {
       "label": "Skip it",
       "fx": {
-        "mood": -5,
+        "mood": -3,
         "inst": 1
       },
       "drift": 2
@@ -197,7 +197,7 @@
     "left": {
       "label": "Give them the raise",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "money": -2
       },
       "drift": -2
@@ -206,8 +206,8 @@
       "label": "Hold the line",
       "fx": {
         "order": -5,
-        "mood": -5,
-        "money": 4
+        "mood": -3,
+        "money": 3
       },
       "drift": 3
     }
@@ -229,8 +229,8 @@
     "left": {
       "label": "Trust the model",
       "fx": {
-        "money": 5,
-        "mood": -2,
+        "money": 6,
+        "mood": -1,
         "inst": 1
       },
       "drift": -2
@@ -239,7 +239,7 @@
       "label": "Phase it with the towns",
       "fx": {
         "money": -6,
-        "inst": 2,
+        "inst": 1,
         "mood": 2
       },
       "drift": 3
@@ -262,17 +262,17 @@
     "left": {
       "label": "Dissolve it",
       "fx": {
-        "mood": -5,
-        "inst": 2
+        "mood": -3,
+        "inst": 1
       },
       "drift": 3
     },
     "right": {
       "label": "Add two more seats",
       "fx": {
-        "mood": 2,
+        "mood": 1,
         "order": 1,
-        "inst": -2
+        "inst": -1
       },
       "drift": -3
     }

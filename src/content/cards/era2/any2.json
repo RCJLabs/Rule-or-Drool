@@ -1,0 +1,610 @@
+[
+  {
+    "id": "b20_algorithmic_welfare",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A model decides who gets benefits. It is cheaper, faster, and wrong about eleven thousand people a year.",
+    "oneShot": true,
+    "left": {
+      "label": "Put humans back in",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tune the threshold",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b21_ghost_workers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The payroll has nine thousand names nobody can find. Removing them means admitting they were there for years.",
+    "oneShot": true,
+    "left": {
+      "label": "Purge the payroll",
+      "fx": {
+        "money": 6,
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave the list alone",
+      "fx": {
+        "money": -2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b22_coastal_retreat",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two coastal towns cannot be defended for another century. Telling them now gives them forty years to move.",
+    "oneShot": true,
+    "left": {
+      "label": "Tell them now",
+      "fx": {
+        "mood": -4,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Build a higher wall",
+      "fx": {
+        "mood": 2,
+        "money": -3,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b23_election_machines",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The voting machines are supplied by one firm and cannot be audited. The firm calls the code a trade secret.",
+    "oneShot": true,
+    "left": {
+      "label": "Go back to paper",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew the contract",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b24_antibiotic_end",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The last reliable antibiotic is failing. Rationing it now buys thirty years. Not rationing it buys applause.",
+    "oneShot": true,
+    "left": {
+      "label": "Ration it",
+      "fx": {
+        "mood": -4,
+        "money": 2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep it over the counter",
+      "fx": {
+        "mood": 3,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b25_shell_capital",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A third of the capital's property is owned by companies with no employees and excellent addresses.",
+    "left": {
+      "label": "Name the owners",
+      "fx": {
+        "money": 3,
+        "mood": 2,
+        "inst": 2,
+        "order": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Court the investment",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b26_teacher_shortage",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "There are not enough teachers. You can pay more, or you can lower the qualification. One works next term.",
+    "left": {
+      "label": "Pay them more",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lower the bar",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "schools_starved"
+      ],
+      "enqueue": [
+        {
+          "id": "q_illiterate_ballot",
+          "delay": 24
+        }
+      ]
+    }
+  },
+  {
+    "id": "b27_surveillance_deal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A foreign firm offers a city-wide camera network free of charge. It would like to keep a copy of the footage.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay for it yourself",
+      "fx": {
+        "money": -6,
+        "order": 3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take it free",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b28_river_treaty",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The upstream neighbour is damming the river. War is unthinkable. So, apparently, is a treaty.",
+    "left": {
+      "label": "Negotiate for years",
+      "fx": {
+        "money": -3,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Move troops up",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "money": -5
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b29_museum_sale",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A collector will pay handsomely for the national collection's best nine pieces. Nobody visits the museum anyway.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the collection",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "mood": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the nine",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b30_inspectors_general",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Every ministry has an inspector general. Four of them have found nothing in nine years, which is itself a finding.",
+    "left": {
+      "label": "Replace the four",
+      "fx": {
+        "mood": -2,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Praise their records",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b31_labour_import",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The care sector needs sixty thousand workers from abroad. Saying the number out loud costs you a province.",
+    "left": {
+      "label": "Say the number",
+      "fx": {
+        "mood": -4,
+        "money": 3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Issue quiet permits",
+      "fx": {
+        "money": 3,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b32_disaster_fund",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The disaster reserve has been borrowed against four times. There has not been a disaster yet, which proves nothing.",
+    "left": {
+      "label": "Refill it",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Borrow once more",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "b33_sponsored_textbooks",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A firm will supply every textbook free. Chapter eleven is about the firm, and it is the longest chapter.",
+    "left": {
+      "label": "Buy your own books",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Accept the donation",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b34_reality_ministry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The feed has started running a weekly programme in which citizens compete to meet a minister. Ratings are enormous.",
+    "left": {
+      "label": "Cancel it",
+      "fx": {
+        "mood": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a second night",
+      "fx": {
+        "mood": 3,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b35_long_now",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A hundred-year plan for the water system. Every government after you will be judged against it, including yours.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the plan",
+      "fx": {
+        "money": -4,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 5,
+      "setFlags": [
+        "ring_started"
+      ]
+    },
+    "right": {
+      "label": "Plan for one term",
+      "fx": {
+        "money": 3,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b36_civil_service_exam",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Entry to the service by blind examination only. Every family that has supplied ministers for a century objects.",
+    "oneShot": true,
+    "left": {
+      "label": "Blind exams only",
+      "fx": {
+        "mood": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the interview",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b37_treaty_of_rivers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A water treaty with three neighbours would hold for a century if all four ratify. You would have to go first.",
+    "left": {
+      "label": "Ratify first",
+      "fx": {
+        "money": -3,
+        "order": -3,
+        "inst": 3,
+        "mood": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Wait for the others",
+      "fx": {
+        "order": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

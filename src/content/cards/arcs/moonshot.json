@@ -19,10 +19,10 @@
     "left": {
       "label": "Fund it",
       "fx": {
-        "money": -10,
-        "inst": 2
+        "money": -9,
+        "inst": 1
       },
-      "drift": 5,
+      "drift": 4,
       "next": "arc_ms2",
       "setFlags": [
         "moonshot_funded"
@@ -31,7 +31,7 @@
     "right": {
       "label": "Shelve it",
       "fx": {
-        "money": 4,
+        "money": 5,
         "mood": 1
       },
       "drift": -3
@@ -62,20 +62,20 @@
     "left": {
       "label": "Fund the second test",
       "fx": {
-        "money": -7,
-        "mood": -5
+        "money": -6,
+        "mood": -3
       },
-      "drift": 5,
+      "drift": 4,
       "next": "arc_ms3"
     },
     "right": {
       "label": "Cancel it",
       "fx": {
-        "money": 5,
-        "mood": 2,
+        "money": 6,
+        "mood": 1,
         "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "clearFlags": [
         "moonshot_funded"
       ]
@@ -106,11 +106,11 @@
     "left": {
       "label": "Give him the contract",
       "fx": {
-        "money": 6,
+        "money": 7,
         "mood": 1,
-        "inst": -4
+        "inst": -3
       },
-      "drift": -6,
+      "drift": -5,
       "clearFlags": [
         "moonshot_funded"
       ]
@@ -118,10 +118,10 @@
     "right": {
       "label": "Open the tender",
       "fx": {
-        "money": -5,
-        "inst": 2
+        "money": -4,
+        "inst": 1
       },
-      "drift": 5,
+      "drift": 4,
       "next": "arc_ms4"
     }
   },
@@ -150,10 +150,10 @@
     "left": {
       "label": "Your name",
       "fx": {
-        "mood": 5,
+        "mood": 3,
         "inst": -1
       },
-      "drift": -4,
+      "drift": -3,
       "clearFlags": [
         "moonshot_funded"
       ]
@@ -161,10 +161,10 @@
     "right": {
       "label": "The engineers' names",
       "fx": {
-        "mood": 6,
-        "inst": 4
+        "mood": 4,
+        "inst": 3
       },
-      "drift": 6,
+      "drift": 5,
       "clearFlags": [
         "moonshot_funded"
       ],
