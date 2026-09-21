@@ -2,10 +2,14 @@
 # pipeline (no gh-pages branch). Serves at https://rcjlabs.github.io/Rule-or-Drool/,
 # which is why vite.config.ts sets base to /Rule-or-Drool/.
 #
-# configure-pages runs with enablement, so the first successful run turns Pages on and
-# sets its source to "GitHub Actions" by itself. If that step 403s (org policy, or the
-# token cannot create the site), enable it once by hand at Settings > Pages > Source:
-# GitHub Actions, then re-run this workflow; nothing else needs changing.
+# configure-pages runs with enablement, which turned Pages on and set its source to
+# "GitHub Actions" without anyone visiting Settings. Confirmed working on this repo.
+#
+# Enabling Pages also creates the "github-pages" environment, and GitHub gives that
+# environment a deployment branch policy of "default branch only". So the deploy job is
+# rejected before its first step on any push from a branch that is not the repository
+# default branch, with no log to read. Keep the repository default branch set to main,
+# or widen that environment's branch policy in Settings > Environments.
 name: Deploy
 
 on:

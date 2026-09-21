@@ -235,25 +235,37 @@ Log the seed and card id (debug panel) for anything odd; runs replay exactly fro
   phase 7 decision (offline size).
 - Deploying goes through the **GitHub Actions Pages pipeline** (`configure-pages`,
   `upload-pages-artifact`, `deploy-pages`), not a `gh-pages` branch. The first attempt used
-  the branch method on the theory that GitHub would auto-enable Pages for a public repo; it
-  did not, and the branch method has no way to ask. `configure-pages` with `enablement: true`
-  does: it creates the Pages site and sets its source to "GitHub Actions" from inside the
-  run. It also keeps build output out of git history entirely.
+  the branch method on the theory that GitHub would auto-enable Pages for a public repo. It
+  did not, and the branch method has no way to ask for it. `configure-pages` with
+  `enablement: true` does, and it worked: `deploy-pages` then published successfully, which
+  it only does when the Pages source is "GitHub Actions". Nobody had to open Settings. The
+  method also keeps build output out of git history.
 - The old `gh-pages` branch is now unused. It is harmless, but delete it if you want the
   branch list clean; nothing reads it any more.
+- **The deploy job is gated on the repository default branch.** Enabling Pages creates the
+  `github-pages` environment, which GitHub restricts to the default branch. That branch is
+  still `claude/new-session-x759ml`, so the deploy job triggered by a push to `main` is
+  rejected before its first step, with no log to read: a one-second failure that looks like
+  a broken workflow and is not one. Proved by dispatching the identical commit from the
+  current default branch, which deployed successfully. Switching the default branch to
+  `main` fixes it for good.
 
 ### Deploying
 
-- `main` is the deploy branch. Pushing to it runs check, build, and deploy, and the site is
-  live a minute or two later. Other branches and pull requests run CI only, so a push to
-  `main` no longer triggers two duplicate runs.
-- **Pages enables itself** on the first successful Deploy run, via `configure-pages` with
-  `enablement: true`. If that step ever fails with a 403 (an org policy that forbids
-  workflows from creating a Pages site), set Settings → Pages → Source to "GitHub Actions"
-  once by hand and re-run; no workflow change is needed.
-- **Still yours to do:** Settings → General → Default branch, switch it to `main`. GitHub
+The site is live at https://rcjlabs.github.io/Rule-or-Drool/ and Pages is already enabled
+with its source set to "GitHub Actions". No settings visit was needed for that.
+
+- **One thing left, and it matters:** Settings → General → Default branch → `main`. GitHub
   made the first branch pushed to an empty repo the default, which was the feature branch.
-  Nothing in the deploy depends on it, but pull requests target the default branch.
+  Until that changes, a push to `main` starts a Deploy run whose deploy job is rejected by
+  the `github-pages` environment (default-branch-only policy) and shows up red after one
+  second. The build half still passes; nothing is broken in the code.
+- Until then, deploy by dispatching the workflow from the current default branch: Actions →
+  Deploy → Run workflow → pick `claude/new-session-x759ml`. That is how the live build got
+  there.
+- Once the default branch is `main`: push to `main` and it runs check, build and deploy, and
+  the site updates a minute or two later. Other branches and pull requests run CI only, so a
+  push to `main` no longer triggers two duplicate runs.
 - The repository's default branch was set to the first branch pushed
   (`claude/new-session-x759ml`). Switch it to `main` in Settings → General so pull requests
   target the right branch.

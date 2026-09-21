@@ -10,7 +10,7 @@ before changing anything.
 ## Status
 
 Phase 3 of 7: engine, placeholder content, balance harness, content validator and the swipe
-UI. Playable at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
+UI. Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
 numbers; `[` and `]` shift drift to preview the frame theming).
 
 ## Commands
