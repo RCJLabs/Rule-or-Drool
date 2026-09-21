@@ -9,14 +9,17 @@ before changing anything.
 
 ## Status
 
-Phase 2 of 7 done: pure engine, placeholder content, balance harness and content validator.
-No UI yet.
+Phase 3 of 7: engine, placeholder content, balance harness, content validator and the swipe
+UI. Playable at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
+numbers; `[` and `]` shift drift to preview the frame theming).
 
 ## Commands
 
 ```
 npm install
-npm test               # vitest: engine, content and harness tests
+npm run dev            # Vite dev server at http://localhost:5173/Rule-or-Drool/
+npm run build          # production build to dist/ (npm run preview serves it)
+npm test               # vitest: engine, content, harness and UI tests
 npm run typecheck      # tsc --noEmit
 npm run validate       # content validator; exit 1 on any error
 npm run validate:mvp   # the phase 5 gate: every era, 25 cards per cell, warnings fail
@@ -37,10 +40,14 @@ src/engine/    pure, serializable game engine (types, rng, state, draw, resolve,
 src/content/   JSON content: cards/era1, advisors, endings, epilogues, modifiers, strings.ts
 src/sim/       bot policies, headless run loop, report and target checks
 src/validate/  JSON schema checker, semantic rules, disk loader (dependency-free)
+src/ui/        React app: setup, play (card, meters, frame theming), era transition, ending
 scripts/       simulate.ts (harness CLI), validate-content.ts (validator CLI)
 tests/         vitest suites, fixture content, and tests/fixtures/broken (a root that
                trips every validator rule on purpose)
 ```
+
+Pushing to `main` deploys to GitHub Pages through `.github/workflows/deploy.yml`; other
+branches run CI only.
 
 The engine never touches content directly: `buildLibrary(content, configOverrides)` indexes a
 content bundle, and every engine function takes that library plus a `GameState` and returns a

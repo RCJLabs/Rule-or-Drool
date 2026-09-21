@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+    branches-ignore: [gh-pages]
   pull_request:
 
 jobs:
@@ -17,3 +18,4 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run validate
+      - run: npm run build
