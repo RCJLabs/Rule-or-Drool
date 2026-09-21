@@ -248,5 +248,76 @@
       },
       "drift": -4
     }
+  },
+  {
+    "id": "q_l_deselected",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "weight": 0,
+    "text": "The four you deselected are running as independents and taking your voters with them. Two of them will win.",
+    "left": {
+      "label": "Welcome them back",
+      "fx": {
+        "mood": -3,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Expel them for good",
+      "fx": {
+        "mood": 3,
+        "order": 2,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "q_r_faithful",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "weight": 0,
+    "text": "The plank you added is being enforced by volunteers in three towns. Nobody asked them to. Nobody has stopped them.",
+    "left": {
+      "label": "Repeal the plank",
+      "fx": {
+        "mood": -4,
+        "order": -3,
+        "inst": 5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Thank the volunteers",
+      "fx": {
+        "mood": 3,
+        "order": 4,
+        "inst": -5
+      },
+      "drift": -5
+    }
   }
 ]

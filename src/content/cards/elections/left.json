@@ -1,0 +1,216 @@
+[
+  {
+    "id": "el_l_coalition",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "weight": 2,
+    "text": "Your coalition partners will walk unless they get the housing ministry and a veto. Without them you are eleven seats short.",
+    "left": {
+      "label": "Run without them",
+      "honest": true,
+      "fx": {
+        "money": -6,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise them anything",
+      "fx": {
+        "mood": 3,
+        "inst": -3
+      },
+      "drift": -18,
+      "setFlags": [
+        "cheated_election"
+      ]
+    }
+  },
+  {
+    "id": "el_l_purity",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "weight": 2,
+    "text": "The base wants every candidate to pass a purity test. Four of your best members would fail it, including the health minister.",
+    "left": {
+      "label": "Run them anyway",
+      "honest": true,
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Deselect the four",
+      "fx": {
+        "mood": 4,
+        "inst": -3
+      },
+      "drift": -18,
+      "setFlags": [
+        "cheated_election"
+      ],
+      "enqueue": [
+        {
+          "id": "q_l_deselected",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "el_l_turnout",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "weight": 2,
+    "text": "The machine in the three strongholds can deliver turnout figures nobody will audit. It has done so before, quietly.",
+    "left": {
+      "label": "Run a real drive",
+      "honest": true,
+      "fx": {
+        "money": -7,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the machine work",
+      "fx": {
+        "mood": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -20,
+      "setFlags": [
+        "cheated_election"
+      ],
+      "enqueue": [
+        {
+          "id": "q_uncounted",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "el_l_giveaway",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "weight": 2,
+    "text": "A universal payment, announced Tuesday, paid Thursday, polling Friday. The treasury asks which year it comes out of.",
+    "left": {
+      "label": "Cost it and phase it",
+      "honest": true,
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay it on Thursday",
+      "fx": {
+        "mood": 4,
+        "inst": -3
+      },
+      "drift": -18,
+      "setFlags": [
+        "cheated_election"
+      ],
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "el_l_split",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "weight": 2,
+    "text": "A smaller left party will split your vote in nine seats. You can stand aside in three of them, or brief against them for a week.",
+    "left": {
+      "label": "Stand aside in three",
+      "honest": true,
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Brief against them",
+      "fx": {
+        "mood": 3,
+        "inst": -3
+      },
+      "drift": -18,
+      "setFlags": [
+        "cheated_election",
+        "dirty_politics"
+      ]
+    }
+  }
+]

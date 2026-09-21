@@ -1,0 +1,212 @@
+[
+  {
+    "id": "el_r_donors",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "weight": 2,
+    "text": "The donors will fund the whole campaign. They would like the tax plank written a particular way, and a note of who writes it.",
+    "left": {
+      "label": "Publish the promises",
+      "honest": true,
+      "fx": {
+        "money": -8,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the money quietly",
+      "fx": {
+        "money": 4,
+        "inst": -3
+      },
+      "drift": -20,
+      "setFlags": [
+        "cheated_election",
+        "took_the_skim"
+      ]
+    }
+  },
+  {
+    "id": "el_r_church",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "weight": 2,
+    "text": "The church will turn out its congregations for one plank in the manifesto. The plank is about other people's families.",
+    "left": {
+      "label": "Decline the plank",
+      "honest": true,
+      "fx": {
+        "money": -4,
+        "order": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add the plank",
+      "fx": {
+        "mood": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -18,
+      "setFlags": [
+        "cheated_election"
+      ],
+      "enqueue": [
+        {
+          "id": "q_r_faithful",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "el_r_register",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "weight": 2,
+    "text": "Voter identification could be tightened before spring. The districts that would struggle with it are not districts that vote for you.",
+    "left": {
+      "label": "Fund registration",
+      "honest": true,
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Tighten the rules",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -20,
+      "setFlags": [
+        "cheated_election"
+      ],
+      "enqueue": [
+        {
+          "id": "q_uncounted",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "el_r_army",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "weight": 2,
+    "text": "The generals offer to ensure an orderly vote. In exchange they want the budget settled and one name kept off the ballot.",
+    "left": {
+      "label": "Refuse the offer",
+      "honest": true,
+      "fx": {
+        "order": -7,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Accept the offer",
+      "fx": {
+        "order": 3,
+        "mood": 2,
+        "inst": -4
+      },
+      "drift": -22,
+      "setFlags": [
+        "cheated_election"
+      ]
+    }
+  },
+  {
+    "id": "el_r_flag",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "weight": 2,
+    "text": "There is a foreign threat that could be made rather larger by Thursday. The evidence is thin and the footage is dramatic.",
+    "left": {
+      "label": "Run on the record",
+      "honest": true,
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Run the footage",
+      "fx": {
+        "mood": 4,
+        "inst": -3
+      },
+      "drift": -20,
+      "setFlags": [
+        "cheated_election",
+        "dirty_politics"
+      ]
+    }
+  }
+]

@@ -45,3 +45,47 @@ describe("content", () => {
     }
   });
 });
+
+/**
+ * Elections are the loudest recurring beat in a run, and until BACKLOG item 1 they were
+ * identical for both sides. These lock in the distinction and the rule the rebalance taught.
+ */
+describe("elections", () => {
+  const elections = content.cards.filter((c) => c.type === "election");
+
+  it("writes elections per side, weighted so a player mostly sees their own", () => {
+    for (const align of ["left", "right"] as const) {
+      const own = elections.filter((c) => c.align === align);
+      expect(own.length, `${align} elections`).toBeGreaterThanOrEqual(4);
+      // At least one must be unconditional, or the side deck may never come up.
+      expect(own.some((c) => !c.cond), `${align} has an unconditional election`).toBe(true);
+    }
+    const weight = (a: string) => elections.filter((c) => c.align === a && !c.cond).reduce((n, c) => n + (c.weight ?? 1), 0);
+    expect(weight("left")).toBeGreaterThan(weight("any"));
+    expect(weight("right")).toBeGreaterThan(weight("any"));
+  });
+
+  it("keeps shared cards for the moves that belong to neither side", () => {
+    const shared = elections.filter((c) => c.align === "any").map((c) => c.id);
+    expect(shared).toContain("e_rig");
+    expect(shared).toContain("e_abolish");
+  });
+
+  it("charges the honest side in treasure or order, never mainly in votes", () => {
+    // Honesty that also costs Mood compounds into losing the next election, turning a
+    // costly choice into a death spiral. The cheat side must stay the cheap-looking one.
+    for (const c of elections) {
+      const honest = [c.left, c.right].find((s) => s.honest);
+      expect(honest, `${c.id} has an honest side`).toBeTruthy();
+      expect(honest!.fx?.mood ?? 0, `${c.id} honest mood cost`).toBeGreaterThan(-3);
+      const cost = (honest!.fx?.money ?? 0) + (honest!.fx?.order ?? 0);
+      expect(cost, `${c.id} honest side should cost money or order`).toBeLessThan(0);
+    }
+  });
+
+  it("gives every election exactly one honest side", () => {
+    for (const c of elections) {
+      expect([c.left, c.right].filter((s) => s.honest).length, c.id).toBe(1);
+    }
+  });
+});

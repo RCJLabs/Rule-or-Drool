@@ -9,7 +9,9 @@ import era1Left2 from "./cards/era1/left2.json";
 import era1Right from "./cards/era1/right.json";
 import era1Right2 from "./cards/era1/right2.json";
 import era1Queued from "./cards/era1/queued.json";
-import era1Elections from "./cards/era1/elections.json";
+import electionsShared from "./cards/elections/shared.json";
+import electionsLeft from "./cards/elections/left.json";
+import electionsRight from "./cards/elections/right.json";
 import era2Any from "./cards/era2/any.json";
 import era2Any2 from "./cards/era2/any2.json";
 import era2Sides from "./cards/era2/sides.json";
@@ -70,7 +72,9 @@ export const content: Content = {
     ...asCards(era1Right, "era1/right.json"),
     ...asCards(era1Right2, "era1/right2.json"),
     ...asCards(era1Queued, "era1/queued.json"),
-    ...asCards(era1Elections, "era1/elections.json"),
+    ...asCards(electionsShared, "elections/shared.json"),
+    ...asCards(electionsLeft, "elections/left.json"),
+    ...asCards(electionsRight, "elections/right.json"),
     ...asCards(era2Any, "era2/any.json"),
     ...asCards(era2Any2, "era2/any2.json"),
     ...asCards(era2Sides, "era2/sides.json"),
