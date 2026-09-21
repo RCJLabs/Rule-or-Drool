@@ -1,0 +1,14 @@
+[
+  { "id": "adv_brenn", "role": "treasurer", "name": "Odalys Brenn", "traits": ["competent"] },
+  { "id": "adv_vole", "role": "treasurer", "name": "Tamsin Vole", "traits": ["corrupt"] },
+  { "id": "adv_stannic", "role": "general", "name": "General Aurel Stannic", "traits": ["loyal"] },
+  { "id": "adv_corvo", "role": "general", "name": "General Ines Corvo", "traits": ["zealot"] },
+  { "id": "adv_larkwood", "role": "spin", "name": "Pim Larkwood", "traits": ["corrupt"] },
+  { "id": "adv_hollen", "role": "chief", "name": "Beatrix Hollen", "traits": ["competent"] },
+  { "id": "adv_adame", "role": "judge", "name": "Justice Ferro Adame", "traits": ["competent"] },
+  { "id": "adv_maraki", "role": "scientist", "name": "Dr. Wen Maraki", "traits": ["competent"] },
+  { "id": "adv_vast", "role": "tycoon", "name": "Lucian Vast", "traits": ["corrupt"] },
+  { "id": "adv_quill", "role": "organizer", "name": "Rosa Quill", "traits": ["zealot"] },
+  { "id": "adv_wrenne", "role": "rival", "name": "Cassius Wrenne", "traits": ["loyal"] },
+  { "id": "adv_dunmore", "role": "rival", "name": "Sable Dunmore", "traits": ["competent"] }
+]

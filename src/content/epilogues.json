@@ -1,0 +1,11 @@
+[
+  { "band": "decay", "align": "any", "era": 1, "text": "Your successor kept the easy habits. Within a generation the ministries were sponsors first and ministries second." },
+  { "band": "decay", "align": "any", "era": 2, "text": "The schools closed one at a time. The screens never did. The country forgot how the bridges worked." },
+  { "band": "decay", "align": "any", "era": 3, "text": "The last engineer died without an apprentice. The garbage, at least, was very well advertised." },
+  { "band": "muddle", "align": "any", "era": 1, "text": "The country carried on, as countries do. Some things got fixed, some things got worse, and the two lists were roughly the same length." },
+  { "band": "muddle", "align": "any", "era": 2, "text": "Generations passed in a comfortable, exhausting stalemate. Nobody won. Nobody had to." },
+  { "band": "muddle", "align": "any", "era": 3, "text": "Centuries on, the country is a footnote in someone else's history, and honestly not a bad one." },
+  { "band": "ascent", "align": "any", "era": 1, "text": "Your successor inherited institutions that worked, which turned out to be the whole trick." },
+  { "band": "ascent", "align": "any", "era": 2, "text": "The schools produced engineers. The engineers produced ships. The ships were dull and safe and left on schedule." },
+  { "band": "ascent", "align": "any", "era": 3, "text": "The country is remembered for being competent, which is rarer than being great and lasts longer." }
+]

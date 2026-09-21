@@ -1,0 +1,66 @@
+[
+  {
+    "id": "q_illiterate_ballot",
+    "type": "event",
+    "align": "any",
+    "eras": [1, 2, 3],
+    "bands": ["decay", "muddle", "ascent"],
+    "speaker": "spin",
+    "text": "The class you starved is graduating. The ballot now needs pictures, and the printers want a bigger budget for pictures.",
+    "cond": { "flags": ["schools_starved"] },
+    "weight": 0,
+    "left": { "label": "Add the pictures", "fx": { "money": -3 }, "drift": -2 },
+    "right": { "label": "Fund literacy", "fx": { "money": -6, "mood": -2 }, "drift": 3, "clearFlags": ["schools_starved"] }
+  },
+  {
+    "id": "q_bridge_collapse",
+    "type": "event",
+    "align": "any",
+    "eras": [1, 2, 3],
+    "bands": ["decay", "muddle", "ascent"],
+    "speaker": "chief",
+    "text": "The river bridge fell into the river. There was a bus on it.",
+    "cond": { "flags": ["bridge_ignored"] },
+    "weight": 0,
+    "left": { "label": "Blame the inspectors", "fx": { "mood": -3, "inst": -3 }, "drift": -3 },
+    "right": { "label": "Take responsibility", "fx": { "mood": -6, "inst": 2 }, "drift": 3 }
+  },
+  {
+    "id": "q_coast_flood",
+    "type": "event",
+    "align": "any",
+    "eras": [1, 2, 3],
+    "bands": ["decay", "muddle", "ascent"],
+    "speaker": "scientist",
+    "text": "The coast flooded on schedule. The second study was very thorough.",
+    "cond": { "notFlags": ["seawall"] },
+    "weight": 0,
+    "left": { "label": "Emergency relief", "fx": { "money": -8, "mood": -2 }, "drift": 2 },
+    "right": { "label": "Call it an act of God", "fx": { "mood": -5, "order": -3 }, "drift": -3 }
+  },
+  {
+    "id": "q_fever_spreads",
+    "type": "event",
+    "align": "any",
+    "eras": [1, 2, 3],
+    "bands": ["decay", "muddle", "ascent"],
+    "speaker": "scientist",
+    "text": "The fever reached the capital by rail.",
+    "weight": 0,
+    "left": { "label": "Lock down the city", "fx": { "money": -5, "order": -3, "mood": -4 }, "drift": 2 },
+    "right": { "label": "Reassure everyone", "fx": { "mood": 2, "order": -3, "inst": -2 }, "drift": -3 }
+  },
+  {
+    "id": "q_housing_shortage",
+    "type": "event",
+    "align": "any",
+    "eras": [1, 2, 3],
+    "bands": ["decay", "muddle", "ascent"],
+    "speaker": "treasurer",
+    "text": "Nobody builds apartments anymore. The waiting list is longer than a novel.",
+    "cond": { "notFlags": ["housing_built"] },
+    "weight": 0,
+    "left": { "label": "Lift the freeze", "fx": { "mood": -5, "money": 3 }, "drift": 2 },
+    "right": { "label": "Extend it", "fx": { "mood": 2, "money": -3 }, "drift": -2 }
+  }
+]
