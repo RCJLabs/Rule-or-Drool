@@ -9,8 +9,8 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 3 | Swipe UI, first human playtest | Built and deployed; playtest is yours |
 | 4 | Elections, arcs, cabinet, run setup; harness targets met | Done |
 | 5 | Bulk content to MVP scope | Done |
-| 6 | Meta: codex, objectives, unlocks, daily seed, save migration | **Done** (this commit) |
-| 7 | PWA, then TWA | Next |
+| 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
+| 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
 ## Phase 1: what shipped
 
@@ -595,18 +595,90 @@ section 12 requires.
 - **The codex is 29 entries against the 50+ the spec wants at full scope.** Twenty endings
   is the MVP number and it is met; the rest arrives with the last two eras.
 
-## Phase 7 notes (next)
+## Phase 7: what shipped
 
-Service worker, manifest, offline play, then TWA packaging for Play.
+The web app is a complete installable PWA that plays with the network switched off. The
+Android half is documented and configured but cannot be built from here, and one real
+blocker stands in its way.
 
-- The bundle is **409 kB, 117 kB gzipped**, most of it inlined content JSON. It all has to
-  be cached for offline play, which is fine for a service worker but worth measuring before
-  deciding whether to split content out and cache it separately.
-- Section 12's convention takes effect properly here: every deploy bumps `APP_VERSION` in
-  `src/version.ts` and `CACHE_NAME` in `public/sw.js` **together**. There is no `public/sw.js`
-  yet; creating it is the first phase 7 task.
-- Two save versions now exist and both migrate forward. A service worker that serves a stale
-  bundle against newer saves is the failure mode to avoid, so the worker should activate on
-  update rather than wait for every tab to close.
-- Section 13 flags that Google Play review for political satire has not been checked against
-  current policy. Do that before building the TWA, not after.
+- **Manifest and icons.** `public/manifest.webmanifest` with standalone display, portrait
+  orientation, theme and background colours matching the muddle frame, and four icons:
+  192 and 512 in both `any` and `maskable` purposes, plus a 180px Apple touch icon. They are
+  rendered from SVG through headless Chromium, so there are still no binary art assets in
+  the repo's source, only generated output.
+- **Service worker** at `public/sw.js`. Cache-first for precached files, and every
+  navigation resolves to the cached shell, which is what actually makes offline play work.
+  Non-GET and cross-origin requests are left alone.
+- **The precache list is generated at build time.** Vite content-hashes asset filenames, so
+  a hand-written worker cannot know them. A small plugin in `vite.config.ts` rewrites
+  `dist/sw.js` after the build with the files that were really emitted, and derives
+  `CACHE_NAME` from `APP_VERSION`. **Section 12's convention is now enforced rather than
+  remembered**: the two cannot drift, and `tests/pwa.test.ts` checks the literal in the
+  source still matches.
+- **Updates never interrupt a run.** The worker deliberately does not call `skipWaiting` on
+  install. A new version installs and waits, the page shows a small "A new version is ready"
+  banner, and only when the player taps Reload does the new worker take over. This reverses
+  the note left at the end of phase 6, which argued for activating immediately; with local
+  saves and twenty-minute runs, swapping the bundle mid-run is the worse failure.
+
+### Verified in a real browser, offline
+
+Driven through headless Chromium against the production build, with `setOffline(true)`:
+
+| Check | Result |
+|---|---|
+| Worker scope | `/Rule-or-Drool/`, activated and controlling |
+| Cache after first load | `rod-v0.7.0`, 10 entries |
+| Reload with the network cut | app loads from cache |
+| Play with the network cut | six cards swiped, no errors |
+| Non-ok requests from the app | none |
+
+### The TWA blocker, which is worth knowing now
+
+**Digital Asset Links must be served from the origin root**, at
+`https://rcjlabs.github.io/.well-known/assetlinks.json`. That path belongs to the user Pages
+site, a different repository, and this project can only publish under `/Rule-or-Drool/`.
+A file placed under the project path will not be read. Without verification a TWA still
+runs, but it keeps a Chrome address bar across the top, which defeats the point of wrapping
+it at all.
+
+The fix is a custom domain for the game, or adding the file to the `rcjlabs.github.io`
+repository. `twa/README.md` sets out both, with the Bubblewrap steps and a filled-in
+`twa/twa-manifest.json`.
+
+### Play policy: still unverified, and that was the instruction
+
+Section 13 asked for this to be checked **before** phase 7. It has not been, and not for
+lack of trying: the sandbox this was built in cannot reach Google's policy pages, which are
+blocked by the network egress proxy. Rather than guess at current policy wording, `twa/README.md`
+carries a checklist to work through in the Play Console: elections and political content,
+sensitive events, the content rating questionnaire, store listing wording, and the target
+API level. **Do that before building the package, not after.** The one thing already in the
+game's favour is structural: section 3's rule that everything is fictional was followed
+throughout, so there are no real parties, people or countries anywhere in the content.
+
+## Where the project stands
+
+All seven phases are built. The game is playable at
+https://rcjlabs.github.io/Rule-or-Drool/, installs to a home screen, and runs offline.
+
+| | |
+|---|---|
+| Content | 329 cards, 14 arcs, 20 endings, 18 advisors, 15 modifiers |
+| Tests | 164, covering engine, content, harness, validator, UI, meta and PWA |
+| Balance | all five section 8 targets pass, locked and unlocked |
+| Gates in CI | typecheck, tests, and the strict MVP content gate |
+
+### What is genuinely left
+
+1. **A human playtest.** Never done. Section 13 predicted the harness cannot tell whether
+   temptation feels tempting, and it still cannot. The checklist under phase 3 is the thing
+   to work through.
+2. **The voice edit pass** over cards written to one effect budget in one sitting, per the
+   note under phase 5.
+3. **The saint problem.** A perfectly honest player still dies before era 2 in every single
+   run. Passing the target is not the same as being right.
+4. **Play packaging**, blocked on the asset links decision and the policy check above.
+5. **Post-MVP scope** from section 10: eras 4 and 5, a thousand cards, forty arcs, fifty
+   endings. The engine, validator and harness were built for that scale and do not need
+   changing to reach it.

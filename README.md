@@ -9,10 +9,18 @@ before changing anything.
 
 ## Status
 
-Phase 6 of 7: engine, balance harness, content validator, swipe UI, the systems layer
+All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
-20 endings across three eras), and meta progression (codex, objectives, unlocks, daily seed).
-All section 8 balance targets met. Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
+20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and
+an installable offline PWA. All section 8 balance targets met.
+
+Playable at https://rcjlabs.github.io/Rule-or-Drool/ — it installs to a home screen and runs
+with no network. Add `?debug=1` to see the hidden numbers; `[` and `]` shift drift to preview
+the frame theming.
+
+Play packaging is documented in `twa/README.md` but not built: it is blocked on where the
+Digital Asset Links file can be served, and on a Play policy check this sandbox could not
+reach. Both are explained there. (add `?debug=1` to see the hidden
 numbers; `[` and `]` shift drift to preview the frame theming).
 
 ## Commands
@@ -45,6 +53,8 @@ src/sim/       bot policies, headless run loop, report and target checks
 src/validate/  JSON schema checker, semantic rules, disk loader (dependency-free)
 src/ui/        React app: setup, play (card, meters, frame theming), era transition, ending, codex
 src/meta/      progression: objectives, unlocks, daily seed, versioned meta save
+public/        manifest, service worker, generated icons
+twa/           Play packaging config and the blockers to clear first
 scripts/       simulate.ts (harness CLI), validate-content.ts (validator CLI)
 tests/         vitest suites, fixture content, and tests/fixtures/broken (a root that
                trips every validator rule on purpose)

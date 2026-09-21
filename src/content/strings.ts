@@ -93,5 +93,7 @@ export const STRINGS = {
     earned: "Earned this run",
     locked: "Not yet discovered",
     unlocked: "Unlocked",
+    updateReady: "A new version is ready.",
+    reload: "Reload",
   },
 } as const;

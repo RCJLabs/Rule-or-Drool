@@ -1,0 +1,23 @@
+{
+  "packageId": "io.github.rcjlabs.ruleordrool",
+  "host": "rcjlabs.github.io",
+  "name": "Rule or Drool",
+  "launcherName": "Rule or Drool",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#f1ebdf",
+  "navigationColor": "#f1ebdf",
+  "backgroundColor": "#f1ebdf",
+  "startUrl": "/Rule-or-Drool/",
+  "webManifestUrl": "https://rcjlabs.github.io/Rule-or-Drool/manifest.webmanifest",
+  "iconUrl": "https://rcjlabs.github.io/Rule-or-Drool/icons/icon-512.png",
+  "maskableIconUrl": "https://rcjlabs.github.io/Rule-or-Drool/icons/icon-maskable-512.png",
+  "appVersionName": "0.7.0",
+  "appVersionCode": 1,
+  "shellApkVersion": 0,
+  "signingKey": { "path": "REPLACE_WITH_PATH_TO/android.keystore", "alias": "ruleordrool" },
+  "enableNotifications": false,
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": { "enabled": false }
+}
