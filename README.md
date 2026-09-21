@@ -9,7 +9,8 @@ before changing anything.
 
 ## Status
 
-Phase 1 of 7: pure engine, placeholder content and the balance harness. No UI yet.
+Phase 2 of 7 done: pure engine, placeholder content, balance harness and content validator.
+No UI yet.
 
 ## Commands
 
@@ -17,12 +18,17 @@ Phase 1 of 7: pure engine, placeholder content and the balance harness. No UI ye
 npm install
 npm test               # vitest: engine, content and harness tests
 npm run typecheck      # tsc --noEmit
+npm run validate       # content validator; exit 1 on any error
+npm run validate:mvp   # the phase 5 gate: every era, 25 cards per cell, warnings fail
+npm run check          # typecheck + test + validate (what CI runs)
 npm run simulate       # 10k seeded runs per bot, prints the section 8 report
 npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThreshold=30
 ```
 
-`--set key=value` overrides any numeric engine constant for a batch (see
-`src/engine/config.ts`). `--strict` exits 1 when a target misses.
+`simulate --set key=value` overrides any numeric engine constant for a batch (see
+`src/engine/config.ts`); `--strict` exits 1 when a target misses. `validate` takes
+`--root`, `--min-cell`, `--eras auto|all|1,2`, `--strict`, `--quiet`; see ROADMAP.md for the
+rule list and codes.
 
 ## Layout
 
@@ -30,8 +36,10 @@ npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThresh
 src/engine/    pure, serializable game engine (types, rng, state, draw, resolve, preview)
 src/content/   JSON content: cards/era1, advisors, endings, epilogues, modifiers, strings.ts
 src/sim/       bot policies, headless run loop, report and target checks
-scripts/       simulate.ts (harness CLI); validate-content.ts arrives in phase 2
-tests/         vitest suites and fixture content
+src/validate/  JSON schema checker, semantic rules, disk loader (dependency-free)
+scripts/       simulate.ts (harness CLI), validate-content.ts (validator CLI)
+tests/         vitest suites, fixture content, and tests/fixtures/broken (a root that
+               trips every validator rule on purpose)
 ```
 
 The engine never touches content directly: `buildLibrary(content, configOverrides)` indexes a

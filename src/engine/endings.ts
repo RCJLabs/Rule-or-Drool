@@ -10,7 +10,7 @@ export function epilogueKey(e: Pick<Epilogue, "band" | "align" | "era">): string
  * Pick the epilogue for a band/align/era, preferring an align-specific text, then an
  * "any" text, then the nearest earlier era of either. Returns null if nothing matches.
  */
-export function findEpilogue(lib: Library, band: Band, align: PlayerAlign, era: number): Epilogue | null {
+export function findEpilogue(lib: Pick<Library, "epilogues">, band: Band, align: PlayerAlign, era: number): Epilogue | null {
   let best: Epilogue | null = null;
   let bestScore = -1;
   for (const e of lib.epilogues) {

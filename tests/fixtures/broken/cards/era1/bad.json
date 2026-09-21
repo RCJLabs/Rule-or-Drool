@@ -1,0 +1,96 @@
+[
+  {
+    "id": "dup_card", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "First.",
+    "left": { "label": "A", "fx": { "mood": 2 }, "drift": -1 }, "right": { "label": "B", "fx": { "mood": -2 }, "drift": 1 }
+  },
+  {
+    "id": "dup_card", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Second.",
+    "left": { "label": "A", "fx": { "mood": 2 }, "drift": -1 }, "right": { "label": "B", "fx": { "mood": -2 }, "drift": 1 }
+  },
+  {
+    "id": "typo_card", "type": "event", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Typo.", "oneshot": true,
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "Bad-Id", "type": "event", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Bad id.",
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "missing_text", "type": "evnt", "align": "any", "eras": ["1"], "bands": ["muddle"], "speaker": "chief",
+    "left": { "label": "A", "drift": -1, "fx": { "happiness": 3 } }, "right": { "label": "B", "drift": 1, "enqueue": [{ "id": "dup_card", "delay": 0 }] }
+  },
+  {
+    "id": "dangling", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Dangling.",
+    "left": { "label": "A", "enqueue": [{ "id": "nope", "delay": 2 }], "next": "nada", "ending": "gone", "drift": -1 },
+    "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "flag_mess", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Flags.",
+    "cond": { "flags": ["ghost"] },
+    "left": { "label": "A", "setFlags": ["never_read"], "clearFlags": ["phantom"], "drift": -1 },
+    "right": { "label": "B", "setFlags": ["twin"], "clearFlags": ["twin"], "drift": 1 }
+  },
+  {
+    "id": "same_signs", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Same.",
+    "left": { "label": "A", "fx": { "mood": 3 }, "drift": -1 }, "right": { "label": "B", "fx": { "mood": 1 }, "drift": -2 }
+  },
+  {
+    "id": "el_two_honest", "type": "election", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Election.",
+    "cond": { "flags": ["ghost"] },
+    "left": { "label": "A", "honest": true, "drift": 2 }, "right": { "label": "B", "honest": true, "drift": -2 }
+  },
+  {
+    "id": "honest_event", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Honest event.",
+    "left": { "label": "A", "honest": true, "drift": -1 }, "right": { "label": "B", "electionDelay": 3, "drift": 1 }
+  },
+  {
+    "id": "long_winded", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief",
+    "text": "This card text goes on and on, past the one hundred and sixty character guideline in the content plan, purely so that the validator has something to warn about here.",
+    "left": { "label": "This label is far too long for a card", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "impossible", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Impossible.",
+    "cond": { "flags": ["x"], "notFlags": ["x"], "meters": { "mood": { "gt": 60, "lt": 40 }, "money": { "lt": 0 }, "order": { "gt": 100 } } },
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "orphan", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Orphan.", "weight": 0,
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "no_speaker", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "nobody", "text": "Speaker.",
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "zero_fx", "type": "event", "align": "any", "eras": [1, 9], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Zero.",
+    "left": { "label": "A", "fx": { "mood": 0, "money": 2 }, "drift": -1 }, "right": { "label": "B", "fx": { "money": -2 }, "drift": 1 }
+  },
+  {
+    "id": "arc_orphan", "type": "arc", "arc": "arc_missing", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Arc orphan.",
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "event_in_arc", "type": "event", "arc": "arc_loop", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Event in arc.",
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "arc_l1", "type": "arc", "arc": "arc_loop", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Loop 1.",
+    "left": { "label": "A", "next": "arc_l2", "drift": -1 }, "right": { "label": "B", "next": "arc_l2", "drift": 1 }
+  },
+  {
+    "id": "arc_l2", "type": "arc", "arc": "arc_loop", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Loop 2.",
+    "left": { "label": "A", "next": "arc_l1", "drift": -1 }, "right": { "label": "B", "next": "arc_l1", "drift": 1 }
+  },
+  {
+    "id": "arc_u1", "type": "arc", "arc": "arc_unreach", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Unreach 1.",
+    "left": { "label": "A", "next": "dup_card", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "arc_u2", "type": "arc", "arc": "arc_unreach", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Unreach 2.",
+    "left": { "label": "A", "drift": -1 }, "right": { "label": "B", "drift": 1 }
+  },
+  {
+    "id": "arc_d1", "type": "arc", "arc": "arc_dead", "align": "any", "eras": [1], "bands": ["muddle"], "speaker": "chief", "text": "Dead arc.",
+    "left": { "label": "A", "ending": "only_via_dead", "drift": -1 }, "right": { "label": "B", "ending": "only_via_dead", "drift": 1 }
+  }
+]

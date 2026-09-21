@@ -4,9 +4,9 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 
 | # | Phase | Status |
 |---|---|---|
-| 1 | Engine + harness | **Done** (this commit) |
-| 2 | Validator (`scripts/validate-content.ts`) | Next |
-| 3 | Swipe UI, first human playtest | |
+| 1 | Engine + harness | Done |
+| 2 | Validator (`scripts/validate-content.ts`) | **Done** (this commit) |
+| 3 | Swipe UI, first human playtest | Next |
 | 4 | Elections, arcs, cabinet, run setup; harness targets met | |
 | 5 | Bulk content to MVP scope | |
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | |
@@ -122,9 +122,55 @@ Change any of these by editing `src/engine/config.ts` or the types; tests cover 
 - Keep `eraMeterPull` at 0.5, or let inherited crises carry over in full.
 - Monetization and one-alignment-steeper tuning remain open from TRANSFER.md.
 
-## Phase 2 notes (next)
+## Phase 2: what shipped
 
-The validator should treat `elections_abolished` as read by the engine, `weight: 0` cards as
-reachable only via enqueue/next/arcs, and the finale, coup, election-loss and meter-extreme
-ending ids as reachable by construction. `tests/content.test.ts` holds the smoke version of the
-flag and reference checks; move them into the validator and keep the test as a guard.
+- `src/validate/`: a dependency-free schema checker for the raw JSON (unknown fields, wrong
+  types, bad enums, id pattern, ranges, duplicate entries, exact paths in every message), the
+  semantic rules below, a disk loader that classifies every file under a content root, and a
+  cross-check that every item on disk is imported by `src/content/index.ts` and vice versa.
+- `scripts/validate-content.ts`: the CLI. `npm run validate` is the day-to-day check;
+  `npm run validate:mvp` is the gate for phase 5 (`--eras all --min-cell 25 --strict`).
+- `.github/workflows/ci.yml`: typecheck, tests and validator on every push and pull request,
+  so "fails CI" in section 8 means something.
+- `tests/fixtures/broken/`: a content root that trips every rule on purpose, plus
+  `tests/fixtures/valid.ts`, a minimal set the validator accepts with zero issues. Tests
+  cover each rule in isolation, the broken root, the shipped root, and the CLI exit codes.
+
+### Rules and their codes
+
+Errors fail the run. Warnings pass unless `--strict`.
+
+| Code | Level | Rule |
+|---|---|---|
+| `schema`, `json-syntax`, `file-unclassified`, `file-missing` | error | Malformed JSON, unknown or mistyped fields, stray files, missing `advisors/modifiers/endings/epilogues.json`. Schema-failed items are dropped before semantic checks. |
+| `duplicate-id` | error | Duplicate card, arc, ending, advisor, modifier id or epilogue band:align:era. |
+| `unknown-ref` | error | `enqueue`, `next`, `ending`, `arc`, arc `cards` or modifier `arcWeights` naming an id that does not exist. |
+| `flag-unread`, `flag-unset`, `flag-cleared-unset`, `flag-set-and-cleared` | error | Flags must be both set and read. `elections_abolished` counts as read by the engine (only a warning if nothing sets it). |
+| `arc-unreachable`, `arc-no-exit`, `arc-membership`, `arc-next-outside`, `arc-dead` | error | Every listed arc card reachable from the entry card via `next`; some reachable choice must exit (no `next`, or an `ending`); membership consistent both ways with `type: "arc"`; `next` stays inside the arc; weight 0 arcs never start. |
+| `arc-cycle`, `next-into-arc` | warn | A `next` loop; a plain card's `next`/`enqueue` jumping into an arc card. |
+| `ending-unreachable`, `ending-missing` | error | Every ending is named by a reachable card or by the engine (meter extremes, election loss, coup, finales); every engine ending is defined. |
+| `card-unreachable` | error | A non-arc card with `weight: 0` (or type `ending`) that nothing enqueues or points at. |
+| `cell-thin` | error | Fewer than `--min-cell` eligible event cards for an era × band × align (default 16, cooldown + 1). |
+| `election-missing` | error | No unconditional election card for an era × band × align, which would let a due election be skipped. |
+| `epilogue-missing` | error | No epilogue resolves for a band × align × era. |
+| `election-honest`, `honest-misplaced` | error | Election cards mark exactly one honest side; `honest`/`electionDelay` only on election cards. |
+| `speaker-unknown` | error | Speaker role with no advisor. |
+| `cond-unsatisfiable` | error | A flag both required and forbidden; meter bounds outside 0..100 or leaving no integer. |
+| `no-tradeoff` | warn | Both choices move every meter and drift in the same direction (section 8). |
+| `text-length`, `label-length`, `fx-zero`, `era-out-of-range`, `era-empty`, `trait-unknown`, `ending-card` | warn | Content-plan limits (160 / 24 characters), zero effects, eras beyond `eraCount`, eras with no cards in `auto` mode, unknown advisor traits, `ending` cards that do not end on both sides. |
+| `not-imported`, `not-on-disk` | error | Real content only: disk and `src/content/index.ts` disagree. |
+
+`--eras auto` (default) checks only eras that have event cards and warns about the rest, so
+the placeholders pass today; the phase 5 gate uses `--eras all`. Ids are lowercase
+snake_case by rule; loosen `ID_PATTERN` in `src/validate/schema.ts` if that gets in the way.
+
+Not checked, on purpose: whether a card's `cond` is ever satisfiable at runtime (that needs
+simulation, and the harness's `relaxed draws` already shows starved cells), and card
+reachability through arcs beyond "the arc can start".
+
+## Phase 3 notes (next)
+
+Vite + React scaffolding arrives with the UI; keep `src/engine` and `src/validate` free of
+DOM imports so the harness and validator keep running under tsx. The engine's `preview()`
+returns `affected` meters for the drag hint and `endingId` for the death preview, and
+`GameState.current` is the card on the table, so a save mid-card restores cleanly.

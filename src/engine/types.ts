@@ -21,6 +21,9 @@ export type CardType = "event" | "arc" | "election" | "ending";
 
 export const METER_KEYS: readonly MeterKey[] = ["mood", "money", "order", "inst"];
 export const BANDS: readonly Band[] = ["decay", "muddle", "ascent"];
+export const ALIGNS: readonly Align[] = ["left", "right", "any"];
+export const PLAYER_ALIGNS: readonly PlayerAlign[] = ["left", "right"];
+export const CARD_TYPES: readonly CardType[] = ["event", "arc", "election", "ending"];
 
 export type Meters = Record<MeterKey, number>;
 

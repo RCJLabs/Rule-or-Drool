@@ -1,0 +1,16 @@
+[
+  { "id": "riots", "title": "t", "text": "t" },
+  { "id": "personality_cult", "title": "t", "text": "t" },
+  { "id": "bankruptcy", "title": "t", "text": "t" },
+  { "id": "oligarchy", "title": "t", "text": "t" },
+  { "id": "anarchy", "title": "t", "text": "t" },
+  { "id": "police_state", "title": "t", "text": "t" },
+  { "id": "state_collapse", "title": "t", "text": "t" },
+  { "id": "paralysis", "title": "t", "text": "t" },
+  { "id": "election_loss", "title": "t", "text": "t" },
+  { "id": "finale_decay", "title": "t", "text": "t" },
+  { "id": "finale_muddle", "title": "t", "text": "t" },
+  { "id": "finale_ascent", "title": "t", "text": "t" },
+  { "id": "lonely", "title": "Lonely", "text": "Nothing leads here." },
+  { "id": "only_via_dead", "title": "Dead", "text": "Only a weight-0 arc leads here." }
+]

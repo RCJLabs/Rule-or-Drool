@@ -1,0 +1,5 @@
+[
+  { "id": "arc_loop", "align": "any", "entry": { "eras": [1], "bands": ["muddle"] }, "weight": 1, "cards": ["arc_l1", "arc_l2"] },
+  { "id": "arc_unreach", "align": "any", "entry": { "eras": [1], "bands": ["muddle"] }, "weight": 1, "cards": ["arc_u1", "arc_u2"] },
+  { "id": "arc_dead", "align": "any", "entry": { "eras": [1], "bands": ["muddle"] }, "weight": 0, "cards": ["arc_d1"] }
+]
