@@ -1,16 +1,199 @@
 [
-  { "id": "crisis_recession", "kind": "crisis", "meterStart": { "money": -16, "mood": -4 }, "flags": ["crisis_recession"], "arcWeights": { "arc_cabinet_plot": 1.5 } },
-  { "id": "crisis_pandemic", "kind": "crisis", "meterStart": { "mood": -10, "money": -6 }, "flags": ["crisis_pandemic"], "arcWeights": { "arc_moonshot": 1.4 } },
-  { "id": "crisis_war", "kind": "crisis", "meterStart": { "order": 10, "money": -12, "mood": -4 }, "flags": ["crisis_war"], "arcWeights": { "arc_term_limits": 1.6 } },
-  { "id": "crisis_disaster", "kind": "crisis", "meterStart": { "money": -10, "mood": -6, "order": -4 }, "flags": ["crisis_disaster"], "arcWeights": { "arc_moonshot": 1.3 } },
-
-  { "id": "trait_orator", "kind": "trait", "meterStart": { "mood": 10 }, "arcWeights": { "arc_term_limits": 1.3 } },
-  { "id": "trait_technocrat", "kind": "trait", "meterStart": { "inst": 10, "mood": -2 }, "arcWeights": { "arc_moonshot": 1.8 } },
-  { "id": "trait_fixer", "kind": "trait", "meterStart": { "money": 10 }, "arcWeights": { "arc_cabinet_plot": 1.4 } },
-  { "id": "trait_war_hero", "kind": "trait", "meterStart": { "order": 10, "inst": -2 }, "arcWeights": { "arc_term_limits": 1.4 } },
-
-  { "id": "flaw_vain", "kind": "flaw", "meterStart": { "mood": 4, "inst": -4 }, "flags": ["flaw_vain"], "arcWeights": { "arc_term_limits": 1.5 } },
-  { "id": "flaw_greedy", "kind": "flaw", "meterStart": { "money": 6, "inst": -6 }, "flags": ["flaw_greedy"], "arcWeights": { "arc_cabinet_plot": 1.8 } },
-  { "id": "flaw_paranoid", "kind": "flaw", "meterStart": { "order": 6, "mood": -6 }, "flags": ["flaw_paranoid"], "arcWeights": { "arc_cabinet_plot": 1.3 } },
-  { "id": "flaw_naive", "kind": "flaw", "meterStart": { "inst": 6, "money": -6 }, "flags": ["flaw_naive"], "arcWeights": { "arc_moonshot": 1.2 } }
+  {
+    "id": "crisis_recession",
+    "kind": "crisis",
+    "meterStart": {
+      "money": -16,
+      "mood": -4
+    },
+    "flags": [
+      "crisis_recession"
+    ],
+    "arcWeights": {
+      "arc_cabinet_plot": 1.5
+    }
+  },
+  {
+    "id": "crisis_pandemic",
+    "kind": "crisis",
+    "meterStart": {
+      "mood": -10,
+      "money": -6
+    },
+    "flags": [
+      "crisis_pandemic"
+    ],
+    "arcWeights": {
+      "arc_moonshot": 1.4
+    }
+  },
+  {
+    "id": "crisis_war",
+    "kind": "crisis",
+    "meterStart": {
+      "order": 10,
+      "money": -12,
+      "mood": -4
+    },
+    "flags": [
+      "crisis_war"
+    ],
+    "arcWeights": {
+      "arc_term_limits": 1.6
+    }
+  },
+  {
+    "id": "crisis_disaster",
+    "kind": "crisis",
+    "meterStart": {
+      "money": -10,
+      "mood": -6,
+      "order": -4
+    },
+    "flags": [
+      "crisis_disaster"
+    ],
+    "arcWeights": {
+      "arc_moonshot": 1.3
+    }
+  },
+  {
+    "id": "trait_orator",
+    "kind": "trait",
+    "meterStart": {
+      "mood": 10
+    },
+    "arcWeights": {
+      "arc_term_limits": 1.3
+    }
+  },
+  {
+    "id": "trait_technocrat",
+    "kind": "trait",
+    "meterStart": {
+      "inst": 10,
+      "mood": -2
+    },
+    "arcWeights": {
+      "arc_moonshot": 1.8
+    }
+  },
+  {
+    "id": "trait_fixer",
+    "kind": "trait",
+    "meterStart": {
+      "money": 10
+    },
+    "arcWeights": {
+      "arc_cabinet_plot": 1.4
+    }
+  },
+  {
+    "id": "trait_war_hero",
+    "kind": "trait",
+    "meterStart": {
+      "order": 10,
+      "inst": -2
+    },
+    "arcWeights": {
+      "arc_term_limits": 1.4
+    }
+  },
+  {
+    "id": "flaw_vain",
+    "kind": "flaw",
+    "meterStart": {
+      "mood": 4,
+      "inst": -4
+    },
+    "flags": [
+      "flaw_vain"
+    ],
+    "arcWeights": {
+      "arc_term_limits": 1.5
+    }
+  },
+  {
+    "id": "flaw_greedy",
+    "kind": "flaw",
+    "meterStart": {
+      "money": 6,
+      "inst": -6
+    },
+    "flags": [
+      "flaw_greedy"
+    ],
+    "arcWeights": {
+      "arc_cabinet_plot": 1.8
+    }
+  },
+  {
+    "id": "flaw_paranoid",
+    "kind": "flaw",
+    "meterStart": {
+      "order": 6,
+      "mood": -6
+    },
+    "flags": [
+      "flaw_paranoid"
+    ],
+    "arcWeights": {
+      "arc_cabinet_plot": 1.3
+    }
+  },
+  {
+    "id": "flaw_naive",
+    "kind": "flaw",
+    "meterStart": {
+      "inst": 6,
+      "money": -6
+    },
+    "flags": [
+      "flaw_naive"
+    ],
+    "arcWeights": {
+      "arc_moonshot": 1.2
+    }
+  },
+  {
+    "id": "trait_dissident",
+    "kind": "trait",
+    "requires": "u_dissident",
+    "meterStart": {
+      "inst": 8,
+      "mood": -5
+    },
+    "arcWeights": {
+      "arc_impeachment": 1.6,
+      "arc_press": 1.4
+    }
+  },
+  {
+    "id": "trait_engineer",
+    "kind": "trait",
+    "requires": "u_engineer",
+    "meterStart": {
+      "inst": 6,
+      "money": 5,
+      "mood": -7
+    },
+    "arcWeights": {
+      "arc_moonshot": 2.0,
+      "arc_water": 1.5
+    }
+  },
+  {
+    "id": "trait_survivor",
+    "kind": "trait",
+    "requires": "u_survivor",
+    "meterStart": {
+      "order": 7,
+      "mood": 4,
+      "money": -5
+    },
+    "arcWeights": {
+      "arc_strongman": 1.4,
+      "arc_succession": 1.6
+    }
+  }
 ]

@@ -5,7 +5,7 @@ import { engineEndings, type RuleOptions } from "../../src/validate/rules";
 const bands = ["decay", "muddle", "ascent"] as const;
 
 /** A compact content set the validator accepts with zero issues under VALID_OPTIONS. */
-export const VALID_OPTIONS: Partial<RuleOptions> = { minCell: 2, eras: [1] };
+export const VALID_OPTIONS: Partial<RuleOptions> = { minCell: 2, eras: [1], unlockTokens: [] };
 
 export function makeValid(): Content {
   const base = { eras: [1], bands: [...bands] };

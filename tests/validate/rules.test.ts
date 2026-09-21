@@ -156,6 +156,25 @@ describe("rules: reachability", () => {
   });
 });
 
+describe("rules: unlocks", () => {
+  it("rejects a requires that no objective grants, and warns about a token nothing uses", () => {
+    const c = makeValid();
+    c.arcs[0]!.requires = "u_ghost";
+    c.modifiers[0]!.requires = "u_real";
+    const issues = run(c, { unlockTokens: ["u_real", "u_spare"] });
+    expect(issues.filter((i) => i.code === "unknown-unlock").map((i) => i.id)).toEqual(["arc_a"]);
+    expect(issues.filter((i) => i.code === "unlock-unused").map((i) => i.message)).toEqual([
+      'objectives grant "u_spare" but nothing requires it',
+    ]);
+  });
+
+  it("is silent when every token is both granted and required", () => {
+    const c = makeValid();
+    c.arcs[0]!.requires = "u_real";
+    expect(codes(c, { unlockTokens: ["u_real"] })).toEqual([]);
+  });
+});
+
 describe("rules: coverage", () => {
   it("fails thin cells and reports the count", () => {
     const issues = run(makeValid(), { minCell: 3 }).filter((i) => i.code === "cell-thin");

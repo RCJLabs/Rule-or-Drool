@@ -1,0 +1,28 @@
+[
+  {
+    "id": "arc_tr1", "type": "arc", "arc": "arc_truth", "step": 1,
+    "align": "any", "eras": [2, 3], "bands": ["decay", "muddle", "ascent"],
+    "speaker": "judge",
+    "text": "A commission into the century's abuses. Full powers means subpoenas and testimony. A limited review means a report nobody reads.",
+    "left": { "label": "Full powers", "fx": { "money": -5, "order": -4, "inst": 6 }, "drift": 7, "next": "arc_tr2", "setFlags": ["commission_open"] },
+    "right": { "label": "A limited review", "fx": { "order": 3, "money": 2, "inst": -3 }, "drift": -5 }
+  },
+  {
+    "id": "arc_tr2", "type": "arc", "arc": "arc_truth", "step": 2,
+    "align": "any", "eras": [2, 3], "bands": ["decay", "muddle", "ascent"],
+    "speaker": "chief",
+    "text": "The first volume names your own party, repeatedly, and two people currently in this building.",
+    "cond": { "flags": ["commission_open"] },
+    "left": { "label": "Publish it whole", "fx": { "mood": -6, "order": -3, "inst": 7 }, "drift": 7, "next": "arc_tr3" },
+    "right": { "label": "Redact two names", "fx": { "mood": 3, "order": 3, "inst": -6 }, "drift": -7, "clearFlags": ["commission_open"] }
+  },
+  {
+    "id": "arc_tr3", "type": "arc", "arc": "arc_truth", "step": 3,
+    "align": "any", "eras": [2, 3], "bands": ["decay", "muddle", "ascent"],
+    "speaker": "judge",
+    "text": "The commission recommends prosecuting nine people, four of whom still hold office and one of whom got you elected.",
+    "cond": { "flags": ["commission_open"] },
+    "left": { "label": "Prosecute all nine", "fx": { "mood": -5, "order": -5, "inst": 8 }, "drift": 9, "clearFlags": ["commission_open"] },
+    "right": { "label": "Pardon the four", "fx": { "order": 4, "mood": 3, "inst": -7 }, "drift": -8, "clearFlags": ["commission_open"] }
+  }
+]

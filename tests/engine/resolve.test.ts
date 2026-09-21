@@ -111,6 +111,38 @@ describe("resolve: advisor traits", () => {
   });
 });
 
+describe("resolve: run stats", () => {
+  const l = lib();
+
+  it("counts tempting, honest and neutral choices", () => {
+    let s = start(l);
+    s = resolve(l, table(s, "ev_fx"), "ev_fx", "left"); // drift +2
+    s = resolve(l, table(s, "ev_fx"), "ev_fx", "right"); // drift -2
+    s = resolve(l, table(s, "ev_fire"), "ev_fire", "left"); // drift +1, fires
+    expect(s.stats).toMatchObject({ honest: 2, tempting: 1, neutral: 0 });
+  });
+
+  it("counts elections by whether the honest side was taken", () => {
+    const won = start(l, { cabinet: { chief: "c0", general: "g0" } });
+    const honest = resolve(l, table(won, "el_basic"), "el_basic", "left");
+    expect(honest.stats).toMatchObject({ electionsHonest: 1, electionsCheated: 0 });
+    const cheat = resolve(l, table(won, "el_basic"), "el_basic", "right");
+    expect(cheat.stats).toMatchObject({ electionsHonest: 0, electionsCheated: 1 });
+  });
+
+  it("counts a firing only when someone was actually replaced", () => {
+    const s = start(l, { cabinet: { chief: "c2", general: "g0" } });
+    expect(resolve(l, table(s, "ev_fire"), "ev_fire", "left").stats.advisorsFired).toBe(1);
+    expect(resolve(l, table(s, "ev_fire"), "ev_fire", "right").stats.advisorsFired).toBe(0);
+  });
+
+  it("counts arcs as they are entered", () => {
+    const arcy = lib({ arcEntryProb: 1 });
+    const s = draw(arcy, start(arcy));
+    expect(s.stats.arcsEntered).toBe(1);
+  });
+});
+
 describe("resolve: endings", () => {
   it("ends the run on a choice ending, choosing the epilogue by exit band", () => {
     const l = lib();

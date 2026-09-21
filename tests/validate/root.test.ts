@@ -49,7 +49,7 @@ describe("validateRoot: shipped content", () => {
 });
 
 describe("validateRoot: broken fixture", () => {
-  const report = validateRoot("tests/fixtures/broken", { eras: [1], minCell: 1 });
+  const report = validateRoot("tests/fixtures/broken", { eras: [1], minCell: 1, unlockTokens: [] });
 
   it("fails loudly", () => {
     expect(report.errors).toBeGreaterThan(20);
@@ -108,7 +108,7 @@ describe("validateRoot: broken fixture", () => {
     const dir = mkdtempSync(join(tmpdir(), "rod-validate-"));
     mkdirSync(join(dir, "cards"));
     writeFileSync(join(dir, "cards", "x.json"), "[]");
-    const r = validateRoot(dir, { eras: [1], minCell: 0 });
+    const r = validateRoot(dir, { eras: [1], minCell: 0, unlockTokens: [] });
     expect(r.issues.filter((i) => i.code === "file-missing").map((i) => i.id).sort()).toEqual(["advisors.json", "endings.json", "epilogues.json", "modifiers.json"]);
   });
 });

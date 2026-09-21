@@ -3,6 +3,7 @@ import { epilogueByKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
+import { OBJECTIVES_BY_ID, type RunFold } from "../meta";
 import { Frame } from "./Frame";
 import { SetupSummary } from "./SetupSummary";
 import { themeFor } from "./theme";
@@ -10,10 +11,12 @@ import { themeFor } from "./theme";
 interface Props {
   lib: Library;
   state: GameState;
+  fold: RunFold | null;
   onPlayAgain: () => void;
+  onCodex: () => void;
 }
 
-export function Ending({ lib, state, onPlayAgain }: Props) {
+export function Ending({ lib, state, fold, onPlayAgain, onCodex }: Props) {
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -32,6 +35,22 @@ export function Ending({ lib, state, onPlayAgain }: Props) {
           </p>
           <p>{epilogue?.text ?? "The record ends here."}</p>
         </section>
+        {fold && (fold.newObjectives.length > 0 || fold.newUnlocks.length > 0 || fold.newEnding) && (
+          <section className="earned">
+            <h2>{STRINGS.ui.earned}</h2>
+            <ul>
+              {fold.newEnding && <li>A new ending for the codex.</li>}
+              {fold.newObjectives.map((id) => (
+                <li key={id}>{OBJECTIVES_BY_ID.get(id)?.title ?? id}</li>
+              ))}
+              {fold.newUnlocks.map((u) => (
+                <li key={u}>
+                  {STRINGS.ui.unlocked}: {STRINGS.unlockNames[u] ?? u}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         <SetupSummary lib={lib} modifiers={state.modifiers} compact />
         <dl className="stats">
           <dt>Cards</dt>
@@ -46,6 +65,11 @@ export function Ending({ lib, state, onPlayAgain }: Props) {
         <button type="button" className="primary big" onClick={onPlayAgain}>
           {STRINGS.ui.playAgain}
         </button>
+        <div className="meta-row">
+          <button type="button" onClick={onCodex}>
+            {STRINGS.ui.codex}
+          </button>
+        </div>
       </div>
     </Frame>
   );

@@ -9,10 +9,10 @@ before changing anything.
 
 ## Status
 
-Phase 5 of 7: engine, balance harness, content validator, swipe UI, the systems layer
-(elections, arcs, cabinet traits, run setup), and content at full MVP scope: 323 cards,
-12 arcs and 20 endings across three eras, with all section 8 balance targets met.
-Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
+Phase 6 of 7: engine, balance harness, content validator, swipe UI, the systems layer
+(elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
+20 endings across three eras), and meta progression (codex, objectives, unlocks, daily seed).
+All section 8 balance targets met. Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
 numbers; `[` and `]` shift drift to preview the frame theming).
 
 ## Commands
@@ -28,6 +28,7 @@ npm run validate:mvp   # the MVP gate CI runs: every era, 25 cards per cell, war
 npm run check          # typecheck + test + validate (what CI runs)
 npm run simulate       # 10k seeded runs per bot, prints the section 8 report
 npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThreshold=30
+npm run simulate -- --unlocked     # simulate an experienced player with every unlock
 ```
 
 `simulate --set key=value` overrides any numeric engine constant for a batch (see
@@ -42,7 +43,8 @@ src/engine/    pure, serializable game engine (types, rng, state, draw, resolve,
 src/content/   JSON content: cards/era1, advisors, endings, epilogues, modifiers, strings.ts
 src/sim/       bot policies, headless run loop, report and target checks
 src/validate/  JSON schema checker, semantic rules, disk loader (dependency-free)
-src/ui/        React app: setup, play (card, meters, frame theming), era transition, ending
+src/ui/        React app: setup, play (card, meters, frame theming), era transition, ending, codex
+src/meta/      progression: objectives, unlocks, daily seed, versioned meta save
 scripts/       simulate.ts (harness CLI), validate-content.ts (validator CLI)
 tests/         vitest suites, fixture content, and tests/fixtures/broken (a root that
                trips every validator rule on purpose)

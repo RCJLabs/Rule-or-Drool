@@ -141,6 +141,7 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
   const cands: Arc[] = [];
   for (const arc of lib.arcs.values()) {
     if (started.has(arc.id)) continue;
+    if (arc.requires && !state.unlocked.includes(arc.requires)) continue;
     if (!alignOk(arc, state)) continue;
     if (!arc.entry.eras.includes(state.era)) continue;
     if (!arc.entry.bands.includes(state.band)) continue;
@@ -160,7 +161,14 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
   if (!arc) return [null, s2];
   const entry = arc.cards[0]!;
   const card = getCard(lib, entry);
-  return [card, { ...s2, activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: entry }] }];
+  return [
+    card,
+    {
+      ...s2,
+      activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: entry }],
+      stats: { ...s2.stats, arcsEntered: s2.stats.arcsEntered + 1 },
+    },
+  ];
 }
 
 function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {

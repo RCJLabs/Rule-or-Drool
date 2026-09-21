@@ -304,5 +304,53 @@
       "arc_wa2",
       "arc_wa3"
     ]
+  },
+  {
+    "id": "arc_referendum",
+    "align": "any",
+    "requires": "u_referendum",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "notFlags": [
+        "elections_abolished"
+      ]
+    },
+    "weight": 3,
+    "cards": [
+      "arc_re1",
+      "arc_re2",
+      "arc_re3"
+    ]
+  },
+  {
+    "id": "arc_truth",
+    "align": "any",
+    "requires": "u_truth",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 3,
+    "cards": [
+      "arc_tr1",
+      "arc_tr2",
+      "arc_tr3"
+    ]
   }
 ]

@@ -6,8 +6,8 @@ import type { GameState, PlayerAlign, Side } from "../engine/types";
 
 /** Pure UI-level flow on top of the engine, kept out of React so it is testable. */
 
-export function beginRun(lib: Library, seed: number, align: PlayerAlign): GameState {
-  return draw(lib, newRun(lib, seed, rollSetup(lib, seed, align)));
+export function beginRun(lib: Library, seed: number, align: PlayerAlign, unlocked: readonly string[] = []): GameState {
+  return draw(lib, newRun(lib, seed, rollSetup(lib, seed, align, unlocked)));
 }
 
 /** Draw if the table is empty (after an era transition, or a save taken between cards). */

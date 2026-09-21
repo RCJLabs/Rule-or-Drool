@@ -7,6 +7,7 @@ import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
 import type { Arc, Card, Choice, Cond, Content } from "../engine/types";
 import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
+import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
 export interface RuleOptions {
@@ -20,6 +21,11 @@ export interface RuleOptions {
   maxLabel: number;
   /** Advisor traits the engine knows about (5.8); unknown ones warn. */
   knownTraits: readonly string[];
+  /**
+   * Unlock tokens objectives can grant (5.10). Content may only `require` one of these, and
+   * a token nothing requires is a warning. Pass [] for a content set with no meta layer.
+   */
+  unlockTokens: readonly string[];
 }
 
 export const DEFAULT_RULE_OPTIONS: RuleOptions = {
@@ -30,6 +36,7 @@ export const DEFAULT_RULE_OPTIONS: RuleOptions = {
   maxText: 160,
   maxLabel: 24,
   knownTraits: ["loyal", "corrupt", "competent", "zealot"],
+  unlockTokens: allUnlockTokens(),
 };
 
 /** Ending ids the engine can reach without any card naming them. */
@@ -105,6 +112,28 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (epilogueKeys.has(key)) issues.error("duplicate-id", `epilogue ${key} is defined more than once`, { kind: "epilogue", id: key });
     epilogueKeys.add(key);
     if (e.era > cfg.eraCount) issues.warn("era-out-of-range", `era ${e.era} is beyond eraCount ${cfg.eraCount}`, { kind: "epilogue", id: key, path: "era" });
+  }
+
+  // Unlock gating (5.10): anything that names a `requires` must name a token some
+  // objective can actually grant, or it is permanently undrawable.
+  const grantable = new Set(opts.unlockTokens);
+  const requested = new Set<string>();
+  for (const m of content.modifiers) {
+    if (!m.requires) continue;
+    requested.add(m.requires);
+    if (!grantable.has(m.requires)) {
+      issues.error("unknown-unlock", `requires "${m.requires}", which no objective grants`, { kind: "modifier", id: m.id, path: "requires" });
+    }
+  }
+  for (const a of content.arcs) {
+    if (!a.requires) continue;
+    requested.add(a.requires);
+    if (!grantable.has(a.requires)) {
+      issues.error("unknown-unlock", `requires "${a.requires}", which no objective grants`, { kind: "arc", id: a.id, path: "requires" });
+    }
+  }
+  for (const token of grantable) {
+    if (!requested.has(token)) issues.warn("unlock-unused", `objectives grant "${token}" but nothing requires it`);
   }
 
   const { eras, empty } = resolveEras(content, opts);

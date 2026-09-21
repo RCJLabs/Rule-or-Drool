@@ -4,13 +4,14 @@
  *
  *   npm run simulate -- [--runs 10000] [--seed 1] [--bot all|random|greedy|saint|mixed]
  *                        [--align alternate|left|right] [--danger 25]
- *                        [--set eraMeterPull=0 --set electionMoodThreshold=35 ...] [--strict]
+ *                        [--unlocked] [--set eraMeterPull=0 ...] [--strict]
  *
  * --set overrides any numeric EngineConfig key for the whole batch (quick tuning sweeps).
  * --strict exits 1 when any target misses (for CI once phase 4 tunes content).
  */
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
+import { allUnlockTokens } from "../src/meta/objectives";
 import { BOT_NAMES, evaluateTargets, formatContentStats, formatSummary, formatTargets, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 interface Args {
@@ -20,11 +21,12 @@ interface Args {
   align: "alternate" | "left" | "right";
   danger: number;
   strict: boolean;
+  unlocked: boolean;
   overrides: Partial<EngineConfig>;
 }
 
 function parseArgs(argv: string[]): Args {
-  const args: Args = { runs: 10000, seed: 1, bots: [...BOT_NAMES], align: "alternate", danger: 25, strict: false, overrides: {} };
+  const args: Args = { runs: 10000, seed: 1, bots: [...BOT_NAMES], align: "alternate", danger: 25, strict: false, unlocked: false, overrides: {} };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]!;
     const next = () => {
@@ -57,6 +59,9 @@ function parseArgs(argv: string[]): Args {
       case "--strict":
         args.strict = true;
         break;
+      case "--unlocked":
+        args.unlocked = true;
+        break;
       case "--set": {
         const [k, v] = next().split("=");
         if (!k || v === undefined || !(k in DEFAULT_CONFIG) || typeof DEFAULT_CONFIG[k as keyof EngineConfig] !== "number") {
@@ -81,7 +86,9 @@ function main(): void {
   const args = parseArgs(process.argv.slice(2));
   const lib = buildLibrary(content, args.overrides);
 
-  console.log(`rule-or-drool balance harness: ${args.runs} runs per bot, seed ${args.seed}, align ${args.align}, danger ${args.danger}`);
+  console.log(
+    `rule-or-drool balance harness: ${args.runs} runs per bot, seed ${args.seed}, align ${args.align}, danger ${args.danger}, unlocks ${args.unlocked ? "all" : "none"}`,
+  );
   if (Object.keys(args.overrides).length) console.log(`config overrides: ${JSON.stringify(args.overrides)}`);
   console.log(
     `config: eras ${lib.config.eraCount} x ${lib.config.eraLength} cards, election every ${lib.config.electionInterval} (mood < ${lib.config.electionMoodThreshold} loses), bands at ±${lib.config.bandAscentAt}, volatility ${JSON.stringify(lib.config.volatility)}, era meter pull ${lib.config.eraMeterPull}`,
@@ -90,7 +97,8 @@ function main(): void {
   console.log();
 
   const t0 = performance.now();
-  const results = simulate(lib, { runs: args.runs, seed: args.seed, bots: args.bots, align: args.align, danger: args.danger, maxCards: 1000 });
+  const unlocked = args.unlocked ? allUnlockTokens() : [];
+  const results = simulate(lib, { runs: args.runs, seed: args.seed, bots: args.bots, align: args.align, danger: args.danger, maxCards: 1000, unlocked });
   const elapsed = (performance.now() - t0) / 1000;
 
   const summaries = new Map<BotName, BotSummary>();

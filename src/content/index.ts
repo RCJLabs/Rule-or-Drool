@@ -34,6 +34,8 @@ import arcPress from "./cards/arcs/press.json";
 import arcPlague from "./cards/arcs/plague.json";
 import arcOracle from "./cards/arcs/oracle.json";
 import arcWater from "./cards/arcs/water.json";
+import arcReferendum from "./cards/arcs/referendum.json";
+import arcTruth from "./cards/arcs/truth.json";
 import consequences from "./cards/consequences.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
@@ -93,6 +95,8 @@ export const content: Content = {
     ...asCards(arcPlague, "arcs/plague.json"),
     ...asCards(arcOracle, "arcs/oracle.json"),
     ...asCards(arcWater, "arcs/water.json"),
+    ...asCards(arcReferendum, "arcs/referendum.json"),
+    ...asCards(arcTruth, "arcs/truth.json"),
     ...asCards(consequences, "consequences.json"),
   ],
   arcs: arcs as unknown as Arc[],

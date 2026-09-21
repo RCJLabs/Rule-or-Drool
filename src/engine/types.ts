@@ -89,6 +89,8 @@ export interface Card {
 export interface Arc {
   id: string;
   align: Align;
+  /** Unlock id required before this arc can start (5.10). */
+  requires?: string;
   entry: Cond & { eras: number[]; bands: Band[] };
   weight: number;
   /** Card ids; the first is the entry card. */
@@ -105,6 +107,8 @@ export interface Advisor {
 export interface Modifier {
   id: string;
   kind: "trait" | "flaw" | "crisis";
+  /** Unlock id required before this modifier can be drawn at run setup (5.10). */
+  requires?: string;
   meterStart?: Partial<Record<MeterKey, number>>;
   flags?: string[];
   arcWeights?: Record<string, number>;
@@ -149,6 +153,33 @@ export interface RunOver {
   epilogueKey: string;
 }
 
+/**
+ * Counters a run accumulates, so meta-progression objectives can ask questions like
+ * "did you ever cheat an election" without replaying the run (5.10).
+ */
+export interface RunStats {
+  /** Choices taken with negative drift. */
+  tempting: number;
+  /** Choices taken with positive drift. */
+  honest: number;
+  /** Choices with no drift either way. */
+  neutral: number;
+  electionsHonest: number;
+  electionsCheated: number;
+  advisorsFired: number;
+  arcsEntered: number;
+}
+
+export const EMPTY_STATS: RunStats = {
+  tempting: 0,
+  honest: 0,
+  neutral: 0,
+  electionsHonest: 0,
+  electionsCheated: 0,
+  advisorsFired: 0,
+  arcsEntered: 0,
+};
+
 export interface GameState {
   seed: number;
   rngState: number;
@@ -171,11 +202,16 @@ export interface GameState {
   /** Card on the table, or null between draws. */
   current: string | null;
   arcBudget: number;
+  stats: RunStats;
+  /** Meta unlock ids in force for this run; gates modifiers and arcs that name a `requires`. */
+  unlocked: string[];
 }
 
 export interface RunSetup {
   align: PlayerAlign;
   modifiers?: string[];
+  /** Unlock ids the player has earned; omitted means only always-available content. */
+  unlocked?: string[];
 }
 
 /** Advisor traits the engine knows about (5.8). */

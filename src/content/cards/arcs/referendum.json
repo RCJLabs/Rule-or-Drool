@@ -1,0 +1,28 @@
+[
+  {
+    "id": "arc_re1", "type": "arc", "arc": "arc_referendum", "step": 1,
+    "align": "any", "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"],
+    "speaker": "judge",
+    "text": "The constitution can be amended in the chamber, quietly, or put to the country, loudly. The country has never been asked.",
+    "left": { "label": "Put it to the country", "fx": { "money": -4, "order": -3, "inst": 5 }, "drift": 6, "next": "arc_re2", "setFlags": ["referendum_called"] },
+    "right": { "label": "Amend it in the chamber", "fx": { "order": 3, "money": 2, "inst": -3 }, "drift": -5 }
+  },
+  {
+    "id": "arc_re2", "type": "arc", "arc": "arc_referendum", "step": 2,
+    "align": "any", "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"],
+    "speaker": "spin",
+    "text": "The campaign has turned ugly and the state broadcaster is yours. Funding both sides equally is a choice nobody would blame you for skipping.",
+    "cond": { "flags": ["referendum_called"] },
+    "left": { "label": "Fund both sides", "fx": { "money": -4, "mood": -3, "inst": 6 }, "drift": 6, "next": "arc_re3" },
+    "right": { "label": "Fund your side", "fx": { "mood": 4, "order": 2, "inst": -5 }, "drift": -6, "clearFlags": ["referendum_called"] }
+  },
+  {
+    "id": "arc_re3", "type": "arc", "arc": "arc_referendum", "step": 3,
+    "align": "any", "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"],
+    "speaker": "rival",
+    "text": "You lost by nine thousand votes out of four million. There is a credible argument about spoiled ballots in two districts.",
+    "cond": { "flags": ["referendum_called"] },
+    "left": { "label": "Concede tonight", "fx": { "mood": -4, "inst": 7 }, "drift": 9, "clearFlags": ["referendum_called"] },
+    "right": { "label": "Demand a recount", "fx": { "order": 3, "mood": 2, "inst": -7 }, "drift": -8, "clearFlags": ["referendum_called"], "setFlags": ["cheated_election"] }
+  }
+]

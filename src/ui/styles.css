@@ -619,3 +619,120 @@ button {
   font-size: 13px;
   color: var(--muted);
 }
+
+/* ---- meta: codex, objectives, daily ---------------------------------------------- */
+.meta-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.meta-row button {
+  padding: 8px 14px;
+  border: var(--border) solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 14px;
+}
+.meta-row button[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+.earned {
+  padding: var(--space);
+  border: var(--border) solid var(--accent);
+  border-radius: var(--radius);
+  text-align: left;
+}
+.earned h2 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.earned ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.codex {
+  width: min(94vw, 560px);
+  margin: 0 auto;
+  padding: calc(var(--space) * 1.5) var(--space) calc(var(--space) * 3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+  overflow-y: auto;
+  max-height: 100dvh;
+}
+.codex-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.codex-head h1 {
+  margin: 0;
+  font-size: 26px;
+}
+.codex-head button {
+  padding: 6px 12px;
+  border: var(--border) solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  cursor: pointer;
+}
+.codex-progress {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.codex h2 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.codex-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.codex-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--radius);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.codex-list li.locked {
+  opacity: 0.45;
+  border-style: dashed;
+}
+.codex-list li.found {
+  border-left-width: 5px;
+  border-left-color: var(--accent);
+}
+.codex-list li b {
+  font-size: 15px;
+}
+.codex-list li em {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: normal;
+}
+.codex-foot {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}

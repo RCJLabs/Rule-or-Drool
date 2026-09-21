@@ -3,6 +3,7 @@ import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import { rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
+import { codexProgress, todayKey, type MetaState } from "../meta";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
@@ -13,14 +14,19 @@ import { themeFor } from "./theme";
 interface Props {
   lib: Library;
   saved: GameState | null;
+  meta: MetaState;
   onStart: (seed: number, align: PlayerAlign) => void;
+  onDaily: (align: PlayerAlign) => void;
   onContinue: () => void;
+  onCodex: () => void;
 }
 
-export function Setup({ lib, saved, onStart, onContinue }: Props) {
+export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
-  const setup = useMemo(() => rollSetup(lib, seed, align), [lib, seed, align]);
+  const setup = useMemo(() => rollSetup(lib, seed, align, meta.unlocks), [lib, seed, align, meta.unlocks]);
+  const progress = codexProgress(lib, meta);
+  const dailyPlayed = meta.daily?.day === todayKey();
   return (
     <Frame theme={themeFor(0)} seed={0} n={0}>
       <div className="setup">
@@ -51,6 +57,14 @@ export function Setup({ lib, saved, onStart, onContinue }: Props) {
         <button type="button" className="primary big" onClick={() => onStart(seed, align)}>
           {STRINGS.ui.start}
         </button>
+        <div className="meta-row">
+          <button type="button" onClick={() => onDaily(align)} disabled={dailyPlayed}>
+            {dailyPlayed ? STRINGS.ui.dailyDone : STRINGS.ui.daily}
+          </button>
+          <button type="button" onClick={onCodex}>
+            {STRINGS.ui.codex} {progress.endingsSeen}/{progress.endingsTotal}
+          </button>
+        </div>
         <p className="hint">{STRINGS.ui.hint}</p>
         <footer className="version">v{APP_VERSION}</footer>
       </div>

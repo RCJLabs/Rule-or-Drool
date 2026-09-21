@@ -1,4 +1,5 @@
 import type { GameState } from "../engine/types";
+import { EMPTY_STATS } from "../engine/types";
 import { RUN_SAVE_VERSION } from "../version";
 
 const RUN_KEY = "rod.run";
@@ -18,15 +19,29 @@ export function saveRun(state: GameState): void {
   }
 }
 
+/**
+ * Bring an older run save forward. Section 12: RUN_SAVE_VERSION only moves with a
+ * migration, and run state is versioned separately from meta state.
+ *
+ * v1 -> v2: phase 6 added `stats` and `unlocked` to GameState. An old save has neither, so
+ * it resumes with empty counters and no unlocks, which only affects objectives for that run.
+ */
+export function migrateRun(v: number, state: GameState): GameState | null {
+  if (v > RUN_SAVE_VERSION || v < 1) return null;
+  let s = state;
+  if (v < 2) s = { ...s, stats: { ...EMPTY_STATS }, unlocked: [] };
+  return s;
+}
+
 export function loadRun(): GameState | null {
   try {
     const raw = localStorage.getItem(RUN_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<RunSave>;
-    if (parsed.v !== RUN_SAVE_VERSION || !parsed.state) return null;
+    if (typeof parsed.v !== "number" || !parsed.state) return null;
     const s = parsed.state;
     if (typeof s.seed !== "number" || typeof s.cardCount !== "number" || !s.meters || !Array.isArray(s.flags)) return null;
-    return s;
+    return migrateRun(parsed.v, s);
   } catch {
     return null;
   }

@@ -1,7 +1,7 @@
 import { endRun } from "./endings";
 import { getCard, type Library } from "./library";
 import { bandOf, clampDrift, clampMeter, exitBand, hasFlag, replaceAdvisor, roll } from "./state";
-import type { Card, GameState, Meters, Side } from "./types";
+import type { Card, GameState, Meters, RunStats, Side } from "./types";
 import { METER_KEYS } from "./types";
 
 /**
@@ -150,9 +150,24 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
     throw new Error(`resolve: card ${cardId} is not on the table (current: ${state.current})`);
   }
   const card = getCard(lib, cardId);
+  const choice = card[side];
   let s = applyChoice(lib, state, card, side);
-  if (card[side].fireSpeaker) s = replaceAdvisor(lib, s, card.speaker);
-  s = { ...s, current: null, cardCount: s.cardCount + 1 };
+
+  const stats: RunStats = { ...s.stats };
+  const drift = choice.drift ?? 0;
+  if (drift < 0) stats.tempting++;
+  else if (drift > 0) stats.honest++;
+  else stats.neutral++;
+  if (card.type === "election") {
+    if (choice.honest) stats.electionsHonest++;
+    else stats.electionsCheated++;
+  }
+  if (choice.fireSpeaker) {
+    const before = s.cabinet[card.speaker];
+    s = replaceAdvisor(lib, s, card.speaker);
+    if (s.cabinet[card.speaker] !== before) stats.advisorsFired++;
+  }
+  s = { ...s, stats, current: null, cardCount: s.cardCount + 1 };
   s = checkOuster(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);

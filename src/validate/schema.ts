@@ -159,6 +159,7 @@ export const ARC_SPEC: Spec = {
   fields: {
     id: ID,
     align: ALIGN,
+    requires: ID,
     entry: { kind: "object", required: ["eras", "bands"], fields: { eras: ERAS, bands: BAND_LIST, ...COND_FIELDS } },
     weight: WEIGHT,
     cards: { kind: "array", items: ID, nonEmpty: true, unique: true },
@@ -177,6 +178,7 @@ export const MODIFIER_SPEC: Spec = {
   fields: {
     id: ID,
     kind: { kind: "enum", values: ["trait", "flaw", "crisis"] },
+    requires: ID,
     meterStart: meterMap(INT),
     flags: IDS,
     arcWeights: { kind: "record", values: WEIGHT },

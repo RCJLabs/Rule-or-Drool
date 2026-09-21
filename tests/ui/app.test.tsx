@@ -54,6 +54,40 @@ describe("App", () => {
     expect(document.querySelector(".debug")!.textContent).toContain("card #4");
   });
 
+  it("opens the codex, which hides unseen endings until they are found", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Codex 0\// }));
+    expect(screen.getByRole("heading", { name: "Codex" })).toBeTruthy();
+    // Nothing discovered yet, so every ending entry is locked.
+    expect(document.querySelectorAll(".codex-list li.found")).toHaveLength(0);
+    expect(document.querySelectorAll(".codex-list li.locked").length).toBeGreaterThan(20);
+    expect(screen.queryByText("The Streets Decide")).toBeNull();
+
+    fireEvent.click(screen.getByRole("button", { name: "Back" }));
+    expect(screen.getByRole("heading", { name: "Rule or Drool" })).toBeTruthy();
+  });
+
+  it("records a finished run in the codex and offers a daily run", () => {
+    vi.useFakeTimers();
+    render(<App />);
+    expect(screen.getByRole("button", { name: "Daily run" })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Take office" }));
+    // Drive the run into a meter extreme so it ends quickly.
+    for (let i = 0; i < 400 && !document.querySelector(".ending"); i++) {
+      fireEvent.keyDown(window, { key: "ArrowLeft" });
+      fireEvent.keyDown(window, { key: "ArrowLeft" });
+      act(() => {
+        vi.advanceTimersByTime(300);
+      });
+      if (document.querySelector(".overlay")) fireEvent.click(document.querySelector(".overlay button")!);
+    }
+    expect(document.querySelector(".ending")).not.toBeNull();
+    const meta = JSON.parse(localStorage.getItem("rod.meta")!);
+    expect(meta.runs).toBe(1);
+    expect(Object.keys(meta.endings)).toHaveLength(1);
+    expect(meta.objectives.obj_first_run).toBe(1);
+  });
+
   it("nudges drift with [ and ] in debug mode and themes the frame", () => {
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: "Take office" }));
@@ -98,7 +132,7 @@ describe("Ending", () => {
 
   it("shows the ending, the epilogue by exit band and the seed", () => {
     const s = { ...newRun(library, 77, { align: "right" }), drift: 40, cardCount: 12, over: { endingId: "riots", epilogueKey: "ascent:any:1" } };
-    render(<Ending lib={library} state={s} onPlayAgain={() => {}} />);
+    render(<Ending lib={library} state={s} fold={null} onPlayAgain={() => {}} onCodex={() => {}} />);
     expect(screen.getByRole("heading", { name: "The Streets Decide" })).toBeTruthy();
     expect(screen.getByText("Ascent")).toBeTruthy();
     expect(screen.getByText("77")).toBeTruthy();

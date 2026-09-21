@@ -8,9 +8,9 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 2 | Validator (`scripts/validate-content.ts`) | Done |
 | 3 | Swipe UI, first human playtest | Built and deployed; playtest is yours |
 | 4 | Elections, arcs, cabinet, run setup; harness targets met | Done |
-| 5 | Bulk content to MVP scope | **Done** (this commit) |
-| 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Next |
-| 7 | PWA, then TWA | |
+| 5 | Bulk content to MVP scope | Done |
+| 6 | Meta: codex, objectives, unlocks, daily seed, save migration | **Done** (this commit) |
+| 7 | PWA, then TWA | Next |
 
 ## Phase 1: what shipped
 
@@ -537,11 +537,76 @@ Final state over 40,000 runs, all five targets passing:
   the network today; worth revisiting in phase 7, where the service worker has to cache it
   for offline play.
 
-## Phase 6 notes (next)
+## Phase 6: what shipped
 
-Codex of endings and epilogues, run objectives, unlockable archetypes, a daily seed, and
-save migration. Two things already in place help: every ending carries a title and text in
-`endings.json` and all twenty are reachable, so the codex has real content to unlock; and
-`RUN_SAVE_VERSION` already gates run saves, so meta state needs its own key and its own
-version rather than sharing one. Run objectives can read `GameState` directly, since flags,
-cheats and drift are all in it.
+Meta progression per section 5.10, stored and versioned separately from run state as
+section 12 requires.
+
+- **Codex.** A screen listing all twenty endings, all nine futures and all thirteen
+  objectives, with progress counts. Undiscovered entries show a dashed placeholder and no
+  text, so the codex is something to fill rather than a spoiler list.
+- **Thirteen objectives.** Eleven are judged on a finished run, two on the meta state
+  ("finish a run for each side", "discover ten endings"). Everything they ask about lives in
+  the new `GameState.stats` counters, so no run is ever replayed to score it.
+- **Unlocks.** Five objectives grant a token, and content opts in with `requires`. Three
+  leader archetypes (the Dissident, the Engineer, the Survivor) and two arcs (a real
+  constitutional referendum, and a truth commission into the century) stay out of the draw
+  until earned. The content total is now 329 cards and 14 arcs.
+- **Daily seed.** One shared seed per UTC day, derived from the date, with the result
+  recorded in meta. The setup screen offers it and marks it played.
+- **Saves.** Meta lives under its own key at `META_SAVE_VERSION`, with a forward-migrating
+  loader. Run state moved to `RUN_SAVE_VERSION` 2 with a real migration: a version 1 save
+  predates `stats` and `unlocked` and now resumes with empty counters instead of being
+  thrown away.
+
+### Engine and tooling changes
+
+- `GameState` gained `stats` (tempting, honest and neutral choices, honest and cheated
+  elections, advisors fired, arcs entered) and `unlocked`. `draw` skips arcs whose
+  `requires` is not held, and `rollSetup` skips gated modifiers.
+- The validator learned the unlock rules, mirroring how it already handles flags: naming a
+  `requires` no objective grants is an error, and granting a token nothing requires is a
+  warning. The token list is a rule option, so a content set with no meta layer passes.
+- The harness takes `--unlocked` to simulate an experienced player. **All five section 8
+  targets pass in both states**, which matters because unlocked archetypes change starting
+  meters: Ascent runs at 22.9% locked and 18.8% unlocked, both inside the 15–30 band.
+
+### Decisions made in phase 6
+
+- Objectives are code, not JSON. They are predicates over a finished run, and expressing
+  them as data would have meant inventing a small query language for one file's worth of
+  logic. They live in `src/meta/objectives.ts` and the validator checks their unlock tokens
+  against content, which is where the coupling actually needs catching.
+- Folding a run into meta happens in the choice handler, not an effect, so a finished run is
+  scored exactly once even under React's double-invoked development rendering.
+- `foldRun` is pure and returns what the run earned, which is what the ending screen shows
+  under "Earned this run". The same function is what the tests assert on.
+- Unlocks are additive only. Nothing is ever taken away, and a player with no unlocks sees
+  the full base game, so the meta layer cannot make a first run worse.
+
+### Known limits
+
+- **Progression is local and unsynced.** Everything sits in `localStorage` on one device.
+  Clearing site data loses the codex. There is no account and no cloud save, and adding one
+  would be a backend, which section 2 rules out for now.
+- **The daily run is honour-system.** The button disables once a day, and clearing storage
+  would let it be replayed. Without a backend there is no scoreboard to cheat against, so
+  this is a solitaire streak, not a competition.
+- **The codex is 29 entries against the 50+ the spec wants at full scope.** Twenty endings
+  is the MVP number and it is met; the rest arrives with the last two eras.
+
+## Phase 7 notes (next)
+
+Service worker, manifest, offline play, then TWA packaging for Play.
+
+- The bundle is **409 kB, 117 kB gzipped**, most of it inlined content JSON. It all has to
+  be cached for offline play, which is fine for a service worker but worth measuring before
+  deciding whether to split content out and cache it separately.
+- Section 12's convention takes effect properly here: every deploy bumps `APP_VERSION` in
+  `src/version.ts` and `CACHE_NAME` in `public/sw.js` **together**. There is no `public/sw.js`
+  yet; creating it is the first phase 7 task.
+- Two save versions now exist and both migrate forward. A service worker that serves a stale
+  bundle against newer saves is the failure mode to avoid, so the worker should activate on
+  update rather than wait for every tab to close.
+- Section 13 flags that Google Play review for political satire has not been checked against
+  current policy. Do that before building the TWA, not after.

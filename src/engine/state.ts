@@ -1,7 +1,7 @@
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
 import type { Band, Cond, GameState, Meters, PlayerAlign, RunSetup } from "./types";
-import { METER_KEYS } from "./types";
+import { EMPTY_STATS, METER_KEYS } from "./types";
 
 export function clampMeter(v: number): number {
   return Math.max(0, Math.min(100, v));
@@ -68,17 +68,17 @@ export function cabinetTraitFlags(lib: Library, cabinet: Record<string, string>)
  * one flaw (5.9). Deterministic for a seed, and independent of the run's own RNG so the
  * setup can be shown before the run starts.
  */
-export function rollSetup(lib: Library, seed: number, align: PlayerAlign): RunSetup {
+export function rollSetup(lib: Library, seed: number, align: PlayerAlign, unlocked: readonly string[] = []): RunSetup {
   let rng = seedToState((seed ^ 0x9e3779b9) | 0);
   const modifiers: string[] = [];
   for (const kind of ["crisis", "trait", "flaw"] as const) {
-    const pool = lib.content.modifiers.filter((m) => m.kind === kind);
+    const pool = lib.content.modifiers.filter((m) => m.kind === kind && (!m.requires || unlocked.includes(m.requires)));
     if (pool.length === 0) continue;
     const pick = nextInt(rng, 0, pool.length - 1);
     rng = pick.state;
     modifiers.push(pool[pick.value]!.id);
   }
-  return { align, modifiers };
+  return { align, modifiers, unlocked: [...unlocked] };
 }
 
 /** Swap the advisor in a role for another from the same pool, refreshing trait flags. */
@@ -150,5 +150,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     over: null,
     current: null,
     arcBudget: budget.value,
+    stats: { ...EMPTY_STATS },
+    unlocked: [...(setup.unlocked ?? [])],
   };
 }

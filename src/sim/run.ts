@@ -29,6 +29,8 @@ export interface RunResult {
 export interface RunOptions extends BotOptions {
   /** Safety valve so a broken content set cannot loop forever. */
   maxCards: number;
+  /** Meta unlock tokens in force; default none, i.e. a first-time player (5.10). */
+  unlocked?: string[];
 }
 
 export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
@@ -36,7 +38,7 @@ export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
 export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerAlign, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
   const policy = BOTS[bot];
   const rng = makeRng(seed ^ 0x5bd1e995);
-  let state: GameState = newRun(lib, seed, rollSetup(lib, seed, align));
+  let state: GameState = newRun(lib, seed, rollSetup(lib, seed, align, opts.unlocked ?? []));
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   let electionsSeen = 0;
   let cheats = 0;
