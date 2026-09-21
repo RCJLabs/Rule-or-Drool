@@ -88,4 +88,36 @@ describe("elections", () => {
       expect([c.left, c.right].filter((s) => s.honest).length, c.id).toBe(1);
     }
   });
+
+  // The two paths only feel different if a decent share of what a run shows belongs to
+  // one side. Arcs are the strongest lever because they run for three cards (BACKLOG 2).
+  it("locks at least a third of arcs to one side, both sides represented", () => {
+    const locked = content.arcs.filter((a) => a.align !== "any");
+    expect(locked.length / content.arcs.length).toBeGreaterThanOrEqual(1 / 3);
+    expect(locked.filter((a) => a.align === "left").length).toBeGreaterThanOrEqual(3);
+    expect(locked.filter((a) => a.align === "right").length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("gives a side-locked arc more entry weight than the average shared arc", () => {
+    const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    const locked = content.arcs.filter((a) => a.align !== "any").map((a) => a.weight);
+    const shared = content.arcs.filter((a) => a.align === "any").map((a) => a.weight);
+    expect(mean(locked)).toBeGreaterThan(mean(shared));
+  });
+
+  it("tells at least one shared arc differently on each side", () => {
+    const branching = content.cards.filter((c) => c.left.nextByAlign || c.right.nextByAlign);
+    expect(branching.length).toBeGreaterThan(0);
+    for (const c of branching) {
+      const arc = content.arcs.find((a) => a.id === c.arc);
+      expect(arc, `${c.id} belongs to an arc`).toBeTruthy();
+      expect(arc!.align, `${c.id} branches by side, so its arc must be shared`).toBe("any");
+      for (const side of [c.left, c.right]) {
+        const by = side.nextByAlign;
+        if (!by) continue;
+        expect(Object.keys(by).sort(), `${c.id} covers both sides`).toEqual(["left", "right"]);
+        expect(by.left).not.toBe(by.right);
+      }
+    }
+  });
 });

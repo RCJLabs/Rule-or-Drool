@@ -1,0 +1,138 @@
+[
+  {
+    "id": "arc_dy1",
+    "type": "arc",
+    "arc": "arc_dynasty",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your eldest has been given a portfolio, a motorcade and a nickname the papers now use without irony.",
+    "left": {
+      "label": "Send them upcountry",
+      "fx": {
+        "base": -4,
+        "public": 4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give them Interior",
+      "fx": {
+        "base": 6,
+        "backers": 2,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_dy2",
+      "setFlags": [
+        "dynasty"
+      ]
+    }
+  },
+  {
+    "id": "arc_dy2",
+    "type": "arc",
+    "arc": "arc_dynasty",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The constitution says the office is not inheritable. Three lawyers say the constitution says a number of things.",
+    "cond": {
+      "flags": [
+        "dynasty"
+      ]
+    },
+    "left": {
+      "label": "Leave the clause alone",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 5,
+      "clearFlags": [
+        "dynasty"
+      ]
+    },
+    "right": {
+      "label": "Clarify the clause",
+      "fx": {
+        "inst": -6,
+        "base": 5,
+        "public": -4,
+        "order": 3
+      },
+      "drift": -6,
+      "next": "arc_dy3"
+    }
+  },
+  {
+    "id": "arc_dy3",
+    "type": "arc",
+    "arc": "arc_dynasty",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "The family holds four ministries. One of them has stopped answering to you and started answering to the others.",
+    "cond": {
+      "flags": [
+        "dynasty"
+      ]
+    },
+    "left": {
+      "label": "Break it up yourself",
+      "fx": {
+        "base": -7,
+        "inst": 4,
+        "public": 4,
+        "order": -2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "dynasty"
+      ]
+    },
+    "right": {
+      "label": "Name them successor",
+      "fx": {
+        "base": 5,
+        "backers": 3,
+        "public": -6,
+        "inst": -5
+      },
+      "drift": -7,
+      "clearFlags": [
+        "dynasty"
+      ]
+    }
+  }
+]

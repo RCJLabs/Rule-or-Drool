@@ -38,6 +38,12 @@ import arcOracle from "./cards/arcs/oracle.json";
 import arcWater from "./cards/arcs/water.json";
 import arcReferendum from "./cards/arcs/referendum.json";
 import arcTruth from "./cards/arcs/truth.json";
+import arcSplit from "./cards/arcs/split.json";
+import arcGeneralStrike from "./cards/arcs/general_strike.json";
+import arcCommune from "./cards/arcs/commune.json";
+import arcDynasty from "./cards/arcs/dynasty.json";
+import arcConcordat from "./cards/arcs/concordat.json";
+import arcEstates from "./cards/arcs/estates.json";
 import consequences from "./cards/consequences.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
@@ -101,6 +107,12 @@ export const content: Content = {
     ...asCards(arcWater, "arcs/water.json"),
     ...asCards(arcReferendum, "arcs/referendum.json"),
     ...asCards(arcTruth, "arcs/truth.json"),
+    ...asCards(arcSplit, "arcs/split.json"),
+    ...asCards(arcGeneralStrike, "arcs/general_strike.json"),
+    ...asCards(arcCommune, "arcs/commune.json"),
+    ...asCards(arcDynasty, "arcs/dynasty.json"),
+    ...asCards(arcConcordat, "arcs/concordat.json"),
+    ...asCards(arcEstates, "arcs/estates.json"),
     ...asCards(consequences, "consequences.json"),
   ],
   arcs: arcs as unknown as Arc[],

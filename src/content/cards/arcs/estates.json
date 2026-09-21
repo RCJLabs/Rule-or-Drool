@@ -1,0 +1,144 @@
+[
+  {
+    "id": "arc_es1",
+    "type": "arc",
+    "arc": "arc_estates",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Six families run eleven counties between them. They are offering all eleven for one line in the finance bill.",
+    "left": {
+      "label": "Decline politely",
+      "fx": {
+        "backers": -6,
+        "public": 4,
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the counties",
+      "fx": {
+        "backers": 7,
+        "base": 2,
+        "money": -4,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -4,
+      "next": "arc_es2",
+      "setFlags": [
+        "estates"
+      ]
+    }
+  },
+  {
+    "id": "arc_es2",
+    "type": "arc",
+    "arc": "arc_estates",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The line is in the bill. Your own treasury puts the hole at about one school year.",
+    "cond": {
+      "flags": [
+        "estates"
+      ]
+    },
+    "left": {
+      "label": "Restore the tax",
+      "fx": {
+        "backers": -7,
+        "money": 6,
+        "public": 3,
+        "inst": 2
+      },
+      "drift": 4,
+      "clearFlags": [
+        "estates"
+      ]
+    },
+    "right": {
+      "label": "Shorten the school year",
+      "fx": {
+        "money": 5,
+        "backers": 3,
+        "public": -6,
+        "base": -3,
+        "inst": -2
+      },
+      "drift": -5,
+      "next": "arc_es3"
+    }
+  },
+  {
+    "id": "arc_es3",
+    "type": "arc",
+    "arc": "arc_estates",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The families would now like the land registry closed to the public. For security.",
+    "cond": {
+      "flags": [
+        "estates"
+      ]
+    },
+    "left": {
+      "label": "Publish the registry",
+      "fx": {
+        "backers": -8,
+        "public": 6,
+        "inst": 5
+      },
+      "drift": 6,
+      "clearFlags": [
+        "estates"
+      ]
+    },
+    "right": {
+      "label": "Close it",
+      "fx": {
+        "backers": 5,
+        "money": 3,
+        "public": -5,
+        "inst": -6
+      },
+      "drift": -7,
+      "clearFlags": [
+        "estates"
+      ]
+    }
+  }
+]

@@ -1,0 +1,147 @@
+[
+  {
+    "id": "arc_gs1",
+    "type": "arc",
+    "arc": "arc_general_strike",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The labour bill has a clause your own unions read as a no-strike clause. They are on strike about it.",
+    "left": {
+      "label": "Pull the clause",
+      "fx": {
+        "backers": 7,
+        "base": 3,
+        "money": -4,
+        "order": -3,
+        "public": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Hold the line",
+      "fx": {
+        "backers": -7,
+        "order": 3,
+        "money": 3,
+        "public": 3,
+        "inst": 1
+      },
+      "drift": -2,
+      "next": "arc_gs2",
+      "setFlags": [
+        "strike_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_gs2",
+    "type": "arc",
+    "arc": "arc_general_strike",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Day nine. The ports are shut, the cities are furious at the unions, and the unions are furious at you.",
+    "cond": {
+      "flags": [
+        "strike_on"
+      ]
+    },
+    "left": {
+      "label": "Go to arbitration",
+      "fx": {
+        "backers": 6,
+        "public": -3,
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4,
+      "clearFlags": [
+        "strike_on"
+      ]
+    },
+    "right": {
+      "label": "Make it essential work",
+      "fx": {
+        "order": 5,
+        "backers": -8,
+        "inst": -4,
+        "public": 2
+      },
+      "drift": -5,
+      "next": "arc_gs3"
+    }
+  },
+  {
+    "id": "arc_gs3",
+    "type": "arc",
+    "arc": "arc_general_strike",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The union that built your first campaign has endorsed nobody, which in this country means everybody.",
+    "cond": {
+      "flags": [
+        "strike_on"
+      ]
+    },
+    "left": {
+      "label": "Go and apologise",
+      "fx": {
+        "backers": 6,
+        "base": -3,
+        "public": -2,
+        "inst": 2
+      },
+      "drift": 3,
+      "clearFlags": [
+        "strike_on"
+      ]
+    },
+    "right": {
+      "label": "Charter your own union",
+      "fx": {
+        "backers": -4,
+        "order": 3,
+        "inst": -5,
+        "public": -4,
+        "base": 4,
+        "money": -3
+      },
+      "drift": -6,
+      "clearFlags": [
+        "strike_on"
+      ]
+    }
+  }
+]

@@ -25,7 +25,10 @@
         "public": 3
       },
       "drift": 4,
-      "next": "arc_su2",
+      "nextByAlign": {
+        "left": "arc_su2l",
+        "right": "arc_su2r"
+      },
       "setFlags": [
         "heir_named"
       ]
@@ -42,7 +45,7 @@
     }
   },
   {
-    "id": "arc_su2",
+    "id": "arc_su2l",
     "type": "arc",
     "arc": "arc_succession",
     "step": 2,
@@ -56,8 +59,8 @@
       "muddle",
       "ascent"
     ],
-    "speaker": "rival",
-    "text": "Your successor is ready, and polls better than you do. Handing over early would be the most useful thing you ever did.",
+    "speaker": "organizer",
+    "text": "Your successor is ready, and the movement wants the handover confirmed at congress, which they will carry and you will have to attend.",
     "cond": {
       "flags": [
         "heir_named"
@@ -69,12 +72,51 @@
       "ending": "stepped_down"
     },
     "right": {
-      "label": "Not quite yet",
+      "label": "Postpone the congress",
       "fx": {
-        "order": 2,
-        "inst": -3,
         "base": 4,
-        "public": -3
+        "public": -3,
+        "inst": -4,
+        "order": 2
+      },
+      "drift": -4,
+      "next": "arc_su3"
+    }
+  },
+  {
+    "id": "arc_su2r",
+    "type": "arc",
+    "arc": "arc_succession",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your successor is ready, and the elders would like to confirm them by acclamation, in your presence, using your microphone.",
+    "cond": {
+      "flags": [
+        "heir_named"
+      ]
+    },
+    "left": {
+      "label": "Hand over now",
+      "drift": 7,
+      "ending": "stepped_down"
+    },
+    "right": {
+      "label": "Let the elders wait",
+      "fx": {
+        "base": 4,
+        "backers": -4,
+        "public": -3,
+        "inst": -3
       },
       "drift": -4,
       "next": "arc_su3"

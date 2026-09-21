@@ -4,7 +4,9 @@ import { preview } from "../../src/engine/preview";
 import { advanceEra, applyChoice, checkElection, checkOuster, coupRisk, resolve, traitScale } from "../../src/engine/resolve";
 import { getCard } from "../../src/engine/library";
 import { moodOf } from "../../src/engine/state";
-import { BLOC_KEYS } from "../../src/engine/types";
+import { BLOC_KEYS, type Band } from "../../src/engine/types";
+import { buildLibrary } from "../../src/engine/library";
+import { ev, makeFixture } from "../fixtures/content";
 import { lib, meters, play, start, table } from "../helpers";
 
 describe("resolve: effects", () => {
@@ -318,5 +320,39 @@ describe("resolve: determinism and preview", () => {
     expect(preview(l, lost, getCard(l, "el_basic"), "left").endingId).toBe("election_loss");
     expect(preview(l, lost, getCard(l, "el_basic"), "right").endingId).toBeNull();
     expect(preview(l, start(l), getCard(l, "ev_big"), "left").endingId).toBe("personality_cult");
+  });
+});
+
+describe("resolve: arcs that branch by side", () => {
+  /** One arc whose step 1 sends each alignment to its own step 2. */
+  function branching(nextByAlign: Record<string, string>, next?: string) {
+    const fx = makeFixture();
+    const arcCards = [
+      { ...ev("b1"), type: "arc" as const, arc: "arc_b", step: 1, left: { label: "go on", nextByAlign, ...(next ? { next } : {}) }, right: { label: "refuse" } },
+      { ...ev("b2l"), type: "arc" as const, arc: "arc_b", step: 2, left: { label: "done" }, right: { label: "done" } },
+      { ...ev("b2r"), type: "arc" as const, arc: "arc_b", step: 2, left: { label: "done" }, right: { label: "done" } },
+      { ...ev("b2"), type: "arc" as const, arc: "arc_b", step: 2, left: { label: "done" }, right: { label: "done" } },
+    ];
+    const content = {
+      ...fx,
+      cards: [...fx.cards, ...arcCards],
+      arcs: [...fx.arcs, { id: "arc_b", align: "any" as const, entry: { eras: [1, 2, 3], bands: ["decay", "muddle", "ascent"] as Band[] }, weight: 1, cards: ["b1", "b2l", "b2r", "b2"] }],
+    };
+    return buildLibrary(content, { eraLength: 1000, electionInterval: 1000, arcEntryProb: 0 });
+  }
+
+  const enter = (l: ReturnType<typeof branching>, align: "left" | "right") =>
+    table(start(l, { activeArcs: [{ id: "arc_b", nextCard: "b1" }] }, align), "b1");
+
+  it("follows the pointer for the player's side", () => {
+    const l = branching({ left: "b2l", right: "b2r" });
+    expect(resolve(l, enter(l, "left"), "b1", "left").activeArcs).toEqual([{ id: "arc_b", nextCard: "b2l" }]);
+    expect(resolve(l, enter(l, "right"), "b1", "left").activeArcs).toEqual([{ id: "arc_b", nextCard: "b2r" }]);
+  });
+
+  it("falls back to next when the player's side has no branch", () => {
+    const l = branching({ left: "b2l" }, "b2");
+    expect(resolve(l, enter(l, "right"), "b1", "left").activeArcs).toEqual([{ id: "arc_b", nextCard: "b2" }]);
+    expect(resolve(l, enter(l, "left"), "b1", "left").activeArcs).toEqual([{ id: "arc_b", nextCard: "b2l" }]);
   });
 });

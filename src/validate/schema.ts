@@ -3,7 +3,7 @@
  * spec DSL keeps this dependency-free and lets every message carry an exact path.
  * Unknown fields are errors: a typo in a generated batch must not silently no-op.
  */
-import { ALIGNS, BANDS, CARD_TYPES, METER_KEYS } from "../engine/types";
+import { ALIGNS, BANDS, CARD_TYPES, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 
 export type Spec =
   | { kind: "string"; nonEmpty?: boolean; pattern?: RegExp; hint?: string }
@@ -131,6 +131,7 @@ export const CHOICE_SPEC: Spec = {
     clearFlags: IDS,
     enqueue: { kind: "array", items: { kind: "object", required: ["id", "delay"], fields: { id: ID, delay: POSITIVE_INT } } },
     next: ID,
+    nextByAlign: { kind: "record", keys: PLAYER_ALIGNS, values: ID },
     ending: ID,
     honest: BOOL,
     electionDelay: POSITIVE_INT,

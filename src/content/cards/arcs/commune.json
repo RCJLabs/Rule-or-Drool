@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_cm1",
+    "type": "arc",
+    "arc": "arc_commune",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The third city has elected a council that says it no longer needs your permission, and quotes your own speeches at length.",
+    "left": {
+      "label": "Recognise the council",
+      "fx": {
+        "public": 6,
+        "base": 3,
+        "backers": -3,
+        "inst": -4,
+        "order": -4
+      },
+      "drift": 4,
+      "next": "arc_cm2",
+      "setFlags": [
+        "commune"
+      ]
+    },
+    "right": {
+      "label": "Send the prefect back in",
+      "fx": {
+        "order": 5,
+        "public": -6,
+        "base": -4,
+        "inst": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "arc_cm2",
+    "type": "arc",
+    "arc": "arc_commune",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The council is running the buses better than you did, and has stopped forwarding the tax.",
+    "cond": {
+      "flags": [
+        "commune"
+      ]
+    },
+    "left": {
+      "label": "Let them keep the tax",
+      "fx": {
+        "money": -7,
+        "public": 5,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "commune"
+      ]
+    },
+    "right": {
+      "label": "Bill them for the buses",
+      "fx": {
+        "money": 4,
+        "public": -5,
+        "base": -3,
+        "order": 2
+      },
+      "drift": -4,
+      "next": "arc_cm3"
+    }
+  },
+  {
+    "id": "arc_cm3",
+    "type": "arc",
+    "arc": "arc_commune",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two more cities have adopted the same charter. Your own mayors are asking whether this is policy now.",
+    "cond": {
+      "flags": [
+        "commune"
+      ]
+    },
+    "left": {
+      "label": "Make it policy",
+      "fx": {
+        "inst": 5,
+        "public": 5,
+        "base": -3,
+        "backers": -5,
+        "money": -3
+      },
+      "drift": 7,
+      "clearFlags": [
+        "commune"
+      ]
+    },
+    "right": {
+      "label": "Dissolve the councils",
+      "fx": {
+        "order": 6,
+        "inst": -6,
+        "public": -7,
+        "base": 4
+      },
+      "drift": -8,
+      "clearFlags": [
+        "commune"
+      ]
+    }
+  }
+]

@@ -1,0 +1,141 @@
+[
+  {
+    "id": "arc_co1",
+    "type": "arc",
+    "arc": "arc_concordat",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The bishops would like the marriage registry back. They held it until 1907, which they consider recent.",
+    "left": {
+      "label": "The registry stays civil",
+      "fx": {
+        "base": -6,
+        "public": 4,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Give them the registry",
+      "fx": {
+        "base": 7,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -4,
+      "next": "arc_co2",
+      "setFlags": [
+        "concordat"
+      ]
+    }
+  },
+  {
+    "id": "arc_co2",
+    "type": "arc",
+    "arc": "arc_concordat",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "They would also like the schools. The draft curriculum is mostly ordinary and, in two chapters, astonishing.",
+    "cond": {
+      "flags": [
+        "concordat"
+      ]
+    },
+    "left": {
+      "label": "Schools stay state",
+      "fx": {
+        "base": -5,
+        "public": 3,
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 4,
+      "clearFlags": [
+        "concordat"
+      ]
+    },
+    "right": {
+      "label": "Sign the education annex",
+      "fx": {
+        "base": 6,
+        "money": 3,
+        "public": -6,
+        "inst": -3
+      },
+      "drift": -4,
+      "next": "arc_co3"
+    }
+  },
+  {
+    "id": "arc_co3",
+    "type": "arc",
+    "arc": "arc_concordat",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The cardinal has opinions about the budget now, and a pulpit in every county to put them from.",
+    "cond": {
+      "flags": [
+        "concordat"
+      ]
+    },
+    "left": {
+      "label": "Remind them who governs",
+      "fx": {
+        "base": -8,
+        "order": 3,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 4,
+      "clearFlags": [
+        "concordat"
+      ]
+    },
+    "right": {
+      "label": "Ask for the blessing",
+      "fx": {
+        "base": 5,
+        "backers": 3,
+        "inst": -6,
+        "public": -5
+      },
+      "drift": -6,
+      "clearFlags": [
+        "concordat"
+      ]
+    }
+  }
+]

@@ -41,7 +41,48 @@ finds an unconditional election for every era, band and side, and the section 8 
 
 </details>
 
-## 2. Take align-locked arcs to about a third of the pool — *queued*
+## 2. Take align-locked arcs to about a third of the pool — *done*
+
+**Shipped.** 20 arcs now, 8 of them locked to a side, which is 40%. Three new left arcs and
+three new right arcs, each three cards, each written with the bloc trade-off in from the
+start rather than moving the coalition as a block:
+
+| Left | Right |
+|---|---|
+| `arc_split` — the movement splits and the expelled third stands against you | `arc_dynasty` — your eldest gets a portfolio, then a ministry, then the clause |
+| `arc_general_strike` — your own unions strike against your own labour bill | `arc_concordat` — the bishops want the registry, then the schools, then the budget |
+| `arc_commune` — a city governs itself and quotes your speeches back at you | `arc_estates` — eleven counties for one line in the finance bill |
+
+**Shared arcs can now tell a different story per side.** A choice may carry `nextByAlign`
+instead of `next`, and the engine follows the pointer for the player's alignment. Succession
+and the press both branch at step two: the left handover is fought at a movement congress,
+the right one at an acclamation the elders have already arranged; refusing the left branch
+costs Institutions and the public, refusing the right one costs your donors. The validator
+follows both pointers for reachability, membership and cycles, and rejects `nextByAlign`
+outside an arc.
+
+**Alignment affinity did most of the work.** A third of the drawable pool is already
+side-specific, but a run drew it at the same rate as the shared deck. `alignAffinity` (2)
+multiplies the draw weight of cards matching the player's side, and side-locked arcs carry
+weight 5 against a shared arc's 2–3. No new content was needed for either.
+
+**Measured over 400 runs:**
+
+| | before | after |
+|---|---|---|
+| a left run and a right run share | 48% | **35%** |
+| two runs on the same side share | 54% | 56% |
+| of a run's distinct cards, alignment-specific | 31% | **39%** |
+
+So a run on the other side is now genuinely a different game, where before it was roughly as
+familiar as replaying your own. All five section 8 targets still pass (random 54 cards,
+bankruptcy 24.0%, greedy 83.7% Decay, saint 100%, mixed 20.8% Ascent) and the validator is
+clean at the strict MVP gate.
+
+**Still to do inside this item:** only two shared arcs branch by side so far. The mechanism
+is cheap — two cards and a pointer — and the other twelve are candidates.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** 2 of 14 arcs are locked to a side (`arc_purge`, `arc_strongman`). The other 12
 play the same on both.
@@ -53,6 +94,8 @@ the same story for both sides even when the arc id is.
 
 **Done when** at least a third of arcs are align-locked and a left run and a right run share
 noticeably less than the 48% of cards they share today.
+
+</details>
 
 ## 3. Write epilogues per side — *queued*
 

@@ -211,12 +211,18 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
         if (!target) issues.error("unknown-ref", `enqueues unknown card "${e.id}"`, { ...where, path });
         else if (target.arc) issues.warn("next-into-arc", `enqueues "${e.id}" which belongs to arc "${target.arc}"; arcs normally start through their entry card`, { ...where, path });
       });
-      if (ch.next) {
-        const target = cards.get(ch.next);
-        const path = `${side}.next`;
-        if (!target) issues.error("unknown-ref", `next points at unknown card "${ch.next}"`, { ...where, path });
-        else if (card.arc && target.arc !== card.arc) issues.error("arc-next-outside", `next "${ch.next}" is not part of arc "${card.arc}"`, { ...where, path });
+      const nexts: [string, string][] = [
+        ...(ch.next ? ([[ch.next, `${side}.next`]] as [string, string][]) : []),
+        ...Object.entries(ch.nextByAlign ?? {}).map(([a, id]) => [id, `${side}.nextByAlign.${a}`] as [string, string]),
+      ];
+      for (const [target_id, path] of nexts) {
+        const target = cards.get(target_id);
+        if (!target) issues.error("unknown-ref", `next points at unknown card "${target_id}"`, { ...where, path });
+        else if (card.arc && target.arc !== card.arc) issues.error("arc-next-outside", `next "${target_id}" is not part of arc "${card.arc}"`, { ...where, path });
         else if (!card.arc && target.arc) issues.warn("next-into-arc", `next jumps into arc "${target.arc}" without entering it through the arc`, { ...where, path });
+      }
+      if (ch.nextByAlign && !card.arc) {
+        issues.error("arc-membership", `nextByAlign only means something inside an arc`, { ...where, path: `${side}.nextByAlign` });
       }
       if (ch.ending && !endings.has(ch.ending)) issues.error("unknown-ref", `ending "${ch.ending}" does not exist`, { ...where, path: `${side}.ending` });
 
@@ -267,8 +273,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       if (!c) continue;
       for (const side of SIDES) {
         const ch = c[side];
-        if (ch.ending || !ch.next) hasExit = true;
-        else if (members.has(ch.next)) stack.push(ch.next);
+        const targets = [ch.next, ...Object.values(ch.nextByAlign ?? {})].filter((x): x is string => !!x);
+        if (ch.ending || targets.length === 0) hasExit = true;
+        for (const t of targets) if (members.has(t)) stack.push(t);
       }
     }
     for (const id of arc.cards) {
@@ -282,11 +289,13 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       color.set(id, 1);
       const c = cards.get(id);
       for (const side of SIDES) {
-        const n = c?.[side].next;
-        if (!n || !members.has(n) || !reached.has(n)) continue;
-        const col = color.get(n);
-        if (col === 1) return true;
-        if (col === undefined && visit(n)) return true;
+        const ch = c?.[side];
+        for (const n of [ch?.next, ...Object.values(ch?.nextByAlign ?? {})].filter((x): x is string => !!x)) {
+          if (!members.has(n) || !reached.has(n)) continue;
+          const col = color.get(n);
+          if (col === 1) return true;
+          if (col === undefined && visit(n)) return true;
+        }
       }
       color.set(id, 2);
       return false;
@@ -314,9 +323,10 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     const c = cards.get(queue.pop()!);
     if (!c) continue;
     for (const side of SIDES) {
-      for (const e of c[side].enqueue ?? []) if (cards.has(e.id)) seed(e.id);
-      const n = c[side].next;
-      if (n && cards.has(n)) seed(n);
+        for (const e of c[side].enqueue ?? []) if (cards.has(e.id)) seed(e.id);
+      for (const n of [c[side].next, ...Object.values(c[side].nextByAlign ?? {})]) {
+        if (n && cards.has(n)) seed(n);
+      }
     }
   }
   for (const c of content.cards) {

@@ -74,6 +74,11 @@ export interface Choice {
   enqueue?: Enqueue[];
   /** Arc branching: id of the next arc card. Omit to exit the arc. */
   next?: string;
+  /**
+   * Arc branching that differs by side, so a shared arc can tell a different story to each
+   * alignment (BACKLOG item 2). Takes precedence over `next` for the matching side.
+   */
+  nextByAlign?: Partial<Record<PlayerAlign, string>>;
   /** Ending id if this choice ends the run. On an election card's honest side the
    *  ending applies only when the vote is lost (mood below the threshold). */
   ending?: string;

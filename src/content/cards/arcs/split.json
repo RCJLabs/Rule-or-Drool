@@ -1,0 +1,133 @@
+[
+  {
+    "id": "arc_sp1",
+    "type": "arc",
+    "arc": "arc_split",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Half the movement says you have sold out. The other half says the first half is doing your enemies' work. Both halves are correct.",
+    "left": {
+      "label": "Let them argue in public",
+      "fx": {
+        "base": -5,
+        "public": 4,
+        "inst": 2
+      },
+      "drift": 3,
+      "next": "arc_sp2",
+      "setFlags": [
+        "split_open"
+      ]
+    },
+    "right": {
+      "label": "Back the loyal half",
+      "fx": {
+        "base": 5,
+        "public": -4,
+        "inst": -3,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "arc_sp2",
+    "type": "arc",
+    "arc": "arc_split",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The faction that called you a sell-out now has a candidate, a newsletter and roughly a third of your volunteers.",
+    "cond": {
+      "flags": [
+        "split_open"
+      ]
+    },
+    "left": {
+      "label": "Give them the platform",
+      "fx": {
+        "base": -3,
+        "public": 3,
+        "inst": 4,
+        "money": -2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "split_open"
+      ]
+    },
+    "right": {
+      "label": "Expel them",
+      "fx": {
+        "base": 6,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_sp3"
+    }
+  },
+  {
+    "id": "arc_sp3",
+    "type": "arc",
+    "arc": "arc_split",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "The expelled third is standing in forty seats. They wrote your manifesto, so they know which promises you have not kept.",
+    "left": {
+      "label": "Buy the wing back",
+      "fx": {
+        "money": -8,
+        "backers": -4,
+        "base": -2,
+        "public": 3
+      },
+      "drift": 2,
+      "clearFlags": [
+        "split_open"
+      ]
+    },
+    "right": {
+      "label": "Run at them",
+      "fx": {
+        "order": 4,
+        "inst": -5,
+        "public": -6,
+        "base": 3
+      },
+      "drift": -7,
+      "clearFlags": [
+        "split_open"
+      ]
+    }
+  }
+]

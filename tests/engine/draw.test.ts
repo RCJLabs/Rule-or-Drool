@@ -192,3 +192,30 @@ describe("draw: arcs", () => {
     expect(s.current).toBe("arc_t1");
   });
 });
+
+describe("draw: alignment affinity", () => {
+  /** Two drawable cards, one shared and one left-only, so the ratio is readable. */
+  function pair(alignAffinity: number) {
+    const fx = makeFixture();
+    const content = { ...fx, cards: [...fx.cards.filter((c) => c.type !== "event"), ev("shared"), ev("mine", { align: "left" })] };
+    return buildLibrary(content, { eraLength: 1000, electionInterval: 1000, arcEntryProb: 0, alignAffinity });
+  }
+
+  function mineShare(alignAffinity: number): number {
+    const l = pair(alignAffinity);
+    let mine = 0;
+    for (let seed = 1; seed <= 400; seed++) if (draw(l, start(l, {}, "left", seed)).current === "mine") mine++;
+    return mine / 400;
+  }
+
+  it("draws the player's own side more often than the shared deck", () => {
+    expect(mineShare(1)).toBeCloseTo(0.5, 1);
+    expect(mineShare(4)).toBeGreaterThan(0.7);
+  });
+
+  it("leaves the other side's cards out of the pool entirely", () => {
+    const l = pair(4);
+    const ids = new Set(play(l, start(l, {}, "right"), 40).ids);
+    expect(ids.has("mine")).toBe(false);
+  });
+});

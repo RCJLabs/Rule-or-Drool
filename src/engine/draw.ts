@@ -65,11 +65,12 @@ function poolCandidates(lib: Library, state: GameState, relax: Relax): Card[] {
   return out;
 }
 
-function pickFrom(state: GameState, cards: Card[]): [Card | null, GameState] {
+function pickFrom(lib: Library, state: GameState, cards: Card[]): [Card | null, GameState] {
   if (cards.length === 0) return [null, state];
+  const affinity = lib.config.alignAffinity;
   const r = pickWeighted(
     state.rngState,
-    cards.map((c) => c.weight ?? 1),
+    cards.map((c) => (c.weight ?? 1) * (c.align === state.align ? affinity : 1)),
   );
   const next = { ...state, rngState: r.state };
   if (r.index < 0) return [null, next];
@@ -85,7 +86,7 @@ function drawElection(lib: Library, state: GameState): [Card | null, GameState] 
         (relax.band || c.bands.includes(state.band)) &&
         eligible(c, state, { ...relax, cooldown: true }),
     );
-    if (cands.length > 0) return pickFrom(state, cands);
+    if (cands.length > 0) return pickFrom(lib, state, cands);
   }
   return [null, state];
 }
@@ -174,7 +175,7 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
 function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {
   for (const relax of LADDER) {
     const cands = poolCandidates(lib, state, relax);
-    if (cands.length > 0) return pickFrom(state, cands);
+    if (cands.length > 0) return pickFrom(lib, state, cands);
   }
   return [null, state];
 }

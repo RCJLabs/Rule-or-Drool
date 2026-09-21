@@ -128,6 +128,23 @@ describe("rules: arcs", () => {
     expect(codes(c)).toEqual(["error:arc-next-outside", "error:arc-unreachable", "warn:next-into-arc"]);
   });
 
+  it("follows nextByAlign the same way it follows next", () => {
+    // Reachability, arc membership and cycle detection all have to see both pointers,
+    // or a per-side branch reads as a dead card (BACKLOG item 2).
+    const reachable = makeValid();
+    delete card(reachable, "arc_a1").left.next;
+    card(reachable, "arc_a1").left.nextByAlign = { left: "arc_a2", right: "arc_a2" };
+    expect(codes(reachable)).toEqual([]);
+
+    const outside = makeValid();
+    card(outside, "arc_a1").left.nextByAlign = { left: "ev_a" };
+    expect(codes(outside)).toContain("error:arc-next-outside");
+
+    const notAnArc = makeValid();
+    card(notAnArc, "ev_b").left.nextByAlign = { left: "ev_c" };
+    expect(codes(notAnArc)).toContain("error:arc-membership");
+  });
+
   it("flags a weight-0 arc as dead", () => {
     const c = makeValid();
     c.arcs[0]!.weight = 0;

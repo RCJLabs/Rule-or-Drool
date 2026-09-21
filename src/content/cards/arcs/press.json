@@ -35,14 +35,17 @@
         "public": -3
       },
       "drift": -4,
-      "next": "arc_pr2",
+      "nextByAlign": {
+        "left": "arc_pr2l",
+        "right": "arc_pr2r"
+      },
       "setFlags": [
         "paper_bought"
       ]
     }
   },
   {
-    "id": "arc_pr2",
+    "id": "arc_pr2l",
     "type": "arc",
     "arc": "arc_press",
     "step": 2,
@@ -58,30 +61,83 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The paper needs an editor. There is a real journalist who would take it, and a former press officer of yours who would love it.",
+    "text": "The paper needs an editor. The unions have a candidate who would run it as the movement's paper. Its own journalists would rather run it themselves.",
     "cond": {
       "flags": [
         "paper_bought"
       ]
     },
     "left": {
-      "label": "Appoint the journalist",
+      "label": "Hand it to a staff co-op",
       "fx": {
-        "inst": 3,
+        "inst": 4,
         "base": -5,
-        "public": 4
+        "public": 4,
+        "backers": -3
       },
-      "drift": 4,
+      "drift": 5,
       "clearFlags": [
         "paper_bought"
       ]
     },
     "right": {
-      "label": "Appoint your man",
+      "label": "Make it ours",
       "fx": {
-        "money": 2,
-        "inst": -3,
         "base": 6,
+        "backers": 3,
+        "public": -4,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_pr3",
+      "setFlags": [
+        "media_captured"
+      ]
+    }
+  },
+  {
+    "id": "arc_pr2r",
+    "type": "arc",
+    "arc": "arc_press",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The paper needs an editor. The friend who bought it would like to seat his own board. Its own journalists would settle for a charter.",
+    "cond": {
+      "flags": [
+        "paper_bought"
+      ]
+    },
+    "left": {
+      "label": "Insist on a charter",
+      "fx": {
+        "inst": 4,
+        "base": -5,
+        "public": 4,
+        "backers": -4
+      },
+      "drift": 5,
+      "clearFlags": [
+        "paper_bought"
+      ]
+    },
+    "right": {
+      "label": "Let him seat the board",
+      "fx": {
+        "base": 5,
+        "backers": 4,
+        "money": 2,
+        "inst": -4,
         "public": -4
       },
       "drift": -5,

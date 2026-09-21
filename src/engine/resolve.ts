@@ -67,7 +67,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
 
   let activeArcs = s.activeArcs;
   if (card.arc) {
-    const next = choice.next ?? null;
+    const next = choice.nextByAlign?.[s.align] ?? choice.next ?? null;
     const idx = activeArcs.findIndex((a) => a.id === card.arc);
     activeArcs =
       idx >= 0

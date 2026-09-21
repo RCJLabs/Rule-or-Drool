@@ -37,6 +37,11 @@ export interface EngineConfig {
   advisorFlagPrefix: string;
   /** How many recently drawn ids are ineligible (7). */
   cooldownSize: number;
+  /**
+   * Weight multiplier for cards that match the player's side, so a left run leans on left
+   * content instead of drawing the shared deck at the same rate (BACKLOG item 2). 1 disables.
+   */
+  alignAffinity: number;
   /** Chance per draw to continue an active arc (7, step 3). */
   arcContinueProb: number;
   /** Chance per draw to start a new arc when eligible and under budget. Added. */
@@ -89,6 +94,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   },
   advisorFlagPrefix: "advisor_",
   cooldownSize: 15,
+  alignAffinity: 2,
   arcContinueProb: 0.5,
   arcEntryProb: 0.2,
   arcBudgetMin: 4,
