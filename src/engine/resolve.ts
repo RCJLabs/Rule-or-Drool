@@ -1,11 +1,28 @@
 import { endRun } from "./endings";
 import { getCard, type Library } from "./library";
-import { bandOf, clampDrift, clampMeter, exitBand, hasFlag, roll } from "./state";
+import { bandOf, clampDrift, clampMeter, exitBand, hasFlag, replaceAdvisor, roll } from "./state";
 import type { Card, GameState, Meters, Side } from "./types";
 import { METER_KEYS } from "./types";
 
 /**
- * Apply one choice: meter effects (scaled by band volatility), drift, flags, queue,
+ * How the advisor currently holding a role scales that role's own card effects (5.8).
+ * Traits multiply; `gain` applies to effects that help, `loss` to effects that hurt.
+ */
+export function traitScale(lib: Library, state: GameState, speaker: string): { gain: number; loss: number } {
+  const advisor = lib.advisorsById.get(state.cabinet[speaker] ?? "");
+  let gain = 1;
+  let loss = 1;
+  for (const t of advisor?.traits ?? []) {
+    const fx = lib.config.traitEffects[t];
+    if (!fx) continue;
+    gain *= fx.gain;
+    loss *= fx.loss;
+  }
+  return { gain, loss };
+}
+
+/**
+ * Apply one choice: meter effects (scaled by band volatility and advisor traits), drift, flags, queue,
  * arc pointer, election bookkeeping and any ending the choice itself carries.
  * Does not tick the card counter. Deterministic (no RNG), so preview() can reuse it.
  */
@@ -25,11 +42,12 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   }
 
   const mult = cfg.volatility[s.band];
+  const trait = traitScale(lib, s, card.speaker);
   const meters: Meters = { ...s.meters };
   if (choice.fx) {
     for (const k of METER_KEYS) {
       const v = choice.fx[k];
-      if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult));
+      if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult * (v > 0 ? trait.gain : trait.loss)));
     }
   }
   const drift = clampDrift(s.drift + (choice.drift ?? 0));
@@ -133,6 +151,7 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   }
   const card = getCard(lib, cardId);
   let s = applyChoice(lib, state, card, side);
+  if (card[side].fireSpeaker) s = replaceAdvisor(lib, s, card.speaker);
   s = { ...s, current: null, cardCount: s.cardCount + 1 };
   s = checkOuster(lib, s);
   s = checkElection(lib, s);

@@ -32,6 +32,7 @@ export interface BotSummary {
   finaleBands: Record<Band, number>;
   electionsPerRun: number;
   cheatsPerElection: number;
+  arcsPerRun: number;
   relaxedPerRun: { cooldown: number; band: number; era: number };
 }
 
@@ -57,12 +58,14 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
   const byEraCounts = new Map<number, number>();
   let elections = 0;
   let cheats = 0;
+  let arcs = 0;
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   for (const r of results) {
     endingCounts.set(r.endingId, (endingCounts.get(r.endingId) ?? 0) + 1);
     byEraCounts.set(r.era, (byEraCounts.get(r.era) ?? 0) + 1);
     elections += r.electionsSeen;
     cheats += r.cheats;
+    arcs += r.arcs;
     relaxed.cooldown += r.relaxed.cooldown;
     relaxed.band += r.relaxed.band;
     relaxed.era += r.relaxed.era;
@@ -82,6 +85,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     finaleBands: bandShares(results.filter((r) => r.finale)),
     electionsPerRun: elections / n,
     cheatsPerElection: elections > 0 ? cheats / elections : 0,
+    arcsPerRun: arcs / n,
     relaxedPerRun: { cooldown: relaxed.cooldown / n, band: relaxed.band / n, era: relaxed.era / n },
   };
 }
@@ -107,7 +111,7 @@ export function formatSummary(s: BotSummary): string {
       `finale band decay ${pct(s.finaleBands.decay)}  muddle ${pct(s.finaleBands.muddle)}  ascent ${pct(s.finaleBands.ascent)}`,
     );
   }
-  lines.push(`elections   ${f1(s.electionsPerRun)} per run, cheated ${pct(s.cheatsPerElection)} of them`);
+  lines.push(`elections   ${f1(s.electionsPerRun)} per run, cheated ${pct(s.cheatsPerElection)} of them   arcs ${f1(s.arcsPerRun)} per run`);
   lines.push(
     `relaxed draws per run   cooldown ${f1(s.relaxedPerRun.cooldown)}  band ${f1(s.relaxedPerRun.band)}  era ${f1(s.relaxedPerRun.era)}`,
   );
@@ -134,19 +138,25 @@ export function formatContentStats(lib: Library): string {
     });
     lines.push(`  era ${era}: ${cells.join("   ")}`);
   }
-  // Net effect bias of the card set: the cheap way to see which meter a bot bleeds from.
+  // Per-side effect budget: the dial for the section 5.2 rule that temptation pays now
+  // and honesty pays later. Tune content against these numbers, not by feel.
   const choices = cards.filter((c) => c.type === "event").flatMap((c) => [c.left, c.right]);
-  const bias = METER_KEYS.map((k) => `${k} ${(choices.reduce((a, ch) => a + (ch.fx?.[k] ?? 0), 0) / choices.length).toFixed(2)}`);
-  lines.push(`mean fx per event choice: ${bias.join("  ")}`);
   const tempting = choices.filter((ch) => (ch.drift ?? 0) < 0);
   const honest = choices.filter((ch) => (ch.drift ?? 0) > 0);
-  const fxSum = (ch: (typeof choices)[number]) => METER_KEYS.reduce((a, k) => a + (ch.fx?.[k] ?? 0), 0);
+  const neutral = choices.filter((ch) => (ch.drift ?? 0) === 0);
   const avg = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0);
-  lines.push(
-    `drift-negative choices: ${tempting.length}, mean drift ${avg(tempting.map((ch) => ch.drift ?? 0)).toFixed(2)}, mean fx total ${avg(tempting.map(fxSum)).toFixed(2)}`,
-  );
-  lines.push(
-    `drift-positive choices: ${honest.length}, mean drift ${avg(honest.map((ch) => ch.drift ?? 0)).toFixed(2)}, mean fx total ${avg(honest.map(fxSum)).toFixed(2)}`,
-  );
+  const perMeter = (list: typeof choices) => METER_KEYS.map((k) => avg(list.map((ch) => ch.fx?.[k] ?? 0)));
+  const total = (list: typeof choices) => avg(list.map((ch) => METER_KEYS.reduce((a, k) => a + (ch.fx?.[k] ?? 0), 0)));
+  const row = (label: string, list: typeof choices) =>
+    `  ${label.padEnd(9)} n=${String(list.length).padStart(3)}  drift ${avg(list.map((ch) => ch.drift ?? 0))
+      .toFixed(2)
+      .padStart(6)}  ${METER_KEYS.map((k, i) => `${k} ${perMeter(list)[i]!.toFixed(2).padStart(5)}`).join("  ")}  total ${total(list).toFixed(2).padStart(6)}`;
+  lines.push("event choice budget (mean per choice):");
+  lines.push(row("tempting", tempting));
+  lines.push(row("honest", honest));
+  if (neutral.length) lines.push(row("neutral", neutral));
+  lines.push(row("all", choices));
+  const enq = (list: typeof choices) => list.filter((ch) => (ch.enqueue?.length ?? 0) > 0).length;
+  lines.push(`  delayed consequences: ${enq(tempting)}/${tempting.length} tempting, ${enq(honest)}/${honest.length} honest`);
   return lines.join("\n");
 }

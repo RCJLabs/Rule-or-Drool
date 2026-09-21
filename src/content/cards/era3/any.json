@@ -1,0 +1,645 @@
+[
+  {
+    "id": "c01_forgotten_code",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The water system runs on code nobody alive can read. It has worked for sixty years, which is the worrying part.",
+    "oneShot": true,
+    "left": {
+      "label": "Rewrite it properly",
+      "fx": {
+        "money": -10,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it running",
+      "fx": {
+        "money": 5,
+        "mood": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_system_fails",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "c02_orbital_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The orbital colonies pay no tax to the ground. They point out, correctly, that they built themselves.",
+    "left": {
+      "label": "Negotiate a treaty",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "mood": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax them anyway",
+      "fx": {
+        "money": 7,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_orbit_secedes",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "c03_heat_belt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The southern belt is too hot to farm now. Nine million people would like to know the plan.",
+    "oneShot": true,
+    "left": {
+      "label": "Move them north, funded",
+      "fx": {
+        "money": -10,
+        "mood": 5,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Announce a study",
+      "fx": {
+        "money": 2,
+        "mood": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c04_ministry_of_none",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A ministry has been discovered with no staff, no budget and four hundred years of statutory duties.",
+    "left": {
+      "label": "Staff it",
+      "fx": {
+        "money": -6,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Abolish the duties",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c05_memory_law",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A bill would make it illegal to teach the unflattering century. The unflattering century is the one you started.",
+    "oneShot": true,
+    "left": {
+      "label": "Veto it",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sign it",
+      "fx": {
+        "mood": 4,
+        "order": 2,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c06_last_engineer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The last person who understands the reactor is seventy-one. She has offered to teach. It takes nine years.",
+    "oneShot": true,
+    "left": {
+      "label": "Start the nine years",
+      "fx": {
+        "money": -7,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Record her instead",
+      "fx": {
+        "money": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c07_deep_archive",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Historians want the sealed files from your century opened. Some of them are about you personally.",
+    "left": {
+      "label": "Open them",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Extend the seal",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c08_generation_ship",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The long ship is costed. Nobody who votes for it will see it leave, and nobody aboard will see it arrive.",
+    "oneShot": true,
+    "left": {
+      "label": "Build it",
+      "fx": {
+        "money": -10,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 5,
+      "setFlags": [
+        "long_ship"
+      ]
+    },
+    "right": {
+      "label": "Build stadiums",
+      "fx": {
+        "mood": 5,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c09_plague_vault",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The old plague samples are in a vault whose lease expires. Destroying them ends a research programme.",
+    "oneShot": true,
+    "left": {
+      "label": "Destroy them",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the lease",
+      "fx": {
+        "money": 7,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c10_citizen_score",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Everyone has a civic score now. Nobody remembers voting for it. It is very convenient.",
+    "left": {
+      "label": "Dismantle it",
+      "fx": {
+        "order": -6,
+        "money": -4,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Add a few categories",
+      "fx": {
+        "order": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "q_uncounted",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "c11_water_rights",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Three families own the aquifer. Their great-grandparents bought it from a government much like yours.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it back",
+      "fx": {
+        "money": -10,
+        "mood": 6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take a directorship",
+      "fx": {
+        "money": 7,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c12_census_again",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nobody has counted the population in forty years. Estimates vary by eleven million.",
+    "oneShot": true,
+    "left": {
+      "label": "Count them",
+      "fx": {
+        "money": -6,
+        "inst": 4,
+        "mood": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Use the estimate",
+      "fx": {
+        "money": 4,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c13_founders_day",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Founders' Day honours the leader who started your line. The historians have prepared some notes.",
+    "left": {
+      "label": "Publish the notes",
+      "fx": {
+        "mood": -6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a second statue",
+      "fx": {
+        "mood": 4,
+        "money": -2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c14_border_treaty",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The neighbours propose disarming the frontier. Both armies exist mainly to explain why the other exists.",
+    "oneShot": true,
+    "left": {
+      "label": "Sign the treaty",
+      "fx": {
+        "order": -6,
+        "money": 6,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Double the garrison",
+      "fx": {
+        "order": 6,
+        "mood": 1,
+        "money": -5
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c15_succession",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The succession rules were written for a country half this size and are now, technically, unreadable.",
+    "left": {
+      "label": "Rewrite them openly",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Interpret them yourself",
+      "fx": {
+        "order": 4,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c16_ad_anthem",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The anthem has a sponsor now. The sponsor would like a slightly catchier anthem.",
+    "left": {
+      "label": "Keep the old one",
+      "fx": {
+        "money": -5,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Approve the remix",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c17_literacy_floor",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The ministry has rewritten the law at a reading level the public can manage. It is four pages and means nothing.",
+    "left": {
+      "label": "Teach reading instead",
+      "fx": {
+        "money": -7,
+        "mood": -2,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Shorten it again",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c18_second_ring",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The ring your predecessors started is one span from complete. The final span is the expensive one.",
+    "cond": {
+      "flags": [
+        "ring_started"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Finish it",
+      "fx": {
+        "money": -8,
+        "mood": 6,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Leave it as a monument",
+      "fx": {
+        "money": 4,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c19_quiet_competence",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nothing is on fire. The ministries work. Your press secretary is worried there is no story this week.",
+    "left": {
+      "label": "Let it be dull",
+      "fx": {
+        "mood": -5,
+        "inst": 2,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invent a story",
+      "fx": {
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  }
+]

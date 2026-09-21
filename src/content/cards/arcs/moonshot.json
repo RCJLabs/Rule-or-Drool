@@ -1,0 +1,176 @@
+[
+  {
+    "id": "arc_ms1",
+    "type": "arc",
+    "arc": "arc_moonshot",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The engineers have a programme that would take three governments to finish and outlast every one of them.",
+    "left": {
+      "label": "Fund it",
+      "fx": {
+        "money": -10,
+        "inst": 2
+      },
+      "drift": 5,
+      "next": "arc_ms2",
+      "setFlags": [
+        "moonshot_funded"
+      ]
+    },
+    "right": {
+      "label": "Shelve it",
+      "fx": {
+        "money": 4,
+        "mood": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "arc_ms2",
+    "type": "arc",
+    "arc": "arc_moonshot",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The first test failed on live television in a way that will be replayed for a decade.",
+    "cond": {
+      "flags": [
+        "moonshot_funded"
+      ]
+    },
+    "left": {
+      "label": "Fund the second test",
+      "fx": {
+        "money": -7,
+        "mood": -5
+      },
+      "drift": 5,
+      "next": "arc_ms3"
+    },
+    "right": {
+      "label": "Cancel it",
+      "fx": {
+        "money": 5,
+        "mood": 2,
+        "inst": -1
+      },
+      "drift": -4,
+      "clearFlags": [
+        "moonshot_funded"
+      ]
+    }
+  },
+  {
+    "id": "arc_ms3",
+    "type": "arc",
+    "arc": "arc_moonshot",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A donor's firm would like the launch contract. It has never built anything that left the ground.",
+    "cond": {
+      "flags": [
+        "moonshot_funded"
+      ]
+    },
+    "left": {
+      "label": "Give him the contract",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -4
+      },
+      "drift": -6,
+      "clearFlags": [
+        "moonshot_funded"
+      ]
+    },
+    "right": {
+      "label": "Open the tender",
+      "fx": {
+        "money": -5,
+        "inst": 2
+      },
+      "drift": 5,
+      "next": "arc_ms4"
+    }
+  },
+  {
+    "id": "arc_ms4",
+    "type": "arc",
+    "arc": "arc_moonshot",
+    "step": 4,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "It flies. It works. There is a plaque, and a decision about whose name goes on it.",
+    "cond": {
+      "flags": [
+        "moonshot_funded"
+      ]
+    },
+    "left": {
+      "label": "Your name",
+      "fx": {
+        "mood": 5,
+        "inst": -1
+      },
+      "drift": -4,
+      "clearFlags": [
+        "moonshot_funded"
+      ]
+    },
+    "right": {
+      "label": "The engineers' names",
+      "fx": {
+        "mood": 6,
+        "inst": 4
+      },
+      "drift": 6,
+      "clearFlags": [
+        "moonshot_funded"
+      ],
+      "setFlags": [
+        "orbit_reached"
+      ]
+    }
+  }
+]

@@ -128,6 +128,7 @@ export const CHOICE_SPEC: Spec = {
     ending: ID,
     honest: BOOL,
     electionDelay: POSITIVE_INT,
+    fireSpeaker: BOOL,
   },
 };
 

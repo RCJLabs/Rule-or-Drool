@@ -1,0 +1,161 @@
+[
+  {
+    "id": "d01_skim_remembered",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An old reconstruction ledger has surfaced in a house clearance. Your name is in it, in your own hand.",
+    "cond": {
+      "flags": [
+        "took_the_skim"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Return it with interest",
+      "fx": {
+        "money": -8,
+        "inst": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "took_the_skim"
+      ]
+    },
+    "right": {
+      "label": "Buy the house",
+      "fx": {
+        "money": -2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d02_feed_inheritance",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The feed you took the dial of now has a dial of its own, and nobody can find the room it is in.",
+    "cond": {
+      "flags": [
+        "feed_captured"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Hand it to a regulator",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 5,
+      "clearFlags": [
+        "feed_captured"
+      ]
+    },
+    "right": {
+      "label": "Leave it running",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "d03_ship_name",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The long ship needs a name and a crew list. Both attract people who would like to be remembered.",
+    "cond": {
+      "flags": [
+        "long_ship"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Crew it on merit",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Crew it with donors",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "d04_after_orbit",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Since the launch, every ministry wants its own programme, and every one of them cites the engineers.",
+    "cond": {
+      "flags": [
+        "orbit_reached"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Fund two, properly",
+      "fx": {
+        "money": -7,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fund all nine",
+      "fx": {
+        "money": -4,
+        "mood": 4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

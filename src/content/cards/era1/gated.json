@@ -1,0 +1,483 @@
+[
+  {
+    "id": "g_recession_austerity",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The recession you inherited has a second act. The treasury wants cuts; the cuts have names and addresses.",
+    "cond": {
+      "flags": [
+        "crisis_recession"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Cut honestly",
+      "fx": {
+        "money": 7,
+        "mood": -6,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Borrow and smile",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 22
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_pandemic_ward",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The fever wards are full. There are two numbers: the real one, and the one that fits on a podium.",
+    "cond": {
+      "flags": [
+        "crisis_pandemic"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Publish the real one",
+      "fx": {
+        "mood": -6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish the other",
+      "fx": {
+        "mood": 2,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "g_war_front",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The war you inherited needs either more soldiers or an ending. The general has costed both.",
+    "cond": {
+      "flags": [
+        "crisis_war"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Sue for peace",
+      "fx": {
+        "money": 6,
+        "order": -6,
+        "mood": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Send more",
+      "fx": {
+        "order": 5,
+        "mood": 2,
+        "money": -5
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_coffins_home",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_disaster_rubble",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The rubble is still warm. Rebuilding properly takes four years. A ribbon takes an afternoon.",
+    "cond": {
+      "flags": [
+        "crisis_disaster"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Rebuild properly",
+      "fx": {
+        "money": -8,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cut a ribbon",
+      "fx": {
+        "mood": 4,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_vain_portrait",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A painter has been commissioned for your official portrait. He asks, delicately, how tall you would like to be.",
+    "cond": {
+      "flags": [
+        "flaw_vain"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Life size",
+      "fx": {
+        "mood": -2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Somewhat taller",
+      "fx": {
+        "mood": 2,
+        "money": -2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_greedy_skim",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The reconstruction fund has a rounding error the size of a house. It could be your house.",
+    "cond": {
+      "flags": [
+        "flaw_greedy"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Return it",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Round it your way",
+      "fx": {
+        "money": 7,
+        "inst": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "took_the_skim"
+      ]
+    }
+  },
+  {
+    "id": "g_paranoid_wiretap",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Someone in the cabinet is leaking. You could find out who, or you could find out everything about everyone.",
+    "cond": {
+      "flags": [
+        "flaw_paranoid"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Just find the leak",
+      "fx": {
+        "order": -2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Tap them all",
+      "fx": {
+        "order": 6,
+        "inst": -2,
+        "mood": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "g_naive_deal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A foreign bank offers terms so good your treasurer reads them twice, then a third time, then goes very quiet.",
+    "cond": {
+      "flags": [
+        "flaw_naive"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Read the small print",
+      "fx": {
+        "money": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sign it",
+      "fx": {
+        "money": 8,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_corrupt_envelope",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Your treasurer hands you an envelope and explains it is customary. It is not customary.",
+    "cond": {
+      "flags": [
+        "advisor_corrupt"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Hand it back",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "mood": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pocket it",
+      "fx": {
+        "money": 6,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "g_zealot_purge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "One of your ministers has a list of people who are insufficiently committed. The list is getting longer daily.",
+    "cond": {
+      "flags": [
+        "advisor_zealot"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Burn the list",
+      "fx": {
+        "order": -5,
+        "inst": 2,
+        "mood": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Work the list",
+      "fx": {
+        "order": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "g_competent_fix",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Someone in your cabinet has quietly fixed the licensing office. She wants to do the same to procurement.",
+    "cond": {
+      "flags": [
+        "advisor_competent"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Let her",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "mood": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Procurement pays rent",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_loyal_blame",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The contract scandal is yours. One of your people offers to say it was theirs, and means it.",
+    "cond": {
+      "flags": [
+        "advisor_loyal"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Take the blame",
+      "fx": {
+        "mood": -6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them",
+      "fx": {
+        "mood": 2,
+        "order": 1,
+        "inst": -1
+      },
+      "drift": -4,
+      "fireSpeaker": true
+    }
+  }
+]

@@ -4,6 +4,7 @@ import type { Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { Frame } from "./Frame";
+import { SetupSummary } from "./SetupSummary";
 import { themeFor } from "./theme";
 
 interface Props {
@@ -31,6 +32,7 @@ export function Ending({ lib, state, onPlayAgain }: Props) {
           </p>
           <p>{epilogue?.text ?? "The record ends here."}</p>
         </section>
+        <SetupSummary lib={lib} modifiers={state.modifiers} compact />
         <dl className="stats">
           <dt>Cards</dt>
           <dd>{state.cardCount}</dd>

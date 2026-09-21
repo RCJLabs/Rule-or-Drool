@@ -6,9 +6,9 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 |---|---|---|
 | 1 | Engine + harness | Done |
 | 2 | Validator (`scripts/validate-content.ts`) | Done |
-| 3 | Swipe UI, first human playtest | **Built and deployed** (this commit); playtest is yours |
-| 4 | Elections, arcs, cabinet, run setup; harness targets met | Next |
-| 5 | Bulk content to MVP scope | |
+| 3 | Swipe UI, first human playtest | Built and deployed; playtest is yours |
+| 4 | Elections, arcs, cabinet, run setup; harness targets met | **Done** (this commit) |
+| 5 | Bulk content to MVP scope | Next |
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | |
 | 7 | PWA, then TWA | |
 
@@ -272,9 +272,92 @@ with its source set to "GitHub Actions". No settings visit was needed for that.
 - Every deploy bumps `APP_VERSION` in `src/version.ts`; from phase 7 also `CACHE_NAME` in
   `public/sw.js`.
 
-## Phase 4 notes (next)
+## Phase 4: what shipped
 
-Elections and arcs already exist in the engine; phase 4 is content and tuning: three arcs
-including `term_limits`, cabinet traits that modify a speaker's effects, run setup (crisis,
-trait, flaw), then the section 8 targets. Start with the Money drain and the honest-side
-cost from the phase 1 report; the mixed bot cannot reach Ascent until those move.
+All five section 8 targets pass. Measured over 10,000 runs per bot, `npm run simulate`:
+
+| Target | Result |
+|---|---|
+| random: median run 40–60 cards | PASS, 51 |
+| random: no single ouster cause above 35% | PASS, bankruptcy 31.8% |
+| greedy: ends in Decay ≥ 70% | PASS, 95.3% |
+| saint: ousted before era 2 ≥ 60% | PASS, 100% |
+| mixed: reaches Ascent 15–30% | PASS, 23.8% |
+
+`npm test` now asserts these, so a content change that breaks the balance fails CI.
+
+- **Cabinet (5.8).** Two advisors per role, eighteen in all, each carrying hidden traits.
+  A trait scales the meter effects of that advisor's own cards: `competent` 1.3 gain and
+  0.7 loss, `loyal` 0.85 loss, `zealot` 1.4 both ways, `corrupt` 1.35 loss. Traits multiply
+  when stacked, and stack on top of band volatility. Run start writes one
+  `advisor_<trait>` flag per trait sitting in the cabinet, which is how arcs and cards gate
+  on cabinet quality. A choice may carry `fireSpeaker`, which swaps that role's advisor and
+  refreshes the flags; `preview` deliberately does not, so the swipe hint stays honest.
+- **Run setup (5.9).** `rollSetup` draws one opening crisis, one leader trait and one flaw
+  from twelve modifiers, deterministically from the seed. They move starting meters, set
+  flags that gated cards read, and weight arcs. Starting meters are then clamped to 25–75
+  so no run opens in the danger zone. The setup screen shows the draw before you commit,
+  and the ending screen repeats it.
+- **Arcs (5.7), three of them.** `term_limits` enters when mood is under 45 and elections
+  still exist, and runs find-an-emergency, permanent-powers, leader-for-life, each step
+  refusable. `cabinet_plot` enters only with a corrupt advisor in the room and ends either
+  in a firing, a confession, or the `blackmailed` ending. `moonshot` enters on strong
+  institutions and pays off only if you keep funding it and open the tender.
+- **Content: 130 cards across all three eras**, up from 39 in era 1. Era 2 is automation,
+  captured feeds and private policing; era 3 is code nobody can read, orbital colonies and
+  a heat belt. Eighteen consequence cards, thirty-one tempting choices now enqueue one.
+  The validator passes clean at the default cell minimum for every era, band and alignment.
+
+### How the balance was actually found
+
+The harness prints a per-side effect budget, which is the dial worth watching:
+
+```
+  tempting  n=116  drift  -3.56  mood  1.40  money  1.88  order  1.02  inst -1.62
+  honest    n=116  drift   3.70  mood -1.47  money -3.21  order -0.81  inst  2.09
+```
+
+Three findings, each established by measurement rather than taste:
+
+1. **Institutions were the hidden killer.** Honest play raised Institutions about 3 a card,
+   so a careful player hit the paralysis end inside twenty cards and, more importantly, sat
+   permanently in the mixed bot's danger zone, which forced it into greedy mode and made it
+   cheat 72% of elections. Halving the Institutions swing on both sides fixed the Ascent
+   target more than any other change.
+2. **Mood must stay flat across the deck.** When honest choices were made cheap in mood,
+   mood inflated for everyone, personality-cult endings hit 55%, and the greedy bot started
+   picking honest options purely to push meters back toward the middle, which collapsed its
+   Decay rate to 22%. Tempting and honest mood effects have to roughly cancel.
+3. **Run length and Ascent need different levers.** Overall effect magnitude sets how long a
+   random run lasts; `eraMeterPull` sets how much recovery room a careful player gets. Trying
+   to fix both with one knob fails: at pull 0.3 random is fine and Ascent is 7%, at 0.5 the
+   reverse. Magnitudes went up 20% and pull went 0.5 to 0.65, and both targets land.
+
+`eraMeterPull` is the single most sensitive constant in the game. Ascent runs 12% at 0.5,
+24% at 0.65, 26% at 0.7. Treat it as a balance dial, not a detail.
+
+### Decisions made in phase 4
+
+- Traits change meter effects only, never drift. The spec says traits "modify the effects of
+  that speaker's cards"; letting them touch drift would make cabinet luck silently decide the
+  ending, which the hidden-drift design cannot afford.
+- `term_limits` ends in abolished elections rather than an ending card, so the existing
+  coup-risk check does the killing. That reuses a mechanic instead of adding a cul-de-sac.
+- Arc entry gates on cabinet traits through flags rather than a new condition type, so the
+  validator's flag rules cover them for free.
+- The validator learned two things: `advisor_*` flags are engine-set, so reading one without
+  setting it is legal, but naming a trait no advisor has is an error; and `fireSpeaker` on a
+  role with only one advisor is a warning, since it silently does nothing.
+- The saint bot sits at 100% ousted before era 2 against a floor of 60%. It passes, but the
+  margin is one-sided: honest play is currently not merely costly, it is fatal without the
+  occasional compromise. Worth revisiting in phase 5 if playtests say good feels impossible
+  rather than expensive.
+
+## Phase 5 notes (next)
+
+`npm run validate:mvp` is the gate: every era, 25 cards per cell, warnings fatal. It
+currently reports 12 thin cells, all of them era 2 and 3 at 16–23 cards against 25. That is
+the phase 5 target, roughly 170 more cards. Generate by era, band and alignment in batches of
+20–30, run the validator, then edit by hand; section 13 is right that the edit pass is the
+bottleneck. Keep the per-side effect budget in view while writing: the balance above is a
+property of the whole deck, and `npm test` will catch a batch that breaks it.

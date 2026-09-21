@@ -3,64 +3,390 @@
     "id": "q_illiterate_ballot",
     "type": "event",
     "align": "any",
-    "eras": [1, 2, 3],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "spin",
     "text": "The class you starved is graduating. The ballot now needs pictures, and the printers want a bigger budget for pictures.",
-    "cond": { "flags": ["schools_starved"] },
+    "cond": {
+      "flags": [
+        "schools_starved"
+      ]
+    },
     "weight": 0,
-    "left": { "label": "Add the pictures", "fx": { "money": -3 }, "drift": -2 },
-    "right": { "label": "Fund literacy", "fx": { "money": -6, "mood": -2 }, "drift": 3, "clearFlags": ["schools_starved"] }
+    "left": {
+      "label": "Add the pictures",
+      "fx": {
+        "money": -5,
+        "inst": -1
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Fund literacy",
+      "fx": {
+        "money": -7,
+        "inst": 2
+      },
+      "drift": 3,
+      "clearFlags": [
+        "schools_starved"
+      ]
+    }
   },
   {
     "id": "q_bridge_collapse",
     "type": "event",
     "align": "any",
-    "eras": [1, 2, 3],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "chief",
     "text": "The river bridge fell into the river. There was a bus on it.",
-    "cond": { "flags": ["bridge_ignored"] },
+    "cond": {
+      "flags": [
+        "bridge_ignored"
+      ]
+    },
     "weight": 0,
-    "left": { "label": "Blame the inspectors", "fx": { "mood": -3, "inst": -3 }, "drift": -3 },
-    "right": { "label": "Take responsibility", "fx": { "mood": -6, "inst": 2 }, "drift": 3 }
+    "left": {
+      "label": "Blame the inspectors",
+      "fx": {
+        "mood": -2,
+        "inst": -2
+      },
+      "drift": -3,
+      "clearFlags": [
+        "bridge_ignored"
+      ]
+    },
+    "right": {
+      "label": "Take responsibility",
+      "fx": {
+        "mood": -8,
+        "inst": 2
+      },
+      "drift": 4,
+      "clearFlags": [
+        "bridge_ignored"
+      ]
+    }
   },
   {
     "id": "q_coast_flood",
     "type": "event",
     "align": "any",
-    "eras": [1, 2, 3],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "scientist",
     "text": "The coast flooded on schedule. The second study was very thorough.",
-    "cond": { "notFlags": ["seawall"] },
+    "cond": {
+      "notFlags": [
+        "seawall"
+      ]
+    },
     "weight": 0,
-    "left": { "label": "Emergency relief", "fx": { "money": -8, "mood": -2 }, "drift": 2 },
-    "right": { "label": "Call it an act of God", "fx": { "mood": -5, "order": -3 }, "drift": -3 }
+    "left": {
+      "label": "Emergency relief",
+      "fx": {
+        "money": -10,
+        "mood": 5
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it an act of God",
+      "fx": {
+        "mood": -4,
+        "order": -5
+      },
+      "drift": -3
+    }
   },
   {
     "id": "q_fever_spreads",
     "type": "event",
     "align": "any",
-    "eras": [1, 2, 3],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "scientist",
     "text": "The fever reached the capital by rail.",
     "weight": 0,
-    "left": { "label": "Lock down the city", "fx": { "money": -5, "order": -3, "mood": -4 }, "drift": 2 },
-    "right": { "label": "Reassure everyone", "fx": { "mood": 2, "order": -3, "inst": -2 }, "drift": -3 }
+    "left": {
+      "label": "Lock down the city",
+      "fx": {
+        "money": -7,
+        "order": -4,
+        "mood": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Reassure everyone",
+      "fx": {
+        "mood": 2,
+        "order": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
   },
   {
     "id": "q_housing_shortage",
     "type": "event",
     "align": "any",
-    "eras": [1, 2, 3],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "treasurer",
     "text": "Nobody builds apartments anymore. The waiting list is longer than a novel.",
-    "cond": { "notFlags": ["housing_built"] },
+    "cond": {
+      "notFlags": [
+        "housing_built"
+      ]
+    },
     "weight": 0,
-    "left": { "label": "Lift the freeze", "fx": { "mood": -5, "money": 3 }, "drift": 2 },
-    "right": { "label": "Extend it", "fx": { "mood": 2, "money": -3 }, "drift": -2 }
+    "left": {
+      "label": "Lift the freeze",
+      "fx": {
+        "mood": -6,
+        "money": 4,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Extend it",
+      "fx": {
+        "mood": 1,
+        "money": -4,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q_pension_gap",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The pensioners have noticed. They are retired, so they have all day to keep noticing.",
+    "cond": {
+      "flags": [
+        "pension_raided"
+      ]
+    },
+    "weight": 0,
+    "left": {
+      "label": "Pay them back",
+      "fx": {
+        "money": -8,
+        "mood": 6,
+        "inst": 1
+      },
+      "drift": 4,
+      "clearFlags": [
+        "pension_raided"
+      ]
+    },
+    "right": {
+      "label": "Raise the retirement age",
+      "fx": {
+        "money": 5,
+        "mood": -4,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q_taps_dry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "It did not rain. The taps in the eastern districts now run for two hours a day.",
+    "weight": 0,
+    "left": {
+      "label": "Truck water in",
+      "fx": {
+        "money": -8,
+        "mood": 5
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the east",
+      "fx": {
+        "mood": -2,
+        "order": -5,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q_debt_called",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The loan has come due, along with the part of it nobody read aloud.",
+    "weight": 0,
+    "left": {
+      "label": "Pay in full",
+      "fx": {
+        "money": -10,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Default loudly",
+      "fx": {
+        "money": 4,
+        "mood": 1,
+        "inst": -4
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q_coffins_home",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The transports come home at night now, so the cameras cannot count them.",
+    "weight": 0,
+    "left": {
+      "label": "Meet every one",
+      "fx": {
+        "mood": -5,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the schedule",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q_refinery_fire",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The refinery inspected itself right up until it caught fire. The smoke is visible from the capital.",
+    "weight": 0,
+    "left": {
+      "label": "Prosecute the owners",
+      "fx": {
+        "money": 4,
+        "mood": 5,
+        "order": -4,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Call it an accident",
+      "fx": {
+        "money": 2,
+        "mood": -2,
+        "inst": -2
+      },
+      "drift": -3
+    }
   }
 ]

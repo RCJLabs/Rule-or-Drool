@@ -1,15 +1,72 @@
 [
-  { "id": "riots", "title": "The Streets Decide", "text": "The crowd that put you in the palace took it back. You left through the kitchen." },
-  { "id": "personality_cult", "title": "Beloved Unto Death", "text": "They loved you so much they stopped needing the rest of the government. Then they stopped needing you." },
-  { "id": "bankruptcy", "title": "Insufficient Funds", "text": "The treasury bounced its own cheque. The creditors sent a new leader with the bailout." },
-  { "id": "oligarchy", "title": "Owned", "text": "The people who paid for everything would now like a receipt. It has your office on it." },
-  { "id": "anarchy", "title": "Nobody in Charge", "text": "The last policeman went home. So did everyone else. The palace is a squat now." },
-  { "id": "police_state", "title": "Security Concern", "text": "The security services concluded that you were the last remaining threat to security." },
-  { "id": "state_collapse", "title": "Out of Office", "text": "There was no ministry left to sign your removal, so nobody did. You simply stopped being in charge." },
-  { "id": "paralysis", "title": "Pending Review", "text": "Your removal was approved by all forty-one committees. It took nine years. You were long gone." },
-  { "id": "election_loss", "title": "Conceded", "text": "You lost. You said so on television, which is more than most manage. The moving van came Tuesday." },
-  { "id": "coup", "title": "Change of Management", "text": "The generals thanked you for your service in a short broadcast. You were not invited to it." },
-  { "id": "finale_decay", "title": "Under Its Own Weight", "text": "The lights went out for the last time, and nobody in the building knew which switch it was." },
-  { "id": "finale_muddle", "title": "Still Standing", "text": "The country neither fell nor flew. Historians argue about whether that counts." },
-  { "id": "finale_ascent", "title": "Orbit", "text": "The first ship left on time. The people who built it remembered who let them." }
+  {
+    "id": "riots",
+    "title": "The Streets Decide",
+    "text": "The crowd that put you in the palace took it back. You left through the kitchen."
+  },
+  {
+    "id": "personality_cult",
+    "title": "Beloved Unto Death",
+    "text": "They loved you so much they stopped needing the rest of the government. Then they stopped needing you."
+  },
+  {
+    "id": "bankruptcy",
+    "title": "Insufficient Funds",
+    "text": "The treasury bounced its own cheque. The creditors sent a new leader with the bailout."
+  },
+  {
+    "id": "oligarchy",
+    "title": "Owned",
+    "text": "The people who paid for everything would now like a receipt. It has your office on it."
+  },
+  {
+    "id": "anarchy",
+    "title": "Nobody in Charge",
+    "text": "The last policeman went home. So did everyone else. The palace is a squat now."
+  },
+  {
+    "id": "police_state",
+    "title": "Security Concern",
+    "text": "The security services concluded that you were the last remaining threat to security."
+  },
+  {
+    "id": "state_collapse",
+    "title": "Out of Office",
+    "text": "There was no ministry left to sign your removal, so nobody did. You simply stopped being in charge."
+  },
+  {
+    "id": "paralysis",
+    "title": "Pending Review",
+    "text": "Your removal was approved by all forty-one committees. It took nine years. You were long gone."
+  },
+  {
+    "id": "election_loss",
+    "title": "Conceded",
+    "text": "You lost. You said so on television, which is more than most manage. The moving van came Tuesday."
+  },
+  {
+    "id": "coup",
+    "title": "Change of Management",
+    "text": "The generals thanked you for your service in a short broadcast. You were not invited to it."
+  },
+  {
+    "id": "finale_decay",
+    "title": "Under Its Own Weight",
+    "text": "The lights went out for the last time, and nobody in the building knew which switch it was."
+  },
+  {
+    "id": "finale_muddle",
+    "title": "Still Standing",
+    "text": "The country neither fell nor flew. Historians argue about whether that counts."
+  },
+  {
+    "id": "finale_ascent",
+    "title": "Orbit",
+    "text": "The first ship left on time. The people who built it remembered who let them."
+  },
+  {
+    "id": "blackmailed",
+    "title": "A Quiet Arrangement",
+    "text": "You were not removed. You were kept, like a signature on a file, by people who had the file."
+  }
 ]

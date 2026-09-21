@@ -39,13 +39,14 @@ describe("harness", () => {
   });
 });
 
-// Section 8 acceptance targets. Enable once phase 4 has tuned the content.
-describe.skip("section 8 targets (phase 4)", () => {
+// Section 8 acceptance targets, met in phase 4. Content changes that break these are
+// balance regressions: re-tune with `npm run simulate` rather than deleting the test.
+describe("section 8 targets", () => {
   it("meets every target", () => {
     const results = simulate(library, { runs: 2000, seed: 1, bots: BOT_NAMES, align: "alternate", danger: 25, maxCards: 1000 });
     const s = new Map<BotName, BotSummary>();
     for (const bot of BOT_NAMES) s.set(bot, summarize(bot, results.get(bot)!));
     const misses = evaluateTargets(s).filter((t) => !t.info && !t.pass);
-    expect(misses).toEqual([]);
-  });
+    expect(misses.map((m) => `${m.bot} ${m.name}: ${m.actual} (want ${m.target})`)).toEqual([]);
+  }, 60000);
 });

@@ -1,0 +1,169 @@
+[
+  {
+    "id": "cl01_permanent_emergency",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The climate emergency powers are eighty years old. They work. They also answer to nobody.",
+    "oneShot": true,
+    "left": {
+      "label": "Put them under law",
+      "fx": {
+        "order": -5,
+        "money": -2,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Renew them quietly",
+      "fx": {
+        "order": 5,
+        "money": 4,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cl02_housing_lottery",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Housing is allocated by lottery now. The lottery has a waiting list. The waiting list has a lottery.",
+    "left": {
+      "label": "Just build housing",
+      "fx": {
+        "money": -8,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a third lottery",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr01_hereditary_seats",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Nine families hold seats their ancestors were merely appointed to. A bill would make that official and tidy.",
+    "oneShot": true,
+    "left": {
+      "label": "End the practice",
+      "fx": {
+        "mood": -5,
+        "order": -4,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make it official",
+      "fx": {
+        "order": 5,
+        "money": 4,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr02_company_towns",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Four towns are owned outright by their employers, including the courts, which are very efficient.",
+    "left": {
+      "label": "Return the courts",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Licence two more",
+      "fx": {
+        "money": 7,
+        "order": 4,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "q_system_fails",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The water system stopped. The code that runs it is doing something nobody can name.",
+    "weight": 0,
+    "left": {
+      "label": "Rebuild from scratch",
+      "fx": {
+        "money": -11,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Restart it and pray",
+      "fx": {
+        "mood": -2,
+        "order": -5,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  }
+]

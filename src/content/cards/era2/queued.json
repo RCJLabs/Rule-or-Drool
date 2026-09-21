@@ -1,0 +1,72 @@
+[
+  {
+    "id": "q_private_guns",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The policing firm has more rifles than the army garrison and a shareholder meeting on Thursday.",
+    "weight": 0,
+    "left": {
+      "label": "Buy the contract out",
+      "fx": {
+        "money": -10,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew for ten years",
+      "fx": {
+        "order": 5,
+        "money": 2,
+        "inst": -4
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q_blackout",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The grid failed in August, as predicted, for nine days, in the heat.",
+    "weight": 0,
+    "left": {
+      "label": "Rebuild it now",
+      "fx": {
+        "money": -10,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Blame the weather",
+      "fx": {
+        "mood": -4,
+        "order": -4,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  }
+]

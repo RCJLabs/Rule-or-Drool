@@ -3,81 +3,288 @@
     "id": "r01_loyalty_oath",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "general",
     "text": "The generals propose a loyalty oath. To the country, they say. The wording says otherwise.",
     "oneShot": true,
-    "left": { "label": "Sign it into law", "fx": { "order": 5, "inst": -4 }, "drift": -4 },
-    "right": { "label": "Reject it", "fx": { "order": -3, "mood": -1 }, "drift": 2 }
+    "left": {
+      "label": "Sign it into law",
+      "fx": {
+        "order": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_oath_purge",
+          "delay": 16
+        }
+      ]
+    },
+    "right": {
+      "label": "Reject it",
+      "fx": {
+        "order": -5,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "r02_flag_law",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "spin",
     "text": "A bill to fine anyone who won't stand for the anthem. It polls well with people who already stand.",
-    "left": { "label": "Sign it", "fx": { "mood": 4, "order": 2, "inst": -2 }, "drift": -3 },
-    "right": { "label": "Veto it", "fx": { "mood": -4 }, "drift": 2 }
+    "left": {
+      "label": "Sign it",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Veto it",
+      "fx": {
+        "mood": -5,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "r03_church_schools",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "judge",
     "text": "The church offers to run the failing schools. It would fix the roofs, and the curriculum.",
     "oneShot": true,
-    "left": { "label": "Hand them over", "fx": { "money": 4, "inst": -3, "mood": 2 }, "drift": -3 },
-    "right": { "label": "Keep them public", "fx": { "money": -5, "mood": -2 }, "drift": 2 }
+    "left": {
+      "label": "Hand them over",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "schools_starved"
+      ],
+      "enqueue": [
+        {
+          "id": "q_illiterate_ballot",
+          "delay": 20
+        }
+      ]
+    },
+    "right": {
+      "label": "Keep them public",
+      "fx": {
+        "money": -7,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "r04_border_fence",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "general",
     "text": "The border fence stops fewer people than a stern letter, but it looks tremendous on television.",
-    "left": { "label": "Build it taller", "fx": { "money": -5, "mood": 4, "order": 2 }, "drift": -3 },
-    "right": { "label": "Fund the courts instead", "fx": { "money": -4, "inst": 3, "mood": -2 }, "drift": 3 }
+    "left": {
+      "label": "Build it taller",
+      "fx": {
+        "money": -2,
+        "mood": 4,
+        "order": 2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Fund the courts instead",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "mood": -2
+      },
+      "drift": 3
+    }
   },
   {
     "id": "r05_crony_contract",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "tycoon",
     "text": "The highway contract. The lowest bid is a stranger. The highest is your golf partner.",
     "oneShot": true,
-    "left": { "label": "Golf partner", "fx": { "money": -4, "mood": 1, "inst": -3 }, "drift": -4 },
-    "right": { "label": "Lowest bid", "fx": { "money": 2, "mood": -1 }, "drift": 2 }
+    "left": {
+      "label": "Golf partner",
+      "fx": {
+        "money": 4,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_refinery_fire",
+          "delay": 22
+        }
+      ]
+    },
+    "right": {
+      "label": "Lowest bid",
+      "fx": {
+        "money": 4,
+        "mood": -5,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "r06_culture_war",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["decay"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
     "speaker": "spin",
     "text": "A statue. Nobody remembers of whom. Half the country wants it down, half wants it gilded. Nobody is asking about wages.",
-    "left": { "label": "Gild it", "fx": { "mood": 5, "money": -2 }, "drift": -4 },
-    "right": { "label": "Change the subject", "fx": { "mood": -3 }, "drift": 2 }
+    "left": {
+      "label": "Gild it",
+      "fx": {
+        "mood": 4,
+        "order": 1,
+        "money": -1
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Change the subject",
+      "fx": {
+        "mood": -5,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "r07_spaceport",
     "type": "event",
     "align": "right",
-    "eras": [1],
-    "bands": ["ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
     "speaker": "general",
     "text": "The spaceport is finished. The generals want it. The scientists want it. It has one runway.",
     "oneShot": true,
-    "left": { "label": "Give it to the generals", "fx": { "order": 4, "inst": -3 }, "drift": -3 },
-    "right": { "label": "Keep it civilian", "fx": { "order": -3, "inst": 2, "mood": 1 }, "drift": 2 }
+    "left": {
+      "label": "Give it to the generals",
+      "fx": {
+        "order": 6,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Keep it civilian",
+      "fx": {
+        "order": -5,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "r08_deregulate",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The refinery wants its own inspectors. It promises to be very strict with itself.",
+    "oneShot": true,
+    "left": {
+      "label": "Let it self-inspect",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_refinery_fire",
+          "delay": 16
+        }
+      ]
+    },
+    "right": {
+      "label": "Send real inspectors",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 3
+    }
   }
 ]

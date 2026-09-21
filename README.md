@@ -9,8 +9,9 @@ before changing anything.
 
 ## Status
 
-Phase 3 of 7: engine, placeholder content, balance harness, content validator and the swipe
-UI. Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
+Phase 4 of 7: engine, balance harness, content validator, swipe UI, and the systems layer
+(elections, arcs, cabinet traits, run setup) with all section 8 balance targets met across
+130 cards and three eras. Playable now at https://rcjlabs.github.io/Rule-or-Drool/ (add `?debug=1` to see the hidden
 numbers; `[` and `]` shift drift to preview the frame theming).
 
 ## Commands

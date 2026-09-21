@@ -1,0 +1,179 @@
+[
+  {
+    "id": "q_cousin_ruling",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Your cousin on the high court has issued a ruling. It is eleven words long and nobody can tell what it permits.",
+    "weight": 0,
+    "left": {
+      "label": "Ask him to retire",
+      "fx": {
+        "mood": -4,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Print it on posters",
+      "fx": {
+        "mood": 2,
+        "order": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q_lottery_rot",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The lottery now takes more from the eastern districts than the state spends there. The eastern districts keep playing.",
+    "weight": 0,
+    "left": {
+      "label": "Cap the stakes",
+      "fx": {
+        "money": -7,
+        "mood": -1,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a second draw",
+      "fx": {
+        "money": 6,
+        "mood": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q_oath_purge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The loyalty oath is being used to settle grudges in the provinces. Two mayors have been removed for hesitating.",
+    "weight": 0,
+    "left": {
+      "label": "Repeal the oath",
+      "fx": {
+        "order": -6,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Reinstate nobody",
+      "fx": {
+        "order": 5,
+        "mood": 1,
+        "inst": -4
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q_orbit_secedes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The colonies have stopped answering the tax office. They are still answering everyone else, politely.",
+    "weight": 0,
+    "left": {
+      "label": "Negotiate as equals",
+      "fx": {
+        "money": -5,
+        "mood": -2,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Cut their supply runs",
+      "fx": {
+        "order": 4,
+        "money": 2,
+        "inst": -4
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q_uncounted",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The districts you did not count have noticed that they receive no schools, no clinics and no ballots.",
+    "weight": 0,
+    "left": {
+      "label": "Count them properly",
+      "fx": {
+        "money": -7,
+        "inst": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Redraw the map",
+      "fx": {
+        "mood": 2,
+        "order": -4,
+        "inst": -4
+      },
+      "drift": -4
+    }
+  }
+]

@@ -71,6 +71,7 @@ export function makeFixture(): Content {
       left: { label: "L", setFlags: ["f1", "f2", "f1"] },
       right: { label: "R", clearFlags: ["f1"], setFlags: ["f3"] },
     }),
+    ev("ev_fire", { weight: 0, left: { label: "Fire them", fireSpeaker: true, drift: 1 }, right: { label: "Keep them", drift: -1 } }),
     ev("ev_end", { weight: 0, left: { label: "L", ending: "ending_x", drift: 30 }, right: { label: "R" } }),
     ev("q1", { weight: 0, cond: { notFlags: ["averted"] } }),
     ev("chained", { weight: 0 }),
@@ -133,11 +134,19 @@ export function makeFixture(): Content {
       },
     ],
     advisors: [
+      // c0 / g0 carry no traits, so tests that assert exact meter maths can pin the
+      // cabinet to them and stay clear of trait scaling (5.8).
+      { id: "c0", role: "chief", name: "Plain Chief", traits: [] },
       { id: "c1", role: "chief", name: "Chief One", traits: ["loyal"] },
       { id: "c2", role: "chief", name: "Chief Two", traits: ["corrupt"] },
+      { id: "g0", role: "general", name: "Plain General", traits: [] },
       { id: "g1", role: "general", name: "General One", traits: ["zealot"] },
     ],
-    modifiers: [{ id: "mod_crisis", kind: "crisis", meterStart: { money: -20 }, flags: ["crisis"], arcWeights: { arc_t: 3 } }],
+    modifiers: [
+      { id: "mod_crisis", kind: "crisis", meterStart: { money: -20 }, flags: ["crisis"], arcWeights: { arc_t: 3 } },
+      { id: "mod_trait", kind: "trait", meterStart: { mood: 5 } },
+      { id: "mod_flaw", kind: "flaw", meterStart: { order: -5 } },
+    ],
     endings: ENDING_IDS.map((id) => ({ id, title: id, text: id })),
     epilogues: [
       { band: "decay", align: "any", era: 1, text: "decay1" },

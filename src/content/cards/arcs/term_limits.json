@@ -1,0 +1,138 @@
+[
+  {
+    "id": "arc_tl1",
+    "type": "arc",
+    "arc": "arc_term_limits",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your numbers are poor and the calendar is unkind. There is a clause about postponing a vote in an emergency.",
+    "left": {
+      "label": "Find an emergency",
+      "fx": {
+        "order": 5,
+        "mood": 1,
+        "inst": -4
+      },
+      "drift": -6,
+      "next": "arc_tl2",
+      "setFlags": [
+        "postponed_vote"
+      ]
+    },
+    "right": {
+      "label": "Face the voters",
+      "fx": {
+        "mood": -5,
+        "inst": 2
+      },
+      "drift": 5
+    }
+  },
+  {
+    "id": "arc_tl2",
+    "type": "arc",
+    "arc": "arc_term_limits",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The emergency worked. The lawyers ask whether you would like the emergency powers to be permanent, or merely renewable.",
+    "cond": {
+      "flags": [
+        "postponed_vote"
+      ]
+    },
+    "left": {
+      "label": "Make them permanent",
+      "fx": {
+        "order": 7,
+        "money": 2,
+        "inst": -4
+      },
+      "drift": -8,
+      "next": "arc_tl3"
+    },
+    "right": {
+      "label": "Let them lapse",
+      "fx": {
+        "order": -6,
+        "inst": 2
+      },
+      "drift": 6,
+      "clearFlags": [
+        "postponed_vote"
+      ]
+    }
+  },
+  {
+    "id": "arc_tl3",
+    "type": "arc",
+    "arc": "arc_term_limits",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A loyal deputy proposes removing the term limit entirely. He says the country needs continuity. He means you.",
+    "cond": {
+      "flags": [
+        "postponed_vote"
+      ]
+    },
+    "left": {
+      "label": "Accept, humbly",
+      "fx": {
+        "order": 7,
+        "mood": 2,
+        "inst": -5
+      },
+      "drift": -12,
+      "setFlags": [
+        "elections_abolished"
+      ],
+      "clearFlags": [
+        "postponed_vote"
+      ]
+    },
+    "right": {
+      "label": "Stand down",
+      "fx": {
+        "mood": -6,
+        "order": -4,
+        "inst": 4
+      },
+      "drift": 8,
+      "clearFlags": [
+        "postponed_vote"
+      ]
+    }
+  }
+]

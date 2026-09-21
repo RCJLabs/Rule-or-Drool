@@ -63,6 +63,8 @@ export interface Choice {
   honest?: boolean;
   /** Election cards only. Overrides the interval until the next election. */
   electionDelay?: number;
+  /** Replace the advisor holding this card's speaker role (5.8). Applied by resolve, not preview. */
+  fireSpeaker?: boolean;
 }
 
 export interface Card {
@@ -175,3 +177,7 @@ export interface RunSetup {
   align: PlayerAlign;
   modifiers?: string[];
 }
+
+/** Advisor traits the engine knows about (5.8). */
+export const TRAITS = ["loyal", "corrupt", "competent", "zealot"] as const;
+export type Trait = (typeof TRAITS)[number];

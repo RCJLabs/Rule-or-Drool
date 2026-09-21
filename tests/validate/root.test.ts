@@ -9,16 +9,20 @@ import { formatIssues, validateRoot } from "../../src/validate";
 const codesOf = (issues: { level: string; code: string }[]) => [...new Set(issues.map((i) => `${i.level}:${i.code}`))].sort();
 
 describe("validateRoot: shipped content", () => {
-  it("passes with no errors and only era-empty warnings", () => {
+  it("passes clean, with every era covered", () => {
     const report = validateRoot("src/content", { imported: content });
-    expect(report.errors).toBe(0);
-    expect(codesOf(report.issues)).toEqual(["warn:era-empty"]);
+    expect(codesOf(report.issues)).toEqual([]);
     expect(report.content.cards.length).toBe(content.cards.length);
   });
 
-  it("fails the MVP gate until eras 2 and 3 have content", () => {
+  it("covers all three eras at the default cell minimum", () => {
     const report = validateRoot("src/content", { eras: "all" });
-    expect(report.issues.filter((i) => i.code === "cell-thin")).toHaveLength(12);
+    expect(report.issues.filter((i) => i.code === "cell-thin")).toEqual([]);
+  });
+
+  it("still falls short of the phase 5 MVP cell target", () => {
+    const report = validateRoot("src/content", { eras: "all", minCell: 25 });
+    expect(report.issues.filter((i) => i.code === "cell-thin").length).toBeGreaterThan(0);
   });
 
   it("cross-checks disk against the imported bundle", () => {
@@ -101,17 +105,16 @@ describe("validate-content CLI", () => {
   it.skipIf(!existsSync(tsx))("exits 0 on the shipped content and 1 on the broken fixture or the MVP gate", () => {
     const ok = cli();
     expect(ok.status, ok.stdout + ok.stderr).toBe(0);
-    expect(ok.stdout).toMatch(/0 errors, 2 warnings/);
+    expect(ok.stdout).toMatch(/0 errors, 0 warnings/);
 
     const broken = cli("--root", "tests/fixtures/broken", "--eras", "1", "--min-cell", "1");
     expect(broken.status).toBe(1);
     expect(broken.stdout).toMatch(/^ERROR/m);
 
-    const gate = cli("--eras", "all", "--quiet");
+    const gate = cli("--eras", "all", "--min-cell", "25", "--quiet");
     expect(gate.status).toBe(1);
     expect(gate.stdout).toContain("cell-thin");
 
-    expect(cli("--strict").status).toBe(1);
     expect(cli("--bogus").status).toBe(2);
   });
 });

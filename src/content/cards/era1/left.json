@@ -3,86 +3,278 @@
     "id": "l01_purity_vote",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "organizer",
     "text": "A coalition partner voted the wrong way once. The activists want her expelled by morning.",
     "oneShot": true,
-    "left": { "label": "Expel her", "fx": { "mood": 3, "inst": -3 }, "drift": -3 },
-    "right": { "label": "Keep the coalition", "fx": { "mood": -4, "order": 1 }, "drift": 2 }
+    "left": {
+      "label": "Expel her",
+      "fx": {
+        "mood": 2,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Keep the coalition",
+      "fx": {
+        "mood": -5,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "l02_free_transit",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "treasurer",
     "text": "Free public transit polls at ninety percent. The treasury polls at panic.",
-    "left": { "label": "Make it free", "fx": { "mood": 6, "money": -6 }, "drift": -2 },
-    "right": { "label": "Means-test it", "fx": { "mood": -2, "money": -2, "inst": 1 }, "drift": 2 }
+    "left": {
+      "label": "Make it free",
+      "fx": {
+        "mood": 5,
+        "money": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 20
+        }
+      ]
+    },
+    "right": {
+      "label": "Means-test it",
+      "fx": {
+        "mood": -5,
+        "money": 2,
+        "inst": 1
+      },
+      "drift": 3
+    }
   },
   {
     "id": "l03_rent_freeze",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "organizer",
     "text": "Rents doubled. The movement wants a freeze tonight. The economists want a word.",
     "oneShot": true,
     "left": {
       "label": "Freeze rents",
-      "fx": { "mood": 5, "money": -3 },
-      "drift": -2,
-      "enqueue": [{ "id": "q_housing_shortage", "delay": 18 }]
+      "fx": {
+        "mood": 4,
+        "money": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_housing_shortage",
+          "delay": 18
+        }
+      ]
     },
-    "right": { "label": "Build instead", "fx": { "money": -6, "mood": -2 }, "drift": 3, "setFlags": ["housing_built"] }
+    "right": {
+      "label": "Build instead",
+      "fx": {
+        "money": -7,
+        "inst": 1
+      },
+      "drift": 3,
+      "setFlags": [
+        "housing_built"
+      ]
+    }
   },
   {
     "id": "l04_grant_program",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "treasurer",
     "text": "A grant program for 'community partners.' The partner list looks a lot like your donor list.",
     "oneShot": true,
-    "left": { "label": "Approve it", "fx": { "money": -3, "mood": 4, "inst": -2 }, "drift": -4 },
-    "right": { "label": "Audit the list", "fx": { "mood": -3, "inst": 2 }, "drift": 3 }
+    "left": {
+      "label": "Approve it",
+      "fx": {
+        "mood": 2,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_uncounted",
+          "delay": 24
+        }
+      ]
+    },
+    "right": {
+      "label": "Audit the list",
+      "fx": {
+        "mood": -5,
+        "inst": 2
+      },
+      "drift": 3
+    }
   },
   {
     "id": "l05_language_rule",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["decay"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay"
+    ],
     "speaker": "spin",
     "text": "The party wants a rule on which words ministers may say. It is a long list.",
-    "left": { "label": "Adopt the list", "fx": { "mood": 2, "inst": -2 }, "drift": -3 },
-    "right": { "label": "Skip it", "fx": { "mood": -3 }, "drift": 2 }
+    "left": {
+      "label": "Adopt the list",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Skip it",
+      "fx": {
+        "mood": -5,
+        "inst": 1
+      },
+      "drift": 2
+    }
   },
   {
     "id": "l06_union_strike",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["decay", "muddle", "ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
     "speaker": "organizer",
     "text": "The dockworkers' union, your biggest backer, is striking against your own port authority.",
-    "left": { "label": "Give them the raise", "fx": { "money": -5, "mood": 3 }, "drift": -1 },
-    "right": { "label": "Hold the line", "fx": { "order": -3, "mood": -4, "money": 2 }, "drift": 2 }
+    "left": {
+      "label": "Give them the raise",
+      "fx": {
+        "mood": 2,
+        "money": -2
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Hold the line",
+      "fx": {
+        "order": -5,
+        "mood": -5,
+        "money": 4
+      },
+      "drift": 3
+    }
   },
   {
     "id": "l07_model_says",
     "type": "event",
     "align": "left",
-    "eras": [1],
-    "bands": ["ascent"],
+    "eras": [
+      1
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
     "speaker": "scientist",
     "text": "The ten-year model says close the coal towns now. The model is right. The towns are people.",
     "oneShot": true,
-    "left": { "label": "Trust the model", "fx": { "money": 3, "mood": -5 }, "drift": -2 },
-    "right": { "label": "Phase it with the towns", "fx": { "money": -4, "mood": 1, "inst": 2 }, "drift": 3 }
+    "left": {
+      "label": "Trust the model",
+      "fx": {
+        "money": 5,
+        "mood": -2,
+        "inst": 1
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Phase it with the towns",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "l08_committee",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Every decision now goes through a committee of forty. The committee has formed a subcommittee about that.",
+    "left": {
+      "label": "Dissolve it",
+      "fx": {
+        "mood": -5,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Add two more seats",
+      "fx": {
+        "mood": 2,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
   }
 ]

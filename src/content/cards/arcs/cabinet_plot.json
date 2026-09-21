@@ -1,0 +1,132 @@
+[
+  {
+    "id": "arc_cp1",
+    "type": "arc",
+    "arc": "arc_cabinet_plot",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Someone in your cabinet has been skimming the reconstruction fund for years. The paperwork is beautiful.",
+    "left": {
+      "label": "Bury it",
+      "fx": {
+        "money": 5,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -5,
+      "next": "arc_cp2",
+      "setFlags": [
+        "buried_the_audit"
+      ]
+    },
+    "right": {
+      "label": "Sack them publicly",
+      "fx": {
+        "money": -5,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 5,
+      "fireSpeaker": true
+    }
+  },
+  {
+    "id": "arc_cp2",
+    "type": "arc",
+    "arc": "arc_cabinet_plot",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Now that you are both in it, they would like a larger share, and a nephew in the ministry of transport.",
+    "cond": {
+      "flags": [
+        "buried_the_audit"
+      ]
+    },
+    "left": {
+      "label": "Give them the nephew",
+      "fx": {
+        "money": -6,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -5,
+      "next": "arc_cp3"
+    },
+    "right": {
+      "label": "Cut them loose",
+      "fx": {
+        "money": -4,
+        "order": -4,
+        "inst": 2
+      },
+      "drift": 5,
+      "fireSpeaker": true,
+      "clearFlags": [
+        "buried_the_audit"
+      ]
+    }
+  },
+  {
+    "id": "arc_cp3",
+    "type": "arc",
+    "arc": "arc_cabinet_plot",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "They mention, warmly, that your signature is on nine of the transfers, and that they keep copies at home.",
+    "cond": {
+      "flags": [
+        "buried_the_audit"
+      ]
+    },
+    "left": {
+      "label": "Make them a minister",
+      "drift": -8,
+      "ending": "blackmailed"
+    },
+    "right": {
+      "label": "Confess first",
+      "fx": {
+        "mood": -8,
+        "money": -4,
+        "inst": 4
+      },
+      "drift": 9,
+      "clearFlags": [
+        "buried_the_audit"
+      ]
+    }
+  }
+]

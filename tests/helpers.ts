@@ -11,8 +11,19 @@ export function lib(overrides: Partial<EngineConfig> = {}): Library {
   return buildLibrary(makeFixture(), { eraLength: 1000, electionInterval: 1000, arcEntryProb: 0, ...overrides });
 }
 
+/**
+ * A run with a trait-free cabinet and no advisor flags, so meter assertions test the
+ * engine rather than whichever advisor the seed happened to draw. Pass `cabinet` or
+ * `flags` in the patch to test trait behaviour deliberately.
+ */
 export function start(l: Library, patch: Partial<GameState> = {}, align: PlayerAlign = "left", seed = 1): GameState {
-  return { ...newRun(l, seed, { align }), ...patch };
+  const base = newRun(l, seed, { align });
+  const plain = {
+    ...base,
+    cabinet: { chief: "c0", general: "g0" },
+    flags: base.flags.filter((f) => !f.startsWith(l.config.advisorFlagPrefix)),
+  };
+  return { ...plain, ...patch };
 }
 
 /** Put a specific card on the table without going through draw. */

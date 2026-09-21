@@ -1,13 +1,13 @@
 import { draw } from "../engine/draw";
 import type { Library } from "../engine/library";
 import { resolve } from "../engine/resolve";
-import { newRun } from "../engine/state";
+import { newRun, rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
 
 /** Pure UI-level flow on top of the engine, kept out of React so it is testable. */
 
 export function beginRun(lib: Library, seed: number, align: PlayerAlign): GameState {
-  return draw(lib, newRun(lib, seed, { align }));
+  return draw(lib, newRun(lib, seed, rollSetup(lib, seed, align)));
 }
 
 /** Draw if the table is empty (after an era transition, or a save taken between cards). */

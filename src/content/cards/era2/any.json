@@ -1,0 +1,665 @@
+[
+  {
+    "id": "b01_automation",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The mills have replaced four thousand workers with nine machines and a man who watches the machines.",
+    "oneShot": true,
+    "left": {
+      "label": "Retrain them",
+      "fx": {
+        "money": -8,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax the machines lightly",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b02_feed_algorithm",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The national feed decides what forty million people believe before breakfast. Someone owns the dial.",
+    "oneShot": true,
+    "left": {
+      "label": "Put it under law",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold the dial yourself",
+      "fx": {
+        "mood": 4,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "feed_captured"
+      ]
+    }
+  },
+  {
+    "id": "b03_water_wars",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Two provinces are fighting over a river. Both are right. Only one of them votes for you.",
+    "left": {
+      "label": "Split it evenly",
+      "fx": {
+        "mood": -5,
+        "inst": 2,
+        "money": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give it to your province",
+      "fx": {
+        "mood": 2,
+        "order": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b04_private_police",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A firm offers to run policing in the outer districts at half the cost. It has its own uniforms already.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it public",
+      "fx": {
+        "money": -7,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign the contract",
+      "fx": {
+        "money": 6,
+        "order": 4,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_private_guns",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "b05_exam_scandal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Half the civil service exams were sold. Voiding them empties the ministries for a year.",
+    "oneShot": true,
+    "left": {
+      "label": "Void them all",
+      "fx": {
+        "order": -5,
+        "money": -4,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them stand",
+      "fx": {
+        "order": 2,
+        "money": 4,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b06_orbital_contract",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The orbital station needs a second ring. It will not be finished while anyone in this room is alive.",
+    "left": {
+      "label": "Start it anyway",
+      "fx": {
+        "money": -8,
+        "inst": 2
+      },
+      "drift": 4,
+      "setFlags": [
+        "ring_started"
+      ]
+    },
+    "right": {
+      "label": "Spend it on today",
+      "fx": {
+        "money": 4,
+        "mood": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b07_debt_rollover",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The debt can be rolled over one more time. Each roll is cheaper than the year it ruins.",
+    "left": {
+      "label": "Pay it down",
+      "fx": {
+        "money": -7,
+        "mood": -5,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Roll it over",
+      "fx": {
+        "money": 6,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "b08_heritage_river",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The river is dead from the mills down. Cleaning it costs a decade of mill taxes.",
+    "oneShot": true,
+    "left": {
+      "label": "Clean the river",
+      "fx": {
+        "money": -8,
+        "mood": 5,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rename it a canal",
+      "fx": {
+        "money": 4,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b09_veterans",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The veterans of your predecessor's war are old and loud and camped on the ministry lawn.",
+    "left": {
+      "label": "Pay the pensions",
+      "fx": {
+        "money": -7,
+        "mood": 6,
+        "order": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Clear the lawn",
+      "fx": {
+        "order": 5,
+        "mood": -2,
+        "money": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_coffins_home",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "b10_migrant_labour",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The farms cannot run without migrant labour and cannot say so on television.",
+    "left": {
+      "label": "Say it on television",
+      "fx": {
+        "mood": -6,
+        "money": 4,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it quiet",
+      "fx": {
+        "mood": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b11_grid_failure",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The grid browns out every August. The fix is unglamorous, expensive and would work.",
+    "oneShot": true,
+    "left": {
+      "label": "Rebuild the grid",
+      "fx": {
+        "money": -10,
+        "inst": 2,
+        "mood": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy more generators",
+      "fx": {
+        "money": 2,
+        "mood": 2,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_blackout",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "b12_court_packing",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The high court keeps striking down your bills. There is no law fixing how many judges it must have.",
+    "oneShot": true,
+    "left": {
+      "label": "Obey the court",
+      "fx": {
+        "mood": -5,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add six judges",
+      "fx": {
+        "mood": 2,
+        "order": 2,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b13_food_subsidy",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Bread is subsidised to the point of absurdity. Ending it is arithmetic. Ending it is also a riot.",
+    "left": {
+      "label": "End it slowly",
+      "fx": {
+        "money": 6,
+        "mood": -5,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Subsidise cake too",
+      "fx": {
+        "mood": 4,
+        "money": -2,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_debt_called",
+          "delay": 22
+        }
+      ]
+    }
+  },
+  {
+    "id": "b14_archive_fire",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The national archive is damp and shrinking. Nobody has ever won an election by mentioning it.",
+    "oneShot": true,
+    "left": {
+      "label": "Save the archive",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "mood": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Digitise the good bits",
+      "fx": {
+        "money": 2,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b15_rival_movement",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "A movement has formed around someone photogenic who has never held office and says so proudly.",
+    "left": {
+      "label": "Debate them",
+      "fx": {
+        "mood": -5,
+        "inst": 2,
+        "order": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Investigate them",
+      "fx": {
+        "order": 5,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b16_sponsor_ministry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "A drinks company will pay to put its name on the health ministry. The health ministry needs the money.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse",
+      "fx": {
+        "money": -6,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the sponsorship",
+      "fx": {
+        "money": 7,
+        "mood": 1,
+        "inst": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "q_lottery_rot",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "b17_quiz_show",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The most watched programme in the country is a quiz show where nobody has won in two years.",
+    "left": {
+      "label": "Fund adult schools",
+      "fx": {
+        "money": -6,
+        "mood": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Go on as a guest",
+      "fx": {
+        "mood": 5,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b18_long_science",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A laboratory asks for forty years of funding to answer one question. It will not say which answer it expects.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund forty years",
+      "fx": {
+        "money": -7,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Fund four",
+      "fx": {
+        "money": 2,
+        "mood": 1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "b19_open_records",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Every ministry file could be public by default. Including the ones about you.",
+    "oneShot": true,
+    "left": {
+      "label": "Open everything",
+      "fx": {
+        "mood": -5,
+        "inst": 4,
+        "order": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Open the dull ones",
+      "fx": {
+        "mood": 1,
+        "inst": -1,
+        "money": 1
+      },
+      "drift": -2
+    }
+  }
+]

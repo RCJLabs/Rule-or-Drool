@@ -1,0 +1,23 @@
+[
+  {
+    "id": "arc_term_limits",
+    "align": "any",
+    "entry": { "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"], "meters": { "mood": { "lt": 45 } }, "notFlags": ["elections_abolished"] },
+    "weight": 3,
+    "cards": ["arc_tl1", "arc_tl2", "arc_tl3"]
+  },
+  {
+    "id": "arc_cabinet_plot",
+    "align": "any",
+    "entry": { "eras": [1, 2, 3], "bands": ["decay", "muddle", "ascent"], "flags": ["advisor_corrupt"] },
+    "weight": 2,
+    "cards": ["arc_cp1", "arc_cp2", "arc_cp3"]
+  },
+  {
+    "id": "arc_moonshot",
+    "align": "any",
+    "entry": { "eras": [1, 2, 3], "bands": ["muddle", "ascent"], "meters": { "inst": { "gt": 52 } } },
+    "weight": 2,
+    "cards": ["arc_ms1", "arc_ms2", "arc_ms3", "arc_ms4"]
+  }
+]

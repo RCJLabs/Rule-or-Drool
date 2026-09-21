@@ -168,6 +168,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       if (card.type !== "election" && (ch.honest !== undefined || ch.electionDelay !== undefined)) {
         issues.error("honest-misplaced", `honest / electionDelay only mean something on election cards`, { ...where, path: side });
       }
+      if (ch.fireSpeaker && (content.advisors.filter((a) => a.role === card.speaker).length < 2)) {
+        issues.warn("fire-no-replacement", `role "${card.speaker}" has no second advisor, so firing does nothing`, { ...where, path: `${side}.fireSpeaker` });
+      }
 
       (ch.enqueue ?? []).forEach((e, i) => {
         const target = cards.get(e.id);
@@ -305,10 +308,21 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   for (const a of content.arcs) checkCond(a.entry, { kind: "arc", id: a.id }, "entry");
   for (const m of content.modifiers) for (const f of m.flags ?? []) note(flagSets, f, { kind: "modifier", id: m.id, path: "flags" });
   const engineReads = new Set([cfg.electionsAbolishedFlag]);
+  // The engine sets one flag per advisor trait sitting in the cabinet (5.8), so content
+  // may read `advisor_<trait>` without any card setting it.
+  const traitsInPlay = new Set(content.advisors.flatMap((a) => a.traits));
+  const engineSets = (f: string) => f.startsWith(cfg.advisorFlagPrefix);
   for (const [f, where] of flagSets) {
     if (!flagReads.has(f) && !engineReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
+    if (engineSets(f)) {
+      const trait = f.slice(cfg.advisorFlagPrefix.length);
+      if (!traitsInPlay.has(trait)) {
+        issues.error("flag-unset", `no advisor has the trait "${trait}", so "${f}" is never set`, where);
+      }
+      continue;
+    }
     if (!flagSets.has(f)) issues.error("flag-unset", `flag "${f}" is read but nothing sets it`, where);
   }
   for (const f of engineReads) {

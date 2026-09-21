@@ -579,3 +579,43 @@ button {
     transition: none;
   }
 }
+
+/* ---- run setup (crisis, trait, flaw) -------------------------------------------- */
+.setup-summary {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.setup-row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.setup-row dt {
+  flex: 0 0 5.5em;
+  text-align: right;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.setup-row dd {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.setup-row dd b {
+  font-size: 15px;
+}
+.setup-row dd span {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.setup-compact {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}

@@ -2,7 +2,7 @@ import { draw } from "../engine/draw";
 import { getCard, type Library } from "../engine/library";
 import { resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
-import { exitBand, newRun } from "../engine/state";
+import { exitBand, newRun, rollSetup } from "../engine/state";
 import type { Band, GameState, PlayerAlign } from "../engine/types";
 import { BOTS, makeContext, type BotName, type BotOptions } from "./bots";
 
@@ -19,6 +19,9 @@ export interface RunResult {
   finale: boolean;
   electionsSeen: number;
   cheats: number;
+  /** Arcs this run entered. */
+  arcs: number;
+  modifiers: string[];
   /** Pool draws that only succeeded because a filter was relaxed (content thinness). */
   relaxed: { cooldown: number; band: number; era: number };
 }
@@ -33,7 +36,7 @@ export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
 export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerAlign, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
   const policy = BOTS[bot];
   const rng = makeRng(seed ^ 0x5bd1e995);
-  let state: GameState = newRun(lib, seed, { align });
+  let state: GameState = newRun(lib, seed, rollSetup(lib, seed, align));
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   let electionsSeen = 0;
   let cheats = 0;
@@ -75,6 +78,8 @@ export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerA
     finale: endingId.startsWith(lib.config.finalePrefix),
     electionsSeen,
     cheats,
+    arcs: state.activeArcs.length,
+    modifiers: state.modifiers,
     relaxed,
   };
 }

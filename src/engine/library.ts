@@ -15,6 +15,7 @@ export interface Library {
   endings: ReadonlyMap<string, Ending>;
   modifiers: ReadonlyMap<string, Modifier>;
   advisorsByRole: ReadonlyMap<string, Advisor[]>;
+  advisorsById: ReadonlyMap<string, Advisor>;
   roles: readonly string[];
   /** Event cards with weight > 0 keyed by `${era}:${band}:${align}`; align is "left" | "right" | "any". */
   eventPool: ReadonlyMap<string, Card[]>;
@@ -49,7 +50,10 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
   for (const m of content.modifiers) modifiers.set(m.id, m);
 
   const advisorsByRole = new Map<string, Advisor[]>();
+  const advisorsById = new Map<string, Advisor>();
   for (const a of content.advisors) {
+    if (advisorsById.has(a.id)) throw new Error(`duplicate advisor id: ${a.id}`);
+    advisorsById.set(a.id, a);
     const list = advisorsByRole.get(a.role) ?? [];
     list.push(a);
     advisorsByRole.set(a.role, list);
@@ -86,6 +90,7 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
     endings,
     modifiers,
     advisorsByRole,
+    advisorsById,
     roles,
     eventPool,
     electionCards,

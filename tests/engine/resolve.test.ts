@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { draw } from "../../src/engine/draw";
 import { preview } from "../../src/engine/preview";
-import { advanceEra, applyChoice, checkElection, checkOuster, coupRisk, resolve } from "../../src/engine/resolve";
+import { advanceEra, applyChoice, checkElection, checkOuster, coupRisk, resolve, traitScale } from "../../src/engine/resolve";
 import { getCard } from "../../src/engine/library";
 import { lib, play, start, table } from "../helpers";
 
@@ -69,6 +69,45 @@ describe("resolve: effects", () => {
     expect(() => resolve(l, table(start(l), "f01"), "f02", "left")).toThrow(/not on the table/);
     const over = { ...table(start(l), "f01"), over: { endingId: "riots", epilogueKey: "x" } };
     expect(resolve(l, over, "f01", "left")).toBe(over);
+  });
+});
+
+describe("resolve: advisor traits", () => {
+  const l = lib();
+
+  it("scales by the traits of the advisor holding that role, multiplying when stacked", () => {
+    expect(traitScale(l, start(l, { cabinet: { chief: "c0" } }), "chief")).toEqual({ gain: 1, loss: 1 });
+    expect(traitScale(l, start(l, { cabinet: { chief: "c2" } }), "chief")).toEqual({ gain: 1, loss: 1.35 });
+    expect(traitScale(l, start(l, { cabinet: { general: "g1" } }), "general")).toEqual({ gain: 1.4, loss: 1.4 });
+    // An empty or unknown role is neutral, never a crash.
+    expect(traitScale(l, start(l, { cabinet: {} }), "chief")).toEqual({ gain: 1, loss: 1 });
+  });
+
+  it("makes a corrupt advisor's losses hurt more, leaving gains alone", () => {
+    const plain = resolve(l, table(start(l, { cabinet: { chief: "c0" } }), "ev_fx"), "ev_fx", "left");
+    expect(plain.meters).toMatchObject({ mood: 55, money: 47 });
+    const corrupt = resolve(l, table(start(l, { cabinet: { chief: "c2" } }), "ev_fx"), "ev_fx", "left");
+    expect(corrupt.meters).toMatchObject({ mood: 55, money: 46 });
+  });
+
+  it("stacks trait scaling on top of band volatility", () => {
+    const s = start(l, { band: "decay", cabinet: { chief: "c2" } });
+    // money -3, decay 1.4, corrupt loss 1.35 -> -5.67 -> -6
+    expect(resolve(l, table(s, "ev_fx"), "ev_fx", "left").meters.money).toBe(44);
+  });
+
+  it("fires the speaker's advisor on resolve, but preview leaves the cabinet alone", () => {
+    const s = start(l, { cabinet: { chief: "c2", general: "g0" } });
+    expect(preview(l, s, getCard(l, "ev_fire"), "left").endingId).toBeNull();
+    expect(s.cabinet.chief).toBe("c2");
+
+    const fired = resolve(l, table(s, "ev_fire"), "ev_fire", "left");
+    expect(fired.cabinet.chief).not.toBe("c2");
+    expect(fired.flags).not.toContain("advisor_corrupt");
+    expect(fired.cabinet.general).toBe("g0");
+
+    const kept = resolve(l, table(s, "ev_fire"), "ev_fire", "right");
+    expect(kept.cabinet.chief).toBe("c2");
   });
 });
 
@@ -172,7 +211,7 @@ describe("resolve: elections", () => {
 
 describe("resolve: eras", () => {
   it("advances at the era boundary: recomputes band, pulls meters, resets the election clock", () => {
-    const l = lib({ eraLength: 5, electionInterval: 25, eraCount: 3 });
+    const l = lib({ eraLength: 5, electionInterval: 25, eraCount: 3, eraMeterPull: 0.5 });
     const s = start(l, { cardCount: 5, drift: -30, meters: { mood: 20, money: 90, order: 50, inst: 50 } });
     const r = advanceEra(l, s);
     expect(r.era).toBe(2);
