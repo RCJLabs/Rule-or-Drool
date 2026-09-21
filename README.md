@@ -46,8 +46,9 @@ tests/         vitest suites, fixture content, and tests/fixtures/broken (a root
                trips every validator rule on purpose)
 ```
 
-Pushing to `main` deploys to GitHub Pages through `.github/workflows/deploy.yml`; other
-branches run CI only.
+Pushing to `main` deploys to GitHub Pages through `.github/workflows/deploy.yml`, which
+builds and hands the artifact to the Actions Pages pipeline. Other branches and pull
+requests run CI only.
 
 The engine never touches content directly: `buildLibrary(content, configOverrides)` indexes a
 content bundle, and every engine function takes that library plus a `GameState` and returns a

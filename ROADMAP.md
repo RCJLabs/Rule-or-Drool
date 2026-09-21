@@ -233,20 +233,27 @@ Log the seed and card id (debug panel) for anything odd; runs replay exactly fro
   `cursive`. On devices without any of them (Linux, some Android) the fallback is whatever
   the browser maps `cursive` to, sometimes a serif. Bundling a font would fix it and is a
   phase 7 decision (offline size).
-- The `gh-pages` branch method was chosen over the GitHub Actions Pages source in the hope
-  that GitHub would auto-enable Pages on a public repo. It did not: the first Deploy run was
-  green and the branch is correct, but GitHub ran no Pages build, so Pages needs enabling
-  once by hand (see the deploy section). Either method needs that one click; this one needs
-  no further settings after it.
+- Deploying goes through the **GitHub Actions Pages pipeline** (`configure-pages`,
+  `upload-pages-artifact`, `deploy-pages`), not a `gh-pages` branch. The first attempt used
+  the branch method on the theory that GitHub would auto-enable Pages for a public repo; it
+  did not, and the branch method has no way to ask. `configure-pages` with `enablement: true`
+  does: it creates the Pages site and sets its source to "GitHub Actions" from inside the
+  run. It also keeps build output out of git history entirely.
+- The old `gh-pages` branch is now unused. It is harmless, but delete it if you want the
+  branch list clean; nothing reads it any more.
 
 ### Deploying
 
-- **One-time step, still to do:** Settings → Pages → Source "Deploy from a branch", branch
-  `gh-pages`, folder `/ (root)`, Save. GitHub then builds the site within a minute and every
-  later push to `gh-pages` republishes automatically. The Deploy workflow has already pushed
-  a correct `gh-pages` branch (`.nojekyll`, `index.html`, assets under `/Rule-or-Drool/`).
-- `main` is the deploy branch. Pushing to it publishes within a couple of minutes. Feature
-  branches only run CI.
+- `main` is the deploy branch. Pushing to it runs check, build, and deploy, and the site is
+  live a minute or two later. Other branches and pull requests run CI only, so a push to
+  `main` no longer triggers two duplicate runs.
+- **Pages enables itself** on the first successful Deploy run, via `configure-pages` with
+  `enablement: true`. If that step ever fails with a 403 (an org policy that forbids
+  workflows from creating a Pages site), set Settings → Pages → Source to "GitHub Actions"
+  once by hand and re-run; no workflow change is needed.
+- **Still yours to do:** Settings → General → Default branch, switch it to `main`. GitHub
+  made the first branch pushed to an empty repo the default, which was the feature branch.
+  Nothing in the deploy depends on it, but pull requests target the default branch.
 - The repository's default branch was set to the first branch pushed
   (`claude/new-session-x759ml`). Switch it to `main` in Settings → General so pull requests
   target the right branch.

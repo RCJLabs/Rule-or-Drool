@@ -1,7 +1,11 @@
-# Builds the site and publishes dist/ to the gh-pages branch, which GitHub Pages serves at
-# https://rcjlabs.github.io/Rule-or-Drool/ (Vite base is set to /Rule-or-Drool/).
-# If the site is not live after the first successful run, open Settings > Pages once and
-# set Source to "Deploy from a branch", branch gh-pages, folder / (root).
+# Builds the site and deploys it straight to GitHub Pages through the Actions Pages
+# pipeline (no gh-pages branch). Serves at https://rcjlabs.github.io/Rule-or-Drool/,
+# which is why vite.config.ts sets base to /Rule-or-Drool/.
+#
+# configure-pages runs with enablement, so the first successful run turns Pages on and
+# sets its source to "GitHub Actions" by itself. If that step 403s (org policy, or the
+# token cannot create the site), enable it once by hand at Settings > Pages > Source:
+# GitHub Actions, then re-run this workflow; nothing else needs changing.
 name: Deploy
 
 on:
@@ -10,14 +14,18 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
+# One deploy at a time. In-flight runs finish rather than cancel, so a queued deploy
+# never lands out of order.
 concurrency:
-  group: deploy-pages
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,10 +35,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
-      - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v4
+      - uses: actions/configure-pages@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          force_orphan: true
-          commit_message: "Deploy ${{ github.sha }}"
+          enablement: true
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
