@@ -15,17 +15,35 @@
 export type Align = "left" | "right" | "any";
 export type PlayerAlign = "left" | "right";
 export type Band = "decay" | "muddle" | "ascent";
-export type MeterKey = "mood" | "money" | "order" | "inst";
+/**
+ * The coalition blocs that replaced a single Mood meter (BACKLOG item 5). The three slots
+ * are the same for both sides; what differs is who they are and what they want, which is
+ * content. Display names live in strings.ts.
+ */
+export type BlocKey = "base" | "backers" | "public";
+/** Meters that belong to the state rather than to people. */
+export type CoreMeterKey = "money" | "order" | "inst";
+export type MeterKey = BlocKey | CoreMeterKey;
 export type Side = "left" | "right";
 export type CardType = "event" | "arc" | "election" | "ending";
 
-export const METER_KEYS: readonly MeterKey[] = ["mood", "money", "order", "inst"];
+export const BLOC_KEYS: readonly BlocKey[] = ["base", "backers", "public"];
+export const CORE_KEYS: readonly CoreMeterKey[] = ["money", "order", "inst"];
+export const METER_KEYS: readonly MeterKey[] = [...BLOC_KEYS, ...CORE_KEYS];
 export const BANDS: readonly Band[] = ["decay", "muddle", "ascent"];
 export const ALIGNS: readonly Align[] = ["left", "right", "any"];
 export const PLAYER_ALIGNS: readonly PlayerAlign[] = ["left", "right"];
 export const CARD_TYPES: readonly CardType[] = ["event", "arc", "election", "ending"];
 
 export type Meters = Record<MeterKey, number>;
+
+/**
+ * Meter effects. `mood` is a shorthand meaning "the public moves as one": it applies to all
+ * three blocs. A card may use both, to say everyone disliked this and one bloc especially.
+ */
+export type FxSpec = Partial<Record<MeterKey, number>> & { mood?: number };
+/** Conditions may also read `mood`, which is the average of the three blocs. */
+export type CondMeterKey = MeterKey | "mood";
 
 export interface MeterCond {
   lt?: number;
@@ -37,8 +55,8 @@ export interface Cond {
   flags?: string[];
   /** None of these flags may be set. */
   notFlags?: string[];
-  /** Strict comparisons against current meter values. */
-  meters?: Partial<Record<MeterKey, MeterCond>>;
+  /** Strict comparisons against current meter values, or against `mood` (the bloc average). */
+  meters?: Partial<Record<CondMeterKey, MeterCond>>;
 }
 
 export interface Enqueue {
@@ -49,7 +67,7 @@ export interface Enqueue {
 
 export interface Choice {
   label: string;
-  fx?: Partial<Record<MeterKey, number>>;
+  fx?: FxSpec;
   drift?: number;
   setFlags?: string[];
   clearFlags?: string[];
@@ -109,7 +127,7 @@ export interface Modifier {
   kind: "trait" | "flaw" | "crisis";
   /** Unlock id required before this modifier can be drawn at run setup (5.10). */
   requires?: string;
-  meterStart?: Partial<Record<MeterKey, number>>;
+  meterStart?: FxSpec;
   flags?: string[];
   arcWeights?: Record<string, number>;
 }

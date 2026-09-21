@@ -21,14 +21,16 @@
       "fx": {
         "money": -4,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "public": 2
       },
       "drift": 3
     },
     "right": {
       "label": "Round up",
       "fx": {
-        "mood": 3,
+        "base": 3,
+        "public": -2,
         "inst": -3
       },
       "drift": -20,
@@ -63,7 +65,8 @@
     "left": {
       "label": "Blame them",
       "fx": {
-        "mood": 3,
+        "base": 5,
+        "public": -3,
         "order": -1
       },
       "drift": -18,
@@ -77,7 +80,8 @@
       "fx": {
         "money": -4,
         "order": -3,
-        "inst": 2
+        "inst": 2,
+        "public": 2
       },
       "drift": 3
     }
@@ -104,7 +108,8 @@
       "fx": {
         "money": -5,
         "order": -2,
-        "inst": 4
+        "inst": 4,
+        "public": 2
       },
       "drift": 3
     },
@@ -112,6 +117,8 @@
       "label": "Declare an emergency",
       "fx": {
         "order": 3,
+        "base": 2,
+        "public": -3,
         "inst": -3
       },
       "drift": -20,
@@ -150,7 +157,9 @@
       "fx": {
         "money": -4,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "public": 3,
+        "base": -2
       },
       "drift": 5
     },
@@ -158,6 +167,8 @@
       "label": "Abolish elections",
       "fx": {
         "order": 4,
+        "base": 2,
+        "public": -4,
         "inst": -8
       },
       "drift": -25,

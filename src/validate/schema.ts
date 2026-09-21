@@ -104,7 +104,13 @@ const BAND: Spec = { kind: "enum", values: BANDS };
 const ALIGN: Spec = { kind: "enum", values: ALIGNS };
 const ERAS: Spec = { kind: "array", items: POSITIVE_INT, nonEmpty: true, unique: true };
 const BAND_LIST: Spec = { kind: "array", items: BAND, nonEmpty: true, unique: true };
-const meterMap = (values: Spec): Spec => ({ kind: "record", keys: METER_KEYS, values });
+/**
+ * `mood` is not a meter any more, it is a shorthand that moves all three coalition blocs
+ * at once, and conditions may read it as their average (BACKLOG item 5). So effect maps and
+ * meter conditions accept it alongside the real keys.
+ */
+const FX_KEYS = [...METER_KEYS, "mood"] as const;
+const meterMap = (values: Spec): Spec => ({ kind: "record", keys: FX_KEYS, values });
 
 const COND_FIELDS: Record<string, Spec> = {
   flags: IDS,

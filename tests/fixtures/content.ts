@@ -20,6 +20,8 @@ export function ev(id: string, extra: Partial<Card> = {}): Card {
 
 /** Engine-required endings plus one card-driven ending. */
 export const ENDING_IDS = [
+  "abandoned_base",
+  "abandoned_backers",
   "riots",
   "personality_cult",
   "bankruptcy",

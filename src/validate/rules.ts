@@ -7,6 +7,9 @@ import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
 import type { Arc, Card, Choice, Cond, Content } from "../engine/types";
 import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
+
+/** Content may write and read `mood`, the shorthand across the coalition blocs. */
+const FX_KEYS = [...METER_KEYS, "mood"] as const;
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
@@ -45,8 +48,9 @@ export function engineEndings(config: EngineConfig): string[] {
     ...METER_KEYS.flatMap((k) => [config.meterEndings[k].low, config.meterEndings[k].high]),
     config.electionLossEnding,
     config.coupEnding,
+    config.cultEnding,
     ...BANDS.map((b) => `${config.finalePrefix}${b}`),
-  ];
+  ].filter((id): id is string => typeof id === "string");
 }
 
 export function resolveEras(content: Content, opts: Pick<RuleOptions, "eras" | "config">): { eras: number[]; empty: number[] } {
@@ -154,7 +158,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     for (const f of cond.notFlags ?? []) note(flagReads, f, { ...where, path: `${path}.notFlags` });
     const both = (cond.flags ?? []).filter((f) => (cond.notFlags ?? []).includes(f));
     for (const f of both) issues.error("cond-unsatisfiable", `flag "${f}" is required and forbidden at once`, { ...where, path });
-    for (const k of METER_KEYS) {
+    for (const k of FX_KEYS) {
       const m = cond.meters?.[k];
       if (!m) continue;
       const p = `${path}.meters.${k}`;
@@ -191,7 +195,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       const ch = card[side];
       if (ch.honest) honest++;
       if (ch.label.length > opts.maxLabel) issues.warn("label-length", `label is ${ch.label.length} characters; the plan says under ${opts.maxLabel}`, { ...where, path: `${side}.label` });
-      for (const k of METER_KEYS) {
+      for (const k of FX_KEYS) {
         if (ch.fx && ch.fx[k] === 0) issues.warn("fx-zero", `${k}: 0 does nothing; drop it`, { ...where, path: `${side}.fx.${k}` });
       }
       if (card.type !== "election" && (ch.honest !== undefined || ch.electionDelay !== undefined)) {

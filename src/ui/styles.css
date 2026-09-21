@@ -128,11 +128,21 @@ button {
 /* ---- meters ------------------------------------------------------------------ */
 .meters {
   display: flex;
-  justify-content: space-around;
-  width: min(100%, 520px);
+  justify-content: center;
+  gap: 2px;
+  width: min(100%, 560px);
   margin: 0 auto;
-  padding: calc(var(--space) + env(safe-area-inset-top, 0px)) var(--space) var(--space);
+  padding: calc(var(--space) + env(safe-area-inset-top, 0px)) 8px var(--space);
   rotate: var(--tilt);
+}
+/* Six meters: three coalition blocs, a gap, then the three that belong to the state. */
+.meter-slot {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 62px;
+}
+.meter-slot.group-break {
+  margin-left: 12px;
 }
 .meter {
   position: relative;
@@ -140,7 +150,11 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  width: 68px;
+  width: 100%;
+}
+.meter-icon {
+  width: 34px;
+  height: 34px;
 }
 .meter-icon .meter-fill {
   fill: var(--accent);
@@ -174,38 +188,36 @@ button {
     transform: scale(1.12);
   }
 }
+/* Sits in the icon's top-right corner. It used to float above the bar, which clipped once
+   there were six meters in the header. */
 .meter-dot {
   position: absolute;
-  top: -6px;
-  left: 50%;
-  translate: -50% 0;
+  top: -2px;
+  right: 4px;
   width: 0;
   height: 0;
   border-radius: 50%;
   background: var(--ink);
+  box-shadow: 0 0 0 2px var(--bg);
   transition:
     width 0.12s,
-    height 0.12s,
-    top 0.12s;
+    height 0.12s;
 }
 .meter-dot.dot-1 {
-  width: 7px;
-  height: 7px;
-  top: -8px;
+  width: 6px;
+  height: 6px;
 }
 .meter-dot.dot-2 {
-  width: 11px;
-  height: 11px;
-  top: -10px;
+  width: 10px;
+  height: 10px;
 }
 .meter-dot.dot-3 {
-  width: 16px;
-  height: 16px;
-  top: -13px;
+  width: 14px;
+  height: 14px;
 }
 .meter-label {
-  max-width: 84px;
-  font-size: 10.5px;
+  max-width: 100%;
+  font-size: 9.5px;
   color: var(--muted);
   letter-spacing: 0.02em;
   white-space: nowrap;

@@ -1,5 +1,6 @@
 import type { Library } from "./library";
 import { applyChoice, checkOuster } from "./resolve";
+import { fxDeltas } from "./state";
 import type { Card, GameState, MeterKey, Meters, Side } from "./types";
 import { METER_KEYS } from "./types";
 
@@ -15,11 +16,13 @@ export interface Preview {
 /** Project a choice without committing it. Deterministic and side-effect free. */
 export function preview(lib: Library, state: GameState, card: Card, side: Side): Preview {
   const after = checkOuster(lib, applyChoice(lib, state, card, side));
-  const fx = card[side].fx ?? {};
+  // Expand the `mood` shorthand, or a card that moves the whole coalition would show no
+  // dots at all on the blocs it moves.
+  const deltas = fxDeltas(card[side].fx);
   return {
     meters: after.meters,
     drift: after.drift,
     endingId: after.over?.endingId ?? null,
-    affected: METER_KEYS.filter((k) => (fx[k] ?? 0) !== 0),
+    affected: METER_KEYS.filter((k) => (deltas[k] ?? 0) !== 0),
   };
 }

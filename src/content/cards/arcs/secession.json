@@ -19,9 +19,10 @@
     "left": {
       "label": "Negotiate terms",
       "fx": {
-        "mood": -3,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -5,
+        "public": 3
       },
       "drift": 4,
       "next": "arc_se2",
@@ -33,9 +34,10 @@
       "label": "Send the garrison",
       "fx": {
         "order": 3,
-        "mood": 2,
         "money": -5,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "public": -4
       },
       "drift": -5
     }
@@ -66,8 +68,9 @@
       "label": "Let them go",
       "fx": {
         "money": -4,
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -7,
+        "public": 3
       },
       "drift": 6,
       "clearFlags": [
@@ -78,9 +81,10 @@
       "label": "Blockade the pipeline",
       "fx": {
         "order": 3,
-        "mood": 2,
         "money": -3,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "public": -4
       },
       "drift": -5,
       "next": "arc_se3"
@@ -118,7 +122,8 @@
       "fx": {
         "order": -4,
         "money": -9,
-        "mood": -2
+        "public": -5,
+        "base": -2
       },
       "drift": -5,
       "clearFlags": [

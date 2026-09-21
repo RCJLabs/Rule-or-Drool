@@ -9,6 +9,11 @@ before changing anything.
 
 ## Status
 
+Your support is a **coalition of three blocs**, not one public: the Movement, the Unions and
+the Cities if you lead the Commons; the Faithful, the Donors and the Country if you lead the
+Ledger. Pleasing one usually costs another, any of them can walk out on you, and elections
+are decided by their average.
+
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
 20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and

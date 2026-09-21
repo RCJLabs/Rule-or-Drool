@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { bandOf, cabinetTraitFlags, condMet, exitBand, newRun, replaceAdvisor, rollSetup } from "../../src/engine/state";
+import { bandOf, cabinetTraitFlags, condMet, exitBand, fxDeltas, moodOf, newRun, replaceAdvisor, rollSetup } from "../../src/engine/state";
 import { buildLibrary } from "../../src/engine/library";
 import { makeFixture } from "../fixtures/content";
-import { lib, start } from "../helpers";
+import { lib, meters, start } from "../helpers";
 
 describe("newRun", () => {
   it("starts every meter at 50 with the spec defaults", () => {
     const l = lib();
     const s = { ...newRun(l, 1, { align: "left" }), flags: [] };
-    expect(s.meters).toEqual({ mood: 50, money: 50, order: 50, inst: 50 });
+    expect(s.meters).toEqual(meters());
     expect(s).toMatchObject({
       seed: 1,
       align: "left",
@@ -81,7 +81,7 @@ describe("bands", () => {
 
 describe("condMet", () => {
   const l = lib();
-  const s = start(l, { flags: ["a", "b"], meters: { mood: 30, money: 50, order: 70, inst: 50 } });
+  const s = start(l, { flags: ["a", "b"], meters: meters({ mood: 30, order: 70 }) });
 
   it("treats a missing cond as true", () => {
     expect(condMet(undefined, s)).toBe(true);
@@ -116,7 +116,7 @@ describe("rollSetup", () => {
   it("feeds straight into newRun", () => {
     const l = lib();
     const s = newRun(l, 4, rollSetup(l, 4, "left"));
-    expect(s.meters).toEqual({ mood: 55, money: 30, order: 45, inst: 50 });
+    expect(s.meters).toEqual(meters({ mood: 55, money: 30, order: 45 }));
   });
 });
 
@@ -141,5 +141,39 @@ describe("replaceAdvisor", () => {
     const solo = buildLibrary({ ...fx, advisors: fx.advisors.filter((a) => a.id === "c0" || a.id === "g0") });
     const s = start(solo, { cabinet: { chief: "c0", general: "g0" } });
     expect(replaceAdvisor(solo, s, "chief")).toBe(s);
+  });
+});
+
+describe("coalition blocs", () => {
+  it("reads mood as the average of the three blocs", () => {
+    expect(moodOf(meters())).toBe(50);
+    expect(moodOf(meters({ mood: 30 }))).toBe(30);
+    expect(moodOf(meters({ base: 60, backers: 30, public: 45 }))).toBe(45);
+    // The state meters are not part of the coalition and must not move the average.
+    expect(moodOf(meters({ money: 0, order: 100 }))).toBe(50);
+  });
+
+  it("expands the mood shorthand across every bloc, and adds to an explicit bloc", () => {
+    expect(fxDeltas({ mood: 4 })).toEqual({ base: 4, backers: 4, public: 4 });
+    expect(fxDeltas({ money: -3 })).toEqual({ money: -3 });
+    // "Everyone disliked this, the backers especially."
+    expect(fxDeltas({ mood: -2, backers: -4 })).toEqual({ base: -2, backers: -6, public: -2 });
+    expect(fxDeltas(undefined)).toEqual({});
+  });
+
+  it("lets a condition read mood or a single bloc", () => {
+    const l = lib();
+    const split = start(l, { meters: meters({ base: 20, backers: 80, public: 50 }) });
+    expect(condMet({ meters: { mood: { gt: 45 } } }, split)).toBe(true);
+    expect(condMet({ meters: { base: { lt: 25 } } }, split)).toBe(true);
+    expect(condMet({ meters: { base: { gt: 25 } } }, split)).toBe(false);
+    expect(condMet({ meters: { backers: { gt: 75 }, base: { lt: 25 } } }, split)).toBe(true);
+  });
+
+  it("starts a run with every bloc and meter at the configured middle", () => {
+    const s = newRun(lib(), 3, { align: "left" });
+    for (const k of ["base", "backers", "public", "money", "order", "inst"] as const) {
+      expect(s.meters[k], k).toBe(50);
+    }
   });
 });

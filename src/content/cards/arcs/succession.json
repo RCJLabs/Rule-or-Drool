@@ -19,9 +19,10 @@
     "left": {
       "label": "Train a successor",
       "fx": {
-        "mood": -2,
         "money": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -3,
+        "public": 3
       },
       "drift": 4,
       "next": "arc_su2",
@@ -33,8 +34,9 @@
       "label": "Keep them all small",
       "fx": {
         "order": 2,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "public": -3
       },
       "drift": -5
     }
@@ -69,9 +71,10 @@
     "right": {
       "label": "Not quite yet",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "public": -3
       },
       "drift": -4,
       "next": "arc_su3"
@@ -102,9 +105,10 @@
     "left": {
       "label": "Beat them fairly",
       "fx": {
-        "mood": -3,
         "money": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -4,
+        "public": 4
       },
       "drift": 5,
       "clearFlags": [
@@ -115,8 +119,9 @@
       "label": "Disqualify them",
       "fx": {
         "order": 3,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "public": -6
       },
       "drift": -7,
       "clearFlags": [

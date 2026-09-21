@@ -1,7 +1,7 @@
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
-import type { Band, Cond, GameState, Meters, PlayerAlign, RunSetup } from "./types";
-import { EMPTY_STATS, METER_KEYS } from "./types";
+import type { Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
+import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
 export function clampMeter(v: number): number {
   return Math.max(0, Math.min(100, v));
@@ -9,6 +9,26 @@ export function clampMeter(v: number): number {
 
 export function clampDrift(v: number): number {
   return Math.max(-100, Math.min(100, v));
+}
+
+/**
+ * "Mood" is no longer a meter; it is how the three blocs feel on average. Elections and any
+ * content that reads `mood` use this (BACKLOG item 5).
+ */
+export function moodOf(meters: Meters): number {
+  return Math.round(BLOC_KEYS.reduce((sum, b) => sum + meters[b], 0) / BLOC_KEYS.length);
+}
+
+/** Spread an FxSpec into per-meter deltas, expanding the `mood` shorthand across the blocs. */
+export function fxDeltas(fx: FxSpec | undefined): Partial<Record<(typeof METER_KEYS)[number], number>> {
+  const out: Partial<Record<(typeof METER_KEYS)[number], number>> = {};
+  if (!fx) return out;
+  for (const k of METER_KEYS) {
+    const v = fx[k];
+    if (v) out[k] = (out[k] ?? 0) + v;
+  }
+  if (fx.mood) for (const b of BLOC_KEYS) out[b] = (out[b] ?? 0) + fx.mood;
+  return out;
 }
 
 export function bandOf(lib: Library, drift: number): Band {
@@ -34,10 +54,10 @@ export function condMet(cond: Cond | undefined, state: GameState): boolean {
   if (cond.flags) for (const f of cond.flags) if (!state.flags.includes(f)) return false;
   if (cond.notFlags) for (const f of cond.notFlags) if (state.flags.includes(f)) return false;
   if (cond.meters) {
-    for (const k of METER_KEYS) {
+    for (const k of [...METER_KEYS, "mood"] as const) {
       const m = cond.meters[k];
       if (!m) continue;
-      const v = state.meters[k];
+      const v = k === "mood" ? moodOf(state.meters) : state.meters[k];
       if (m.lt !== undefined && !(v < m.lt)) return false;
       if (m.gt !== undefined && !(v > m.gt)) return false;
     }
@@ -96,17 +116,14 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
   const cfg = lib.config;
   let rng = seedToState(seed);
 
-  const meters: Meters = { mood: cfg.meterStart, money: cfg.meterStart, order: cfg.meterStart, inst: cfg.meterStart };
+  const meters = Object.fromEntries(METER_KEYS.map((k) => [k, cfg.meterStart])) as Meters;
   const flags: string[] = [];
   const modifierIds = setup.modifiers ?? [];
   for (const id of modifierIds) {
     const mod = lib.modifiers.get(id);
     if (!mod) throw new Error(`unknown modifier id: ${id}`);
-    if (mod.meterStart) {
-      for (const k of METER_KEYS) {
-        const delta = mod.meterStart[k];
-        if (delta) meters[k] = clampMeter(meters[k] + delta);
-      }
+    for (const [k, delta] of Object.entries(fxDeltas(mod.meterStart))) {
+      meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + delta);
     }
     for (const f of mod.flags ?? []) if (!flags.includes(f)) flags.push(f);
   }

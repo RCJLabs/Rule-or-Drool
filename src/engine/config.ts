@@ -1,4 +1,4 @@
-import type { Band } from "./types";
+import type { Band, MeterKey } from "./types";
 
 /**
  * Tunable engine constants. Starting values come from TRANSFER.md; anything marked
@@ -11,7 +11,7 @@ export interface EngineConfig {
   eraLength: number;
   /** Cards between elections (5.4 says ~25). */
   electionInterval: number;
-  /** Honest election below this Mood is a loss (5.4, start at 40). */
+  /** An honest election is lost when the average of the three blocs falls below this (5.4). */
   electionMoodThreshold: number;
   /** Ending used when an honest election is lost and the card names none. */
   electionLossEnding: string;
@@ -56,13 +56,15 @@ export interface EngineConfig {
   meterStartMax: number;
   /** Ending id prefix for surviving the last era: `${finalePrefix}${band}`. */
   finalePrefix: string;
-  /** Ending ids for meter extremes. */
-  meterEndings: {
-    mood: { low: string; high: string };
-    money: { low: string; high: string };
-    order: { low: string; high: string };
-    inst: { low: string; high: string };
-  };
+  /**
+   * Ending ids for meter extremes. Blocs only end a run at the bottom: a bloc at zero has
+   * abandoned you. There is no per-bloc ceiling, because adoration is only a problem when
+   * every bloc shares it (see cultAt).
+   */
+  meterEndings: Record<MeterKey, { low: string; high?: string }>;
+  /** Every bloc at or above this is a personality cult: nobody left to disagree with you. */
+  cultAt: number;
+  cultEnding: string;
 }
 
 export const DEFAULT_CONFIG: EngineConfig = {
@@ -97,9 +99,13 @@ export const DEFAULT_CONFIG: EngineConfig = {
   meterStartMax: 75,
   finalePrefix: "finale_",
   meterEndings: {
-    mood: { low: "riots", high: "personality_cult" },
+    base: { low: "abandoned_base" },
+    backers: { low: "abandoned_backers" },
+    public: { low: "riots" },
     money: { low: "bankruptcy", high: "oligarchy" },
     order: { low: "anarchy", high: "police_state" },
     inst: { low: "state_collapse", high: "paralysis" },
   },
+  cultAt: 92,
+  cultEnding: "personality_cult",
 };

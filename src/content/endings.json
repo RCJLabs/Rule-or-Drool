@@ -98,5 +98,15 @@
     "id": "purge_consumed",
     "title": "Insufficiently Committed",
     "text": "The list you started reached your own name. You signed it yourself, which they said showed real discipline."
+  },
+  {
+    "id": "abandoned_base",
+    "title": "Nobody Came",
+    "text": "The people who knocked on doors for you stopped knocking. There was no announcement. There was just nobody there."
+  },
+  {
+    "id": "abandoned_backers",
+    "title": "Funding Withdrawn",
+    "text": "The people who paid for all of it stopped paying for all of it. The campaign office lights went out first."
   }
 ]

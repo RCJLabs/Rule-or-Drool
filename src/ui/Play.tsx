@@ -92,7 +92,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
 
   return (
     <Frame theme={theme} seed={state.seed} n={state.cardCount}>
-      <MetersBar meters={state.meters} preview={projected} theme={theme} />
+      <MetersBar meters={state.meters} preview={projected} theme={theme} align={state.align} />
       <main className="stage">
         {card && (
           <CardView

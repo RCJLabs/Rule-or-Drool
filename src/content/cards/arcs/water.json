@@ -21,8 +21,9 @@
       "label": "Start rationing",
       "fx": {
         "money": -3,
-        "mood": -4,
-        "inst": 3
+        "inst": 3,
+        "public": -7,
+        "backers": -3
       },
       "drift": 5,
       "next": "arc_wa2",
@@ -34,8 +35,9 @@
       "label": "Drill deeper",
       "fx": {
         "money": -2,
-        "mood": 3,
-        "inst": -2
+        "inst": -2,
+        "public": 5,
+        "backers": 2
       },
       "drift": -4,
       "enqueue": [
@@ -72,9 +74,10 @@
     "left": {
       "label": "Ration the capital too",
       "fx": {
-        "mood": -4,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -4,
+        "backers": -5
       },
       "drift": 5,
       "next": "arc_wa3"
@@ -82,9 +85,10 @@
     "right": {
       "label": "Exempt the capital",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "public": -4
       },
       "drift": -5,
       "clearFlags": [
@@ -120,7 +124,8 @@
       "fx": {
         "money": -6,
         "inst": 3,
-        "mood": 2
+        "public": 4,
+        "backers": -2
       },
       "drift": 5,
       "clearFlags": [
@@ -130,9 +135,10 @@
     "right": {
       "label": "Fund the campaign",
       "fx": {
-        "mood": 3,
         "money": -2,
-        "inst": -3
+        "inst": -3,
+        "base": 6,
+        "public": 2
       },
       "drift": -5,
       "clearFlags": [

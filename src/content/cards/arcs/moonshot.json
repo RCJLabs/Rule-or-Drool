@@ -20,7 +20,9 @@
       "label": "Fund it",
       "fx": {
         "money": -9,
-        "inst": 1
+        "inst": 1,
+        "backers": -3,
+        "base": 2
       },
       "drift": 4,
       "next": "arc_ms2",
@@ -32,7 +34,8 @@
       "label": "Shelve it",
       "fx": {
         "money": 5,
-        "mood": 1
+        "public": 3,
+        "base": -2
       },
       "drift": -3
     }
@@ -63,7 +66,9 @@
       "label": "Fund the second test",
       "fx": {
         "money": -6,
-        "mood": -3
+        "public": -4,
+        "backers": -2,
+        "base": 2
       },
       "drift": 4,
       "next": "arc_ms3"
@@ -72,8 +77,9 @@
       "label": "Cancel it",
       "fx": {
         "money": 6,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "public": 3,
+        "base": -2
       },
       "drift": -3,
       "clearFlags": [
@@ -107,8 +113,9 @@
       "label": "Give him the contract",
       "fx": {
         "money": 7,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "public": -3
       },
       "drift": -5,
       "clearFlags": [
@@ -119,7 +126,9 @@
       "label": "Open the tender",
       "fx": {
         "money": -4,
-        "inst": 1
+        "inst": 1,
+        "backers": -4,
+        "public": 3
       },
       "drift": 4,
       "next": "arc_ms4"
@@ -150,8 +159,10 @@
     "left": {
       "label": "Your name",
       "fx": {
-        "mood": 3,
-        "inst": -1
+        "inst": -1,
+        "base": 6,
+        "public": 1,
+        "backers": -2
       },
       "drift": -3,
       "clearFlags": [
@@ -161,8 +172,10 @@
     "right": {
       "label": "The engineers' names",
       "fx": {
-        "mood": 4,
-        "inst": 3
+        "inst": 3,
+        "public": 5,
+        "backers": 2,
+        "base": -1
       },
       "drift": 5,
       "clearFlags": [

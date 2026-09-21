@@ -28,6 +28,16 @@ describe("save", () => {
     expect(loaded!.unlocked).toEqual([]);
   });
 
+  it("splits a pre-blocs save's Mood across the three coalition blocs", () => {
+    const s = newRun(library, 8, { align: "left" });
+    const legacy = { ...s, meters: { mood: 37, money: 61, order: 44, inst: 52 } };
+    localStorage.setItem("rod.run", JSON.stringify({ v: 2, state: legacy }));
+    const loaded = loadRun();
+    expect(loaded).not.toBeNull();
+    expect(loaded!.meters).toEqual({ base: 37, backers: 37, public: 37, money: 61, order: 44, inst: 52 });
+    expect("mood" in loaded!.meters).toBe(false);
+  });
+
   it("migrateRun refuses versions it does not know", () => {
     const s = newRun(library, 1, { align: "left" });
     expect(migrateRun(RUN_SAVE_VERSION + 1, s)).toBeNull();

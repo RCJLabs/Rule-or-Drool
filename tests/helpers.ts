@@ -3,7 +3,8 @@ import type { EngineConfig } from "../src/engine/config";
 import { draw } from "../src/engine/draw";
 import { resolve } from "../src/engine/resolve";
 import { newRun } from "../src/engine/state";
-import type { GameState, PlayerAlign, Side } from "../src/engine/types";
+import type { GameState, Meters, PlayerAlign, Side } from "../src/engine/types";
+import { BLOC_KEYS, METER_KEYS } from "../src/engine/types";
 import { makeFixture } from "./fixtures/content";
 
 /** Fixture library with long eras and rare elections unless a test says otherwise. */
@@ -42,4 +43,15 @@ export function play(l: Library, state: GameState, n: number, side: Side | ((id:
     s = resolve(l, s, id, typeof side === "function" ? side(id) : side);
   }
   return { state: s, ids };
+}
+
+/**
+ * Build a meter set from a partial. `mood` sets all three coalition blocs at once, the same
+ * shorthand content uses, so tests can still say "the public is at 39" in one word.
+ */
+export function meters(patch: Partial<Meters> & { mood?: number } = {}): Meters {
+  const out = Object.fromEntries(METER_KEYS.map((k) => [k, 50])) as Meters;
+  const { mood, ...rest } = patch;
+  if (mood !== undefined) for (const b of BLOC_KEYS) out[b] = mood;
+  return { ...out, ...rest };
 }

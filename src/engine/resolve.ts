@@ -1,8 +1,8 @@
 import { endRun } from "./endings";
 import { getCard, type Library } from "./library";
-import { bandOf, clampDrift, clampMeter, exitBand, hasFlag, replaceAdvisor, roll } from "./state";
+import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, roll } from "./state";
 import type { Card, GameState, Meters, RunStats, Side } from "./types";
-import { METER_KEYS } from "./types";
+import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
 
 /**
  * How the advisor currently holding a role scales that role's own card effects (5.8).
@@ -34,7 +34,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   let endingId: string | null = choice.ending ?? null;
   if (card.type === "election") {
     if (choice.honest) {
-      const lost = s.meters.mood < cfg.electionMoodThreshold;
+      const lost = moodOf(s.meters) < cfg.electionMoodThreshold;
       endingId = lost ? (choice.ending ?? cfg.electionLossEnding) : null;
     }
     const interval = choice.electionDelay ?? cfg.electionInterval;
@@ -44,11 +44,9 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   const mult = cfg.volatility[s.band];
   const trait = traitScale(lib, s, card.speaker);
   const meters: Meters = { ...s.meters };
-  if (choice.fx) {
-    for (const k of METER_KEYS) {
-      const v = choice.fx[k];
-      if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult * (v > 0 ? trait.gain : trait.loss)));
-    }
+  for (const k of METER_KEYS) {
+    const v = fxDeltas(choice.fx)[k];
+    if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult * (v > 0 ? trait.gain : trait.loss)));
   }
   const drift = clampDrift(s.drift + (choice.drift ?? 0));
 
@@ -85,14 +83,22 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   return s;
 }
 
-/** Meter extremes oust you (5.1). Choice endings already set take precedence. */
+/**
+ * Meter extremes oust you (5.1). A bloc at zero has abandoned you; the state meters still
+ * fail at both ends; and a cult is every bloc adoring you at once, with nobody left to
+ * disagree (BACKLOG item 5). Choice endings already set take precedence.
+ */
 export function checkOuster(lib: Library, state: GameState): GameState {
   if (state.over) return state;
+  const cfg = lib.config;
   for (const k of METER_KEYS) {
-    const v = state.meters[k];
-    if (v <= 0) return endRun(lib, state, lib.config.meterEndings[k].low);
-    if (v >= 100) return endRun(lib, state, lib.config.meterEndings[k].high);
+    if (state.meters[k] <= 0) return endRun(lib, state, cfg.meterEndings[k].low);
   }
+  for (const k of CORE_KEYS) {
+    const high = cfg.meterEndings[k].high;
+    if (high && state.meters[k] >= 100) return endRun(lib, state, high);
+  }
+  if (BLOC_KEYS.every((b) => state.meters[b] >= cfg.cultAt)) return endRun(lib, state, cfg.cultEnding);
   return state;
 }
 

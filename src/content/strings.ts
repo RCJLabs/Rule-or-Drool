@@ -11,14 +11,39 @@ export const STRINGS = {
     left: "Movements, unions, committees. Your people want everything fixed by Friday.",
     right: "Donors, generals, the old families. Your people want it kept the way it was.",
   },
-  meters: { mood: "Mood", money: "Money", order: "Order", inst: "Institutions" },
+  meters: { base: "Base", backers: "Backers", public: "Public", money: "Money", order: "Order", inst: "Institutions" },
+  /**
+   * The three coalition blocs are the same slots for both sides; who they are is not.
+   * This is where most of the path distinction in BACKLOG item 5 actually lives.
+   */
+  blocNames: {
+    left: { base: "Movement", backers: "Unions", public: "Cities" },
+    right: { base: "Faithful", backers: "Donors", public: "Country" },
+  } as Record<"left" | "right", Record<"base" | "backers" | "public", string>>,
+  blocBlurbs: {
+    left: {
+      base: "The activists who knock on doors and never forget a vote.",
+      backers: "The unions that fund you and can stop the country.",
+      public: "City renters and commuters who want things to work.",
+    },
+    right: {
+      base: "The faithful, who turn out when the sermon says to.",
+      backers: "The donors who pay for the campaign and read the drafts.",
+      public: "Small towns and farms, who notice when prices move.",
+    },
+  } as Record<"left" | "right", Record<"base" | "backers" | "public", string>>,
   /** Plain, dumb, dumber. Later stages of Decay swap these in (section 9). */
   meterLabels: {
-    mood: ["Mood", "Vibes", "VIBEZ!!"],
     money: ["Money", "Cash", "CA$H"],
     order: ["Order", "Cops", "COPS"],
     inst: ["Institutions", "Gov Stuff", "THE SYSTEM"],
-  },
+  } as Record<string, readonly [string, string, string]>,
+  /** Decay-stage slang for the blocs, shared by both sides. */
+  blocDecay: {
+    base: ["", "The Fans", "THE FANS"],
+    backers: ["", "The Money", "THE MONEY"],
+    public: ["", "Everyone", "EVERYONE!!"],
+  } as Record<string, readonly [string, string, string]>,
   bands: { decay: "Decay", muddle: "Muddle", ascent: "Ascent" },
   eras: [
     { name: "Your term", jump: "The office is yours. The country is watching, for now." },

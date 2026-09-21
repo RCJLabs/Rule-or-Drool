@@ -1,7 +1,8 @@
 import { STRINGS } from "../content/strings";
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { makeRng } from "../engine/rng";
-import type { Band, MeterKey } from "../engine/types";
+import type { Band, MeterKey, PlayerAlign } from "../engine/types";
+import { BLOC_KEYS } from "../engine/types";
 
 /**
  * Frame theming is the trajectory meter (section 9). The theme follows live drift, not the
@@ -33,12 +34,13 @@ export function themeFor(drift: number, config: EngineConfig = DEFAULT_CONFIG): 
   return { band, stage, decay: drift < 0 ? level : 0, ascent: drift > 0 ? level : 0, name };
 }
 
-/** Labels get dumber as Decay deepens. */
-export function meterLabel(key: MeterKey, theme: Theme): string {
-  const [plain, dumb, dumber] = STRINGS.meterLabels[key];
+/** Labels get dumber as Decay deepens. Bloc names also depend on which side you lead. */
+export function meterLabel(key: MeterKey, theme: Theme, align: PlayerAlign): string {
+  const isBloc = (BLOC_KEYS as readonly string[]).includes(key);
+  const [, dumb, dumber] = (isBloc ? STRINGS.blocDecay : STRINGS.meterLabels)[key]!;
   if (theme.stage <= -3) return dumber;
   if (theme.stage <= -2) return dumb;
-  return plain;
+  return isBloc ? STRINGS.blocNames[align][key as "base"] : STRINGS.meterLabels[key]![0];
 }
 
 /** How hard degrade() may lean on the card text. */

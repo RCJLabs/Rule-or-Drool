@@ -1,7 +1,7 @@
 import type { Library } from "../engine/library";
 import { preview, type Preview } from "../engine/preview";
 import type { Card, GameState, Meters, Side } from "../engine/types";
-import { METER_KEYS } from "../engine/types";
+import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "../engine/types";
 
 /**
  * Headless policies from TRANSFER.md section 8. Bots are omniscient about card data:
@@ -30,14 +30,26 @@ export interface BotContext {
 
 export type Bot = (ctx: BotContext) => Side;
 
-/** Higher is calmer: negative sum of squared distance from the centre. */
+/**
+ * Higher is calmer: negative sum of squared distance from the centre.
+ *
+ * The three coalition blocs are averaged rather than summed, so the bot weighs its
+ * coalition as one concern and not three. Summing them would triple the weight of public
+ * opinion purely because it is now drawn as three bars, which is a modelling artifact
+ * rather than a change in the game (BACKLOG item 5).
+ */
 export function stability(meters: Meters): number {
   let s = 0;
-  for (const k of METER_KEYS) {
+  for (const k of CORE_KEYS) {
     const d = meters[k] - 50;
     s -= d * d;
   }
-  return s;
+  let coalition = 0;
+  for (const b of BLOC_KEYS) {
+    const d = meters[b] - 50;
+    coalition -= d * d;
+  }
+  return s + coalition / BLOC_KEYS.length;
 }
 
 function greedyScore(p: Preview): number {
@@ -67,7 +79,11 @@ const saint: Bot = (ctx) => pickBy(ctx, (p) => p.drift);
  */
 const mixed: Bot = (ctx) => {
   const d = ctx.opts.danger;
-  const inDanger = METER_KEYS.some((k) => ctx.state.meters[k] < d || ctx.state.meters[k] > 100 - d);
+  // A bloc only ends a run at the bottom, so a high bloc is not danger. The state meters
+  // still fail at both ends.
+  const inDanger =
+    BLOC_KEYS.some((b) => ctx.state.meters[b] < d) ||
+    CORE_KEYS.some((k) => ctx.state.meters[k] < d || ctx.state.meters[k] > 100 - d);
   if (inDanger) return greedy(ctx);
   const side = saint(ctx);
   const other: Side = side === "left" ? "right" : "left";

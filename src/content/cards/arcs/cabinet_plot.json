@@ -21,8 +21,9 @@
       "label": "Bury it",
       "fx": {
         "money": 6,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "public": -2
       },
       "drift": -4,
       "next": "arc_cp2",
@@ -34,8 +35,9 @@
       "label": "Sack them publicly",
       "fx": {
         "money": -4,
-        "mood": -2,
-        "inst": 1
+        "inst": 1,
+        "backers": -5,
+        "public": 3
       },
       "drift": 4,
       "fireSpeaker": true
@@ -69,7 +71,9 @@
       "fx": {
         "money": -7,
         "order": 2,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "public": -3
       },
       "drift": -4,
       "next": "arc_cp3"
@@ -79,7 +83,9 @@
       "fx": {
         "money": -3,
         "order": -4,
-        "inst": 1
+        "inst": 1,
+        "backers": -5,
+        "public": 3
       },
       "drift": 4,
       "fireSpeaker": true,
@@ -119,9 +125,11 @@
     "right": {
       "label": "Confess first",
       "fx": {
-        "mood": -6,
         "money": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -5,
+        "backers": -5,
+        "public": 2
       },
       "drift": 8,
       "clearFlags": [

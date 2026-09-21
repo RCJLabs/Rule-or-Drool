@@ -21,14 +21,17 @@
       "honest": true,
       "fx": {
         "money": -8,
-        "inst": 3
+        "inst": 3,
+        "backers": -5,
+        "public": 3
       },
       "drift": 4
     },
     "right": {
       "label": "Take the money quietly",
       "fx": {
-        "money": 4,
+        "backers": 6,
+        "public": -2,
         "inst": -3
       },
       "drift": -20,
@@ -61,14 +64,17 @@
       "fx": {
         "money": -4,
         "order": -4,
-        "inst": 3
+        "inst": 3,
+        "base": -6,
+        "public": 3
       },
       "drift": 4
     },
     "right": {
       "label": "Add the plank",
       "fx": {
-        "mood": 3,
+        "base": 6,
+        "public": -3,
         "order": 1,
         "inst": -3
       },
@@ -107,14 +113,17 @@
       "fx": {
         "money": -6,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 3,
+        "base": -3
       },
       "drift": 5
     },
     "right": {
       "label": "Tighten the rules",
       "fx": {
-        "mood": 2,
+        "base": 3,
+        "public": -3,
         "order": 2,
         "inst": -3
       },
@@ -152,15 +161,18 @@
       "honest": true,
       "fx": {
         "order": -7,
-        "inst": 4
+        "inst": 4,
+        "backers": -4,
+        "public": 2
       },
       "drift": 5
     },
     "right": {
       "label": "Accept the offer",
       "fx": {
+        "backers": 4,
         "order": 3,
-        "mood": 2,
+        "public": -2,
         "inst": -4
       },
       "drift": -22,
@@ -192,14 +204,18 @@
       "fx": {
         "money": -5,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -4,
+        "public": 2
       },
       "drift": 4
     },
     "right": {
       "label": "Run the footage",
       "fx": {
-        "mood": 4,
+        "base": 5,
+        "public": 2,
+        "backers": -1,
         "inst": -3
       },
       "drift": -20,

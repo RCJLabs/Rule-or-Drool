@@ -21,7 +21,8 @@
       "fx": {
         "money": 6,
         "inst": -2,
-        "mood": 1
+        "backers": 4,
+        "public": -2
       },
       "drift": -3,
       "next": "arc_or2",
@@ -33,7 +34,9 @@
       "label": "Keep deciding yourself",
       "fx": {
         "money": -3,
-        "inst": 3
+        "inst": 3,
+        "backers": -3,
+        "public": 2
       },
       "drift": 3
     }
@@ -64,8 +67,9 @@
       "label": "Demand it show working",
       "fx": {
         "money": -4,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "backers": -5,
+        "public": 2
       },
       "drift": 5,
       "clearFlags": [
@@ -76,8 +80,9 @@
       "label": "Give it a fourth",
       "fx": {
         "money": 6,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "public": -3
       },
       "drift": -5,
       "next": "arc_or3"
@@ -109,8 +114,9 @@
       "label": "Switch it off",
       "fx": {
         "money": -6,
-        "mood": -3,
-        "inst": 4
+        "inst": 4,
+        "backers": -6,
+        "public": 3
       },
       "drift": 7,
       "clearFlags": [
@@ -122,7 +128,10 @@
       "fx": {
         "order": 3,
         "money": 3,
-        "inst": -3
+        "inst": -3,
+        "backers": 4,
+        "public": -6,
+        "base": 2
       },
       "drift": -8,
       "clearFlags": [

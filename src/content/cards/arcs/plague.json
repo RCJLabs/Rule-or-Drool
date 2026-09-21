@@ -21,8 +21,10 @@
       "label": "Act now",
       "fx": {
         "money": -6,
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -5,
+        "backers": -3,
+        "base": 2
       },
       "drift": 5,
       "next": "arc_pl2",
@@ -33,9 +35,10 @@
     "right": {
       "label": "Wait for certainty",
       "fx": {
-        "mood": 2,
         "money": 3,
-        "inst": -2
+        "inst": -2,
+        "public": 4,
+        "base": 2
       },
       "drift": -4,
       "enqueue": [
@@ -72,8 +75,10 @@
     "left": {
       "label": "By need, published",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "backers": -6,
+        "public": 3,
+        "base": -2
       },
       "drift": 5,
       "next": "arc_pl3"
@@ -81,9 +86,10 @@
     "right": {
       "label": "Ministers and donors",
       "fx": {
-        "mood": 2,
         "money": 5,
-        "inst": -3
+        "inst": -3,
+        "backers": 7,
+        "public": -6
       },
       "drift": -6,
       "clearFlags": [
@@ -117,9 +123,10 @@
     "left": {
       "label": "Hold a public inquiry",
       "fx": {
-        "mood": -3,
         "money": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -6,
+        "public": 3
       },
       "drift": 6,
       "clearFlags": [
@@ -129,9 +136,11 @@
     "right": {
       "label": "Declare victory",
       "fx": {
-        "mood": 3,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "public": 3,
+        "backers": -2
       },
       "drift": -5,
       "clearFlags": [

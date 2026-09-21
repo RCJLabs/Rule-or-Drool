@@ -1,5 +1,5 @@
-import type { GameState } from "../engine/types";
-import { EMPTY_STATS } from "../engine/types";
+import type { GameState, Meters } from "../engine/types";
+import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
 import { RUN_SAVE_VERSION } from "../version";
 
 const RUN_KEY = "rod.run";
@@ -25,11 +25,23 @@ export function saveRun(state: GameState): void {
  *
  * v1 -> v2: phase 6 added `stats` and `unlocked` to GameState. An old save has neither, so
  * it resumes with empty counters and no unlocks, which only affects objectives for that run.
+ *
+ * v2 -> v3: BACKLOG item 5 replaced the single Mood meter with three coalition blocs. A run
+ * saved before that has `mood` and no blocs, so the blocs all start where Mood left off,
+ * which is exactly the state a run is in before any card pulls them apart.
  */
 export function migrateRun(v: number, state: GameState): GameState | null {
   if (v > RUN_SAVE_VERSION || v < 1) return null;
   let s = state;
   if (v < 2) s = { ...s, stats: { ...EMPTY_STATS }, unlocked: [] };
+  if (v < 3) {
+    const legacy = s.meters as Meters & { mood?: number };
+    const mood = typeof legacy.mood === "number" ? legacy.mood : 50;
+    const meters = { ...legacy } as Meters & { mood?: number };
+    delete meters.mood;
+    for (const b of BLOC_KEYS) meters[b] = mood;
+    s = { ...s, meters: meters as Meters };
+  }
   return s;
 }
 

@@ -17,7 +17,7 @@ export function MeterIcon({ meter, value, dot, danger, label }: Props) {
   const h = (v / 100) * 40;
   return (
     <div className={`meter${danger ? " danger" : ""}`} role="img" aria-label={`${label} ${Math.round(v)} of 100`}>
-      <svg viewBox="0 0 40 40" width="40" height="40" className="meter-icon">
+      <svg viewBox="0 0 40 40" className="meter-icon">
         <defs>
           <clipPath id={clip}>
             <rect x="0" y={40 - h} width="40" height={h} />
@@ -38,21 +38,48 @@ export function MeterIcon({ meter, value, dot, danger, label }: Props) {
 
 function Shape({ meter, value, details }: { meter: MeterKey; value: number; details: boolean }) {
   switch (meter) {
-    case "mood": {
-      const mouth = value >= 60 ? "M12 25 Q20 32 28 25" : value <= 40 ? "M12 29 Q20 22 28 29" : "M12 26 L28 26";
+    // ---- coalition blocs -------------------------------------------------------------
+    case "base": {
+      // A crowd: the people who turn up for you. Their faces sour as support drains.
+      const brow = value <= 35 ? -2 : 0;
       return (
         <>
-          <circle cx="20" cy="20" r="17" />
+          <circle cx="12" cy="16" r="6" />
+          <circle cx="28" cy="16" r="6" />
+          <circle cx="20" cy="13" r="7.5" />
+          <path d="M4 38 C6 28 14 25 20 25 C26 25 34 28 36 38 Z" />
           {details && (
             <>
-              <circle cx="14" cy="15" r="2" className="detail" />
-              <circle cx="26" cy="15" r="2" className="detail" />
-              <path d={mouth} className="detail-stroke" />
+              <circle cx="17" cy={12 + brow} r="1.6" className="detail" />
+              <circle cx="23" cy={12 + brow} r="1.6" className="detail" />
             </>
           )}
         </>
       );
     }
+    case "backers":
+      // An open hand: the money and the muscle that hold you up.
+      return (
+        <>
+          <path d="M12 38 C6 32 5 24 8 20 L10 22 L10 8 A2.4 2.4 0 0 1 15 8 L15 18 L15 5 A2.4 2.4 0 0 1 20 5 L20 18 L20 7 A2.4 2.4 0 0 1 25 7 L25 18 L25 11 A2.4 2.4 0 0 1 30 11 L30 26 C30 33 27 38 24 38 Z" />
+          {details && <path d="M15 20 L15 12 M20 20 L20 10 M25 20 L25 14" className="detail-stroke" />}
+        </>
+      );
+    case "public":
+      // A house: everyone else, who notice when the bills change.
+      return (
+        <>
+          <path d="M20 5 L37 19 L33 19 L33 37 L7 37 L7 19 L3 19 Z" />
+          {details && (
+            <>
+              <rect x="16" y="25" width="8" height="12" className="detail" />
+              <path d="M11 22 H17 M23 22 H29" className="detail-stroke" />
+            </>
+          )}
+        </>
+      );
+
+    // ---- meters that belong to the state ---------------------------------------------
     case "money":
       return (
         <>

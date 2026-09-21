@@ -21,8 +21,10 @@
       "label": "Let him handle it",
       "fx": {
         "order": 3,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "backers": 2,
+        "public": -4
       },
       "drift": -5,
       "next": "arc_sm2",
@@ -34,7 +36,9 @@
       "label": "Tell him no",
       "fx": {
         "order": -4,
-        "inst": 3
+        "inst": 3,
+        "backers": -4,
+        "public": 3
       },
       "drift": 4
     }
@@ -67,7 +71,10 @@
       "fx": {
         "order": 3,
         "money": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 4,
+        "base": 3,
+        "public": -5
       },
       "drift": -6,
       "next": "arc_sm3"
@@ -76,8 +83,9 @@
       "label": "Retire him now",
       "fx": {
         "order": -5,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "backers": -5,
+        "public": 4
       },
       "drift": 5,
       "fireSpeaker": true,

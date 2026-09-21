@@ -20,17 +20,19 @@
     "left": {
       "label": "Indicate nothing",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -5,
+        "public": 3
       },
       "drift": 4
     },
     "right": {
       "label": "Indicate warmly",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "public": -3
       },
       "drift": -4,
       "next": "arc_pr2",
@@ -65,8 +67,9 @@
     "left": {
       "label": "Appoint the journalist",
       "fx": {
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -5,
+        "public": 4
       },
       "drift": 4,
       "clearFlags": [
@@ -76,9 +79,10 @@
     "right": {
       "label": "Appoint your man",
       "fx": {
-        "mood": 3,
         "money": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 6,
+        "public": -4
       },
       "drift": -5,
       "next": "arc_pr3",
@@ -114,8 +118,9 @@
       "label": "Sell it to a trust",
       "fx": {
         "money": -3,
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -6,
+        "public": 4
       },
       "drift": 6,
       "clearFlags": [
@@ -126,9 +131,10 @@
     "right": {
       "label": "Enjoy the quiet",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "public": -5
       },
       "drift": -5,
       "clearFlags": [

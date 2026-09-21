@@ -22,14 +22,19 @@
       "fx": {
         "money": -6,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "base": 2,
+        "backers": -4,
+        "public": -3
       },
       "drift": 4
     },
     "right": {
       "label": "Promise them anything",
       "fx": {
-        "mood": 3,
+        "base": -2,
+        "backers": 5,
+        "public": 2,
         "inst": -3
       },
       "drift": -18,
@@ -61,14 +66,17 @@
       "fx": {
         "money": -5,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -6,
+        "public": 3
       },
       "drift": 4
     },
     "right": {
       "label": "Deselect the four",
       "fx": {
-        "mood": 4,
+        "base": 6,
+        "public": -3,
         "inst": -3
       },
       "drift": -18,
@@ -105,14 +113,17 @@
       "honest": true,
       "fx": {
         "money": -7,
-        "inst": 3
+        "inst": 3,
+        "base": 2,
+        "public": 2
       },
       "drift": 4
     },
     "right": {
       "label": "Let the machine work",
       "fx": {
-        "mood": 3,
+        "base": 3,
+        "public": -2,
         "order": 1,
         "inst": -3
       },
@@ -150,15 +161,18 @@
       "honest": true,
       "fx": {
         "money": -6,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "public": -3
       },
       "drift": 4
     },
     "right": {
       "label": "Pay it on Thursday",
       "fx": {
-        "mood": 4,
+        "public": 5,
+        "base": 2,
+        "backers": -2,
         "inst": -3
       },
       "drift": -18,
@@ -196,14 +210,17 @@
       "fx": {
         "money": -5,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -3,
+        "public": 2
       },
       "drift": 4
     },
     "right": {
       "label": "Brief against them",
       "fx": {
-        "mood": 3,
+        "base": 4,
+        "public": -2,
         "inst": -3
       },
       "drift": -18,

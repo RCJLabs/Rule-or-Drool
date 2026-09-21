@@ -3,13 +3,15 @@ import { draw } from "../../src/engine/draw";
 import { preview } from "../../src/engine/preview";
 import { advanceEra, applyChoice, checkElection, checkOuster, coupRisk, resolve, traitScale } from "../../src/engine/resolve";
 import { getCard } from "../../src/engine/library";
-import { lib, play, start, table } from "../helpers";
+import { moodOf } from "../../src/engine/state";
+import { BLOC_KEYS } from "../../src/engine/types";
+import { lib, meters, play, start, table } from "../helpers";
 
 describe("resolve: effects", () => {
   it("applies fx and drift, clears the table and ticks the counter", () => {
     const l = lib();
     const s = resolve(l, table(start(l), "ev_fx"), "ev_fx", "left");
-    expect(s.meters).toEqual({ mood: 55, money: 47, order: 50, inst: 50 });
+    expect(s.meters).toEqual(meters({ mood: 55, money: 47 }));
     expect(s.drift).toBe(2);
     expect(s.current).toBeNull();
     expect(s.cardCount).toBe(1);
@@ -18,18 +20,18 @@ describe("resolve: effects", () => {
 
   it("scales meter effects by band volatility with rounding", () => {
     const l = lib();
-    expect(resolve(l, table(start(l, { band: "decay" }), "ev_fx"), "ev_fx", "left").meters.mood).toBe(57);
-    expect(resolve(l, table(start(l, { band: "ascent" }), "ev_fx"), "ev_fx", "left").meters.mood).toBe(54);
-    expect(resolve(l, table(start(l, { band: "muddle" }), "ev_fx"), "ev_fx", "left").meters.mood).toBe(55);
+    expect(resolve(l, table(start(l, { band: "decay" }), "ev_fx"), "ev_fx", "left").meters.base).toBe(57);
+    expect(resolve(l, table(start(l, { band: "ascent" }), "ev_fx"), "ev_fx", "left").meters.base).toBe(54);
+    expect(resolve(l, table(start(l, { band: "muddle" }), "ev_fx"), "ev_fx", "left").meters.base).toBe(55);
   });
 
   it("clamps meters to 0..100 and drift to ±100", () => {
     const l = lib();
     const high = resolve(l, table(start(l, { drift: 95 }), "ev_big"), "ev_big", "left");
-    expect(high.meters.mood).toBe(100);
+    expect(high.meters.base).toBe(100);
     expect(high.drift).toBe(100);
     const low = resolve(l, table(start(l, { drift: -95 }), "ev_big"), "ev_big", "right");
-    expect(low.meters.mood).toBe(0);
+    expect(low.meters.base).toBe(0);
     expect(low.drift).toBe(-100);
   });
 
@@ -85,9 +87,9 @@ describe("resolve: advisor traits", () => {
 
   it("makes a corrupt advisor's losses hurt more, leaving gains alone", () => {
     const plain = resolve(l, table(start(l, { cabinet: { chief: "c0" } }), "ev_fx"), "ev_fx", "left");
-    expect(plain.meters).toMatchObject({ mood: 55, money: 47 });
+    expect(plain.meters).toMatchObject({ base: 55, money: 47 });
     const corrupt = resolve(l, table(start(l, { cabinet: { chief: "c2" } }), "ev_fx"), "ev_fx", "left");
-    expect(corrupt.meters).toMatchObject({ mood: 55, money: 46 });
+    expect(corrupt.meters).toMatchObject({ base: 55, money: 46 });
   });
 
   it("stacks trait scaling on top of band volatility", () => {
@@ -159,8 +161,9 @@ describe("resolve: endings", () => {
   it("ousts on each meter extreme with the configured ending", () => {
     const l = lib();
     const cases: [keyof typeof l.config.meterEndings, number, string][] = [
-      ["mood", 0, "riots"],
-      ["mood", 100, "personality_cult"],
+      ["base", 0, "abandoned_base"],
+      ["backers", 0, "abandoned_backers"],
+      ["public", 0, "riots"],
       ["money", 0, "bankruptcy"],
       ["money", 100, "oligarchy"],
       ["order", 0, "anarchy"],
@@ -169,10 +172,20 @@ describe("resolve: endings", () => {
       ["inst", 100, "paralysis"],
     ];
     for (const [k, v, ending] of cases) {
-      const s = start(l, { meters: { mood: 50, money: 50, order: 50, inst: 50, [k]: v } });
-      expect(checkOuster(l, s).over?.endingId).toBe(ending);
+      const s = start(l, { meters: meters({ [k]: v }) });
+      expect(checkOuster(l, s).over?.endingId, `${k} at ${v}`).toBe(ending);
     }
     expect(checkOuster(l, start(l)).over).toBeNull();
+  });
+
+  it("does not oust on a single adored bloc, only on all of them at once", () => {
+    const l = lib();
+    // One bloc at the ceiling is a strong coalition, not a cult.
+    expect(checkOuster(l, start(l, { meters: meters({ base: 100 }) })).over).toBeNull();
+    const cult = Object.fromEntries(BLOC_KEYS.map((b) => [b, l.config.cultAt])) as Record<string, number>;
+    expect(checkOuster(l, start(l, { meters: meters(cult) })).over?.endingId).toBe("personality_cult");
+    // One bloc short of the threshold is still a country with dissent in it.
+    expect(checkOuster(l, start(l, { meters: meters({ ...cult, public: l.config.cultAt - 1 }) })).over).toBeNull();
   });
 
   it("throws on an unknown ending id", () => {
@@ -185,24 +198,25 @@ describe("resolve: endings", () => {
 describe("resolve: elections", () => {
   it("loses an honest election below the mood threshold", () => {
     const l = lib();
-    const s = start(l, { nextElectionAt: 0, meters: { mood: 39, money: 50, order: 50, inst: 50 } });
+    const s = start(l, { nextElectionAt: 0, meters: meters({ mood: 39 }) });
     const r = resolve(l, table(s, "el_basic"), "el_basic", "left");
     expect(r.over?.endingId).toBe("election_loss");
   });
 
   it("wins an honest election at the threshold and reschedules", () => {
     const l = lib({ electionInterval: 25 });
-    const s = start(l, { cardCount: 30, nextElectionAt: 30, meters: { mood: 40, money: 50, order: 50, inst: 50 } });
+    const s = start(l, { cardCount: 30, nextElectionAt: 30, meters: meters({ mood: 40 }) });
     const r = resolve(l, table(s, "el_basic"), "el_basic", "left");
     expect(r.over).toBeNull();
-    expect(r.meters.mood).toBe(41);
+    // The election's mood bonus lands on every bloc, so the average moves with them.
+    expect(moodOf(r.meters)).toBe(41);
     expect(r.drift).toBe(2);
     expect(r.nextElectionAt).toBe(55);
   });
 
   it("cheating keeps you in office at a drift cost and sets flags", () => {
     const l = lib({ electionInterval: 25 });
-    const s = start(l, { cardCount: 30, nextElectionAt: 30, meters: { mood: 10, money: 50, order: 50, inst: 50 } });
+    const s = start(l, { cardCount: 30, nextElectionAt: 30, meters: meters({ mood: 10 }) });
     const r = resolve(l, table(s, "el_basic"), "el_basic", "right");
     expect(r.over).toBeNull();
     expect(r.drift).toBe(-20);
@@ -236,20 +250,20 @@ describe("resolve: elections", () => {
   it("computes coup risk from the Order and Institutions shortfall", () => {
     const l = lib();
     expect(coupRisk(l, start(l))).toBeCloseTo(0.05);
-    expect(coupRisk(l, start(l, { meters: { mood: 50, money: 50, order: 30, inst: 40 } }))).toBeCloseTo(0.35);
-    expect(coupRisk(l, start(l, { meters: { mood: 50, money: 50, order: 90, inst: 90 } }))).toBeCloseTo(0.05);
+    expect(coupRisk(l, start(l, { meters: meters({ order: 30, inst: 40 }) }))).toBeCloseTo(0.35);
+    expect(coupRisk(l, start(l, { meters: meters({ order: 90, inst: 90 }) }))).toBeCloseTo(0.05);
   });
 });
 
 describe("resolve: eras", () => {
   it("advances at the era boundary: recomputes band, pulls meters, resets the election clock", () => {
     const l = lib({ eraLength: 5, electionInterval: 25, eraCount: 3, eraMeterPull: 0.5 });
-    const s = start(l, { cardCount: 5, drift: -30, meters: { mood: 20, money: 90, order: 50, inst: 50 } });
+    const s = start(l, { cardCount: 5, drift: -30, meters: meters({ mood: 20, money: 90 }) });
     const r = advanceEra(l, s);
     expect(r.era).toBe(2);
     expect(r.band).toBe("decay");
     expect(r.bandLocked).toBe(false);
-    expect(r.meters).toEqual({ mood: 35, money: 70, order: 50, inst: 50 });
+    expect(r.meters).toEqual(meters({ mood: 35, money: 70 }));
     expect(r.nextElectionAt).toBe(30);
     expect(advanceEra(l, start(l, { cardCount: 4 })).era).toBe(1);
   });
@@ -271,7 +285,7 @@ describe("resolve: eras", () => {
 
   it("runs the whole loop: an ouster beats the era transition on the same card", () => {
     const l = lib({ eraLength: 1, eraCount: 3 });
-    const s = table(start(l, { meters: { mood: 50, money: 50, order: 50, inst: 50 } }), "ev_big");
+    const s = table(start(l, { meters: meters() }), "ev_big");
     const r = resolve(l, s, "ev_big", "left");
     expect(r.over?.endingId).toBe("personality_cult");
     expect(r.era).toBe(1);
@@ -296,10 +310,11 @@ describe("resolve: determinism and preview", () => {
     expect(p.meters).toEqual(r.meters);
     expect(p.drift).toBe(r.drift);
     expect(p.endingId).toBeNull();
-    expect(p.affected).toEqual(["mood", "money"]);
+    // The mood shorthand moves all three blocs, so all three take a dot.
+    expect(p.affected).toEqual(["base", "backers", "public", "money"]);
     expect(s.current).toBe("ev_fx");
 
-    const lost = start(l, { nextElectionAt: 0, meters: { mood: 10, money: 50, order: 50, inst: 50 } });
+    const lost = start(l, { nextElectionAt: 0, meters: meters({ mood: 10 }) });
     expect(preview(l, lost, getCard(l, "el_basic"), "left").endingId).toBe("election_loss");
     expect(preview(l, lost, getCard(l, "el_basic"), "right").endingId).toBeNull();
     expect(preview(l, start(l), getCard(l, "ev_big"), "left").endingId).toBe("personality_cult");

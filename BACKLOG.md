@@ -72,7 +72,47 @@ an align-specific match and falls back to "any", so this is purely content.
 and traits. A left flaw is committee-brained or an ideologue; a right flaw is a nepotist or
 sentimental about the army. Makes the first thirty seconds of a run feel different.
 
-## 5. Replace Mood with constituencies — *queued*
+## 5. Replace Mood with constituencies — *done*
+
+**Shipped.** Mood is gone as a meter. In its place are three coalition blocs, the same three
+slots for both sides, with different people in them:
+
+| Slot | the Commons | the Ledger |
+|---|---|---|
+| `base` | Movement | Faithful |
+| `backers` | Unions | Donors |
+| `public` | Cities | Country |
+
+Six meters now: three blocs, a deliberate gap, then Money, Order and Institutions. A bloc
+only ends a run at the bottom, when it abandons you (`abandoned_base`, `abandoned_backers`,
+and the existing `riots` for the public). There is no per-bloc ceiling, because adoration is
+only a problem when it is unanimous: every bloc at 92 or above is a personality cult.
+Elections read the **average** of the blocs, so you can win a vote while one bloc is about
+to walk out on you.
+
+**Migration was the tractable part.** `mood` survives as a shorthand meaning "the public
+moves as one", which writes to all three blocs and reads back as their average. That made
+the change behaviour-preserving for all 310 cards that used it, so nothing needed rewriting
+and depth appears exactly where trade-offs get authored. Saved runs migrate too
+(`RUN_SAVE_VERSION` 3): an old Mood value becomes all three blocs.
+
+**Trade-offs authored so far:** all 14 elections and all 14 arcs, 93 choices in total, none
+of which still lean on the shorthand. A purge thrills the base and frightens everyone else;
+a donor deal buys the backers and costs the public. Measured over 300 runs, the coalition
+spreads by **15 points on average and up to 61**, so the blocs genuinely come apart rather
+than moving in lockstep. All 22 endings remain reachable and all five section 8 targets pass.
+
+**Two things worth knowing.** The greedy bot had to change: summing three bloc terms tripled
+the weight of public opinion purely because it is now drawn as three bars, so it averages
+the coalition and weighs it as one concern. And the test suite caught a real bug on the way
+through: `preview` filtered raw effect keys, so a card using the shorthand would have shown
+no dots on the blocs it actually moves.
+
+**Still to do inside this item:** the 262 event cards still use the shorthand, so they move
+the coalition as a block. Converting them is ordinary content work and every converted card
+adds depth without touching the engine.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** One Mood meter serves both sides, so "the public" is the same object whoever
 you are. This is why reskinned text can only take path distinction so far.
@@ -83,6 +123,8 @@ coalition rather than by one number hitting zero.
 
 **The only item here that changes what the game is.** Touches engine, content, UI, the
 harness and the balance targets together. Do it deliberately or not at all.
+
+</details>
 
 ## 6. Let consequences chain — *queued*
 
