@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Paths Round Three</title>
+<meta name="description" content="Ten more looks: Drool as a stream that runs on advertising, Rule as a country that actually got to the future." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Orbitron:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="mock.css" />
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Round three</h1>
+    <p class="lede">
+      <b>Drool</b> narrows to Stream with the money showing: five versions of a government
+      that is a livestream running on advertising. <b>Rule</b> changes register entirely —
+      not the official document any more but a country that actually got to the future, which
+      is a bigger jump than it sounds and worth saying out loud.
+    </p>
+    <ul class="facts">
+      <li>round one: <b><a href="paths.html" style="color:inherit">paths.html</a></b></li>
+      <li>round two: <b><a href="paths-2.html" style="color:inherit">paths-2.html</a></b></li>
+      <li>same skeleton every time: meters, card, footer</li>
+    </ul>
+  </header>
+
+  <h2>Where Drool came from</h2>
+  <p class="sec-note">Round two's Stream, unchanged, so the five below are judged against it rather than against a memory of it.</p>
+  <div class="grid kept" id="kept"></div>
+
+  <h2>Drool — the stream, and who is paying for it</h2>
+  <p class="sec-note">
+    Stream's idea was that the room is talking while you read. These five ask the next
+    question: <em>who is paying for the room</em>. An advertiser, a shopping channel, the
+    viewers themselves, three things at once, or nobody — the country buffers while the
+    advertisement plays in full quality.
+  </p>
+  <div class="grid" id="drool"></div>
+
+  <h2>Rule — a country that got to the future</h2>
+  <p class="sec-note">
+    A change of claim, not just of palette. The document looks said a working country leaves
+    good paperwork; this says a working country <em>builds the thing</em> — tube transport,
+    machines that still have physical buttons, public services that are simply pleasant.
+    Bright and slightly absurd on purpose, because a utopia that takes itself entirely
+    seriously is the other kind of story.
+  </p>
+  <div class="grid" id="rule"></div>
+
+  <footer class="end">
+    Cards are the deck's own: <code>d05_unpaid_police</code>, <code>d04_queue</code>,
+    <code>d08_archive</code>, <code>d09_ghosts</code>, <code>d02_lights</code> on the way down;
+    <code>a09_long_bond</code>, <code>a05_maintenance</code>, <code>a06_newcomers</code>,
+    <code>a04_visitors</code>, <code>a07_complacency</code> on the way up. The Rule looks need
+    two webfonts and the cost lines say so.
+  </footer>
+</div>
+
+<script type="module">
+import { DOWN, UP, render } from "./mock.js";
+
+const KEPT = [
+  { cls: "d2-stream", kicker: "Drool · kept", name: "Stream",
+    idea: "A livestream of the government, with the chat on top of it.",
+    overlay: `<span class="mk-live">LIVE</span><span class="mk-views">41,208 watching</span>`
+      + `<div class="mk-chat"><span><b>krow_88</b> do it do it do it</span><span><b>quietvoter</b> my aunt is on that list</span><span><b>MOD</b> keep it civil</span><span><b>del_ta</b> LMAO four thousand</span></div>`
+      + `<div class="mk-alert">◈ CARLYLE HYDRATION gifted 50 subs — "make the hard call"</div>`,
+    who: "GENERAL",
+    text: "The provincial police have not been paid in two months and have found other work, mostly at roadblocks.",
+    l: "Find the back pay", r: "Formalise the roadblocks" },
+];
+
+const DROOL = [
+  {
+    cls: "d3-sponsored", name: "Sponsored",
+    idea: "The advertising is the programme and the country is what runs between it. A pre-roll you cannot skip yet, a logo bug that never leaves, a lower third selling something while somebody explains a crisis.",
+    cost: "CSS only. The sponsor names already exist in the engine (<code>sponsorFor</code>) and go unused — this is the layout that would finally spend them.",
+    overlay: `<div class="mk-preroll">▶ AD 1 OF 3 <em>skip in 4</em></div>`
+      + `<div class="mk-bug">DRONK<br>®</div>`
+      + `<div class="mk-lower">CARLYLE HYDRATION — NOW IN THE MINISTRY<s>drink it before your shift, not during</s></div>`,
+    who: "PRESS SECRETARY",
+    text: "There is a queue outside the records office that forms at four in the morning. Someone is selling places in it.",
+    l: "Open more windows", r: "Ban the queue",
+  },
+  {
+    cls: "d3-shopping", name: "Shopping",
+    idea: "The stream is a shopping channel and the policy is the product. A price on each choice, a stock counter, a timer that is always about to run out. The most Idiocracy of the five and the one that needs the least explaining.",
+    cost: "CSS only plus a condensed face. The prices would come from the card's own money effect, so the joke stays honest — the expensive option really is the expensive one.",
+    overlay: `<div class="mk-strap">⏱ 00:41 LEFT <em>ONLY 400 REMAINING</em></div>`,
+    who: "CHIEF JUSTICE",
+    text: "The land archive has been wet since spring. Nobody can now prove who owns the eastern valleys, including you.",
+    l: `Dry it and copy it<u>−7 money</u>`, r: `Reissue the deeds<u>−4 inst · FREE</u>`,
+    body: `<span class="mk-tag">−7<s>−12</s></span>`,
+    footer: "CALL NOW · LINES ARE OPEN · CALL NOW",
+  },
+  {
+    cls: "d3-donations", name: "Donations",
+    idea: "The viewers are paying, so the viewers are governing. A goal bar for something the state should have funded, tips that arrive mid-sentence, and a pinned message from whoever paid most that is functionally an instruction.",
+    cost: "CSS only. The pinned message is new content — one line per card, written as a donor would write it — and it is the whole joke, so it cannot be generic.",
+    overlay: `<div class="mk-goal"><b>£4,210</b> of £5,000 — TO FIX THE BRIDGE<i><u></u></i></div>`
+      + `<div class="mk-pin"><b>Pinned · £500 from Carlyle_H</b>take them off the payroll, all four thousand, do it live</div>`
+      + `<div class="mk-tips"><span><b>£5</b> del_ta — my aunt is on that list</span><span><b>£20</b> quietvoter — please don't</span></div>`,
+    who: "CHIEF OF STAFF",
+    text: "The payroll has four thousand names on it that no building has ever seen.",
+    l: "Take them off", r: "Leave them on",
+  },
+  {
+    cls: "d3-multi", name: "Multi",
+    idea: "Three things at once and the country is the smallest of them. A reaction cam, something being played in the corner, and the government tucked underneath. Nobody is watching any of it, including the people on it.",
+    cost: "A layout change: the stage becomes a grid. The two side panes are decorative and would need to stay decorative, or they become three cards a player has to read.",
+    who: "CHIEF OF STAFF",
+    text: "The ministry has been running on a generator for nine days. The generator is rented and the rental is overdue.",
+    l: "Buy the generator", r: "Move it to your house",
+    render: (m, rows, foot) => {
+      return `
+      <div class="mk ${m.cls}">
+        <div class="mk-meters">${rows.map(([label, v]) => `<div class="mk-m" style="--v:${v}%"><div class="mk-bar"><i style="width:${v}%"></i></div><b>${label}</b></div>`).join("")}</div>
+        <div class="mk-stage">
+          <div class="mk-pane cam"><b>REACTING</b>honestly? honestly? no. no.</div>
+          <div class="mk-pane game"><b>ROUND 14</b>2 kills · 1 assist · streak 4</div>
+          <div class="mk-card">
+            <p class="mk-who">${m.who}</p>
+            <p class="mk-text">${m.text}</p>
+            <div class="mk-choices"><span>${m.l}</span><span>${m.r}</span></div>
+          </div>
+        </div>
+        <div class="mk-foot">${foot}<span class="mk-prog"><i></i></span></div>
+      </div>`;
+    },
+  },
+  {
+    cls: "d3-outage", name: "Outage",
+    idea: "The country buffers and the advertisement never does. The card is at 240p behind a spinner while something perfectly rendered sells you a drink. The angriest of the five and the only one that is a joke about infrastructure rather than about attention.",
+    cost: "CSS only, but the blur must be off under the readable setting and the spinner under reduce-motion, which leaves a version of this look that is only a colour scheme. Worth knowing before picking it.",
+    overlay: `<span class="mk-quality">240p</span><span class="mk-spin"></span><span class="mk-recon">RECONNECTING…</span>`
+      + `<div class="mk-ad">CARLYLE HYDRATION<s>Buffer-free since the 40s. Ask for it by name.</s></div>`,
+    who: "TREASURER",
+    text: "The ministry payroll did not run on Friday. Nobody has said so publicly and everybody has noticed.",
+    l: "Pay from reserves", r: "Pay who matters",
+  },
+];
+
+const RULE = [
+  {
+    cls: "r3-tube", name: "Tube",
+    idea: "It arrived in a capsule, because that is how things arrive now. The card is a pod in a transit tube, the meters are pressure gauges, and every decision has a destination it is being sent to.",
+    cost: "CSS only plus two webfonts (~30 kB together) or a geometric system stack. The tube rails eat 26px of width, which is real on a small phone and would need testing at 320px.",
+    overlay: `<span class="mk-dest">→ TREASURY · SUB-LEVEL 4</span>`,
+    who: "TREASURER · CAPSULE 4118",
+    text: "Somebody will lend you money for a hundred years at a rate that assumes the country still exists.",
+    l: "Borrow and build", r: "Borrow and distribute",
+    footer: "PNEUMATIC · YEAR 14",
+  },
+  {
+    cls: "r3-console", name: "Console",
+    idea: "A 31st-century machine built in the 1960s. A phosphor screen in a thick moulded bezel, meters as chunky illuminated sliders, and two physical buttons you can practically hear. The future with its hands still on the controls.",
+    cost: "CSS only plus a display face. Phosphor-on-dark is the one contrast risk here and it measures fine at this green, but the readable setting would need a flat version.",
+    who: "CHIEF SCIENTIST",
+    text: "Everything you built is now old enough to need maintaining, which no ribbon has ever been cut for.",
+    l: "Fund it", r: "Build new",
+    footer: "TERMINAL 7 · SECTOR 14",
+  },
+  {
+    cls: "r3-civic", name: "Civic",
+    idea: "A public service that is simply pleasant. Bright, rounded, legible, with a status strip that says everything is fine because everything is. The least science-fiction of the five and the most convincing argument that you won.",
+    cost: "Cheapest of the five: one webfont or none, no overlays, no filters. It is also the closest to a normal modern app, which is either the point or the problem.",
+    overlay: `<div class="mk-ok">All systems nominal · Year 14</div>`,
+    who: "CHIEF OF STAFF",
+    text: "People are moving here on purpose now. The schools are full and the housing lists are being read aloud at meetings.",
+    l: "Build for them", r: "Close the register",
+  },
+  {
+    cls: "r3-atomic", name: "Atomic",
+    idea: "The world's fair, except this time they built it. Teal and gold, starbursts, one corner rounded and one square, a banner over everything. Optimism as a design language, which is the joke and also completely sincere.",
+    cost: "CSS only plus a display face. The one dark-ground Rule look, so every existing component — codex, cabinet, settings — needs a contrast pass before it could ship.",
+    overlay: `<div class="mk-banner">Ministry of Tomorrow<s>The Long Afternoon · Pavilion 14</s></div>`,
+    who: "CHIEF JUSTICE",
+    text: "Four governments have sent delegations to study what you did. Two of them have better lawyers than you.",
+    l: "Open the files", r: "Sell them the manual",
+  },
+  {
+    cls: "r3-holo", name: "Holo",
+    idea: "Nothing is a surface any more. The card is a pane of light above a plinth, the meters glow rather than fill, and the whole frame is something being projected into a room you are standing in.",
+    cost: "CSS only, but <code>backdrop-filter</code> and the glows are the most expensive thing in any of the thirty mockups — this is the one that would need measuring on an old phone before it ships.",
+    overlay: `<span class="mk-plinth"></span>`,
+    who: "TREASURER · PROJECTION",
+    text: "The audit office has found nothing for three years running. Either you are clean or the audit office has stopped looking.",
+    l: "Audit the auditors", r: "Take the compliment",
+    footer: "PROJECTED · YEAR 14",
+  },
+];
+
+render("kept", KEPT, DOWN);
+render("drool", DROOL, DOWN);
+render("rule", RULE, UP);
+</script>
+</body>
+</html>

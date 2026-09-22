@@ -312,3 +312,546 @@ h2:first-of-type { margin-top: 36px; }
 
 footer.end { margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--page-rule); color: var(--page-dim); font-size: 14px; }
 @media (max-width: 420px) { .wrap { padding: 26px 16px 56px; } .grid { grid-template-columns: 1fr; } }
+
+/* ================= ROUND TWO ===================================================== */
+
+.kept .slot h3 span { color: #7fbf7f; }
+.kept .mk { opacity: .82; }
+
+/* ================= DROOL, ROUND TWO ============================================== */
+
+/* Split — the panel show. Nothing has the screen to itself. */
+.d2-split {
+  --bg: #0a0c12; --ink: #fff; --paper: #121722; --accent: #ff3a30; --muted: #8b95a8;
+  --radius: 2px; --border: 0; --space: 8px; --shadow: none;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+.d2-split .mk-meters { background: #161b26; border-bottom: 2px solid var(--accent); padding: 6px 8px 5px; }
+.d2-split .mk-m b { font-family: var(--display); font-weight: 800; font-size: 8px; color: #ffcf2e; }
+.d2-split .mk-bar { height: 3px; background: #2b3242; }
+.d2-split .mk-bar i { background: #ffcf2e; }
+.d2-split .mk-stage { align-items: stretch; flex-direction: column; gap: 6px; padding: 8px; }
+.d2-split .mk-card { border-left: 3px solid var(--accent); padding: 10px 11px; }
+.d2-split .mk-who { font-family: var(--display); font-weight: 800; font-size: 11px; letter-spacing: .06em; color: var(--accent); }
+.d2-split .mk-text { font-size: 13px; }
+.d2-split .mk-choices span { background: #1d2534; border: 0; font-family: var(--display); font-weight: 600; font-size: 11px; text-transform: uppercase; color: #ffcf2e; }
+.d2-split .mk-panel { display: flex; gap: 6px; }
+.d2-split .mk-panel div {
+  flex: 1; background: #161b26; border-top: 2px solid #2b3242; padding: 7px 8px;
+  font-size: 9.5px; line-height: 1.35; color: var(--muted);
+}
+.d2-split .mk-panel b { display: block; font-family: var(--display); color: #fff; font-size: 10px; letter-spacing: .06em; margin-bottom: 2px; }
+.d2-split .mk-foot { background: #000; color: #ffcf2e; font-family: var(--display); letter-spacing: .1em; text-transform: uppercase; }
+
+/* Stream — live, and the chat is on top of the thing you are reading. */
+.d2-stream {
+  --bg: #0e0d14; --ink: #f4f2fa; --paper: #1a1826; --accent: #a855f7; --muted: #8d87a8;
+  --radius: 10px; --border: 0; --space: 9px; --shadow: none;
+}
+.d2-stream .mk-live {
+  position: absolute; top: 8px; left: 9px; z-index: 4; display: flex; align-items: center; gap: 4px;
+  background: #e5133b; color: #fff; font: 700 8px/1 Inter, sans-serif; padding: 3px 6px; border-radius: 3px;
+  letter-spacing: .1em;
+}
+.d2-stream .mk-live::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: #fff; }
+.d2-stream .mk-views { position: absolute; top: 9px; right: 10px; z-index: 4; font: 600 8.5px/1 Inter, sans-serif; color: var(--muted); }
+.d2-stream .mk-meters { padding-top: 26px; }
+.d2-stream .mk-m b { font-size: 7px; }
+.d2-stream .mk-bar { background: #2a2740; }
+.d2-stream .mk-chat {
+  position: absolute; right: 8px; bottom: 116px; width: 52%; z-index: 4; pointer-events: none;
+  display: flex; flex-direction: column; gap: 3px; font-size: 8px; line-height: 1.3;
+  mask-image: linear-gradient(to bottom, transparent, #000 38%);
+}
+.d2-stream .mk-chat span { color: #cfc8e6; }
+.d2-stream .mk-chat b { color: #a855f7; font-weight: 600; }
+.d2-stream .mk-alert {
+  position: absolute; left: 8px; right: 8px; bottom: 44px; z-index: 5;
+  background: linear-gradient(90deg, #a855f7, #e5133b); color: #fff; border-radius: 6px;
+  padding: 5px 8px; font: 600 8.5px/1.25 Inter, sans-serif;
+}
+.d2-stream .mk-text { font-size: 13px; }
+.d2-stream .mk-who { color: var(--accent); }
+.d2-stream .mk-choices span { border: 0; background: #272338; border-radius: 999px; font-weight: 600; }
+
+/* Signal — the transmission is failing, not the story. */
+.d2-signal {
+  --bg: #05070d; --ink: #dfe9ff; --paper: #0b1120; --accent: #35d0ff; --muted: #6b7f9e;
+  --radius: 0; --border: 1px; --space: 10px; --shadow: none;
+  --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+.d2-signal::before {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
+    linear-gradient(to bottom, transparent 28%, rgba(255,255,255,.14) 29.2%, transparent 30.4%,
+                    transparent 62%, rgba(255,255,255,.09) 63%, transparent 64%);
+}
+.d2-signal .mk-m b { font-family: var(--display); font-size: 7px; color: var(--accent); }
+.d2-signal .mk-bar { background: #142238; }
+.d2-signal .mk-bar i { background: var(--accent); }
+.d2-signal .mk-card { border-color: #1d3355; }
+.d2-signal .mk-who { font-family: var(--display); color: var(--accent); font-size: 8.5px; }
+.d2-signal .mk-text { position: relative; font-size: 13px; text-shadow: 1.6px 0 rgba(229,19,59,.55), -1.6px 0 rgba(53,208,255,.5); }
+.d2-signal .mk-choices span { border-color: #1d3355; font-family: var(--display); font-size: 9.5px; }
+.d2-signal .mk-foot { font-family: var(--display); letter-spacing: .1em; }
+.d2-signal .mk-tear {
+  position: absolute; left: 0; right: 0; top: 46%; height: 13px; z-index: 5; pointer-events: none;
+  background: rgba(223,233,255,.07); backdrop-filter: none;
+  border-top: 1px solid rgba(223,233,255,.22); border-bottom: 1px solid rgba(223,233,255,.12);
+}
+
+/* Clip — the card dissolves into the format. */
+.d2-clip {
+  --bg: #07070a; --ink: #fff; --muted: #8e8e99; --accent: #ffe600;
+  --space: 10px;
+  font-family: Inter, system-ui, sans-serif;
+}
+.d2-clip .mk-segs { display: flex; gap: 3px; padding: 9px 9px 0; }
+.d2-clip .mk-segs i { flex: 1; height: 2px; border-radius: 1px; background: rgba(255,255,255,.28); }
+.d2-clip .mk-segs i.on { background: #fff; }
+.d2-clip .mk-fill { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 18%, #2b2f46 0%, #07070a 62%); }
+.d2-clip .mk-who2 { position: relative; padding: 8px 10px 0; font-size: 9.5px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.d2-clip .mk-cap {
+  position: relative; flex: 1; display: flex; align-items: center; padding: 0 12px;
+}
+.d2-clip .mk-cap > span {
+  font-weight: 800; font-size: 19px; line-height: 1.16; letter-spacing: -0.015em;
+  text-shadow: 0 2px 10px rgba(0,0,0,.8);
+}
+.d2-clip .mk-cap em { font-style: normal; background: var(--accent); color: #07070a; padding: 0 3px; border-radius: 2px; }
+.d2-clip .mk-side { position: absolute; right: 9px; bottom: 96px; z-index: 3; display: flex; flex-direction: column; gap: 9px; align-items: center; font-size: 8px; color: #fff; text-align: center; }
+.d2-clip .mk-side b { display: block; font-size: 15px; font-weight: 400; }
+.d2-clip .mk-taps { position: relative; display: flex; gap: 7px; padding: 0 10px 8px; }
+.d2-clip .mk-taps span { flex: 1; border: 1.5px solid rgba(255,255,255,.4); border-radius: 999px; padding: 9px 6px; text-align: center; font-size: 11px; font-weight: 600; }
+.d2-clip .mk-swipe { position: relative; text-align: center; font-size: 8.5px; color: var(--muted); padding-bottom: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+/* Push — the state as something happening to your phone. */
+.d2-push {
+  --bg: #101318; --ink: #fff; --muted: #9aa3b0; --accent: #3b82f6;
+  font-family: Inter, system-ui, sans-serif;
+}
+.d2-push .mk-fill { position: absolute; inset: 0; background: linear-gradient(170deg, #1b2740 0%, #101318 52%, #1a1420 100%); }
+.d2-push .mk-clock { position: relative; text-align: center; padding: 16px 0 2px; font-size: 34px; font-weight: 300; letter-spacing: -.02em; }
+.d2-push .mk-date { position: relative; text-align: center; font-size: 10px; color: var(--muted); margin-bottom: 12px; }
+.d2-push .mk-apps { position: relative; display: flex; justify-content: center; gap: 9px; padding: 0 10px 12px; }
+.d2-push .mk-app { position: relative; width: 25px; height: 25px; border-radius: 7px; background: rgba(255,255,255,.12); font: 600 7px/25px Inter, sans-serif; text-align: center; color: #fff; }
+.d2-push .mk-app s { position: absolute; top: -4px; right: -4px; min-width: 14px; height: 14px; border-radius: 7px; background: #e5133b; color: #fff; font: 700 8px/14px Inter, sans-serif; text-decoration: none; }
+.d2-push .mk-notes { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 7px; padding: 0 9px 14px; }
+.d2-push .mk-note2 {
+  background: rgba(255,255,255,.13); backdrop-filter: blur(8px); border-radius: 14px; padding: 9px 11px;
+  font-size: 11px; line-height: 1.35;
+}
+.d2-push .mk-note2.stale { opacity: .45; padding: 7px 11px; font-size: 10px; }
+.d2-push .mk-note2 b { display: flex; gap: 5px; font-size: 8.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+.d2-push .mk-note2 b em { margin-left: auto; font-style: normal; }
+.d2-push .mk-acts { display: flex; margin: 9px -11px -9px; border-top: 1px solid rgba(255,255,255,.14); }
+.d2-push .mk-acts span { flex: 1; text-align: center; padding: 8px 4px; font-size: 10.5px; font-weight: 600; color: #cfe0ff; }
+.d2-push .mk-acts span + span { border-left: 1px solid rgba(255,255,255,.14); }
+
+/* ================= RULE, ROUND TWO =============================================== */
+
+/* Minute — the meeting, written down. */
+.r2-minute {
+  --bg: #f7f4ec; --ink: #211f1a; --paper: #fffdf7; --accent: #2f4f3f; --muted: #857f72;
+  --radius: 0; --border: 0; --space: 14px; --shadow: none;
+  --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+  --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+.r2-minute .mk-meters { border-bottom: 1px solid #ddd6c6; padding-bottom: 8px; }
+.r2-minute .mk-m b { font-family: var(--display); font-size: 6.5px; letter-spacing: .06em; }
+.r2-minute .mk-bar { height: 2px; border-radius: 0; background: #e3dccc; }
+.r2-minute .mk-bar i { background: var(--accent); }
+.r2-minute .mk-card { display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 0; }
+.r2-minute .mk-who { grid-column: 1; margin: 0; font-family: var(--display); font-size: 6.5px; line-height: 1.35; text-align: right; letter-spacing: .02em; border-right: 1px solid #ddd6c6; padding-right: 8px; }
+.r2-minute .mk-text { grid-column: 2; margin: 0 0 12px; font-size: 12.5px; line-height: 1.6; }
+.r2-minute .mk-text::before { content: "14.3 "; font-family: var(--display); font-size: 10px; color: var(--muted); }
+.r2-minute .mk-choices { grid-column: 2; flex-direction: column; gap: 6px; }
+.r2-minute .mk-choices span { border: 0; border-left: 2px solid var(--accent); border-radius: 0; text-align: left; padding: 3px 0 3px 8px; font-size: 10.5px; font-family: var(--font); }
+.r2-minute .mk-choices span::before { content: "Resolved, that "; color: var(--muted); font-style: italic; }
+.r2-minute .mk-foot { font-family: var(--display); font-size: 8px; letter-spacing: .08em; }
+
+/* Gazette — the newspaper of record. */
+.r2-gazette {
+  --bg: #f4f1e8; --ink: #191712; --paper: #fbf9f2; --accent: #1a1a1a; --muted: #7d766a;
+  --radius: 0; --border: 0; --space: 12px; --shadow: none;
+  --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+}
+.r2-gazette .mk-mast {
+  position: relative; text-align: center; border-bottom: 3px double var(--ink);
+  padding: 11px 10px 7px; font-family: var(--font); font-size: 15px; letter-spacing: .06em;
+}
+.r2-gazette .mk-mast s { display: block; text-decoration: none; font-size: 6.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.r2-gazette .mk-meters { border-bottom: 1px solid #d8d2c4; padding: 7px 12px; }
+.r2-gazette .mk-m b { font-size: 6.5px; letter-spacing: .1em; }
+.r2-gazette .mk-bar { height: 2px; border-radius: 0; background: #ded8ca; }
+.r2-gazette .mk-bar i { background: var(--ink); }
+.r2-gazette .mk-card { padding: 0; }
+.r2-gazette .mk-who { font-size: 7px; letter-spacing: .2em; border-bottom: 1px solid #ded8ca; padding-bottom: 5px; }
+.r2-gazette .mk-text { font-size: 12px; line-height: 1.62; columns: 2; column-gap: 11px; column-rule: 1px solid #e6e0d2; text-align: justify; hyphens: auto; }
+.r2-gazette .mk-text::first-letter { font-size: 26px; float: left; line-height: .88; padding: 2px 4px 0 0; }
+.r2-gazette .mk-choices { border-top: 1px solid var(--ink); padding-top: 8px; margin-top: 10px; }
+.r2-gazette .mk-choices span { border: 0; border-radius: 0; font-size: 10px; font-style: italic; }
+.r2-gazette .mk-choices span + span { border-left: 1px solid #ded8ca; }
+.r2-gazette .mk-foot { font-size: 7.5px; letter-spacing: .16em; text-transform: uppercase; }
+
+/* Ledger — the accounts, and the meters are the balance. */
+.r2-ledger {
+  --bg: #f2efe4; --ink: #1c1a15; --paper: #fcfaf1; --accent: #1f4d3d; --muted: #8a8474;
+  --radius: 0; --border: 1px; --space: 12px; --shadow: none;
+  --font: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+.r2-ledger .mk-meters { display: block; border: 1px solid #cfc8b4; background: #fcfaf1; padding: 0; }
+.r2-ledger .mk-m { display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-bottom: 1px solid #e6e0cf; }
+.r2-ledger .mk-m:last-child { border-bottom: 2px solid var(--ink); }
+.r2-ledger .mk-m b { order: -1; flex: 1; text-align: left; font-size: 7.5px; letter-spacing: .06em; margin: 0; }
+.r2-ledger .mk-m::after { content: attr(data-v); font-size: 8.5px; font-weight: 600; width: 22px; text-align: right; }
+.r2-ledger .mk-bar { width: 44px; height: 4px; border-radius: 0; background: #e6e0cf; }
+.r2-ledger .mk-bar i { background: var(--accent); }
+.r2-ledger .mk-card { border-color: #cfc8b4; background: repeating-linear-gradient(to bottom, #fcfaf1 0 19px, #f3efe2 19px 20px); }
+.r2-ledger .mk-who { font-size: 7.5px; letter-spacing: .12em; color: var(--accent); }
+.r2-ledger .mk-text { font-size: 11.5px; line-height: 20px; }
+.r2-ledger .mk-choices span { border-color: #cfc8b4; border-radius: 0; font-size: 9px; text-align: left; }
+.r2-ledger .mk-choices span em { float: right; font-style: normal; color: var(--accent); }
+.r2-ledger .mk-foot { font-size: 8px; letter-spacing: .06em; border-top: 2px solid var(--ink); margin: 0 var(--space); padding-left: 0; padding-right: 0; }
+
+/* Dispatch — it arrived over a wire. */
+.r2-dispatch {
+  --bg: #e8ecef; --ink: #14202b; --paper: #f7fafb; --accent: #1b4f72; --muted: #7d8c98;
+  --radius: 0; --border: 1px; --space: 12px; --shadow: 0 1px 0 rgba(0,0,0,.08);
+  --font: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+.r2-dispatch .mk-m b { font-size: 6.5px; letter-spacing: .04em; }
+.r2-dispatch .mk-bar { height: 2px; border-radius: 0; background: #ccd6dd; }
+.r2-dispatch .mk-bar i { background: var(--accent); }
+.r2-dispatch .mk-card { border-color: #b9c6cf; }
+.r2-dispatch .mk-who { font-size: 7.5px; letter-spacing: .06em; border-bottom: 1px dashed #b9c6cf; padding-bottom: 6px; white-space: pre-line; line-height: 1.6; text-align: left; }
+.r2-dispatch .mk-text { font-size: 11.5px; line-height: 1.62; text-transform: uppercase; letter-spacing: .01em; }
+.r2-dispatch .mk-choices span { border-color: #b9c6cf; border-radius: 0; font-size: 9px; text-transform: uppercase; letter-spacing: .04em; }
+.r2-dispatch .mk-stamp2 {
+  position: absolute; top: 26%; right: 6%; z-index: 4; rotate: -11deg; opacity: .5;
+  border: 2px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 3px 6px;
+  font: 600 8px/1.2 var(--font); letter-spacing: .1em; text-align: center;
+}
+.r2-dispatch .mk-foot { font-size: 7.5px; letter-spacing: .1em; }
+
+/* Statute — the law as it is printed. */
+.r2-statute {
+  --bg: #faf8f3; --ink: #1a1815; --paper: #fff; --accent: #6b1d1d; --muted: #8d867a;
+  --radius: 0; --border: 0; --space: 15px; --shadow: none;
+  --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+  --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+.r2-statute .mk-meters { padding-bottom: 9px; }
+.r2-statute .mk-m b { font-family: var(--display); font-size: 6.5px; letter-spacing: .04em; }
+.r2-statute .mk-bar { height: 2px; border-radius: 0; background: #e5e0d5; }
+.r2-statute .mk-bar i { background: var(--accent); }
+.r2-statute .mk-card { padding: 0; border-top: 3px solid var(--ink); padding-top: 12px; }
+.r2-statute .mk-who { font-family: var(--display); font-size: 7px; letter-spacing: .18em; color: var(--accent); }
+.r2-statute .mk-sec { display: block; font-family: var(--font); font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--ink); margin-top: 4px; }
+.r2-statute .mk-text { font-size: 12px; line-height: 1.66; padding-left: 26px; position: relative; }
+.r2-statute .mk-text::before { content: "(1)"; position: absolute; left: 0; font-family: var(--display); font-size: 10px; color: var(--muted); }
+.r2-statute .mk-choices { flex-direction: column; gap: 7px; }
+.r2-statute .mk-choices span { border: 0; border-radius: 0; text-align: left; padding: 0 0 0 26px; font-size: 11px; position: relative; font-family: var(--font); }
+.r2-statute .mk-choices span:first-child::before { content: "(a)"; }
+.r2-statute .mk-choices span:last-child::before { content: "(b)"; }
+.r2-statute .mk-choices span::before { position: absolute; left: 0; font-family: var(--display); font-size: 10px; color: var(--muted); }
+.r2-statute .mk-margin { position: absolute; right: 10px; bottom: 60px; width: 62px; font: italic 7.5px/1.4 var(--font); color: var(--muted); text-align: right; }
+.r2-statute .mk-foot { font-family: var(--display); font-size: 8px; letter-spacing: .08em; }
+
+/* ================= ROUND THREE: DROOL, the stream that runs on ads =============== */
+
+/* Sponsored — the ads are the programme and the country is between them. */
+.d3-sponsored {
+  --bg: #0b0a0c; --ink: #f6f4f8; --paper: #191720; --accent: #ffb300; --muted: #8a8596;
+  --radius: 10px; --border: 0; --space: 9px; --shadow: none;
+}
+.d3-sponsored .mk-preroll {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+  background: #ffb300; color: #17141c; font: 700 9px/1 Inter, sans-serif;
+  display: flex; align-items: center; gap: 6px; padding: 6px 9px; letter-spacing: .04em;
+}
+.d3-sponsored .mk-preroll em { margin-left: auto; font-style: normal; background: rgba(0,0,0,.2); padding: 3px 6px; border-radius: 3px; }
+.d3-sponsored .mk-bug {
+  position: absolute; right: 9px; bottom: 82px; z-index: 5; opacity: .85;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); border-radius: 6px;
+  padding: 4px 7px; font: 700 8px/1.2 Inter, sans-serif; text-align: center; color: #fff;
+}
+.d3-sponsored .mk-lower {
+  position: absolute; left: 9px; right: 9px; bottom: 44px; z-index: 5;
+  background: linear-gradient(90deg, #d81e5b, #ffb300); color: #17141c; border-radius: 6px;
+  padding: 6px 9px; font: 700 9px/1.3 Inter, sans-serif;
+}
+.d3-sponsored .mk-lower s { display: block; text-decoration: none; font-weight: 500; font-size: 8px; opacity: .75; }
+.d3-sponsored .mk-meters { padding-top: 28px; }
+.d3-sponsored .mk-m b { font-size: 7px; }
+.d3-sponsored .mk-bar { background: #2b2736; }
+.d3-sponsored .mk-bar i { background: var(--accent); }
+.d3-sponsored .mk-who { color: var(--accent); }
+.d3-sponsored .mk-text { font-size: 13px; }
+.d3-sponsored .mk-choices span { border: 0; background: #262231; border-radius: 999px; font-weight: 600; }
+
+/* Shopping — policy as product, while stocks last. */
+.d3-shopping {
+  --bg: #12060a; --ink: #fff7e8; --paper: #1d0a10; --accent: #ffd23f; --muted: #c08a94;
+  --radius: 6px; --border: 2px; --space: 9px; --shadow: none;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+.d3-shopping .mk-strap {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; gap: 8px;
+  background: #e5133b; color: #fff; font: 800 9px/1 var(--display); letter-spacing: .1em;
+  padding: 6px 9px; text-transform: uppercase;
+}
+.d3-shopping .mk-strap em { margin-left: auto; font-style: normal; color: var(--accent); }
+.d3-shopping .mk-meters { padding-top: 27px; }
+.d3-shopping .mk-m b { font-family: var(--display); font-weight: 800; font-size: 8px; color: var(--accent); }
+.d3-shopping .mk-bar { background: #3a1018; }
+.d3-shopping .mk-bar i { background: var(--accent); }
+.d3-shopping .mk-card { border-color: var(--accent); position: relative; }
+.d3-shopping .mk-who { color: var(--accent); font-family: var(--display); font-weight: 800; font-size: 11px; letter-spacing: .08em; }
+.d3-shopping .mk-text { font-size: 13px; }
+.d3-shopping .mk-choices span { background: var(--accent); color: #12060a; border: 0; font-family: var(--display); font-weight: 800; font-size: 12px; text-transform: uppercase; line-height: 1.15; }
+.d3-shopping .mk-choices span u { display: block; text-decoration: none; font-size: 9px; opacity: .72; }
+.d3-shopping .mk-tag {
+  position: absolute; top: -8px; right: 4px; z-index: 4; rotate: 7deg;
+  background: var(--accent); color: #12060a; border-radius: 4px; padding: 4px 8px;
+  font: 800 13px/1 var(--display); box-shadow: 0 3px 0 rgba(0,0,0,.35);
+}
+.d3-shopping .mk-tag s { display: block; text-decoration: line-through; font-size: 8px; opacity: .6; }
+.d3-shopping .mk-foot { font-family: var(--display); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+
+/* Donations — the viewers are paying, so the viewers are governing. */
+.d3-donations {
+  --bg: #0c0a14; --ink: #f0edfa; --paper: #181528; --accent: #38e08b; --muted: #8b85a8;
+  --radius: 12px; --border: 0; --space: 9px; --shadow: none;
+}
+.d3-donations .mk-goal {
+  position: absolute; top: 7px; left: 9px; right: 9px; z-index: 5;
+  font: 600 8px/1.4 Inter, sans-serif; color: var(--muted);
+}
+.d3-donations .mk-goal b { color: var(--ink); }
+.d3-donations .mk-goal i { display: block; height: 5px; margin-top: 3px; border-radius: 3px; background: #2a2540; overflow: hidden; }
+.d3-donations .mk-goal i u { display: block; height: 100%; width: 84%; background: linear-gradient(90deg, var(--accent), #7de2ff); }
+.d3-donations .mk-meters { padding-top: 34px; }
+.d3-donations .mk-m b { font-size: 7px; }
+.d3-donations .mk-bar { background: #2a2540; }
+.d3-donations .mk-bar i { background: var(--accent); }
+.d3-donations .mk-pin {
+  position: absolute; left: 9px; right: 9px; bottom: 96px; z-index: 5;
+  background: #38e08b; color: #0c0a14; border-radius: 8px; padding: 7px 9px;
+  font: 600 9.5px/1.35 Inter, sans-serif;
+}
+.d3-donations .mk-pin b { display: block; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+.d3-donations .mk-tips { position: absolute; left: 9px; right: 9px; bottom: 44px; z-index: 5; display: flex; flex-direction: column; gap: 4px; }
+.d3-donations .mk-tips span { background: rgba(255,255,255,.08); border-radius: 6px; padding: 4px 7px; font: 8.5px/1.3 Inter, sans-serif; color: #cfc8e6; }
+.d3-donations .mk-tips b { color: var(--accent); }
+.d3-donations .mk-who { color: var(--accent); }
+.d3-donations .mk-choices span { border: 0; background: #262137; border-radius: 999px; font-weight: 600; }
+
+/* Multi — three things at once, and the country is the smallest of them. */
+.d3-multi {
+  --bg: #08090c; --ink: #eef1f6; --paper: #14171f; --accent: #ff4d6d; --muted: #7e8594;
+  --radius: 4px; --border: 0; --space: 6px; --shadow: none;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+.d3-multi .mk-meters { padding: 6px; gap: 3px; }
+.d3-multi .mk-m b { font-family: var(--display); font-weight: 600; font-size: 7px; }
+.d3-multi .mk-bar { height: 3px; background: #232833; }
+.d3-multi .mk-bar i { background: var(--accent); }
+.d3-multi .mk-stage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 5px; padding: 6px; align-items: stretch; }
+.d3-multi .mk-pane {
+  background: #10131a; border-radius: 4px; padding: 6px 7px; font-size: 8px; line-height: 1.35; color: var(--muted);
+  display: flex; flex-direction: column; justify-content: flex-end; min-height: 56px;
+}
+.d3-multi .mk-pane b { font-family: var(--display); font-size: 8.5px; letter-spacing: .1em; color: #fff; text-transform: uppercase; margin-bottom: 2px; }
+.d3-multi .mk-pane.cam { background: linear-gradient(150deg, #2a1f2b, #10131a); }
+.d3-multi .mk-pane.game { background: linear-gradient(150deg, #10223a, #10131a); }
+.d3-multi .mk-card { grid-column: 1 / -1; padding: 9px 10px; display: flex; flex-direction: column; }
+.d3-multi .mk-text { flex: 1; }
+.d3-multi .mk-who { font-family: var(--display); font-size: 10px; letter-spacing: .08em; color: var(--accent); }
+.d3-multi .mk-text { font-size: 11.5px; line-height: 1.4; }
+.d3-multi .mk-choices span { background: #1d2230; border: 0; font-family: var(--display); font-weight: 600; font-size: 10.5px; text-transform: uppercase; }
+.d3-multi .mk-foot { font-family: var(--display); letter-spacing: .1em; text-transform: uppercase; }
+
+/* Outage — the country buffers and the advertisement never does. */
+.d3-outage {
+  --bg: #0a0b0e; --ink: #dfe3ea; --paper: #13161c; --accent: #5aa9ff; --muted: #6f7787;
+  --radius: 10px; --border: 0; --space: 9px; --shadow: none;
+}
+.d3-outage .mk-quality {
+  position: absolute; top: 8px; right: 9px; z-index: 5;
+  font: 600 8px/1 Inter, sans-serif; color: var(--muted);
+  border: 1px solid #262c36; border-radius: 4px; padding: 3px 5px;
+}
+.d3-outage .mk-meters { padding-top: 26px; filter: blur(.7px); opacity: .7; }
+.d3-outage .mk-bar { background: #222833; }
+.d3-outage .mk-bar i { background: var(--muted); }
+.d3-outage .mk-card { filter: blur(1.1px) contrast(.86); opacity: .8; }
+.d3-outage .mk-who { color: var(--muted); }
+.d3-outage .mk-text { font-size: 13px; }
+.d3-outage .mk-choices span { border-color: #2a3140; }
+.d3-outage .mk-spin {
+  position: absolute; left: 50%; top: 42%; z-index: 6; translate: -50% -50%;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,.16); border-top-color: #fff;
+  animation: spin 1.1s linear infinite;
+}
+@keyframes spin { to { rotate: 360deg; } }
+.d3-outage .mk-recon {
+  position: absolute; left: 0; right: 0; top: calc(42% + 26px); z-index: 6; text-align: center;
+  font: 600 9px/1 Inter, sans-serif; color: rgba(255,255,255,.75); letter-spacing: .06em;
+}
+.d3-outage .mk-ad {
+  position: absolute; left: 9px; right: 9px; bottom: 44px; z-index: 7;
+  background: linear-gradient(120deg, #ff6a00, #ffd200); color: #16130a; border-radius: 8px;
+  padding: 9px 10px; font: 800 12px/1.2 Inter, sans-serif;
+  box-shadow: 0 8px 22px rgba(255,140,0,.35);
+}
+.d3-outage .mk-ad s { display: block; text-decoration: none; font-weight: 600; font-size: 8.5px; opacity: .8; margin-top: 2px; }
+
+/* ================= ROUND THREE: RULE, a country that got to the future ========== */
+
+/* Tube — it arrived in a capsule, because that is how things arrive now. */
+.r3-tube {
+  --bg: #e8f3f4; --ink: #10262b; --paper: #fbfeff; --accent: #0aa6b8; --muted: #6e8b91;
+  --radius: 999px; --border: 0; --space: 12px; --shadow: 0 10px 28px rgba(10,110,125,.16);
+  --font: "Space Grotesk", Inter, system-ui, sans-serif;
+  --display: "Orbitron", "Space Grotesk", Inter, sans-serif;
+}
+.r3-tube::before, .r3-tube::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 15px; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(10,166,184,.34) 0 2px, transparent 2px 13px),
+    linear-gradient(90deg, rgba(10,166,184,.4), rgba(10,166,184,.06));
+  border-right: 2px solid rgba(10,166,184,.5);
+}
+.r3-tube::before { left: 0; }
+.r3-tube::after { right: 0; transform: scaleX(-1); }
+.r3-tube .mk-meters, .r3-tube .mk-stage, .r3-tube .mk-foot { position: relative; z-index: 1; padding-left: 21px; padding-right: 21px; }
+.r3-tube .mk-meters { padding-top: 30px; }
+.r3-tube .mk-m b { font-family: var(--display); font-size: 6.5px; letter-spacing: .1em; }
+.r3-tube .mk-bar { height: 7px; border-radius: 4px; background: #cfe6e9; border: 1px solid rgba(10,166,184,.25); }
+.r3-tube .mk-bar i { background: linear-gradient(90deg, #0aa6b8, #6fe3e8); border-radius: 4px; }
+.r3-tube .mk-card { border-radius: 26px; padding: 16px 17px; border: 2px solid rgba(10,166,184,.35); }
+.r3-tube .mk-who { font-family: var(--display); color: var(--accent); font-size: 8px; letter-spacing: .16em; }
+.r3-tube .mk-text { font-size: 13px; line-height: 1.5; }
+.r3-tube .mk-choices span { border: 2px solid rgba(10,166,184,.45); border-radius: 999px; padding: 9px 6px; font-weight: 600; color: var(--accent); }
+.r3-tube .mk-dest {
+  position: absolute; top: 9px; left: 50%; translate: -50% 0; z-index: 3;
+  background: var(--accent); color: #fff; border-radius: 999px; padding: 3px 10px;
+  font: 700 7.5px/1 var(--display); letter-spacing: .14em;
+}
+.r3-tube .mk-foot { font-family: var(--display); font-size: 8px; letter-spacing: .12em; }
+
+/* Console — a 31st-century machine built in the 1960s. */
+.r3-console {
+  --bg: #d9d2c2; --ink: #1c2a1e; --paper: #0f2415; --accent: #4bf59b; --muted: #7e8c80;
+  --radius: 18px; --border: 0; --space: 14px; --shadow: inset 0 0 40px rgba(0,0,0,.55);
+  --font: "Space Grotesk", Inter, system-ui, sans-serif;
+  --display: "Orbitron", "Space Grotesk", sans-serif;
+}
+.r3-console .mk-meters { background: #c8c0ae; border-bottom: 3px solid #a89f8c; padding: 11px 14px 9px; border-radius: 0 0 10px 10px; }
+.r3-console .mk-m b { font-family: var(--display); font-size: 6px; letter-spacing: .1em; color: #55604f; }
+.r3-console .mk-bar { height: 10px; border-radius: 5px; background: #6b6558; box-shadow: inset 0 2px 3px rgba(0,0,0,.45); }
+.r3-console .mk-bar i { background: linear-gradient(180deg, #7bffb9, #24b06a); border-radius: 5px; }
+.r3-console .mk-card {
+  border-radius: 20px; padding: 15px 16px; color: #d7ffe6;
+  background: radial-gradient(120% 90% at 50% 40%, #16341f 0%, #0b1c10 100%);
+  border: 4px solid #b3aa97; box-shadow: var(--shadow), 0 3px 0 #a89f8c;
+}
+.r3-console .mk-who { font-family: var(--display); color: var(--accent); font-size: 8px; letter-spacing: .18em; }
+.r3-console .mk-text { font-size: 12.5px; line-height: 1.5; text-shadow: 0 0 8px rgba(75,245,155,.45); }
+.r3-console .mk-choices { gap: 10px; }
+.r3-console .mk-choices span {
+  border: 0; border-radius: 12px; padding: 11px 6px; font-family: var(--display); font-size: 9.5px;
+  letter-spacing: .06em; text-transform: uppercase; color: #22301f;
+  background: linear-gradient(180deg, #ff9c72, #e56d45); box-shadow: 0 4px 0 #b34e2e;
+}
+.r3-console .mk-choices span:last-child { background: linear-gradient(180deg, #7de0ff, #34a8d6); box-shadow: 0 4px 0 #2179a0; }
+.r3-console .mk-foot { color: #55604f; font-family: var(--display); font-size: 7.5px; letter-spacing: .14em; }
+.r3-console .mk-prog { background: rgba(0,0,0,.2); }
+.r3-console .mk-prog i { background: #24b06a; }
+
+/* Civic — the public service of a country that solved things. */
+.r3-civic {
+  --bg: #f2fbf7; --ink: #13291f; --paper: #fff; --accent: #14b57a; --muted: #6d8a7d;
+  --radius: 20px; --border: 0; --space: 14px; --shadow: 0 8px 22px rgba(20,181,122,.13);
+  --font: "Space Grotesk", Inter, system-ui, sans-serif;
+}
+.r3-civic .mk-ok {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 3;
+  background: var(--accent); color: #fff; text-align: center;
+  font: 700 8.5px/1 var(--font); letter-spacing: .14em; padding: 6px; text-transform: uppercase;
+}
+.r3-civic .mk-meters { padding-top: 30px; gap: 6px; }
+.r3-civic .mk-m b { font-size: 6.5px; letter-spacing: .08em; font-weight: 600; }
+.r3-civic .mk-bar { height: 8px; border-radius: 5px; background: #d9efe5; }
+.r3-civic .mk-bar i { background: var(--accent); border-radius: 5px; }
+.r3-civic .mk-card { border: 2px solid #d9efe5; }
+.r3-civic .mk-who { color: var(--accent); font-weight: 700; letter-spacing: .14em; }
+.r3-civic .mk-text { font-size: 13.5px; line-height: 1.5; }
+.r3-civic .mk-choices { gap: 9px; }
+.r3-civic .mk-choices span { border: 0; border-radius: 999px; padding: 11px 6px; background: var(--accent); color: #fff; font-weight: 700; font-size: 11px; }
+.r3-civic .mk-choices span:last-child { background: #e6f5ee; color: #13291f; }
+.r3-civic .mk-foot { font-weight: 600; letter-spacing: .08em; }
+
+/* Atomic — the world's fair, and this time they built it. */
+.r3-atomic {
+  --bg: #0e6d76; --ink: #fff6e2; --paper: #12818c; --accent: #ffcb47; --muted: #9fd2d6;
+  --radius: 0; --border: 0; --space: 13px; --shadow: 6px 6px 0 rgba(0,0,0,.18);
+  --font: "Space Grotesk", Inter, system-ui, sans-serif;
+  --display: "Orbitron", "Space Grotesk", sans-serif;
+}
+.r3-atomic::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image:
+    radial-gradient(circle at 16% 12%, rgba(255,203,71,.5) 0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 78% 24%, rgba(255,203,71,.4) 0 1.2px, transparent 1.4px),
+    radial-gradient(circle at 40% 82%, rgba(255,203,71,.35) 0 1.2px, transparent 1.4px);
+}
+.r3-atomic .mk-banner {
+  position: relative; z-index: 2; text-align: center; padding: 11px 10px 9px;
+  font: 700 12px/1 var(--display); letter-spacing: .18em; color: var(--accent);
+  border-bottom: 3px solid var(--accent); text-transform: uppercase;
+}
+.r3-atomic .mk-banner s { display: block; text-decoration: none; font-family: var(--font); font-size: 7px; letter-spacing: .2em; color: var(--muted); margin-top: 4px; }
+.r3-atomic .mk-meters, .r3-atomic .mk-stage, .r3-atomic .mk-foot { position: relative; z-index: 2; }
+.r3-atomic .mk-m b { font-family: var(--display); font-size: 6px; letter-spacing: .1em; color: var(--accent); }
+.r3-atomic .mk-bar { height: 6px; border-radius: 0; background: rgba(255,255,255,.18); clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%); }
+.r3-atomic .mk-bar i { background: var(--accent); }
+.r3-atomic .mk-card { border: 3px solid var(--accent); border-radius: 0 22px 0 22px; }
+.r3-atomic .mk-who { color: var(--accent); font-family: var(--display); font-size: 8px; letter-spacing: .16em; }
+.r3-atomic .mk-text { font-size: 13px; line-height: 1.5; }
+.r3-atomic .mk-choices span { border: 2px solid var(--accent); border-radius: 0 12px 0 12px; color: var(--accent); font-weight: 700; font-size: 10.5px; }
+.r3-atomic .mk-foot { color: var(--muted); font-family: var(--display); font-size: 7.5px; letter-spacing: .14em; }
+.r3-atomic .mk-prog i { background: var(--accent); }
+
+/* Holo — nothing is a surface any more. */
+.r3-holo {
+  --bg: #070a18; --ink: #dff2ff; --paper: rgba(60,180,255,.08); --accent: #46e0ff; --muted: #7e9ebd;
+  --radius: 14px; --border: 1px; --space: 13px; --shadow: 0 0 34px rgba(70,224,255,.2);
+  --font: "Space Grotesk", Inter, system-ui, sans-serif;
+  --display: "Orbitron", "Space Grotesk", sans-serif;
+}
+.r3-holo::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(90% 55% at 50% 100%, rgba(70,224,255,.22), transparent 62%),
+    repeating-linear-gradient(to bottom, rgba(70,224,255,.05) 0 1px, transparent 1px 4px);
+}
+.r3-holo .mk-meters, .r3-holo .mk-stage, .r3-holo .mk-foot { position: relative; z-index: 1; }
+.r3-holo .mk-m b { font-family: var(--display); font-size: 6.5px; letter-spacing: .1em; color: var(--accent); }
+.r3-holo .mk-bar { height: 3px; background: rgba(70,224,255,.18); }
+.r3-holo .mk-bar i { background: var(--accent); box-shadow: 0 0 7px var(--accent); }
+.r3-holo .mk-card {
+  border-color: rgba(70,224,255,.4); backdrop-filter: blur(2px);
+  background: linear-gradient(160deg, rgba(70,224,255,.12), rgba(70,224,255,.03));
+}
+.r3-holo .mk-who { color: var(--accent); font-family: var(--display); font-size: 8px; letter-spacing: .18em; }
+.r3-holo .mk-text { font-size: 13px; line-height: 1.52; text-shadow: 0 0 12px rgba(70,224,255,.35); }
+.r3-holo .mk-choices span { border-color: rgba(70,224,255,.45); border-radius: 8px; color: var(--accent); font-weight: 600; }
+.r3-holo .mk-plinth {
+  position: absolute; left: 24%; right: 24%; bottom: 40px; height: 4px; z-index: 0;
+  border-radius: 50%; background: var(--accent); filter: blur(4px); opacity: .75;
+}
+.r3-holo .mk-foot { font-family: var(--display); font-size: 7.5px; letter-spacing: .14em; }

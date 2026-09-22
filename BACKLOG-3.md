@@ -60,13 +60,29 @@ pink, a tilt — and the Ascent look is an annual report. Neither is wrong, but 
 been looked at since it was written, and the Decay one in particular is "ugly" rather than
 *designed to be ugly*, which is a different thing.
 
-*Round one* mocked five treatments per path (`public/mockups/paths.html`). Three came
-through: **Channel** and **Feed** for Drool — both versions of the same claim, that the
-state reaches you through a screen that is selling you something — and **Record** for Rule,
-a document that will outlast whoever signed it. *Round two* (`paths-2.html`) puts five more
-in each of those two spaces: for Drool, how many people are talking at once and whether
-there is a card left at all; for Rule, five different documents to be. One of each gets
-built.
+*Round one* (`public/mockups/paths.html`) mocked five treatments per path. Three came
+through: **Channel** and **Feed** for Drool — both versions of the same claim, that the state
+reaches you through a screen that is selling you something — and **Record** for Rule, a
+document that will outlast whoever signed it. *Round two* (`paths-2.html`) put five more in
+each of those spaces.
+
+*Round three* (`paths-3.html`) narrows Drool to **Stream with the money showing**: five
+versions of a government that is a livestream running on advertising, differing in who is
+paying for it — an advertiser, a shopping channel, the viewers, three things at once, or
+nobody, so the country buffers while the advertisement plays in full quality.
+
+**Rule changed register at round three and it is worth recording why.** The document looks
+were all one claim: that a working country leaves good paperwork. The brief that replaced it
+is that a working country *builds the thing* — an advanced technology society, bright and
+slightly absurd rather than solemn. That is a larger swing than a palette, because it moves
+the Ascent look from "this will be legible in fifty years" to "look what we made", and the
+two say different things about what winning this game means. Five in that space: a pneumatic
+capsule, a 31st-century machine with physical buttons, a public service that is simply
+pleasant, a world's fair that got built, and a projection. One Drool and one Rule get built.
+
+Two costs the mockups surfaced that a palette decision would have hidden: three of the ten
+(Clip, Push, Multi) replace the layout rather than restyling it, and every Rule treatment in
+round three wants a webfont the app does not currently ship.
 
 **Done when** a run that steers one way spends at least a quarter of its cards in that
 path's look with the deepest stage reachable by playing that way rather than by an outlier,
