@@ -181,7 +181,16 @@ export const DEFAULT_CONFIG: EngineConfig = {
   alignAffinity: 2,
   bandAffinity: 3,
   arcContinueProb: 0.5,
-  arcEntryProb: 0.2,
+  /**
+   * Lowered with the arc-budget fix (BACKLOG-3 phase 26). The budget used to count finished
+   * arcs, which capped a run at about five arcs by accident; counting only running ones
+   * freed the slots and took a run to 14, which is a different game and cost 6 points of
+   * Ascent. At 0.075 a run enters 6.3 arcs against the 5.0 it always had, the arcs gated to
+   * era 2 or 3 are no longer locked out by era-1 arcs that already ended, and every section 8
+   * target passes at 20,000 runs. Ascent passes narrowly at 15.1% against a 15% floor, down
+   * from 15.8%: about one standard error of headroom, which is the price of the fix.
+   */
+  arcEntryProb: 0.075,
   arcBudgetMin: 4,
   arcBudgetMax: 6,
   eraMeterPull: 0.22,

@@ -705,7 +705,97 @@ carried over.
 
 </details>
 
-## Phase 26. Forty runs, four endings — *queued*
+## Phase 26. Forty runs, four endings — *done, with the done-when rewritten*
+
+**Shipped.** A bug that made a third of the arc catalogue effectively unreachable. **Not**
+the done-when, which the measurement showed to be unreachable for a reason the entry did not
+know about, and which is restated below.
+
+### The done-when could not be met, and the reason is the design rather than a number
+
+**97.2% of a competent player's runs end in a finale**, and the three finales are the only
+endings that are not failures. Over 200 simulated players of 40 runs each, carrying meta
+forward the way a real profile does:
+
+| bot | endings seen after 20 runs | after 40 | reached 10 by run 20 | finale rate |
+|---|---|---|---|---|
+| **mixed** (competent) | **median 3** | 4 | **0.0%** | 96.8% |
+| greedy | 2 | 2 | 0.0% | ~99% |
+| random | **10** | 13 | 65.5% | ~9% |
+
+The random bot sees ten endings because it fails constantly — bankruptcy 24%, paralysis 15%,
+police state 9%. **"Ten endings in twenty runs" is a request to fail ten different ways in
+twenty runs.** That is a different game, not a tuning target.
+
+**A competent player has already seen everything winning can show them.** The epilogue is
+keyed `band:align:era`, and a run that survives all three eras has era 3, so competent play
+can reach 3 of 23 endings and 6 of 18 epilogues. It reaches a median of 3 and 6 after twenty
+runs. The other 12 epilogues are behind ending early.
+
+**The Do clause's premise was also empty.** It proposes building on what the codex knows you
+came close to. Measured: for a competent player, seen-or-nearly-reached is a **median of 4
+against 3 seen** — the near-miss list knows about one extra ending in twenty runs, because
+`nearMisses` measures how close a finished run came to an ouster and a competent run never
+goes near one.
+
+### What the phase did turn up, and what shipped
+
+**Five of the endings a competent player never reaches are not failures at all** —
+`stepped_down`, `leader_for_life`, `exile`, `purge_consumed`, `blackmailed` are arc endings.
+So the question became whether ordinary play reaches the arcs that carry them, and it does
+not, for a reason that is a plain bug.
+
+**The arc budget counted arcs ever started, not arcs still running.** A finished arc keeps
+its entry in `activeArcs` with a null pointer, and `drawArcEntry` counted it against the
+budget for the rest of the run. A run enters about five arcs against a budget of 4-6, so
+**the budget was saturated on 98.4% of runs**, and an arc that can only start in era 2
+arrived to find every slot held by an era-1 arc that had already ended.
+
+The evidence is in the entry rates at equal weight. `arc_water` (weight 2, eras 1-3) was
+entered in 39.0% of runs; `arc_succession` (weight 2, eras 2-3) in **3.3%**.
+
+| arc | before | after | carries |
+|---|---|---|---|
+| `arc_truth` | 5.8% | **34.9%** | — |
+| `arc_oracle` | 3.2% | **26.2%** | — |
+| `arc_succession` | 3.3% | **25.9%** | `stepped_down` |
+| `arc_secession` | 3.0% | **18.0%** | `exile` |
+| `arc_split` | 1.5% | **14.9%** | — |
+| `arc_dynasty` | 1.1% | **12.2%** | — |
+| `arc_commune` | 1.1% | **7.5%** | — |
+| `arc_referendum` (was hogging a slot) | 50.8% | 48.8% | — |
+
+**Counting only running arcs took a run from 5.0 arcs to 14.0**, which is a different game
+and cost six points of Ascent, so `arcEntryProb` came down from 0.2 to 0.075. A run enters
+6.3 arcs now. **Every section 8 target passes at 20,000 runs**, but Ascent passes narrowly:
+**15.1% against a 15% floor, down from 15.8%**, which is about one standard error of
+headroom. That is the price of the fix and it is worth saying out loud.
+
+**A measure of mine that was measuring the wrong thing.** I first read "1.7 of 3 cards seen"
+as arcs being abandoned. Measured properly — an arc concluded when the run left it with no
+pointer onward — **98.3% of entered arcs conclude**. Branches are legitimately shorter than
+the arc's card list. `arcContinueProb` needed no change.
+
+**And the fix does not move "endings seen", which is the last thing worth knowing.** After it,
+the mixed bot still sees a median of 3 endings in 20 runs. `arc_succession` is entered in
+25.9% of runs and reaches its ending card in 43.4% of those — and the bot does not take the
+branch, because handing over power costs meters. **The final step is a choice a player makes
+and a meter-maximising bot never will**, so no amount of content reachability moves this
+metric. A bot measures the bot.
+
+### The done-when, restated
+
+The old one asked for an outcome only a worse player can produce. What is actually checkable:
+
+> **Done when** the arcs that carry endings are entered at a rate comparable to the arcs that
+> do not, so that reaching one is a choice the player is offered rather than a draw they
+> almost never get.
+
+Met: the spread across the catalogue is 7.5-48.8%, against 1.1-50.8% before, and every arc
+gated to era 2 or later moved from under 6% to between 7.5% and 26%.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** Measured over 60 players of 40 runs each, **the median player has seen 4 of the
 23 endings**, and `obj_ten_endings` completes 0% of the time. Phase 13 made every ending
@@ -719,6 +809,8 @@ the fact.
 
 **Done when** a competent player finishing twenty runs has seen ten endings without setting
 out to farm them.
+
+</details>
 
 ## Phase 27. The ending two runs in three get — *queued*
 

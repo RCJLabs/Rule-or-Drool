@@ -154,7 +154,18 @@ function arcWeight(lib: Library, state: GameState, arc: Arc): number {
 }
 
 function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] {
-  if (state.activeArcs.length >= state.arcBudget) return [null, state];
+  /**
+   * The budget is how many stories can be running at once, not how many have ever been
+   * started: a finished arc keeps its entry in `activeArcs` with a null pointer, and
+   * counting those held a slot for the rest of the run (BACKLOG-3 phase 26).
+   *
+   * A run enters about five arcs against a budget of 4-6, so the budget was saturated on
+   * 98.4% of runs, and an arc that can only start in era 2 arrived to find every slot taken
+   * by an era-1 arc that had already ended. Measured: at the same weight of 2, arcs eligible
+   * from era 1 were entered in 36-44% of runs and arcs gated to eras 2-3 in 3.0-3.3%.
+   */
+  if (state.activeArcs.filter((a) => a.nextCard).length >= state.arcBudget) return [null, state];
+  // Still every arc ever entered, so a finished story cannot start again.
   const started = new Set(state.activeArcs.map((a) => a.id));
   const cands: Arc[] = [];
   for (const arc of lib.arcs.values()) {

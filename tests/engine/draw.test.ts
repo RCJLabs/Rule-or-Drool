@@ -213,6 +213,27 @@ describe("draw: arcs", () => {
     expect(draw(lib({ arcEntryProb: 0 }), start(l)).current).not.toBe("arc_t1");
   });
 
+  it("counts running arcs against the budget, not finished ones", () => {
+    /**
+     * A finished arc keeps its entry with a null pointer, and counting those held a budget
+     * slot for the rest of the run. A run enters about five arcs against a budget of 4-6, so
+     * the budget was saturated on 98.4% of runs and an arc gated to era 2 arrived to find
+     * every slot taken by an era-1 arc that had already ended: at the same weight, arcs
+     * eligible from era 1 were entered in 36-44% of runs and era-2-and-later ones in 3.0-3.3%
+     * (BACKLOG-3 phase 26).
+     */
+    // The continue roll is off so only the entry source can put a card on the table.
+    const l = lib({ arcEntryProb: 1, arcContinueProb: 0 });
+    const done = start(l, { arcBudget: 1, activeArcs: [{ id: "other", nextCard: null }] });
+    expect(draw(l, done).current).toBe("arc_t1");
+    // A story still running does hold its slot, which is what the budget is for.
+    const running = start(l, { arcBudget: 1, activeArcs: [{ id: "other", nextCard: "arc_t3" }] });
+    expect(draw(l, running).current).not.toBe("arc_t1");
+    // And a finished arc still cannot start again.
+    const same = start(l, { arcBudget: 4, activeArcs: [{ id: "arc_t", nextCard: null }] });
+    expect(draw(l, same).current).not.toBe("arc_t1");
+  });
+
   it("follows next pointers with the continue roll, exits on refusal, and never re-enters", () => {
     const l = lib({ arcEntryProb: 1, arcContinueProb: 1 });
     let s = draw(l, start(l));
