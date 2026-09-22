@@ -38,11 +38,17 @@ npm test               # vitest: engine, content, harness and UI tests
 npm run typecheck      # tsc --noEmit
 npm run validate       # content validator; exit 1 on any error
 npm run validate:mvp   # the MVP gate CI runs: every era, 25 cards per cell, warnings fail
-npm run check          # typecheck + test + validate (what CI runs)
+npm run test:browser   # contrast, fit and world-picture audits of dist/ in Chromium
+npm run check:browser  # build, then test:browser
+npm run check          # typecheck + test + validate + build + browser audits (what CI runs)
 npm run simulate       # 10k seeded runs per bot, prints the section 8 report
 npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThreshold=30
 npm run simulate -- --unlocked     # simulate an experienced player with every unlock
 ```
+
+The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without
+one they skip with a banner saying so; CI sets `REQUIRE_BROWSER=1`, which makes that a
+failure instead.
 
 `simulate --set key=value` overrides any numeric engine constant for a batch (see
 `src/engine/config.ts`); `--strict` exits 1 when a target misses. `validate` takes

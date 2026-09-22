@@ -38,11 +38,15 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Typecheck, unit tests and content, then the build and the browser audits against it,
+      # so the dist uploaded below is the one that was audited. REQUIRE_BROWSER makes a
+      # missing browser a failed deploy rather than a skipped audit.
       - run: npm run check
+        env:
+          REQUIRE_BROWSER: "1"
       - uses: actions/configure-pages@v5
         with:
           enablement: true
-      - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist

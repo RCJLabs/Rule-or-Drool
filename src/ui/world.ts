@@ -41,7 +41,7 @@ export type Slot = "ring" | "station" | "ship" | "monument" | "security" | "civi
  * the empty lot, which fit nowhere else.
  */
 const NARROW: Slot[] = ["security", "media", "money", "monument", "pad"];
-const MOTIFS: Record<string, { motif: Motif; slots: Slot[] }> = {
+export const MOTIFS: Record<string, { motif: Motif; slots: Slot[] }> = {
   long_ship: { motif: "ship", slots: ["ship"] },
   orbit_reached: { motif: "station", slots: ["station"] },
   ring_started: { motif: "ring", slots: ["ring"] },
@@ -129,6 +129,20 @@ export interface World {
 export const GROUND = 205;
 export const WIDTH = 400;
 export const HEIGHT = 240;
+
+/**
+ * Left edge of each ground slot, and its width. Everything stands on GROUND, and six units
+ * apart, so a landmark that keeps within two of its own slot never touches a neighbour; the
+ * browser audit holds every landmark to that in every slot it may take.
+ */
+export const SLOT_X: Partial<Record<Slot, [number, number]>> = {
+  monument: [14, 60],
+  security: [80, 50],
+  civic: [136, 78],
+  media: [220, 48],
+  money: [274, 50],
+  pad: [330, 60],
+};
 
 export function composeWorld(input: { band: Band; drift: number; align: PlayerAlign; flags: readonly string[]; seed: number; era: number }): World {
   const { band, align, seed } = input;

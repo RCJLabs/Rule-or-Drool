@@ -19,3 +19,9 @@ jobs:
       - run: npm test
       - run: npm run validate:mvp
       - run: npm run build
+      # Contrast, fit and the world pictures, read from the build in a real browser. The
+      # ubuntu image ships Google Chrome at /usr/bin/google-chrome, which the suite finds;
+      # REQUIRE_BROWSER makes a missing browser a failure here instead of a skip.
+      - run: npm run test:browser
+        env:
+          REQUIRE_BROWSER: "1"

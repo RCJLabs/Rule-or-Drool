@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from "react";
 import type { Band } from "../engine/types";
-import { GROUND, HEIGHT, WIDTH, type Motif, type Slot, type World } from "./world";
+import { GROUND, HEIGHT, SLOT_X, WIDTH, type Motif, type Slot, type World } from "./world";
 
 /**
  * The world after a run (post-run histories), drawn from `composeWorld`. Flat silhouettes,
@@ -42,16 +42,6 @@ const PALETTES: Record<Band, Palette> = {
     far: "#2d1d27", near: "#0d090f", window: "#ff8a4c", accent: "#ff5a3c",
     ground: "#141013", water: "#23171f", waterHi: "#553a47", haze: "#4a2a30",
   },
-};
-
-/** Left edge of each ground slot, and its width. Everything stands on GROUND. */
-const SLOT_X: Partial<Record<Slot, [number, number]>> = {
-  monument: [14, 60],
-  security: [80, 50],
-  civic: [136, 78],
-  media: [220, 48],
-  money: [274, 50],
-  pad: [330, 60],
 };
 
 interface Ctx {
@@ -383,8 +373,10 @@ const SHORE_DRAW: Partial<Record<Motif, (c: Ctx) => ReactNode>> = {
 /* ---- landmarks: the ground --------------------------------------------------------- */
 
 const GROUND_DRAW: Partial<Record<Motif, (c: Ctx) => ReactNode>> = {
-  statue: ({ p, x }) => {
-    const cx = x + 30;
+  statue: ({ p, x, w }) => {
+    // The raised arm reaches further right than the pedestal does left, so the figure is
+    // centred on the slot by its whole width rather than by its pedestal.
+    const cx = x + w / 2 - 2.5;
     return (
       <g fill={p.near}>
         <rect x={cx - 14} y={GROUND - 20} width="28" height="20" />
@@ -435,18 +427,23 @@ const GROUND_DRAW: Partial<Record<Motif, (c: Ctx) => ReactNode>> = {
       {band !== "ascent" && <polygon points={`${x + 10},${GROUND - 50} ${x - 40},${GROUND - 140} ${x - 10},${GROUND - 150}`} fill={p.window} opacity="0.12" />}
     </g>
   ),
-  tanks: ({ p, x, band }) => (
-    <g fill={p.near}>
-      {[x + 2, x + 26].map((tx) => (
-        <g key={tx}>
-          <rect x={tx} y={GROUND - 9} width="22" height="7" rx="3" />
-          <rect x={tx + 5} y={GROUND - 15} width="11" height="6" rx="2" />
-          <rect x={tx + 15} y={GROUND - 13} width="14" height="2" />
-        </g>
-      ))}
-      {band !== "ascent" && <polygon points={`${x + 14},${GROUND - 16} ${x + 60},${GROUND - 150} ${x + 90},${GROUND - 140}`} fill={p.window} opacity="0.1" />}
-    </g>
-  ),
+  tanks: ({ p, x, w, band }) => {
+    // Two tanks, each 25 wide with its gun, closed up to fit the narrow slots.
+    const gap = Math.min(24, w - 25);
+    const tx0 = x + (w - gap - 25) / 2;
+    return (
+      <g fill={p.near}>
+        {[tx0, tx0 + gap].map((tx) => (
+          <g key={tx}>
+            <rect x={tx} y={GROUND - 9} width="22" height="7" rx="3" />
+            <rect x={tx + 5} y={GROUND - 15} width="11" height="6" rx="2" />
+            <rect x={tx + 15} y={GROUND - 13} width="10" height="2" />
+          </g>
+        ))}
+        {band !== "ascent" && <polygon points={`${x + 14},${GROUND - 16} ${x + 60},${GROUND - 150} ${x + 90},${GROUND - 140}`} fill={p.window} opacity="0.1" />}
+      </g>
+    );
+  },
   barricade: ({ p, x }) => (
     <g stroke={p.near} strokeWidth="2.2" strokeLinecap="round">
       {[4, 16, 28, 40].map((dx) => (
@@ -516,23 +513,26 @@ const GROUND_DRAW: Partial<Record<Motif, (c: Ctx) => ReactNode>> = {
       <line x1={x + 26} y1={GROUND - 46} x2={x + 46} y2={GROUND - 34} stroke={p.accent} strokeWidth="1.4" opacity="0.8" />
     </g>
   ),
-  broadcast: ({ p, x, band }) => (
-    <g>
-      <polygon points={`${x + 18},${GROUND} ${x + 24},${GROUND - 86} ${x + 30},${GROUND}`} fill="none" stroke={p.near} strokeWidth="2" />
-      {[16, 32, 48, 64].map((dy) => (
-        <line key={dy} x1={x + 19 + dy / 16} y1={GROUND - dy} x2={x + 29 - dy / 16} y2={GROUND - dy} stroke={p.near} strokeWidth="1" />
-      ))}
-      <circle cx={x + 24} cy={GROUND - 88} r="2" fill={p.accent} />
-      <g fill="none" stroke={p.accent} strokeWidth="1" opacity="0.6">
-        <path d={`M${x + 15} ${GROUND - 96} a12 12 0 0 1 18 0`} />
-        <path d={`M${x + 10} ${GROUND - 102} a18 18 0 0 1 28 0`} />
+  broadcast: ({ p, x: slotX, w, band }) => {
+    const x = slotX + (w - 42) / 2 - 10;
+    return (
+      <g>
+        <polygon points={`${x + 18},${GROUND} ${x + 24},${GROUND - 86} ${x + 30},${GROUND}`} fill="none" stroke={p.near} strokeWidth="2" />
+        {[16, 32, 48, 64].map((dy) => (
+          <line key={dy} x1={x + 19 + dy / 16} y1={GROUND - dy} x2={x + 29 - dy / 16} y2={GROUND - dy} stroke={p.near} strokeWidth="1" />
+        ))}
+        <circle cx={x + 24} cy={GROUND - 88} r="2" fill={p.accent} />
+        <g fill="none" stroke={p.accent} strokeWidth="1" opacity="0.6">
+          <path d={`M${x + 15} ${GROUND - 96} a12 12 0 0 1 18 0`} />
+          <path d={`M${x + 10} ${GROUND - 102} a18 18 0 0 1 28 0`} />
+        </g>
+        <rect x={x + 30} y={GROUND - 34} width="22" height="34" fill={p.near} />
+        <rect x={x + 32} y={GROUND - 31} width="18" height="13" fill={band === "decay" ? p.window : p.far} opacity="0.9" />
+        <ellipse cx={x + 41} cy={GROUND - 24.5} rx="6" ry="3.2" fill={p.near} />
+        <circle cx={x + 41} cy={GROUND - 24.5} r="1.8" fill={p.accent} />
       </g>
-      <rect x={x + 30} y={GROUND - 34} width="22" height="34" fill={p.near} />
-      <rect x={x + 32} y={GROUND - 31} width="18" height="13" fill={band === "decay" ? p.window : p.far} opacity="0.9" />
-      <ellipse cx={x + 41} cy={GROUND - 24.5} rx="6" ry="3.2" fill={p.near} />
-      <circle cx={x + 41} cy={GROUND - 24.5} r="1.8" fill={p.accent} />
-    </g>
-  ),
+    );
+  },
   goldTower: ({ p, x }) => (
     <g>
       <rect x={x + 16} y={GROUND - 96} width="18" height="96" fill={p.near} />
@@ -543,34 +543,44 @@ const GROUND_DRAW: Partial<Record<Motif, (c: Ctx) => ReactNode>> = {
       ))}
     </g>
   ),
-  bunker: ({ p, x }) => (
-    <g>
-      <path d={`M${x} ${GROUND} a26 20 0 0 1 52 0 Z`} fill={p.near} />
-      <circle cx={x + 26} cy={GROUND - 8} r="8" fill={p.far} />
-      <circle cx={x + 26} cy={GROUND - 8} r="8" fill="none" stroke={p.accent} strokeWidth="1" opacity="0.7" />
-      <g stroke={p.accent} strokeWidth="0.8" opacity="0.7">
-        <line x1={x + 26} y1={GROUND - 15} x2={x + 26} y2={GROUND - 1} />
-        <line x1={x + 19} y1={GROUND - 8} x2={x + 33} y2={GROUND - 8} />
+  bunker: ({ p, x, w }) => {
+    const dome = Math.min(52, w);
+    const cx = x + w / 2;
+    return (
+      <g>
+        <path d={`M${cx - dome / 2} ${GROUND} a${dome / 2} 20 0 0 1 ${dome} 0 Z`} fill={p.near} />
+        <circle cx={cx} cy={GROUND - 8} r="8" fill={p.far} />
+        <circle cx={cx} cy={GROUND - 8} r="8" fill="none" stroke={p.accent} strokeWidth="1" opacity="0.7" />
+        <g stroke={p.accent} strokeWidth="0.8" opacity="0.7">
+          <line x1={cx} y1={GROUND - 15} x2={cx} y2={GROUND - 1} />
+          <line x1={cx - 7} y1={GROUND - 8} x2={cx + 7} y2={GROUND - 8} />
+        </g>
       </g>
-    </g>
-  ),
-  mansion: ({ p, x }) => (
-    <g>
-      <path d={`M${x - 6} ${GROUND} a31 22 0 0 1 62 0 Z`} fill={p.far} />
-      <rect x={x + 10} y={GROUND - 36} width="30" height="16" fill={p.near} />
-      <polygon points={`${x + 8},${GROUND - 36} ${x + 25},${GROUND - 46} ${x + 42},${GROUND - 36}`} fill={p.near} />
-      {[14, 22, 30].map((dx) => (
-        <rect key={dx} x={x + dx} y={GROUND - 32} width="4" height="6" fill={p.window} opacity="0.85" />
-      ))}
-      <rect x={x + 6} y={GROUND - 14} width="4" height="14" fill={p.near} />
-      <rect x={x + 40} y={GROUND - 14} width="4" height="14" fill={p.near} />
-      <g stroke={p.near} strokeWidth="1">
-        {[14, 18, 22, 26, 30, 34, 38].map((dx) => (
-          <line key={dx} x1={x + dx} y1={GROUND - 10} x2={x + dx} y2={GROUND} />
+    );
+  },
+  mansion: ({ p, x: slotX, w }) => {
+    // Drawn about x + 25; the hedge used to be 62 wide in a 50-wide slot and ran into the
+    // broadcast screen next door.
+    const x = slotX + w / 2 - 25;
+    const hedge = Math.min(62, w);
+    return (
+      <g>
+        <path d={`M${x + 25 - hedge / 2} ${GROUND} a${hedge / 2} 22 0 0 1 ${hedge} 0 Z`} fill={p.far} />
+        <rect x={x + 10} y={GROUND - 36} width="30" height="16" fill={p.near} />
+        <polygon points={`${x + 8},${GROUND - 36} ${x + 25},${GROUND - 46} ${x + 42},${GROUND - 36}`} fill={p.near} />
+        {[14, 22, 30].map((dx) => (
+          <rect key={dx} x={x + dx} y={GROUND - 32} width="4" height="6" fill={p.window} opacity="0.85" />
         ))}
+        <rect x={x + 6} y={GROUND - 14} width="4" height="14" fill={p.near} />
+        <rect x={x + 40} y={GROUND - 14} width="4" height="14" fill={p.near} />
+        <g stroke={p.near} strokeWidth="1">
+          {[14, 18, 22, 26, 30, 34, 38].map((dx) => (
+            <line key={dx} x1={x + dx} y1={GROUND - 10} x2={x + dx} y2={GROUND} />
+          ))}
+        </g>
       </g>
-    </g>
-  ),
+    );
+  },
   rocket: ({ p, x, band }) => {
     const lean = band === "decay" ? -8 : 0;
     const up = band === "ascent" ? 12 : 0;

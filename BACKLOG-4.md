@@ -1,7 +1,7 @@
 # Backlog, round four
 
-Rounds one to three are done bar two parked items in BACKLOG-2: **phase 11 (share a run)**
-and **phase 17 (get it onto Play)**.
+Rounds one to three are done bar one item in BACKLOG-2: **phase 17 (get it onto Play)**.
+Phase 11 (share a run) shipped as v0.39.0.
 
 Same rule as before: every number is measured against the shipped content, and where it
 comes from a bot the bot is named, because a bot measures the bot. A "player" below is one
@@ -100,3 +100,81 @@ which would put them at the start of a timeline they did not happen at the start
   attributes rather than one concatenated string — which a test caught.
 - Balance is unchanged: dating flags consumes no randomness, and every section 8 target
   passes.
+
+## Phase 29. What only a browser can check, checked on every push — *done*
+
+**Asked for.** The contrast, fit and picture checks were scratch scripts, run by hand after a
+change and forgotten otherwise. Fold them into `npm run check` and CI.
+
+**Shipped.** `npm run check` now builds the site and reads it in Chromium. That is 21 browser
+tests, taking about 30 seconds. CI runs them on every branch push. The deploy runs them
+against the exact build it uploads, with `REQUIRE_BROWSER` set, so a missing browser fails
+the deploy instead of skipping the audit. On a machine with no Chromium they skip, under a
+banner that says so.
+
+- **Contrast**, WCAG AA, for every text on:
+  - the menus;
+  - a run in all seven looks, for both parties, with the plain screen off and on;
+  - the cabinet, and an era boundary, each in three directions;
+  - the end of a run in three directions at 390 and 360px, and the codex after it;
+  - a shared run's offer, with a good link and with a broken one.
+- **Fit**:
+  - seven phone and tablet sizes, in three directions, with the fullest footer a run has
+    (the longest mandate and a teaching note). The page must not scroll and no box may cut
+    off what is in it;
+  - the era panel on the two short phones;
+  - the end screen and the offer must never scroll sideways.
+- **The world pictures**: every landmark in every slot it may take, in every direction and
+  depth, which is 720 renders. Each must stay inside its slot within 2 units and inside the
+  picture.
+- **Sound**, as a unit test: every cue is held to phase 22's phone-speaker model, its
+  energy through two 500 Hz highpasses. Today's cues lose 3.6–12.2 dB and the limit is
+  15. The cues phase 22 replaced lost 26–42.
+
+Every run starts from a run code (phase 11), so the same cards are dealt each time and a
+failure reproduces.
+
+**Every check was shown to fail.**
+
+| Planted defect | What failed |
+|---|---|
+| The 1.02:1 button put back | Contrast, naming the button, its colours and the ratio |
+| A footer 90px taller | Fit at 360×640: the card cuts 7px off its own text |
+| The old 62-unit hedge | The landmark test, in every slot the mansion takes |
+| The commit cue's voice moved down to its root | The sound test, with each version's loss |
+
+**The first version of the fit check could not fail.** It checked that the page did not
+scroll. The run screen is a flex column, so a taller footer squeezes the card until the card
+cuts off its own text, and the page never scrolls. The check now also fails on any box that
+is hiding part of its content.
+
+**What it found.**
+- **Landmarks that touched.** The broadcast screen and the mansion's hedge overlapped by 4
+  units whenever the two stood side by side, and five more pairs came within 2. Five
+  drawings sat off-centre or were wider than the places they could be given: the statue, the
+  tanks, the broadcast screen, the bunker and the mansion. Each now centres on its slot and
+  fits it. This was found by measuring what each drawing covers, counting solid shapes only
+  (a searchlight at 12% is light, not a landmark). Which placements a run can actually reach
+  came from 420,000 random compositions.
+- **Meter names cut short, not fixed here.** At 360px, every look except the neutral one
+  cuts one to three meter names short with an ellipsis: "THE SY…", "EVERYO…", "Institut…". The
+  decay looks set the names in bold capitals and the ascent looks space them out, and a slot
+  is 54px wide. "Institutions" in capitals needs 78. Fitting them is a writing decision
+  (shorter names for the deep looks) or a design one (no capitals or spacing on narrow
+  screens). Until then the test holds them to today's list as a ceiling: no new name can be
+  cut short, and a fixed one comes off the list.
+- **A race in the test, not the game.** Two key presses sent back to back could both arrive
+  before the first peek was drawn. The second press then peeked again instead of
+  committing, and a run stalled at random: 3 attempts in 4. No player presses twice inside
+  one frame, so the test now waits for the peek to be drawn plus one more frame. It then
+  passed five runs in a row.
+
+**Limits.**
+- Fit is measured with the fonts on the machine running it: DejaVu Sans in this sandbox,
+  whatever the CI image has on GitHub. DejaVu is a wide face, so a pass here should be
+  conservative for Android's Roboto. It is still not a measurement on a phone.
+- Contrast reads solid backgrounds only. Text over a gradient or a picture needs a solid
+  ground of its own, which the game gives it.
+- Fit covers the cards this seed deals, not the longest card in the deck.
+
+388 unit tests and 21 browser tests. v0.40.0.
