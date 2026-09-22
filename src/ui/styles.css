@@ -53,6 +53,13 @@ button {
  * than the cyan-on-black that reads as a console, and it keeps the two paths on opposite
  * halves of the wheel. Decay is a livestream that gets louder in three stages.
  */
+/* The run screen is exactly the viewport and the card takes the squeeze, so nothing has to
+   be scrolled to; the codex, the setup and the ending are documents and grow as documents. */
+.frame[data-fill] {
+  height: 100dvh;
+  max-height: 100dvh;
+}
+
 .frame[data-theme^="ascent"] {
   --bg: #16100a;
   --ink: #fff3df;
@@ -161,17 +168,7 @@ button {
   padding-right: 112px;
   padding-left: 58px;
 }
-/* Reserved for the sponsor bar and the alert stack. They float so they read as an
-   interruption; the footer moves up so the interruption never lands on a button. */
-.frame[data-theme="decay1"] .status {
-  padding-bottom: 38px;
-}
-.frame[data-theme="decay2"] .status {
-  padding-bottom: 88px;
-}
-.frame[data-theme="decay3"] .status {
-  padding-bottom: 118px;
-}
+
 
 /* ---- meters ------------------------------------------------------------------ */
 .meters {
@@ -278,15 +275,24 @@ button {
 .stage {
   position: relative;
   flex: 1;
-  display: grid;
-  place-items: center;
+  /* A flex item will not shrink below its content without this, which is what let the card
+     push the footer off the screen. Stretch rather than centre, so the card is sized by the
+     room it is given instead of by its own aspect ratio — a percentage max-height on a
+     centred grid item does not clamp, which is how the card ended up 327px tall in a 210px
+     stage (BACKLOG-3 phase 18). */
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
   padding: var(--space);
 }
 .card {
   position: relative;
   width: min(100%, 380px);
-  aspect-ratio: 5 / 7;
-  max-height: 66dvh;
+  /* 380 * 7/5: the old aspect ratio, as a ceiling rather than a rule. */
+  max-height: 532px;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -357,6 +363,19 @@ button {
   align-items: center;
   gap: 2px;
   margin-top: 30px;
+  /* On a short phone the card has to give somewhere, and it gives here rather than
+     clipping the prose (BACKLOG-3 phase 18). */
+  min-height: 0;
+  flex-shrink: 1;
+}
+.speaker .portrait {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 96 / 104;
 }
 .speaker-name {
   font-weight: 700;
@@ -368,13 +387,32 @@ button {
   letter-spacing: 0.08em;
 }
 .card-text {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   align-items: center;
   margin: 0;
   font-size: 17px;
   line-height: var(--line);
   text-align: center;
+}
+
+/* A phone short enough that the card would be squeezed past reading gets less of the
+   stream and a tighter speaker block, rather than a card with its prose cut off. */
+@media (max-height: 700px) {
+  .speaker {
+    margin-top: 8px;
+  }
+  .card-text {
+    font-size: 15px;
+  }
+  .frame[data-theme="decay3"] .stream-emotes,
+  .frame[data-theme="decay3"] .stream-alert.second {
+    display: none;
+  }
+  .frame[data-theme="decay3"] .stage {
+    padding-left: 12px;
+  }
 }
 
 /* ---- status footer -------------------------------------------------------------- */
@@ -558,12 +596,19 @@ button {
 .stream-emotes span {
   display: block;
 }
+.stream-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px 6px;
+}
 .stream-alert {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: calc(46px + env(safe-area-inset-bottom, 0px));
   margin: 0;
+  /* One line each, so the stack has a height the layout can count on. A truncated alert is
+     entirely in character. */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   padding: 6px 9px;
   border-radius: 7px;
   background: linear-gradient(90deg, #a855f7, #e5133b);
@@ -573,7 +618,6 @@ button {
   line-height: 1.3;
 }
 .stream-alert.second {
-  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   background: linear-gradient(90deg, #ffb300, #ff0040);
   font-size: 10px;
 }
@@ -610,10 +654,6 @@ button {
 }
 
 .sponsor {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   z-index: 2;
   padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
   background: var(--accent);

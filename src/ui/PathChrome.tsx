@@ -32,12 +32,9 @@ interface Props {
 function StreamChrome({ theme, seed, n }: Props) {
   const level = streamLevel(theme);
   if (level === 0) return null;
-  const { names, alerts, live, watching, subGoal } = STRINGS.stream;
-  const alert = level >= 2 ? picks(alerts, 1, seed, n * 13)[0]!.replace("{who}", sponsorFor(seed, n)) : null;
-  const second = level >= 3 ? `★ ${picks(names, 1, seed, n * 17)[0]} is now a TIER 3 subscriber` : null;
+  const { live, watching, subGoal } = STRINGS.stream;
   // The goal never quite gets there, which is the point of a goal.
   const goal = 80 + Math.floor(makeRng(Math.imul(seed ^ n, 2654435761))() * 19);
-
   return (
     <div className="stream" aria-hidden="true">
       <span className="stream-live">{live}</span>
@@ -49,8 +46,25 @@ function StreamChrome({ theme, seed, n }: Props) {
           {subGoal} {goal}/100
         </span>
       )}
+    </div>
+  );
+}
+
+/**
+ * The alerts sit in the frame's own column rather than floating over it. Floating read
+ * better and cost a reserved strip of the footer, which a 640px-tall phone cannot afford:
+ * the card was squeezed until it overlapped the footer it was making room for.
+ */
+export function StreamAlerts({ theme, seed, n }: Props) {
+  const level = streamLevel(theme);
+  if (level < 2) return null;
+  const { names, alerts } = STRINGS.stream;
+  const alert = picks(alerts, 1, seed, n * 13)[0]!.replace("{who}", sponsorFor(seed, n));
+  const second = level >= 3 ? `★ ${picks(names, 1, seed, n * 17)[0]} is now a TIER 3 subscriber` : null;
+  return (
+    <div className="stream-alerts" aria-hidden="true">
       {second && <p className="stream-alert second">{second}</p>}
-      {alert && <p className="stream-alert">◈ {alert}</p>}
+      <p className="stream-alert">◈ {alert}</p>
     </div>
   );
 }

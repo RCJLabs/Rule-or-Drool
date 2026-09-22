@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { PathChrome, StreamGutters } from "../../src/ui/PathChrome";
+import { Frame } from "../../src/ui/Frame";
+import { PathChrome, StreamAlerts, StreamGutters } from "../../src/ui/PathChrome";
 import { STAGE_AT, themeFor } from "../../src/ui/theme";
 
 /**
@@ -19,9 +20,10 @@ describe("the stream, on the way down", () => {
     const show = (drift: number) => {
       const { container } = render(<PathChrome theme={at(drift)} seed={3} n={7} />);
       const gut = render(<StreamGutters theme={at(drift)} seed={3} n={7} />);
+      const al = render(<StreamAlerts theme={at(drift)} seed={3} n={7} />);
       return {
         live: !!container.querySelector(".stream-live"),
-        alerts: container.querySelectorAll(".stream-alert").length,
+        alerts: al.container.querySelectorAll(".stream-alert").length,
         goal: !!container.querySelector(".stream-goal"),
         chat: gut.container.querySelectorAll(".stream-chat p").length,
         emotes: gut.container.querySelectorAll(".stream-emotes span").length,
@@ -51,6 +53,41 @@ describe("the stream, on the way down", () => {
     for (const el of gut.container.children) expect(el.getAttribute("aria-hidden")).toBe("true");
     expect(container.querySelector("button")).toBeNull();
     expect(gut.container.querySelector("button")).toBeNull();
+  });
+});
+
+describe("the run screen fits the phone it is on", () => {
+  // The geometry itself is checked in a browser against the built bundle at seven viewport
+  // sizes; what belongs here is the rule that decides which screens may grow. A run has to
+  // show the meters and the footer at once — it was scrolling on a 640px phone — and the
+  // codex, the setup and the ending are documents and scroll like documents.
+  it("fills the viewport for a run and lets the documents grow", () => {
+    const run = render(
+      <Frame theme={at(0)} seed={1} n={1} fill>
+        <p>run</p>
+      </Frame>,
+    );
+    expect(run.container.querySelector(".frame")!.hasAttribute("data-fill")).toBe(true);
+    cleanup();
+    const doc = render(
+      <Frame theme={at(0)} seed={1} n={1}>
+        <p>codex</p>
+      </Frame>,
+    );
+    expect(doc.container.querySelector(".frame")!.hasAttribute("data-fill")).toBe(false);
+  });
+
+  it("puts the alerts in the column rather than floating them over the footer", () => {
+    // Floating cost a reserved strip of the footer, which a short phone cannot afford.
+    const { container } = render(
+      <Frame theme={at(-40)} seed={1} n={1} fill>
+        <p>run</p>
+      </Frame>,
+    );
+    const frame = container.querySelector(".frame")!;
+    const alerts = container.querySelector(".stream-alerts")!;
+    expect(alerts.parentElement).toBe(frame);
+    expect(container.querySelector(".stream")!.contains(alerts)).toBe(false);
   });
 });
 

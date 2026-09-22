@@ -84,6 +84,18 @@ thing too many.
 **The ticker and the AD badge are gone.** They were the old Decay chrome and the stream
 replaces both. The sponsor line survives, because a stream has to be paid for by somebody.
 
+**And then it did not fit on the phone it was reported from.** The frame was `min-height:
+100dvh`, so it grew past the viewport and the page scrolled: you could see the meters or the
+footer but not both. Three things were wrong at once. The frame is the viewport exactly now
+for a run (the codex, the setup and the ending are documents and still grow), the stage
+stretches the card instead of centring it — a percentage `max-height` on a centred grid item
+does not clamp, which is how a 327px card ended up in a 210px stage — and the alerts moved
+out of a floating overlay into the frame's own column, because floating them cost 118px of
+reserved footer that a 640px phone cannot afford. Below 700px tall the deepest stage drops
+its emote column and its second alert rather than squeezing the card past reading. Measured
+at seven viewport sizes from 360x640 to 768x1024, in all three looks, with the tallest
+footer the game can produce: **nothing scrolls and nothing is clipped.**
+
 <details>
 <summary>Original entry</summary>
 
