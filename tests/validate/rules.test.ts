@@ -91,6 +91,20 @@ describe("rules: flags", () => {
   });
 });
 
+describe("rules: modifiers", () => {
+  it("rejects the mood shorthand in a starting position", () => {
+    // It means all three blocs, so a number written when support was one meter is silently
+    // tripled. That is how the flaws stopped being the even trades they were meant to be.
+    const c = makeValid();
+    c.modifiers[0]!.meterStart = { mood: -5, inst: 5 };
+    expect(codes(c)).toEqual(["error:meterstart-mood"]);
+
+    const explicit = makeValid();
+    explicit.modifiers[0]!.meterStart = { base: -2, backers: -2, public: -1, inst: 5 };
+    expect(codes(explicit)).toEqual([]);
+  });
+});
+
 describe("rules: arcs", () => {
   it("reports cards unreachable from the entry card", () => {
     const c = makeValid();

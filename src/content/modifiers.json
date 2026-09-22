@@ -4,7 +4,8 @@
     "kind": "crisis",
     "meterStart": {
       "money": -16,
-      "mood": -4
+      "backers": -2,
+      "public": -2
     },
     "flags": [
       "crisis_recession"
@@ -17,8 +18,10 @@
     "id": "crisis_pandemic",
     "kind": "crisis",
     "meterStart": {
-      "mood": -10,
-      "money": -6
+      "money": -6,
+      "public": -6,
+      "base": -2,
+      "backers": -2
     },
     "flags": [
       "crisis_pandemic"
@@ -33,7 +36,8 @@
     "meterStart": {
       "order": 10,
       "money": -12,
-      "mood": -4
+      "public": -3,
+      "base": -1
     },
     "flags": [
       "crisis_war"
@@ -47,8 +51,9 @@
     "kind": "crisis",
     "meterStart": {
       "money": -10,
-      "mood": -6,
-      "order": -4
+      "order": -4,
+      "public": -4,
+      "base": -2
     },
     "flags": [
       "crisis_disaster"
@@ -61,7 +66,8 @@
     "id": "trait_orator",
     "kind": "trait",
     "meterStart": {
-      "mood": 10
+      "base": 6,
+      "public": 4
     },
     "arcWeights": {
       "arc_term_limits": 1.3
@@ -72,7 +78,7 @@
     "kind": "trait",
     "meterStart": {
       "inst": 10,
-      "mood": -2
+      "public": -2
     },
     "arcWeights": {
       "arc_moonshot": 1.8
@@ -103,7 +109,7 @@
     "id": "flaw_vain",
     "kind": "flaw",
     "meterStart": {
-      "mood": 4,
+      "base": 4,
       "inst": -4
     },
     "flags": [
@@ -132,7 +138,8 @@
     "kind": "flaw",
     "meterStart": {
       "order": 6,
-      "mood": -6
+      "base": -3,
+      "backers": -3
     },
     "flags": [
       "flaw_paranoid"
@@ -161,7 +168,9 @@
     "requires": "u_dissident",
     "meterStart": {
       "inst": 8,
-      "mood": -5
+      "base": 3,
+      "backers": -5,
+      "public": -3
     },
     "arcWeights": {
       "arc_impeachment": 1.6,
@@ -175,7 +184,8 @@
     "meterStart": {
       "inst": 6,
       "money": 5,
-      "mood": -7
+      "public": -4,
+      "base": -3
     },
     "arcWeights": {
       "arc_moonshot": 2.0,
@@ -188,8 +198,8 @@
     "requires": "u_survivor",
     "meterStart": {
       "order": 7,
-      "mood": 4,
-      "money": -5
+      "money": -5,
+      "backers": 4
     },
     "arcWeights": {
       "arc_strongman": 1.4,

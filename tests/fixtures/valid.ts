@@ -106,7 +106,7 @@ export function makeValid(): Content {
       { id: "c1", role: "chief", name: "Chief", traits: ["loyal"] },
       { id: "g1", role: "general", name: "General", traits: ["zealot"] },
     ],
-    modifiers: [{ id: "mod_a", kind: "trait", meterStart: { mood: 5 }, flags: ["charming"], arcWeights: { arc_a: 2 } }],
+    modifiers: [{ id: "mod_a", kind: "trait", meterStart: { base: 5, public: -5 }, flags: ["charming"], arcWeights: { arc_a: 2 } }],
     endings: [...engineEndings(DEFAULT_CONFIG), "ending_a"].map((id) => ({ id, title: id, text: id })),
     epilogues: bands.map((band) => ({ band, align: "any" as const, era: 1, text: `${band}.` })),
   };

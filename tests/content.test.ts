@@ -105,6 +105,26 @@ describe("elections", () => {
     expect(mean(locked)).toBeGreaterThan(mean(shared));
   });
 
+  it("keeps every flaw an even trade", () => {
+    // A flaw is meant to cost exactly what it gives. They were authored that way and item
+    // 5 quietly broke two of them, because `mood` in a starting position counts three
+    // times. Net zero is the property worth pinning.
+    const flaws = content.modifiers.filter((m) => m.kind === "flaw");
+    expect(flaws.length).toBeGreaterThanOrEqual(4);
+    for (const f of flaws) {
+      const net = Object.values(f.meterStart ?? {}).reduce((a, b) => a + b, 0);
+      expect(net, `${f.id} meterStart`).toBe(0);
+    }
+  });
+
+  it("does not make an unlocked archetype worse than a starting one", () => {
+    // Earning a trait must not hand the player a weaker opening than the ones they began
+    // with, which is what the tripled mood term was doing (BACKLOG item 9).
+    const traits = content.modifiers.filter((m) => m.kind === "trait");
+    const net = (m: (typeof traits)[number]) => Object.values(m.meterStart ?? {}).reduce((a, b) => a + b, 0);
+    for (const t of traits) expect(net(t), `${t.id} meterStart`).toBeGreaterThan(0);
+  });
+
   it("closes every run with its own side's future", () => {
     // The epilogue is the payoff for a twenty-minute run, so it reads differently for the
     // Commons and the Ledger. findEpilogue prefers a side match, so a leftover "any" text

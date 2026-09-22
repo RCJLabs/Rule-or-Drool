@@ -109,6 +109,16 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     for (const arcId of Object.keys(m.arcWeights ?? {})) {
       if (!arcs.has(arcId)) issues.error("unknown-ref", `arcWeights names unknown arc "${arcId}"`, { kind: "modifier", id: m.id, path: `arcWeights.${arcId}` });
     }
+    // On a card the mood shorthand is right: the coalition moves as one. On a starting
+    // position it silently triples a number written when support was a single meter, which
+    // is how the flaws stopped being the even trades they were designed as.
+    if (m.meterStart && "mood" in m.meterStart) {
+      issues.error(
+        "meterstart-mood",
+        `meterStart uses the mood shorthand, which applies to all three blocs; name the blocs it actually moves`,
+        { kind: "modifier", id: m.id, path: "meterStart.mood" },
+      );
+    }
   }
   const epilogueKeys = new Set<string>();
   for (const e of content.epilogues) {
