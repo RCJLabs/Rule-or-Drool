@@ -104,7 +104,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   const progress = Math.min(1, Math.max(0, (year - 1) / lib.config.eraLength));
 
   return (
-    <Frame theme={theme} seed={state.seed} n={state.cardCount} fill>
+    <Frame theme={theme} align={state.align} seed={state.seed} n={state.cardCount} fill>
       <MetersBar lib={lib} state={state} meters={state.meters} preview={projected} theme={theme} align={state.align} />
       <main className="stage">
         <StreamGutters theme={theme} seed={state.seed} n={state.cardCount} />

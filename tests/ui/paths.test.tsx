@@ -95,6 +95,43 @@ describe("the run screen fits the phone it is on", () => {
   });
 });
 
+describe("which party is in office", () => {
+  /**
+   * A second axis, not a second theme (BACKLOG-3 phase 23). What it looks like is CSS and is
+   * measured in a browser: with every word hidden, 0.05% of the frame's pixels used to
+   * differ between a left run and a right one and 2.0-2.9% do now, while the three looks
+   * still differ from each other in 100% of pixels under both parties. What belongs here is
+   * that the two axes are published separately and neither one touches the other.
+   */
+  const frame = (align?: "left" | "right", drift = 0) =>
+    render(
+      <Frame theme={at(drift)} align={align} seed={1} n={1} fill>
+        <p>run</p>
+      </Frame>,
+    ).container.querySelector(".frame")!;
+
+  it("says which party is in office, or says nothing where there is none", () => {
+    expect(frame("left").getAttribute("data-align")).toBe("left");
+    cleanup();
+    expect(frame("right").getAttribute("data-align")).toBe("right");
+    cleanup();
+    // The codex has no party in office and must not claim one.
+    expect(frame(undefined).hasAttribute("data-align")).toBe(false);
+  });
+
+  it("multiplies with the path rather than replacing it", () => {
+    for (const drift of [0, -40, 40]) {
+      for (const align of ["left", "right"] as const) {
+        const f = frame(align, drift);
+        expect(f.getAttribute("data-align")).toBe(align);
+        expect(f.getAttribute("data-theme")).toBe(at(drift).name);
+        expect(f.getAttribute("data-band")).toBe(at(drift).band);
+        cleanup();
+      }
+    }
+  });
+});
+
 describe("the projection, on the way up", () => {
   it("deepens rather than getting louder, and brings no stream with it", () => {
     const panes = (drift: number) => {

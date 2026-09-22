@@ -31,7 +31,7 @@ export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex,
   const progress = codexProgress(lib, meta);
   const dailyPlayed = meta.daily?.day === todayKey();
   return (
-    <Frame theme={themeFor(0)} seed={0} n={0}>
+    <Frame theme={themeFor(0)} align={align} seed={0} n={0}>
       <div className="setup">
         <h1>{STRINGS.title}</h1>
         <p className="tagline">{STRINGS.tagline}</p>

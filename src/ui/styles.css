@@ -65,6 +65,9 @@ button {
   --tilt: 0deg;
   --decay: 0;
   --ascent: 0;
+  /* The party axis (BACKLOG-3 phase 23). Neutral here: the codex has no party in office. */
+  --corner: 1;
+  --card-edge: 0 0 0 0 transparent;
   --shadow: 0 14px 30px rgba(40, 30, 20, 0.16);
   position: relative;
   min-height: 100dvh;
@@ -167,7 +170,7 @@ button {
   --line: 1.35;
 }
 .frame[data-theme="decay3"] .card {
-  box-shadow: 0 0 26px rgba(192, 38, 255, 0.22);
+  box-shadow: var(--card-edge), 0 0 26px rgba(192, 38, 255, 0.22);
 }
 .frame[data-theme="decay3"] .card-text {
   font-weight: 500;
@@ -200,6 +203,36 @@ button {
   padding-left: 58px;
 }
 
+
+/**
+ * Which party is in office (BACKLOG-3 phase 23). A left run and a right run were
+ * pixel-identical: measured across 35 styled elements in the frame at drift 0, none of them
+ * differed, so the only thing separating the two was the words.
+ *
+ * This is a second axis rather than a second theme. It says nothing about colour — the path
+ * owns that — and everything about shape, so the same signature reads under all seven looks
+ * and neither one cancels the other.
+ *
+ * The Commons is a poster: round corners and a printed stripe down the spine.
+ * The Ledger is a book of accounts: square corners, a rule across the head of the entry, and
+ * another under the row of figures.
+ */
+.frame[data-align="left"] {
+  --corner: 1.7;
+  --card-edge: inset 5px 0 0 0 var(--accent);
+}
+.frame[data-align="right"] {
+  --corner: 0.16;
+  --card-edge: inset 0 3px 0 0 var(--accent);
+}
+.frame[data-align="right"] .meters {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+}
+/* The choice labels follow the card, so picking a side shows what the side looks like. */
+.frame[data-align="right"] .card-label,
+.frame[data-align="right"] .align-choice {
+  border-radius: 3px;
+}
 
 /* ---- meters ------------------------------------------------------------------ */
 .meters {
@@ -331,8 +364,8 @@ button {
   padding: calc(var(--space) * 1.5) var(--space) var(--space);
   background: var(--paper);
   border: var(--border) solid var(--ink);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-radius: calc(var(--radius) * var(--corner));
+  box-shadow: var(--card-edge), var(--shadow);
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
@@ -473,7 +506,7 @@ button {
   width: 30px;
   height: 30px;
   pointer-events: none;
-  border-top-right-radius: var(--radius);
+  border-top-right-radius: calc(var(--radius) * var(--corner));
   /* The corner is turned: the card's own colour above the fold, the back of the page below. */
   background: linear-gradient(
     225deg,
@@ -568,8 +601,8 @@ button {
   padding: calc(var(--space) * 2);
   background: var(--paper);
   border: var(--border) solid var(--ink);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-radius: calc(var(--radius) * var(--corner));
+  box-shadow: var(--card-edge), var(--shadow);
   text-align: center;
 }
 .overlay-card h2 {
@@ -971,7 +1004,7 @@ button {
   text-shadow: none;
 }
 :root[data-readable] .frame[data-theme="decay3"] .card {
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-edge), var(--shadow);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1207,10 +1240,18 @@ button {
   padding: 10px 12px;
   background: var(--paper);
   border: var(--border) solid var(--ink);
+  /* The note is marked the same way as the card it belongs to, so a square card does not sit
+     under a round note with the stripe on the other edge (BACKLOG-3 phase 23). */
   border-left-width: 5px;
   border-left-color: var(--accent);
-  border-radius: var(--radius);
+  border-radius: calc(var(--radius) * var(--corner));
   text-align: left;
+}
+.frame[data-align="right"] .teach {
+  border-left-width: var(--border);
+  border-left-color: var(--ink);
+  border-top-width: 3px;
+  border-top-color: var(--accent);
 }
 .teach b {
   font-size: 14px;

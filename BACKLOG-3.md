@@ -477,7 +477,61 @@ audible on a phone speaker.
 
 </details>
 
-## Phase 23. The two sides should not look the same — *queued*
+## Phase 23. The two sides should not look the same — *done*
+
+**Shipped.** A screenshot with every word hidden now says which party is in office, and
+each path still reads as itself under both.
+
+**The evidence was exactly right and worth pinning down before building against it.** The
+computed style of every element inside the frame, compared between a left run and a right
+one at the same drift:
+
+| | styled things in the frame | differ between the parties | pixels differing, every word hidden |
+|---|---|---|---|
+| **before**, drift 0 | 35 | **0** | **0.07%** |
+| before, full Decay | 47 | 1 (a meter icon's own shape) | 0.05% |
+| before, full Ascent | 40 | **0** | 0.05% |
+| **after**, drift 0 | 36 | **5** | **2.90%** |
+| after, full Decay | 46 | 4 | 1.99% |
+| after, full Ascent | 40 | 4 | 2.44% |
+
+0.05% is the noise floor — a portrait and a meter icon that happen to be drawn differently —
+so before this the parties were identical in everything but the words, and the one style
+that differed was not a party signal at all.
+
+**Shape, because the path owns colour.** A second theme would have to fight phase 18 for the
+palette and phase 21 for the contrast. A second axis does not: `--corner` and `--card-edge`
+are geometry, and the edge mark takes whichever accent the current path is using, so the
+signature is the same idea in brown at drift 0, magenta in full Decay and gold in full
+Ascent.
+
+- **The Commons** is a poster: round corners (`--radius` x 1.7) and a printed stripe down the
+  spine.
+- **The Ledger** is a book of accounts: square corners (x 0.16), a rule across the head of
+  the entry, and another under the row of figures.
+
+The teaching note is marked the same way as the card it sits under, because a square card
+beneath a round note with the stripe on the other edge reads as a bug rather than a party.
+The setup screen carries the signature of whichever side is selected, so picking one shows
+what it looks like before you commit to it.
+
+**Neither axis diluted the other**, which is the half of the done-when that is easy to lose:
+
+| under | muddle vs full Decay | muddle vs full Ascent | full Decay vs full Ascent |
+|---|---|---|---|
+| the Commons | 46 of 47 styles, 100% of pixels | 40 of 41, 100% | 50 of 51, 100% |
+| the Ledger | 45 of 46 styles, 100% of pixels | 39 of 40, 100% | 50 of 51, 100% |
+
+Those numbers are the same before and after. The party moves 2-3% of the screen; the path
+moves all of it. That is the right ratio: the path is what the game is about and the party
+is who is holding the pen.
+
+**Checked across all 28 combinations** — two parties, seven looks, plain screen on and off:
+the signature survives every one of them, and the contrast audit from phase 21 still reports
+0 failing text styles in each.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** The frame theme reads drift and nothing else. A left run and a right run share
 22% of their cards, have different party names, different bloc names, different traits,
@@ -489,6 +543,8 @@ theme, because it multiplies with phase 18's work rather than replacing it.
 
 **Done when** a screenshot at drift 0 says which party is in office, and the path look still
 reads as itself under both.
+
+</details>
 
 ## Phase 24. The rival you cannot see coming — *queued*
 

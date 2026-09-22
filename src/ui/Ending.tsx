@@ -26,7 +26,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
   const band = exitBand(lib, state);
   const mandate = state.mandate ? MANDATES_BY_ID.get(state.mandate) : undefined;
   return (
-    <Frame theme={themeFor(state.drift, lib.config)} seed={state.seed} n={state.cardCount}>
+    <Frame theme={themeFor(state.drift, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
         <p className="kicker">Your rule ends</p>
         <h1>{ending?.title ?? over.endingId}</h1>

@@ -1,9 +1,16 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { PlayerAlign } from "../engine/types";
 import { PathChrome, StreamAlerts } from "./PathChrome";
 import { sponsorCount, sponsorFor, type Theme } from "./theme";
 
 interface Props {
   theme: Theme;
+  /**
+   * Which party is in office. A second axis, not a second theme: it changes the card's
+   * geometry and one accent mark and takes its colour from whatever path is running, so the
+   * two multiply rather than one overwriting the other (BACKLOG-3 phase 23).
+   */
+  align?: PlayerAlign;
   seed: number;
   /** Changes per card so the stream moves on. */
   n: number;
@@ -24,11 +31,11 @@ interface Props {
  * The sponsor line survives the rebuild because a stream has to be paid for by somebody, and
  * it is the one piece of decay chrome that was already written.
  */
-export function Frame({ theme, seed, n, fill, children }: Props) {
+export function Frame({ theme, align, seed, n, fill, children }: Props) {
   const sponsors = sponsorCount(theme);
   const style = { "--decay": theme.decay, "--ascent": theme.ascent } as CSSProperties;
   return (
-    <div className="frame" data-theme={theme.name} data-band={theme.band} data-fill={fill ? "" : undefined} style={style}>
+    <div className="frame" data-theme={theme.name} data-band={theme.band} data-align={align} data-fill={fill ? "" : undefined} style={style}>
       <PathChrome theme={theme} seed={seed} n={n} />
       {children}
       <StreamAlerts theme={theme} seed={seed} n={n} />
