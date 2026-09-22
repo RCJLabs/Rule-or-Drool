@@ -8,313 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --page: #14110e;
-    --page-ink: #f4efe6;
-    --page-dim: #a79c8c;
-    --page-rule: #332c24;
-    --page-card: #1d1915;
-  }
-  /* Deliberately one ground, dark, in both schemes: these are colour decisions and a
-     light page would change how half of them read. */
-  @media (prefers-color-scheme: light) {
-    :root { --page: #14110e; }
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    background: var(--page);
-    color: var(--page-ink);
-    font: 16px/1.55 Inter, system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 40px 16px 72px; }
-  header.top { border-bottom: 1px solid var(--page-rule); padding-bottom: 26px; margin-bottom: 34px; }
-  h1 { font-size: clamp(28px, 6vw, 44px); line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.02em; }
-  .lede { color: var(--page-dim); max-width: 62ch; margin: 0 0 18px; }
-  .facts { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
-  .facts li {
-    border: 1px solid var(--page-rule); border-radius: 999px; padding: 5px 12px;
-    font-size: 13px; color: var(--page-dim);
-  }
-  .facts b { color: var(--page-ink); }
-  h2 { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--page-dim); margin: 48px 0 6px; }
-  h2:first-of-type { margin-top: 36px; }
-  .sec-note { color: var(--page-dim); margin: 0 0 22px; max-width: 64ch; font-size: 15px; }
-  .grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(288px, 1fr)); }
-  .slot { min-width: 0; }
-  .slot h3 { margin: 0 0 2px; font-size: 18px; letter-spacing: -0.01em; }
-  .slot h3 span { color: var(--page-dim); font-weight: 400; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; margin-right: 8px; }
-  .slot p { margin: 0 0 8px; color: var(--page-dim); font-size: 14px; line-height: 1.5; }
-  .slot .cost {
-    margin: 0 0 12px; font-size: 12px; color: var(--page-dim);
-    border-left: 2px solid var(--page-rule); padding-left: 9px;
-  }
-  .slot .cost b { color: var(--page-ink); font-weight: 600; }
-
-  /* ---- the mock phone: shared skeleton, each treatment redresses it --------------- */
-  .mk {
-    --bg: #f1ebdf; --ink: #1f1a15; --paper: #fffcf5; --accent: #9a6a3a; --muted: #857b6e;
-    --radius: 18px; --space: 12px; --border: 1.5px; --tilt: 0deg;
-    --shadow: 0 14px 30px rgba(40,30,20,.16);
-    --font: Inter, system-ui, sans-serif; --display: var(--font);
-    position: relative; width: 100%; aspect-ratio: 9 / 11.8; overflow: hidden;
-    border-radius: 20px; background: var(--bg); color: var(--ink);
-    font-family: var(--font);
-    display: flex; flex-direction: column;
-    box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 18px 40px rgba(0,0,0,.45);
-  }
-  .mk-meters { display: flex; gap: 4px; padding: var(--space) var(--space) 4px; }
-  .mk-m { flex: 1; text-align: center; min-width: 0; }
-  .mk-bar { height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 16%, transparent); overflow: hidden; }
-  .mk-bar i { display: block; height: 100%; background: var(--accent); }
-  .mk-m b { display: block; font-size: 7.5px; line-height: 1.25; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-top: 3px; hyphens: auto; }
-  .mk-note { margin: 2px var(--space) 0; font-size: 9px; color: var(--muted); text-align: center; }
-  .mk-stage { flex: 1; display: flex; align-items: center; padding: var(--space); min-height: 0; }
-  .mk-card {
-    width: 100%; background: var(--paper); border: var(--border) solid var(--ink);
-    border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); rotate: var(--tilt);
-  }
-  .mk-who { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
-  .mk-text { margin: 0 0 14px; font-size: 13.5px; line-height: 1.45; }
-  .mk-choices { display: flex; gap: 8px; }
-  .mk-choices span {
-    flex: 1; font-size: 10.5px; padding: 7px 6px; text-align: center; border-radius: calc(var(--radius) / 2.4);
-    border: var(--border) solid color-mix(in srgb, var(--ink) 45%, transparent); font-family: var(--display);
-  }
-  .mk-foot { padding: 8px var(--space) calc(var(--space) + 4px); text-align: center; font-size: 9.5px; color: var(--muted); }
-  .mk-foot b { color: var(--ink); }
-  .mk-prog { display: block; height: 3px; width: 62%; margin: 7px auto 0; border-radius: 2px; background: color-mix(in srgb, var(--ink) 14%, transparent); }
-  .mk-prog i { display: block; height: 100%; width: 46%; background: var(--accent); border-radius: 2px; }
-
-  /* ================= DROOL ========================================================= */
-
-  /* 1. Channel — a late-night broadcast nobody is producing any more. */
-  .d-channel {
-    --bg: #0d0b10; --ink: #fff; --paper: #17141c; --accent: #ff2d2d; --muted: #b9b2c4;
-    --radius: 3px; --border: 0; --space: 10px; --shadow: none;
-    --display: "Barlow Condensed", "Haettenschweiler", "Arial Narrow", Impact, sans-serif;
-  }
-  .d-channel::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
-    background: repeating-linear-gradient(to bottom, rgba(255,255,255,.055) 0 1px, transparent 1px 3px);
-  }
-  .d-channel .mk-meters { background: #000; padding-top: 8px; }
-  .d-channel .mk-m b { font-family: var(--display); font-weight: 800; font-size: 8px; color: #ffd400; }
-  .d-channel .mk-bar { background: #2a2530; }
-  .d-channel .mk-card { border: 0; padding: 0; overflow: hidden; }
-  .d-channel .mk-who {
-    background: var(--accent); color: #fff; margin: 0; padding: 5px 9px; font-weight: 700;
-    font-family: var(--display); font-size: 11px; letter-spacing: .08em;
-  }
-  .d-channel .mk-text { padding: 12px 11px; margin: 0; font-size: 14px; font-weight: 500; }
-  .d-channel .mk-choices { padding: 0 11px 12px; }
-  .d-channel .mk-choices span { background: #ffd400; color: #17141c; border: 0; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-  .d-channel .mk-foot { background: #000; color: #ffd400; font-family: var(--display); letter-spacing: .1em; text-transform: uppercase; overflow: hidden; }
-  .d-channel .mk-crawl { display: block; white-space: nowrap; animation: crawl 11s linear infinite; }
-  @keyframes crawl { from { transform: translateX(40%); } to { transform: translateX(-100%); } }
-
-  /* 2. Feed — the card as a post, with the numbers that decide what you see. */
-  .d-feed {
-    --bg: #0b0b0d; --ink: #f2f2f5; --paper: #17171b; --accent: #2bd97c; --muted: #8b8b95;
-    --radius: 14px; --border: 0; --space: 10px; --shadow: none;
-  }
-  .d-feed .mk-meters { gap: 6px; }
-  .d-feed .mk-m { position: relative; }
-  .d-feed .mk-bar { height: 26px; width: 26px; margin: 0 auto; border-radius: 50%; background: conic-gradient(var(--accent) var(--v, 60%), #2a2a31 0); }
-  .d-feed .mk-bar i { display: none; }
-  .d-feed .mk-m b { font-size: 7px; color: var(--muted); }
-  .d-feed .mk-card { padding: 0; }
-  .d-feed .mk-who { display: flex; align-items: center; gap: 7px; padding: 10px 11px 6px; margin: 0; font-size: 10px; letter-spacing: 0; text-transform: none; color: var(--ink); }
-  .d-feed .mk-who i { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, #ff5f6d, #ffc371); flex: none; }
-  .d-feed .mk-who em { font-style: normal; color: var(--muted); }
-  .d-feed .mk-who s { margin-left: auto; text-decoration: none; font-size: 8px; color: #0b0b0d; background: var(--muted); padding: 2px 5px; border-radius: 3px; }
-  .d-feed .mk-text { padding: 0 11px 10px; margin: 0; font-size: 13.5px; }
-  .d-feed .mk-react { display: flex; gap: 12px; padding: 0 11px 9px; font-size: 9.5px; color: var(--muted); border-top: 1px solid #23232a; padding-top: 8px; }
-  .d-feed .mk-choices { padding: 0 11px 11px; }
-  .d-feed .mk-choices span { border: 0; background: #23232a; color: var(--ink); border-radius: 999px; font-weight: 600; }
-  .d-feed .mk-choices span:first-child { background: var(--accent); color: #0b0b0d; }
-
-  /* 3. Sponsor — the state, brought to you by. */
-  .d-sponsor {
-    --bg: #e8e2d4; --ink: #17140f; --paper: #fff; --accent: #e5322b; --muted: #7b7263;
-    --radius: 0; --border: 2px; --space: 9px; --shadow: 5px 5px 0 rgba(0,0,0,.2);
-    --display: "Archivo Black", Impact, "Arial Black", sans-serif;
-  }
-  .d-sponsor::after {
-    content: "BROUGHT TO YOU BY CARLYLE HYDRATION™"; position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
-    background: #17140f; color: #ffe14d; font: 700 8px/1 "Barlow Condensed", "Arial Narrow", sans-serif;
-    letter-spacing: .18em; padding: 6px 8px; text-align: center;
-  }
-  .d-sponsor .mk-meters { background: #17140f; padding: 8px 9px 6px; }
-  .d-sponsor .mk-m b { color: #ffe14d; font-family: var(--display); font-size: 7px; }
-  .d-sponsor .mk-bar { background: #3a342a; }
-  .d-sponsor .mk-bar i { background: #ffe14d; }
-  .d-sponsor .mk-card { position: relative; }
-  .d-sponsor .mk-card::before {
-    content: "NEW!"; position: absolute; top: -12px; right: -2px; z-index: 2;
-    background: var(--accent); color: #fff; font: 12px/1 var(--display); padding: 7px 8px;
-    rotate: 9deg; clip-path: polygon(50% 0,61% 9%,75% 4%,80% 18%,95% 20%,93% 34%,105% 45%,93% 57%,96% 72%,81% 75%,76% 89%,61% 85%,50% 96%,39% 85%,24% 89%,19% 75%,4% 72%,7% 57%,-5% 45%,7% 34%,5% 20%,20% 18%,25% 4%,39% 9%);
-  }
-  .d-sponsor .mk-who { font-family: var(--display); color: var(--accent); font-size: 8.5px; }
-  .d-sponsor .mk-text { font-size: 13px; }
-  .d-sponsor .mk-choices span { background: #ffe14d; border-color: var(--ink); font-family: var(--display); text-transform: uppercase; font-size: 9.5px; }
-  .d-sponsor .mk-foot { padding-bottom: 26px; font-family: "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
-  .d-sponsor .mk-bars { display: block; margin: 5px auto 0; width: 58px; height: 13px; background: repeating-linear-gradient(90deg, #17140f 0 1px, transparent 1px 2px, #17140f 2px 4px, transparent 4px 6px); }
-
-  /* 4. Riso — printed, reprinted, and printed again off-register. */
-  .d-riso {
-    --bg: #efe9dd; --ink: #1b1b1b; --paper: #fbf7ef; --accent: #ff4a8d; --muted: #4a5ec4;
-    --radius: 2px; --border: 1.5px; --space: 11px; --shadow: none; --tilt: -.7deg;
-    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
-  }
-  .d-riso::before {
-    content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; mix-blend-mode: multiply;
-    background-image: radial-gradient(rgba(0,0,0,.18) .6px, transparent .7px);
-    background-size: 3px 3px; opacity: .55;
-  }
-  .d-riso .mk-m b { font-family: var(--display); font-weight: 600; color: var(--muted); }
-  .d-riso .mk-bar i { background: var(--accent); }
-  .d-riso .mk-card { position: relative; }
-  .d-riso .mk-card::after {
-    content: ""; position: absolute; inset: 0; border: 1.5px solid var(--accent);
-    translate: 2.5px 2px; mix-blend-mode: multiply; pointer-events: none; border-radius: 2px;
-  }
-  .d-riso .mk-who { color: var(--muted); font-family: var(--display); font-weight: 600; font-size: 9.5px; }
-  .d-riso .mk-text { position: relative; }
-  .d-riso .mk-text::after {
-    content: attr(data-echo); position: absolute; inset: 0; color: var(--accent);
-    mix-blend-mode: multiply; translate: 1.4px -1px; opacity: .65; pointer-events: none;
-  }
-  .d-riso .mk-choices span { border-color: var(--muted); color: var(--muted); font-family: var(--display); font-weight: 600; text-transform: uppercase; }
-  .d-riso .mk-stamp {
-    position: absolute; top: 34%; right: 6%; z-index: 4; rotate: -14deg;
-    border: 2.5px solid var(--accent); color: var(--accent); padding: 3px 7px; border-radius: 3px;
-    font: 700 10px/1 var(--display); letter-spacing: .12em; opacity: .85;
-  }
-
-  /* 5. Hazard — the current direction, actually designed. */
-  .d-hazard {
-    --bg: #14110a; --ink: #fff; --paper: #1d1a10; --accent: #ffe600; --muted: #b0a880;
-    --radius: 0; --border: 2.5px; --space: 10px; --shadow: 7px 7px 0 #ff1f6b;
-    --display: "Bebas Neue", "Haettenschweiler", Impact, "Arial Black", sans-serif; --tilt: -1deg;
-  }
-  .d-hazard::before {
-    content: ""; position: absolute; inset: 0 0 auto; height: 8px; z-index: 3;
-    background: repeating-linear-gradient(-45deg, #ffe600 0 9px, #14110a 9px 18px);
-  }
-  .d-hazard::after {
-    content: ""; position: absolute; inset: auto 0 0; height: 8px; z-index: 3;
-    background: repeating-linear-gradient(-45deg, #ffe600 0 9px, #14110a 9px 18px);
-  }
-  .d-hazard .mk-meters { padding-top: 16px; }
-  .d-hazard .mk-m b { font-family: var(--display); font-size: 10px; letter-spacing: .06em; color: var(--accent); }
-  .d-hazard .mk-bar { background: #332e1c; }
-  .d-hazard .mk-bar i { background: #ff1f6b; }
-  .d-hazard .mk-card { border-color: var(--accent); }
-  .d-hazard .mk-who { color: #ff1f6b; font-family: var(--display); font-size: 12px; letter-spacing: .1em; }
-  .d-hazard .mk-text { font-size: 14px; font-weight: 500; }
-  .d-hazard .mk-choices span { background: var(--accent); color: #14110a; border: 0; font-family: var(--display); font-size: 13px; letter-spacing: .05em; }
-  .d-hazard .mk-foot { padding-bottom: 18px; font-family: var(--display); font-size: 12px; letter-spacing: .14em; color: var(--accent); }
-
-  /* ================= RULE ========================================================== */
-
-  /* 1. Record — a document that will be filed. */
-  .r-record {
-    --bg: #f6f2e9; --ink: #1d1b16; --paper: #fffdf8; --accent: #7a1f1f; --muted: #857e70;
-    --radius: 2px; --border: 1px; --space: 15px; --shadow: 0 1px 0 rgba(0,0,0,.09);
-    --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif; --display: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  }
-  .r-record .mk-m b { font-family: var(--display); font-size: 7px; letter-spacing: .06em; }
-  .r-record .mk-bar { height: 2px; border-radius: 0; }
-  .r-record .mk-card { border-top: 2px solid var(--ink); border-left: 0; border-right: 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 20%, transparent); box-shadow: none; padding: 13px 0 15px; }
-  .r-record .mk-who { font-family: var(--display); color: var(--accent); letter-spacing: .14em; }
-  .r-record .mk-text { font-size: 12.5px; line-height: 1.62; }
-  .r-record .mk-choices span { border: 0; border-top: 1px solid var(--ink); border-radius: 0; font-family: var(--display); font-size: 9.5px; letter-spacing: .04em; text-align: left; padding: 7px 0 0; }
-  .r-record .mk-file { position: absolute; top: 52px; right: 15px; font: 7.5px/1 var(--display); color: var(--muted); letter-spacing: .1em; }
-  .r-record .mk-foot { font-family: var(--display); font-size: 8.5px; letter-spacing: .1em; }
-
-  /* 2. Drawing — the country as something being engineered. */
-  .r-drawing {
-    --bg: #eef4f7; --ink: #10222c; --paper: #fbfdfe; --accent: #0f7fa8; --muted: #6b8593;
-    --radius: 0; --border: 1px; --space: 14px; --shadow: none;
-    --font: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-  }
-  .r-drawing::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: linear-gradient(rgba(15,127,168,.11) 1px, transparent 1px), linear-gradient(90deg, rgba(15,127,168,.11) 1px, transparent 1px);
-    background-size: 15px 15px;
-  }
-  .r-drawing .mk-meters, .r-drawing .mk-stage, .r-drawing .mk-foot, .r-drawing .mk-note { position: relative; z-index: 1; }
-  .r-drawing .mk-m b { font-size: 7px; letter-spacing: .02em; }
-  .r-drawing .mk-bar { height: 3px; border-radius: 0; background: rgba(15,127,168,.18); }
-  .r-drawing .mk-card { border-color: var(--accent); }
-  .r-drawing .mk-who { color: var(--accent); font-size: 8.5px; }
-  .r-drawing .mk-who::before { content: "◻ "; }
-  .r-drawing .mk-text { font-size: 12px; line-height: 1.55; }
-  .r-drawing .mk-choices span { border-color: var(--accent); border-radius: 0; font-size: 9.5px; }
-  .r-drawing .mk-dim { position: absolute; left: 12px; right: 12px; bottom: 44px; height: 1px; background: var(--accent); opacity: .45; }
-  .r-drawing .mk-dim::before, .r-drawing .mk-dim::after { content: ""; position: absolute; top: -3px; width: 1px; height: 7px; background: var(--accent); }
-  .r-drawing .mk-dim::before { left: 0; } .r-drawing .mk-dim::after { right: 0; }
-  .r-drawing .mk-foot { font-size: 8.5px; letter-spacing: .04em; }
-
-  /* 3. Morning — light, air, and nothing shouting. */
-  .r-morning {
-    --bg: #fdf7ef; --ink: #2a2724; --paper: #fffdfa; --accent: #c98a33; --muted: #9b9086;
-    --radius: 26px; --border: 0; --space: 20px; --shadow: 0 22px 50px rgba(120,90,50,.13);
-  }
-  .r-morning::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: linear-gradient(180deg, #ffe9c4 0%, rgba(255,233,196,0) 44%);
-  }
-  .r-morning .mk-meters, .r-morning .mk-stage, .r-morning .mk-foot, .r-morning .mk-note { position: relative; z-index: 1; }
-  .r-morning .mk-m b { font-size: 7px; font-weight: 500; letter-spacing: .08em; }
-  .r-morning .mk-bar { height: 3px; background: rgba(42,39,36,.1); }
-  .r-morning .mk-text { font-size: 14px; line-height: 1.62; font-weight: 400; }
-  .r-morning .mk-who { letter-spacing: .16em; font-size: 8.5px; }
-  .r-morning .mk-choices span { border: 1px solid rgba(42,39,36,.16); border-radius: 999px; padding: 9px 6px; font-weight: 500; }
-  .r-morning .mk-foot { letter-spacing: .06em; }
-
-  /* 4. Monument — carved, and meant to outlast you. */
-  .r-monument {
-    --bg: #2b2e31; --ink: #f0efec; --paper: #34383c; --accent: #c8b183; --muted: #9aa0a6;
-    --radius: 4px; --border: 0; --space: 16px; --shadow: 0 20px 44px rgba(0,0,0,.45);
-    --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
-    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
-  }
-  .r-monument .mk-m b { font-family: var(--display); font-weight: 600; font-size: 8px; letter-spacing: .16em; color: var(--accent); }
-  .r-monument .mk-bar { height: 2px; background: rgba(255,255,255,.13); }
-  .r-monument .mk-bar i { background: var(--accent); }
-  .r-monument .mk-card {
-    border-top: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(0,0,0,.4);
-    background: linear-gradient(180deg, #3a3e43, #2f3236);
-  }
-  .r-monument .mk-who { color: var(--accent); font-family: var(--display); letter-spacing: .2em; font-size: 9px; }
-  .r-monument .mk-text { font-size: 13px; line-height: 1.6; text-shadow: 0 1px 0 rgba(0,0,0,.5); }
-  .r-monument .mk-choices span { border: 1px solid rgba(200,177,131,.42); color: var(--accent); font-family: var(--display); letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
-  .r-monument .mk-foot { font-family: var(--display); letter-spacing: .18em; text-transform: uppercase; }
-
-  /* 5. Instrument — a calm panel that tells you exactly where you are. */
-  .r-instrument {
-    --bg: #f7f9fa; --ink: #131a20; --paper: #fff; --accent: #1d6f5c; --muted: #7d8992;
-    --radius: 6px; --border: 1px; --space: 13px; --shadow: 0 1px 2px rgba(19,26,32,.07);
-  }
-  .r-instrument .mk-meters { border-bottom: 1px solid #e3e8ea; padding-bottom: 9px; }
-  .r-instrument .mk-m { position: relative; }
-  .r-instrument .mk-m::after { content: attr(data-v); display: block; font: 600 8.5px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; margin-top: 3px; }
-  .r-instrument .mk-m b { font-size: 6.5px; letter-spacing: .1em; margin-top: 4px; }
-  .r-instrument .mk-bar { height: 3px; border-radius: 0; background: #e3e8ea; }
-  .r-instrument .mk-card { border-color: #dde3e6; }
-  .r-instrument .mk-who { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 8px; letter-spacing: .1em; color: var(--accent); }
-  .r-instrument .mk-text { font-size: 13px; line-height: 1.55; }
-  .r-instrument .mk-choices span { border-color: #dde3e6; border-radius: 4px; font-weight: 600; font-size: 10px; }
-  .r-instrument .mk-choices span:first-child { border-color: var(--accent); color: var(--accent); }
-  .r-instrument .mk-foot { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 8.5px; letter-spacing: .04em; border-top: 1px solid #e3e8ea; }
-
-  footer.end { margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--page-rule); color: var(--page-dim); font-size: 14px; }
-  @media (max-width: 420px) { .wrap { padding: 26px 16px 56px; } .grid { grid-template-columns: 1fr; } }
-</style>
+<link rel="stylesheet" href="mock.css" />
 </head>
 <body>
 <div class="wrap">
@@ -330,6 +24,7 @@
       <li>full Ascent is <b>1.9%</b></li>
       <li>stage 3 needs <b>|drift| ≥ 55</b>, which is 1.6% of cards</li>
       <li>a cynical run sees full Decay on <b>5.3%</b></li>
+      <li>round two is at <b><a href="paths-2.html" style="color:inherit">paths-2.html</a></b></li>
     </ul>
   </header>
 
@@ -359,12 +54,14 @@
 </div>
 
 <script type="module">
+import { DOWN, UP, render } from "./mock.js";
+
 const DROOL = [
   { cls: "d-channel", cost: "CSS only, plus one condensed face (~18 kB woff2) — or Arial Narrow, which is on every phone. The crawl is one keyframe and must respect reduce-motion.", name: "Channel", idea: "A broadcast nobody is producing any more. Chyron, crawl, scanlines, one red that means everything is breaking.",
     who: "THE GENERAL · LIVE", text: "The provincial police have not been paid in two months and have found other work, mostly at roadblocks.",
     l: "Find the back pay", r: "Formalise the roadblocks", crawl: "MINISTRY DENIES · SEVENTH DAY OF THE THING · ASK YOUR DOCTOR · MINISTRY DENIES ·" },
   { cls: "d-feed", cost: "CSS only. The counters are fake and must stay fake; real-looking numbers on a satire is the one thing that could read as a dark pattern.", name: "Feed", idea: "The card as a post. Engagement decides what reaches you, and the meters are somebody's story rings.",
-    who: "Chief of Staff <em>@thebuilding</em> <s>Sponsored</s>", text: "The ministry has been running on a generator for nine days. The generator is rented and the rental is overdue.",
+    head: "<i></i>", who: "Chief of Staff <em>@thebuilding</em> <s>Sponsored</s>", text: "The ministry has been running on a generator for nine days. The generator is rented and the rental is overdue.",
     l: "Buy the generator", r: "Move it to your house", react: "♥ 1.2M · ↻ 440K · 💬 91K" },
   { cls: "d-sponsor", cost: "CSS only, plus a heavy display face (~24 kB) or Arial Black. The sponsor line already exists in the engine (<code>sponsorFor</code>) and is unused by this layout.", name: "Sponsor", idea: "The state, brought to you by. Everything is co-branded, the meters are product names, the frame is packaging.",
     who: "PRESS SECRETARY, PRESENTED BY DRONK®", text: "There is a queue outside the records office that forms at four in the morning. Someone is selling places in it.",
@@ -394,47 +91,8 @@ const RULE = [
     l: "Put it in the fund", r: "Give it back as a cheque", numeric: true },
 ];
 
-const DOWN = [["Fans", 34], ["Money", 41], ["Everyone", 28], ["CA$H", 22], ["Cops", 63], ["The System", 19]];
-const UP = [["Movement", 61], ["Unions", 58], ["Cities", 66], ["Money", 54], ["Order", 57], ["Institutions", 71]];
-
-function meters(rows, numeric) {
-  return rows.map(([label, v]) => `
-    <div class="mk-m"${numeric ? ` data-v="${v}"` : ""} style="--v:${v}%">
-      <div class="mk-bar"><i style="width:${v}%"></i></div><b>${label}</b>
-    </div>`).join("");
-}
-
-function mock(m, rows, foot) {
-  const bits = [];
-  if (m.file) bits.push(`<span class="mk-file">${m.file}</span>`);
-  if (m.stamp) bits.push(`<span class="mk-stamp">${m.stamp}</span>`);
-  if (m.dim) bits.push(`<span class="mk-dim"></span>`);
-  return `
-    <div class="slot">
-      <h3><span>${m.cls.startsWith("d-") ? "Drool" : "Rule"}</span>${m.name}</h3>
-      <p>${m.idea}</p>
-      <p class="cost"><b>To build:</b> ${m.cost}</p>
-      <div class="mk ${m.cls}">
-        ${bits.join("")}
-        <div class="mk-meters">${meters(rows, m.numeric)}</div>
-        <div class="mk-stage">
-          <div class="mk-card">
-            <p class="mk-who">${m.cls === "d-feed" ? "<i></i>" : ""}${m.who}</p>
-            <p class="mk-text" data-echo="${m.text.replace(/"/g, "&quot;")}">${m.text}</p>
-            ${m.react ? `<p class="mk-react">${m.react}</p>` : ""}
-            <div class="mk-choices"><span>${m.l}</span><span>${m.r}</span></div>
-          </div>
-        </div>
-        <div class="mk-foot">
-          ${m.crawl ? `<span class="mk-crawl">${m.crawl}</span>` : foot}
-          ${m.bars ? `<span class="mk-bars"></span>` : `<span class="mk-prog"><i></i></span>`}
-        </div>
-      </div>
-    </div>`;
-}
-
-document.getElementById("drool").innerHTML = DROOL.map((m) => mock(m, DOWN, "<b>The Long Afternoon</b> · Year 14")).join("");
-document.getElementById("rule").innerHTML = RULE.map((m) => mock(m, UP, "<b>The Long Afternoon</b> · Year 14")).join("");
+render("drool", DROOL, DOWN);
+render("rule", RULE, UP);
 </script>
 </body>
 </html>

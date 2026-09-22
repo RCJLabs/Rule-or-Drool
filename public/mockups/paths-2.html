@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Paths Round Two</title>
+<meta name="description" content="Ten more looks, narrowed to the directions that survived round one: broadcast and feed for Drool, the official document for Rule." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="mock.css" />
+<style>
+  .kept .slot h3 span { color: #7fbf7f; }
+  .kept .mk { opacity: .82; }
+
+  /* ================= DROOL, ROUND TWO ============================================== */
+
+  /* Split — the panel show. Nothing has the screen to itself. */
+  .d2-split {
+    --bg: #0a0c12; --ink: #fff; --paper: #121722; --accent: #ff3a30; --muted: #8b95a8;
+    --radius: 2px; --border: 0; --space: 8px; --shadow: none;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  }
+  .d2-split .mk-meters { background: #161b26; border-bottom: 2px solid var(--accent); padding: 6px 8px 5px; }
+  .d2-split .mk-m b { font-family: var(--display); font-weight: 800; font-size: 8px; color: #ffcf2e; }
+  .d2-split .mk-bar { height: 3px; background: #2b3242; }
+  .d2-split .mk-bar i { background: #ffcf2e; }
+  .d2-split .mk-stage { align-items: stretch; flex-direction: column; gap: 6px; padding: 8px; }
+  .d2-split .mk-card { border-left: 3px solid var(--accent); padding: 10px 11px; }
+  .d2-split .mk-who { font-family: var(--display); font-weight: 800; font-size: 11px; letter-spacing: .06em; color: var(--accent); }
+  .d2-split .mk-text { font-size: 13px; }
+  .d2-split .mk-choices span { background: #1d2534; border: 0; font-family: var(--display); font-weight: 600; font-size: 11px; text-transform: uppercase; color: #ffcf2e; }
+  .d2-split .mk-panel { display: flex; gap: 6px; }
+  .d2-split .mk-panel div {
+    flex: 1; background: #161b26; border-top: 2px solid #2b3242; padding: 7px 8px;
+    font-size: 9.5px; line-height: 1.35; color: var(--muted);
+  }
+  .d2-split .mk-panel b { display: block; font-family: var(--display); color: #fff; font-size: 10px; letter-spacing: .06em; margin-bottom: 2px; }
+  .d2-split .mk-foot { background: #000; color: #ffcf2e; font-family: var(--display); letter-spacing: .1em; text-transform: uppercase; }
+
+  /* Stream — live, and the chat is on top of the thing you are reading. */
+  .d2-stream {
+    --bg: #0e0d14; --ink: #f4f2fa; --paper: #1a1826; --accent: #a855f7; --muted: #8d87a8;
+    --radius: 10px; --border: 0; --space: 9px; --shadow: none;
+  }
+  .d2-stream .mk-live {
+    position: absolute; top: 8px; left: 9px; z-index: 4; display: flex; align-items: center; gap: 4px;
+    background: #e5133b; color: #fff; font: 700 8px/1 Inter, sans-serif; padding: 3px 6px; border-radius: 3px;
+    letter-spacing: .1em;
+  }
+  .d2-stream .mk-live::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: #fff; }
+  .d2-stream .mk-views { position: absolute; top: 9px; right: 10px; z-index: 4; font: 600 8.5px/1 Inter, sans-serif; color: var(--muted); }
+  .d2-stream .mk-meters { padding-top: 26px; }
+  .d2-stream .mk-m b { font-size: 7px; }
+  .d2-stream .mk-bar { background: #2a2740; }
+  .d2-stream .mk-chat {
+    position: absolute; right: 8px; bottom: 116px; width: 52%; z-index: 4; pointer-events: none;
+    display: flex; flex-direction: column; gap: 3px; font-size: 8px; line-height: 1.3;
+    mask-image: linear-gradient(to bottom, transparent, #000 38%);
+  }
+  .d2-stream .mk-chat span { color: #cfc8e6; }
+  .d2-stream .mk-chat b { color: #a855f7; font-weight: 600; }
+  .d2-stream .mk-alert {
+    position: absolute; left: 8px; right: 8px; bottom: 44px; z-index: 5;
+    background: linear-gradient(90deg, #a855f7, #e5133b); color: #fff; border-radius: 6px;
+    padding: 5px 8px; font: 600 8.5px/1.25 Inter, sans-serif;
+  }
+  .d2-stream .mk-text { font-size: 13px; }
+  .d2-stream .mk-who { color: var(--accent); }
+  .d2-stream .mk-choices span { border: 0; background: #272338; border-radius: 999px; font-weight: 600; }
+
+  /* Signal — the transmission is failing, not the story. */
+  .d2-signal {
+    --bg: #05070d; --ink: #dfe9ff; --paper: #0b1120; --accent: #35d0ff; --muted: #6b7f9e;
+    --radius: 0; --border: 1px; --space: 10px; --shadow: none;
+    --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  .d2-signal::before {
+    content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+    background:
+      repeating-linear-gradient(to bottom, rgba(255,255,255,.05) 0 1px, transparent 1px 3px),
+      linear-gradient(to bottom, transparent 28%, rgba(255,255,255,.14) 29.2%, transparent 30.4%,
+                      transparent 62%, rgba(255,255,255,.09) 63%, transparent 64%);
+  }
+  .d2-signal .mk-m b { font-family: var(--display); font-size: 7px; color: var(--accent); }
+  .d2-signal .mk-bar { background: #142238; }
+  .d2-signal .mk-bar i { background: var(--accent); }
+  .d2-signal .mk-card { border-color: #1d3355; }
+  .d2-signal .mk-who { font-family: var(--display); color: var(--accent); font-size: 8.5px; }
+  .d2-signal .mk-text { position: relative; font-size: 13px; text-shadow: 1.6px 0 rgba(229,19,59,.55), -1.6px 0 rgba(53,208,255,.5); }
+  .d2-signal .mk-choices span { border-color: #1d3355; font-family: var(--display); font-size: 9.5px; }
+  .d2-signal .mk-foot { font-family: var(--display); letter-spacing: .1em; }
+  .d2-signal .mk-tear {
+    position: absolute; left: 0; right: 0; top: 46%; height: 13px; z-index: 5; pointer-events: none;
+    background: rgba(223,233,255,.07); backdrop-filter: none;
+    border-top: 1px solid rgba(223,233,255,.22); border-bottom: 1px solid rgba(223,233,255,.12);
+  }
+
+  /* Clip — the card dissolves into the format. */
+  .d2-clip {
+    --bg: #07070a; --ink: #fff; --muted: #8e8e99; --accent: #ffe600;
+    --space: 10px;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  .d2-clip .mk-segs { display: flex; gap: 3px; padding: 9px 9px 0; }
+  .d2-clip .mk-segs i { flex: 1; height: 2px; border-radius: 1px; background: rgba(255,255,255,.28); }
+  .d2-clip .mk-segs i.on { background: #fff; }
+  .d2-clip .mk-fill { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 18%, #2b2f46 0%, #07070a 62%); }
+  .d2-clip .mk-who2 { position: relative; padding: 8px 10px 0; font-size: 9.5px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+  .d2-clip .mk-cap {
+    position: relative; flex: 1; display: flex; align-items: center; padding: 0 12px;
+  }
+  .d2-clip .mk-cap > span {
+    font-weight: 800; font-size: 19px; line-height: 1.16; letter-spacing: -0.015em;
+    text-shadow: 0 2px 10px rgba(0,0,0,.8);
+  }
+  .d2-clip .mk-cap em { font-style: normal; background: var(--accent); color: #07070a; padding: 0 3px; border-radius: 2px; }
+  .d2-clip .mk-side { position: absolute; right: 9px; bottom: 96px; z-index: 3; display: flex; flex-direction: column; gap: 9px; align-items: center; font-size: 8px; color: #fff; text-align: center; }
+  .d2-clip .mk-side b { display: block; font-size: 15px; font-weight: 400; }
+  .d2-clip .mk-taps { position: relative; display: flex; gap: 7px; padding: 0 10px 8px; }
+  .d2-clip .mk-taps span { flex: 1; border: 1.5px solid rgba(255,255,255,.4); border-radius: 999px; padding: 9px 6px; text-align: center; font-size: 11px; font-weight: 600; }
+  .d2-clip .mk-swipe { position: relative; text-align: center; font-size: 8.5px; color: var(--muted); padding-bottom: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+  /* Push — the state as something happening to your phone. */
+  .d2-push {
+    --bg: #101318; --ink: #fff; --muted: #9aa3b0; --accent: #3b82f6;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  .d2-push .mk-fill { position: absolute; inset: 0; background: linear-gradient(170deg, #1b2740 0%, #101318 52%, #1a1420 100%); }
+  .d2-push .mk-clock { position: relative; text-align: center; padding: 16px 0 2px; font-size: 34px; font-weight: 300; letter-spacing: -.02em; }
+  .d2-push .mk-date { position: relative; text-align: center; font-size: 10px; color: var(--muted); margin-bottom: 12px; }
+  .d2-push .mk-apps { position: relative; display: flex; justify-content: center; gap: 9px; padding: 0 10px 12px; }
+  .d2-push .mk-app { position: relative; width: 25px; height: 25px; border-radius: 7px; background: rgba(255,255,255,.12); font: 600 7px/25px Inter, sans-serif; text-align: center; color: #fff; }
+  .d2-push .mk-app s { position: absolute; top: -4px; right: -4px; min-width: 14px; height: 14px; border-radius: 7px; background: #e5133b; color: #fff; font: 700 8px/14px Inter, sans-serif; text-decoration: none; }
+  .d2-push .mk-notes { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 7px; padding: 0 9px 14px; }
+  .d2-push .mk-note2 {
+    background: rgba(255,255,255,.13); backdrop-filter: blur(8px); border-radius: 14px; padding: 9px 11px;
+    font-size: 11px; line-height: 1.35;
+  }
+  .d2-push .mk-note2.stale { opacity: .45; padding: 7px 11px; font-size: 10px; }
+  .d2-push .mk-note2 b { display: flex; gap: 5px; font-size: 8.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+  .d2-push .mk-note2 b em { margin-left: auto; font-style: normal; }
+  .d2-push .mk-acts { display: flex; margin: 9px -11px -9px; border-top: 1px solid rgba(255,255,255,.14); }
+  .d2-push .mk-acts span { flex: 1; text-align: center; padding: 8px 4px; font-size: 10.5px; font-weight: 600; color: #cfe0ff; }
+  .d2-push .mk-acts span + span { border-left: 1px solid rgba(255,255,255,.14); }
+
+  /* ================= RULE, ROUND TWO =============================================== */
+
+  /* Minute — the meeting, written down. */
+  .r2-minute {
+    --bg: #f7f4ec; --ink: #211f1a; --paper: #fffdf7; --accent: #2f4f3f; --muted: #857f72;
+    --radius: 0; --border: 0; --space: 14px; --shadow: none;
+    --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+    --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  .r2-minute .mk-meters { border-bottom: 1px solid #ddd6c6; padding-bottom: 8px; }
+  .r2-minute .mk-m b { font-family: var(--display); font-size: 6.5px; letter-spacing: .06em; }
+  .r2-minute .mk-bar { height: 2px; border-radius: 0; background: #e3dccc; }
+  .r2-minute .mk-bar i { background: var(--accent); }
+  .r2-minute .mk-card { display: grid; grid-template-columns: 44px 1fr; gap: 10px; padding: 0; }
+  .r2-minute .mk-who { grid-column: 1; margin: 0; font-family: var(--display); font-size: 6.5px; line-height: 1.35; text-align: right; letter-spacing: .02em; border-right: 1px solid #ddd6c6; padding-right: 8px; }
+  .r2-minute .mk-text { grid-column: 2; margin: 0 0 12px; font-size: 12.5px; line-height: 1.6; }
+  .r2-minute .mk-text::before { content: "14.3 "; font-family: var(--display); font-size: 10px; color: var(--muted); }
+  .r2-minute .mk-choices { grid-column: 2; flex-direction: column; gap: 6px; }
+  .r2-minute .mk-choices span { border: 0; border-left: 2px solid var(--accent); border-radius: 0; text-align: left; padding: 3px 0 3px 8px; font-size: 10.5px; font-family: var(--font); }
+  .r2-minute .mk-choices span::before { content: "Resolved, that "; color: var(--muted); font-style: italic; }
+  .r2-minute .mk-foot { font-family: var(--display); font-size: 8px; letter-spacing: .08em; }
+
+  /* Gazette — the newspaper of record. */
+  .r2-gazette {
+    --bg: #f4f1e8; --ink: #191712; --paper: #fbf9f2; --accent: #1a1a1a; --muted: #7d766a;
+    --radius: 0; --border: 0; --space: 12px; --shadow: none;
+    --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+  }
+  .r2-gazette .mk-mast {
+    position: relative; text-align: center; border-bottom: 3px double var(--ink);
+    padding: 11px 10px 7px; font-family: var(--font); font-size: 15px; letter-spacing: .06em;
+  }
+  .r2-gazette .mk-mast s { display: block; text-decoration: none; font-size: 6.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+  .r2-gazette .mk-meters { border-bottom: 1px solid #d8d2c4; padding: 7px 12px; }
+  .r2-gazette .mk-m b { font-size: 6.5px; letter-spacing: .1em; }
+  .r2-gazette .mk-bar { height: 2px; border-radius: 0; background: #ded8ca; }
+  .r2-gazette .mk-bar i { background: var(--ink); }
+  .r2-gazette .mk-card { padding: 0; }
+  .r2-gazette .mk-who { font-size: 7px; letter-spacing: .2em; border-bottom: 1px solid #ded8ca; padding-bottom: 5px; }
+  .r2-gazette .mk-text { font-size: 12px; line-height: 1.62; columns: 2; column-gap: 11px; column-rule: 1px solid #e6e0d2; text-align: justify; hyphens: auto; }
+  .r2-gazette .mk-text::first-letter { font-size: 26px; float: left; line-height: .88; padding: 2px 4px 0 0; }
+  .r2-gazette .mk-choices { border-top: 1px solid var(--ink); padding-top: 8px; margin-top: 10px; }
+  .r2-gazette .mk-choices span { border: 0; border-radius: 0; font-size: 10px; font-style: italic; }
+  .r2-gazette .mk-choices span + span { border-left: 1px solid #ded8ca; }
+  .r2-gazette .mk-foot { font-size: 7.5px; letter-spacing: .16em; text-transform: uppercase; }
+
+  /* Ledger — the accounts, and the meters are the balance. */
+  .r2-ledger {
+    --bg: #f2efe4; --ink: #1c1a15; --paper: #fcfaf1; --accent: #1f4d3d; --muted: #8a8474;
+    --radius: 0; --border: 1px; --space: 12px; --shadow: none;
+    --font: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  .r2-ledger .mk-meters { display: block; border: 1px solid #cfc8b4; background: #fcfaf1; padding: 0; }
+  .r2-ledger .mk-m { display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-bottom: 1px solid #e6e0cf; }
+  .r2-ledger .mk-m:last-child { border-bottom: 2px solid var(--ink); }
+  .r2-ledger .mk-m b { order: -1; flex: 1; text-align: left; font-size: 7.5px; letter-spacing: .06em; margin: 0; }
+  .r2-ledger .mk-m::after { content: attr(data-v); font-size: 8.5px; font-weight: 600; width: 22px; text-align: right; }
+  .r2-ledger .mk-bar { width: 44px; height: 4px; border-radius: 0; background: #e6e0cf; }
+  .r2-ledger .mk-bar i { background: var(--accent); }
+  .r2-ledger .mk-card { border-color: #cfc8b4; background: repeating-linear-gradient(to bottom, #fcfaf1 0 19px, #f3efe2 19px 20px); }
+  .r2-ledger .mk-who { font-size: 7.5px; letter-spacing: .12em; color: var(--accent); }
+  .r2-ledger .mk-text { font-size: 11.5px; line-height: 20px; }
+  .r2-ledger .mk-choices span { border-color: #cfc8b4; border-radius: 0; font-size: 9px; text-align: left; }
+  .r2-ledger .mk-choices span em { float: right; font-style: normal; color: var(--accent); }
+  .r2-ledger .mk-foot { font-size: 8px; letter-spacing: .06em; border-top: 2px solid var(--ink); margin: 0 var(--space); padding-left: 0; padding-right: 0; }
+
+  /* Dispatch — it arrived over a wire. */
+  .r2-dispatch {
+    --bg: #e8ecef; --ink: #14202b; --paper: #f7fafb; --accent: #1b4f72; --muted: #7d8c98;
+    --radius: 0; --border: 1px; --space: 12px; --shadow: 0 1px 0 rgba(0,0,0,.08);
+    --font: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  .r2-dispatch .mk-m b { font-size: 6.5px; letter-spacing: .04em; }
+  .r2-dispatch .mk-bar { height: 2px; border-radius: 0; background: #ccd6dd; }
+  .r2-dispatch .mk-bar i { background: var(--accent); }
+  .r2-dispatch .mk-card { border-color: #b9c6cf; }
+  .r2-dispatch .mk-who { font-size: 7.5px; letter-spacing: .06em; border-bottom: 1px dashed #b9c6cf; padding-bottom: 6px; white-space: pre-line; line-height: 1.6; text-align: left; }
+  .r2-dispatch .mk-text { font-size: 11.5px; line-height: 1.62; text-transform: uppercase; letter-spacing: .01em; }
+  .r2-dispatch .mk-choices span { border-color: #b9c6cf; border-radius: 0; font-size: 9px; text-transform: uppercase; letter-spacing: .04em; }
+  .r2-dispatch .mk-stamp2 {
+    position: absolute; top: 26%; right: 6%; z-index: 4; rotate: -11deg; opacity: .5;
+    border: 2px solid var(--accent); color: var(--accent); border-radius: 3px; padding: 3px 6px;
+    font: 600 8px/1.2 var(--font); letter-spacing: .1em; text-align: center;
+  }
+  .r2-dispatch .mk-foot { font-size: 7.5px; letter-spacing: .1em; }
+
+  /* Statute — the law as it is printed. */
+  .r2-statute {
+    --bg: #faf8f3; --ink: #1a1815; --paper: #fff; --accent: #6b1d1d; --muted: #8d867a;
+    --radius: 0; --border: 0; --space: 15px; --shadow: none;
+    --font: "Libre Baskerville", "Iowan Old Style", Georgia, serif;
+    --display: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  .r2-statute .mk-meters { padding-bottom: 9px; }
+  .r2-statute .mk-m b { font-family: var(--display); font-size: 6.5px; letter-spacing: .04em; }
+  .r2-statute .mk-bar { height: 2px; border-radius: 0; background: #e5e0d5; }
+  .r2-statute .mk-bar i { background: var(--accent); }
+  .r2-statute .mk-card { padding: 0; border-top: 3px solid var(--ink); padding-top: 12px; }
+  .r2-statute .mk-who { font-family: var(--display); font-size: 7px; letter-spacing: .18em; color: var(--accent); }
+  .r2-statute .mk-sec { display: block; font-family: var(--font); font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--ink); margin-top: 4px; }
+  .r2-statute .mk-text { font-size: 12px; line-height: 1.66; padding-left: 26px; position: relative; }
+  .r2-statute .mk-text::before { content: "(1)"; position: absolute; left: 0; font-family: var(--display); font-size: 10px; color: var(--muted); }
+  .r2-statute .mk-choices { flex-direction: column; gap: 7px; }
+  .r2-statute .mk-choices span { border: 0; border-radius: 0; text-align: left; padding: 0 0 0 26px; font-size: 11px; position: relative; font-family: var(--font); }
+  .r2-statute .mk-choices span:first-child::before { content: "(a)"; }
+  .r2-statute .mk-choices span:last-child::before { content: "(b)"; }
+  .r2-statute .mk-choices span::before { position: absolute; left: 0; font-family: var(--display); font-size: 10px; color: var(--muted); }
+  .r2-statute .mk-margin { position: absolute; right: 10px; bottom: 60px; width: 62px; font: italic 7.5px/1.4 var(--font); color: var(--muted); text-align: right; }
+  .r2-statute .mk-foot { font-family: var(--display); font-size: 8px; letter-spacing: .08em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Round two</h1>
+    <p class="lede">
+      Narrowed to what survived. For <b>Drool</b>: Channel and Feed were both about the state
+      arriving through a screen that is selling you something — five more in that space.
+      For <b>Rule</b>: Record was right about the register, so five more documents to be.
+      The three that came through are at the top for comparison, at the same size.
+    </p>
+    <ul class="facts">
+      <li>round one is at <b><a href="paths.html" style="color:inherit">paths.html</a></b></li>
+      <li>one Drool and one Rule get built</li>
+      <li>same skeleton every time: meters, card, footer</li>
+    </ul>
+  </header>
+
+  <h2>What came through</h2>
+  <p class="sec-note">Unchanged from round one, reprinted here so the new ones are judged against them rather than from memory.</p>
+  <div class="grid kept" id="kept"></div>
+
+  <h2>Drool — the screen that is selling you something</h2>
+  <p class="sec-note">
+    Channel said the state arrives as a broadcast; Feed said it arrives as a post. Both are
+    really the same claim — that you are not being governed, you are being <em>programmed to</em>.
+    These five take that further apart: who is talking, how many of them at once, and whether
+    there is a card left at all.
+  </p>
+  <div class="grid" id="drool"></div>
+
+  <h2>Rule — the document it becomes</h2>
+  <p class="sec-note">
+    Record said a working country produces paperwork that will outlast the person who signed
+    it. Five different pieces of paper, each with its own typography and its own idea of what
+    a decision <em>is</em>: a resolution, a notice, a line item, a cable, a clause.
+  </p>
+  <div class="grid" id="rule"></div>
+
+  <footer class="end">
+    Cards are the deck's own: <code>d09_ghosts</code>, <code>d07_barter</code>,
+    <code>d08_archive</code>, <code>d10_l_hall</code>, <code>d06_exodus</code> on the way down;
+    <code>a05_maintenance</code>, <code>a06_newcomers</code>, <code>a09_long_bond</code>,
+    <code>a04_visitors</code>, <code>a08_succession_bench</code> on the way up.
+  </footer>
+</div>
+
+<script type="module">
+import { DOWN, UP, FOOT, meters, esc, render } from "./mock.js";
+
+/* ---- the three that survived round one, verbatim ---------------------------------- */
+const KEPT = [
+  { cls: "d-channel", kicker: "Drool · kept", name: "Channel",
+    idea: "A broadcast nobody is producing any more.",
+    who: "THE GENERAL · LIVE", text: "The payroll has four thousand names on it that no building has ever seen.",
+    l: "Take them off", r: "Leave them on", footer: `<span class="mk-crawl">MINISTRY DENIES · SEVENTH DAY OF THE THING · ASK YOUR DOCTOR ·</span>` },
+  { cls: "d-feed", kicker: "Drool · kept", name: "Feed",
+    idea: "The card as a post, and engagement decides what reaches you.",
+    head: "<i></i>", who: "Chief of Staff <em>@thebuilding</em> <s>Sponsored</s>",
+    text: "The payroll has four thousand names on it that no building has ever seen.",
+    l: "Take them off", r: "Leave them on", body: `<p class="mk-react">♥ 1.2M · ↻ 440K · 💬 91K</p>` },
+  { cls: "r-record", kicker: "Rule · kept", name: "Record",
+    idea: "A document that will be filed.",
+    who: "SCIENTIST", text: "Everything you built is now old enough to need maintaining, which no ribbon has ever been cut for.",
+    l: "Fund the boring budget", r: "Build something new" },
+];
+
+/* ---- Drool, round two -------------------------------------------------------------- */
+const DROOL = [
+  {
+    cls: "d2-split", name: "Split",
+    idea: "The panel show. Nothing has the screen to itself: a permanent scoreboard, the story, and two people talking over it who were not in the room.",
+    cost: "CSS only plus a condensed face. The two reaction lines are new content — a short take per card, or a pool of generic ones, which is cheaper and worse.",
+    who: "GENERAL · BREAKING",
+    text: "The payroll has four thousand names on it that no building has ever seen. Removing them means removing someone's cousin.",
+    l: "Take them off", r: "Leave them on",
+    body: `<div class="mk-panel"><div><b>REACTION</b>Frankly this is what happens when you let the building hire</div><div><b>ANALYSIS</b>Four thousand families, and you want to talk about a spreadsheet</div></div>`,
+    footer: "NEXT · THE THING, CONTINUED",
+  },
+  {
+    cls: "d2-stream", name: "Stream",
+    idea: "A livestream of the government, with the chat on top of it. The room is talking while you read, and the alerts do not wait for you.",
+    cost: "CSS only. The chat lines and alerts are new short strings — a pool of a few dozen would carry it, and they must never obscure the choices, only the prose.",
+    overlay: `<span class="mk-live">LIVE</span><span class="mk-views">41,208 watching</span>`
+      + `<div class="mk-chat"><span><b>krow_88</b> do it do it do it</span><span><b>quietvoter</b> my aunt is on that list</span><span><b>MOD</b> keep it civil</span><span><b>del_ta</b> LMAO four thousand</span></div>`
+      + `<div class="mk-alert">◈ CARLYLE HYDRATION gifted 50 subs — "make the hard call"</div>`,
+    who: "TREASURER",
+    text: "Two provinces have started settling accounts with each other in grain. It works, which is the worrying part.",
+    l: "Recognise the practice", r: "Insist on the currency",
+  },
+  {
+    cls: "d2-signal", name: "Signal",
+    idea: "The transmission is failing rather than the story. Ghosting, tracking errors, a picture that will not hold — the country is still there, the way you are getting it is not.",
+    cost: "CSS only, no font. The chroma ghost is two text-shadows, so it must be off under the readable setting and under reduce-motion if the tear ever moves.",
+    overlay: `<span class="mk-tear"></span>`,
+    who: "CHIEF JUSTICE — SIGNAL DEGRADED",
+    text: "The land archive has been wet since spring. Nobody can now prove who owns the eastern valleys, including you.",
+    l: "Dry it and copy it", r: "Reissue the deeds",
+    footer: "TRACKING · CH 14 · NO SOURCE",
+  },
+  {
+    cls: "d2-clip", name: "Clip",
+    idea: "The card stops being a card. Full-bleed, auto-captions burned into the middle, a segment bar, and the next one already loading — the government as something you are being served.",
+    cost: "A real layout change, not a reskin: no card, no meter row as such. The biggest build of the ten and the only one that would need its own component.",
+    who: "ORGANIZER · 0:07",
+    text: "The union hall has become the only building in the district that reliably has heat, and the queue is not union members.",
+    l: "Open it to everyone", r: "Keep it for members",
+    render: (m) => `
+      <div class="mk ${m.cls}">
+        <div class="mk-fill"></div>
+        <div class="mk-segs"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+        <p class="mk-who2">${m.who}</p>
+        <div class="mk-side"><span><b>♥</b>840K</span><span><b>↻</b>92K</span><span><b>⌄</b>save</span></div>
+        <div class="mk-cap"><span>The only building with <em>heat</em> — and the queue is not members</span></div>
+        <div class="mk-taps"><span>${m.l}</span><span>${m.r}</span></div>
+        <p class="mk-swipe">swipe for the next one</p>
+      </div>`,
+  },
+  {
+    cls: "d2-push", name: "Push",
+    idea: "Not an app at all. The state arrives as notifications on a lock screen, the meters are badge counts, and the choices are notification actions. The run is something happening to your phone.",
+    cost: "A layout change and a real question: it looks enough like the OS that it should never be mistaken for one. Needs a visible frame or a title bar so it reads as the game.",
+    who: "MINISTRY", text: "",
+    l: "Bond them", r: "Pay them",
+    render: (m) => `
+      <div class="mk ${m.cls}">
+        <div class="mk-fill"></div>
+        <p class="mk-clock">4:41</p>
+        <p class="mk-date">Thursday, Year 14</p>
+        <div class="mk-apps">
+          ${[["FAN", 34], ["£", 41], ["ALL", 28], ["CA$", 22], ["COP", 63], ["SYS", 19]]
+            .map(([n, v]) => `<div class="mk-app">${n}<s>${v}</s></div>`).join("")}
+        </div>
+        <div class="mk-notes">
+          <div class="mk-note2 stale"><b>TREASURY <em>2h ago</em></b>The rate on everything you owe has moved.</div>
+          <div class="mk-note2 stale"><b>PRESS OFFICE <em>40m ago</em></b>They are asking about the queue again.</div>
+          <div class="mk-note2">
+            <b>CHIEF SCIENTIST <em>now</em></b>
+            The medical school's graduating class has emigrated in full. The dean found out from a group photograph.
+            <div class="mk-acts"><span>${m.l}</span><span>${m.r}</span></div>
+          </div>
+        </div>
+      </div>`,
+  },
+];
+
+/* ---- Rule, round two --------------------------------------------------------------- */
+const RULE = [
+  {
+    cls: "r2-minute", name: "Minute",
+    idea: "The minutes of a meeting. Numbered items, a margin saying who raised it, and every choice written as a resolution — a decision is a thing a room agreed to.",
+    cost: "CSS only, system serif and mono. The item numbers can come from the card count, so they are free and they make the run feel like one long sitting.",
+    who: "SCIENTIST<br>item 14.3<br>y14", text: "Everything you built is now old enough to need maintaining, which no ribbon has ever been cut for.",
+    l: "the boring budget be funded", r: "something new be built",
+  },
+  {
+    cls: "r2-gazette", name: "Gazette",
+    idea: "The newspaper of record. A masthead, a rule under it, two justified columns and a dropped capital. The country is well enough run to have a paper that prints notices.",
+    cost: "CSS only. Two columns at phone width is tight — it works at this size but needs testing at the largest text setting, where it should collapse to one.",
+    overlay: `<div class="mk-mast">The Gazette<s>Published by authority</s></div>`,
+    who: "NOTICES · YEAR 14",
+    text: "People are moving here on purpose now. The schools are full and the housing lists are being read aloud at meetings.",
+    l: "Build for them", r: "Close the register",
+    footer: "THE LONG AFTERNOON · YEAR 14 · No. 4,118",
+  },
+  {
+    cls: "r2-ledger", name: "Ledger",
+    idea: "The accounts. The meters stop being bars and become a balance you can read down, ruled lines under the prose, and each choice carrying what it costs.",
+    cost: "The meters become a table, which is a real UI change and a better one — numbers instead of guessing at a bar. The choice amounts would come from the card's own fx.",
+    numeric: true,
+    who: "TREASURER · FOLIO 14",
+    text: "Somebody will lend you money for a hundred years at a rate that assumes the country still exists.",
+    l: `Borrow and build<em>+18 inst</em>`, r: `Borrow and distribute<em>+14 base</em>`,
+    footer: "CARRIED FORWARD · YEAR 14",
+  },
+  {
+    cls: "r2-dispatch", name: "Dispatch",
+    idea: "It came over a wire. Routing header, everything in caps, a received stamp. The register of a country whose institutions still send each other things in writing.",
+    cost: "CSS only, system mono. Upper-case body text is the risk — it reads slower and it would have to be off under the readable setting.",
+    overlay: `<span class="mk-stamp2">RECEIVED<br>14 · III</span>`,
+    who: "FROM: CHIEF JUSTICE\nTO: THE OFFICE\nPRIORITY: ROUTINE",
+    text: "Four governments have sent delegations to study what you did. Two of them have better lawyers than you. STOP",
+    l: "Open the files", r: "Sell them the manual",
+    footer: "ENDS · 14/III/0441",
+  },
+  {
+    cls: "r2-statute", name: "Statute",
+    idea: "The law as it is printed. A section number, lettered sub-clauses for the two choices, a marginal note. The coldest of the five and the one that most looks like something that will still be true in fifty years.",
+    cost: "CSS only, system serif and mono. The marginal note is new content — one line per card — which is the same cost as the Split reaction lines and buys more.",
+    overlay: `<span class="mk-margin">Successors, appointment of. cf. s.9</span>`,
+    who: 'SUCCESSION AND OFFICES ACT<span class="mk-sec">Section 14 — Appointments</span>',
+    text: "There are now four people who could do your job. Two of them are better at the parts you dislike.",
+    l: "they be given ministries", r: "their portfolios be split",
+  },
+];
+
+render("kept", KEPT.slice(0, 2), DOWN);
+document.getElementById("kept").insertAdjacentHTML("beforeend",
+  (await import("./mock.js")).mock(KEPT[2], UP));
+render("drool", DROOL, DOWN);
+render("rule", RULE, UP);
+</script>
+</body>
+</html>

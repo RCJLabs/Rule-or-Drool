@@ -58,8 +58,15 @@ reaches, not an outlier.
 *Redraw both looks.* The Decay look is currently a 2005 web page — yellow, Comic Sans, hot
 pink, a tilt — and the Ascent look is an annual report. Neither is wrong, but neither has
 been looked at since it was written, and the Decay one in particular is "ugly" rather than
-*designed to be ugly*, which is a different thing. **Five treatments are mocked up for each
-path** (`docs/mockups/paths.html`); one of each gets built.
+*designed to be ugly*, which is a different thing.
+
+*Round one* mocked five treatments per path (`public/mockups/paths.html`). Three came
+through: **Channel** and **Feed** for Drool — both versions of the same claim, that the
+state reaches you through a screen that is selling you something — and **Record** for Rule,
+a document that will outlast whoever signed it. *Round two* (`paths-2.html`) puts five more
+in each of those two spaces: for Drool, how many people are talking at once and whether
+there is a card left at all; for Rule, five different documents to be. One of each gets
+built.
 
 **Done when** a run that steers one way spends at least a quarter of its cards in that
 path's look with the deepest stage reachable by playing that way rather than by an outlier,
