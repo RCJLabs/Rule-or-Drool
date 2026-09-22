@@ -229,7 +229,70 @@ or a bill, and the 11.9 that come back stop being indistinguishable from the 90 
 
 </details>
 
-## Phase 20. Cards nobody draws, and cards you draw twice — *queued*
+## Phase 20. Cards nobody draws, and cards you draw twice — *done*
+
+**Shipped.** Nothing in the deck is unreachable any more, and a card that comes back comes
+back a third of a run later instead of a sixth.
+
+**Which filter was starving them, measured rather than guessed.** Counting draws says a card
+is never seen; counting *eligibility* says whether it was ever even a candidate, which
+separates a condition nobody satisfies from a weight that never wins. Over 1,200 runs across
+three bots, of 35 never-drawn cards:
+
+| | | |
+|---|---|---|
+| **27** | **never in a cell the draw visits** | the defect |
+| 8 | gated on a promise no run in the sweep made | correct |
+| 0 | eligible but losing the weighted pick | — |
+
+**The 27 were unreachable by construction and it was one mistake made 27 times.** A run opens
+in muddle and the band only recomputes at an era boundary, so **for the whole of era 1 the
+band is always muddle** — and all 27 had era 1 as their only era with bands that excluded it.
+Twenty-four came from three files written as one batch. None of them is a first-term card;
+they are generic "the country is going badly / going well" cards, so the band is the intent
+worth keeping and the era was the mistake. They run in all three eras now, matching the seven
+cards already shipping in that shape.
+
+`startBand` is a config value rather than a literal in `newRun`, and **the validator rejects
+the shape**: only era 1, bands excluding the band a run starts in, is an error rather than a
+thin cell. The shipped deck is pinned against it, against a mandate gate naming a promise
+that does not exist, and against a cooldown longer than the smallest cell.
+
+**The eight that look unreachable are not.** They wait on a mandate, and a sweep that never
+takes one never sees them. Run with each promise taken, all eight turn up: the cards that
+arrive when a promise breaks in 74–97% of that promise's runs, the temptations in 15–56%.
+
+**Repeats were never the deck running out.** At the moment a pool draw repeated, the median
+number of other eligible cards was 61, and in 105,110 cards there was **not one** repeat where
+the deck had nothing else to offer. It is a memory length, not a shortage: `cooldownSize` was
+15 in a run of about 87 cards, so a card could return after a sixth of the run. It is 30 now —
+about a third — and **deck repeats fell from 5.5 a run to 2.9**, with the relax ladder never
+once triggered and the smallest cell (123 cards) still four times the window.
+
+| | before | after |
+|---|---|---|
+| repeats per run, all sources | 6.9 | **4.3** |
+| of those, from the draw pool | 5.5 | **2.9** |
+| from the queue (a consequence sent twice) | 1.1 | 1.1 |
+| from an election (which ignores cooldown by design) | 0.3 | 0.3 |
+| median gap between a card and its repeat | 26 cards | **44 cards** |
+
+**The done-when asked for "repeats under 4 a run" and the answer is 4.3, which misses.** I
+wrote that target before measuring and it counts three different things as one. A queued
+consequence firing twice is the consequence system working, and an election repeating is the
+election draw deliberately ignoring the cooldown; neither is a draw-pool problem and neither
+should be tuned away. The half that *is* a draw-pool problem is 2.9 and was 5.5. I also
+reached for "no repeat within 25 cards" as a better measure and it is circular — any cooldown
+of 25 or more satisfies it by construction. The measure that survives is the median gap.
+
+**A longer memory is not free and the cost was measured.** At `cooldownSize` 38 the unlocked
+mixed bot reached the Ascent 15.7% of the time against 16.5% at 15, over 20,000 runs each —
+real at about three standard errors, and too close to the 15% floor. At 30 it is 16.1%, which
+is the pre-phase value, and the extra repeats it buys over 38 are 0.8 a run. Going further
+would have paid a point of Ascent for a number I invented before I had the data.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** **40 of 526 cards were never drawn in 400 unlocked runs.** Eight of those are
 mandate cards, which only appear under a promise, so 32 are ordinary cards nobody will ever
@@ -242,6 +305,8 @@ it does not report a card that is technically reachable and practically never re
 
 **Done when** no card is unreachable in 400 runs, repeats are under 4 a run, and the
 validator warns about practical unreachability so this cannot come back quietly.
+
+</details>
 
 ## Phase 21. A look that can be read — *queued*
 

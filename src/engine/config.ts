@@ -66,6 +66,12 @@ export interface EngineConfig {
    * scales effects that help, `loss` scales effects that hurt. Traits multiply together.
    */
   traitEffects: Record<string, { gain: number; loss: number }>;
+  /**
+   * The band a run opens in. It matters beyond the first card: the band only recomputes at
+   * an era boundary, so for the whole of era 1 this *is* the band, and a card restricted to
+   * era 1 in any other band can never be drawn (BACKLOG-3 phase 20).
+   */
+  startBand: Band;
   /** Run start sets `${advisorFlagPrefix}${trait}` for every trait sitting in the cabinet. */
   advisorFlagPrefix: string;
   /**
@@ -163,9 +169,10 @@ export const DEFAULT_CONFIG: EngineConfig = {
     zealot: { gain: 1.4, loss: 1.4 },
     corrupt: { gain: 1, loss: 1.35 },
   },
+  startBand: "muddle",
   advisorFlagPrefix: "advisor_",
   habitMarkPrefix: "mark_",
-  cooldownSize: 15,
+  cooldownSize: 30,
   alignAffinity: 2,
   bandAffinity: 3,
   arcContinueProb: 0.5,

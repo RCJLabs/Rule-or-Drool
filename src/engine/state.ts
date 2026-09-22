@@ -226,7 +226,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     cardCount: 0,
     meters,
     drift: 0,
-    band: "muddle",
+    band: cfg.startBand,
     bandLocked: false,
     flags,
     queue: [],

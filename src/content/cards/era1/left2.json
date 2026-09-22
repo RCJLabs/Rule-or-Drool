@@ -556,7 +556,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "decay"
@@ -594,7 +596,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "decay"
@@ -630,7 +634,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "decay"
@@ -669,7 +675,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "decay"
@@ -705,7 +713,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "ascent"
@@ -740,7 +750,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "ascent"
@@ -778,7 +790,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "ascent"
@@ -812,7 +826,9 @@
     "type": "event",
     "align": "left",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "ascent"

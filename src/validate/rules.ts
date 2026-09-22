@@ -429,6 +429,22 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!reachableEndings.has(e.id)) issues.error("ending-unreachable", `no reachable card and no engine rule can end the run with it`, { kind: "ending", id: e.id });
   }
 
+  // A run opens in `startBand` and the band only recomputes at an era boundary, so for the
+  // whole of the first era that is the band. A card written for era 1 alone in any other
+  // band is not thin, it is unreachable, and the draw will never once offer it. Twenty-seven
+  // shipped cards were in exactly that state (BACKLOG-3 phase 20).
+  const FIRST_ERA = 1;
+  for (const c of content.cards) {
+    if (c.type !== "event" || (c.weight ?? 1) === 0) continue;
+    if (!c.eras.every((e) => e === FIRST_ERA)) continue;
+    if (c.bands.includes(cfg.startBand)) continue;
+    issues.error(
+      "card-era1-band",
+      `only era ${FIRST_ERA}, and its bands (${c.bands.join(", ")}) exclude "${cfg.startBand}" — era ${FIRST_ERA} is always "${cfg.startBand}", so this can never be drawn`,
+      { kind: "card", id: c.id },
+    );
+  }
+
   // ---- flags ----------------------------------------------------------------------------
   for (const a of content.arcs) checkCond(a.entry, { kind: "arc", id: a.id }, "entry");
   for (const m of content.modifiers) for (const f of m.flags ?? []) note(flagSets, f, { kind: "modifier", id: m.id, path: "flags" });

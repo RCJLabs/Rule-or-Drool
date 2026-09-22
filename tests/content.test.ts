@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
 import { STRINGS } from "../src/content/strings";
 import { LEGACIES } from "../src/meta";
-import { buildLibrary } from "../src/engine/library";
-import { BROKE_MANDATE_FLAG } from "../src/engine/mandates";
+import { buildLibrary, poolKey } from "../src/engine/library";
+import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../src/engine/mandates";
 import { BANDS } from "../src/engine/types";
 import { validateContent } from "../src/validate";
 import { makeFixture } from "./fixtures/content";
@@ -500,5 +500,48 @@ describe("content: the shape of a run", () => {
         expect(by.left).not.toBe(by.right);
       }
     }
+  });
+});
+
+describe("content: every card can be drawn", () => {
+  // Twenty-seven shipped cards were written for era 1 in a band era 1 can never be in. The
+  // validator rejects that shape now; this pins the shipped deck against it and against the
+  // two other ways a card can be stranded (BACKLOG-3 phase 20).
+  it("leaves no card in a cell the draw can never visit", () => {
+    const stranded = content.cards.filter(
+      (c) => c.type === "event" && (c.weight ?? 1) > 0 && c.eras.every((e) => e === 1) && !c.bands.includes(library.config.startBand),
+    );
+    expect(stranded.map((c) => c.id)).toEqual([]);
+  });
+
+  it("gives a card that has to wait for a promise a promise it can wait for", () => {
+    // These are only eligible under a mandate, which is correct, so "never drawn in an
+    // ordinary sweep" is not the same as unreachable. Every gate has to name a real one.
+    const ids = new Set(MANDATES.map((m) => m.id));
+    for (const c of content.cards) {
+      for (const f of c.cond?.flags ?? []) {
+        if (!f.startsWith(MANDATE_FLAG_PREFIX)) continue;
+        expect(ids.has(f.slice(MANDATE_FLAG_PREFIX.length)), `${c.id} waits on ${f}`).toBe(true);
+      }
+    }
+  });
+
+  it("keeps the cooldown well under the smallest cell it has to draw from", () => {
+    // A cooldown longer than a cell forces the relax ladder, which is the draw quietly
+    // widening the game rather than the deck being deep enough.
+    const smallest = Math.min(
+      ...[1, 2, 3].flatMap((era) =>
+        BANDS.flatMap((band) =>
+          (["left", "right"] as const).map(
+            (align) =>
+              new Set([
+                ...(library.eventPool.get(poolKey(era, band, align)) ?? []).map((c) => c.id),
+                ...(library.eventPool.get(poolKey(era, band, "any")) ?? []).map((c) => c.id),
+              ]).size,
+          ),
+        ),
+      ),
+    );
+    expect(smallest).toBeGreaterThan(library.config.cooldownSize * 2);
   });
 });

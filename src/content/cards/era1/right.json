@@ -203,7 +203,9 @@
     "type": "event",
     "align": "right",
     "eras": [
-      1
+      1,
+      2,
+      3
     ],
     "bands": [
       "decay"

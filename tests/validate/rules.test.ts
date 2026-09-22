@@ -229,6 +229,21 @@ describe("rules: arcs", () => {
 });
 
 describe("rules: reachability", () => {
+  it("rejects a card whose only era is one it can never be in the right band for", () => {
+    // A run opens in muddle and the band only recomputes at an era boundary, so era 1 is
+    // always muddle. Twenty-seven shipped cards were in this state (BACKLOG-3 phase 20).
+    const withCard = (over: Partial<Card>) => {
+      const c = makeValid();
+      c.cards.push(extraCard(over));
+      return codes(c);
+    };
+    expect(withCard({ id: "stranded", eras: [1], bands: ["decay"] })).toContain("error:card-era1-band");
+    // Across every era it is fine: eras 2 and 3 can be in decay.
+    expect(withCard({ id: "fine", eras: [1, 2, 3], bands: ["decay"] })).not.toContain("error:card-era1-band");
+    // And so is one that includes the band a run starts in.
+    expect(withCard({ id: "also_fine", eras: [1], bands: ["decay", "muddle"] })).not.toContain("error:card-era1-band");
+  });
+
   it("reports endings nothing can reach and engine endings that are missing", () => {
     const c = makeValid();
     c.endings.push({ id: "lonely", title: "x", text: "x" });
