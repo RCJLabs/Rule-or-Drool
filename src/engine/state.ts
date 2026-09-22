@@ -144,9 +144,10 @@ export function replaceAdvisor(lib: Library, state: GameState, role: string): Ga
   if (pool.length === 0) return state;
   const [p, s1] = roll(state);
   const cabinet = { ...s1.cabinet, [role]: pool[Math.floor(p * pool.length)]!.id };
+  const cabinetSince = { ...s1.cabinetSince, [role]: s1.cardCount };
   const prefix = lib.config.advisorFlagPrefix;
   const flags = [...s1.flags.filter((f) => !f.startsWith(prefix)), ...cabinetTraitFlags(lib, cabinet)];
-  return { ...s1, cabinet, flags };
+  return { ...s1, cabinet, cabinetSince, flags };
 }
 
 export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
@@ -179,6 +180,8 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
   }
 
   for (const f of cabinetTraitFlags(lib, cabinet)) if (!flags.includes(f)) flags.push(f);
+  const cabinetSince: Record<string, number> = {};
+  for (const role of Object.keys(cabinet)) cabinetSince[role] = 0;
 
   const budget = nextInt(rng, cfg.arcBudgetMin, cfg.arcBudgetMax);
   rng = budget.state;
@@ -199,6 +202,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     cooldown: [],
     activeArcs: [],
     cabinet,
+    cabinetSince,
     modifiers: [...modifierIds],
     nextElectionAt: cfg.electionInterval,
     over: null,

@@ -254,3 +254,19 @@ describe("run setup by side", () => {
     expect(shared).toBeLessThan(left.size / 2);
   });
 });
+
+describe("how long someone has served", () => {
+  it("starts everyone on day one", () => {
+    const s = newRun(library, 5, { align: "left" });
+    for (const role of Object.keys(s.cabinet)) expect(s.cabinetSince[role], role).toBe(0);
+  });
+
+  it("restarts the clock for a replacement, and leaves everyone else alone", () => {
+    const l = lib();
+    const before = start(l, { cardCount: 40 });
+    const after = replaceAdvisor(l, before, "chief");
+    expect(after.cabinet.chief).not.toBe(before.cabinet.chief);
+    expect(after.cabinetSince.chief).toBe(40);
+    expect(after.cabinetSince.general).toBe(before.cabinetSince.general);
+  });
+});

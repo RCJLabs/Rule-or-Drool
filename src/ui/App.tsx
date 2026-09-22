@@ -4,6 +4,7 @@ import { STRINGS } from "../content/strings";
 import { Codex } from "./Codex";
 import { Ending } from "./Ending";
 import { Play } from "./Play";
+import { Cabinet } from "./Cabinet";
 import { SettingsMenu } from "./SettingsMenu";
 import { Setup } from "./Setup";
 import { useGame } from "./useGame";
@@ -89,7 +90,9 @@ export function App() {
         onNudgeDrift={game.nudgeDrift}
         settings={game.settings}
         onSettings={game.openSettings}
+        onCabinet={game.openCabinet}
       />
+      {game.showCabinet && <Cabinet lib={library} state={game.state} onClose={game.closeCabinet} />}
       {settingsMenu}
     </>
   );

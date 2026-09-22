@@ -131,7 +131,34 @@ can play the same run and compare, which the daily seed already proves the engin
 **Done when** a finished run produces something you would actually paste into a group chat,
 and pasting its seed reproduces the run exactly.
 
-## Phase 12. The cabinet as a screen you can read — *queued*
+## Phase 12. The cabinet as a screen you can read — *done*
+
+**Shipped.** A cabinet screen, reachable from the run: who holds each of the eight roles,
+what their trait does in plain words, how long they have served, and who you let go to get
+them. The rival is listed separately as the one person in the list who is not yours.
+
+**The trait is the point.** `competent` turns a 10-point cost into 7 and a 10-point gain
+into 13; `zealot` amplifies both directions by 40%; `corrupt` makes only the damage worse.
+That has been scaling every number on a role's own cards since phase 5 and the player was
+never told it existed. Each is now stated in the words it deserves — "Gets more out of what
+works and softens what does not", "Whatever goes wrong on their watch goes further wrong" —
+and the card itself carries a tag naming the trait of whoever is speaking, so the scaling is
+legible at the moment it is happening rather than only in a menu.
+
+**Tenure needed new state.** `cabinetSince` records the card count at which each role's
+holder took it, so the screen can tell someone you have kept for forty cards from someone
+appointed this turn. Run saves move to version 6; a run in progress credits everyone from
+where it is rather than being dropped.
+
+**A bug the trait tag found.** One advisor, Saffi Kenner, carries two traits — `corrupt` and
+`competent` — and the first version of the card tag named only the first. That would have
+understated what was happening to the numbers on exactly the cards where two multipliers
+compound. It names all of them now.
+
+446 cards, 259 tests, all five targets unchanged, since nothing here touches the engine's
+arithmetic — only what the player is told about it.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** 22 advisors across 9 roles carry four traits that silently scale the effects of
 their own cards — competent halves what a card costs you, zealot amplifies it both ways. The
@@ -143,6 +170,8 @@ they have served, and who you fired to get them. Show the trait's effect on the 
 so the scaling is legible at the moment it matters.
 
 **Done when** firing someone is a decision with a visible reason rather than a coin flip.
+
+</details>
 
 ## Phase 13. Endings you can aim at — *queued*
 

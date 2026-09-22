@@ -247,6 +247,12 @@ export interface GameState {
   cooldown: string[];
   activeArcs: ActiveArc[];
   cabinet: Record<string, string>;
+  /**
+   * Role -> the card count at which whoever holds it took the job. Tenure is the only way
+   * to tell a advisor you chose to keep from one you have never thought about
+   * (BACKLOG-2 phase 12).
+   */
+  cabinetSince: Record<string, number>;
   /** The rival's standing, 0-100. They lead the side you did not pick (5.9, item 7). */
   rivalStanding: number;
   modifiers: string[];

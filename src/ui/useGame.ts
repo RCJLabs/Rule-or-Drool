@@ -20,6 +20,7 @@ export function useGame(lib: Library) {
   const [lastFold, setLastFold] = useState<RunFold | null>(null);
   const [showCodex, setShowCodex] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showCabinet, setShowCabinet] = useState(false);
   const [settings, setSettingsState] = useState<Settings>(() => loadSettings());
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -48,6 +49,7 @@ export function useGame(lib: Library) {
   const exitToMenu = useCallback(() => {
     const s = stateRef.current;
     setShowSettings(false);
+    setShowCabinet(false);
     setShowCodex(false);
     setTransition(null);
     setLastFold(null);
@@ -161,6 +163,9 @@ export function useGame(lib: Library) {
     showSettings,
     openSettings: () => setShowSettings(true),
     closeSettings: () => setShowSettings(false),
+    showCabinet,
+    openCabinet: () => setShowCabinet(true),
+    closeCabinet: () => setShowCabinet(false),
     exitToMenu,
     eraseProgress,
   };

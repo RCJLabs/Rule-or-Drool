@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { library } from "../../src/content";
+import { STRINGS } from "../../src/content/strings";
 import { newRun } from "../../src/engine/state";
 import { App } from "../../src/ui/App";
 import { CardView, commitThreshold } from "../../src/ui/CardView";
@@ -124,6 +125,38 @@ describe("CardView", () => {
     fireEvent.pointerMove(el, { clientX: 200 + t + 5, pointerId: 2 });
     fireEvent.pointerUp(el, { clientX: 200 + t + 5, pointerId: 2 });
     expect(onCommit).toHaveBeenCalledWith("right");
+  });
+});
+
+describe("App: the cabinet", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    window.history.replaceState({}, "", "/");
+  });
+  afterEach(() => cleanup());
+
+  it("opens from a run and names the people in it", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Take office" }));
+    fireEvent.click(screen.getByRole("button", { name: "Your cabinet" }));
+    const dialog = screen.getByRole("dialog", { name: "Your cabinet" });
+    expect(dialog).toBeTruthy();
+    // Every non-rival role is represented.
+    for (const role of library.roles) {
+      if (role === library.config.rivalRole) continue;
+      expect(within(dialog).getAllByText(STRINGS.roles[role]!, { exact: false }).length, role).toBeGreaterThan(0);
+    }
+    fireEvent.click(within(dialog).getByRole("button", { name: "Close" }));
+    expect(screen.queryByRole("dialog", { name: "Your cabinet" })).toBeNull();
+  });
+
+  it("names the speaker's trait on the card it scales", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Take office" }));
+    // Whoever is speaking, their trait is stated where it is changing the numbers.
+    const tags = document.querySelectorAll(".speaker-trait");
+    expect(tags.length).toBe(1);
+    expect(tags[0]!.textContent!.length).toBeGreaterThan(0);
   });
 });
 

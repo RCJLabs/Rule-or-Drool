@@ -81,3 +81,12 @@ describe("run save: the record a run keeps of itself", () => {
     expect(migrated.stats.arcOutcomes).toEqual([]);
   });
 });
+
+describe("run save: how long the cabinet has served", () => {
+  it("credits a run saved before tenure was tracked from where it is", () => {
+    const { cabinetSince: _gone, ...v5 } = newRun(library, 11, { align: "right" });
+    const migrated = migrateRun(5, v5 as GameState)!;
+    expect(Object.keys(migrated.cabinetSince).sort()).toEqual(Object.keys(v5.cabinet).sort());
+    for (const role of Object.keys(migrated.cabinetSince)) expect(migrated.cabinetSince[role]).toBe(0);
+  });
+});

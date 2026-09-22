@@ -7,6 +7,8 @@ interface Props {
   text: string;
   speakerName: string;
   roleLabel: string;
+  /** The speaker's trait, if it scales the effects of this card. */
+  traitName?: string;
   advisorId: string;
   seed: number;
   /** Keyboard peek: shows the choice for that side without a pointer. */
@@ -24,7 +26,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, speakerName, roleLabel, advisorId, seed, peek, leaving, onDrag, onCommit }: Props) {
+export function CardView({ card, text, speakerName, roleLabel, traitName, advisorId, seed, peek, leaving, onDrag, onCommit }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; id: number } | null>(null);
   const [dx, setDx] = useState(0);
@@ -88,7 +90,10 @@ export function CardView({ card, text, speakerName, roleLabel, advisorId, seed, 
       <div className="speaker">
         <Portrait role={card.speaker} advisorId={advisorId} seed={seed} />
         <span className="speaker-name">{speakerName}</span>
-        <span className="speaker-role">{roleLabel}</span>
+        <span className="speaker-role">
+          {roleLabel}
+          {traitName && <b className="speaker-trait">{traitName}</b>}
+        </span>
       </div>
       <p className="card-text">{text}</p>
     </div>

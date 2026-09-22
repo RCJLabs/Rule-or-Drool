@@ -81,6 +81,26 @@ export const STRINGS = {
     organizer: "Organizer",
     rival: "Rival",
   } as Record<string, string>,
+  /**
+   * What an advisor's trait does to the effects of their own cards, in plain words. The
+   * numbers live in config.traitEffects; these are what the player is told (phase 12).
+   */
+  traits: {
+    competent: { name: "Competent", blurb: "Gets more out of what works and softens what does not." },
+    loyal: { name: "Loyal", blurb: "Takes the edge off whatever their brief costs you." },
+    zealot: { name: "Zealot", blurb: "Makes everything they touch land harder, in both directions." },
+    corrupt: { name: "Corrupt", blurb: "Whatever goes wrong on their watch goes further wrong." },
+  } as Record<string, { name: string; blurb: string }>,
+  cabinet: {
+    title: "Your cabinet",
+    tenure: "in post",
+    sinceStart: "since the first day",
+    newToday: "appointed today",
+    noTrait: "Nothing remarkable either way.",
+    theirs: "Applies to the cards they bring you.",
+    letGo: "You let go of",
+    rival: "Not yours, and not going anywhere.",
+  },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],
     nouns: ["Nachos", "Lotto", "Pills", "Energy Drink", "Payday Loans", "Cola", "Streaming", "Crypto", "Wings", "Slots"],

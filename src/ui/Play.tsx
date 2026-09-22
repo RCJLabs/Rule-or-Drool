@@ -25,6 +25,7 @@ interface Props {
   onNudgeDrift?: (delta: number) => void;
   settings: Settings;
   onSettings: () => void;
+  onCabinet: () => void;
 }
 
 const LEAVE_MS = 260;
@@ -34,7 +35,7 @@ function reducedMotion(settings: Settings): boolean {
   return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings }: Props) {
+export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings, onCabinet }: Props) {
   const [peek, setPeek] = useState<Side | null>(null);
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
@@ -106,6 +107,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
             text={degrade(withRival(lib, state, card.text), settings.plainText ? 0 : degradeLevel(theme), state.seed)}
             speakerName={advisor?.name ?? roleLabel}
             roleLabel={roleLabel}
+            traitName={advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined}
             advisorId={advisorId}
             seed={state.seed}
             peek={peek}
@@ -116,6 +118,9 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         )}
       </main>
       <footer className="status">
+        <button type="button" className="gear" onClick={onCabinet} aria-label={STRINGS.cabinet.title}>
+          ☰
+        </button>
         <button type="button" className="gear" onClick={onSettings} aria-label={STRINGS.ui.settings}>
           ⚙
         </button>

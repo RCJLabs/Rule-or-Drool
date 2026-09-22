@@ -49,6 +49,13 @@ export function migrateRun(v: number, state: GameState): GameState | null {
   // v4 -> v5: the run records who it fired and which branches it took (BACKLOG item 10).
   // A run in progress has no record of what it already did, so it starts one from here.
   if (v < 5) s = { ...s, stats: { ...s.stats, firedAdvisors: [], arcOutcomes: [] } };
+  // v5 -> v6: the cabinet screen needs to know how long people have served. A run in
+  // progress has no record, so everyone is credited from where the run is now.
+  if (v < 6) {
+    const since: Record<string, number> = {};
+    for (const role of Object.keys(s.cabinet ?? {})) since[role] = 0;
+    s = { ...s, cabinetSince: since };
+  }
   return s;
 }
 
