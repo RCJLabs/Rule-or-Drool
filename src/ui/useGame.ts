@@ -5,9 +5,29 @@ import { clearMeta, dailySeedFor, emptyMeta, foldRun, loadMeta, saveMeta, type M
 import { beginRun, commitChoice, ensureCard } from "./flow";
 import { clearRun, loadRun, saveRun } from "./save";
 import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
+import { buzz, newlyDangerous, play } from "./sound";
+import { DANGER_BELOW } from "./Meters";
 import { clampDrift } from "../engine/state";
 
 export type Screen = "setup" | "play" | "over" | "codex";
+
+/**
+ * What a choice sounds like. Ordered so the loudest thing a card did is the last thing you
+ * hear: the card lands, then anything that went wrong, then anything that opened
+ * (BACKLOG-2 phase 9).
+ */
+function cue(settings: Settings, before: GameState, after: GameState, side: Side, eraChanged: boolean): void {
+  if (settings.haptics) buzz(after.over ? [40, 60, 90] : 12);
+  if (!settings.sound) return;
+  play("commit", side);
+  for (const meter of newlyDangerous(before.meters, after.meters, DANGER_BELOW)) play("danger", meter);
+  if (after.activeArcs.length > before.activeArcs.length) play("arc");
+  if (after.stats.electionsHonest + after.stats.electionsCheated > before.stats.electionsHonest + before.stats.electionsCheated) {
+    play("election");
+  }
+  if (eraChanged) play("era");
+  if (after.over && !before.over) play(after.over.endingId.startsWith("finale_") ? "endWell" : "endBadly");
+}
 
 export function useGame(lib: Library) {
   const [saved, setSaved] = useState<GameState | null>(() => {
@@ -24,6 +44,8 @@ export function useGame(lib: Library) {
   const [settings, setSettingsState] = useState<Settings>(() => loadSettings());
   const stateRef = useRef(state);
   stateRef.current = state;
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
   const metaRef = useRef(meta);
   metaRef.current = meta;
   /** Set while a daily-seed run is in progress, so the result is recorded as one. */
@@ -109,6 +131,7 @@ export function useGame(lib: Library) {
       if (!s) return;
       const r = commitChoice(lib, s, side);
       setState(r.state);
+      cue(settingsRef.current, s, r.state, side, r.eraChanged);
       if (r.eraChanged) setTransition(r.state.era);
       if (r.state.over && !s.over) {
         const fold = foldRun(lib, metaRef.current, r.state, dailyRef.current ?? undefined);

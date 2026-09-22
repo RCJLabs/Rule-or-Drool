@@ -40,4 +40,16 @@ describe("settings", () => {
     const raw = JSON.parse(localStorage.getItem("rod.settings")!);
     expect(Object.keys(raw).sort()).toEqual([...Object.keys(DEFAULT_SETTINGS), "v"].sort());
   });
+
+  it("starts with sound on, because a muted feature is one nobody hears", () => {
+    // The mute is one tap away on every screen, which is the trade this default makes.
+    expect(DEFAULT_SETTINGS.sound).toBe(true);
+    expect(DEFAULT_SETTINGS.haptics).toBe(true);
+  });
+
+  it("remembers a mute across sessions", () => {
+    saveSettings({ ...DEFAULT_SETTINGS, sound: false, haptics: false });
+    expect(loadSettings().sound).toBe(false);
+    expect(loadSettings().haptics).toBe(false);
+  });
 });

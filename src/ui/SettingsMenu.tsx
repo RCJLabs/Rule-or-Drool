@@ -15,6 +15,8 @@ interface Row {
 }
 
 const ROWS: readonly Row[] = [
+  { key: "sound", kind: "toggle", title: "Sound", blurb: "The card landing, a meter going bad, a story opening." },
+  { key: "haptics", kind: "toggle", title: "Vibration", blurb: "A short buzz when a card lands, if the device does that." },
   { key: "reduceMotion", kind: "toggle", title: "Reduce motion", blurb: "Cards change without sliding or settling." },
   { key: "plainText", kind: "toggle", title: "Keep the text clean", blurb: "Late Decay stops mangling the words on the card." },
   { key: "portraits", kind: "toggle", title: "Show portraits", blurb: "Draw the face of whoever is speaking." },

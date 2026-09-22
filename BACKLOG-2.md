@@ -91,7 +91,39 @@ content.
 
 </details>
 
-## Phase 9. Sound, haptics and feel — *queued*
+## Phase 9. Sound, haptics and feel — *done*
+
+**Shipped.** The game has a voice, synthesized with oscillators rather than shipped as audio
+files. **The bundle grew by 0.89 KB gzipped**, against a budget of 10 KB, and nothing extra
+is fetched, so offline play is unaffected.
+
+**Seven cues, ordered so the loudest thing a card did is the last thing you hear.** The card
+lands — a soft sine, pitched differently by side, so a swipe has a direction you can hear.
+Then anything that went wrong: each of the six meters has its own pitch, so a run's failures
+sound different from each other rather than all sounding like "bad". Then anything that
+opened: a story starting, an election, an era turning, and a rising or falling figure at the
+end depending on whether you reached a finale or were thrown out.
+
+**A meter only sounds on the crossing**, not while it is already low, or a bad run would
+shout every card.
+
+**Haptics** are a 12 ms tick on commit and a three-beat pattern when the run ends, where the
+device has them. Both the sound and the buzz are absent rather than broken where the browser
+has no `AudioContext` or refuses `vibrate`, which a test covers, because jsdom is that case
+and so is a locked-down browser.
+
+**I changed one thing from the brief.** It said silent by default. I shipped it on, because
+an audio feature that starts silent is one nobody ever hears — the same dead-content failure
+as item 9's unreachable unlock and phase 12's invisible traits — and the mute is now one tap
+away on every screen. Easy to flip if you would rather have it quiet.
+
+**Verified in Chromium against the built bundle**, not the dev transform: ten cards produced
+ten buzzes and seventeen tones, and muting both settings produced exactly zero of each over
+six more cards.
+
+274 tests. Nothing here touches the engine, so the balance targets are unchanged.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** There is no audio in the project at all, and no haptics. A card swiper is a
 physical toy; this one is silent and the card lands with no report.
@@ -104,6 +136,8 @@ turns it on.
 
 **Done when** a run has a sound signature for its own failure modes, the bundle grows by
 under 10 KB, and the settings menu can mute it.
+
+</details>
 
 ## Phase 10. Teach the game without a manual — *queued*
 

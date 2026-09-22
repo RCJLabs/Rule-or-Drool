@@ -14,6 +14,10 @@ export interface Settings {
   portraits: boolean;
   /** Show the drag hint under the card, rather than hiding it after the first run. */
   alwaysHint: boolean;
+  /** Synthesized cues: the card landing, a meter crossing into danger, a story opening. */
+  sound: boolean;
+  /** A short buzz on commit and a longer one when something goes wrong, where supported. */
+  haptics: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -21,6 +25,10 @@ export const DEFAULT_SETTINGS: Settings = {
   plainText: false,
   portraits: true,
   alwaysHint: false,
+  // On by default. A mute is one tap away on every screen, whereas an audio feature that
+  // starts silent is one nobody ever hears (BACKLOG-2 phase 9).
+  sound: true,
+  haptics: true,
 };
 
 const KEY = "rod.settings";
