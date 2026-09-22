@@ -12,6 +12,9 @@ import { APP_VERSION } from "./src/version";
  */
 function serviceWorkerPrecache(): Plugin {
   const SKIP = new Set(["sw.js"]);
+  // Design pages ship with the site so they can be opened on a phone, but they are not
+  // the app and have no business in every player's offline cache (BACKLOG-3 phase 18).
+  const NOT_THE_APP = /^mockups\//;
   return {
     name: "rod-sw-precache",
     apply: "build",
@@ -31,7 +34,7 @@ function serviceWorkerPrecache(): Plugin {
           if (entry.isDirectory()) walk(abs);
           else {
             const rel = relative(dist, abs).split(sep).join("/");
-            if (SKIP.has(rel) || rel.endsWith(".map")) continue;
+            if (SKIP.has(rel) || NOT_THE_APP.test(rel) || rel.endsWith(".map")) continue;
             files.push(`./${rel}`);
           }
         }

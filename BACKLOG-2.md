@@ -5,6 +5,9 @@ numbered as phases 8–17 so they continue ROADMAP.md's seven build phases rathe
 restarting a count. Same rule as before: every "evidence" line is measured against the
 shipped content, not estimated.
 
+**Eight of the ten are done.** Phases 11 and 17 are parked by the user until round three
+(BACKLOG-3.md, phases 18–27) has been worked through.
+
 Status: **doing** · **queued** · **done**
 
 The measurements these were drawn from, taken at v0.17.0 (440 cards, 22 arcs, 23 endings):
