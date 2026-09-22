@@ -1,4 +1,4 @@
-import { arcOutcomes, epilogueKey } from "../engine/endings";
+import { arcOutcomes, epilogueKey, nearMisses } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
@@ -9,6 +9,8 @@ import type { DailyRecord, MetaState , RunRecord } from "./types";
 
 /** How many past runs the codex keeps. */
 export const HISTORY_LENGTH = 12;
+/** How close a finished run had to get for the codex to name what it nearly was. */
+export const NEAR_MISS_WITHIN = 12;
 
 export function emptyMeta(): MetaState {
   return {
@@ -25,6 +27,7 @@ export function emptyMeta(): MetaState {
     advisorsKept: {},
     advisorsFired: {},
     history: [],
+    nearMissed: [],
     daily: null,
   };
 }
@@ -63,7 +66,14 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     advisorsKept: { ...meta.advisorsKept },
     advisorsFired: { ...meta.advisorsFired },
     history: meta.history,
+    nearMissed: [...meta.nearMissed],
   };
+
+  // What this run came close to but did not reach. Recorded at the end rather than as it
+  // happens, so it costs nothing per card and cannot be read back mid-run.
+  for (const { endingId: nearId } of nearMisses(lib, run, NEAR_MISS_WITHIN)) {
+    if (nearId !== endingId && !next.nearMissed.includes(nearId)) next.nearMissed.push(nearId);
+  }
 
   // What the country was left carrying. Only the flags that name something durable count;
   // the rest are bookkeeping the player never sees (BACKLOG item 10).

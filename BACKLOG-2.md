@@ -245,7 +245,53 @@ so the scaling is legible at the moment it matters.
 
 </details>
 
-## Phase 13. Endings you can aim at — *queued*
+## Phase 13. Endings you can aim at — *done*
+
+**Shipped.** The run now tells you what it is about to become, the codex names what you
+nearly did, and every meter ending is reachable by a player who wants it.
+
+**The telegraph.** A run regularly came within five points of an ending it was never told
+about: measured over 200 runs, the closest approach was 5 from `riots`, 6 from `bankruptcy`,
+7 from `police_state` and `paralysis`, 9 from `oligarchy`. Within twelve points the meter
+bar now names the ending by title, nine new cards fire at the edge and say what is coming in
+the deck's own voice, and a finished run records what it nearly was so the codex shows that
+ending as a target rather than a blank row.
+
+**One ending was unreachable, and it was a content shape, not a tuning number.** Aiming a bot
+directly at `anarchy` reached it 0% of the time. My first guess — that the coup check was
+firing first — was wrong, and testing `checkOuster` directly showed it fires correctly at
+Order 0. The real cause: **Order had only 32 clean sacrifices in the whole deck against
+Institutions' 271 and Money's 160.** It was the one meter you could lose but never choose to
+spend. Four cards fix that — an amnesty for people convicted under a law you repealed, a
+curfew that was for six weeks and has run three years, a riot squad better equipped than the
+ambulance service, a permit that is yours to sign — and anarchy goes from 0% to 8% of aimed
+runs.
+
+**A player who aims at an ending now reaches it:**
+
+| | | | |
+|---|---|---|---|
+| bankruptcy 78% | paralysis 79% | riots 63% | abandoned_backers 55% |
+| police_state 39% | oligarchy 39% | abandoned_base 39% | state_collapse 23% |
+| anarchy 8% | | | |
+
+**The done-when I wrote was measuring the wrong thing, and this is the second time.** It
+asked for a competent player to see 15 of 23 endings in 200 runs "without playing badly on
+purpose" — but fifteen of the twenty-three *are* ways of losing, so a player who never loses
+will never see them. Worse, the telegraph made that number go **down**, 7 to 6, because a
+warned player recovers. That is the feature working. The honest measure is the aiming one
+above: whether a player who wants an ending can steer to it. Phase 8's spread target failed
+the same way, for the same reason — a run-level average measures the player, not the design.
+
+**One engine change survived being wrong about it.** A coup now needs an institution left to
+mount it: below 12 Institutions there is nobody organised enough to take over, which is what
+separates a coup from anarchy. It did not fix anarchy, but it is the better model and it
+cost nothing.
+
+497 cards, 291 tests, all five targets pass in both states: 21.8% Ascent locked, 18.1%
+unlocked.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** A competent player reaches **8 of 23 endings in 200 runs**. Fifteen are never
 seen, because most require losing in a particular way and nothing tells you you are close to
@@ -259,6 +305,8 @@ itself is the clue.
 
 **Done when** a player who wants a specific ending can steer toward it, and a competent
 player sees 15 of 23 in 200 runs without playing badly on purpose.
+
+</details>
 
 ## Phase 14. Choices that do more than move meters — *queued*
 

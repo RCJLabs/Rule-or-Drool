@@ -33,6 +33,12 @@ export interface MetaState {
   advisorsFired: Record<string, number>;
   /** The last few runs, newest first. */
   history: RunRecord[];
+  /**
+   * Endings the player has come within reach of but not reached. The codex names these
+   * rather than hiding them, so an undiscovered ending is a target rather than a blank
+   * (BACKLOG-2 phase 13).
+   */
+  nearMissed: string[];
   /** Result of the most recent daily-seed run, if any. */
   daily: DailyRecord | null;
 }

@@ -754,6 +754,19 @@ button {
   opacity: 0.45;
   border-style: dashed;
 }
+.codex-list li.nearly {
+  opacity: 0.8;
+  border-left-width: 5px;
+  border-left-style: dashed;
+  border-left-color: var(--accent);
+}
+.near-note {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  font-size: 12px;
+  text-align: center;
+  color: var(--accent);
+}
 .codex-list li.found {
   border-left-width: 5px;
   border-left-color: var(--accent);

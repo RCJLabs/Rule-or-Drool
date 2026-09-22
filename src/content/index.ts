@@ -55,6 +55,7 @@ import blocCards from "./cards/blocs.json";
 import wantCards from "./cards/wants.json";
 import keptCards from "./cards/kept.json";
 import tenureCards from "./cards/tenure.json";
+import edgeCards from "./cards/edges.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
 import modifiers from "./modifiers.json";
@@ -134,6 +135,7 @@ export const content: Content = {
     ...asCards(wantCards, "wants.json"),
     ...asCards(keptCards, "kept.json"),
     ...asCards(tenureCards, "tenure.json"),
+    ...asCards(edgeCards, "edges.json"),
   ],
   arcs: arcs as unknown as Arc[],
   advisors: advisors as Advisor[],

@@ -120,10 +120,13 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
           <ul className="codex-list">
             {endings.map((e) => {
               const count = meta.endings[e.id] ?? 0;
+              // An ending you have been within reach of is named rather than hidden, so it
+              // becomes something to aim at instead of a blank row (phase 13).
+              const nearly = !count && meta.nearMissed.includes(e.id);
               return (
-                <li key={e.id} className={count ? "found" : "locked"}>
-                  <b>{count ? e.title : "· · ·"}</b>
-                  <span>{count ? e.text : STRINGS.ui.locked}</span>
+                <li key={e.id} className={count ? "found" : nearly ? "nearly" : "locked"}>
+                  <b>{count || nearly ? e.title : "· · ·"}</b>
+                  <span>{count ? e.text : nearly ? STRINGS.ui.cameClose : STRINGS.ui.locked}</span>
                   {count > 1 && <em>seen {count} times</em>}
                 </li>
               );

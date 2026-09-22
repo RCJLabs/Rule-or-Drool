@@ -1,7 +1,7 @@
 import type { Library } from "./library";
 import { exitBand } from "./state";
 import type { Band, Epilogue, GameState, PlayerAlign } from "./types";
-import { PLAYER_ALIGNS } from "./types";
+import { BLOC_KEYS, METER_KEYS, PLAYER_ALIGNS } from "./types";
 
 export function epilogueKey(e: Pick<Epilogue, "band" | "align" | "era">): string {
   return `${e.band}:${e.align}:${e.era}`;
@@ -86,4 +86,31 @@ export function arcOutcomes(lib: Library, arcId: string): ArcOutcome[] {
     }
   }
   return out;
+}
+
+/** An ending this run is close to, and how many points away it is. */
+export interface NearMiss {
+  endingId: string;
+  away: number;
+}
+
+/**
+ * The endings a run is within `within` points of right now, nearest first. A run regularly
+ * comes within five points of an ending it never reaches and is never told about, which is
+ * why most of them are unreachable on purpose rather than by accident (BACKLOG-2 phase 13).
+ */
+export function nearMisses(lib: Library, state: GameState, within: number): NearMiss[] {
+  const cfg = lib.config;
+  const out: NearMiss[] = [];
+  const add = (endingId: string | undefined, away: number) => {
+    if (endingId && away >= 0 && away <= within) out.push({ endingId, away });
+  };
+  for (const k of METER_KEYS) {
+    const v = state.meters[k];
+    add(cfg.meterEndings[k].low, v);
+    add(cfg.meterEndings[k].high, 100 - v);
+  }
+  // Every bloc at cultAt, so the distance is set by whichever is furthest from it.
+  add(cfg.cultEnding, Math.max(...BLOC_KEYS.map((b) => cfg.cultAt - state.meters[b])));
+  return out.sort((a, b) => a.away - b.away || a.endingId.localeCompare(b.endingId));
 }

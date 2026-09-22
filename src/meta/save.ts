@@ -32,6 +32,7 @@ export function migrateMeta(raw: unknown): MetaState | null {
     advisorsKept: { ...(data.advisorsKept ?? {}) },
     advisorsFired: { ...(data.advisorsFired ?? {}) },
     history: Array.isArray(data.history) ? [...data.history] : [],
+    nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
     daily: data.daily ?? null,

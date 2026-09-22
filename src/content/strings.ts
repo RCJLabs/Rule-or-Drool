@@ -181,6 +181,8 @@ export const STRINGS = {
     reload: "Reload",
     settings: "Settings",
     gotIt: "Got it",
+    nearEnding: "Close to",
+    cameClose: "You came close to this.",
     howItWorks: "How this works",
     close: "Close",
     exitToMenu: "Leave to the main menu",

@@ -1,11 +1,15 @@
 import { STRINGS } from "../content/strings";
 import type { Preview } from "../engine/preview";
-import type { Meters, PlayerAlign } from "../engine/types";
+import type { GameState, Meters, PlayerAlign } from "../engine/types";
+import type { Library } from "../engine/library";
+import { nearMisses } from "../engine/endings";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import { MeterIcon } from "./MeterIcon";
 import { meterLabel, type Theme } from "./theme";
 
 interface Props {
+  lib: Library;
+  state: GameState;
   meters: Meters;
   /** Projection of the side being dragged or peeked, or null when the card is at rest. */
   preview: Preview | null;
@@ -16,6 +20,8 @@ interface Props {
 export const DANGER_BELOW = 15;
 /** A bloc this low is visibly unhappy, well before it is dangerous (BACKLOG-2 phase 8). */
 export const RESTLESS_BELOW = 32;
+/** How close an ending has to be before the run is told which one it is (phase 13). */
+export const NEAR_WITHIN = 12;
 
 /**
  * Which bloc is the unhappiest, if any is unhappy enough to name. The coalition is three
@@ -35,8 +41,11 @@ export function restlessBloc(meters: Meters): (typeof BLOC_KEYS)[number] | null 
  * Six meters now: the three coalition blocs, then the three that belong to the state.
  * The gap between the groups is deliberate; they fail in different ways (BACKLOG item 5).
  */
-export function MetersBar({ meters, preview, theme, align }: Props) {
+export function MetersBar({ lib, state, meters, preview, theme, align }: Props) {
   const restless = restlessBloc(meters);
+  // The nearest ending, named, so a run that is five points from one knows it (phase 13).
+  const near = nearMisses(lib, state, NEAR_WITHIN)[0];
+  const nearTitle = near ? lib.endings.get(near.endingId)?.title : undefined;
   return (
     <header className="meters">
       {METER_KEYS.map((k) => {
@@ -53,10 +62,16 @@ export function MetersBar({ meters, preview, theme, align }: Props) {
           </div>
         );
       })}
-      {restless && (
-        <p className="restless-note" role="status">
-          {STRINGS.blocNames[align][restless]} {STRINGS.blocRestless[restless]}
+      {nearTitle ? (
+        <p className="near-note" role="status">
+          {STRINGS.ui.nearEnding} <b>{nearTitle}</b>
         </p>
+      ) : (
+        restless && (
+          <p className="restless-note" role="status">
+            {STRINGS.blocNames[align][restless]} {STRINGS.blocRestless[restless]}
+          </p>
+        )
       )}
     </header>
   );

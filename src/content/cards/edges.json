@@ -1,0 +1,546 @@
+[
+  {
+    "id": "e_money_out",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The payroll clears on Thursday or it does not clear. There is no third Thursday after that.",
+    "cond": {
+      "meters": {
+        "money": {
+          "lt": 16
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Sell whatever is left",
+      "fx": {
+        "money": 9,
+        "public": -4,
+        "base": -3,
+        "inst": -3
+      },
+      "drift": -5
+    },
+    "right": {
+      "label": "Say it out loud",
+      "fx": {
+        "money": -4,
+        "inst": 5,
+        "public": 3,
+        "base": -4
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "e_money_glut",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The treasury now holds more than the country can absorb. Six people have opinions about where it should sit.",
+    "cond": {
+      "meters": {
+        "money": {
+          "gt": 84
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Spend it on the country",
+      "fx": {
+        "money": -9,
+        "public": 6,
+        "inst": 4,
+        "backers": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let them place it",
+      "fx": {
+        "money": 7,
+        "backers": 6,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "e_order_gone",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Three districts are policing themselves. They are doing it about as well as you were, which is the difficult part.",
+    "cond": {
+      "meters": {
+        "order": {
+          "lt": 18
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Take the districts back",
+      "fx": {
+        "order": 7,
+        "money": -5,
+        "public": -4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let them keep it",
+      "fx": {
+        "order": -8,
+        "public": 3,
+        "base": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "e_order_total",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Everyone is extremely polite now. The complaints office has had no complaints for eleven weeks.",
+    "cond": {
+      "meters": {
+        "order": {
+          "gt": 84
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Stand the patrols down",
+      "fx": {
+        "order": -8,
+        "public": 5,
+        "inst": 4,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let it keep working",
+      "fx": {
+        "order": 7,
+        "inst": -5,
+        "public": -5,
+        "base": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "e_inst_gone",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nobody knows who signs what any more. Three ministries have started making it up, consistently and separately.",
+    "cond": {
+      "meters": {
+        "inst": {
+          "lt": 18
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Write it down again",
+      "fx": {
+        "inst": 8,
+        "money": -5,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let them make it up",
+      "fx": {
+        "inst": -7,
+        "order": -3,
+        "money": 3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "e_inst_total",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nothing can be done without four signatures, and two of the signatories are committees.",
+    "cond": {
+      "meters": {
+        "inst": {
+          "gt": 84
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Add the fifth signature",
+      "fx": {
+        "inst": 7,
+        "money": -4,
+        "public": -5,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Suspend the procedure",
+      "fx": {
+        "inst": -8,
+        "order": 3,
+        "base": 4,
+        "public": 3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "e_base_gone",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The people who put you here have stopped saying they did. Nobody has resigned; they have simply stopped.",
+    "cond": {
+      "meters": {
+        "base": {
+          "lt": 18
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Give them all of it",
+      "fx": {
+        "base": 8,
+        "public": -5,
+        "backers": -4,
+        "money": -3
+      },
+      "drift": -5
+    },
+    "right": {
+      "label": "Give them all of it",
+      "fx": {
+        "base": -7,
+        "inst": 3,
+        "public": 3
+      },
+      "drift": 2
+    }
+  },
+  {
+    "id": "e_backers_gone",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The money that funds this has started funding other things. Nobody said no; the transfers simply stopped.",
+    "cond": {
+      "meters": {
+        "backers": {
+          "lt": 18
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Pay whatever it takes",
+      "fx": {
+        "backers": 8,
+        "money": -7,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -5
+    },
+    "right": {
+      "label": "Do without them",
+      "fx": {
+        "backers": -7,
+        "money": -4,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "e_public_gone",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The country has stopped listening. The broadcasts go out and the numbers watching are a rounding error.",
+    "cond": {
+      "meters": {
+        "public": {
+          "lt": 18
+        }
+      }
+    },
+    "weight": 8,
+    "left": {
+      "label": "Go and stand there",
+      "fx": {
+        "public": 8,
+        "money": -5,
+        "base": -4,
+        "order": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Go and stand there",
+      "fx": {
+        "public": -7,
+        "money": 3,
+        "base": 3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "o_amnesty",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The prisons hold four thousand people convicted under a law you repealed last year.",
+    "left": {
+      "label": "Wait for the appeals",
+      "fx": {
+        "order": 2,
+        "public": -3,
+        "inst": -2
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Let them all out",
+      "fx": {
+        "order": -7,
+        "public": 5,
+        "inst": 4,
+        "base": -3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "o_curfew",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The curfew was for six weeks and has run for three years. Nobody can remember voting for the extension.",
+    "left": {
+      "label": "Extend it quietly",
+      "fx": {
+        "order": 3,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Lift it tonight",
+      "fx": {
+        "order": -8,
+        "public": 6,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 5
+    }
+  },
+  {
+    "id": "o_squad",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The riot squad has better equipment than the ambulance service and has not been needed in a year.",
+    "left": {
+      "label": "Keep them sharp",
+      "fx": {
+        "order": 3,
+        "money": -4,
+        "public": -3
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Disband the squad",
+      "fx": {
+        "order": -7,
+        "money": 4,
+        "public": 4,
+        "base": -3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "o_march",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Forty thousand people want to march past your window on Saturday. The permit is yours to sign.",
+    "left": {
+      "label": "Route them elsewhere",
+      "fx": {
+        "order": 2,
+        "public": -4,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Route them elsewhere",
+      "fx": {
+        "order": -6,
+        "public": 5,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    }
+  }
+]

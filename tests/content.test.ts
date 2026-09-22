@@ -143,6 +143,38 @@ describe("content: the shape of a run", () => {
     for (const rule of rules) if (rule.passive) expect(rule.passiveEvery ?? 0).toBeGreaterThan(0);
   });
 
+  it("has a card at every edge that says what is coming", () => {
+    // A run regularly came within five points of an ending it was never told about
+    // (BACKLOG-2 phase 13). Each reachable extreme now has a card that fires there.
+    const cfg = library.config;
+    for (const meter of ["base", "backers", "public", "money", "order", "inst"] as const) {
+      for (const end of ["low", "high"] as const) {
+        if (!cfg.meterEndings[meter][end]) continue;
+        const atEdge = content.cards.filter((c) => {
+          const m = c.cond?.meters?.[meter];
+          if (!m || (c.weight ?? 1) === 0) return false;
+          return end === "low" ? (m.lt ?? 0) > 0 && m.lt! <= 20 : (m.gt ?? 100) >= 80;
+        });
+        expect(atEdge.length, `${meter} ${end}`).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("lets Order be spent on purpose, not only lost by accident", () => {
+    // Order was the one meter with no clean way to give it up: 32 choices against
+    // Institutions' 271, which is why anarchy could not be reached even when aimed at.
+    const spendable = content.cards
+      .flatMap((c) => [c.left, c.right])
+      .filter((ch) => {
+        const fx = ch.fx ?? {};
+        const order = fx.order ?? 0;
+        if (order >= 0) return false;
+        const rest = Object.entries(fx).reduce((n, [k, v]) => (k !== "order" && v < 0 ? n + v : n), 0);
+        return rest >= -2;
+      });
+    expect(spendable.length).toBeGreaterThanOrEqual(35);
+  });
+
   it("gives every cabinet advisor something they want from the job", () => {
     // Two advisors per role, drawn at random, with no story: the rival became a person in
     // item 7 and the eight people you work with did not (BACKLOG-2 phase 15).

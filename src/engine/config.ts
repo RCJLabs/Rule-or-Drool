@@ -41,6 +41,12 @@ export interface EngineConfig {
   /** Coup risk per check = coupBase + coupPerPoint * (shortfall of Order + Institutions below 50). Added. */
   coupBase: number;
   coupPerPoint: number;
+  /**
+   * A coup needs an institution left to mount it. Below this much Institutions there is
+   * nobody organised enough to take over, which is what separates a coup from anarchy
+   * (BACKLOG-2 phase 13).
+   */
+  coupNeedsInst: number;
   coupEnding: string;
   /** drift <= decayAt is decay, >= ascentAt is ascent (5.2). */
   bandDecayAt: number;
@@ -132,6 +138,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   electionsAbolishedFlag: "elections_abolished",
   coupBase: 0.05,
   coupPerPoint: 0.01,
+  coupNeedsInst: 12,
   coupEnding: "coup",
   bandDecayAt: -25,
   bandAscentAt: 25,

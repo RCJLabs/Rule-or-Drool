@@ -283,6 +283,17 @@ describe("the codex as a history", () => {
     expect(meta.history[0]!.legacies).toEqual(["elections_abolished", "housing_built"]);
   });
 
+  it("remembers what a run nearly was, but not what it was", () => {
+    const run = finished(
+      { endingId: "finale_muddle", epilogueKey: "muddle:left:3" },
+      { meters: { base: 50, backers: 50, public: 50, money: 4, order: 50, inst: 50 } },
+    );
+    const fold = foldRun(library, emptyMeta(), run);
+    expect(fold.meta.nearMissed).toContain("bankruptcy");
+    // The ending it actually reached is a discovery, not a near miss.
+    expect(fold.meta.nearMissed).not.toContain("finale_muddle");
+  });
+
   it("counts stories against what the content actually offers", () => {
     const p = codexProgress(library, emptyMeta());
     expect(p.storiesTotal).toBeGreaterThan(p.endingsTotal);

@@ -133,6 +133,9 @@ export function checkOuster(lib: Library, state: GameState): GameState {
 /** Coup risk for the abolished-elections path, in [0, 1]. */
 export function coupRisk(lib: Library, state: GameState): number {
   const cfg = lib.config;
+  // Somebody has to be organised enough to take over. Once the institutions are gone too,
+  // what follows is not a coup, and the run is left to reach anarchy on its own terms.
+  if (state.meters.inst < cfg.coupNeedsInst) return 0;
   const shortfall = Math.max(0, 50 - state.meters.order) + Math.max(0, 50 - state.meters.inst);
   // Take the ballot away and the rival does not go away with it; they just stop needing one.
   const pressure = Math.max(0, rivalPressure(lib, state) - cfg.rivalStart);
