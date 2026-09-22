@@ -73,3 +73,28 @@ describe("web app manifest", () => {
     expect(theme).toBe(manifest.theme_color);
   });
 });
+
+describe("the build splits content from the shell", () => {
+  it("keeps src/content in its own chunk and the rest of the app out of it", async () => {
+    // Content is about half the bundle and changes on nearly every release; the shell
+    // rarely does. The split is what stops a card edit invalidating React in the cache.
+    const config = (await import("../vite.config")).default as {
+      build?: { rolldownOptions?: { output?: { advancedChunks?: { groups?: { name: string; test: RegExp }[] } } } };
+    };
+    const groups = config.build?.rolldownOptions?.output?.advancedChunks?.groups ?? [];
+    const content = groups.find((g) => g.name === "content");
+    expect(content, "the build declares a content chunk").toBeTruthy();
+    expect(content!.test.test("/repo/src/content/cards/era1/any.json")).toBe(true);
+    expect(content!.test.test("/repo/src/content/index.ts")).toBe(true);
+    expect(content!.test.test("/repo/src/engine/resolve.ts")).toBe(false);
+    expect(content!.test.test("/repo/src/ui/Play.tsx")).toBe(false);
+  });
+
+  it("precaches whatever the build emits, so a new chunk cannot be missed offline", () => {
+    // The plugin walks dist rather than naming files, which is why splitting the bundle
+    // needed no change to the service worker.
+    const config = readFileSync("vite.config.ts", "utf8");
+    expect(config).toContain("const walk = (dir: string)");
+    expect(config).toContain("PRECACHE = ${precache}");
+  });
+});

@@ -52,5 +52,21 @@ function serviceWorkerPrecache(): Plugin {
 export default defineConfig({
   base: "/Rule-or-Drool/",
   plugins: [react(), serviceWorkerPrecache()],
-  build: { target: "es2022", sourcemap: true },
+  build: {
+    target: "es2022",
+    sourcemap: true,
+    /**
+     * The cards are about half the bundle and change on almost every release, while the
+     * shell changes rarely. Splitting them means a content-only release re-downloads the
+     * content chunk and leaves React and the UI in the browser's cache. The service
+     * worker precaches whatever is emitted, so offline play is unaffected either way.
+     */
+    rolldownOptions: {
+      output: {
+        advancedChunks: {
+          groups: [{ name: "content", test: /[\\/]src[\\/]content[\\/]/ }],
+        },
+      },
+    },
+  },
 });
