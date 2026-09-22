@@ -114,18 +114,25 @@ Android checks `https://<host>/.well-known/assetlinks.json` at the root of the h
 this project publishes under `/Rule-or-Drool/`, so its host's root is not ours to write to.
 Without the check passing, the app runs with a browser address bar across the top.
 
-- **Custom domain (recommended).** Point a domain at this Pages site, add
-  `public/.well-known/assetlinks.json` here (Vite copies `public/` into the build as it
-  is), set `host` and `startUrl` in `twa/twa-manifest.json` to the new origin, and check
-  that GitHub Pages serves the dot-folder: it serves Actions-deployed artifacts as they
-  are, but confirm it with `curl` after the first deploy.
+- **Custom domain (recommended).** Point a domain at this Pages site. The site then
+  moves to the domain's root, so:
+  - change `base` in `vite.config.ts` from `/Rule-or-Drool/` to `/`, or every asset 404s;
+  - add `public/.well-known/assetlinks.json` (Vite copies `public/` into the build as it
+    is, dot-folders included);
+  - set `host`, `startUrl`, `webManifestUrl` and both icon URLs in
+    `twa/twa-manifest.json` to the new origin;
+  - after the first deploy, check with `curl` that Pages serves the dot-folder.
+
+  **The cost:** saves are stored per origin, so anyone playing on the web today starts
+  again with an empty codex on the new domain, unless the old origin is kept serving the
+  game.
 - **The user site.** Add the file to the `RCJLabs/rcjlabs.github.io` repository at
   `.well-known/assetlinks.json`. It works, but this game's release then depends on another
   repository.
 
 Either way the file is `twa/assetlinks.template.json`, with the SHA-256 fingerprint of the
-**app signing key**. With Play App Signing, which new apps use, that is on the console's App integrity page,
-under App signing, not your local keystore's.
+**app signing key**. With Play App Signing, which new apps use, that fingerprint is on the
+console's App integrity page, under App signing, not the one in your local keystore.
 
 ### 2. The policy check
 
@@ -136,7 +143,7 @@ confirmed. Read the current pages and settle:
   invented parties. The listing says so in its last paragraph;
 - whether famine, pandemic and war cards could read as exploiting a current real event;
 - the target API level. `twa/twa-manifest.json` was checked against Bubblewrap 1.25.0
-  (16 September 2026), which targets API 36. Use that version or later.
+  (released 31 July 2026), which targets API 36. Use that version or later.
 
 ### 3. Your developer account
 
@@ -152,10 +159,11 @@ On a machine with a JDK and the Android SDK:
 ```
 npm install -g @bubblewrap/cli
 cp twa/twa-manifest.json ./twa-manifest.json   # after setting the host, per decision 1
-bubblewrap build                                 # creates the signing key on first run
+bubblewrap build
 ```
 
-Upload `app-release-bundle.aab`. Set `appVersion` and `appVersionCode` in the manifest for
+The signing key goes where `signingKey.path` in the manifest says. If you have none yet,
+make one with `keytool` or let `bubblewrap init` make it. Upload `app-release-bundle.aab`. Set `appVersion` and `appVersionCode` in the manifest for
 the build, not for the web: the app is a shell around the live site, so every web deploy
 reaches Play players without a store release. Rebuild and bump only when the shell changes
 (the host, the icons, the signing key, or the target API).

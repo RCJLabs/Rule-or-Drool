@@ -27,9 +27,9 @@ page, not from your local keystore.
 
 ## The manifest
 
-`twa-manifest.json` is loaded by Bubblewrap as it stands, and was checked by loading it in
-`@bubblewrap/core` 1.25.0 (16 September 2026), which targets Android API 36. That check
-caught two fields the file had carried since phase 7 without anything noticing:
+`twa-manifest.json` is loaded by Bubblewrap as it stands. It was checked by loading it in
+`@bubblewrap/core` 1.25.0 (released 31 July 2026), which targets Android API 36. That
+check caught two fields the file had carried since phase 7 without anything noticing:
 
 - the version was written as `appVersionName`, which Bubblewrap does not read (its key is
   `appVersion`), so a build would have had no version name;
