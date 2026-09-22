@@ -199,7 +199,47 @@ harness and the balance targets together. Do it deliberately or not at all.
 
 </details>
 
-## 6. Let consequences chain — *queued*
+## 6. Let consequences chain — *done*
+
+**Shipped.** 25 new cards, 386 in total, and the deferred bill now arrives more than once.
+
+**Chains.** Nine new delayed cards hang off the choice that defers the cost, which is the
+whole premise stated mechanically. Default loudly and nobody will lend to you at a price you
+want to say aloud; take the one bank that will and its conditions get an office on the third
+floor that sees the budget before you do. Blame the east for the dry taps and the eastern
+districts queue for eleven days and then stop queueing; send the water police and two
+provinces start sending lawyers instead of tax.
+
+A run can now travel **three enqueue steps** from the card that started it, where every
+chain used to stop after one. 25 of the 64 cards that enqueue something begin a chain two or
+more deep, and **72% of runs reach a second-or-later consequence step**. Condition-gated
+cards went from 7% to **21%**, so more of what a run shows is there because of something the
+player did.
+
+**Promises.** Four lines — the deficit, the inquiry, fifty thousand homes for the Commons,
+no tax rises for the Ledger. Each promise card queues three things at once: a temptation
+about eight cards out, and *both* endings of itself at twenty. Between them, breaking the
+promise sets a flag, and the two endings are gated on it, so `tickQueue` drops the one that
+no longer applies and the player is shown the reckoning they earned. That needed no engine
+change; a test pins the behaviour, because the whole design rests on it.
+
+Over 3,000 runs: a promise is made in **97%** of runs, broken in **51%**, and **91%** reach
+a reckoning. The delayed deck now supplies 10.7 cards of a 103-card run.
+
+**The validator gained a real rule.** A consequence that enqueues a consequence can loop,
+and unlike an arc cycle — a warning, because a refusal always ends an arc — a queue loop is
+a run that never stops paying. `enqueue-cycle` is an error.
+
+**Two things the tests caught.** The promise cards first gave *both* sides positive drift,
+which breaks the house rule that every card is a real trade. The fix was also the better
+design: making the promise is the applause now, so it is the tempting side. And the new
+cards swung **1.9× the deck's effect budget** — written as set pieces without checking what
+an ordinary card costs. That alone pushed mixed-bot Ascent to 33.8%, past its ceiling.
+Scaling effects to the deck's budget and positive drift to 0.75 brought it back to **23.4%
+locked and 18.6% unlocked**, against 22.5% and 17.6% before this item. All five section 8
+targets pass in both states over 32,000 runs each.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** Consequence chains are exactly one step deep: zero consequence cards enqueue
 another. Only 7% of cards are condition-gated.
@@ -207,6 +247,8 @@ another. Only 7% of cards are condition-gated.
 **Do.** Consequences that trigger their own consequences, and promise cards that record a
 commitment and check it twenty cards later. The premise is that the easy choice compounds.
 Mechanically it currently does not.
+
+</details>
 
 ## 7. Make the rival a person — *queued*
 

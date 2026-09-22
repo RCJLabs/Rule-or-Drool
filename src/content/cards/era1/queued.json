@@ -72,6 +72,12 @@
       "drift": -3,
       "clearFlags": [
         "bridge_ignored"
+      ],
+      "enqueue": [
+        {
+          "id": "q2_inquiry",
+          "delay": 12
+        }
       ]
     },
     "right": {
@@ -158,7 +164,13 @@
         "order": -3,
         "inst": -1
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q2_fever_returns",
+          "delay": 14
+        }
+      ]
     }
   },
   {
@@ -278,7 +290,13 @@
         "order": -3,
         "inst": -1
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q2_water_riots",
+          "delay": 10
+        }
+      ]
     }
   },
   {
@@ -313,7 +331,13 @@
         "mood": 1,
         "inst": -3
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q2_creditors",
+          "delay": 12
+        }
+      ]
     }
   },
   {
@@ -386,7 +410,13 @@
         "mood": -1,
         "inst": -1
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q2_refinery_suit",
+          "delay": 13
+        }
+      ]
     }
   }
 ]

@@ -254,6 +254,45 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     }
   }
 
+  // ---- delayed consequences ---------------------------------------------------------
+  // A consequence may enqueue a further consequence, which is how the easy choice
+  // compounds (BACKLOG item 6). A loop in that graph is a run that never stops paying,
+  // so it is an error rather than the warning an arc cycle gets: an arc always has a
+  // refusal, a queue has no such escape.
+  {
+    const enqueued = (id: string): string[] => {
+      const c = cards.get(id);
+      if (!c) return [];
+      return SIDES.flatMap((side) => (c[side].enqueue ?? []).map((e) => e.id));
+    };
+    const color = new Map<string, 1 | 2>();
+    const stack: string[] = [];
+    const visit = (id: string): string[] | null => {
+      color.set(id, 1);
+      stack.push(id);
+      for (const next of enqueued(id)) {
+        if (!cards.has(next)) continue;
+        const seen = color.get(next);
+        if (seen === 1) return [...stack.slice(stack.indexOf(next)), next];
+        if (seen === undefined) {
+          const loop = visit(next);
+          if (loop) return loop;
+        }
+      }
+      color.set(id, 2);
+      stack.pop();
+      return null;
+    };
+    for (const c of content.cards) {
+      if (color.has(c.id)) continue;
+      const loop = visit(c.id);
+      if (loop) {
+        issues.error("enqueue-cycle", `enqueue chain loops: ${loop.join(" -> ")}`, { kind: "card", id: loop[0]!, path: "enqueue" });
+        break;
+      }
+    }
+  }
+
   // ---- arcs ---------------------------------------------------------------------------
   for (const arc of content.arcs) {
     const where: Where = { kind: "arc", id: arc.id };

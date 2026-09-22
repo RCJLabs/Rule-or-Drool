@@ -91,6 +91,26 @@ describe("rules: flags", () => {
   });
 });
 
+describe("rules: delayed consequences", () => {
+  it("rejects an enqueue chain that loops", () => {
+    // An arc cycle is only a warning because a refusal always ends an arc. A queue has no
+    // refusal, so a loop is a run that never stops paying (BACKLOG item 6).
+    const c = makeValid();
+    c.cards.push(extraCard({ id: "q_one", weight: 0, left: { label: "A", drift: -1, enqueue: [{ id: "q_two", delay: 3 }] } }));
+    c.cards.push(extraCard({ id: "q_two", weight: 0, left: { label: "A", drift: -1, enqueue: [{ id: "q_one", delay: 3 }] } }));
+    expect(codes(c)).toContain("error:enqueue-cycle");
+  });
+
+  it("allows a chain that ends", () => {
+    const c = makeValid();
+    card(c, "ev_a").right.enqueue = [{ id: "q_one", delay: 2 }];
+    c.cards.push(extraCard({ id: "q_one", weight: 0, left: { label: "A", drift: -1, enqueue: [{ id: "q_two", delay: 3 }] } }));
+    c.cards.push(extraCard({ id: "q_two", weight: 0, left: { label: "A", drift: -1, enqueue: [{ id: "q_three", delay: 3 }] } }));
+    c.cards.push(extraCard({ id: "q_three", weight: 0 }));
+    expect(codes(c)).toEqual([]);
+  });
+});
+
 describe("rules: modifiers", () => {
   it("rejects the mood shorthand in a starting position", () => {
     // It means all three blocs, so a number written when support was one meter is silently

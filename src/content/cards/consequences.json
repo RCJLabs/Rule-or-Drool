@@ -102,7 +102,13 @@
         "mood": 1,
         "inst": -3
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q2_oath_lists",
+          "delay": 12
+        }
+      ]
     }
   },
   {
@@ -209,7 +215,13 @@
         "mood": 1,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q2_black_market",
+          "delay": 10
+        }
+      ]
     }
   },
   {

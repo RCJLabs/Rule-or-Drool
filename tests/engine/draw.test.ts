@@ -219,3 +219,49 @@ describe("draw: alignment affinity", () => {
     expect(ids.has("mine")).toBe(false);
   });
 });
+
+describe("draw: a promise and its reckoning", () => {
+  /**
+   * A promise queues both endings of itself and lets the conditions decide which one the
+   * player is shown (BACKLOG item 6). That works because tickQueue drops every due card
+   * whose condition no longer holds, so the losing variant never reaches the table.
+   */
+  function promised(broke: boolean) {
+    const fx = makeFixture();
+    const cards = [
+      ...fx.cards,
+      ev("p_broke", { weight: 0, cond: { flags: ["broke_it"] } }),
+      ev("p_kept", { weight: 0, cond: { notFlags: ["broke_it"] } }),
+    ];
+    const l = buildLibrary({ ...fx, cards }, { eraLength: 1000, electionInterval: 1000, arcEntryProb: 0 });
+    const s = start(l, {
+      cardCount: 25,
+      queue: [
+        { id: "p_broke", dueAt: 20 },
+        { id: "p_kept", dueAt: 20 },
+      ],
+      flags: broke ? ["broke_it"] : [],
+    });
+    return [l, s] as const;
+  }
+
+  it("shows the ending that matches what the player did, and only that one", () => {
+    for (const broke of [false, true]) {
+      const [l, s] = promised(broke);
+      const shown: string[] = [];
+      let next = s;
+      for (let i = 0; i < 4; i++) {
+        const [card, after] = tickQueue(l, next);
+        next = after;
+        if (card) shown.push(card.id);
+      }
+      expect(shown, `broke=${broke}`).toEqual([broke ? "p_broke" : "p_kept"]);
+      expect(next.queue, `broke=${broke} leaves nothing queued`).toEqual([]);
+    }
+  });
+
+  it("puts the matching reckoning on the table through a normal draw", () => {
+    const [l, s] = promised(true);
+    expect(draw(l, s).current).toBe("p_broke");
+  });
+});

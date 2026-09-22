@@ -1,0 +1,785 @@
+[
+  {
+    "id": "p_balance",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "You are asked, on camera, whether the deficit will be gone by the end of your term. The honest answer is long.",
+    "weight": 2,
+    "cond": {
+      "notFlags": [
+        "promised_balance",
+        "broke_balance"
+      ]
+    },
+    "left": {
+      "label": "Promise it plainly",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "backers": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "p_balance_tempt",
+          "delay": 8
+        },
+        {
+          "id": "p_balance_broke",
+          "delay": 20
+        },
+        {
+          "id": "p_balance_kept",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "promised_balance"
+      ]
+    },
+    "right": {
+      "label": "Give the long answer",
+      "fx": {
+        "base": -4,
+        "public": -2,
+        "inst": 3
+      },
+      "drift": 2
+    }
+  },
+  {
+    "id": "p_balance_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "There is money for the deficit or money for the coast road, and the coast road has a ribbon and a date.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_balance"
+      ],
+      "notFlags": [
+        "broke_balance"
+      ]
+    },
+    "left": {
+      "label": "Keep to the deficit",
+      "fx": {
+        "money": 5,
+        "public": -4,
+        "base": -3,
+        "inst": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Cut the ribbon",
+      "fx": {
+        "money": -5,
+        "public": 4,
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "broke_balance"
+      ]
+    }
+  },
+  {
+    "id": "p_balance_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The deficit numbers are published on Thursday. Your promise is eleven months old and on tape.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "broke_balance"
+      ]
+    },
+    "left": {
+      "label": "Own the broken promise",
+      "fx": {
+        "base": -5,
+        "public": -3,
+        "inst": 4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Publish another number",
+      "fx": {
+        "inst": -5,
+        "public": -4,
+        "base": 3,
+        "order": 2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "p_balance_kept",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The deficit is gone. So is the coast road, the second hospital and a good deal of your own support.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_balance"
+      ],
+      "notFlags": [
+        "broke_balance"
+      ]
+    },
+    "left": {
+      "label": "Say what it cost",
+      "fx": {
+        "base": -2,
+        "public": 2,
+        "inst": 4,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the whole credit",
+      "fx": {
+        "base": 4,
+        "public": 2,
+        "inst": -2,
+        "money": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "p_inquiry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "You are asked to open a full public inquiry into the last government. You have said you would. You are now the government.",
+    "weight": 2,
+    "cond": {
+      "notFlags": [
+        "promised_inquiry",
+        "broke_inquiry"
+      ]
+    },
+    "left": {
+      "label": "Open the inquiry",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "backers": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "p_inquiry_tempt",
+          "delay": 8
+        },
+        {
+          "id": "p_inquiry_broke",
+          "delay": 20
+        },
+        {
+          "id": "p_inquiry_kept",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "promised_inquiry"
+      ]
+    },
+    "right": {
+      "label": "Say it is behind us",
+      "fx": {
+        "base": 2,
+        "public": -5,
+        "inst": -3
+      },
+      "drift": 2
+    }
+  },
+  {
+    "id": "p_inquiry_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The inquiry has asked for the transport ministry's files, which cover the last government and also, for eight months, you.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_inquiry"
+      ],
+      "notFlags": [
+        "broke_inquiry"
+      ]
+    },
+    "left": {
+      "label": "Hand over everything",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "order": -2,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold the eight months",
+      "fx": {
+        "inst": -4,
+        "base": 3,
+        "public": -2,
+        "order": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "broke_inquiry"
+      ]
+    }
+  },
+  {
+    "id": "p_inquiry_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The inquiry reports that it was obstructed, and names the office that obstructed it. There is only one.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "broke_inquiry"
+      ]
+    },
+    "left": {
+      "label": "Accept the finding",
+      "fx": {
+        "base": -6,
+        "inst": 4,
+        "public": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Dissolve the inquiry",
+      "fx": {
+        "inst": -6,
+        "public": -5,
+        "base": 4,
+        "order": 2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "p_inquiry_kept",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The inquiry reported in full. Two of the names in it were appointed by you, and one still works here.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_inquiry"
+      ],
+      "notFlags": [
+        "broke_inquiry"
+      ]
+    },
+    "left": {
+      "label": "Let it take them",
+      "fx": {
+        "base": -4,
+        "order": -2,
+        "inst": 5,
+        "public": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the one who stayed",
+      "fx": {
+        "base": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "p_homes",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The housing conference wants a number. Any number you say will be printed on a placard by Friday.",
+    "weight": 2,
+    "cond": {
+      "notFlags": [
+        "promised_homes",
+        "broke_homes"
+      ]
+    },
+    "left": {
+      "label": "Fifty thousand homes",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "backers": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "p_homes_tempt",
+          "delay": 8
+        },
+        {
+          "id": "p_homes_broke",
+          "delay": 20
+        },
+        {
+          "id": "p_homes_kept",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "promised_homes"
+      ]
+    },
+    "right": {
+      "label": "Promise a process",
+      "fx": {
+        "base": -5,
+        "public": -2,
+        "inst": 2
+      },
+      "drift": 2
+    }
+  },
+  {
+    "id": "p_homes_tempt",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The land you earmarked is worth four times what it was. The owner is offering the difference to the party instead.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_homes"
+      ],
+      "notFlags": [
+        "broke_homes"
+      ]
+    },
+    "left": {
+      "label": "Build on it anyway",
+      "fx": {
+        "money": -6,
+        "backers": -4,
+        "public": 4,
+        "base": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the donation",
+      "fx": {
+        "money": 5,
+        "backers": 5,
+        "public": -3,
+        "base": -2,
+        "inst": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "broke_homes"
+      ]
+    }
+  },
+  {
+    "id": "p_homes_broke",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Eleven thousand homes, and the conference has counted them. The placards have been repainted.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "broke_homes"
+      ]
+    },
+    "left": {
+      "label": "Admit the number",
+      "fx": {
+        "base": -6,
+        "public": -2,
+        "inst": 3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Count the renovations",
+      "fx": {
+        "inst": -5,
+        "public": -3,
+        "base": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "p_homes_kept",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Fifty thousand homes, mostly far from the work, and the party is out of money and favours.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_homes"
+      ],
+      "notFlags": [
+        "broke_homes"
+      ]
+    },
+    "left": {
+      "label": "Fund the transport too",
+      "fx": {
+        "money": -7,
+        "public": 5,
+        "base": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Declare it finished",
+      "fx": {
+        "base": 4,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "p_taxes",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The donors would like it said, in public, in those words, that taxes will not rise. Not adjusted. Not indexed. Not rise.",
+    "weight": 2,
+    "cond": {
+      "notFlags": [
+        "promised_taxes",
+        "broke_taxes"
+      ]
+    },
+    "left": {
+      "label": "Say it in those words",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "backers": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "p_taxes_tempt",
+          "delay": 8
+        },
+        {
+          "id": "p_taxes_broke",
+          "delay": 20
+        },
+        {
+          "id": "p_taxes_kept",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "promised_taxes"
+      ]
+    },
+    "right": {
+      "label": "Promise restraint",
+      "fx": {
+        "backers": -5,
+        "base": -2,
+        "inst": 2
+      },
+      "drift": 2
+    }
+  },
+  {
+    "id": "p_taxes_tempt",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The army needs paying and the only line nobody notices is the fuel duty, which is indexed, which is a rise.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_taxes"
+      ],
+      "notFlags": [
+        "broke_taxes"
+      ]
+    },
+    "left": {
+      "label": "Cut something instead",
+      "fx": {
+        "money": -5,
+        "public": -3,
+        "order": -3,
+        "base": 2,
+        "inst": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let the duty index",
+      "fx": {
+        "money": 5,
+        "backers": -2,
+        "public": -4,
+        "base": -3
+      },
+      "drift": -3,
+      "setFlags": [
+        "broke_taxes"
+      ]
+    }
+  },
+  {
+    "id": "p_taxes_broke",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A farmer has worked out the fuel duty on television, slowly, with a pencil, and it took four minutes.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "broke_taxes"
+      ]
+    },
+    "left": {
+      "label": "Concede the rise",
+      "fx": {
+        "backers": -5,
+        "base": -4,
+        "inst": 4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Call it a fee",
+      "fx": {
+        "inst": -5,
+        "public": -4,
+        "backers": 2,
+        "base": 2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "p_taxes_kept",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Taxes did not rise. The garrison is on half pay and the donors are delighted with you.",
+    "weight": 0,
+    "cond": {
+      "flags": [
+        "promised_taxes"
+      ],
+      "notFlags": [
+        "broke_taxes"
+      ]
+    },
+    "left": {
+      "label": "Pay the garrison",
+      "fx": {
+        "money": -6,
+        "order": 5,
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Thank the donors",
+      "fx": {
+        "backers": 5,
+        "order": -5,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  }
+]

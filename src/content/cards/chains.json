@@ -1,0 +1,357 @@
+[
+  {
+    "id": "q2_creditors",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Nobody will lend to you at a price you want to say out loud. The one bank that will has conditions, and a flag.",
+    "weight": 0,
+    "left": {
+      "label": "Take the conditions",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "base": -3,
+        "public": -2
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "q3_receivership",
+          "delay": 14
+        }
+      ]
+    },
+    "right": {
+      "label": "Borrow at home instead",
+      "fx": {
+        "money": 3,
+        "backers": -4,
+        "public": -2,
+        "order": -1
+      },
+      "drift": 1
+    }
+  },
+  {
+    "id": "q3_receivership",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The conditions have an office now, on the third floor, and the budget goes through it before it goes through you.",
+    "weight": 0,
+    "left": {
+      "label": "Buy the debt back",
+      "fx": {
+        "money": -9,
+        "inst": 3,
+        "base": 3,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let them run it",
+      "fx": {
+        "money": 3,
+        "inst": -4,
+        "base": -4,
+        "public": -3,
+        "order": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q2_water_riots",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The eastern districts queued for water for eleven days and then stopped queueing.",
+    "weight": 0,
+    "left": {
+      "label": "Truck it in at any cost",
+      "fx": {
+        "money": -7,
+        "public": 4,
+        "base": 1,
+        "order": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Send the water police",
+      "fx": {
+        "order": 3,
+        "public": -5,
+        "base": -2,
+        "inst": -3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_province_walks",
+          "delay": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": "q2_fever_returns",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The fever came back in the autumn, in the same districts, in the same way, with the same advice.",
+    "weight": 0,
+    "left": {
+      "label": "Do it properly this time",
+      "fx": {
+        "money": -6,
+        "public": 3,
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Reassure everyone again",
+      "fx": {
+        "public": -4,
+        "base": 2,
+        "inst": -3,
+        "order": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q2_inquiry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The inspectors you blamed have kept their emails. A committee would like to read them aloud.",
+    "weight": 0,
+    "left": {
+      "label": "Testify yourself",
+      "fx": {
+        "inst": 4,
+        "base": -4,
+        "public": 3,
+        "order": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Settle with them quietly",
+      "fx": {
+        "money": -4,
+        "inst": -3,
+        "base": 2,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q2_refinery_suit",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The widows have a lawyer, the lawyer has the inspection file, and the file has your signature on the cover.",
+    "weight": 0,
+    "left": {
+      "label": "Pay and apologise",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Fight it for years",
+      "fx": {
+        "money": -3,
+        "inst": -3,
+        "public": -3,
+        "base": 3,
+        "order": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q2_grid_sold",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A consortium will fix the grid in eighteen months, for the grid.",
+    "weight": 0,
+    "left": {
+      "label": "Fix it with public money",
+      "fx": {
+        "money": -8,
+        "inst": 3,
+        "public": 3,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell them the grid",
+      "fx": {
+        "money": 6,
+        "backers": 4,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "q2_oath_lists",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The lists are being kept by people who were not asked to keep lists, and they are accurate.",
+    "weight": 0,
+    "left": {
+      "label": "Burn the lists",
+      "fx": {
+        "order": -4,
+        "inst": 3,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Ask for a copy",
+      "fx": {
+        "order": 3,
+        "inst": -4,
+        "base": 3,
+        "public": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "q2_black_market",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The grocer's cousin sells the same bread from a van, at four times the price, and is never short.",
+    "weight": 0,
+    "left": {
+      "label": "Legalise the van",
+      "fx": {
+        "money": -2,
+        "public": 3,
+        "base": -3,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Arrest the cousin too",
+      "fx": {
+        "order": 3,
+        "public": -4,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  }
+]

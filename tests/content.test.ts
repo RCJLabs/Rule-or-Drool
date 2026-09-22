@@ -105,6 +105,60 @@ describe("elections", () => {
     expect(mean(locked)).toBeGreaterThan(mean(shared));
   });
 
+  it("lets a consequence have its own consequence", () => {
+    // The premise is that the easy choice compounds. Chains used to be exactly one step
+    // deep, so mechanically it did not (BACKLOG item 6).
+    const enqueued = new Map<string, string[]>();
+    for (const c of content.cards) {
+      const targets = [...(c.left.enqueue ?? []), ...(c.right.enqueue ?? [])].map((e) => e.id);
+      if (targets.length) enqueued.set(c.id, targets);
+    }
+    const seen = new Map<string, number>();
+    const depth = (id: string): number => {
+      const known = seen.get(id);
+      if (known !== undefined) return known;
+      seen.set(id, 0); // guards against a loop; the validator rejects those outright
+      const targets = enqueued.get(id) ?? [];
+      const value = targets.length === 0 ? 0 : 1 + Math.max(...targets.map(depth));
+      seen.set(id, value);
+      return value;
+    };
+    const deepest = Math.max(...[...enqueued.keys()].map(depth));
+    expect(deepest).toBeGreaterThanOrEqual(3);
+    expect([...enqueued.keys()].filter((id) => depth(id) >= 2).length).toBeGreaterThanOrEqual(10);
+  });
+
+  it("keeps delayed cards out of the random pool", () => {
+    // A consequence should arrive because of something the player did, never by shuffle.
+    const targets = new Set(
+      content.cards.flatMap((c) => [...(c.left.enqueue ?? []), ...(c.right.enqueue ?? [])].map((e) => e.id)),
+    );
+    expect(targets.size).toBeGreaterThan(20);
+    for (const id of targets) {
+      const card = content.cards.find((c) => c.id === id)!;
+      expect(card.weight ?? 1, `${id} weight`).toBe(0);
+    }
+  });
+
+  it("gives every promise both an ending it was kept and one it was broken", () => {
+    const promises = content.cards.filter((c) => /^p_[a-z]+$/.test(c.id));
+    expect(promises.length).toBeGreaterThanOrEqual(4);
+    for (const p of promises) {
+      const queued = (p.left.enqueue ?? []).map((e) => e.id);
+      expect(queued, `${p.id} queues its own reckoning`).toEqual(
+        expect.arrayContaining([`${p.id}_tempt`, `${p.id}_broke`, `${p.id}_kept`]),
+      );
+      const broke = content.cards.find((c) => c.id === `${p.id}_broke`)!;
+      const kept = content.cards.find((c) => c.id === `${p.id}_kept`)!;
+      const flag = `broke_${p.id.slice(2)}`;
+      expect(broke.cond?.flags, `${broke.id}`).toContain(flag);
+      expect(kept.cond?.notFlags, `${kept.id}`).toContain(flag);
+      // The broken ending must come first, so it is examined before the kept one.
+      const order = queued.indexOf(`${p.id}_broke`) < queued.indexOf(`${p.id}_kept`);
+      expect(order, `${p.id} queues broke before kept`).toBe(true);
+    }
+  });
+
   it("keeps every flaw an even trade", () => {
     // A flaw is meant to cost exactly what it gives. They were authored that way and item
     // 5 quietly broke two of them, because `mood` in a starting position counts three
