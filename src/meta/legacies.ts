@@ -33,6 +33,9 @@ export const LEGACIES: Record<string, string> = {
   broke_inquiry: "The inquiry promise was broken",
   broke_homes: "The housing promise was broken",
   broke_taxes: "The tax promise was broken",
+  habit_skim: "Money was taken by habit",
+  habit_bend: "The rule bent for the same people",
+  habit_clamp: "The answer was always the same one",
 };
 
 export const LEGACY_FLAGS: ReadonlySet<string> = new Set(Object.keys(LEGACIES));

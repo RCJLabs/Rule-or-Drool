@@ -12,6 +12,7 @@ import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
 /** Conditions can read the rival's pressure too; effects cannot (BACKLOG item 7). */
 const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
+import { LEGACY_FLAGS } from "../meta/legacies";
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
@@ -429,12 +430,17 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   for (const a of content.arcs) checkCond(a.entry, { kind: "arc", id: a.id }, "entry");
   for (const m of content.modifiers) for (const f of m.flags ?? []) note(flagSets, f, { kind: "modifier", id: m.id, path: "flags" });
   const engineReads = new Set([cfg.electionsAbolishedFlag]);
+  // The codex reads every named legacy, so a flag that is only there to be remembered is
+  // read even when no card asks about it. Unlike `engineReads` this is one-way: a legacy
+  // nothing sets is a shipped-content question, answered by its own test, not something
+  // to warn about in every fixture (BACKLOG-2 phase 14).
+  const codexReads = LEGACY_FLAGS;
   // The engine sets one flag per advisor trait sitting in the cabinet (5.8), so content
   // may read `advisor_<trait>` without any card setting it.
   const traitsInPlay = new Set(content.advisors.flatMap((a) => a.traits));
   const engineSets = (f: string) => f.startsWith(cfg.advisorFlagPrefix);
   for (const [f, where] of flagSets) {
-    if (!flagReads.has(f) && !engineReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
+    if (!flagReads.has(f) && !engineReads.has(f) && !codexReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
     if (engineSets(f)) {

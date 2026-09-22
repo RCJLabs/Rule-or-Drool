@@ -138,7 +138,11 @@
         "money": 5,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   }
 ]

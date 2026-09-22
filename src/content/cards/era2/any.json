@@ -31,7 +31,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -180,7 +184,11 @@
         "money": 5,
         "inst": -1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -295,7 +303,11 @@
         "base": 1,
         "public": -1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -453,7 +465,11 @@
         "backers": 1,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -643,7 +659,11 @@
         "backers": 3,
         "public": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {

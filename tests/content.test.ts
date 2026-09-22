@@ -263,7 +263,11 @@ describe("content: the shape of a run", () => {
     // `promised_` and the cabinet's `owed_`/`snubbed_` are durable but are not legacies of
     // state: they are about a person, and the cabinet screen is where they are shown.
     const personal = (f: string) => f.startsWith("promised_") || f.startsWith("owed_") || f.startsWith("snubbed_");
-    const durable = [...settable].filter((f) => !cleared.has(f) && !personal(f));
+    // A `mark_` counts how often a kind of choice was made so a habit card can ask for a
+    // pattern rather than an instance. What was done has a name of its own (`habit_`);
+    // the tally beneath it is not history (BACKLOG-2 phase 14).
+    const tally = (f: string) => f.startsWith("mark_");
+    const durable = [...settable].filter((f) => !cleared.has(f) && !personal(f) && !tally(f));
     const unnamed = durable.filter((f) => !(f in LEGACIES));
     expect(unnamed, "durable flags missing a legacy name").toEqual([]);
   });
@@ -405,6 +409,77 @@ describe("content: the shape of a run", () => {
         const texts = content.epilogues.filter((e) => e.band === band && e.era === era).map((e) => e.text);
         expect(new Set(texts).size, `${band} / era ${era}`).toBe(texts.length);
       }
+    }
+  });
+
+  // An ordinary card that only moves six numbers is a number puzzle. The arcs and the
+  // set-pieces were already carrying every consequence in the game; the deck you actually
+  // draw from was not (BACKLOG-2 phase 14).
+  it("attaches a consequence to a third of the ordinary deck, not only to set-pieces", () => {
+    const rich = (c: (typeof events)[number]) =>
+      [c.left, c.right].filter(
+        (s) => s.enqueue || s.setFlags || s.clearFlags || s.next || s.nextByAlign || s.ending || s.fireSpeaker || s.rival !== undefined,
+      ).length;
+    const choices = events.length * 2;
+    const withConsequence = events.reduce((n, c) => n + rich(c), 0);
+    expect(withConsequence / choices, `${withConsequence}/${choices} ordinary choices`).toBeGreaterThanOrEqual(1 / 3);
+  });
+
+  it("sends every bill, and sends the three kinds from different cards", () => {
+    const bills = content.cards.filter((c) => c.id.startsWith("b_"));
+    expect(bills.length, "bills exist").toBeGreaterThanOrEqual(12);
+    const senders = new Map<string, Set<string>>();
+    for (const c of content.cards) {
+      for (const side of [c.left, c.right]) {
+        for (const q of side.enqueue ?? []) {
+          if (q.id.startsWith("b_")) senders.set(q.id, (senders.get(q.id) ?? new Set()).add(c.id));
+        }
+      }
+    }
+    for (const b of bills) {
+      // A bill nothing sends is a card written for a run that cannot happen.
+      expect(senders.get(b.id)?.size ?? 0, `${b.id} is sent by more than one card`).toBeGreaterThanOrEqual(2);
+      expect(b.weight, `${b.id} is only ever delivered, never drawn`).toBe(0);
+    }
+  });
+
+  // A habit is a pattern. Gating on one instance would have the game announce a method
+  // the first time you did anything, which is the opposite of noticing.
+  it("asks for a pattern before it names a habit, and names it in the codex", () => {
+    const habits = content.cards.filter((c) => c.id.startsWith("h_"));
+    expect(habits.length).toBeGreaterThanOrEqual(6);
+    const marks = new Map<string, Set<string>>();
+    for (const c of content.cards) {
+      for (const side of [c.left, c.right]) {
+        for (const f of side.setFlags ?? []) {
+          if (f.startsWith("mark_")) marks.set(f, (marks.get(f) ?? new Set()).add(c.id));
+        }
+      }
+    }
+    for (const h of habits) {
+      const gate = h.cond?.flags ?? [];
+      expect(gate.length, `${h.id} asks for more than one`).toBeGreaterThanOrEqual(2);
+      for (const f of gate) {
+        expect(f.startsWith("mark_"), `${h.id} gates on a counting mark`).toBe(true);
+        // Each rung has to come from a different card or the "pattern" is one choice.
+        expect(marks.get(f)?.size ?? 0, `${f} is set by several cards`).toBeGreaterThanOrEqual(5);
+      }
+      expect(h.oneShot, `${h.id} is said once`).toBe(true);
+    }
+    // The tally is bookkeeping; what was done has a name the country remembers.
+    for (const kind of ["habit_skim", "habit_bend", "habit_clamp"]) {
+      expect(kind in LEGACIES, `${kind} is a named legacy`).toBe(true);
+    }
+  });
+
+  it("marks a habit wherever it sends a bill, so the two stay in step", () => {
+    const pairs = content.cards.flatMap((c) => [c.left, c.right]);
+    for (const side of pairs) {
+      const bill = (side.enqueue ?? []).some((q) => q.id.startsWith("b_"));
+      if (!bill) continue;
+      const flags = side.setFlags ?? [];
+      expect(flags.some((f) => f.startsWith("mark_")), "a choice that sends a bill also counts").toBe(true);
+      expect(flags.some((f) => f.startsWith("habit_")), "and names what kind it was").toBe(true);
     }
   });
 

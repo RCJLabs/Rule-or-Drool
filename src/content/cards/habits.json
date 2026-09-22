@@ -1,0 +1,273 @@
+[
+  {
+    "id": "h_skim_pattern",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Somebody has put your last four funding decisions on one page. On one page they look like a method.",
+    "cond": {
+      "flags": [
+        "mark_skim_a",
+        "mark_skim_b"
+      ]
+    },
+    "oneShot": true,
+    "weight": 4,
+    "left": {
+      "label": "Break the pattern",
+      "fx": {
+        "money": -6,
+        "inst": 5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Ask who made the page",
+      "fx": {
+        "money": 3,
+        "inst": -5,
+        "order": 3,
+        "public": -4,
+        "backers": 3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "h_skim_price",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Your price is known now. People arrive already holding it, which saves everyone a conversation.",
+    "cond": {
+      "flags": [
+        "mark_skim_a",
+        "mark_skim_b",
+        "mark_skim_c"
+      ]
+    },
+    "oneShot": true,
+    "weight": 4,
+    "left": {
+      "label": "Refuse the next one",
+      "fx": {
+        "money": -6,
+        "inst": 5,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Round it up",
+      "fx": {
+        "money": 7,
+        "backers": 4,
+        "inst": -5,
+        "public": -5,
+        "base": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "h_bend_pattern",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The exceptions have outnumbered the rule since spring. The clerks now ask which version applies.",
+    "cond": {
+      "flags": [
+        "mark_bend_a",
+        "mark_bend_b"
+      ]
+    },
+    "oneShot": true,
+    "weight": 4,
+    "left": {
+      "label": "Go back to one rule",
+      "fx": {
+        "inst": 7,
+        "base": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Write them down",
+      "fx": {
+        "inst": -4,
+        "base": 4,
+        "order": 3,
+        "public": -5,
+        "backers": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "h_bend_friends",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The people who get the exceptions are, without anyone arranging it, the same people every time.",
+    "cond": {
+      "flags": [
+        "mark_bend_a",
+        "mark_bend_b",
+        "mark_bend_c"
+      ]
+    },
+    "oneShot": true,
+    "weight": 4,
+    "left": {
+      "label": "Publish who got what",
+      "fx": {
+        "inst": 6,
+        "base": -6,
+        "public": 4
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Stop writing it down",
+      "fx": {
+        "inst": -6,
+        "base": 4,
+        "order": 2,
+        "public": -4,
+        "backers": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "h_clamp_pattern",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The response to the last four of these was the same response. It worked each time, slightly less well.",
+    "cond": {
+      "flags": [
+        "mark_clamp_a",
+        "mark_clamp_b"
+      ]
+    },
+    "oneShot": true,
+    "weight": 4,
+    "left": {
+      "label": "Try something else",
+      "fx": {
+        "public": 5,
+        "order": -5,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Send more of them",
+      "fx": {
+        "order": 5,
+        "public": -6,
+        "inst": -4,
+        "backers": 4,
+        "base": 2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "h_clamp_quiet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "It has gone quiet. The reports have stopped rather than the thing they were reporting.",
+    "cond": {
+      "flags": [
+        "mark_clamp_a",
+        "mark_clamp_b",
+        "mark_clamp_c"
+      ]
+    },
+    "oneShot": true,
+    "weight": 4,
+    "left": {
+      "label": "Ask for the reports",
+      "fx": {
+        "inst": 5,
+        "order": -4,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Enjoy the quiet",
+      "fx": {
+        "order": 4,
+        "inst": -5,
+        "public": -5,
+        "backers": 3,
+        "base": 2
+      },
+      "drift": -6
+    }
+  }
+]

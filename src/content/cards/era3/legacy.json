@@ -126,7 +126,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {

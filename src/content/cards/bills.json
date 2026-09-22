@@ -1,0 +1,448 @@
+[
+  {
+    "id": "b_audit_note",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The auditor has written a note. It is one sentence long and it names the transaction rather than the department.",
+    "weight": 0,
+    "left": {
+      "label": "Answer the note",
+      "fx": {
+        "money": -6,
+        "inst": 5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Reassign the auditor",
+      "fx": {
+        "inst": -5,
+        "order": 3,
+        "backers": 3,
+        "public": -4,
+        "base": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_lawyer_letter",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A firm you have never heard of is asking, in writing, which statute permitted that.",
+    "weight": 0,
+    "left": {
+      "label": "Cite the statute",
+      "fx": {
+        "inst": 5,
+        "money": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ask who is paying them",
+      "fx": {
+        "inst": -4,
+        "order": 3,
+        "public": -5,
+        "backers": 3,
+        "money": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_rate_rise",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The rate on everything you owe has moved. Nobody announced it; it is simply the rate now.",
+    "weight": 0,
+    "left": {
+      "label": "Pay the new rate",
+      "fx": {
+        "money": -8,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Dispute it loudly",
+      "fx": {
+        "money": -3,
+        "backers": -6,
+        "inst": -3,
+        "base": 4,
+        "public": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_second_set",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "There is a second set of figures. It is more accurate, which is the problem with it.",
+    "weight": 0,
+    "left": {
+      "label": "Publish the real ones",
+      "fx": {
+        "inst": 6,
+        "backers": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the first set",
+      "fx": {
+        "inst": -5,
+        "public": -5,
+        "base": 3,
+        "order": 2,
+        "money": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_precedent",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The exception you made is being cited as precedent by people you would not have made it for.",
+    "weight": 0,
+    "left": {
+      "label": "Close the exception",
+      "fx": {
+        "inst": 6,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make another one",
+      "fx": {
+        "inst": -5,
+        "base": 4,
+        "public": -4,
+        "order": 2,
+        "money": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_own_words",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your own argument is being read back to you by the other side, at length, accurately.",
+    "weight": 0,
+    "left": {
+      "label": "Concede the point",
+      "fx": {
+        "public": 5,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Say it was different",
+      "fx": {
+        "inst": -4,
+        "public": -5,
+        "base": 3,
+        "order": 2,
+        "backers": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_queue_jump",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The list everyone waits on has names on it that did not wait. Two of them share your surname.",
+    "weight": 0,
+    "left": {
+      "label": "Put them back in line",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Shorten the list instead",
+      "fx": {
+        "inst": -4,
+        "money": -5,
+        "public": 3,
+        "base": 3,
+        "order": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "b_quiet_word",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The quiet word you had has become the way it is done, and nobody can point to where it was decided.",
+    "weight": 0,
+    "left": {
+      "label": "Write it into the rules",
+      "fx": {
+        "inst": 6,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Have another quiet word",
+      "fx": {
+        "inst": -5,
+        "base": 4,
+        "order": 3,
+        "public": -4,
+        "backers": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_wrong_door",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "They went through the wrong door at four in the morning. The family has a lawyer and a photograph.",
+    "weight": 0,
+    "left": {
+      "label": "Apologise in person",
+      "fx": {
+        "public": 6,
+        "order": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Say the door was right",
+      "fx": {
+        "order": 4,
+        "public": -6,
+        "inst": -4,
+        "backers": 3,
+        "base": 2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "b_empty_square",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The square where it happened is empty now, every day, at the same hour. Nobody has organised it.",
+    "weight": 0,
+    "left": {
+      "label": "Let them have the square",
+      "fx": {
+        "public": 5,
+        "order": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fence the square",
+      "fx": {
+        "order": 4,
+        "public": -5,
+        "inst": -3,
+        "base": 3,
+        "money": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_recording",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "There is a recording. It is nineteen seconds long and it does not need any explanation.",
+    "weight": 0,
+    "left": {
+      "label": "Suspend whoever is on it",
+      "fx": {
+        "public": 5,
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Question the recording",
+      "fx": {
+        "inst": -5,
+        "public": -5,
+        "order": 3,
+        "backers": 4,
+        "base": 2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "b_census_gap",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two districts did not answer the census. The enumerators say they were not let in, politely.",
+    "weight": 0,
+    "left": {
+      "label": "Go back unescorted",
+      "fx": {
+        "public": 5,
+        "money": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Estimate their numbers",
+      "fx": {
+        "inst": -4,
+        "public": -4,
+        "money": 2,
+        "order": 2,
+        "base": 2
+      },
+      "drift": -4
+    }
+  }
+]

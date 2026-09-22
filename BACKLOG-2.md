@@ -308,7 +308,66 @@ player sees 15 of 23 in 200 runs without playing badly on purpose.
 
 </details>
 
-## Phase 14. Choices that do more than move meters — *queued*
+## Phase 14. Choices that do more than move meters — *done*
+
+**Shipped.** The ordinary deck keeps score now. **16% of its choices did something durable
+(120 of 742); 40% do (305 of 754)**, and across the whole content set 27% became 44%.
+Forty-five choices send a bill that arrives nine to twenty-four cards later, a hundred and
+forty more leave a mark, and eighteen new cards read them back: twelve bills in three
+families, six that name a habit once you have made it one.
+
+**What a run carries, measured over 3,000 mixed-bot runs:**
+
+| | before | after |
+|---|---|---|
+| cards that came back | 8.5 | 11.9 |
+| flags at the end | 24.5 | 33.4 |
+| the game naming a habit | never | 2.45 per run |
+
+**A habit is a pattern, not an instance.** The first version gated each habit card on a
+single flag, so the game announced your method the first time you did anything — the
+opposite of noticing. Each family's mark now has three rungs set by different cards; the
+first card of a family asks for two of them, the second for all three. Habit cards went from
+4.6 a run to 2.45, and now they are earned.
+
+**The thing that nearly sank the phase was a shape, not a number.** Wiring all this in
+dropped the mixed bot's Ascent from 21.8% to 16.6% locked and **14.3% unlocked, below the
+15% floor**. I spent two measurements on the wrong suspects — the bill count, the habit
+cards' weight — and the sweep that "fixed" it (weight 1) only straddled the floor. The
+budget said the new cards were drift-neutral, so I looked at what a run actually did with
+them: **-0.52 drift per new card played, against the deck's +0.05.**
+
+The cause was that I had written all eighteen the same way. The honest side was the *bigger*
+disturbance — five meters, eighteen points of movement, the biggest hit on whichever bloc
+was already lowest — so anything watching its meters took the cover-up roughly three times
+in five. Owning a consequence is now one clean cost with a name on it (two or three meters,
+11.1 points) and the cover-up is the wide ripple (four or five meters, 18.1). Same drift,
+same themes, **-0.52 per card became -0.25**, and the deck's own yield rose with it because
+the bot spent less of the run in danger. Ascent came back to **19.8% locked / 17.6%
+unlocked**, inside the 15-30% target with room in both states.
+
+A second pass had gone first and did not fix the balance, but it stays because it was a
+writing problem too: sixteen of the eighteen cards charged the honest choice to `base`, so
+every consequence in the game was the same consequence. The cost is spread over money,
+`base`, `backers` and order now.
+
+**The done-when was measuring the wrong thing, which is the third time.** It asked for a
+run's flag count at the end to at least double. A run already ends holding 24.5 flags, and
+the habit marks are deliberately a *small* set of names — a skim marks `habit_skim`
+whether you do it twice or twelve times, because the codex should say what was done, not how
+many times a card fired. Doubling would have meant inventing distinct flags to inflate a
+number. It went 24.5 to 33.4. The measures that mean something are the richness share above
+and what comes back: **cards that came back rose 40%, and every one of the twelve bills and
+six habit cards is reachable in an ordinary run.**
+
+**The validator learned that the codex is a reader.** `habit_skim`, `habit_bend` and
+`habit_clamp` are set and never asked about by a card — they exist to be remembered. That
+tripped `flag-unread`, correctly, so a named legacy now counts as read. The counting rungs
+beneath them are not history and are exempt from needing a legacy name.
+
+<details>
+<summary>Original entry</summary>
+
 
 **Evidence.** **88 of 628 choices (14%) do anything beyond changing meters and drift.** The
 other 86% are a number and a mood. Every mechanism the engine has — flags, the delayed queue,
@@ -321,6 +380,8 @@ score, which they currently do not.
 
 **Done when** a third of choices do something durable, and a run's flag count at the end is
 at least double what it is now.
+
+</details>
 
 ## Phase 15. Advisors with something at stake — *done*
 

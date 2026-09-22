@@ -103,7 +103,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -140,7 +144,11 @@
         "backers": 3,
         "public": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -210,7 +218,11 @@
         "backers": 3,
         "public": 1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -282,7 +294,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -319,7 +335,17 @@
         "backers": -2,
         "public": -3
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
     }
   },
   {
@@ -433,7 +459,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -514,7 +544,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -548,7 +582,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -619,7 +657,11 @@
         "public": 3,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -724,7 +766,11 @@
         "base": 2,
         "public": -1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {

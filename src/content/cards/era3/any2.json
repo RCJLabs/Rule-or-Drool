@@ -69,7 +69,11 @@
         "base": 2,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -106,7 +110,17 @@
         "base": 2,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -144,7 +158,11 @@
         "backers": 1,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -178,7 +196,11 @@
         "order": 2,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -214,7 +236,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -364,7 +390,11 @@
         "public": 2,
         "backers": -1
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -396,7 +426,17 @@
         "base": 2,
         "public": -1
       },
-      "drift": -5
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 21
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -431,7 +471,11 @@
         "public": 3,
         "backers": 2
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -466,7 +510,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -499,7 +547,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   }
 ]

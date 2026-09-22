@@ -117,7 +117,11 @@
         "backers": -3,
         "inst": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -159,7 +163,11 @@
         "inst": -2,
         "money": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -198,7 +206,17 @@
         "public": -3,
         "base": -2
       },
-      "drift": -2
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 17
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
     }
   },
   {
@@ -240,7 +258,17 @@
         "public": -3,
         "base": -4
       },
-      "drift": 3
+      "drift": 3,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
     }
   },
   {
@@ -280,7 +308,11 @@
         "public": -2,
         "money": -1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -322,7 +354,11 @@
         "public": -4,
         "base": 3
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -363,7 +399,17 @@
         "order": 3,
         "public": -2
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_census_gap",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
     }
   },
   {
@@ -405,7 +451,11 @@
         "base": 4,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -444,7 +494,11 @@
         "public": -4,
         "inst": -2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -485,7 +539,11 @@
         "inst": -3,
         "order": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   }
 ]

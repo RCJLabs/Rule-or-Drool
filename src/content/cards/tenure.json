@@ -92,7 +92,11 @@
         "base": 3,
         "order": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -131,7 +135,11 @@
         "inst": -3,
         "public": -3
       },
-      "drift": -2
+      "drift": -2,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     },
     "right": {
       "label": "Keep him where he works",
@@ -190,7 +198,11 @@
         "money": 3,
         "public": -4
       },
-      "drift": -7
+      "drift": -7,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -239,7 +251,11 @@
         "base": 3,
         "public": -3
       },
-      "drift": -6
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -288,7 +304,11 @@
         "inst": -5,
         "public": -4
       },
-      "drift": -6
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   }
 ]

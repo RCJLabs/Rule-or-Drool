@@ -31,7 +31,17 @@
         "backers": -3,
         "inst": -2
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 15
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     },
     "right": {
       "label": "Let the branch go quiet",
@@ -164,7 +174,17 @@
         "public": -5,
         "inst": -4
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     },
     "right": {
       "label": "Let the pulpit cool",

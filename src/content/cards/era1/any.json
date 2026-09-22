@@ -142,7 +142,17 @@
         "base": 1,
         "public": -2
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 24
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     },
     "right": {
       "label": "Decline politely",
@@ -379,7 +389,17 @@
         "public": -1,
         "backers": -3
       },
-      "drift": -2
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
     },
     "right": {
       "label": "Send the negotiators",
@@ -494,7 +514,17 @@
         "base": -1,
         "public": -3
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 9
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
     },
     "right": {
       "label": "Hold a referendum",

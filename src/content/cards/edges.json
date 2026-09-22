@@ -31,7 +31,17 @@
         "base": -3,
         "inst": -3
       },
-      "drift": -5
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_lawyer_letter",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     },
     "right": {
       "label": "Say it out loud",
@@ -86,7 +96,17 @@
         "public": -5,
         "inst": -4
       },
-      "drift": -5
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 19
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -120,7 +140,17 @@
         "money": -5,
         "public": -4
       },
-      "drift": 2
+      "drift": 2,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 23
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
     },
     "right": {
       "label": "Let them keep it",
@@ -174,7 +204,11 @@
         "public": -5,
         "base": 3
       },
-      "drift": -6
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -217,7 +251,11 @@
         "order": -3,
         "money": 3
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -262,7 +300,17 @@
         "base": 4,
         "public": 3
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_own_words",
+          "delay": 21
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -421,7 +469,17 @@
         "public": -3,
         "inst": -2
       },
-      "drift": -2
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 19
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
     },
     "right": {
       "label": "Let them all out",
@@ -457,7 +515,17 @@
         "public": -4,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_census_gap",
+          "delay": 22
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
     },
     "right": {
       "label": "Lift it tonight",
@@ -493,7 +561,17 @@
         "money": -4,
         "public": -3
       },
-      "drift": -3
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 21
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
     },
     "right": {
       "label": "Disband the squad",

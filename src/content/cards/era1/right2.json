@@ -72,7 +72,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -224,7 +228,11 @@
         "base": 2,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -258,7 +266,11 @@
         "backers": 1,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -292,7 +304,11 @@
         "backers": 3,
         "public": 1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -356,7 +372,17 @@
         "public": -3,
         "backers": -4
       },
-      "drift": 3
+      "drift": 3,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 15
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
     },
     "right": {
       "label": "Loosen them further",
@@ -510,7 +536,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -544,7 +574,11 @@
         "backers": 3,
         "public": 1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -792,7 +826,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   }
 ]

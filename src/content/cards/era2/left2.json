@@ -32,7 +32,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -107,7 +111,11 @@
         "public": 2,
         "backers": 1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -144,7 +152,17 @@
         "backers": 3,
         "public": 1
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -216,7 +234,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -250,7 +272,11 @@
         "money": 2,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -285,7 +311,11 @@
         "public": 3,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -320,7 +350,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -347,7 +381,17 @@
         "base": -3,
         "backers": -4
       },
-      "drift": 3
+      "drift": 3,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 13
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
     },
     "right": {
       "label": "Send both quietly",
@@ -358,7 +402,11 @@
         "base": 4,
         "public": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -429,7 +477,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -462,7 +514,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -496,7 +552,17 @@
         "backers": 3,
         "public": 1
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_own_words",
+          "delay": 17
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -531,7 +597,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -601,7 +671,11 @@
         "public": 2,
         "backers": 1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -636,7 +710,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   }
 ]

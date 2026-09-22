@@ -66,7 +66,11 @@
         "public": 3,
         "backers": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -103,7 +107,11 @@
         "backers": 1,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -137,7 +145,17 @@
         "order": 2,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 13
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -172,7 +190,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -279,7 +301,11 @@
         "public": 3,
         "backers": 2
       },
-      "drift": 3
+      "drift": 3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     },
     "right": {
       "label": "Pay what they ask",
@@ -368,7 +394,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -442,7 +472,11 @@
         "money": 2,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -524,7 +558,17 @@
         "base": 1,
         "public": -2
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_lawyer_letter",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -561,7 +605,11 @@
         "backers": 3,
         "public": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -596,7 +644,17 @@
         "base": 2,
         "public": -1
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 23
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -631,7 +689,17 @@
         "backers": 3,
         "public": 1
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 23
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -664,7 +732,11 @@
         "backers": 3,
         "public": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -698,7 +770,11 @@
         "base": 1,
         "public": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -728,7 +804,11 @@
         "money": 2,
         "inst": -3
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -793,7 +873,11 @@
         "money": 2,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -826,7 +910,11 @@
         "base": 4,
         "backers": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -861,7 +949,11 @@
         "backers": 1,
         "public": -1
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   }
 ]

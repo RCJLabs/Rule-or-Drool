@@ -32,7 +32,11 @@
         "inst": -4,
         "public": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -66,7 +70,11 @@
         "base": 3,
         "public": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -167,7 +175,11 @@
         "inst": -5,
         "public": -5
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -225,7 +237,11 @@
         "money": -2,
         "base": 2
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     },
     "right": {
       "label": "Insist on the currency",
@@ -235,7 +251,17 @@
         "order": 2,
         "inst": 3
       },
-      "drift": 3
+      "drift": 3,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 11
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
     }
   },
   {
@@ -268,7 +294,11 @@
         "base": 4,
         "public": -4
       },
-      "drift": -5
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -301,7 +331,11 @@
         "inst": -4,
         "public": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -371,7 +405,17 @@
         "inst": -6,
         "public": -4
       },
-      "drift": -5
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 10
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -406,7 +450,11 @@
         "public": -3,
         "base": 3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -441,7 +489,17 @@
         "base": 5,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -476,7 +534,11 @@
         "money": -5,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -510,7 +572,11 @@
         "backers": -5,
         "base": 3
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -545,7 +611,11 @@
         "base": 3,
         "public": -3
       },
-      "drift": -3
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -579,7 +649,17 @@
         "public": 3,
         "inst": -5
       },
-      "drift": -5
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
     }
   },
   {
@@ -613,7 +693,17 @@
         "public": -5,
         "inst": -4
       },
-      "drift": -5
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 24
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   },
   {
@@ -647,7 +737,11 @@
         "public": 2,
         "money": 2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
     }
   },
   {
@@ -680,7 +774,17 @@
         "inst": -5,
         "public": -3
       },
-      "drift": -4
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_own_words",
+          "delay": 13
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
     }
   },
   {
@@ -713,7 +817,11 @@
         "public": 4,
         "inst": -5
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -748,7 +856,11 @@
         "public": -2,
         "inst": -3
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
     }
   },
   {
@@ -783,7 +895,11 @@
         "public": -5,
         "inst": -2
       },
-      "drift": -4
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
     }
   },
   {
@@ -815,7 +931,17 @@
         "public": -4,
         "inst": -5
       },
-      "drift": -6
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "b_own_words",
+          "delay": 9
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
     }
   }
 ]
