@@ -19,8 +19,35 @@ export interface MetaState {
   /** Longest run in cards. */
   bestCards: number;
   alignsPlayed: PlayerAlign[];
+  /**
+   * The history half of the codex (BACKLOG item 10). Endings reward dying in creative ways;
+   * these reward playing a story out, keeping a cabinet, and leaving something behind.
+   */
+  /** Arc outcomes reached, as `${cardId}:${side}`: which branch of a story you have seen. */
+  arcOutcomes: string[];
+  /** Legacy flag -> how many runs ended with the country still carrying it. */
+  legacies: Record<string, number>;
+  /** Advisor id -> runs they served to the end. */
+  advisorsKept: Record<string, number>;
+  /** Advisor id -> times you let them go. */
+  advisorsFired: Record<string, number>;
+  /** The last few runs, newest first. */
+  history: RunRecord[];
   /** Result of the most recent daily-seed run, if any. */
   daily: DailyRecord | null;
+}
+
+/** One line of the history: enough to recognise the run, not enough to replay it. */
+export interface RunRecord {
+  align: PlayerAlign;
+  cards: number;
+  era: number;
+  endingId: string;
+  band: Band;
+  /** The rival you faced, by advisor id. */
+  rival: string | null;
+  /** Legacy flags the country was left with. */
+  legacies: string[];
 }
 
 export interface DailyRecord {

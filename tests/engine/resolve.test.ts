@@ -421,3 +421,23 @@ describe("resolve: what each era changes about the rules", () => {
     expect(late.queue[0]!.dueAt).toBeGreaterThanOrEqual(1);
   });
 });
+
+describe("resolve: what a run records about itself", () => {
+  it("records the choice that left an arc, and nothing that stayed in it", () => {
+    const l = lib({ arcEntryProb: 1, arcContinueProb: 1 });
+    let s = draw(l, start(l));
+    s = resolve(l, s, "arc_t1", "left"); // goes on to arc_t2, so not an outcome
+    expect(s.stats.arcOutcomes).toEqual([]);
+    s = draw(l, s);
+    s = resolve(l, s, "arc_t2", "right"); // ends the arc
+    expect(s.stats.arcOutcomes).toEqual(["arc_t2:right"]);
+  });
+
+  it("records who was let go, not just how many", () => {
+    const l = lib();
+    const s = resolve(l, table(start(l), "ev_fire"), "ev_fire", "left");
+    expect(s.stats.advisorsFired).toBe(1);
+    expect(s.stats.firedAdvisors).toEqual(["c0"]);
+    expect(s.cabinet.chief).not.toBe("c0");
+  });
+});

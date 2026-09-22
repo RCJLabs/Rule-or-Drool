@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
 import { STRINGS } from "../src/content/strings";
+import { LEGACIES } from "../src/meta";
 import { buildLibrary } from "../src/engine/library";
 import { BANDS } from "../src/engine/types";
 import { validateContent } from "../src/validate";
@@ -154,6 +155,20 @@ describe("content: the shape of a run", () => {
     for (const m of content.modifiers) {
       if (m.kind === "crisis") expect(m.align, `${m.id} is nobody's`).toBeUndefined();
     }
+  });
+
+  it("keeps every legacy collectable, and every durable flag named", () => {
+    // A legacy nothing can set is a codex row nobody can ever fill (BACKLOG item 9's lesson).
+    const settable = new Set(content.cards.flatMap((c) => [...(c.left.setFlags ?? []), ...(c.right.setFlags ?? [])]));
+    for (const flag of Object.keys(LEGACIES)) {
+      expect(settable.has(flag), `${flag} is named a legacy but no card sets it`).toBe(true);
+    }
+    // And the reverse: a flag that outlives the arc that set it should be named, or the
+    // history quietly drops something the country is still carrying.
+    const cleared = new Set(content.cards.flatMap((c) => [...(c.left.clearFlags ?? []), ...(c.right.clearFlags ?? [])]));
+    const durable = [...settable].filter((f) => !cleared.has(f) && !f.startsWith("promised_"));
+    const unnamed = durable.filter((f) => !(f in LEGACIES));
+    expect(unnamed, "durable flags missing a legacy name").toEqual([]);
   });
 
   it("makes every flaw bite during the run, not only at the start", () => {

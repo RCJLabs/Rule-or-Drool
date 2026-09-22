@@ -46,6 +46,9 @@ export function migrateRun(v: number, state: GameState): GameState | null {
   // v3 -> v4: the rival became a person with standing (BACKLOG item 7). A saved run has
   // none, so it resumes with them where a run starts rather than dropping the save.
   if (v < 4) s = { ...s, rivalStanding: DEFAULT_CONFIG.rivalStart };
+  // v4 -> v5: the run records who it fired and which branches it took (BACKLOG item 10).
+  // A run in progress has no record of what it already did, so it starts one from here.
+  if (v < 5) s = { ...s, stats: { ...s.stats, firedAdvisors: [], arcOutcomes: [] } };
   return s;
 }
 

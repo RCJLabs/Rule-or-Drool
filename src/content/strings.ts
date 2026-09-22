@@ -112,6 +112,14 @@ export const STRINGS = {
     objectives: "Objectives",
     unlocks: "Unlocked by objectives",
     empty: "Play a run and this fills in.",
+    // The history half (BACKLOG item 10): what you did, not only how you died.
+    stories: "Stories",
+    legacies: "What the country was left with",
+    cabinet: "People",
+    history: "Your administrations",
+    kept: "kept",
+    fired: "let go",
+    noHistory: "No administration has ended yet.",
   },
   unlockNames: {
     u_dissident: "the Dissident, a leader who knows how the room looks from outside",

@@ -6,6 +6,19 @@ the record of the seven build phases; this is what comes after them.
 
 Status: **doing** · **queued** · **done**
 
+**All ten are done.** What they add up to, measured against the state this file was written
+against: 440 cards (was 341), 22 arcs (14), 25 modifiers (15), 23 endings (22), 18 epilogues
+(9), 91 story outcomes and 27 named legacies where neither existed. A left run and a right
+run share 35% of their cards, down from 48%. All five section 8 targets pass locked and
+unlocked, which they did not when this file was written.
+
+Two things worth carrying forward. First, a bot reaching something 0% of the time usually
+measures the bot, not the game — it cost a wrong diagnosis in item 9 and nearly cost another
+in item 7, and the fix each time was to simulate a player who *wants* the thing. Second,
+every content batch here swung harder than the deck it joined, twice far enough to push a
+balance target out of range; measuring the effect budget before writing is cheaper than
+rescaling after.
+
 ---
 
 ## 1. Write elections per side — *done*
@@ -442,10 +455,51 @@ and stop gating content behind an ending count good play cannot reach.
 
 </details>
 
-## 10. Make the codex record what you did — *queued*
+## 10. Make the codex record what you did — *done*
+
+**Shipped.** The codex leads with your administrations and keeps the death list as the
+appendix. Four new sections, and two new collections that reward playing rather than dying.
+
+**Stories are the headline collectible.** Every way an arc can end is derived from the
+content — the choices that carry no pointer onward — which comes to **91 story outcomes
+across 22 arcs**, against 23 endings. A run records the branch it actually took, so the
+codex can show which of a story's endings you have seen and which you have not.
+
+**What the country was left with.** 27 legacy flags are named from the country's side rather
+than yours: the vote was abolished, the press answers to the office, the seawall stands, an
+audit was buried, the long ship left, the deficit promise was broken. Arc bookkeeping like
+`east_talks` and `rival_smeared` is deliberately excluded — a codex full of those is a debug
+view. A test holds both directions: every named legacy must be settable by some card, and
+every flag that outlives the arc that set it must be named, so nothing durable is quietly
+dropped.
+
+**People, and a history.** Advisors are counted by who stayed to the end and who you let go,
+by name, which needed the run to record *which* advisor was fired rather than how many. The
+last twelve administrations are listed newest first: side, length, exit band, how it ended,
+the rival you faced by name, and what you left behind.
+
+**What the first run now gives you:**
+
+| | run 1 | run 10 | run 50 | run 200 |
+|---|---|---|---|---|
+| Stories | 6/91 | 30/91 | 50/91 | 75/91 |
+| Legacies | 2/27 | 10/27 | 21/27 | 23/27 |
+| Endings | 1/23 | 4/23 | 11/23 | 18/23 |
+| People | 8 | 16 | 25 | 26 |
+
+Where run one used to fill in one ending and one future, it now fills in eight rows about
+what happened.
+
+Run saves move to version 5 and meta saves to version 3, both migrating forward: a run in
+progress starts its record from here, and an older profile gets empty collections rather
+than being dropped. Balance is untouched, since nothing here is read by the engine.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** The codex's main collectible is endings, and most endings reward dying in
 creative ways.
 
 **Do.** Record arcs completed and which branch was taken, advisors kept or fired, legacies
 left behind, futures reached. The codex should be a history, not just a death list.
+
+</details>

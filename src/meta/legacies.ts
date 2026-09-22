@@ -1,0 +1,38 @@
+/**
+ * The flags that name something the country is left carrying, as opposed to the bookkeeping
+ * an arc uses while it runs. Only these are recorded and shown, because a codex full of
+ * `east_talks` and `rival_smeared` is a debug view, not a history (BACKLOG item 10).
+ *
+ * The label is written from the country's side, not yours: it is what was done to it.
+ */
+export const LEGACIES: Record<string, string> = {
+  elections_abolished: "The vote was abolished",
+  cheated_election: "An election was counted twice",
+  media_captured: "The press answers to the office",
+  purge_begun: "A purge was begun",
+  general_unleashed: "The general was unleashed",
+  buried_the_audit: "An audit was buried",
+  took_the_skim: "The skim was taken",
+  pension_raided: "The pensions were spent",
+  schools_starved: "The schools were starved",
+  water_rationed: "The water was rationed",
+  bridge_ignored: "The bridge was left to fall",
+  feed_captured: "The feed is run from here",
+  dirty_politics: "The habit of the cheap win",
+  housing_built: "The housing was built",
+  seawall: "The seawall stands",
+  moonshot_funded: "The moonshot was funded",
+  orbit_reached: "Orbit was reached",
+  long_ship: "The long ship left",
+  ring_started: "The ring was begun",
+  oracle_running: "The oracle is still running",
+  commission_open: "The commission is still sitting",
+  referendum_called: "The country was asked directly",
+  heir_named: "An heir was named",
+  broke_balance: "The deficit promise was broken",
+  broke_inquiry: "The inquiry promise was broken",
+  broke_homes: "The housing promise was broken",
+  broke_taxes: "The tax promise was broken",
+};
+
+export const LEGACY_FLAGS: ReadonlySet<string> = new Set(Object.keys(LEGACIES));

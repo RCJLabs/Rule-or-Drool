@@ -209,6 +209,14 @@ export interface RunStats {
   electionsCheated: number;
   advisorsFired: number;
   arcsEntered: number;
+  /** Who you let go, in order, so the codex can be a history rather than a count (item 10). */
+  firedAdvisors: string[];
+  /**
+   * Which arcs you saw the end of, as `${cardId}:${side}` — the choice that left the arc.
+   * An arc has several of these and they are the real collectible: they reward playing a
+   * story out rather than dying in a new way.
+   */
+  arcOutcomes: string[];
 }
 
 export const EMPTY_STATS: RunStats = {
@@ -219,6 +227,8 @@ export const EMPTY_STATS: RunStats = {
   electionsCheated: 0,
   advisorsFired: 0,
   arcsEntered: 0,
+  firedAdvisors: [],
+  arcOutcomes: [],
 };
 
 export interface GameState {

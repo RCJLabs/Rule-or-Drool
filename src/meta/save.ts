@@ -25,6 +25,13 @@ export function migrateMeta(raw: unknown): MetaState | null {
     endings: { ...(data.endings ?? {}) },
     epilogues: [...epilogues],
     objectives: { ...(data.objectives ?? {}) },
+    // v2 -> v3: the codex became a history as well as a death list (BACKLOG item 10).
+    // Past runs left no record of themselves, so these start empty and fill from here.
+    arcOutcomes: Array.isArray(data.arcOutcomes) ? [...data.arcOutcomes] : [],
+    legacies: { ...(data.legacies ?? {}) },
+    advisorsKept: { ...(data.advisorsKept ?? {}) },
+    advisorsFired: { ...(data.advisorsFired ?? {}) },
+    history: Array.isArray(data.history) ? [...data.history] : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
     daily: data.daily ?? null,

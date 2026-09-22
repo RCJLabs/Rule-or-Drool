@@ -4,6 +4,8 @@ import { newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import { EMPTY_STATS } from "../../src/engine/types";
 import {
+  HISTORY_LENGTH,
+  LEGACIES,
   OBJECTIVES,
   allUnlockTokens,
   codexProgress,
@@ -184,6 +186,17 @@ describe("meta save", () => {
     expect(migrateMeta({ v: META_SAVE_VERSION + 1 })).toBeNull();
   });
 
+  it("gives a save from before the history existed empty collections, not undefined", () => {
+    const v2 = migrateMeta({ v: 2, runs: 4, endings: { riots: 1 } })!;
+    expect(v2.arcOutcomes).toEqual([]);
+    expect(v2.legacies).toEqual({});
+    expect(v2.advisorsKept).toEqual({});
+    expect(v2.advisorsFired).toEqual({});
+    expect(v2.history).toEqual([]);
+    expect(v2.runs).toBe(4);
+    expect(v2.v).toBe(META_SAVE_VERSION);
+  });
+
   it("drops the shared epilogue keys a v1 save collected", () => {
     // Epilogues became side-specific in BACKLOG item 3, so a `band:any:era` key names a
     // text that no longer ships. Keeping it would inflate the codex past what is reachable.
@@ -221,5 +234,59 @@ describe("codexProgress", () => {
     expect(after.endingsSeen).toBe(1);
     expect(after.epiloguesSeen).toBe(1);
     expect(after.objectivesDone).toBeGreaterThan(0);
+  });
+});
+
+describe("the codex as a history", () => {
+  const withHistory = (patch: Partial<GameState> = {}) =>
+    finished(
+      { endingId: "finale_muddle", epilogueKey: "muddle:left:3" },
+      {
+        flags: ["elections_abolished", "housing_built", "east_talks", "advisor_loyal"],
+        cabinet: { chief: "c_a", rival: "adv_wrenne" },
+        stats: { ...EMPTY_STATS, firedAdvisors: ["c_b", "c_b"], arcOutcomes: ["arc_su3:left"] },
+        ...patch,
+      },
+    );
+
+  it("records what the country was left with, and not the bookkeeping", () => {
+    const fold = foldRun(library, emptyMeta(), withHistory());
+    expect(fold.meta.legacies).toEqual({ elections_abolished: 1, housing_built: 1 });
+    // east_talks is an arc's scratch flag and advisor_loyal is setup; neither is a legacy.
+    expect(fold.meta.legacies.east_talks).toBeUndefined();
+    expect(fold.meta.legacies.advisor_loyal).toBeUndefined();
+  });
+
+  it("records the branch of a story that was actually taken", () => {
+    const fold = foldRun(library, emptyMeta(), withHistory());
+    expect(fold.meta.arcOutcomes).toEqual(["arc_su3:left"]);
+    // Twice through the same branch is still one outcome.
+    const again = foldRun(library, fold.meta, withHistory());
+    expect(again.meta.arcOutcomes).toEqual(["arc_su3:left"]);
+  });
+
+  it("counts who stayed and who was let go, and never counts the rival as kept", () => {
+    const fold = foldRun(library, emptyMeta(), withHistory());
+    expect(fold.meta.advisorsKept).toEqual({ c_a: 1 });
+    expect(fold.meta.advisorsKept.adv_wrenne).toBeUndefined();
+    expect(fold.meta.advisorsFired).toEqual({ c_b: 2 });
+  });
+
+  it("keeps a bounded history, newest first", () => {
+    let meta = emptyMeta();
+    for (let i = 0; i < HISTORY_LENGTH + 4; i++) {
+      meta = foldRun(library, meta, withHistory({ cardCount: 10 + i })).meta;
+    }
+    expect(meta.history.length).toBe(HISTORY_LENGTH);
+    expect(meta.history[0]!.cards).toBe(10 + HISTORY_LENGTH + 3);
+    expect(meta.history[0]!.rival).toBe("adv_wrenne");
+    expect(meta.history[0]!.legacies).toEqual(["elections_abolished", "housing_built"]);
+  });
+
+  it("counts stories against what the content actually offers", () => {
+    const p = codexProgress(library, emptyMeta());
+    expect(p.storiesTotal).toBeGreaterThan(p.endingsTotal);
+    expect(p.legaciesTotal).toBe(Object.keys(LEGACIES).length);
+    expect(p.storiesSeen).toBe(0);
   });
 });

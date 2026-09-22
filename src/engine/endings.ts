@@ -1,6 +1,7 @@
 import type { Library } from "./library";
 import { exitBand } from "./state";
 import type { Band, Epilogue, GameState, PlayerAlign } from "./types";
+import { PLAYER_ALIGNS } from "./types";
 
 export function epilogueKey(e: Pick<Epilogue, "band" | "align" | "era">): string {
   return `${e.band}:${e.align}:${e.era}`;
@@ -48,4 +49,33 @@ export function endRun(lib: Library, state: GameState, endingId: string): GameSt
   const epi = findEpilogue(lib, band, state.align, state.era);
   const key = epi ? epilogueKey(epi) : epilogueKey({ band, align: state.align, era: state.era });
   return { ...state, over: { endingId, epilogueKey: key } };
+}
+
+/** One way a story can end: the choice that leaves the arc, and the words on it. */
+export interface ArcOutcome {
+  /** `${cardId}:${side}`, matching what a run records in `stats.arcOutcomes`. */
+  key: string;
+  label: string;
+}
+
+/**
+ * Every ending an arc has, derived from its cards: a side leaves the arc when it carries no
+ * pointer onward for at least one alignment. These are the codex's story collectibles
+ * (BACKLOG item 10) — unlike endings, collecting them means playing a story out.
+ */
+export function arcOutcomes(lib: Library, arcId: string): ArcOutcome[] {
+  const arc = lib.arcs.get(arcId);
+  if (!arc) return [];
+  const out: ArcOutcome[] = [];
+  for (const cardId of arc.cards) {
+    const card = lib.cards.get(cardId);
+    if (!card) continue;
+    for (const side of ["left", "right"] as const) {
+      const choice = card[side];
+      const byAlign = choice.nextByAlign ?? {};
+      const exitsSomewhere = PLAYER_ALIGNS.some((a) => !byAlign[a] && !choice.next);
+      if (exitsSomewhere) out.push({ key: `${cardId}:${side}`, label: choice.label });
+    }
+  }
+  return out;
 }

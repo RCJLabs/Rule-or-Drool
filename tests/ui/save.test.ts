@@ -72,3 +72,12 @@ describe("run save: the rival", () => {
     expect(migrateRun(RUN_SAVE_VERSION, current)!.rivalStanding).toBe(77);
   });
 });
+
+describe("run save: the record a run keeps of itself", () => {
+  it("starts one for a run saved before the codex kept a history", () => {
+    const { stats: _gone, ...v4 } = newRun(library, 4, { align: "left" });
+    const migrated = migrateRun(4, { ...v4, stats: { ...EMPTY_STATS, firedAdvisors: undefined, arcOutcomes: undefined } } as unknown as GameState)!;
+    expect(migrated.stats.firedAdvisors).toEqual([]);
+    expect(migrated.stats.arcOutcomes).toEqual([]);
+  });
+});

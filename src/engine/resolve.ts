@@ -209,6 +209,10 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   let s = applyChoice(lib, state, card, side);
 
   const stats: RunStats = { ...s.stats };
+  if (card.arc && !choice.nextByAlign?.[state.align] && !choice.next) {
+    const outcome = `${card.id}:${side}`;
+    if (!stats.arcOutcomes.includes(outcome)) stats.arcOutcomes = [...stats.arcOutcomes, outcome];
+  }
   const drift = choice.drift ?? 0;
   if (drift < 0) stats.tempting++;
   else if (drift > 0) stats.honest++;
@@ -220,7 +224,10 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   if (choice.fireSpeaker) {
     const before = s.cabinet[card.speaker];
     s = replaceAdvisor(lib, s, card.speaker);
-    if (s.cabinet[card.speaker] !== before) stats.advisorsFired++;
+    if (s.cabinet[card.speaker] !== before) {
+      stats.advisorsFired++;
+      if (before) stats.firedAdvisors = [...stats.firedAdvisors, before];
+    }
   }
   s = { ...s, stats, current: null, cardCount: s.cardCount + 1 };
   s = applyEraPassive(lib, s);
