@@ -415,6 +415,80 @@ button {
   }
 }
 
+/* ---- why this card is here (BACKLOG-3 phase 19) --------------------------------- */
+/**
+ * 11.9 cards a run arrive because of an earlier choice and nothing said so. Both marks are
+ * drawn rather than written: a bill has a folded corner because it has been somewhere, and
+ * a habit has the rest of its kind stacked behind it. Neither is a word, so `.sr-only` on
+ * the card carries the same claim for anyone who cannot see it.
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.card-bill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  border-top-right-radius: var(--radius);
+  /* The corner is turned: the card's own colour above the fold, the back of the page below. */
+  background: linear-gradient(
+    225deg,
+    color-mix(in srgb, var(--ink) 16%, var(--paper)) 0 50%,
+    transparent 50%
+  );
+}
+.card-bill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+  border-bottom-left-radius: 3px;
+  background: linear-gradient(225deg, transparent 0 50%, color-mix(in srgb, var(--ink) 9%, transparent) 50% 52%, transparent 52%);
+}
+
+/**
+ * A habit is a tally in the margin: three rules in the corner opposite the fold, so the two
+ * marks never fight and a card could in principle carry both.
+ *
+ * The first draft stacked sheets behind the card instead, which was the better metaphor and
+ * the wrong game: the Ascent path already puts dimmer panes behind the card, and two things
+ * behind the card meaning two different things is one too many.
+ */
+.card-habit::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  width: 15px;
+  height: 11px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    currentColor 0 2px,
+    transparent 2px 4.5px,
+    currentColor 4.5px 6.5px,
+    transparent 6.5px 9px,
+    currentColor 9px 11px
+  );
+  opacity: 0.32;
+}
+
 /* ---- status footer -------------------------------------------------------------- */
 .status {
   padding: var(--space) var(--space) calc(var(--space) + env(safe-area-inset-bottom, 0px));

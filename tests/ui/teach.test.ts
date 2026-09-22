@@ -18,10 +18,19 @@ describe("teaching by playing", () => {
     expect(lessonFor(library, s, ["meters"])?.id).not.toBe("meters");
   });
 
-  it("points at a delayed card as the player's own doing", () => {
-    // q_debt_called has weight 0: it can only be here because something queued it.
-    const s = at({ current: "q_debt_called", cardCount: 30 });
+  it("points at a delayed card as the player's own doing, on the draw's word", () => {
+    // It used to infer this from `weight === 0`. The draw records it now, so a queued card
+    // is a bill whatever its weight, and an ordinary card never is (BACKLOG-3 phase 19).
+    const s = at({ current: "q_debt_called", cardCount: 30, currentFrom: "queue" });
     expect(lessonFor(library, s, ["meters", "hidden"])?.id).toBe("delayed");
+    expect(lessonFor(library, { ...s, currentFrom: "deck" }, ["meters", "hidden"])?.id).not.toBe("delayed");
+  });
+
+  it("tells a habit apart from a bill: a pattern, not a single choice", () => {
+    const s = at({ current: "h_skim_pattern", cardCount: 40, currentFrom: "habit" });
+    expect(lessonFor(library, s, ["meters", "hidden", "delayed"])?.id).toBe("habit");
+    // Same card, dealt rather than earned, is not the moment for that lesson.
+    expect(lessonFor(library, { ...s, currentFrom: "deck" }, ["meters", "hidden", "delayed"])?.id).not.toBe("habit");
   });
 
   it("names the bloc that is unhappy, on the side the player leads", () => {

@@ -118,6 +118,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
             traitName={advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined}
             advisorId={advisorId}
             seed={state.seed}
+            from={state.currentFrom}
             peek={peek}
             leaving={leaving}
             onDrag={setDragSide}

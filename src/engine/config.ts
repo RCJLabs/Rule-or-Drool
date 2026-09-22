@@ -68,6 +68,12 @@ export interface EngineConfig {
   traitEffects: Record<string, { gain: number; loss: number }>;
   /** Run start sets `${advisorFlagPrefix}${trait}` for every trait sitting in the cabinet. */
   advisorFlagPrefix: string;
+  /**
+   * Flags that count how often a kind of choice has been made, rather than naming a thing
+   * that happened. A card gated on one is here because of a pattern (BACKLOG-2 phase 14),
+   * which is how the draw tells a habit apart from an ordinary card (phase 19).
+   */
+  habitMarkPrefix: string;
   /** How many recently drawn ids are ineligible (7). */
   cooldownSize: number;
   /**
@@ -158,6 +164,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
     corrupt: { gain: 1, loss: 1.35 },
   },
   advisorFlagPrefix: "advisor_",
+  habitMarkPrefix: "mark_",
   cooldownSize: 15,
   alignAffinity: 2,
   bandAffinity: 3,

@@ -239,6 +239,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     nextElectionAt: cfg.electionInterval,
     over: null,
     current: null,
+    currentFrom: null,
     arcBudget: budget.value,
     rivalStanding: cfg.rivalStart,
     stats: { ...EMPTY_STATS },

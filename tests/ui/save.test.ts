@@ -90,3 +90,13 @@ describe("run save: how long the cabinet has served", () => {
     for (const role of Object.keys(migrated.cabinetSince)) expect(migrated.cabinetSince[role]).toBe(0);
   });
 });
+
+describe("run save: why the card on the table is there", () => {
+  it("leaves a run saved before the draw recorded it unmarked, rather than guessing", () => {
+    // Guessing from `weight === 0` would be right on shipped content and wrong on the one
+    // thing this replaced it for: a habit card is weight 4 (BACKLOG-3 phase 19).
+    const { currentFrom: _gone, ...v7 } = newRun(library, 12, { align: "left" });
+    const migrated = migrateRun(7, v7 as GameState)!;
+    expect(migrated.currentFrom).toBeNull();
+  });
+});

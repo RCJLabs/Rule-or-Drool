@@ -59,6 +59,10 @@ export function migrateRun(v: number, state: GameState): GameState | null {
   // v6 -> v7: a run can be taken on a promise (BACKLOG-2 phase 16). A run already under
   // way was taken on none, so it resumes promising nothing rather than being dropped.
   if (v < 7) s = { ...s, mandate: null, mandateBrokenAt: null };
+  // v7 -> v8: the run records why the card on the table is there (BACKLOG-3 phase 19). A
+  // save taken before this cannot know, and guessing would put a mark on the wrong card, so
+  // the one card in progress is unmarked and everything after it is recorded properly.
+  if (v < 8) s = { ...s, currentFrom: null };
   return s;
 }
 

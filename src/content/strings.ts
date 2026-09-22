@@ -252,5 +252,7 @@ export const STRINGS = {
     mandateBrokenAt: "Broken at card",
     mandateHint: "A promise you make to get the job. Nothing stops you breaking it; the country will notice, and so will the codex.",
     mandates: "Promises",
+    cameBack: "This card came back: an earlier choice sent it.",
+    aHabit: "This card is here because you have made the same choice several times."
   },
 } as const;

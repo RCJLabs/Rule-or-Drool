@@ -21,8 +21,8 @@ export interface Lesson {
 export interface LessonContext {
   state: GameState;
   card: Card;
-  /** Weight 0 means it can only have arrived because something queued it. */
-  delayed: boolean;
+  /** Why this card is here, as the draw recorded it (BACKLOG-3 phase 19). */
+  from: GameState["currentFrom"];
   /** The unhappiest bloc under the threshold, if any. */
   restless: (typeof BLOC_KEYS)[number] | null;
 }
@@ -60,8 +60,15 @@ export const LESSONS: readonly Lesson[] = [
     id: "delayed",
     title: "This one is your own doing",
     body: () =>
-      "This card was not dealt: an earlier choice sent it. Most of what goes wrong here was decided some time ago, by you.",
-    when: ({ delayed }) => delayed,
+      "The folded corner means this card was not dealt: an earlier choice sent it. Most of what goes wrong here was decided some time ago, by you.",
+    when: ({ from }) => from === "queue",
+  },
+  {
+    id: "habit",
+    title: "This is how you do it now",
+    body: () =>
+      "The stack behind this card is the rest of them. It is not here because of one decision; it is here because you have made the same one enough times to be a method.",
+    when: ({ from }) => from === "habit",
   },
   {
     id: "bloc",
@@ -96,7 +103,7 @@ export function lessonFor(lib: Library, state: GameState, taught: readonly strin
   const ctx: LessonContext = {
     state,
     card,
-    delayed: (card.weight ?? 1) === 0,
+    from: state.currentFrom,
     restless: worstBloc(state),
   };
   return LESSONS.find((l) => !taught.includes(l.id) && l.when(ctx)) ?? null;

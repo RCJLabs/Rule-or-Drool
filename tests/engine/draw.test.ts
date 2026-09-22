@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildLibrary } from "../../src/engine/library";
-import { draw, electionDue, tickQueue } from "../../src/engine/draw";
+import { draw, electionDue, isHabitCard, tickQueue } from "../../src/engine/draw";
 import { resolve } from "../../src/engine/resolve";
 import { ev, makeFixture } from "../fixtures/content";
 import { lib, play, start, table } from "../helpers";
@@ -34,6 +34,62 @@ describe("draw: basics", () => {
   it("throws when nothing at all is eligible", () => {
     const l = buildLibrary({ ...makeFixture(), arcs: [], cards: [] });
     expect(() => draw(l, start(l))).toThrow(/no eligible card/);
+  });
+});
+
+/**
+ * Why a card is on the table (BACKLOG-3 phase 19). The draw order already knew and threw
+ * the answer away; everything downstream guessed from `weight === 0`, which happened to be
+ * right on every shipped card and cannot express a habit at all.
+ */
+describe("draw: why this card is here", () => {
+  it("names the source that produced the card, in draw order", () => {
+    const l = lib();
+    expect(draw(l, start(l, { nextElectionAt: 0 })).currentFrom).toBe("election");
+    expect(draw(l, start(l, { queue: [{ id: "q1", dueAt: 0 }] })).currentFrom).toBe("queue");
+    // Continuing an arc is a roll, so pin it rather than hoping.
+    const arcs = lib({ arcContinueProb: 1 });
+    expect(draw(arcs, start(arcs, { activeArcs: [{ id: "arc_t", nextCard: "arc_t2" }] })).currentFrom).toBe("arc");
+    expect(draw(lib({ arcEntryProb: 1 }), start(lib({ arcEntryProb: 1 }))).currentFrom).toBe("arc");
+    expect(draw(l, start(l)).currentFrom).toBe("deck");
+  });
+
+  it("clears nothing on its own: the source stays with the card until the next draw", () => {
+    const l = lib();
+    const s = draw(l, start(l, { queue: [{ id: "q1", dueAt: 0 }] }));
+    expect(s.current).toBe("q1");
+    const after = resolve(l, s, "q1", "left");
+    // Resolving empties the table; the next draw sets both again.
+    expect(after.current).toBeNull();
+    expect(draw(l, after).currentFrom).toBe("deck");
+  });
+
+  it("calls a pool card gated only on counting marks a habit, and nothing else", () => {
+    const l = buildLibrary({
+      ...makeFixture(),
+      cards: [
+        ...makeFixture().cards,
+        ev("hab", { cond: { flags: ["mark_skim_a", "mark_skim_b"] }, weight: 500 }),
+        ev("also_cond", { cond: { flags: ["mark_skim_a", "f1"] }, weight: 500 }),
+      ],
+    });
+    expect(isHabitCard(l, l.cards.get("hab")!)).toBe(true);
+    // Marks plus an ordinary flag is an ordinary card with a condition, not a pattern.
+    expect(isHabitCard(l, l.cards.get("also_cond")!)).toBe(false);
+    expect(isHabitCard(l, l.cards.get("f01")!)).toBe(false);
+    const s = draw(l, start(l, { flags: ["mark_skim_a", "mark_skim_b"] }));
+    expect(s.current).toBe("hab");
+    expect(s.currentFrom).toBe("habit");
+  });
+
+  it("does not call a queued card a habit, however it is gated", () => {
+    const l = buildLibrary({
+      ...makeFixture(),
+      cards: [...makeFixture().cards, ev("qhab", { weight: 0, cond: { flags: ["mark_skim_a"] } })],
+    });
+    const s = draw(l, start(l, { flags: ["mark_skim_a"], queue: [{ id: "qhab", dueAt: 0 }] }));
+    expect(s.current).toBe("qhab");
+    expect(s.currentFrom).toBe("queue");
   });
 });
 

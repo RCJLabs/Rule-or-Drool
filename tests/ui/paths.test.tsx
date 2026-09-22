@@ -2,7 +2,11 @@
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { Frame } from "../../src/ui/Frame";
+import { STRINGS } from "../../src/content/strings";
 import { PathChrome, StreamAlerts, StreamGutters } from "../../src/ui/PathChrome";
+import { CardView } from "../../src/ui/CardView";
+import { library } from "../../src/content";
+import { getCard } from "../../src/engine/library";
 import { STAGE_AT, themeFor } from "../../src/ui/theme";
 
 /**
@@ -109,5 +113,42 @@ describe("the projection, on the way up", () => {
 
   it("has no gutters, because nothing is shouting", () => {
     expect(render(<StreamGutters theme={at(60)} seed={1} n={1} />).container.childElementCount).toBe(0);
+  });
+});
+
+describe("a card says why it is here", () => {
+  // 11.9 cards a run arrive because of an earlier choice and 2.4 because of a pattern of
+  // them; neither used to be distinguishable from the 77 that were simply dealt.
+  const view = (from: "deck" | "queue" | "habit" | null) =>
+    render(
+      <CardView
+        card={getCard(library, "a01_surplus")}
+        text="text"
+        speakerName="Someone"
+        roleLabel="Treasurer"
+        advisorId="adv_vole"
+        seed={1}
+        from={from}
+        peek={null}
+        leaving={null}
+        onDrag={() => {}}
+        onCommit={() => {}}
+      />,
+    ).container.querySelector(".card")!;
+
+  it("marks a bill and a habit differently, and marks a dealt card not at all", () => {
+    expect(view("queue").className).toContain("card-bill");
+    expect(view("habit").className).toContain("card-habit");
+    const plain = view("deck").className;
+    expect(plain).not.toContain("card-bill");
+    expect(plain).not.toContain("card-habit");
+    expect(view(null).className).not.toContain("card-bill");
+  });
+
+  it("says out loud what the mark says silently", () => {
+    // The mark is drawn, so the claim has to reach a screen reader some other way.
+    expect(view("queue").querySelector(".sr-only")?.textContent).toBe(STRINGS.ui.cameBack);
+    expect(view("habit").querySelector(".sr-only")?.textContent).toBe(STRINGS.ui.aHabit);
+    expect(view("deck").querySelector(".sr-only")).toBeNull();
   });
 });

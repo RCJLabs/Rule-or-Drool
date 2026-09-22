@@ -1,5 +1,6 @@
 import { useRef, useState, type PointerEvent } from "react";
-import type { Card, Side } from "../engine/types";
+import { STRINGS } from "../content/strings";
+import type { Card, CardSource, Side } from "../engine/types";
 import { Portrait } from "./Portrait";
 
 interface Props {
@@ -11,6 +12,12 @@ interface Props {
   traitName?: string;
   advisorId: string;
   seed: number;
+  /**
+   * Why this card is here (BACKLOG-3 phase 19). A bill gets a folded corner because it has
+   * been somewhere; a habit gets a stack behind it because it is not the first of its kind.
+   * Everything else is dealt and looks it.
+   */
+  from?: CardSource | null;
   /** Keyboard peek: shows the choice for that side without a pointer. */
   peek: Side | null;
   /** Set once a choice is committed; the card flies off that way. */
@@ -26,7 +33,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, speakerName, roleLabel, traitName, advisorId, seed, peek, leaving, onDrag, onCommit }: Props) {
+export function CardView({ card, text, speakerName, roleLabel, traitName, advisorId, seed, from, peek, leaving, onDrag, onCommit }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; id: number } | null>(null);
   const [dx, setDx] = useState(0);
@@ -64,6 +71,8 @@ export function CardView({ card, text, speakerName, roleLabel, traitName, adviso
   const reveal = Math.min(1, Math.abs(visualDx) / t);
   const classes = ["card", "card-enter"];
   if (card.type === "election") classes.push("election");
+  if (from === "queue") classes.push("card-bill");
+  if (from === "habit") classes.push("card-habit");
   if (dragging) classes.push("dragging");
   else if (leaving) classes.push("leaving");
   else classes.push("settling");
@@ -78,7 +87,13 @@ export function CardView({ card, text, speakerName, roleLabel, traitName, adviso
       onPointerUp={onPointerEnd}
       onPointerCancel={onPointerEnd}
       data-card={card.id}
+      data-from={from ?? undefined}
     >
+      {/* The mark is drawn in CSS and says nothing out loud, so the one thing it does say
+          has to be said here for anyone who cannot see it. */}
+      {(from === "queue" || from === "habit") && (
+        <span className="sr-only">{from === "queue" ? STRINGS.ui.cameBack : STRINGS.ui.aHabit}</span>
+      )}
       <div className="card-labels" aria-hidden={side === null}>
         <span className="card-label" style={{ opacity: side === "left" ? reveal : 0 }}>
           {card.left.label}

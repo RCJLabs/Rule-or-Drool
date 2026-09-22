@@ -50,9 +50,9 @@ export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerA
     const id = state.current!;
     const card = getCard(lib, id);
 
-    const fromQueue = before.queue.some((q) => q.id === id && q.dueAt <= before.cardCount);
-    const fromArc = before.activeArcs.some((a) => a.nextCard === id) || card.type === "arc";
-    if (card.type === "event" && (card.weight ?? 1) > 0 && !fromQueue && !fromArc) {
+    // The draw says why the card is here now, so the relaxed-filter count no longer has to
+    // reconstruct it from the queue and the active arcs (BACKLOG-3 phase 19).
+    if (card.type === "event" && (card.weight ?? 1) > 0 && (state.currentFrom === "deck" || state.currentFrom === "habit")) {
       if (before.cooldown.includes(id)) relaxed.cooldown++;
       if (!card.bands.includes(before.band)) relaxed.band++;
       if (!card.eras.includes(before.era)) relaxed.era++;

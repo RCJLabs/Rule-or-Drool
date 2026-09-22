@@ -260,6 +260,15 @@ export interface GameState {
   over: RunOver | null;
   /** Card on the table, or null between draws. */
   current: string | null;
+  /**
+   * Why that card is on the table (BACKLOG-3 phase 19). The draw order already knows and
+   * used to throw the answer away, leaving everything downstream to guess from
+   * `weight === 0`. Measured over 309,076 cards that guess was wrong exactly zero times —
+   * but only because every arc card happens to be weight 1 and every weight-0 card happens
+   * to be queued. It is a convention, not a rule, and it cannot express the thing this
+   * phase needs at all: a habit card is weight 4 and drawn from the pool like any other.
+   */
+  currentFrom: CardSource | null;
   arcBudget: number;
   stats: RunStats;
   /** Meta unlock ids in force for this run; gates modifiers and arcs that name a `requires`. */
@@ -269,6 +278,14 @@ export interface GameState {
   /** The card count at which that promise was broken, or null while it still holds. */
   mandateBrokenAt: number | null;
 }
+
+/**
+ * How a card reached the table. `habit` is a pool draw like `deck`, told apart because the
+ * card is gated on counting marks: it is not here because of one choice, it is here because
+ * of a pattern of them, which is a different thing to say to the player.
+ */
+export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election"] as const;
+export type CardSource = (typeof CARD_SOURCES)[number];
 
 export interface RunSetup {
   align: PlayerAlign;

@@ -167,7 +167,52 @@ and the two looks are distinguishable on a phone at arm's length with the text u
 
 </details>
 
-## Phase 19. The bill you cannot see coming — *queued*
+## Phase 19. The bill you cannot see coming — *done*
+
+**Shipped.** A card that came back has a folded corner. A card that is here because of a
+pattern has a tally in the opposite corner. Everything else is dealt and looks it.
+
+**What a run is made of, now that the draw records why each card is there:**
+
+| | competent run | cynical run |
+|---|---|---|
+| dealt from the deck | 77.4 per run | 75.9 |
+| **a bill, sent by an earlier choice** | **11.9** | **15.2** |
+| **a habit, earned by a pattern** | **2.4** | **2.3** |
+| an arc continuing | 8.3 | 7.8 |
+| an election | 2.9 | 3.0 |
+
+**14.3 cards a run carry a mark, 17.4 for a player who defers more** — which is the right
+shape, because deferring more is what sends more bills. A bill turns up in 98.5% of runs and
+a habit in 93.1%.
+
+**The engine now records why a card is on the table** rather than leaving everything
+downstream to infer it. `GameState.currentFrom` is set by the draw, which always knew and
+threw the answer away.
+
+**The inference it replaces was never once wrong, and replacing it was still right.**
+Measured over 309,076 cards, guessing "queued" from `weight === 0` was correct every single
+time — because all 69 arc cards happen to be weight 1 and all 59 weight-0 cards happen to be
+queued. That is a convention the content follows, not a rule the engine enforces: one arc
+card written at weight 0 would have broken it silently. More to the point it cannot express
+the distinction this phase is about at all. **A habit card is weight 4 and drawn from the
+pool like any other**, and the only thing that separates it is that every flag it is gated on
+is a counting mark. So the claim in the code comment is the measured one: this makes a
+coincidence into a guarantee, and adds the reading the guess could not make.
+
+**The first habit mark was a stack of sheets behind the card**, which is the better metaphor
+and the wrong game: phase 18 had just put dimmer panes behind the card on the Ascent path,
+and two things behind the card meaning two different things is one too many. The tally sits
+on the card, in the corner opposite the fold, so the two marks never fight and a card could
+carry both.
+
+**Neither mark is a word**, so the card carries a visually-hidden line saying what the mark
+says. The two teaching notes point at their own marks now — the folded corner, the stack —
+rather than describing something invisible, and the one that fires for a delayed card keys on
+the recorded source instead of the weight, so it can no longer fire on the wrong card.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** Phase 14 put a consequence on 40% of the ordinary deck, and **11.9 cards a run
 now arrive because of something you did earlier**. Nothing on the card says so. The only
@@ -181,6 +226,8 @@ this once" but "this is how you do it".
 
 **Done when** a player can tell, without reading, whether the card in front of them is new
 or a bill, and the 11.9 that come back stop being indistinguishable from the 90 that do not.
+
+</details>
 
 ## Phase 20. Cards nobody draws, and cards you draw twice — *queued*
 

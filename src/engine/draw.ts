@@ -1,14 +1,25 @@
 import { getCard, poolKey, type Library } from "./library";
 import { pickWeighted } from "./rng";
 import { condMet, hasFlag, roll } from "./state";
-import type { Arc, Band, Card, GameState } from "./types";
+import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
 
-/** Put a card on the table and do the bookkeeping (seen, cooldown). */
-export function select(lib: Library, state: GameState, cardId: string): GameState {
+/** Put a card on the table and do the bookkeeping (seen, cooldown, and why it is here). */
+export function select(lib: Library, state: GameState, cardId: string, from: CardSource = "deck"): GameState {
   const seen = state.seen.includes(cardId) ? state.seen : [...state.seen, cardId];
   const cooldown = [...state.cooldown, cardId].slice(-lib.config.cooldownSize);
-  return { ...state, current: cardId, seen, cooldown };
+  return { ...state, current: cardId, currentFrom: from, seen, cooldown };
+}
+
+/**
+ * A pool draw gated entirely on counting marks is not an ordinary card: it is the deck
+ * noticing a pattern. Gated on marks *and* something else, it is an ordinary card with a
+ * condition, so the stricter reading is the honest one (BACKLOG-3 phase 19).
+ */
+export function isHabitCard(lib: Library, card: Card): boolean {
+  const flags = card.cond?.flags;
+  if (!flags || flags.length === 0) return false;
+  return flags.every((f) => f.startsWith(lib.config.habitMarkPrefix));
 }
 
 export function electionDue(lib: Library, state: GameState): boolean {
@@ -193,15 +204,23 @@ function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {
 export function draw(lib: Library, state: GameState): GameState {
   if (state.over || state.current) return state;
 
+  // Each source in draw order, with the name it answers to. The first one that produces a
+  // card wins, and its name is why that card is on the table.
+  type Source = [CardSource, (lib: Library, state: GameState) => [Card | null, GameState]];
+  const sources: Source[] = [
+    ...(electionDue(lib, state) ? [["election", drawElection] as Source] : []),
+    ["queue", tickQueue],
+    ["arc", drawArcContinue],
+    ["arc", drawArcEntry],
+    ["deck", drawEvent],
+  ];
+
   let s = state;
-  let card: Card | null = null;
-
-  if (electionDue(lib, s)) [card, s] = drawElection(lib, s);
-  if (!card) [card, s] = tickQueue(lib, s);
-  if (!card) [card, s] = drawArcContinue(lib, s);
-  if (!card) [card, s] = drawArcEntry(lib, s);
-  if (!card) [card, s] = drawEvent(lib, s);
-  if (!card) throw new Error(`no eligible card (era ${s.era}, band ${s.band}, align ${s.align})`);
-
-  return select(lib, s, card.id);
+  for (const [name, pick] of sources) {
+    const [card, next] = pick(lib, s);
+    s = next;
+    if (!card) continue;
+    return select(lib, s, card.id, name === "deck" && isHabitCard(lib, card) ? "habit" : name);
+  }
+  throw new Error(`no eligible card (era ${s.era}, band ${s.band}, align ${s.align})`);
 }
