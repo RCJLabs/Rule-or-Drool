@@ -36,7 +36,7 @@ export function Frame({ theme, align, seed, n, fill, children }: Props) {
   const style = { "--decay": theme.decay, "--ascent": theme.ascent } as CSSProperties;
   return (
     <div className="frame" data-theme={theme.name} data-band={theme.band} data-align={align} data-fill={fill ? "" : undefined} style={style}>
-      <PathChrome theme={theme} seed={seed} n={n} />
+      <PathChrome theme={theme} seed={seed} n={n} run={fill} />
       {children}
       <StreamAlerts theme={theme} seed={seed} n={n} />
       {sponsors >= 1 && (

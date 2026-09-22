@@ -1072,6 +1072,189 @@ button {
   font-size: 11px;
   color: var(--muted);
 }
+/**
+ * The end screen leads with the world the run left (post-run histories). The picture is the
+ * run's own — drawn from its decisions and its seed — so it takes the full column and the
+ * party's corner, and the time that has passed is written on it.
+ */
+.world-frame {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 400 / 240;
+  overflow: hidden;
+  border-radius: calc(var(--radius) * var(--corner));
+  box-shadow: var(--shadow);
+  animation: world-arrive 1.1s ease-out both;
+}
+.world-after {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.world-when {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  /* Its own ground, because text over a picture has no background the contrast rule can
+     rely on: over the gold sky and over the red one this has to read the same. */
+  background: rgba(8, 6, 10, 0.72);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@keyframes world-arrive {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+:root[data-reduce-motion] .world-frame {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-frame {
+    animation: none;
+  }
+}
+.ending-how {
+  color: var(--ink);
+}
+.history-calls {
+  margin: 4px 0 -8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.ending h1.history-title {
+  font-size: 36px;
+  line-height: 1.08;
+}
+.history-new {
+  align-self: center;
+  margin: -4px 0 0;
+  padding: 3px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* What became of each decision that made the run: the part that says decisions mattered. */
+.became,
+.timeline {
+  text-align: left;
+}
+.became h2,
+.timeline h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.became ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.became li {
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+}
+.became b {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14.5px;
+}
+.became-when {
+  flex: none;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.became p {
+  margin: 3px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.became-also {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* The run in order, down a line: the card each thing happened on, then what happened. */
+.timeline ol {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.timeline ol::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 37px;
+  width: 1.5px;
+  background: color-mix(in srgb, var(--ink) 25%, transparent);
+}
+.timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 16px;
+  padding: 3px 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 34px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+}
+.timeline-at {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.timeline li[data-kind="era"] .timeline-text {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.timeline li[data-kind="era"]::before {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.timeline li[data-kind="promise"] .timeline-text,
+.timeline li[data-kind="end"] .timeline-text {
+  font-weight: 700;
+}
+.timeline li[data-kind="end"]::before {
+  background: var(--ink);
+}
+
 .epilogue {
   padding: var(--space);
   border: var(--border) dashed var(--ink);

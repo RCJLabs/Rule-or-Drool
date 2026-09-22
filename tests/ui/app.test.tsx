@@ -8,6 +8,7 @@ import { App } from "../../src/ui/App";
 import { CardView, commitThreshold } from "../../src/ui/CardView";
 import { Ending } from "../../src/ui/Ending";
 import { getCard } from "../../src/engine/library";
+import { historyOf } from "../../src/meta";
 
 describe("App", () => {
   beforeEach(() => {
@@ -219,7 +220,12 @@ describe("Ending", () => {
     // future rather than a shared one (BACKLOG item 3).
     const s = { ...newRun(library, 77, { align: "right" }), drift: 40, cardCount: 12, over: { endingId: "riots", epilogueKey: "ascent:right:1" } };
     render(<Ending lib={library} state={s} fold={null} onPlayAgain={() => {}} onCodex={() => {}} onSettings={() => {}} />);
-    expect(screen.getByRole("heading", { name: "The Streets Decide" })).toBeTruthy();
+    // The history is the headline now and how the run stopped is the line above it: a
+    // competent run stops the same way 97% of the time, and what it made does not
+    // (post-run histories).
+    expect(screen.getByRole("heading", { level: 1, name: historyOf(s, "ascent").title })).toBeTruthy();
+    expect(document.querySelector(".ending-how")!.textContent).toBe("The Streets Decide");
+    expect(screen.getByRole("img", { name: historyOf(s, "ascent").title })).toBeTruthy();
     expect(screen.getByText("Ascent")).toBeTruthy();
     expect(screen.getByText(/The donors complained, and stayed\./)).toBeTruthy();
     expect(screen.getByText("77")).toBeTruthy();

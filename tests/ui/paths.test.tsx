@@ -135,7 +135,7 @@ describe("which party is in office", () => {
 describe("the projection, on the way up", () => {
   it("deepens rather than getting louder, and brings no stream with it", () => {
     const panes = (drift: number) => {
-      const { container } = render(<PathChrome theme={at(drift)} seed={3} n={7} />);
+      const { container } = render(<PathChrome theme={at(drift)} seed={3} n={7} run />);
       return {
         panes: container.querySelectorAll(".holo-pane").length,
         plinth: !!container.querySelector(".holo-plinth"),
@@ -146,6 +146,14 @@ describe("the projection, on the way up", () => {
     expect(panes(STAGE_AT[0])).toMatchObject({ panes: 0, plinth: true, stream: false });
     expect(panes(STAGE_AT[1])).toMatchObject({ panes: 1, plinth: true });
     expect(panes(STAGE_AT[2])).toMatchObject({ panes: 2, plinth: true });
+  });
+
+  it("stays on the run screen, where there is a card to project", () => {
+    // On the end screen the panes cut across a page of text as stray boxes (post-run histories).
+    const { container } = render(<PathChrome theme={at(60)} seed={3} n={7} />);
+    expect(container.querySelector(".holo")).toBeNull();
+    // The stream's badges read anywhere, so Decay keeps them off the run screen too.
+    expect(render(<PathChrome theme={at(-60)} seed={3} n={7} />).container.querySelector(".stream")).not.toBeNull();
   });
 
   it("has no gutters, because nothing is shouting", () => {

@@ -152,6 +152,61 @@ export const STRINGS = {
       many: "The country is still carrying {n} things you did to it.",
     },
   },
+  /**
+   * The world after a run, in words, for the picture's accessible name (post-run
+   * histories). `when` is indexed by the era the run ended in; `sky` by band and by how far
+   * the country went; each landmark is one decision the run made.
+   */
+  world: {
+    when: ["A generation later", "A century later", "Centuries later"],
+    sky: {
+      decay: ["the city under a brown haze", "the city under smoke, half its lights out", "a dark city of broken towers under a red sun"],
+      muddle: ["the city under an ordinary grey sky", "the city under a flat grey sky, much as it was", "the city under a low grey sky, unchanged and unimproved"],
+      ascent: ["the city under a clear morning", "a taller city under a gold sky", "a city of spires under a clear gold sky"],
+    } as Record<"decay" | "muddle" | "ascent", readonly [string, string, string]>,
+    landmarks: {
+      ring: "a ring across the sky",
+      station: "a station in orbit",
+      ship: "the trail of the long ship leaving",
+      statue: "a giant statue where the ballot boxes were",
+      palace: "a palace for the family",
+      forum: "the forum where the country was asked",
+      watchtower: "watchtowers behind wire",
+      tanks: "tanks in the square",
+      barricade: "a standing barricade",
+      housing: "rows of housing blocks",
+      school: "a boarded-up school",
+      shuttered: "a pension office with its shutters down",
+      emptyLot: "an empty lot where homes were promised",
+      broadcast: "a broadcast tower and a giant screen",
+      goldTower: "a gold-roofed private tower",
+      bunker: "a sealed vault in the hillside",
+      mansion: "a gated house on the hill",
+      rocket: "a rocket on its gantry",
+      oracle: "the oracle's tower, still lit",
+      commission: "the commission building, one window still lit",
+      seawall: "a seawall holding back the sea",
+      bridge: "the fallen bridge",
+      dryBay: "a dry bay where the water was",
+      posters: "old election posters, peeling",
+      banner: "a torn banner with a broken promise on it",
+    } as Record<string, string>,
+  },
+  /** The run in order, on the end screen (post-run histories). */
+  timeline: {
+    title: "How it went",
+    took: "You took office for {party}",
+    inheriting: "inheriting {crisis}",
+    broke: "You broke the promise you took the job on",
+    card: "card {n}",
+  },
+  /** The end screen's own words around the history and the picture. */
+  after: {
+    calls: "History calls it",
+    newHistory: "A name history has not given you before",
+    became: "What became of it",
+    also: "Also left behind:",
+  },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],
     nouns: ["Nachos", "Lotto", "Pills", "Energy Drink", "Payday Loans", "Cola", "Streaming", "Crypto", "Wings", "Slots"],
@@ -309,6 +364,8 @@ export const STRINGS = {
     aHabit: "This card is here because you have made the same choice several times.",
     impliedBy: "Already on: the plain screen does this.",
     eraKicker: "Era {n}",
+    ruleEnds: "Your rule ends",
+    newHistoryEarned: "A new history for the codex.",
     carried: "The country is left with",
     andMore: "and {n} more",
     owed: "{n} decisions are still owed.",

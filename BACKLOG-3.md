@@ -1,6 +1,6 @@
 # Backlog, round three
 
-**Round three is done.** All ten shipped, at v0.37.0. What is left across all three rounds is
+**Round three is done.** All ten shipped, at v0.37.0. Round four is in BACKLOG-4.md. What is left across all three rounds is
 the two parked items: **phase 11 (share a run)** and **phase 17 (get it onto Play)**.
 
 Rounds one (BACKLOG.md) and two (BACKLOG-2.md) are done bar those two. These were the next

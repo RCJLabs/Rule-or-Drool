@@ -27,6 +27,12 @@ interface Props {
   seed: number;
   /** Card count, so the chat moves on with the run. */
   n: number;
+  /**
+   * True on the run screen. The projection's panes are the room the card is projected into
+   * and only make sense behind a card: on the end screen, a document, they cut across the
+   * text as stray boxes (post-run histories). The stream's badges read anywhere.
+   */
+  run?: boolean;
 }
 
 function StreamChrome({ theme, seed, n }: Props) {
@@ -84,7 +90,8 @@ function HoloChrome({ theme }: Props) {
 }
 
 export function PathChrome(props: Props) {
-  return props.theme.stage < 0 ? <StreamChrome {...props} /> : <HoloChrome {...props} />;
+  if (props.theme.stage < 0) return <StreamChrome {...props} />;
+  return props.run ? <HoloChrome {...props} /> : null;
 }
 
 /**

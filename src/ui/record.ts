@@ -1,6 +1,7 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import type { GameState } from "../engine/types";
+import { HISTORY_ORDER } from "../meta/histories";
 import { LEGACIES } from "../meta/legacies";
 
 /**
@@ -49,4 +50,40 @@ export function runRecord(lib: Library, state: GameState): RunRecord {
   const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
   lines.push(carried.length === 0 ? carrying.nothing : plural(carried.length, carrying.one, carrying.many));
   return { lines, carried };
+}
+
+/**
+ * How the run went, in order (post-run histories): when you took office, the decisions that
+ * left something behind, the years passing, a promise breaking, and how it ended. The card
+ * each decision was made on is what the run dates its flags with; a flag from a save that
+ * predates the dating has no card and is left out rather than placed at the start.
+ */
+export interface Moment {
+  at: number;
+  kind: "start" | "decision" | "era" | "promise" | "end";
+  text: string;
+}
+
+/** Most decisions a timeline names. The rest are in the codex; ten lines is a page. */
+export const TIMELINE_DECISIONS = 8;
+
+export function timeline(lib: Library, state: GameState, endingTitle: string): Moment[] {
+  const { took, inheriting, broke } = STRINGS.timeline;
+  const crisis = state.modifiers.map((m) => STRINGS.modifiers[m as keyof typeof STRINGS.modifiers]).find((m, i) => m && state.modifiers[i]!.startsWith("crisis_"));
+  const start = took.replace("{party}", STRINGS.parties[state.align]) + (crisis ? `, ${inheriting.replace("{crisis}", crisis.name.toLowerCase())}` : "") + ".";
+  const moments: Moment[] = [{ at: 0, kind: "start", text: start }];
+
+  // The biggest decisions, if there are more than fit, told in the order they were made.
+  const dated = HISTORY_ORDER.filter((f) => state.flags.includes(f) && state.flagSince?.[f] !== undefined && state.flagSince[f]! > 0);
+  for (const f of dated.slice(0, TIMELINE_DECISIONS)) moments.push({ at: state.flagSince[f]!, kind: "decision", text: LEGACIES[f] ?? f });
+
+  for (let era = 2; era <= state.era; era++) {
+    moments.push({ at: (era - 1) * lib.config.eraLength, kind: "era", text: STRINGS.eras[era - 1]?.name ?? `Era ${era}` });
+  }
+  if (state.mandate && state.mandateBrokenAt !== null) moments.push({ at: state.mandateBrokenAt, kind: "promise", text: broke });
+  moments.push({ at: state.cardCount, kind: "end", text: endingTitle });
+
+  // A decision made on the card that tipped the era happened before the years passed.
+  const order: Record<Moment["kind"], number> = { start: 0, decision: 1, promise: 2, era: 3, end: 4 };
+  return moments.sort((a, b) => a.at - b.at || order[a.kind] - order[b.kind]);
 }
