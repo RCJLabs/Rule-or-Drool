@@ -855,3 +855,109 @@ footer.end { margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--pa
   border-radius: 50%; background: var(--accent); filter: blur(4px); opacity: .75;
 }
 .r3-holo .mk-foot { font-family: var(--display); font-size: 7.5px; letter-spacing: .14em; }
+
+/* ================= ROUND FOUR: iterations, not alternatives ===================== */
+/* Each of these is a modifier on a treatment that was already chosen, so the diff is the
+   design decision. Stream's three are intensities and could be the three Decay stages;
+   Holo's are two palettes and a structure. */
+
+/* --- Stream ------------------------------------------------------------------- */
+
+/* Quiet: the stream is context rather than decoration. The version that could carry a
+   whole run without wearing you out, and the one that would sit at stage 1. */
+.s-quiet { --accent: #7f9cc4; --paper: #171922; --bg: #0d0e13; }
+.s-quiet .mk-live { background: #2a2f3d; color: #c8d2e2; font-weight: 600; letter-spacing: .08em; }
+.s-quiet .mk-live::before { background: #e5133b; }
+.s-quiet .mk-chat { width: 44%; bottom: 112px; opacity: .55; }
+.s-quiet .mk-chat span { font-size: 7.5px; }
+.s-quiet .mk-chat b { color: #8fa6c6; font-weight: 500; }
+.s-quiet .mk-alert {
+  background: none; border: 1px solid #2c3444; color: #9fb0c8; border-radius: 5px;
+  font-weight: 500; font-size: 8px; padding: 4px 8px;
+}
+.s-quiet .mk-choices span { background: #232838; }
+
+/* Loud: the dial turned up. The card is being crowded rather than framed. Stage 3. */
+.s-loud { --accent: #c026ff; }
+.s-loud .mk-live { background: #ff0040; box-shadow: 0 0 14px rgba(255,0,64,.6); }
+.s-loud .mk-views { color: #ff77b0; font-weight: 700; }
+.s-loud .mk-chat { width: 46%; bottom: 104px; }
+.s-loud .mk-chat span { font-size: 8.5px; }
+.s-loud .mk-emotes {
+  position: absolute; left: 8px; bottom: 104px; z-index: 4; width: 38%; pointer-events: none;
+  font-size: 12px; line-height: 1.2; opacity: .85;
+}
+.s-loud .mk-alert { bottom: 66px; box-shadow: 0 0 22px rgba(192,38,255,.5); font-size: 9px; }
+.s-loud .mk-alert2 {
+  position: absolute; left: 8px; right: 8px; bottom: 44px; z-index: 5;
+  background: linear-gradient(90deg, #ffb300, #ff0040); color: #fff; border-radius: 6px;
+  padding: 5px 8px; font: 700 8.5px/1.25 Inter, sans-serif;
+}
+.s-loud .mk-goalring {
+  position: absolute; top: 7px; left: 50%; translate: -50% 0; z-index: 5;
+  background: rgba(192,38,255,.16); border: 1px solid rgba(192,38,255,.5); color: #e9c4ff;
+  border-radius: 999px; padding: 3px 9px; font: 700 7.5px/1 Inter, sans-serif; letter-spacing: .06em;
+}
+.s-loud .mk-card { box-shadow: 0 0 28px rgba(192,38,255,.22); }
+
+/* Overtaken: the layout itself concedes. The chat is a column now, not an overlay. */
+.s-taken .mk-stage { display: grid; grid-template-columns: 1fr 104px; gap: 7px; align-items: center; }
+
+.s-taken .mk-chat {
+  position: static; width: auto; bottom: auto; right: auto; mask-image: none;
+  align-self: stretch; background: #14121f; border-radius: 10px; padding: 7px 6px; gap: 6px;
+  justify-content: flex-start; overflow: hidden;
+}
+.s-taken .mk-chat span { font-size: 7px; line-height: 1.35; }
+.s-taken .mk-pinned {
+  margin: 0 0 9px; background: rgba(168,85,247,.16); border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0; padding: 5px 8px; font: 600 9px/1.3 Inter, sans-serif; color: #e6dcff;
+}
+.s-taken .mk-pinned b { display: block; font-size: 7.5px; letter-spacing: .08em; text-transform: uppercase; opacity: .65; }
+.s-taken .mk-alert { bottom: 44px; }
+.s-taken .mk-text { font-size: 12px; }
+.s-taken .mk-choices span { font-size: 9.5px; }
+
+/* --- Holo --------------------------------------------------------------------- */
+
+/* Cool: the version where legibility wins. Less glow, a card with a real surface. */
+.h-cool { --paper: rgba(14,26,44,.92); --muted: #92aec9; }
+.h-cool::before { background: radial-gradient(90% 50% at 50% 100%, rgba(70,224,255,.13), transparent 60%); }
+.h-cool .mk-card { border-color: rgba(70,224,255,.55); backdrop-filter: none; background: var(--paper); }
+.h-cool .mk-text { text-shadow: none; color: #eaf7ff; }
+.h-cool .mk-bar i { box-shadow: none; }
+.h-cool .mk-plinth { opacity: .4; }
+.h-cool .mk-choices span { border-color: rgba(70,224,255,.6); }
+
+/* Warm: the same projection in gold. Cyan-on-black is the most generic choice available
+   and this is the one that actually reads as the bright future rather than as a console. */
+.h-warm {
+  --bg: #16100a; --ink: #fff3df; --accent: #ffb545; --muted: #c09a6e;
+  --paper: rgba(255,181,69,.09); --shadow: 0 0 34px rgba(255,181,69,.22);
+}
+.h-warm::before {
+  background:
+    radial-gradient(90% 55% at 50% 100%, rgba(255,181,69,.25), transparent 62%),
+    repeating-linear-gradient(to bottom, rgba(255,181,69,.05) 0 1px, transparent 1px 4px);
+}
+.h-warm .mk-card { border-color: rgba(255,181,69,.45); background: linear-gradient(160deg, rgba(255,181,69,.14), rgba(255,181,69,.03)); }
+.h-warm .mk-text { text-shadow: 0 0 12px rgba(255,181,69,.3); }
+.h-warm .mk-bar { background: rgba(255,181,69,.18); }
+.h-warm .mk-choices span { border-color: rgba(255,181,69,.5); }
+.h-warm .mk-plinth { background: var(--accent); }
+
+/* Depth: the projection becomes a volume. Panes at three distances, meters in front. */
+.h-depth .mk-meters {
+  position: relative; z-index: 3; margin: 6px 6px 0; padding: 10px 9px 8px;
+  background: rgba(70,224,255,.14); border: 1px solid rgba(70,224,255,.5); border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.7), 0 0 18px rgba(70,224,255,.18);
+}
+.h-depth .mk-stage { position: relative; }
+.h-depth .mk-card { position: relative; z-index: 2; }
+.h-depth .mk-ghost {
+  position: absolute; z-index: 0; border: 1px solid rgba(70,224,255,.22); border-radius: 14px;
+  background: linear-gradient(160deg, rgba(70,224,255,.07), transparent);
+}
+.h-depth .mk-ghost.far { inset: 8% 34px auto 2px; height: 30%; rotate: -2.2deg; }
+.h-depth .mk-ghost.near { inset: auto 2px 6% 34px; height: 30%; rotate: 2deg; opacity: .85; }
+.h-depth .mk-plinth { bottom: 34px; left: 18%; right: 18%; height: 6px; }

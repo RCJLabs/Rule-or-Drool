@@ -80,9 +80,17 @@ two say different things about what winning this game means. Five in that space:
 capsule, a 31st-century machine with physical buttons, a public service that is simply
 pleasant, a world's fair that got built, and a projection. One Drool and one Rule get built.
 
-Two costs the mockups surfaced that a palette decision would have hidden: three of the ten
+**Both paths are chosen.** Drool is **Stream** — the government as a livestream with the
+room talking over it — and Rule is **Holo**, a projection rather than a surface. *Round four*
+(`paths-4.html`) is three iterations of each rather than three more alternatives: Stream at
+three volumes, which is the question the stage ladder actually has to answer, and Holo as two
+palettes and a structure.
+
+Two costs the mockups surfaced that a palette decision would have hidden: three of the thirty
 (Clip, Push, Multi) replace the layout rather than restyling it, and every Rule treatment in
-round three wants a webfont the app does not currently ship.
+round three wants a webfont the app does not currently ship. A third only appeared in round
+four: **the accessible version of Holo is cheaper than the inaccessible one**, so building
+`Cool` first makes the readable setting the default rather than a downgrade.
 
 **Done when** a run that steers one way spends at least a quarter of its cards in that
 path's look with the deepest stage reachable by playing that way rather than by an outlier,

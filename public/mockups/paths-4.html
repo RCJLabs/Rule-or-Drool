@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Paths Round Four</title>
+<meta name="description" content="Three iterations each of the two chosen looks: Stream for Drool, Holo for Rule." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Orbitron:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="mock.css" />
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Round four</h1>
+    <p class="lede">
+      Both paths are chosen: <b>Stream</b> for Drool, <b>Holo</b> for Rule. These are
+      iterations rather than alternatives — each one is a modifier on the look that won, so
+      what differs between them is the decision and nothing else. The originals are at the
+      top of each section, unchanged.
+    </p>
+    <ul class="facts">
+      <li>round one: <b><a href="paths.html" style="color:inherit">paths.html</a></b></li>
+      <li>round two: <b><a href="paths-2.html" style="color:inherit">paths-2.html</a></b></li>
+      <li>round three: <b><a href="paths-3.html" style="color:inherit">paths-3.html</a></b></li>
+    </ul>
+  </header>
+
+  <h2>Drool — Stream, three intensities</h2>
+  <p class="sec-note">
+    These are not three ways of doing Stream, they are Stream at three volumes — which is the
+    question the phase actually has to answer. A competent run spends 8.2% of its cards in
+    the first Decay stage and 0.1% in the third, so whichever of these is the <em>baseline</em>
+    is the one nearly everybody sees. <b>Quiet</b> is a candidate for stage 1, <b>Loud</b> for
+    stage 3, and <b>Overtaken</b> is the argument that stage 3 should change the layout rather
+    than the volume.
+  </p>
+  <div class="grid" id="stream"></div>
+
+  <h2>Rule — Holo, two palettes and a structure</h2>
+  <p class="sec-note">
+    <b>Cool</b> is the version where legibility wins: the card gets a real surface and the
+    glow comes off, which is what it would have to look like anyway under the readable
+    setting. <b>Warm</b> asks whether the projection has to be cyan — it is the most generic
+    science-fiction choice available, and gold reads closer to the bright future than to a
+    console. <b>Depth</b> keeps the palette and changes the structure: three planes rather
+    than one pane.
+  </p>
+  <div class="grid" id="holo"></div>
+
+  <footer class="end">
+    Cards are the deck's own: <code>d05_unpaid_police</code>, <code>d09_ghosts</code>,
+    <code>d10_l_hall</code>, <code>d06_exodus</code> on the way down; <code>a07_complacency</code>,
+    <code>a08_succession_bench</code>, <code>a06_newcomers</code>, <code>a05_maintenance</code>
+    on the way up.
+  </footer>
+</div>
+
+<script type="module">
+import { DOWN, UP, render } from "./mock.js";
+
+const CHAT = `<div class="mk-chat"><span><b>krow_88</b> do it do it do it</span><span><b>quietvoter</b> my aunt is on that list</span><span><b>MOD</b> keep it civil</span><span><b>del_ta</b> LMAO four thousand</span></div>`;
+
+const STREAM = [
+  {
+    cls: "d2-stream", kicker: "Drool · as it was", name: "Stream",
+    idea: "The original. A purple wash, a chat that overlaps the card, one gifted-subs alert.",
+    overlay: `<span class="mk-live">LIVE</span><span class="mk-views">41,208 watching</span>${CHAT}`
+      + `<div class="mk-alert">◈ CARLYLE HYDRATION gifted 50 subs — "make the hard call"</div>`,
+    who: "GENERAL",
+    text: "The provincial police have not been paid in two months and have found other work, mostly at roadblocks.",
+    l: "Find the back pay", r: "Formalise the roadblocks",
+  },
+  {
+    cls: "d2-stream s-quiet", kicker: "Drool · iteration", name: "Quiet",
+    idea: "The stream as context rather than decoration. The purple comes out, the chat drops to a murmur, the alert becomes a line of text. This is the one that could carry a whole run without wearing you out.",
+    cost: "Same build as Stream, fewer colours. If Stream ships, this is almost certainly what stage 1 has to be — the loud version at 8% of every run is a lot of noise for the most common Decay state.",
+    overlay: `<span class="mk-live">LIVE</span><span class="mk-views">41,208 watching</span>${CHAT}`
+      + `<div class="mk-alert">CARLYLE HYDRATION gifted 50 subs</div>`,
+    who: "CHIEF OF STAFF",
+    text: "The payroll has four thousand names on it that no building has ever seen. Removing them means removing someone's cousin.",
+    l: "Take them off", r: "Leave them on",
+  },
+  {
+    cls: "d2-stream s-loud", kicker: "Drool · iteration", name: "Loud",
+    idea: "The dial turned up. Two alerts deep, emote spam down the left, a sub goal, a glow on everything. The card is being crowded rather than framed, which is the right feeling for the bottom of the run.",
+    cost: "Same build, more overlays and three glows. Every one of them has to be off under reduce-motion and the readable setting, so it needs a plain fallback that is still recognisably stage 3.",
+    overlay: `<span class="mk-goalring">SUB GOAL 91/100</span><span class="mk-live">LIVE</span><span class="mk-views">122,540</span>`
+      + `<div class="mk-emotes">🔥🔥 KEKW 🔥 LULW<br>🔥 OMEGALUL 🔥🔥<br>KEKW KEKW 🔥</div>${CHAT}`
+      + `<div class="mk-alert">◈ CARLYLE HYDRATION gifted 50 subs — "make the hard call"</div>`
+      + `<div class="mk-alert2">★ del_ta is now a TIER 3 subscriber</div>`,
+    who: "ORGANIZER",
+    text: "The union hall is the only building in the district that reliably has heat, and the queue is not union members.",
+    l: "Open it to everyone", r: "Keep it for members",
+  },
+  {
+    cls: "d2-stream s-taken", kicker: "Drool · iteration", name: "Overtaken",
+    idea: "The layout concedes. The chat stops being an overlay and becomes a column, the card is squeezed next to it, and the pinned message sits above your two options where a heading would go. The argument that the deepest stage should change the shape of the screen rather than the volume of it.",
+    cost: "A layout change: the stage becomes a grid at stage 3 only, which means the card resizes mid-run. Worth testing whether that reads as pressure or as a bug.",
+    overlay: `<span class="mk-live">LIVE</span><span class="mk-views">88,004</span>`
+      + `<div class="mk-alert">◈ Carlyle_H gifted 200 subs</div>`,
+    body: "",
+    head: "",
+    who: "CHIEF SCIENTIST",
+    text: "The medical school's graduating class has emigrated in full. The dean found out from a group photograph.",
+    l: "Bond them", r: "Pay them to stay",
+    render: (m, rows, foot) => `
+      <div class="mk ${m.cls}">
+        ${m.overlay}
+        <div class="mk-meters">${rows.map(([label, v]) => `<div class="mk-m" style="--v:${v}%"><div class="mk-bar"><i style="width:${v}%"></i></div><b>${label}</b></div>`).join("")}</div>
+        <div class="mk-stage">
+          <div class="mk-card">
+            <p class="mk-who">${m.who}</p>
+            <p class="mk-pinned"><b>Pinned · £500 from Carlyle_H</b>let them go, they're not coming back</p>
+            <p class="mk-text">${m.text}</p>
+            <div class="mk-choices"><span>${m.l}</span><span>${m.r}</span></div>
+          </div>
+          ${CHAT}
+        </div>
+        <div class="mk-foot">${foot}<span class="mk-prog"><i></i></span></div>
+      </div>`,
+  },
+];
+
+const HOLO = [
+  {
+    cls: "r3-holo", kicker: "Rule · as it was", name: "Holo",
+    idea: "The original. A translucent cyan pane over a plinth of light, everything glowing.",
+    overlay: `<span class="mk-plinth"></span>`,
+    who: "TREASURER · PROJECTION",
+    text: "The audit office has found nothing for three years running. Either you are clean or the audit office has stopped looking.",
+    l: "Audit the auditors", r: "Take the compliment",
+    footer: "PROJECTED · YEAR 14",
+  },
+  {
+    cls: "r3-holo h-cool", kicker: "Rule · iteration", name: "Cool",
+    idea: "Legibility wins. The card gets a real surface instead of a blur, the text loses its halo, the glow drops to a suggestion. Still obviously a projection, but you can read it at arm's length in daylight.",
+    cost: "Cheaper than the original — no <code>backdrop-filter</code>, one glow instead of four. This is also what the readable setting would have to turn the original into, so building this first means the accessible version is the default rather than a downgrade.",
+    overlay: `<span class="mk-plinth"></span>`,
+    who: "CHIEF JUSTICE · PROJECTION",
+    text: "There are now four people who could do your job. Two of them are better at the parts you dislike.",
+    l: "Give them ministries", r: "Split their portfolios",
+    footer: "PROJECTED · YEAR 14",
+  },
+  {
+    cls: "r3-holo h-warm", kicker: "Rule · iteration", name: "Warm",
+    idea: "The same projection in gold. Cyan-on-black is the most generic science-fiction choice available and it reads as a console; amber on warm black reads as light in a room. It is also the only version of this look that does not fight the Decay path for the same colours.",
+    cost: "Identical build, different tokens. The one thing to check is that gold on warm black clears contrast at small sizes — cyan had an easier time of it.",
+    overlay: `<span class="mk-plinth"></span>`,
+    who: "CHIEF OF STAFF · PROJECTION",
+    text: "People are moving here on purpose now. The schools are full and the housing lists are being read aloud at meetings.",
+    l: "Build for them", r: "Close the register",
+    footer: "PROJECTED · YEAR 14",
+  },
+  {
+    cls: "r3-holo h-depth", kicker: "Rule · iteration", name: "Depth",
+    idea: "The projection becomes a volume. Two dimmer panes sit behind the card at slight angles, the meters come forward onto their own plane, and the plinth widens. The card stops being a card and becomes the one pane in focus.",
+    cost: "Most expensive of the three: six stacked translucent layers and a shadow on the meter panel. The ghost panes are decoration and must never be mistaken for the next card, so they cannot carry text.",
+    overlay: `<span class="mk-plinth"></span>`,
+    body: "",
+    who: "CHIEF SCIENTIST · PROJECTION",
+    text: "Everything you built is now old enough to need maintaining, which no ribbon has ever been cut for.",
+    l: "Fund the boring budget", r: "Build something new",
+    footer: "PROJECTED · YEAR 14",
+    render: (m, rows, foot) => `
+      <div class="mk ${m.cls}">
+        <span class="mk-plinth"></span>
+        <div class="mk-meters">${rows.map(([label, v]) => `<div class="mk-m" style="--v:${v}%"><div class="mk-bar"><i style="width:${v}%"></i></div><b>${label}</b></div>`).join("")}</div>
+        <div class="mk-stage">
+          <span class="mk-ghost far"></span>
+          <span class="mk-ghost near"></span>
+          <div class="mk-card">
+            <p class="mk-who">${m.who}</p>
+            <p class="mk-text">${m.text}</p>
+            <div class="mk-choices"><span>${m.l}</span><span>${m.r}</span></div>
+          </div>
+        </div>
+        <div class="mk-foot">${m.footer}<span class="mk-prog"><i></i></span></div>
+      </div>`,
+  },
+];
+
+render("stream", STREAM, DOWN);
+render("holo", HOLO, UP);
+</script>
+</body>
+</html>
