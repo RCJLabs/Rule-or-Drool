@@ -191,6 +191,7 @@ export const MODIFIER_SPEC: Spec = {
   fields: {
     id: ID,
     kind: { kind: "enum", values: ["trait", "flaw", "crisis"] },
+    align: { kind: "enum", values: PLAYER_ALIGNS },
     requires: ID,
     meterStart: meterMap(INT),
     flags: IDS,

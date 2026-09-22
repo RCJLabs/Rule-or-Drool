@@ -5,7 +5,7 @@ import { engineEndings, type RuleOptions } from "../../src/validate/rules";
 const bands = ["decay", "muddle", "ascent"] as const;
 
 /** A compact content set the validator accepts with zero issues under VALID_OPTIONS. */
-export const VALID_OPTIONS: Partial<RuleOptions> = { minCell: 2, eras: [1], unlockTokens: [] };
+export const VALID_OPTIONS: Partial<RuleOptions> = { minCell: 2, minSetupPool: 1, eras: [1], unlockTokens: [] };
 
 export function makeValid(): Content {
   const base = { eras: [1], bands: [...bands] };
@@ -106,7 +106,13 @@ export function makeValid(): Content {
       { id: "c1", role: "chief", name: "Chief", traits: ["loyal"] },
       { id: "g1", role: "general", name: "General", traits: ["zealot"] },
     ],
-    modifiers: [{ id: "mod_a", kind: "trait", meterStart: { base: 5, public: -5 }, flags: ["charming"], arcWeights: { arc_a: 2 } }],
+    // One of each kind, because run setup draws one of each and valid content must be able
+    // to open a run for either side (BACKLOG item 4).
+    modifiers: [
+      { id: "mod_a", kind: "trait", meterStart: { base: 5, public: -5 }, flags: ["charming"], arcWeights: { arc_a: 2 } },
+      { id: "mod_crisis_a", kind: "crisis", meterStart: { money: -6 } },
+      { id: "mod_flaw_a", kind: "flaw", meterStart: { order: 4, inst: -4 } },
+    ],
     endings: [...engineEndings(DEFAULT_CONFIG), "ending_a"].map((id) => ({ id, title: id, text: id })),
     epilogues: bands.map((band) => ({ band, align: "any" as const, era: 1, text: `${band}.` })),
   };

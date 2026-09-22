@@ -205,5 +205,157 @@
       "arc_strongman": 1.4,
       "arc_succession": 1.6
     }
+  },
+  {
+    "id": "trait_steward",
+    "kind": "trait",
+    "align": "left",
+    "meterStart": {
+      "backers": 8,
+      "money": 3,
+      "inst": -3
+    },
+    "arcWeights": {
+      "arc_general_strike": 1.8,
+      "arc_split": 1.3
+    }
+  },
+  {
+    "id": "trait_academic",
+    "kind": "trait",
+    "align": "left",
+    "meterStart": {
+      "inst": 9,
+      "public": 2,
+      "base": -4
+    },
+    "arcWeights": {
+      "arc_moonshot": 1.5,
+      "arc_truth": 1.6
+    }
+  },
+  {
+    "id": "flaw_committee",
+    "kind": "flaw",
+    "align": "left",
+    "meterStart": {
+      "inst": 5,
+      "base": -2,
+      "order": -3
+    },
+    "flags": [
+      "flaw_committee"
+    ],
+    "arcWeights": {
+      "arc_split": 1.6
+    }
+  },
+  {
+    "id": "flaw_purist",
+    "kind": "flaw",
+    "align": "left",
+    "meterStart": {
+      "base": 6,
+      "public": -3,
+      "backers": -3
+    },
+    "flags": [
+      "flaw_purist"
+    ],
+    "arcWeights": {
+      "arc_purge": 1.7,
+      "arc_split": 1.4
+    }
+  },
+  {
+    "id": "flaw_apologetic",
+    "kind": "flaw",
+    "align": "left",
+    "meterStart": {
+      "public": 5,
+      "order": -5
+    },
+    "flags": [
+      "flaw_apologetic"
+    ],
+    "arcWeights": {
+      "arc_commune": 1.6
+    }
+  },
+  {
+    "id": "trait_industrialist",
+    "kind": "trait",
+    "align": "right",
+    "meterStart": {
+      "money": 8,
+      "backers": 4,
+      "public": -3
+    },
+    "arcWeights": {
+      "arc_estates": 1.7,
+      "arc_cabinet_plot": 1.3
+    }
+  },
+  {
+    "id": "trait_officer",
+    "kind": "trait",
+    "align": "right",
+    "meterStart": {
+      "order": 9,
+      "base": 3,
+      "inst": -4
+    },
+    "arcWeights": {
+      "arc_strongman": 1.7,
+      "arc_purge": 1.2
+    }
+  },
+  {
+    "id": "flaw_nepotist",
+    "kind": "flaw",
+    "align": "right",
+    "meterStart": {
+      "base": 5,
+      "inst": -5
+    },
+    "flags": [
+      "flaw_nepotist"
+    ],
+    "arcWeights": {
+      "arc_dynasty": 1.9,
+      "arc_cabinet_plot": 1.4
+    }
+  },
+  {
+    "id": "flaw_martial",
+    "kind": "flaw",
+    "align": "right",
+    "meterStart": {
+      "order": 6,
+      "money": -4,
+      "public": -2
+    },
+    "flags": [
+      "flaw_martial"
+    ],
+    "arcWeights": {
+      "arc_strongman": 1.6
+    }
+  },
+  {
+    "id": "flaw_nostalgic",
+    "kind": "flaw",
+    "align": "right",
+    "meterStart": {
+      "base": 5,
+      "inst": -2,
+      "public": -3
+    },
+    "flags": [
+      "flaw_nostalgic"
+    ],
+    "arcWeights": {
+      "arc_concordat": 1.7
+    }
   }
 ]

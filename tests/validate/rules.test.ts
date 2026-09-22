@@ -91,6 +91,29 @@ describe("rules: flags", () => {
   });
 });
 
+describe("rules: run setup", () => {
+  it("reports a side that cannot open a run, and warns on a thin pool", () => {
+    const c = makeValid();
+    c.modifiers = [
+      { id: "m_crisis", kind: "crisis" },
+      { id: "m_trait", kind: "trait" },
+      { id: "m_flaw_l", kind: "flaw", align: "left" },
+    ];
+    // Right has no flaw at all; left has exactly one of each.
+    const found = run(c, { minSetupPool: 2 });
+    expect(found.filter((i) => i.code === "setup-empty").map((i) => i.id)).toEqual(["flaw:right"]);
+    expect(found.some((i) => i.code === "setup-thin")).toBe(true);
+  });
+
+  it("is happy when both sides can draw from enough", () => {
+    const c = makeValid();
+    c.modifiers = ["crisis", "trait", "flaw"].flatMap((kind) =>
+      [0, 1].map((n) => ({ id: `m_${kind}_${n}`, kind: kind as "crisis" | "trait" | "flaw" })),
+    );
+    expect(run(c, { minSetupPool: 2 }).filter((i) => i.code.startsWith("setup-"))).toEqual([]);
+  });
+});
+
 describe("rules: the rival", () => {
   it("refuses to let a card fire the rival", () => {
     const c = makeValid();

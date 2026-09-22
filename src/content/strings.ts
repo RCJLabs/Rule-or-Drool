@@ -94,6 +94,17 @@ export const STRINGS = {
     trait_dissident: { name: "A dissident", blurb: "You spent years outside the room and still remember how it looked from there." },
     trait_engineer: { name: "An engineer", blurb: "You have built something that had to work, which spoils you for politics." },
     trait_survivor: { name: "A survivor", blurb: "You have outlasted four governments, three of which were yours." },
+    // Side-specific openings (BACKLOG item 4). A flaw is politics; an inherited crisis is not.
+    trait_steward: { name: "A shop steward", blurb: "You have negotiated a contract, which is politics with receipts." },
+    trait_academic: { name: "An academic", blurb: "You have published on this, at length, with footnotes nobody asked for." },
+    flaw_committee: { name: "Committee-brained", blurb: "You cannot decide anything without a room, and the room cannot either." },
+    flaw_purist: { name: "A purist", blurb: "You would rather be right, and you usually are, alone." },
+    flaw_apologetic: { name: "Apologetic", blurb: "You are faintly embarrassed to be holding the office at all." },
+    trait_industrialist: { name: "An industrialist", blurb: "You have met a payroll, which you mention more than you notice." },
+    trait_officer: { name: "An officer", blurb: "You have commanded people who could have said no and did not." },
+    flaw_nepotist: { name: "A nepotist", blurb: "Your family is talented, which is fortunate, given how many of them work here." },
+    flaw_martial: { name: "Sentimental about the army", blurb: "You tear up at the parade and sign whatever the parade asks for." },
+    flaw_nostalgic: { name: "Nostalgic", blurb: "You are governing a country that stopped existing before you took office." },
   } as Record<string, { name: string; blurb: string }>,
   codex: {
     endings: "Endings",

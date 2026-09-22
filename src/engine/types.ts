@@ -142,6 +142,12 @@ export interface Advisor {
 export interface Modifier {
   id: string;
   kind: "trait" | "flaw" | "crisis";
+  /**
+   * Which side can draw this at run setup. Unset means either: a recession does not care
+   * who you are. Set it for the traits and flaws that only make sense on one side
+   * (BACKLOG item 4).
+   */
+  align?: PlayerAlign;
   /** Unlock id required before this modifier can be drawn at run setup (5.10). */
   requires?: string;
   meterStart?: FxSpec;

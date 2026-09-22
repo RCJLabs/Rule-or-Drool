@@ -50,6 +50,7 @@ import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
 import rivalCards from "./cards/rival.json";
 import bandCards from "./cards/bands.json";
+import flawCards from "./cards/flaws.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
 import modifiers from "./modifiers.json";
@@ -124,6 +125,7 @@ export const content: Content = {
     ...asCards(promises, "promises.json"),
     ...asCards(rivalCards, "rival.json"),
     ...asCards(bandCards, "bands.json"),
+    ...asCards(flawCards, "flaws.json"),
   ],
   arcs: arcs as unknown as Arc[],
   advisors: advisors as Advisor[],

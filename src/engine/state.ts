@@ -108,7 +108,13 @@ export function rollSetup(lib: Library, seed: number, align: PlayerAlign, unlock
   let rng = seedToState((seed ^ 0x9e3779b9) | 0);
   const modifiers: string[] = [];
   for (const kind of ["crisis", "trait", "flaw"] as const) {
-    const pool = lib.content.modifiers.filter((m) => m.kind === kind && (!m.requires || unlocked.includes(m.requires)));
+    const pool = lib.content.modifiers.filter(
+      (m) =>
+        m.kind === kind &&
+        (!m.requires || unlocked.includes(m.requires)) &&
+        // An inherited crisis is nobody's politics; a flaw usually is (BACKLOG item 4).
+        (m.align === undefined || m.align === align),
+    );
     if (pool.length === 0) continue;
     const pick = nextInt(rng, 0, pool.length - 1);
     rng = pick.state;

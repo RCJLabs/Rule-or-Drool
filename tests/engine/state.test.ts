@@ -220,3 +220,37 @@ describe("the rival", () => {
     expect(condMet(l, { meters: { drift: { gt: 0 } } }, s)).toBe(false);
   });
 });
+
+describe("run setup by side", () => {
+  it("never hands a side the other side's opening", () => {
+    for (const align of ["left", "right"] as const) {
+      for (let seed = 1; seed <= 200; seed++) {
+        for (const id of rollSetup(library, seed, align).modifiers ?? []) {
+          const mod = library.modifiers.get(id)!;
+          expect(mod.align === undefined || mod.align === align, `${align} drew ${id}`).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("still draws one of each kind for either side", () => {
+    for (const align of ["left", "right"] as const) {
+      for (let seed = 1; seed <= 50; seed++) {
+        const kinds = (rollSetup(library, seed, align).modifiers ?? []).map((id) => library.modifiers.get(id)!.kind);
+        expect([...kinds].sort(), `${align} seed ${seed}`).toEqual(["crisis", "flaw", "trait"]);
+      }
+    }
+  });
+
+  it("gives each side openings the other cannot have", () => {
+    const openings = (align: "left" | "right") => {
+      const out = new Set<string>();
+      for (let seed = 1; seed <= 3000; seed++) out.add((rollSetup(library, seed, align).modifiers ?? []).join("+"));
+      return out;
+    };
+    const left = openings("left");
+    const right = openings("right");
+    const shared = [...left].filter((o) => right.has(o)).length;
+    expect(shared).toBeLessThan(left.size / 2);
+  });
+});

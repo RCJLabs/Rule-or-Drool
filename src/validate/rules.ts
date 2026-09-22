@@ -19,6 +19,8 @@ export interface RuleOptions {
   config: EngineConfig;
   /** Minimum eligible event cards per era × band × align cell. */
   minCell: number;
+  /** Minimum unlocked crises / traits / flaws a side can draw from at run setup. */
+  minSetupPool: number;
   /** Eras to check: a list, "all" (1..eraCount) or "auto" (eras that have any pool card). */
   eras: number[] | "all" | "auto";
   /** Soft limits from the content plan (section 10); warnings. */
@@ -37,6 +39,8 @@ export const DEFAULT_RULE_OPTIONS: RuleOptions = {
   config: DEFAULT_CONFIG,
   // cooldownSize + 1: a full cell never needs a cooldown relaxation. MVP should gate higher.
   minCell: DEFAULT_CONFIG.cooldownSize + 1,
+  // Four is the point at which a side's opening stops repeating within a few runs.
+  minSetupPool: 4,
   eras: "auto",
   maxText: 160,
   maxLabel: 24,
@@ -123,6 +127,21 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       );
     }
   }
+  // Run setup draws one of each kind, so a side with a thin pool opens every run the same
+  // way, and an empty one cannot open a run at all (BACKLOG item 4).
+  for (const kind of ["crisis", "trait", "flaw"] as const) {
+    for (const align of PLAYER_ALIGNS) {
+      const n = content.modifiers.filter(
+        (m) => m.kind === kind && (m.align === undefined || m.align === align) && !m.requires,
+      ).length;
+      const where: Where = { kind: "modifier", id: `${kind}:${align}` };
+      if (n === 0) issues.error("setup-empty", `a ${align} run has no ${kind} to draw at setup`, where);
+      else if (n < opts.minSetupPool) {
+        issues.warn("setup-thin", `a ${align} run draws its ${kind} from only ${n}, below ${opts.minSetupPool}`, where);
+      }
+    }
+  }
+
   const epilogueKeys = new Set<string>();
   for (const e of content.epilogues) {
     const key = `${e.band}:${e.align}:${e.era}`;

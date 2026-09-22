@@ -1,0 +1,491 @@
+[
+  {
+    "id": "g_committee_review",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The review into the review has reported. It recommends a review, and names the people who should sit on it.",
+    "cond": {
+      "flags": [
+        "flaw_committee"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Decide it yourself",
+      "fx": {
+        "inst": -2,
+        "order": 3,
+        "base": 2,
+        "public": 2
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Convene the third review",
+      "fx": {
+        "inst": 2,
+        "money": -3,
+        "public": -3,
+        "order": -2
+      },
+      "drift": 2
+    }
+  },
+  {
+    "id": "g_committee_quorum",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The emergency committee cannot meet until Thursday. The emergency is on Tuesday.",
+    "cond": {
+      "flags": [
+        "flaw_committee"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Act without them",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "base": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Wait for Thursday",
+      "fx": {
+        "inst": 3,
+        "public": -4,
+        "order": -2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "g_purist_list",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Someone has circulated a list of who voted for the compromise. Your name is not on it, which is being noticed.",
+    "cond": {
+      "flags": [
+        "flaw_purist"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Defend the compromise",
+      "fx": {
+        "base": -5,
+        "public": 3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign the list",
+      "fx": {
+        "base": 5,
+        "public": -3,
+        "backers": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "g_purist_coalition",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "You can have the bill or you can have the principle in the preamble. The people who want the preamble are your people.",
+    "cond": {
+      "flags": [
+        "flaw_purist"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Take the bill",
+      "fx": {
+        "public": 5,
+        "base": -5,
+        "inst": 3,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the preamble",
+      "fx": {
+        "base": 5,
+        "public": -4,
+        "inst": -2,
+        "money": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "g_apologetic_speech",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your inauguration speech apologised for the office three times. The clip that travelled is the third one.",
+    "cond": {
+      "flags": [
+        "flaw_apologetic"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Stand by it",
+      "fx": {
+        "public": 3,
+        "order": -4,
+        "base": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give a firmer one",
+      "fx": {
+        "order": 4,
+        "public": -3,
+        "base": -2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "g_apologetic_pardon",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The people who occupied the ministry have written to say they were right. Reading it, you agree with them.",
+    "cond": {
+      "flags": [
+        "flaw_apologetic"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Pardon them",
+      "fx": {
+        "public": 4,
+        "base": 3,
+        "order": -5,
+        "inst": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Let the court finish",
+      "fx": {
+        "order": 4,
+        "inst": 3,
+        "public": -3,
+        "base": -4
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "g_nepotist_post",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The ambassadorship to the pleasant country is vacant. Your brother-in-law speaks none of the language and is very keen.",
+    "cond": {
+      "flags": [
+        "flaw_nepotist"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Appoint the diplomat",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Appoint the family",
+      "fx": {
+        "base": 4,
+        "inst": -4,
+        "public": -2,
+        "money": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_nepotist_audit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The auditor has found that four of the six contracts went to one surname. It is your surname.",
+    "cond": {
+      "flags": [
+        "flaw_nepotist"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Void the contracts",
+      "fx": {
+        "money": -4,
+        "base": -5,
+        "inst": 5,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rename the company",
+      "fx": {
+        "money": 2,
+        "inst": -5,
+        "public": -4,
+        "base": 3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "g_martial_parade",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The anniversary parade could be modest or it could be the one people talk about for twenty years.",
+    "cond": {
+      "flags": [
+        "flaw_martial"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Keep it modest",
+      "fx": {
+        "money": 3,
+        "base": -3,
+        "order": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Order the flypast",
+      "fx": {
+        "money": -5,
+        "base": 4,
+        "order": 3,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_martial_procurement",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The army wants a system that does not exist yet, from a firm that has never built one, at a price nobody will say aloud.",
+    "cond": {
+      "flags": [
+        "flaw_martial"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Buy the boring one",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "base": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sign for the new system",
+      "fx": {
+        "money": -7,
+        "order": 3,
+        "base": 4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "g_nostalgic_anthem",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "There is a campaign to restore the old anthem. Nobody under fifty can sing it and everybody over fifty is very certain.",
+    "cond": {
+      "flags": [
+        "flaw_nostalgic"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Keep the current one",
+      "fx": {
+        "base": -4,
+        "public": 3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Restore the old anthem",
+      "fx": {
+        "base": 5,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_nostalgic_map",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The official map in the cabinet room still shows the old borders. Someone has asked whether that is policy.",
+    "cond": {
+      "flags": [
+        "flaw_nostalgic"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Order a current map",
+      "fx": {
+        "base": -5,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Say it is aspirational",
+      "fx": {
+        "base": 4,
+        "public": -4,
+        "inst": -3,
+        "order": 2
+      },
+      "drift": -4
+    }
+  }
+]

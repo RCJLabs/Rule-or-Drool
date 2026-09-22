@@ -142,6 +142,28 @@ describe("content: the shape of a run", () => {
     for (const rule of rules) if (rule.passive) expect(rule.passiveEvery ?? 0).toBeGreaterThan(0);
   });
 
+  it("writes traits and flaws that only make sense on one side", () => {
+    // All 15 modifiers were shared, so both sides opened the same way (BACKLOG item 4).
+    for (const align of ["left", "right"] as const) {
+      for (const kind of ["trait", "flaw"] as const) {
+        const own = content.modifiers.filter((m) => m.kind === kind && m.align === align);
+        expect(own.length, `${align} ${kind}s`).toBeGreaterThanOrEqual(2);
+      }
+    }
+    // A crisis is inherited, so it belongs to nobody's politics.
+    for (const m of content.modifiers) {
+      if (m.kind === "crisis") expect(m.align, `${m.id} is nobody's`).toBeUndefined();
+    }
+  });
+
+  it("makes every flaw bite during the run, not only at the start", () => {
+    // A flaw that only shifts the opening meters is thirty seconds of difference.
+    const read = new Set(content.cards.flatMap((c) => c.cond?.flags ?? []));
+    for (const m of content.modifiers) {
+      for (const f of m.flags ?? []) expect(read.has(f), `${m.id} sets ${f}, which nothing reads`).toBe(true);
+    }
+  });
+
   it("gives each side a rival, and only the other side's", () => {
     // You never run against yourself (BACKLOG item 7).
     const rivals = content.advisors.filter((a) => a.role === library.config.rivalRole);

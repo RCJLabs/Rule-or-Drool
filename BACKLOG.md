@@ -137,13 +137,49 @@ an align-specific match and falls back to "any", so this is purely content.
 
 </details>
 
-## 4. Give run setup a side — *queued*
+## 4. Give run setup a side — *done*
+
+**Shipped.** `Modifier` takes an `align`, `rollSetup` filters on it, and ten new openings are
+written for one side only.
+
+| | the Commons | the Ledger |
+|---|---|---|
+| Traits | a shop steward (politics with receipts), an academic (published, with footnotes nobody asked for) | an industrialist (has met a payroll, mentions it more than they notice), an officer (commanded people who could have said no) |
+| Flaws | committee-brained, a purist, apologetic | a nepotist, sentimental about the army, nostalgic |
+
+**Crises stay shared, on purpose.** A recession, a pandemic, a war and a disaster are things
+you inherit, not things you are; giving them a side would make the thing you walked into a
+statement about your politics.
+
+**Measured.** Each side now draws from 17 modifiers rather than one shared 15, and its own
+side accounts for 26% of setup picks. Distinct openings went from **64 to 168 per side**, of
+which **104 are unavailable to the other side** — the two sides now share less than half of
+what they can open with, which a test pins.
+
+**The validator caught the real gap.** Six new flaws set flags that nothing read, so each
+would have been thirty seconds of different starting meters and then nothing. 12 new gated
+cards make them bite: the review into the review reporting that it recommends a review, the
+emergency committee that cannot meet until Thursday when the emergency is Tuesday, the
+auditor finding four of six contracts went to one surname, the official map still showing
+the old borders and someone asking whether that is policy. A test now holds the general
+rule — every flag a modifier sets must be read somewhere.
+
+**Two new validator rules.** `setup-empty` is an error when a side has no crisis, trait or
+flaw to draw, because that side cannot open a run at all; `setup-thin` warns below four,
+because that side's opening repeats within a few runs. Both caught the test fixture, which
+had one modifier and therefore could not have opened a run either.
+
+All five targets pass in both states: **23.1% Ascent locked, 19.3% unlocked**.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** `Modifier` has no `align` field, so all 15 crises, traits and flaws are shared.
 
 **Do.** Add `align` to `Modifier`, filter it in `rollSetup`, and write side-specific flaws
 and traits. A left flaw is committee-brained or an ideologue; a right flaw is a nepotist or
 sentimental about the army. Makes the first thirty seconds of a run feel different.
+
+</details>
 
 ## 5. Replace Mood with constituencies — *done*
 
