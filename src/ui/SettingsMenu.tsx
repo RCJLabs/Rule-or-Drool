@@ -15,13 +15,30 @@ interface Row {
   kind: "toggle";
   title: string;
   blurb: string;
+  /**
+   * A setting this one is already doing. The row shows on and locked while that holds, so
+   * the menu never claims the text is being mangled when it is not (BACKLOG-3 phase 21).
+   */
+  impliedBy?: ToggleKey;
 }
 
 const ROWS: readonly Row[] = [
+  {
+    key: "readable",
+    kind: "toggle",
+    title: "Plain screen",
+    blurb: "Drop the stream, the projection and the glow. The colours and the writing stay.",
+  },
   { key: "sound", kind: "toggle", title: "Sound", blurb: "The card landing, a meter going bad, a story opening." },
   { key: "haptics", kind: "toggle", title: "Vibration", blurb: "A short buzz when a card lands, if the device does that." },
   { key: "reduceMotion", kind: "toggle", title: "Reduce motion", blurb: "Cards change without sliding or settling." },
-  { key: "plainText", kind: "toggle", title: "Keep the text clean", blurb: "Late Decay stops mangling the words on the card." },
+  {
+    key: "plainText",
+    kind: "toggle",
+    title: "Keep the text clean",
+    blurb: "Late Decay stops mangling the words on the card.",
+    impliedBy: "readable",
+  },
   { key: "portraits", kind: "toggle", title: "Show portraits", blurb: "Draw the face of whoever is speaking." },
   { key: "alwaysHint", kind: "toggle", title: "Always show the hint", blurb: "Keep the how-to-swipe line under every card." },
 ];
@@ -46,18 +63,20 @@ export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEras
 
         <ul className="settings-list">
           {ROWS.map((row) => {
-            const on = settings[row.key];
+            const implied = row.impliedBy ? settings[row.impliedBy] === true : false;
+            const on = settings[row.key] || implied;
             return (
               <li key={row.key}>
-                <label>
+                <label className={implied ? "implied" : undefined}>
                   <input
                     type="checkbox"
                     checked={on}
+                    disabled={implied}
                     onChange={(e) => onChange({ ...settings, [row.key]: e.target.checked })}
                   />
                   <span>
                     <b>{row.title}</b>
-                    <em>{row.blurb}</em>
+                    <em>{implied ? STRINGS.ui.impliedBy : row.blurb}</em>
                   </span>
                 </label>
               </li>

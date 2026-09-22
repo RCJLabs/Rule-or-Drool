@@ -308,7 +308,65 @@ validator warns about practical unreachability so this cannot come back quietly.
 
 </details>
 
-## Phase 21. A look that can be read — *queued*
+## Phase 21. A look that can be read — *done*
+
+**Shipped.** Every text style in the app clears WCAG AA at its own size, and one setting
+gives a player the plain version of the game without taking the game away.
+
+**The entry's evidence was stale and the measurement had to be redone.** It names Comic
+Sans, a `-2.4deg` tilt and three specific colours; phase 18 replaced both palettes and
+`--tilt` has been `0deg` ever since, so none of the three survives. What replaced guessing
+is a browser audit that walks every element with its own text, composites the ancestor
+backgrounds down to an opaque colour, applies element opacity, and applies the real
+large-text rule (24px, or 18.66px at weight 700) rather than one threshold for everything.
+
+**60 failing text styles across twelve screens, and four causes.**
+
+| | | |
+|---|---|---|
+| **bare `<button>` kept the user agent's `#efefef` face** | 2.00–3.61:1 | worst: "Got it" on Ascent |
+| **the overlay panels had no background at all** | 3.60:1 | settings, cabinet, how-it-works |
+| muddle `--muted` too light | 3.50:1 on `--bg`, 4.05:1 on `--paper` | most of the count |
+| two dims done with `opacity` | 2.67:1 and 2.86:1 | speaker trait, locked codex entry |
+
+The audit is worth more than the fixes. **The overlay panels rendering with no background
+is a shipping bug nobody had noticed**: settings, the cabinet and how-it-works are siblings
+of `.frame` in the tree, not children, so `var(--paper)` resolved to nothing — the panels
+were body text over a blurred screenshot, in the browser's default serif, over a scrim
+covering part of the viewport. Compositing the ancestor chain is what found it; a
+screenshot confirmed it. The theme tokens now have a `:root` base as well as the `.frame`
+one. **After: 0 failing text styles on all twelve screens.**
+
+**`opacity` is the wrong tool for dimming text** and was used twice. It dims the text
+against whatever is behind it, so a 0.75 on a muted colour lands at 2.67:1 while reading in
+the source like a small adjustment. Both are `color: var(--muted)` now, which is a colour
+you can measure.
+
+**The setting is one tap, and what it removes is the noise.** "Plain screen" turns off
+everything the two paths draw — the stream badges, chat, emotes and alerts; the projection's
+panes, plinth and scanline overlay — plus the text glow, the decay saturation push and the
+card glow, and it implies `plainText` so the words stop being mangled too. Measured in the
+browser across all seven themes:
+
+| | plain screen off | on |
+|---|---|---|
+| chrome elements on screen, full Decay | 7 | **0** |
+| card width, full Decay | 220px | **372px** |
+| card width, Decay stage 2 | 277px | **372px** |
+| failing text styles, any theme | — | **0** |
+
+**What it does not take is the palette or the writing.** Both looks clear AA on their own,
+and the gold projection and the purple stream *are* the game — a player who needs plainer
+text is not asking for a different game. The dumbed-down meter labels stay for the same
+reason, and so does the sponsor bar: it is one legible strip that overlaps nothing, and
+dropping it would take the joke away from the one player who cannot opt back in.
+
+**A setting that another setting is already doing should say so.** With the plain screen on,
+"Keep the text clean" shows on and locked with "Already on: the plain screen does this."
+rather than sitting unchecked while the text is clean anyway.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** Contrast, measured against WCAG AA:
 
@@ -330,6 +388,8 @@ survives whatever phase 18 draws.
 
 **Done when** every text pair clears AA at its own size, and a player who needs the plain
 version can get it in one tap without losing the game's voice.
+
+</details>
 
 ## Phase 22. Sound that knows which way it is going — *queued*
 

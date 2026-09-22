@@ -1,4 +1,5 @@
 import { SETTINGS_VERSION } from "../version";
+import { degradeLevel, type Theme } from "./theme";
 
 /**
  * Player settings, stored under their own key and version like run and meta state
@@ -6,6 +7,13 @@ import { SETTINGS_VERSION } from "../version";
  * here changes how a run plays, so settings are never part of a seed or a save.
  */
 export interface Settings {
+  /**
+   * One tap for the plain version (BACKLOG-3 phase 21). Turns off everything the two paths
+   * put around the card — the stream, the projection, the glows and the saturation push —
+   * and implies `plainText`, because a player who needs this does not want the words
+   * mangled either. The palettes and the writing stay: they are the game, not the noise.
+   */
+  readable: boolean;
   /** Stop the card animations, over and above whatever the OS already asks for. */
   reduceMotion: boolean;
   /** Keep late-Decay card text clean instead of letting it degrade (section 9). */
@@ -26,6 +34,7 @@ export interface Settings {
 }
 
 export const DEFAULT_SETTINGS: Settings = {
+  readable: false,
   reduceMotion: false,
   plainText: false,
   portraits: true,
@@ -44,8 +53,9 @@ export function migrateSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== "object") return { ...DEFAULT_SETTINGS };
   const data = raw as Partial<Settings> & { v?: number };
   if (typeof data.v !== "number" || data.v > SETTINGS_VERSION) return { ...DEFAULT_SETTINGS };
-  // v1 is the first shape. An unknown key is ignored and a missing one takes its default,
-  // so a settings file from either direction still loads.
+  // v1 is the first shape; v2 adds `readable`. An unknown key is ignored and a missing one
+  // takes its default, so a settings file from either direction still loads — which is why
+  // adding a boolean preference needs a version bump and nothing else.
   const out = { ...DEFAULT_SETTINGS };
   for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[]) {
     const value = data[key];
@@ -76,6 +86,15 @@ export function saveSettings(settings: Settings): void {
 }
 
 /**
+ * How hard the card text may be mangled, once the player has had a say. The plain screen
+ * implies clean text: it is one tap for the whole plain version, and a setting that left
+ * the words garbled would not be one (BACKLOG-3 phase 21).
+ */
+export function textLevel(settings: Settings, theme: Theme): number {
+  return settings.plainText || settings.readable ? 0 : degradeLevel(theme);
+}
+
+/**
  * Settings that CSS acts on are published as data attributes on the document root, so a
  * rule can opt out of an animation without any component knowing about it.
  */
@@ -84,4 +103,5 @@ export function applySettings(settings: Settings): void {
   const root = document.documentElement;
   root.toggleAttribute("data-reduce-motion", settings.reduceMotion);
   root.toggleAttribute("data-no-portraits", !settings.portraits);
+  root.toggleAttribute("data-readable", settings.readable);
 }

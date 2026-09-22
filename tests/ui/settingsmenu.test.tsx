@@ -33,6 +33,21 @@ describe("SettingsMenu", () => {
     expect(settings).toEqual(DEFAULT_SETTINGS);
   });
 
+  it("shows the plain screen as one tap, and says which rows it is already doing", () => {
+    // Turning it on has to be enough: a menu that claims the text is being mangled while
+    // the plain screen is on would be lying to the player it is for (BACKLOG-3 phase 21).
+    const { onChange } = open();
+    fireEvent.click(screen.getByRole("checkbox", { name: /Plain screen/ }));
+    expect(onChange).toHaveBeenCalledWith({ ...DEFAULT_SETTINGS, readable: true });
+
+    cleanup();
+    open({ settings: { ...DEFAULT_SETTINGS, readable: true } });
+    const clean = screen.getByRole("checkbox", { name: /Keep the text clean/ }) as HTMLInputElement;
+    expect(clean.checked).toBe(true);
+    expect(clean.disabled).toBe(true);
+    expect(screen.getByRole("checkbox", { name: /Plain screen/ })).toHaveProperty("disabled", false);
+  });
+
   it("offers leaving the run only when there is one", () => {
     const onExitToMenu = vi.fn();
     open({ onExitToMenu });

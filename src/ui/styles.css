@@ -8,14 +8,45 @@ body,
   margin: 0;
 }
 body {
-  background: #f1ebdf;
-  color: #1f1a15;
+  background: var(--bg);
+  color: var(--ink);
+  /* Same reason as the tokens above: the overlay panels are outside the frame, and without
+     this they rendered in the browser's default serif. */
+  font-family: var(--font);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
 button {
   font: inherit;
-  color: inherit;
+  /* Not `color: inherit` alone: a bare button keeps the user agent's light-grey face, and
+     on the two dark looks that leaves light text on light grey — "Got it" measured 2.0:1
+     against the 4.5 it needs (BACKLOG-3 phase 21). Giving it the card's own colours costs
+     nothing and the styled buttons below still override it. */
+  color: var(--ink, inherit);
+  background: var(--paper, transparent);
+  border: var(--border, 1px) solid var(--ink, currentColor);
+  border-radius: calc(var(--radius, 8px) / 2);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* The theme tokens are defined here as well as on .frame, because the overlay panels
+   (settings, cabinet, how-it-works) are siblings of the frame rather than children of it.
+   Without a base they resolved to nothing and those panels rendered with no background —
+   body text over a blurred screen at 3.6:1 (BACKLOG-3 phase 21). */
+:root {
+  --bg: #f1ebdf;
+  --ink: #1f1a15;
+  --paper: #fffcf5;
+  --accent: #9a6a3a;
+  --muted: #71675a;
+  --danger: #c0392b;
+  --radius: 18px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --space: 12px;
+  --line: 1.45;
+  --border: 1.5px;
+  --shadow: 0 14px 30px rgba(40, 30, 20, 0.16);
 }
 
 /* ---- frame and the three looks ------------------------------------------------ */
@@ -24,7 +55,7 @@ button {
   --ink: #1f1a15;
   --paper: #fffcf5;
   --accent: #9a6a3a;
-  --muted: #857b6e;
+  --muted: #71675a;
   --danger: #c0392b;
   --radius: 18px;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -521,7 +552,9 @@ button {
 
 /* ---- overlays -------------------------------------------------------------------- */
 .overlay {
-  position: absolute;
+  /* Fixed, not absolute: outside the frame there is no positioned ancestor to fill, so the
+     scrim covered only part of the screen. */
+  position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
@@ -898,6 +931,49 @@ button {
   display: none;
 }
 
+/* ---- the plain screen (BACKLOG-3 phase 21) --------------------------------------- */
+/**
+ * One setting, one tap, and what it takes away is the noise rather than the game. Every
+ * text pair in the app already clears AA at its own size; what the two paths add on top of
+ * that is a chat column crowding the prose, a saturation push, and two kinds of glow, and
+ * none of it is readable at a glance if reading is the part you are struggling with.
+ *
+ * What goes: the whole of PathChrome (stream badges, chat, emotes, alerts, holo panes and
+ * plinth), the ascent overlay and its text glow, the decay saturation and card glow, and
+ * the gutters the stage was giving the chat — the card gets its full width back. Text
+ * degradation goes too, in Play.tsx, because this implies `plainText`.
+ *
+ * What stays: both palettes (they clear AA and they are the game's voice, not its noise),
+ * the writing including the dumbed-down meter labels, and the sponsor line — it is one
+ * legible strip at the bottom that overlaps nothing, and dropping it would take the joke
+ * with it for the one player who cannot opt back in.
+ */
+:root[data-readable] .stream,
+:root[data-readable] .stream-alerts,
+:root[data-readable] .stream-chat,
+:root[data-readable] .stream-emotes,
+:root[data-readable] .holo,
+:root[data-readable] .frame[data-theme^="ascent"]::before {
+  display: none;
+}
+/* The chat is gone, so the gutter it was given is just a narrower card. */
+:root[data-readable] .frame .stage {
+  padding-left: var(--space);
+  padding-right: var(--space);
+}
+:root[data-readable] .frame[data-theme^="decay"] .meters {
+  padding-top: var(--space);
+}
+:root[data-readable] .frame[data-theme^="decay"] {
+  filter: none;
+}
+:root[data-readable] .frame[data-theme^="ascent"] .card-text {
+  text-shadow: none;
+}
+:root[data-readable] .frame[data-theme="decay3"] .card {
+  box-shadow: var(--shadow);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card.settling,
   .card.leaving,
@@ -1045,7 +1121,8 @@ button {
   line-height: 1.4;
 }
 .codex-list li.locked {
-  opacity: 0.45;
+  /* Dimmed by colour rather than opacity, for the same reason: 0.45 put this at 2.86:1. */
+  color: var(--muted);
   border-style: dashed;
 }
 .codex-list li.nearly {
@@ -1246,7 +1323,9 @@ button {
   letter-spacing: 0.06em;
   border: 1px solid currentColor;
   border-radius: 3px;
-  opacity: 0.75;
+  /* Was `opacity: 0.75`, which took this to 2.67:1. A colour can be checked; an opacity
+     silently reduces whatever it is sitting on. */
+  color: var(--muted);
 }
 
 /* The named bloc, and the line under the bar that says who it is (phase 8). */
@@ -1315,6 +1394,15 @@ button {
 }
 .settings-list b {
   font-size: 14px;
+}
+/* A row that is already on because another setting is doing it. Dimmed, but not by the
+   user agent: a disabled checkbox's own grey is below AA and the label has to stay
+   readable, which is the entire point of the setting doing it (BACKLOG-3 phase 21). */
+.settings-list label.implied {
+  cursor: default;
+}
+.settings-list label.implied input {
+  accent-color: var(--muted);
 }
 .settings-list em {
   font-size: 12px;

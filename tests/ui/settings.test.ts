@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it } from "vitest";
-import { DEFAULT_SETTINGS, applySettings, loadSettings, migrateSettings, saveSettings } from "../../src/ui/settings";
+import { DEFAULT_SETTINGS, applySettings, loadSettings, migrateSettings, saveSettings, textLevel } from "../../src/ui/settings";
+import { degradeLevel, themeFor } from "../../src/ui/theme";
 import { SETTINGS_VERSION } from "../../src/version";
 
 describe("settings", () => {
@@ -26,12 +27,36 @@ describe("settings", () => {
   });
 
   it("publishes the CSS-facing settings on the document root", () => {
-    applySettings({ ...DEFAULT_SETTINGS, reduceMotion: true, portraits: false });
+    applySettings({ ...DEFAULT_SETTINGS, reduceMotion: true, portraits: false, readable: true });
     expect(document.documentElement.hasAttribute("data-reduce-motion")).toBe(true);
     expect(document.documentElement.hasAttribute("data-no-portraits")).toBe(true);
+    expect(document.documentElement.hasAttribute("data-readable")).toBe(true);
     applySettings(DEFAULT_SETTINGS);
     expect(document.documentElement.hasAttribute("data-reduce-motion")).toBe(false);
     expect(document.documentElement.hasAttribute("data-no-portraits")).toBe(false);
+    expect(document.documentElement.hasAttribute("data-readable")).toBe(false);
+  });
+
+  it("carries a v1 file forward with the plain screen off", () => {
+    // v1 predates `readable`, so an existing player keeps the look they have been playing
+    // with rather than being quietly opted into the plain one (BACKLOG-3 phase 21).
+    expect(SETTINGS_VERSION).toBeGreaterThanOrEqual(2);
+    const v1 = { v: 1, reduceMotion: true, plainText: false, portraits: true, alwaysHint: false, sound: false, haptics: true, taught: ["meters"] };
+    const out = migrateSettings(v1);
+    expect(out.readable).toBe(false);
+    expect(out.reduceMotion).toBe(true);
+    expect(out.sound).toBe(false);
+    expect(out.taught).toEqual(["meters"]);
+  });
+
+  it("makes the plain screen one tap: it implies clean text", () => {
+    const deep = themeFor(-60);
+    expect(degradeLevel(deep)).toBeGreaterThan(0);
+    expect(textLevel(DEFAULT_SETTINGS, deep)).toBe(degradeLevel(deep));
+    expect(textLevel({ ...DEFAULT_SETTINGS, readable: true }, deep)).toBe(0);
+    expect(textLevel({ ...DEFAULT_SETTINGS, plainText: true }, deep)).toBe(0);
+    // It caps the mangling, it does not invent any: an untroubled run reads the same either way.
+    expect(textLevel({ ...DEFAULT_SETTINGS, readable: true }, themeFor(0))).toBe(0);
   });
 
   it("keeps a run out of the settings file", () => {

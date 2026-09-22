@@ -1,7 +1,7 @@
 import { withNames } from "../engine/endings";
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS } from "../content/strings";
-import type { Settings } from "./settings";
+import { textLevel, type Settings } from "./settings";
 import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
 import { getCard, type Library } from "../engine/library";
@@ -17,7 +17,7 @@ import { MetersBar } from "./Meters";
 import { degrade } from "./degrade";
 import { yearInEra } from "./flow";
 import { hintSeen, markHintSeen } from "./save";
-import { degradeLevel, themeFor } from "./theme";
+import { themeFor } from "./theme";
 
 interface Props {
   lib: Library;
@@ -112,7 +112,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
           <CardView
             key={`${card.id}:${state.cardCount}`}
             card={card}
-            text={degrade(withNames(lib, state, card.text, card.speaker), settings.plainText ? 0 : degradeLevel(theme), state.seed)}
+            text={degrade(withNames(lib, state, card.text, card.speaker), textLevel(settings, theme), state.seed)}
             speakerName={advisor?.name ?? roleLabel}
             roleLabel={roleLabel}
             traitName={advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined}
