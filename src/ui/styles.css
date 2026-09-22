@@ -1149,6 +1149,64 @@ button {
   font-weight: 700;
 }
 
+/* A run someone sent, offered at the top of the setup screen (BACKLOG-2 phase 11). */
+.shared-run {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px var(--space);
+  border: 2px solid var(--accent);
+  border-radius: calc(var(--radius) * var(--corner));
+  background: var(--paper);
+  text-align: left;
+}
+.shared-run h2 {
+  margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.shared-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.shared-side,
+.shared-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Taking the run out of the game (BACKLOG-2 phase 11): under the name, where the urge is. */
+.share-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: -2px;
+}
+.share {
+  padding: 8px 18px;
+  border: var(--border) solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 14px;
+}
+.share[disabled] {
+  cursor: progress;
+}
+.share-status {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
 /* What became of each decision that made the run: the part that says decisions mattered. */
 .became,
 .timeline {

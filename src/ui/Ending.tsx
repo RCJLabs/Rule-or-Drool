@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { epilogueByKey, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
@@ -7,6 +8,7 @@ import type { GameState } from "../engine/types";
 import { LEGACIES, OBJECTIVES_BY_ID, historyOf, type RunFold } from "../meta";
 import { Frame } from "./Frame";
 import { runRecord, timeline } from "./record";
+import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
 import { themeFor } from "./theme";
 import { composeWorld } from "./world";
@@ -31,6 +33,8 @@ interface Props {
  * decisions that made it, how it went, what you did with the office, and the long view.
  */
 export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: Props) {
+  const scene = useRef<HTMLElement>(null);
+  const [sharing, setSharing] = useState<ShareOutcome | "working" | null>(null);
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -45,12 +49,26 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
   const record = over.endingId.startsWith(lib.config.finalePrefix) ? runRecord(lib, state) : null;
   const shown = new Set(history.consequences.map((c) => c.flag));
   const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f)).map((f) => LEGACIES[f]!);
-  const when = STRINGS.world.when[Math.min(state.era, STRINGS.world.when.length) - 1];
+  const when = STRINGS.world.when[Math.min(state.era, STRINGS.world.when.length) - 1] ?? "";
+  // A daily is marked in the text, so the people it goes to know they can play the same one.
+  const dailyDay = fold?.meta.daily?.seed === state.seed ? fold.meta.daily.day : undefined;
+
+  const share = async () => {
+    setSharing("working");
+    const text = shareText(state, history, endingTitle, shareLink(state), dailyDay);
+    const svg = scene.current?.querySelector("svg");
+    // The picture is the best part and still optional: a failed render shares the words.
+    const card = svg
+      ? await renderCard(svg, { when, kicker: STRINGS.after.calls, title: history.title, facts: runFacts(state, endingTitle) }).catch(() => null)
+      : null;
+    const slug = history.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    setSharing(await shareRun(text, card, `rule-or-drool-${slug}.png`));
+  };
 
   return (
     <Frame theme={themeFor(state.drift, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
-        <figure className="world-frame" data-band={band}>
+        <figure className="world-frame" data-band={band} ref={scene}>
           <WorldAfter world={world} title={history.title} />
           <figcaption className="world-when">{when}</figcaption>
         </figure>
@@ -61,6 +79,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
         <p className="history-calls">{STRINGS.after.calls}</p>
         <h1 className="history-title">{history.title}</h1>
         {fold?.newHistory && <p className="history-new">{STRINGS.after.newHistory}</p>}
+        <div className="share-row">
+          <button type="button" className="share" onClick={share} disabled={sharing === "working"}>
+            {sharing === "working" ? STRINGS.share.working : STRINGS.share.button}
+          </button>
+          <p className="share-status" role="status">
+            {sharing === "shared" ? STRINGS.share.shared : sharing === "copied" ? STRINGS.share.copied : sharing === "failed" ? STRINGS.share.failed : ""}
+          </p>
+        </div>
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
 
         <section className="became">

@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { library } from "../content";
+import { decodeRunCode, type Decoded } from "../meta";
 import { STRINGS } from "../content/strings";
 import { Codex } from "./Codex";
 import { Ending } from "./Ending";
@@ -15,6 +16,19 @@ export function App() {
   const game = useGame(library);
   const sw = useServiceWorker();
   const debug = useMemo(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"), []);
+  // A run someone sent (BACKLOG-2 phase 11). Read once; offered, never started unasked.
+  const [shared, setShared] = useState<Decoded | null>(() => {
+    if (typeof window === "undefined") return null;
+    const raw = new URLSearchParams(window.location.search).get("run");
+    return raw ? decodeRunCode(library, raw) : null;
+  });
+  /** The link has done its job once it is answered, so a reload does not offer it again. */
+  const answerShared = () => {
+    setShared(null);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("run");
+    window.history.replaceState(null, "", url.pathname + (url.search || ""));
+  };
 
   const settingsMenu = game.showSettings ? (
     <SettingsMenu
@@ -59,6 +73,12 @@ export function App() {
           meta={game.meta}
           onStart={game.start}
           onDaily={game.startDaily}
+          shared={shared}
+          onPlayShared={(code) => {
+            answerShared();
+            game.startFromCode(code);
+          }}
+          onDismissShared={answerShared}
           onContinue={game.continueSaved}
           onCodex={game.openCodex}
           onSettings={game.openSettings}

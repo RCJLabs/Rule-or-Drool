@@ -3,7 +3,8 @@ import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import { rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
-import { codexProgress, todayKey, type MetaState } from "../meta";
+import { codexProgress, todayKey, type Decoded, type MetaState, type RunCode } from "../meta";
+import { MANDATES_BY_ID } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
@@ -18,12 +19,16 @@ interface Props {
   meta: MetaState;
   onStart: (seed: number, align: PlayerAlign, mandate: string | null) => void;
   onDaily: (align: PlayerAlign, mandate: string | null) => void;
+  /** A run someone sent, decoded from the link that opened the game, if one did. */
+  shared?: Decoded | null;
+  onPlayShared?: (code: RunCode) => void;
+  onDismissShared?: () => void;
   onContinue: () => void;
   onCodex: () => void;
   onSettings: () => void;
 }
 
-export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex, onSettings }: Props) {
+export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, onPlayShared, onDismissShared }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const [mandate, setMandate] = useState<string | null>(null);
@@ -35,6 +40,38 @@ export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex,
       <div className="setup">
         <h1>{STRINGS.title}</h1>
         <p className="tagline">{STRINGS.tagline}</p>
+        {shared && (
+          <section className="shared-run" aria-labelledby="shared-title">
+            <h2 id="shared-title">{STRINGS.share.offerTitle}</h2>
+            {shared.ok ? (
+              <>
+                <p className="shared-side">
+                  <b>{STRINGS.parties[shared.code.align]}</b>
+                  {shared.code.mandate && ` · ${MANDATES_BY_ID.get(shared.code.mandate)?.title ?? ""}`}
+                </p>
+                <SetupSummary lib={lib} modifiers={shared.code.modifiers} />
+                <p className="shared-body">{STRINGS.share.offerBody}</p>
+                {/* Not .meta-row: its button rule repaints the background, and the primary
+                    button's white text sat on paper at 1.02:1 until the audit caught it. */}
+                <div className="shared-actions">
+                  <button type="button" className="primary" onClick={() => onPlayShared?.(shared.code)}>
+                    {STRINGS.share.offerPlay}
+                  </button>
+                  <button type="button" onClick={onDismissShared}>
+                    {STRINGS.share.offerDismiss}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="shared-body">{STRINGS.share.offerBroken}</p>
+                <button type="button" onClick={onDismissShared}>
+                  {STRINGS.share.offerDismiss}
+                </button>
+              </>
+            )}
+          </section>
+        )}
         {saved && (
           <button type="button" className="primary" onClick={onContinue}>
             {STRINGS.ui.continueRun} · era {saved.era}, {STRINGS.parties[saved.align]}

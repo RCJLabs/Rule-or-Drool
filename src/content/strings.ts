@@ -207,6 +207,23 @@ export const STRINGS = {
     became: "What became of it",
     also: "Also left behind:",
   },
+  /** Taking a run out of the game (BACKLOG-2 phase 11). */
+  share: {
+    button: "Share this run",
+    working: "Making the picture…",
+    shared: "Shared.",
+    copied: "Copied the text and saved the picture.",
+    failed: "Could not share from this browser.",
+    daily: "daily run, {day}",
+    cards: "{n} cards",
+    left: "Left behind:",
+    play: "Play the same run:",
+    offerTitle: "A run someone sent you",
+    offerBody: "Their side, their crisis, their promise, and the same deck. Whatever you have unlocked, this is the run they played.",
+    offerPlay: "Play their run",
+    offerDismiss: "Not now",
+    offerBroken: "That link is for a run this version of the game cannot reproduce.",
+  },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],
     nouns: ["Nachos", "Lotto", "Pills", "Energy Drink", "Payday Loans", "Cola", "Streaming", "Crypto", "Wings", "Slots"],

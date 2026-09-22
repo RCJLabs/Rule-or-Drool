@@ -3,6 +3,7 @@ import type { Library } from "../engine/library";
 import { resolve } from "../engine/resolve";
 import { newRun, rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
+import { setupOf, type RunCode } from "../meta/runcode";
 
 /** Pure UI-level flow on top of the engine, kept out of React so it is testable. */
 
@@ -14,6 +15,24 @@ export function beginRun(
   mandate: string | null = null,
 ): GameState {
   return draw(lib, newRun(lib, seed, { ...rollSetup(lib, seed, align, unlocked), mandate }));
+}
+
+/**
+ * Start exactly the run a code describes, whatever this profile has unlocked
+ * (BACKLOG-2 phase 11). This is how a shared run and the daily start: from a setup, not from
+ * a seed read through the local profile.
+ */
+export function beginRunFromCode(lib: Library, code: RunCode): GameState {
+  return draw(lib, newRun(lib, code.seed, setupOf(code)));
+}
+
+/**
+ * The daily for a side: the same setup for every player, so the base game with no unlocks.
+ * A veteran loses their unlocked traits for this one run, which is the price of the daily
+ * being the same run for everyone rather than the same seed read two different ways.
+ */
+export function dailyCode(lib: Library, seed: number, align: PlayerAlign, mandate: string | null): RunCode {
+  return { seed, align, modifiers: rollSetup(lib, seed, align, []).modifiers ?? [], unlocked: [], mandate };
 }
 
 /** Draw if the table is empty (after an era transition, or a save taken between cards). */

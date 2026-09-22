@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { Library } from "../engine/library";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
 import { clearMeta, dailySeedFor, emptyMeta, foldRun, loadMeta, saveMeta, type MetaState, type RunFold } from "../meta";
-import { beginRun, commitChoice, ensureCard } from "./flow";
+import { beginRun, beginRunFromCode, commitChoice, dailyCode, ensureCard } from "./flow";
+import type { RunCode } from "../meta";
 import { clearRun, loadRun, saveRun } from "./save";
 import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
 import { buzz, newlyDangerous, play } from "./sound";
@@ -123,13 +124,29 @@ export function useGame(lib: Library) {
     [lib],
   );
 
-  /** Today's shared seed (5.10). Same run for everyone on the same UTC day. */
+  /** A run someone else played, from its code: their setup, not this profile's. */
+  const startFromCode = useCallback(
+    (code: RunCode, daily?: { day: string; seed: number }) => {
+      setSaved(null);
+      setTransition(null);
+      setLastFold(null);
+      dailyRef.current = daily ?? null;
+      setState(beginRunFromCode(lib, code));
+    },
+    [lib],
+  );
+
+  /**
+   * Today's shared run (5.10). It used to be today's seed read through this profile's
+   * unlocks, which made it a different run for 98.3% of players who had unlocked different
+   * things (BACKLOG-2 phase 11). It starts from a fixed setup now.
+   */
   const startDaily = useCallback(
     (align: PlayerAlign, mandate: string | null = null) => {
       const d = dailySeedFor();
-      start(d.seed, align, mandate, d);
+      startFromCode(dailyCode(lib, d.seed, align, mandate), d);
     },
-    [start],
+    [lib, startFromCode],
   );
 
   const continueSaved = useCallback(() => {
@@ -188,6 +205,7 @@ export function useGame(lib: Library) {
     lastFold,
     start,
     startDaily,
+    startFromCode,
     continueSaved,
     choose,
     dismissTransition,

@@ -5,8 +5,8 @@ numbered as phases 8–17 so they continue ROADMAP.md's seven build phases rathe
 restarting a count. Same rule as before: every "evidence" line is measured against the
 shipped content, not estimated.
 
-**Eight of the ten are done.** Phases 11 and 17 are parked by the user until round three
-(BACKLOG-3.md, phases 18–27) has been worked through.
+**Nine of the ten are done.** Phase 11 shipped once round three (BACKLOG-3.md, phases
+18–27) was through. Phase 17 is the one left.
 
 Status: **doing** · **queued** · **done**
 
@@ -194,7 +194,80 @@ in the settings store, and a replayable "how this works" from the menu.
 
 </details>
 
-## Phase 11. Make a run worth showing someone — *queued*
+## Phase 11. Make a run worth showing someone — *done*
+
+**Shipped.** A finished run can leave the device. "Share this run" under the history title
+sends four lines and a picture of the world the run left. The link in the text starts the
+same run for whoever opens it. This one is a mixed-bot run, unedited:
+
+```
+Rule or Drool — “The Lean Retirement”
+The Commons · 105 cards · Still Standing
+Left behind: The pensions were spent; an election was counted twice; the answer was always the same one.
+Play the same run: https://rcjlabs.github.io/Rule-or-Drool/?run=1.3z2.L.crisis_pandemic~trait_academic~flaw_vain.-.-
+```
+
+The history's title leads because it is what the run did. The second line is the side, the
+length and how it stopped. "Left behind" is the three legacies the history was built from,
+most history-making first.
+
+**A seed was not enough, and the daily was broken the same way.** The entry asked that
+"pasting its seed reproduces the run exactly". It would not have. A seed is read through the
+profile's unlocks, and those change both the rolled setup and the pool the deck draws from.
+Measured over 360 dailies (180 days, both sides), with a new player and a veteran making the
+same choices:
+
+| Same daily, same choices | New player vs veteran |
+|---|---|
+| Different setup (crisis, trait, flaw) | 66.7% |
+| Different cards | 98.3%, diverging at card 10 (median) |
+| Different ending | 45.3% |
+
+So since unlocks shipped, the daily has not been the same run for everyone. It is now. Every
+profile plays the daily on the base game's setup, which means a veteran plays it without
+their unlocks.
+
+A shared run carries its whole setup instead of a seed: the side, the crisis, trait and flaw,
+the unlocks in force and the mandate. That is the `?run=` code. Measured over 2,000 setups it
+runs 45–65 characters for a new player's run and up to 125 for a veteran on a mandate. A test takes
+a fully unlocked sender's run and plays it from its code on an empty profile. It gets every
+card and the same ending. The receiver plays with the sender's unlocks for that one run,
+earned or not, because that is the only way the cards match.
+
+**The picture.** A 1200×720 PNG: the world-after scene from the end screen, with the
+history's title over it, the facts line, the era and the name. On a phone it goes through
+the share sheet with the text. Most desktop browsers cannot share files, so there the text
+goes to the clipboard and the picture downloads.
+
+**Opening a link.** The start screen offers "A run someone sent you" with their side, their
+mandate, their setup, and two buttons: "Play their run" and "Not now". Either answer takes
+`?run=` out of the address, so a reload does not offer it again. A code that does not decode
+says so rather than starting some other run. That covers a typo, a newer format, or a
+modifier this build does not have.
+
+**Verified in Chromium against the built bundle:**
+- On desktop it downloaded `rule-or-drool-the-permanent-revolution.png` and put the four
+  lines on the clipboard.
+- A stubbed phone share sheet received the text and a 455,644-byte PNG.
+- A second profile with nothing unlocked opened the link. It started seed 8065615 on the left
+  with `crisis_recession`, `trait_technocrat` and `flaw_apologetic`, and the address was
+  cleared.
+- **The contrast audit caught one:** "Play their run" measured 1.02:1, white text on paper.
+  The row it sat in repaints button backgrounds, so it has a row of its own now. The offer
+  now has 0 failing styles with a good link and with a broken one. The end screen has 0 at
+  both 390 and 360 px.
+
+385 tests. The bundle grew by 2.8 KB gzipped. Nothing here touches the engine's arithmetic,
+and the balance harness plays with no unlocks, so the targets are unchanged.
+
+**What it does not do.**
+- A code reproduces a run only on the same build of the game. If a later deploy changes the
+  cards or the rules, the same code deals a different run, and nothing says so. The first
+  field is a format version, so a later format can add a build stamp to warn with.
+- The phone share sheet was checked with a stub. A real Android share, in Chrome and in the
+  Play build, has not been tried.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** The codex now keeps twelve administrations (item 10), but a run cannot leave
 the device. This genre lives on "look what happened to me", and there is no way to do that.
@@ -205,6 +278,8 @@ can play the same run and compare, which the daily seed already proves the engin
 
 **Done when** a finished run produces something you would actually paste into a group chat,
 and pasting its seed reproduces the run exactly.
+
+</details>
 
 ## Phase 12. The cabinet as a screen you can read — *done*
 
