@@ -391,7 +391,77 @@ version can get it in one tap without losing the game's voice.
 
 </details>
 
-## Phase 22. Sound that knows which way it is going — *queued*
+## Phase 22. Sound that knows which way it is going — *done*
+
+**Shipped.** The same swipe sounds different at drift -60 and +60 — and, separately, the
+cue you hear on every card is now audible on a phone at all, which it was not.
+
+**"Audible on a phone speaker" had to become a number before anything could be built
+against it.** The cues are rendered offline by the shipped module itself — `sound.ts` is
+bundled and its `AudioContext` swapped for an `OfflineAudioContext`, so this measures the
+real synth rather than a copy — and put through two cascaded 2nd-order highpasses, the
+~24 dB/octave rolloff a phone's micro-speaker has below its enclosure resonance. 500 Hz is
+the conservative corner for a phone and 300 Hz the generous one. It is a model and it is
+named as one; the finding below holds at both corners.
+
+**The card landing was inaudible on the device the game is for.** It was a 150 Hz sine, and
+a sine has no harmonics to leak through:
+
+| cue | through the phone, before | after |
+|---|---|---|
+| **commit** (every card) | **-24.7 dB** | **-0.3 dB** |
+| era | **-26.8 dB** | -4.4 dB |
+| arc | -20.7 dB | -3.5 dB |
+| danger | -8.7 dB | unchanged |
+| endBadly | -4.1 dB | unchanged |
+| endWell | +1.8 dB | unchanged |
+| election | +2.9 dB | unchanged |
+
+Peak level on a phone went from 0.0105 to 0.0836 for `commit`, about 18 dB. The set used to
+span 21 dB between its quietest and loudest cue on a phone and now spans 5. The low notes
+all stayed — on anything with a woofer they are the body of the sound — and what is new is a
+partial high enough to survive: the voice sits at four times the root, 600 Hz one way and
+740 the other.
+
+**Two sides that were supposed to be distinguishable were not.** Left and right differed
+only as 150 Hz against 185, both under the rolloff, and through the phone they were 91% the
+same sound. They are 600 Hz against 740 now.
+
+**The path ladder is one number, the same one the frame uses.** `soundLevel` is
+`ascent - decay`: -1 in deep Decay, +1 in deep Ascent, continuous, so nothing lurches at a
+stage boundary the way the looks do. Measured through the phone model:
+
+| | centroid | length | level on a phone |
+|---|---|---|---|
+| **drift -60** | 1015 Hz | 41 ms | 0.096 |
+| drift 0 | 780 Hz | 48 ms | 0.084 |
+| **drift +60** | 932 Hz | 150 ms | 0.092 |
+
+Going down, the whole cue sags 13% in pitch over its own length and a sawtooth 30 cents
+sharp beats against it: harsher and clipped. Going up, the pitch holds and the note is
+answered a fifth above: longer and resolved. **Loudness is held flat within 2 dB across the
+whole range on purpose** — this fires on every card, and "going badly" meaning "louder"
+would be exhausting by card 40. The first attempt was 6.3 dB louder at the bottom, and the
+sawtooth's gain was cut until it was not.
+
+**A measure that was measuring the wrong thing.** I added a roughness metric — amplitude
+modulation in the 4-25 Hz band, which is where two detuned copies beat — and it returned
+1.89 for a single clean tone. On a 100 ms one-shot there is no steady state: it was reading
+the note's own envelope. Dropped for cue length, which is a number that means what it says.
+
+**The plumbing is verified in the real app, not just the cue table.** Every oscillator the
+page creates is recorded during an actual run: at drift -36 a swipe is a sagging triangle
+pair plus a detuned sawtooth, and at +42 the same swipe is a rising pair plus a clean 900 Hz
+fifth. Worst case — every cue one card can fire, stacked — peaks at 0.276, so nothing clips.
+
+**Two things beyond what the entry asked for, and one thing it asked for that was gone.**
+`arc` and `era` were as inaudible as `commit` and got the same treatment, which the Do
+clause did not call for; and the evidence says the Decay look "changes the palette, the
+font, the tilt" — phase 18 removed the font and phase 21 confirmed `--tilt` has been `0deg`
+since. The palette and the meter wording are what is actually left.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** Seven synthesized cues — `commit`, `danger`, `arc`, `election`, `era`,
 `endWell`, `endBadly` — and **none of them changes with the path**. The Decay look changes
@@ -404,6 +474,8 @@ oscillator and a filter, not a sample pack.
 
 **Done when** the same swipe sounds different at drift -60 and +60, and the difference is
 audible on a phone speaker.
+
+</details>
 
 ## Phase 23. The two sides should not look the same — *queued*
 

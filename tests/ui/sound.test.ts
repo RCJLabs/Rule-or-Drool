@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { buzz, newlyDangerous, play } from "../../src/ui/sound";
+import { soundLevel, themeFor } from "../../src/ui/theme";
 import { meters } from "../helpers";
 
 describe("which meters just went bad", () => {
@@ -26,6 +27,36 @@ describe("which meters just went bad", () => {
   });
 });
 
+describe("what a swipe sounds like", () => {
+  /**
+   * The ladder itself. What it does to the cue is synthesis and is measured by rendering it
+   * offline through a model of a phone speaker, not here; this pins the one number the two
+   * halves agree on, so the sound cannot drift away from the frame without a test saying so
+   * (BACKLOG-3 phase 22).
+   */
+  it("follows the same drift the frame does, and reaches both ends where the frame does", () => {
+    expect(soundLevel(themeFor(0))).toBe(0);
+    expect(soundLevel(themeFor(-60))).toBe(-1);
+    expect(soundLevel(themeFor(60))).toBe(1);
+    // The done-when is -60 against +60, and the ends are reached well before that.
+    expect(soundLevel(themeFor(-42))).toBe(-1);
+    expect(soundLevel(themeFor(42))).toBe(1);
+  });
+
+  it("is a signed version of the same value the two looks use", () => {
+    for (const drift of [-50, -30, -9, 0, 9, 30, 50]) {
+      const t = themeFor(drift);
+      expect(soundLevel(t)).toBeCloseTo(t.ascent - t.decay, 10);
+      expect(Math.sign(soundLevel(t))).toBe(Math.sign(t.stage));
+    }
+  });
+
+  it("moves without a step: a card either side of a stage line is barely a change", () => {
+    // The looks arrive in three stages; the sound does not, so nothing lurches at a boundary.
+    expect(Math.abs(soundLevel(themeFor(-20)) - soundLevel(themeFor(-19)))).toBeLessThan(0.04);
+  });
+});
+
 describe("making a noise where there is no audio", () => {
   const warn = vi.spyOn(console, "error").mockImplementation(() => {});
   afterEach(() => warn.mockClear());
@@ -35,6 +66,8 @@ describe("making a noise where there is no audio", () => {
     expect(() => play("commit", "left")).not.toThrow();
     expect(() => play("endBadly")).not.toThrow();
     expect(() => play("danger", "money")).not.toThrow();
+    expect(() => play("commit", "left", -1)).not.toThrow();
+    expect(() => play("commit", "right", 1)).not.toThrow();
   });
 
   it("does not throw when vibrate is missing or refuses", () => {

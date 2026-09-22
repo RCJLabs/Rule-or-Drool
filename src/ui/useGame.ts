@@ -8,6 +8,7 @@ import { applySettings, loadSettings, saveSettings, type Settings } from "./sett
 import { buzz, newlyDangerous, play } from "./sound";
 import { DANGER_BELOW } from "./Meters";
 import { clampDrift } from "../engine/state";
+import { soundLevel, themeFor } from "./theme";
 
 export type Screen = "setup" | "play" | "over" | "codex";
 
@@ -16,10 +17,12 @@ export type Screen = "setup" | "play" | "over" | "codex";
  * hear: the card lands, then anything that went wrong, then anything that opened
  * (BACKLOG-2 phase 9).
  */
-function cue(settings: Settings, before: GameState, after: GameState, side: Side, eraChanged: boolean): void {
+function cue(lib: Library, settings: Settings, before: GameState, after: GameState, side: Side, eraChanged: boolean): void {
   if (settings.haptics) buzz(after.over ? [40, 60, 90] : 12);
   if (!settings.sound) return;
-  play("commit", side);
+  // The card landing follows the same drift the frame does, read after the choice, so the
+  // swipe that tipped the run over is the one that sounds different (BACKLOG-3 phase 22).
+  play("commit", side, soundLevel(themeFor(after.drift, lib.config)));
   for (const meter of newlyDangerous(before.meters, after.meters, DANGER_BELOW)) play("danger", meter);
   if (after.activeArcs.length > before.activeArcs.length) play("arc");
   if (after.stats.electionsHonest + after.stats.electionsCheated > before.stats.electionsHonest + before.stats.electionsCheated) {
@@ -142,7 +145,7 @@ export function useGame(lib: Library) {
       if (!s) return;
       const r = commitChoice(lib, s, side);
       setState(r.state);
-      cue(settingsRef.current, s, r.state, side, r.eraChanged);
+      cue(lib, settingsRef.current, s, r.state, side, r.eraChanged);
       if (r.eraChanged) setTransition(r.state.era);
       if (r.state.over && !s.over) {
         const fold = foldRun(lib, metaRef.current, r.state, dailyRef.current ?? undefined);

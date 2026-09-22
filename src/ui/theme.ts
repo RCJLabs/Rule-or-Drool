@@ -77,6 +77,15 @@ export function streamLevel(theme: Theme): 0 | 1 | 2 | 3 {
   return theme.stage < 0 ? (Math.min(3, -theme.stage) as 1 | 2 | 3) : 0;
 }
 
+/**
+ * Where the run is heading, as one number for the sound to follow: -1 in deep Decay, +1 in
+ * deep Ascent, 0 in the middle. The same continuous value the frame uses, so what a swipe
+ * sounds like and what the screen looks like move together (BACKLOG-3 phase 22).
+ */
+export function soundLevel(theme: Theme): number {
+  return theme.ascent - theme.decay;
+}
+
 /** The matching ladder on the way up: the projection gets deeper rather than louder. */
 export function holoLevel(theme: Theme): 0 | 1 | 2 | 3 {
   return theme.stage > 0 ? (Math.min(3, theme.stage) as 1 | 2 | 3) : 0;
