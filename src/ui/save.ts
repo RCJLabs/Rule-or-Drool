@@ -56,6 +56,9 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     for (const role of Object.keys(s.cabinet ?? {})) since[role] = 0;
     s = { ...s, cabinetSince: since };
   }
+  // v6 -> v7: a run can be taken on a promise (BACKLOG-2 phase 16). A run already under
+  // way was taken on none, so it resumes promising nothing rather than being dropped.
+  if (v < 7) s = { ...s, mandate: null, mandateBrokenAt: null };
   return s;
 }
 

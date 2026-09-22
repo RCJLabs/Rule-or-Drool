@@ -31,6 +31,10 @@ export interface MetaState {
   advisorsKept: Record<string, number>;
   /** Advisor id -> times you let them go. */
   advisorsFired: Record<string, number>;
+  /** Mandate id -> runs finished with that promise still intact (BACKLOG-2 phase 16). */
+  mandatesKept: Record<string, number>;
+  /** Mandate id -> runs that took it on and broke it. */
+  mandatesBroken: Record<string, number>;
   /** The last few runs, newest first. */
   history: RunRecord[];
   /**
@@ -54,6 +58,9 @@ export interface RunRecord {
   rival: string | null;
   /** Legacy flags the country was left with. */
   legacies: string[];
+  /** The promise the run was taken on, if any, and whether it survived the run. */
+  mandate: string | null;
+  mandateKept: boolean;
 }
 
 export interface DailyRecord {

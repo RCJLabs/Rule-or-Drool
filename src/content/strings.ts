@@ -151,6 +151,8 @@ export const STRINGS = {
     kept: "kept",
     fired: "let go",
     noHistory: "No administration has ended yet.",
+    mandates: "Promises you made",
+    noMandates: "You have taken the job on no terms yet.",
   },
   unlockNames: {
     u_dissident: "the Dissident, a leader who knows how the room looks from outside",
@@ -190,5 +192,14 @@ export const STRINGS = {
     eraseConfirm: "Yes, erase everything",
     eraseWarning: "This clears the codex, every unlock and the run in progress. It cannot be undone.",
     savedRunKept: "Your run is saved. Continue it from the menu.",
+    mandate: "Your promise",
+    mandateNone: "Promise nothing",
+    mandateNoneBlurb: "Take the job on no terms but your own.",
+    mandateHolding: "Holding",
+    mandateKept: "Promise kept",
+    mandateBroken: "Promise broken",
+    mandateBrokenAt: "Broken at card",
+    mandateHint: "A promise you make to get the job. Nothing stops you breaking it; the country will notice, and so will the codex.",
+    mandates: "Promises",
   },
 } as const;

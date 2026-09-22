@@ -1,6 +1,7 @@
 import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
+import { MANDATES } from "../engine/mandates";
 import { LEGACIES, OBJECTIVES, codexProgress, type MetaState } from "../meta";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
@@ -52,6 +53,12 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
                     {lib.endings.get(r.endingId)?.title ?? r.endingId}
                     {r.rival && `, against ${lib.advisorsById.get(r.rival)?.name ?? "a rival"}`}
                   </span>
+                  {r.mandate && (
+                    <em className={r.mandateKept ? "kept" : "broken"}>
+                      {MANDATES.find((m) => m.id === r.mandate)?.title ?? r.mandate} —{" "}
+                      {r.mandateKept ? STRINGS.ui.mandateKept : STRINGS.ui.mandateBroken}
+                    </em>
+                  )}
                   {r.legacies.length > 0 && <em>{r.legacies.map((f) => LEGACIES[f] ?? f).join(" · ")}</em>}
                 </li>
               ))}
@@ -76,6 +83,26 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
               );
             })}
             {meta.arcOutcomes.length === 0 && <li className="locked">{STRINGS.codex.empty}</li>}
+          </ul>
+        </section>
+
+        <section>
+          <h2>{STRINGS.codex.mandates}</h2>
+          <ul className="codex-list">
+            {MANDATES.map((m) => {
+              const kept = meta.mandatesKept[m.id] ?? 0;
+              const broken = meta.mandatesBroken[m.id] ?? 0;
+              return (
+                <li key={m.id} className={kept ? "found" : broken ? "attempted" : "locked"}>
+                  <b>{m.title}</b>
+                  <span>
+                    {kept || broken
+                      ? `kept ${kept}, broken ${broken}`
+                      : STRINGS.codex.noMandates}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </section>
 

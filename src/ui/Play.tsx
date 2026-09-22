@@ -11,6 +11,7 @@ import { CardView } from "./CardView";
 import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
 import { Frame } from "./Frame";
+import { MandateBadge } from "./MandateBadge";
 import { MetersBar } from "./Meters";
 import { degrade } from "./degrade";
 import { yearInEra } from "./flow";
@@ -132,6 +133,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         <div className="era">
           <b>{eraInfo?.name ?? `Era ${state.era}`}</b> · {STRINGS.ui.year} {year}
         </div>
+        <MandateBadge state={state} />
         <div className="progress" aria-hidden="true">
           <span style={{ width: `${progress * 100}%` }} />
         </div>

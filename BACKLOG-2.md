@@ -443,7 +443,67 @@ rather than adding a system.
 
 </details>
 
-## Phase 16. Mandates: pick your own constraint — *queued*
+## Phase 16. Mandates: pick your own constraint — *done*
+
+**Shipped.** A run can be taken on a promise, chosen before the first card. Four of them,
+each visible while you play, each recorded in the codex, each with a card that arrives about
+two draws after you break it and says so in the country's own voice. The engine's half is
+deliberately small: the promise latches, it is said once, and it never unlatches.
+
+**What each one asks, measured over 6,000 runs by a bot that plays ordinarily but takes the
+other side whenever this one would break the promise and the other survives:**
+
+| | kept | costs | its own card comes up |
+|---|---|---|---|
+| Every vote counted once | 65.0% | nothing; Ascent rises to 45.1% | 77.5% |
+| Nobody under forty | 44.1% | nothing; band unchanged | 62.2% |
+| The people I came in with | 99.5% | 3.7 points of finale, 1.2 of Ascent | 80.8% |
+| There will be no more votes | 98.5% | a third of runs end in a coup | 65.3% |
+
+That is a ladder rather than four of the same thing. The coalition promise is the hard one
+to keep; loyalty is the easy one to keep and the one that quietly costs you, because keeping
+a treasurer who has lied to you for two years is loyalty over the country and the drift says
+so; ruling by decree is not a constraint at all but a different run — 66.5% reach a finale
+against 97.1%, and they run sixteen cards shorter.
+
+**Ruling by decree was a gift until it was priced.** Abolishing the vote takes away the
+elections, and with them the cheating the deck charges drift for, so the first version of
+the decree run reached the Ascent **84.5%** of the time — the authoritarian road was the
+cleanest one in the game. The slot where an election would have been now costs 16 drift
+whether or not anybody is there to remove you, which is the honest model of the thing:
+time passing with nobody able to remove you *is* the decay. Decree runs land at 21.4%
+Ascent, just above ordinary play, and pay for it in coups instead.
+
+**Nothing could un-abolish an election, so one promise could not be broken.** Three new
+cards give the vote a way back — a queue outside a building that has not counted anything in
+years, a returning officer who keeps turning up to an empty office, an argument about who
+you answer to. They fire in any run that abolished elections, not only a decree run, which
+closes a one-way door the game had had since the term-limits arc shipped.
+
+**A fifth mandate was measured and not shipped.** The evidence line for this phase was that
+the objectives rewarding restraint are the ones a competent player never finishes —
+measured over 60 players of 40 runs each, `obj_saint`, `obj_stepped_down` and
+`obj_ten_endings` complete 0% of the time. The obvious answer was a promise to never take a
+self-serving choice, which is `obj_saint`'s own condition. **A run trying its hardest keeps
+it 2.5% of the time**, and restricting it to the first era changes nothing, because the deck
+reliably reaches a card where the honest side ends the run. So mandates do not rescue those
+three, and the comment in `objectives.ts` says so rather than implying otherwise.
+
+**No mandate grants an unlock**, which is the existing rule about unlocks read backwards: a
+mandate is opt-in, so content gated behind one is content a player who never takes a promise
+can never see. They are worth three objectives and a codex section instead.
+
+**Two things the checks caught that I had written wrong.** The temptation card for the
+coalition promise only appeared from era 2, and that promise is broken at card 31 on
+average — it was arriving after the thing it existed to tempt you into. And the temptation
+card for the clean-vote promise offered to count a district that arrived after the close,
+which the promise did not count as cheating, because its condition only read the election
+tally; a count you fixed outside an election is the same promise broken, and it reads that
+now.
+
+<details>
+<summary>Original entry</summary>
+
 
 **Evidence.** Run setup rolls a crisis, a trait and a flaw, and item 4 gave those a side. The
 player chooses nothing except which party they lead. There is no way to set yourself a
@@ -456,6 +516,8 @@ the run, each recorded in the codex history, each a modifier on what the run is 
 
 **Done when** a player can set themselves the run they want and the codex remembers they did
 it.
+
+</details>
 
 ## Phase 17. Get it onto Play — *queued*
 

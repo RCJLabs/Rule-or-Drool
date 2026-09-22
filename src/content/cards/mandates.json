@@ -1,0 +1,468 @@
+[
+  {
+    "id": "mn_clean_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The footage of you promising it is being played before the footage of the count. They run it twice, so nobody has to remember what you said.",
+    "weight": 0,
+    "left": {
+      "label": "Say you broke it",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Say it was conditional",
+      "fx": {
+        "inst": -5,
+        "public": -4,
+        "base": 3,
+        "order": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_broad_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "One of the three has stopped being asked to things. Nobody decided it, and the room has quietly stopped setting out a chair.",
+    "weight": 0,
+    "left": {
+      "label": "Set the chair back out",
+      "fx": {
+        "money": -6,
+        "public": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Govern with the two",
+      "fx": {
+        "base": 4,
+        "public": -5,
+        "inst": -4,
+        "order": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_loyal_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The rest of them have worked out that the promise about the cabinet was a promise about a cabinet, not about them.",
+    "weight": 0,
+    "left": {
+      "label": "Tell the rest: safe",
+      "fx": {
+        "order": -4,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them wonder",
+      "fx": {
+        "order": 4,
+        "inst": -4,
+        "base": -4,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_decree_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The ballot boxes came out of the same warehouse you put them in. Somebody has photographed the dust on them.",
+    "weight": 0,
+    "left": {
+      "label": "Call it a correction",
+      "fx": {
+        "inst": 6,
+        "public": 4,
+        "base": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Call it your idea",
+      "fx": {
+        "base": 3,
+        "inst": -4,
+        "public": -4,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "mn_restore_queue",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "There is a queue outside a building that has not counted anything in years. Nobody organised it and nobody is leaving.",
+    "cond": {
+      "flags": [
+        "elections_abolished"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Let them have their vote",
+      "fx": {
+        "inst": 6,
+        "public": 5,
+        "order": -4
+      },
+      "clearFlags": [
+        "elections_abolished"
+      ],
+      "drift": 6
+    },
+    "right": {
+      "label": "Move the queue along",
+      "fx": {
+        "order": 4,
+        "public": -6,
+        "inst": -4,
+        "base": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "mn_restore_officer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The returning officer has kept turning up to an office with nothing in it. She has not resigned and she has not been paid.",
+    "cond": {
+      "flags": [
+        "elections_abolished"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Give her a count",
+      "fx": {
+        "inst": 5,
+        "public": 4,
+        "base": -4
+      },
+      "clearFlags": [
+        "elections_abolished"
+      ],
+      "drift": 5
+    },
+    "right": {
+      "label": "Close the office",
+      "fx": {
+        "money": 3,
+        "inst": -5,
+        "public": -4,
+        "order": 3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_restore_generals",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle"
+    ],
+    "speaker": "general",
+    "text": "The argument in the room is about who you answer to, and the honest answer is nobody. Two of them find that reassuring and one of them does not.",
+    "cond": {
+      "flags": [
+        "elections_abolished"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Give them an answer",
+      "fx": {
+        "inst": 6,
+        "order": -5,
+        "public": 4
+      },
+      "clearFlags": [
+        "elections_abolished"
+      ],
+      "drift": 6
+    },
+    "right": {
+      "label": "Leave the question open",
+      "fx": {
+        "order": 5,
+        "inst": -5,
+        "public": -4,
+        "backers": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "mn_clean_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Two boxes from one district arrived after the count closed. Nobody outside this room knows they exist, and they are the district you needed.",
+    "cond": {
+      "flags": [
+        "mandate_m_clean"
+      ],
+      "notFlags": [
+        "broke_mandate",
+        "counted_late_boxes"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Leave them sealed",
+      "fx": {
+        "base": -6,
+        "backers": -4,
+        "inst": 4
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Count them",
+      "fx": {
+        "base": 5,
+        "backers": 4,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "setFlags": [
+        "counted_late_boxes"
+      ]
+    }
+  },
+  {
+    "id": "mn_broad_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "You can have the vote you need from one of them or the goodwill of the other two. The arithmetic has been checked twice and it does not improve.",
+    "cond": {
+      "flags": [
+        "mandate_m_broad"
+      ],
+      "notFlags": [
+        "broke_mandate"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Carry all three",
+      "fx": {
+        "money": -8,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Take the vote",
+      "fx": {
+        "base": 6,
+        "backers": 5,
+        "public": -9,
+        "money": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "mn_loyal_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The figures you have been given for two years were wrong in the same direction every time. He is not sorry and he is not leaving unless you make him.",
+    "cond": {
+      "flags": [
+        "mandate_m_loyal"
+      ],
+      "notFlags": [
+        "broke_mandate"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Keep your word",
+      "fx": {
+        "money": -7,
+        "inst": -5,
+        "public": -3,
+        "base": 4
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Let him go",
+      "fx": {
+        "money": 4,
+        "inst": 6,
+        "public": 4,
+        "base": -4
+      },
+      "drift": 5,
+      "fireSpeaker": true
+    }
+  },
+  {
+    "id": "mn_decree_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "There is a way out of the coup talk and it is the obvious one. You would have to stand in front of a box and let people put paper in it.",
+    "cond": {
+      "flags": [
+        "mandate_m_decree",
+        "elections_abolished"
+      ],
+      "notFlags": [
+        "broke_mandate"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Hold the line",
+      "fx": {
+        "order": 4,
+        "inst": -6,
+        "public": -5,
+        "base": 3
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Stand in front of it",
+      "fx": {
+        "inst": 8,
+        "public": 6,
+        "order": -5,
+        "base": -4
+      },
+      "drift": 7,
+      "clearFlags": [
+        "elections_abolished"
+      ]
+    }
+  }
+]

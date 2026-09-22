@@ -4,6 +4,7 @@ import type { Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { OBJECTIVES_BY_ID, type RunFold } from "../meta";
+import { MANDATES_BY_ID } from "../engine/mandates";
 import { Frame } from "./Frame";
 import { SetupSummary } from "./SetupSummary";
 import { themeFor } from "./theme";
@@ -23,6 +24,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
   const ending = lib.endings.get(over.endingId);
   const epilogue = epilogueByKey(lib, over.epilogueKey);
   const band = exitBand(lib, state);
+  const mandate = state.mandate ? MANDATES_BY_ID.get(state.mandate) : undefined;
   return (
     <Frame theme={themeFor(state.drift, lib.config)} seed={state.seed} n={state.cardCount}>
       <div className="ending">
@@ -51,6 +53,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
               ))}
             </ul>
           </section>
+        )}
+        {mandate && (
+          <p className={`mandate-result${state.mandateBrokenAt === null ? " kept" : " broken"}`}>
+            <b>{mandate.title}</b>{" "}
+            {state.mandateBrokenAt === null
+              ? STRINGS.ui.mandateKept
+              : `${STRINGS.ui.mandateBroken} · ${STRINGS.ui.mandateBrokenAt} ${state.mandateBrokenAt}`}
+          </p>
         )}
         <SetupSummary lib={lib} modifiers={state.modifiers} compact />
         <dl className="stats">

@@ -2,6 +2,7 @@ import { endRun } from "./endings";
 export { rivalPressure } from "./state";
 import type { EraRule } from "./config";
 import { getCard, type Library } from "./library";
+import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
 import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import type { Card, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
@@ -152,7 +153,13 @@ export function checkElection(lib: Library, state: GameState): GameState {
   if (!hasFlag(state, cfg.electionsAbolishedFlag)) return state;
   if (state.cardCount < state.nextElectionAt) return state;
   const [p, s1] = roll(state);
-  const s2 = { ...s1, nextElectionAt: s1.cardCount + cfg.electionInterval };
+  // Time passing with nobody able to remove you is the decay, and it is the only place a
+  // decree run pays for the cheating it no longer has to do (phase 16).
+  const s2 = {
+    ...s1,
+    nextElectionAt: s1.cardCount + cfg.electionInterval,
+    drift: clampDrift(s1.drift - cfg.decreeDriftPull),
+  };
   if (p < coupRisk(lib, s2)) {
     const theirs = rivalPressure(lib, s2) >= cfg.rivalWinsAt;
     return endRun(lib, s2, theirs ? cfg.rivalEnding : cfg.coupEnding);
@@ -202,6 +209,25 @@ export function applyEraPassive(lib: Library, state: GameState): GameState {
  * Resolve the card on the table (core loop steps 3–5): apply the choice, check
  * ousters, tick the counter, fire the election/coup check and era transition.
  */
+/**
+ * A promise made at setup is checked after every card and can only go one way. Breaking it
+ * does not end the run and does not cost meters on the spot: the run carries the flag, the
+ * country is told in its own voice a few cards later, and the codex remembers that this was
+ * a run where you said one thing and did another (phase 16).
+ */
+export function checkMandate(lib: Library, state: GameState): GameState {
+  if (!state.mandate || state.mandateBrokenAt !== null) return state;
+  const mandate = MANDATES_BY_ID.get(state.mandate);
+  if (!mandate || !mandate.isBroken(state)) return state;
+  const queued = state.queue.some((q) => q.id === mandate.brokeCard);
+  return {
+    ...state,
+    mandateBrokenAt: state.cardCount,
+    flags: hasFlag(state, BROKE_MANDATE_FLAG) ? state.flags : [...state.flags, BROKE_MANDATE_FLAG],
+    queue: queued ? state.queue : [...state.queue, { id: mandate.brokeCard, dueAt: state.cardCount + 2 }],
+  };
+}
+
 export function resolve(lib: Library, state: GameState, cardId: string, side: Side): GameState {
   if (state.over) return state;
   if (state.current !== cardId) {
@@ -234,6 +260,8 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   }
   s = { ...s, stats, current: null, cardCount: s.cardCount + 1 };
   s = applyEraPassive(lib, s);
+  // Before the ouster check: a choice that breaks the promise and ends the run did both.
+  s = checkMandate(lib, s);
   s = checkOuster(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);

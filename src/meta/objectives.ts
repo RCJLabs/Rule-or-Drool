@@ -1,3 +1,4 @@
+import { MANDATES } from "../engine/mandates";
 import { BLOC_KEYS } from "../engine/types";
 import type { MetaState, Objective } from "./types";
 
@@ -146,6 +147,33 @@ export const OBJECTIVES: readonly Objective[] = [
     title: "Not once",
     hint: "Finish a run of twenty cards or more without taking a single self-serving choice.",
     check: ({ run }) => !!run?.over && run.stats.tempting === 0 && run.cardCount >= 20,
+  },
+  // Mandates sit at the end because they are the only objectives the player chooses to
+  // attempt rather than happens into. None of them grants an unlock: a mandate is opt-in,
+  // so content behind one would be content a player who never takes a promise can never
+  // see, which is the rule above in reverse.
+  //
+  // They do not rescue `obj_saint` above, and a fifth mandate for it was measured and not
+  // shipped: asking for no self-serving choice at all is keepable 2.5% of the time even
+  // by a run trying its hardest, because the deck reliably reaches a card where the honest
+  // side ends the run. That objective is hard for a reason, not for want of being asked.
+  {
+    id: "obj_mandate_kept",
+    title: "Kept your word",
+    hint: "Finish a run under a mandate without breaking it.",
+    check: ({ run }) => !!run?.over && !!run.mandate && run.mandateBrokenAt === null,
+  },
+  {
+    id: "obj_mandate_finale",
+    title: "A whole term, as promised",
+    hint: "Reach a finale with a mandate still intact.",
+    check: ({ run }) => !!run?.over?.endingId.startsWith("finale_") && !!run.mandate && run.mandateBrokenAt === null,
+  },
+  {
+    id: "obj_mandate_all",
+    title: "Four promises",
+    hint: "Keep every one of the four mandates at least once.",
+    check: ({ meta }) => MANDATES.every((m) => (meta.mandatesKept[m.id] ?? 0) > 0),
   },
 ];
 

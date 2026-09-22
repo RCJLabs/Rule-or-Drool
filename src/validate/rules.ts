@@ -5,6 +5,7 @@
  */
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
+import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../engine/mandates";
 import type { Arc, Card, Choice, Cond, Content } from "../engine/types";
 import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 
@@ -398,6 +399,8 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     const entry = a.cards[0];
     if (a.weight > 0 && a.entry.eras.length > 0 && a.entry.bands.length > 0 && entry !== undefined) seed(entry);
   }
+  // The engine, not a card, sends the card that follows a broken promise (phase 16).
+  for (const m of MANDATES) if (cards.has(m.brokeCard)) seed(m.brokeCard);
   while (queue.length) {
     const c = cards.get(queue.pop()!);
     if (!c) continue;
@@ -429,6 +432,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   // ---- flags ----------------------------------------------------------------------------
   for (const a of content.arcs) checkCond(a.entry, { kind: "arc", id: a.id }, "entry");
   for (const m of content.modifiers) for (const f of m.flags ?? []) note(flagSets, f, { kind: "modifier", id: m.id, path: "flags" });
+  // The engine sets these two itself: which promise the run was taken on, and that it has
+  // been broken. A card may read either without any card setting it (phase 16).
+  const mandateIds = new Set(MANDATES.map((m) => m.id));
   const engineReads = new Set([cfg.electionsAbolishedFlag]);
   // The codex reads every named legacy, so a flag that is only there to be remembered is
   // read even when no card asks about it. Unlike `engineReads` this is one-way: a legacy
@@ -443,6 +449,12 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!flagReads.has(f) && !engineReads.has(f) && !codexReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
+    if (f === BROKE_MANDATE_FLAG) continue;
+    if (f.startsWith(MANDATE_FLAG_PREFIX)) {
+      const name = f.slice(MANDATE_FLAG_PREFIX.length);
+      if (!mandateIds.has(name)) issues.error("flag-unset", `no mandate is called "${name}", so "${f}" is never set`, where);
+      continue;
+    }
     if (engineSets(f)) {
       // The engine sets one per trait in the cabinet and one per person in it, so a card
       // may be written for a named advisor as well as for a kind of one (phase 15).

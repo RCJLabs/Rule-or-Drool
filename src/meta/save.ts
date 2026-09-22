@@ -31,7 +31,16 @@ export function migrateMeta(raw: unknown): MetaState | null {
     legacies: { ...(data.legacies ?? {}) },
     advisorsKept: { ...(data.advisorsKept ?? {}) },
     advisorsFired: { ...(data.advisorsFired ?? {}) },
-    history: Array.isArray(data.history) ? [...data.history] : [],
+    // v3 -> v4: runs can be taken on a promise (BACKLOG-2 phase 16). Nothing before this
+    // made one, so the tallies start empty; history lines from before carry no mandate,
+    // which is true of them rather than missing from them.
+    mandatesKept: { ...(data.mandatesKept ?? {}) },
+    mandatesBroken: { ...(data.mandatesBroken ?? {}) },
+    history: (Array.isArray(data.history) ? data.history : []).map((r) => ({
+      ...r,
+      mandate: r.mandate ?? null,
+      mandateKept: r.mandateKept ?? false,
+    })),
     nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],

@@ -264,6 +264,10 @@ export interface GameState {
   stats: RunStats;
   /** Meta unlock ids in force for this run; gates modifiers and arcs that name a `requires`. */
   unlocked: string[];
+  /** The promise this run was taken on, or null for a run that promised nothing (phase 16). */
+  mandate: string | null;
+  /** The card count at which that promise was broken, or null while it still holds. */
+  mandateBrokenAt: number | null;
 }
 
 export interface RunSetup {
@@ -271,6 +275,8 @@ export interface RunSetup {
   modifiers?: string[];
   /** Unlock ids the player has earned; omitted means only always-available content. */
   unlocked?: string[];
+  /** The mandate the player took the job on, if they set themselves one (phase 16). */
+  mandate?: string | null;
 }
 
 /** Advisor traits the engine knows about (5.8). */

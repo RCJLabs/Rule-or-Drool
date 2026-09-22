@@ -36,6 +36,8 @@ export const LEGACIES: Record<string, string> = {
   habit_skim: "Money was taken by habit",
   habit_bend: "The rule bent for the same people",
   habit_clamp: "The answer was always the same one",
+  counted_late_boxes: "A district was counted after the close",
+  broke_mandate: "The promise it was taken on was broken",
 };
 
 export const LEGACY_FLAGS: ReadonlySet<string> = new Set(Object.keys(LEGACIES));

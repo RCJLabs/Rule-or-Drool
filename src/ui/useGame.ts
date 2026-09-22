@@ -110,21 +110,21 @@ export function useGame(lib: Library) {
   }, []);
 
   const start = useCallback(
-    (seed: number, align: PlayerAlign, daily?: { day: string; seed: number }) => {
+    (seed: number, align: PlayerAlign, mandate: string | null = null, daily?: { day: string; seed: number }) => {
       setSaved(null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = daily ?? null;
-      setState(beginRun(lib, seed, align, metaRef.current.unlocks));
+      setState(beginRun(lib, seed, align, metaRef.current.unlocks, mandate));
     },
     [lib],
   );
 
   /** Today's shared seed (5.10). Same run for everyone on the same UTC day. */
   const startDaily = useCallback(
-    (align: PlayerAlign) => {
+    (align: PlayerAlign, mandate: string | null = null) => {
       const d = dailySeedFor();
-      start(d.seed, align, d);
+      start(d.seed, align, mandate, d);
     },
     [start],
   );

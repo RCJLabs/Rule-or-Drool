@@ -1,5 +1,6 @@
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
+import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX } from "./mandates";
 import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
@@ -183,6 +184,20 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     for (const f of mod.flags ?? []) if (!flags.includes(f)) flags.push(f);
   }
 
+  // A mandate is applied with the modifiers and before the clamp, because what you
+  // promised to get the job is part of the position you start from (phase 16).
+  const mandate = setup.mandate ? MANDATES_BY_ID.get(setup.mandate) : undefined;
+  if (setup.mandate && !mandate) throw new Error(`unknown mandate id: ${setup.mandate}`);
+  if (mandate) {
+    for (const [k, delta] of Object.entries(fxDeltas(mandate.meterStart))) {
+      meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + delta);
+    }
+    for (const f of mandate.startFlags ?? []) if (!flags.includes(f)) flags.push(f);
+    // The deck can be written for a particular promise, which is what lets it put the
+    // promise and the country on opposite sides of one card.
+    flags.push(`${MANDATE_FLAG_PREFIX}${mandate.id}`);
+  }
+
   for (const k of METER_KEYS) {
     meters[k] = Math.max(cfg.meterStartMin, Math.min(cfg.meterStartMax, meters[k]));
   }
@@ -228,5 +243,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     rivalStanding: cfg.rivalStart,
     stats: { ...EMPTY_STATS },
     unlocked: [...(setup.unlocked ?? [])],
+    mandate: mandate?.id ?? null,
+    mandateBrokenAt: null,
   };
 }

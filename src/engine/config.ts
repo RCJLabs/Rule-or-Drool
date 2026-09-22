@@ -38,6 +38,12 @@ export interface EngineConfig {
   electionLossEnding: string;
   /** Flag that replaces elections with the coup-risk check (5.4). */
   electionsAbolishedFlag: string;
+  /**
+   * Drift lost each time the slot where an election would have been passes without one.
+   * Abolishing the vote takes away the cheating that the deck charges drift for, so
+   * without this a run that abolishes them early reads as the honest one (phase 16).
+   */
+  decreeDriftPull: number;
   /** Coup risk per check = coupBase + coupPerPoint * (shortfall of Order + Institutions below 50). Added. */
   coupBase: number;
   coupPerPoint: number;
@@ -136,6 +142,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   rivalEnding: "rival_wins",
   electionLossEnding: "election_loss",
   electionsAbolishedFlag: "elections_abolished",
+  decreeDriftPull: 16,
   coupBase: 0.05,
   coupPerPoint: 0.01,
   coupNeedsInst: 12,

@@ -26,6 +26,8 @@ export function emptyMeta(): MetaState {
     legacies: {},
     advisorsKept: {},
     advisorsFired: {},
+    mandatesKept: {},
+    mandatesBroken: {},
     history: [],
     nearMissed: [],
     daily: null,
@@ -65,6 +67,8 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     legacies: { ...meta.legacies },
     advisorsKept: { ...meta.advisorsKept },
     advisorsFired: { ...meta.advisorsFired },
+    mandatesKept: { ...meta.mandatesKept },
+    mandatesBroken: { ...meta.mandatesBroken },
     history: meta.history,
     nearMissed: [...meta.nearMissed],
   };
@@ -87,6 +91,14 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   }
   for (const id of run.stats.firedAdvisors) next.advisorsFired[id] = (next.advisorsFired[id] ?? 0) + 1;
 
+  // A promise only counts as kept by a run that finished; a run cut short by an ouster
+  // was still governed under it, which is the whole point of choosing one.
+  const mandateKept = !!run.mandate && run.mandateBrokenAt === null;
+  if (run.mandate) {
+    const tally = mandateKept ? next.mandatesKept : next.mandatesBroken;
+    tally[run.mandate] = (tally[run.mandate] ?? 0) + 1;
+  }
+
   const record: RunRecord = {
     align: run.align,
     cards: run.cardCount,
@@ -95,6 +107,8 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     band,
     rival: run.cabinet[lib.config.rivalRole] ?? null,
     legacies,
+    mandate: run.mandate,
+    mandateKept,
   };
   next.history = [record, ...meta.history].slice(0, HISTORY_LENGTH);
   if (daily) {

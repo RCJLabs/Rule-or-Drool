@@ -3,6 +3,7 @@ import { content, library } from "../src/content";
 import { STRINGS } from "../src/content/strings";
 import { LEGACIES } from "../src/meta";
 import { buildLibrary } from "../src/engine/library";
+import { BROKE_MANDATE_FLAG } from "../src/engine/mandates";
 import { BANDS } from "../src/engine/types";
 import { validateContent } from "../src/validate";
 import { makeFixture } from "./fixtures/content";
@@ -254,7 +255,9 @@ describe("content: the shape of a run", () => {
   it("keeps every legacy collectable, and every durable flag named", () => {
     // A legacy nothing can set is a codex row nobody can ever fill (BACKLOG item 9's lesson).
     const settable = new Set(content.cards.flatMap((c) => [...(c.left.setFlags ?? []), ...(c.right.setFlags ?? [])]));
+    // The engine sets this one itself, when the promise a run was taken on goes (phase 16).
     for (const flag of Object.keys(LEGACIES)) {
+      if (flag === BROKE_MANDATE_FLAG) continue;
       expect(settable.has(flag), `${flag} is named a legacy but no card sets it`).toBe(true);
     }
     // And the reverse: a flag that outlives the arc that set it should be named, or the

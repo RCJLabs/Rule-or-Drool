@@ -222,6 +222,22 @@ describe("meta save", () => {
   });
 });
 
+describe("mandate saves come forward", () => {
+  it("gives a save from before promises the empty tallies and a history that promised nothing", () => {
+    const old = {
+      v: 3,
+      runs: 2,
+      endings: { riots: 1 },
+      history: [{ align: "left", cards: 40, era: 2, endingId: "riots", band: "decay", rival: null, legacies: [] }],
+    };
+    const meta = migrateMeta(old)!;
+    expect(meta.v).toBe(META_SAVE_VERSION);
+    expect(meta.mandatesKept).toEqual({});
+    expect(meta.mandatesBroken).toEqual({});
+    expect(meta.history[0]).toMatchObject({ mandate: null, mandateKept: false });
+  });
+});
+
 describe("codexProgress", () => {
   it("counts against the real content totals", () => {
     const p = codexProgress(library, emptyMeta());
@@ -270,6 +286,34 @@ describe("the codex as a history", () => {
     expect(fold.meta.advisorsKept).toEqual({ c_a: 1 });
     expect(fold.meta.advisorsKept.adv_wrenne).toBeUndefined();
     expect(fold.meta.advisorsFired).toEqual({ c_b: 2 });
+  });
+
+  it("remembers the promise a run was taken on, and whether it survived it", () => {
+    const kept = foldRun(library, emptyMeta(), withHistory({ mandate: "m_broad", mandateBrokenAt: null }));
+    expect(kept.meta.mandatesKept).toEqual({ m_broad: 1 });
+    expect(kept.meta.mandatesBroken).toEqual({});
+    expect(kept.meta.history[0]).toMatchObject({ mandate: "m_broad", mandateKept: true });
+
+    const broken = foldRun(library, kept.meta, withHistory({ mandate: "m_broad", mandateBrokenAt: 31 }));
+    expect(broken.meta.mandatesKept).toEqual({ m_broad: 1 });
+    expect(broken.meta.mandatesBroken).toEqual({ m_broad: 1 });
+    expect(broken.meta.history[0]).toMatchObject({ mandate: "m_broad", mandateKept: false });
+
+    // A run that promised nothing cannot have kept anything.
+    const none = foldRun(library, emptyMeta(), withHistory());
+    expect(none.meta.mandatesKept).toEqual({});
+    expect(none.meta.history[0]).toMatchObject({ mandate: null, mandateKept: false });
+  });
+
+  it("only counts the mandate objectives for a run that took one on", () => {
+    const l = library;
+    const plain = foldRun(l, emptyMeta(), withHistory());
+    expect(plain.newObjectives).not.toContain("obj_mandate_kept");
+    const kept = foldRun(l, emptyMeta(), withHistory({ mandate: "m_loyal", mandateBrokenAt: null }));
+    expect(kept.newObjectives).toContain("obj_mandate_kept");
+    expect(kept.newObjectives).toContain("obj_mandate_finale");
+    const broke = foldRun(l, emptyMeta(), withHistory({ mandate: "m_loyal", mandateBrokenAt: 9 }));
+    expect(broke.newObjectives).not.toContain("obj_mandate_kept");
   });
 
   it("keeps a bounded history, newest first", () => {
