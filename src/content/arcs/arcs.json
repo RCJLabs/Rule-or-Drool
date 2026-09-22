@@ -516,5 +516,65 @@
       "arc_es2",
       "arc_es3"
     ]
+  },
+  {
+    "id": "arc_rival_reformer",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "rival": {
+          "gt": 40
+        },
+        "drift": {
+          "lt": 15
+        }
+      }
+    },
+    "weight": 10,
+    "cards": [
+      "arc_rv1",
+      "arc_rv2",
+      "arc_rv3"
+    ]
+  },
+  {
+    "id": "arc_rival_demagogue",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "rival": {
+          "gt": 40
+        },
+        "drift": {
+          "gt": 14
+        }
+      }
+    },
+    "weight": 10,
+    "cards": [
+      "arc_rd1",
+      "arc_rd2",
+      "arc_rd3"
+    ]
   }
 ]

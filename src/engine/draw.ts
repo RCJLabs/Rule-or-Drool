@@ -38,10 +38,10 @@ const LADDER: readonly Relax[] = [
   { cooldown: true, band: true, era: true },
 ];
 
-function eligible(card: Card, state: GameState, relax: Relax): boolean {
+function eligible(lib: Library, card: Card, state: GameState, relax: Relax): boolean {
   if (!relax.cooldown && state.cooldown.includes(card.id)) return false;
   if (card.oneShot && state.seen.includes(card.id)) return false;
-  return condMet(card.cond, state);
+  return condMet(lib, card.cond, state);
 }
 
 function poolCandidates(lib: Library, state: GameState, relax: Relax): Card[] {
@@ -57,7 +57,7 @@ function poolCandidates(lib: Library, state: GameState, relax: Relax): Card[] {
         for (const c of list) {
           if (seenIds.has(c.id)) continue;
           seenIds.add(c.id);
-          if (eligible(c, state, relax)) out.push(c);
+          if (eligible(lib, c, state, relax)) out.push(c);
         }
       }
     }
@@ -84,7 +84,7 @@ function drawElection(lib: Library, state: GameState): [Card | null, GameState] 
         alignOk(c, state) &&
         (relax.era || c.eras.includes(state.era)) &&
         (relax.band || c.bands.includes(state.band)) &&
-        eligible(c, state, { ...relax, cooldown: true }),
+        eligible(lib, c, state, { ...relax, cooldown: true }),
     );
     if (cands.length > 0) return pickFrom(lib, state, cands);
   }
@@ -103,7 +103,7 @@ export function tickQueue(lib: Library, state: GameState): [Card | null, GameSta
   for (const { q, i } of due) {
     const card = getCard(lib, q.id);
     dropped.add(i);
-    if (condMet(card.cond, state)) {
+    if (condMet(lib, card.cond, state)) {
       found = card;
       break;
     }
@@ -117,7 +117,7 @@ function drawArcContinue(lib: Library, state: GameState): [Card | null, GameStat
   for (const a of state.activeArcs) {
     if (!a.nextCard) continue;
     const card = getCard(lib, a.nextCard);
-    if (condMet(card.cond, state)) cands.push(card);
+    if (condMet(lib, card.cond, state)) cands.push(card);
   }
   if (cands.length === 0) return [null, state];
   const [p, s1] = roll(state);
@@ -146,7 +146,7 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
     if (!alignOk(arc, state)) continue;
     if (!arc.entry.eras.includes(state.era)) continue;
     if (!arc.entry.bands.includes(state.band)) continue;
-    if (!condMet(arc.entry, state)) continue;
+    if (!condMet(lib, arc.entry, state)) continue;
     if (arc.cards.length === 0) continue;
     cands.push(arc);
   }

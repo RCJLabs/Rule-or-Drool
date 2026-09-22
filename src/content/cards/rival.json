@@ -1,0 +1,469 @@
+[
+  {
+    "id": "rv_first_speech",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} gave a speech about you today. They did not use your name once, which took some doing.",
+    "left": {
+      "label": "Answer it on the record",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 3,
+      "rival": -4
+    },
+    "right": {
+      "label": "Send someone to heckle",
+      "fx": {
+        "base": 4,
+        "public": -3,
+        "inst": -2
+      },
+      "drift": -3,
+      "rival": 3
+    }
+  },
+  {
+    "id": "rv_shared_stage",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "You and {rival} are booked on the same platform at the harvest fair. Someone thought it would look healthy.",
+    "left": {
+      "label": "Share the stage",
+      "fx": {
+        "public": 4,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 4,
+      "rival": -3
+    },
+    "right": {
+      "label": "Cancel at the last hour",
+      "fx": {
+        "base": 3,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3,
+      "rival": 4
+    }
+  },
+  {
+    "id": "rv_defection",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Your transport minister has been seen at {rival}'s house twice, and the second time stayed for dinner.",
+    "left": {
+      "label": "Let them go",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 2
+      },
+      "drift": 3,
+      "rival": 3
+    },
+    "right": {
+      "label": "Make an example",
+      "fx": {
+        "order": 3,
+        "base": 4,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -3,
+      "rival": 2
+    }
+  },
+  {
+    "id": "rv_poll",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "A poll has {rival} within four points. The pollster is respectable, which is the annoying part.",
+    "cond": {
+      "meters": {
+        "rival": {
+          "gt": 48
+        }
+      }
+    },
+    "left": {
+      "label": "Publish your own numbers",
+      "fx": {
+        "inst": 3,
+        "public": 2,
+        "base": -3
+      },
+      "drift": 3,
+      "rival": -2
+    },
+    "right": {
+      "label": "Buy the pollster",
+      "fx": {
+        "money": -4,
+        "inst": -4,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "rival": 4
+    }
+  },
+  {
+    "id": "rv_funeral",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "You and {rival} are both at the old president's funeral. The cameras are behind you and they know it.",
+    "left": {
+      "label": "Shake their hand",
+      "fx": {
+        "public": 4,
+        "inst": 3,
+        "base": -5
+      },
+      "drift": 4,
+      "rival": -3
+    },
+    "right": {
+      "label": "Leave before the hymn",
+      "fx": {
+        "base": 4,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3,
+      "rival": 4
+    }
+  },
+  {
+    "id": "rv_crossing",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} has adopted your housing policy word for word and is being praised for it.",
+    "left": {
+      "label": "Say you are glad",
+      "fx": {
+        "public": 4,
+        "base": -5,
+        "inst": 3
+      },
+      "drift": 4,
+      "rival": -2
+    },
+    "right": {
+      "label": "Abandon the policy",
+      "fx": {
+        "base": 4,
+        "public": -5,
+        "inst": -4,
+        "money": 2
+      },
+      "drift": -5,
+      "rival": 5
+    }
+  },
+  {
+    "id": "rv_l_conference",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} has been invited to address your own union congress, and the invitation came from the floor.",
+    "left": {
+      "label": "Let them speak",
+      "fx": {
+        "backers": 4,
+        "public": 3,
+        "base": -5,
+        "inst": 3
+      },
+      "drift": 4,
+      "rival": -3
+    },
+    "right": {
+      "label": "Cancel the congress",
+      "fx": {
+        "backers": -5,
+        "base": 4,
+        "inst": -4,
+        "order": 2
+      },
+      "drift": -4,
+      "rival": 5
+    }
+  },
+  {
+    "id": "rv_l_picket",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} joined the picket line this morning. They have never joined a picket line before and it showed.",
+    "left": {
+      "label": "Settle the strike",
+      "fx": {
+        "backers": 5,
+        "money": -5,
+        "public": 2
+      },
+      "drift": 4,
+      "rival": -4
+    },
+    "right": {
+      "label": "Photograph their shoes",
+      "fx": {
+        "base": 4,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -3,
+      "rival": 2
+    }
+  },
+  {
+    "id": "rv_r_prayer",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} has started attending the cathedral, front row, and the bishop mentioned them warmly.",
+    "left": {
+      "label": "Attend more often",
+      "fx": {
+        "base": 4,
+        "money": -2,
+        "public": -2
+      },
+      "drift": -2,
+      "rival": 2
+    },
+    "right": {
+      "label": "Audit the diocese",
+      "fx": {
+        "money": 4,
+        "base": -6,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 4,
+      "rival": -3
+    }
+  },
+  {
+    "id": "rv_r_donors",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Three of your donors took {rival} to lunch. They say it was about the river, and it was not about the river.",
+    "left": {
+      "label": "Ask them straight",
+      "fx": {
+        "backers": -3,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 3,
+      "rival": -3
+    },
+    "right": {
+      "label": "Outbid the lunch",
+      "fx": {
+        "money": -5,
+        "backers": 5,
+        "inst": -3
+      },
+      "drift": -3,
+      "rival": 3
+    }
+  },
+  {
+    "id": "rv_ascendant",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} no longer asks to meet you. Their office says they will be in touch after the vote.",
+    "cond": {
+      "meters": {
+        "rival": {
+          "gt": 48
+        }
+      }
+    },
+    "left": {
+      "label": "Ask to meet anyway",
+      "fx": {
+        "inst": 3,
+        "public": 3,
+        "base": -4
+      },
+      "drift": 4,
+      "rival": -4
+    },
+    "right": {
+      "label": "Stop taking their calls",
+      "fx": {
+        "base": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -3,
+      "rival": 4
+    }
+  },
+  {
+    "id": "rv_offer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} has offered you the ministry of your choice in a government they have not yet formed.",
+    "cond": {
+      "meters": {
+        "rival": {
+          "gt": 48
+        }
+      }
+    },
+    "left": {
+      "label": "Laugh it off publicly",
+      "fx": {
+        "base": 4,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -2,
+      "rival": 3
+    },
+    "right": {
+      "label": "Ask which ministry",
+      "fx": {
+        "inst": 4,
+        "base": -6,
+        "public": 3
+      },
+      "drift": 3,
+      "rival": -2
+    }
+  }
+]

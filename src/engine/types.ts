@@ -43,7 +43,7 @@ export type Meters = Record<MeterKey, number>;
  */
 export type FxSpec = Partial<Record<MeterKey, number>> & { mood?: number };
 /** Conditions may also read `mood`, which is the average of the three blocs. */
-export type CondMeterKey = MeterKey | "mood";
+export type CondMeterKey = MeterKey | "mood" | "rival" | "drift";
 
 export interface MeterCond {
   lt?: number;
@@ -73,6 +73,12 @@ export interface Choice {
   clearFlags?: string[];
   enqueue?: Enqueue[];
   /** Arc branching: id of the next arc card. Omit to exit the arc. */
+  /**
+   * How much this choice hands your rival, on their 0-100 standing. Positive helps them.
+   * Most movement is automatic (they campaign on whatever you just did); this is for
+   * choices that are specifically about them.
+   */
+  rival?: number;
   next?: string;
   /**
    * Arc branching that differs by side, so a shared arc can tell a different story to each
@@ -125,6 +131,12 @@ export interface Advisor {
   role: string;
   name: string;
   traits: string[];
+  /**
+   * Which side this person belongs to. Cabinet roles leave it off and serve anyone; the
+   * rival sets it, and run setup hands you the one from the side you did not pick
+   * (BACKLOG item 7).
+   */
+  align?: PlayerAlign;
 }
 
 export interface Modifier {
@@ -219,6 +231,8 @@ export interface GameState {
   cooldown: string[];
   activeArcs: ActiveArc[];
   cabinet: Record<string, string>;
+  /** The rival's standing, 0-100. They lead the side you did not pick (5.9, item 7). */
+  rivalStanding: number;
   modifiers: string[];
   nextElectionAt: number;
   over: RunOver | null;

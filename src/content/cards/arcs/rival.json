@@ -1,0 +1,270 @@
+[
+  {
+    "id": "arc_rv1",
+    "type": "arc",
+    "arc": "arc_rival_reformer",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Your rival has published a plan. It is costed, it is dull, and people are reading it on the train.",
+    "left": {
+      "label": "Cost it in public",
+      "fx": {
+        "inst": 4,
+        "base": -4,
+        "public": 3
+      },
+      "drift": 4,
+      "rival": -5
+    },
+    "right": {
+      "label": "Say they are foreign",
+      "fx": {
+        "base": 5,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -4,
+      "rival": 5,
+      "next": "arc_rv2",
+      "setFlags": [
+        "rival_smeared"
+      ]
+    }
+  },
+  {
+    "id": "arc_rv2",
+    "type": "arc",
+    "arc": "arc_rival_reformer",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The smear did not take. They answered it on television, slowly, holding the page, and the clip has been seen four million times.",
+    "cond": {
+      "flags": [
+        "rival_smeared"
+      ]
+    },
+    "left": {
+      "label": "Debate them on it",
+      "fx": {
+        "public": 5,
+        "base": -4,
+        "inst": 3
+      },
+      "drift": 5,
+      "rival": -8,
+      "clearFlags": [
+        "rival_smeared"
+      ]
+    },
+    "right": {
+      "label": "Cancel the debate",
+      "fx": {
+        "base": 4,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -4,
+      "rival": 7,
+      "next": "arc_rv3"
+    }
+  },
+  {
+    "id": "arc_rv3",
+    "type": "arc",
+    "arc": "arc_rival_reformer",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "They are ahead in every district you have not personally visited, and in two that you have.",
+    "cond": {
+      "flags": [
+        "rival_smeared"
+      ]
+    },
+    "left": {
+      "label": "Stand down for them",
+      "drift": 5,
+      "ending": "rival_wins"
+    },
+    "right": {
+      "label": "Have them disqualified",
+      "fx": {
+        "order": 4,
+        "inst": -6,
+        "public": -6,
+        "base": 4
+      },
+      "drift": -6,
+      "rival": 9,
+      "clearFlags": [
+        "rival_smeared"
+      ]
+    }
+  },
+  {
+    "id": "arc_rd1",
+    "type": "arc",
+    "arc": "arc_rival_demagogue",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "Your rival has stopped costing anything. The rallies are larger than the plan ever was.",
+    "left": {
+      "label": "Publish the numbers",
+      "fx": {
+        "inst": 4,
+        "base": -4,
+        "public": 3
+      },
+      "drift": 4,
+      "rival": -5
+    },
+    "right": {
+      "label": "Book a larger hall",
+      "fx": {
+        "base": 5,
+        "money": -3,
+        "inst": -3
+      },
+      "drift": -4,
+      "rival": 5,
+      "next": "arc_rd2",
+      "setFlags": [
+        "rival_auction"
+      ]
+    }
+  },
+  {
+    "id": "arc_rd2",
+    "type": "arc",
+    "arc": "arc_rival_demagogue",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "They have promised to abolish the thing you are proudest of. The crowd liked it more than you expected.",
+    "cond": {
+      "flags": [
+        "rival_auction"
+      ]
+    },
+    "left": {
+      "label": "Defend it on its merits",
+      "fx": {
+        "inst": 4,
+        "public": 4,
+        "base": -4
+      },
+      "drift": 5,
+      "rival": -8,
+      "clearFlags": [
+        "rival_auction"
+      ]
+    },
+    "right": {
+      "label": "Outbid them",
+      "fx": {
+        "base": 5,
+        "money": -5,
+        "inst": -4
+      },
+      "drift": -4,
+      "rival": 7,
+      "next": "arc_rd3"
+    }
+  },
+  {
+    "id": "arc_rd3",
+    "type": "arc",
+    "arc": "arc_rival_demagogue",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The auction is over. They bid higher because they will never have to pay, and everybody present understood that.",
+    "cond": {
+      "flags": [
+        "rival_auction"
+      ]
+    },
+    "left": {
+      "label": "Hand it to them",
+      "drift": 5,
+      "ending": "rival_wins"
+    },
+    "right": {
+      "label": "Outlaw their party",
+      "fx": {
+        "order": 5,
+        "inst": -6,
+        "public": -6,
+        "base": 4
+      },
+      "drift": -6,
+      "rival": 9,
+      "clearFlags": [
+        "rival_auction"
+      ]
+    }
+  }
+]

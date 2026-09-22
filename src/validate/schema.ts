@@ -111,11 +111,16 @@ const BAND_LIST: Spec = { kind: "array", items: BAND, nonEmpty: true, unique: tr
  */
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
 const meterMap = (values: Spec): Spec => ({ kind: "record", keys: FX_KEYS, values });
+/**
+ * Conditions can also read `rival`, the rival's current pressure (BACKLOG item 7). Effects
+ * cannot: a choice moves the rival through its own `rival` field, not through `fx`.
+ */
+const COND_KEYS = [...FX_KEYS, "rival", "drift"] as const;
 
 const COND_FIELDS: Record<string, Spec> = {
   flags: IDS,
   notFlags: IDS,
-  meters: meterMap({ kind: "object", required: [], fields: { lt: INT, gt: INT } }),
+  meters: { kind: "record", keys: COND_KEYS, values: { kind: "object", required: [], fields: { lt: INT, gt: INT } } },
 };
 
 export const COND_SPEC: Spec = { kind: "object", required: [], fields: COND_FIELDS };
@@ -127,6 +132,7 @@ export const CHOICE_SPEC: Spec = {
     label: NON_EMPTY,
     fx: meterMap(INT),
     drift: INT,
+    rival: INT,
     setFlags: IDS,
     clearFlags: IDS,
     enqueue: { kind: "array", items: { kind: "object", required: ["id", "delay"], fields: { id: ID, delay: POSITIVE_INT } } },
@@ -176,7 +182,7 @@ export const ARC_SPEC: Spec = {
 export const ADVISOR_SPEC: Spec = {
   kind: "object",
   required: ["id", "role", "name", "traits"],
-  fields: { id: ID, role: ID, name: NON_EMPTY, traits: IDS },
+  fields: { id: ID, role: ID, name: NON_EMPTY, traits: IDS, align: { kind: "enum", values: PLAYER_ALIGNS } },
 };
 
 export const MODIFIER_SPEC: Spec = {

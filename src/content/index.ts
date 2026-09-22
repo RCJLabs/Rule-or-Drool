@@ -44,9 +44,11 @@ import arcCommune from "./cards/arcs/commune.json";
 import arcDynasty from "./cards/arcs/dynasty.json";
 import arcConcordat from "./cards/arcs/concordat.json";
 import arcEstates from "./cards/arcs/estates.json";
+import arcRival from "./cards/arcs/rival.json";
 import consequences from "./cards/consequences.json";
 import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
+import rivalCards from "./cards/rival.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
 import modifiers from "./modifiers.json";
@@ -115,9 +117,11 @@ export const content: Content = {
     ...asCards(arcDynasty, "arcs/dynasty.json"),
     ...asCards(arcConcordat, "arcs/concordat.json"),
     ...asCards(arcEstates, "arcs/estates.json"),
+    ...asCards(arcRival, "arcs/rival.json"),
     ...asCards(consequences, "consequences.json"),
     ...asCards(chains, "chains.json"),
     ...asCards(promises, "promises.json"),
+    ...asCards(rivalCards, "rival.json"),
   ],
   arcs: arcs as unknown as Arc[],
   advisors: advisors as Advisor[],

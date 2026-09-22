@@ -3,7 +3,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { newRun } from "../../src/engine/state";
 import { RUN_SAVE_VERSION } from "../../src/version";
-import { EMPTY_STATS } from "../../src/engine/types";
+import { EMPTY_STATS, type GameState } from "../../src/engine/types";
+import { DEFAULT_CONFIG } from "../../src/engine/config";
 import { clearRun, hintSeen, loadRun, markHintSeen, migrateRun, saveRun } from "../../src/ui/save";
 
 describe("save", () => {
@@ -58,5 +59,16 @@ describe("save", () => {
     expect(hintSeen()).toBe(false);
     markHintSeen();
     expect(hintSeen()).toBe(true);
+  });
+});
+
+describe("run save: the rival", () => {
+  it("gives a run saved before the rival existed one to face", () => {
+    const { rivalStanding: _gone, ...v3 } = newRun(library, 3, { align: "left" });
+    const migrated = migrateRun(3, v3 as GameState)!;
+    expect(migrated.rivalStanding).toBe(DEFAULT_CONFIG.rivalStart);
+    // A current save is left as it is.
+    const current = { ...newRun(library, 3, { align: "left" }), rivalStanding: 77 };
+    expect(migrateRun(RUN_SAVE_VERSION, current)!.rivalStanding).toBe(77);
   });
 });

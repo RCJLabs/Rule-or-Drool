@@ -10,6 +10,8 @@ import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 
 /** Content may write and read `mood`, the shorthand across the coalition blocs. */
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
+/** Conditions can read the rival's pressure too; effects cannot (BACKLOG item 7). */
+const COND_KEYS = [...FX_KEYS, "rival", "drift"] as const;
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
@@ -47,6 +49,7 @@ export function engineEndings(config: EngineConfig): string[] {
   return [
     ...METER_KEYS.flatMap((k) => [config.meterEndings[k].low, config.meterEndings[k].high]),
     config.electionLossEnding,
+    config.rivalEnding,
     config.coupEnding,
     config.cultEnding,
     ...BANDS.map((b) => `${config.finalePrefix}${b}`),
@@ -168,12 +171,14 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     for (const f of cond.notFlags ?? []) note(flagReads, f, { ...where, path: `${path}.notFlags` });
     const both = (cond.flags ?? []).filter((f) => (cond.notFlags ?? []).includes(f));
     for (const f of both) issues.error("cond-unsatisfiable", `flag "${f}" is required and forbidden at once`, { ...where, path });
-    for (const k of FX_KEYS) {
+    for (const k of COND_KEYS) {
       const m = cond.meters?.[k];
       if (!m) continue;
       const p = `${path}.meters.${k}`;
-      if (m.lt !== undefined && m.lt <= 0) issues.error("cond-unsatisfiable", `${k} < ${m.lt} can never hold (meters are 0..100)`, { ...where, path: p });
-      if (m.gt !== undefined && m.gt >= 100) issues.error("cond-unsatisfiable", `${k} > ${m.gt} can never hold (meters are 0..100)`, { ...where, path: p });
+      // Drift is the one signed reading: -100..100, where everything else is 0..100.
+      const floor = k === "drift" ? -100 : 0;
+      if (m.lt !== undefined && m.lt <= floor) issues.error("cond-unsatisfiable", `${k} < ${m.lt} can never hold (${k} is ${floor}..100)`, { ...where, path: p });
+      if (m.gt !== undefined && m.gt >= 100) issues.error("cond-unsatisfiable", `${k} > ${m.gt} can never hold (${k} is ${floor}..100)`, { ...where, path: p });
       if (m.lt !== undefined && m.gt !== undefined && m.lt - m.gt < 2) {
         issues.error("cond-unsatisfiable", `${k} > ${m.gt} and < ${m.lt} leaves no integer value`, { ...where, path: p });
       }
@@ -210,6 +215,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       }
       if (card.type !== "election" && (ch.honest !== undefined || ch.electionDelay !== undefined)) {
         issues.error("honest-misplaced", `honest / electionDelay only mean something on election cards`, { ...where, path: side });
+      }
+      if (ch.fireSpeaker && card.speaker === cfg.rivalRole) {
+        issues.error("fire-the-rival", `the rival is not yours to replace; fireSpeaker does nothing here`, { ...where, path: `${side}.fireSpeaker` });
       }
       if (ch.fireSpeaker && (content.advisors.filter((a) => a.role === card.speaker).length < 2)) {
         issues.warn("fire-no-replacement", `role "${card.speaker}" has no second advisor, so firing does nothing`, { ...where, path: `${side}.fireSpeaker` });

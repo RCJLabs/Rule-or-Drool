@@ -31,6 +31,7 @@ export const ENDING_IDS = [
   "state_collapse",
   "paralysis",
   "election_loss",
+  "rival_wins",
   "coup",
   "finale_decay",
   "finale_muddle",

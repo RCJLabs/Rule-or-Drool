@@ -27,6 +27,16 @@ export function findEpilogue(lib: Pick<Library, "epilogues">, band: Band, align:
   return best;
 }
 
+/**
+ * Fill `{rival}` with the name of the person who ran against you. Endings are shared text,
+ * but the rival is a specific someone from the side you did not pick (BACKLOG item 7).
+ */
+export function withRival(lib: Library, state: GameState, text: string): string {
+  if (!text.includes("{rival}")) return text;
+  const name = lib.advisorsById.get(state.cabinet[lib.config.rivalRole] ?? "")?.name;
+  return text.replaceAll("{rival}", name ?? "your rival");
+}
+
 export function epilogueByKey(lib: Library, key: string): Epilogue | null {
   return lib.epilogues.find((e) => epilogueKey(e) === key) ?? null;
 }

@@ -250,13 +250,56 @@ Mechanically it currently does not.
 
 </details>
 
-## 7. Make the rival a person — *queued*
+## 7. Make the rival a person — *done*
+
+**Shipped.** Your rival leads the side you did not pick. Six of them, three a side, with
+names, and a run never hands you one of your own: measured over 16,000 runs, the rival was
+on the player's own side **0 times**. They are not in your cabinet either — the one role you
+cannot fire.
+
+**They are whoever you are not.** Standing is 0-100 and has two parts. They bank what you
+hand them: a stolen vote (+9), a clean one (-6), and the cards that are about them. The rest
+is read straight off how far you have gone — `|drift| x 0.35` — because the design called
+for a reformer while you rot and a demagogue while you ascend. Two confrontation arcs
+deliver exactly that, and the measurement says it lands:
+
+| | met the reformer | met the demagogue |
+|---|---|---|
+| greedy (rotting) | 25.9% | 0.3% |
+| mixed (middling) | 7.7% | 29.5% |
+| saint (ascending) | 0.0% | 37.0% |
+
+**Two engine findings made this work.** `state.band` only recomputes at an era boundary, so
+the first version — arcs gated on band — gave the demagogue to nobody: a run that ends in
+era 1 keeps the band it started in whatever its drift. Conditions can now read `drift`
+itself, which is what the flavour was always supposed to follow. And a rival who can only
+beat you at the ballot can never reach the player who most deserves one, because that player
+cheats every election: standing now feeds coup risk too, so taking the vote away does not
+take them away.
+
+12 new rival cards in the ordinary deck (they had 11 against the judge's 47), six arc cards,
+a `rival_wins` ending, and `{rival}` in any card or ending text resolves to the name of the
+person you actually faced.
+
+**Is the ending real?** A bot reaches it 0.7% of the time, which is the item 9 lesson again:
+bots never concede. A player who plays toward it — letting them grow, then standing down —
+ends there in **35.1% of runs**, and every run that reaches the arc's last card takes it.
+
+**Balance.** The first version cost 3 points of Ascent and pushed the unlocked case below
+its floor again: the rival content leaned negative (-3.92 against the deck's -3.52) and the
+election pull took another point. Trimming both puts it at **22.8% locked and 19.1%
+unlocked** over 32,000 runs each, above the 20.8% and 17.6% this item started from. All five
+targets pass in both states.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** The rival speaker has 11 cards against the judge's 47. The design called for a
 rival who mirrors the player: a demagogue while you ascend, a reformer while you decay.
 
 **Do.** A named, persistent rival across eras with a rising threat and a confrontation arc
 whose flavour follows your drift.
+
+</details>
 
 ## 8. Give each era a rule, not just a deck — *queued*
 

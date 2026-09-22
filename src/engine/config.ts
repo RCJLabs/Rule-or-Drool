@@ -13,6 +13,27 @@ export interface EngineConfig {
   electionInterval: number;
   /** An honest election is lost when the average of the three blocs falls below this (5.4). */
   electionMoodThreshold: number;
+  /** Role whose advisor is the rival, drawn from the side the player did not pick. */
+  rivalRole: string;
+  /** Where the rival's standing starts, on 0-100. */
+  rivalStart: number;
+  /** Standing the rival gains from an election you cheated, and loses from one you won clean. */
+  rivalCheatGain: number;
+  rivalHonestLoss: number;
+  /**
+   * How much of your distance from the middle the rival converts into standing. They are
+   * whoever you are not: a reformer while you rot, a demagogue while you ascend (5.9), so
+   * it is the size of your drift that feeds them, not its direction.
+   */
+  rivalDriftPull: number;
+  /** Each point of pressure above rivalStart raises the vote you need by this much. */
+  rivalElectionPull: number;
+  /** Lose a vote with the rival at or above this standing and it is their win, by name. */
+  rivalWinsAt: number;
+  /** Coup risk added per point of rival pressure above rivalStart, once the ballot is gone. */
+  rivalCoupPerPoint: number;
+  /** Ending when the rival takes the office from you, at the ballot or without one. */
+  rivalEnding: string;
   /** Ending used when an honest election is lost and the card names none. */
   electionLossEnding: string;
   /** Flag that replaces elections with the coup-risk check (5.4). */
@@ -77,6 +98,15 @@ export const DEFAULT_CONFIG: EngineConfig = {
   eraLength: 35,
   electionInterval: 25,
   electionMoodThreshold: 40,
+  rivalRole: "rival",
+  rivalStart: 30,
+  rivalCheatGain: 9,
+  rivalHonestLoss: 6,
+  rivalDriftPull: 0.35,
+  rivalElectionPull: 0.06,
+  rivalWinsAt: 60,
+  rivalCoupPerPoint: 0.006,
+  rivalEnding: "rival_wins",
   electionLossEnding: "election_loss",
   electionsAbolishedFlag: "elections_abolished",
   coupBase: 0.05,

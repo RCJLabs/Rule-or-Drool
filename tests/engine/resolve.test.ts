@@ -356,3 +356,23 @@ describe("resolve: arcs that branch by side", () => {
     expect(resolve(l, enter(l, "left"), "b1", "left").activeArcs).toEqual([{ id: "arc_b", nextCard: "b2l" }]);
   });
 });
+
+describe("resolve: losing to the rival", () => {
+  it("names them when they are somebody, and does not when they are not", () => {
+    const l = lib();
+    const losing = { meters: meters({ mood: 10 }), cardCount: 5 };
+    const weak = table(start(l, { ...losing, rivalStanding: 10, drift: 0 }), "el_basic");
+    const strong = table(start(l, { ...losing, rivalStanding: 90, drift: 0 }), "el_basic");
+    expect(resolve(l, weak, "el_basic", "left").over?.endingId).toBe(l.config.electionLossEnding);
+    expect(resolve(l, strong, "el_basic", "left").over?.endingId).toBe(l.config.rivalEnding);
+  });
+
+  it("banks a stolen vote for them and a clean one against them", () => {
+    const l = lib();
+    const s = start(l, { rivalStanding: 40, meters: meters({ mood: 90 }), cardCount: 5 });
+    const cheated = resolve(l, table(s, "el_basic"), "el_basic", "right");
+    const clean = resolve(l, table(s, "el_basic"), "el_basic", "left");
+    expect(cheated.rivalStanding).toBe(40 + l.config.rivalCheatGain);
+    expect(clean.rivalStanding).toBe(40 - l.config.rivalHonestLoss);
+  });
+});

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { bandOf, cabinetTraitFlags, condMet, exitBand, fxDeltas, moodOf, newRun, replaceAdvisor, rollSetup } from "../../src/engine/state";
+import { bandOf, cabinetTraitFlags, condMet, exitBand, fxDeltas, moodOf, newRun, replaceAdvisor, rivalPressure, rollSetup } from "../../src/engine/state";
+import { library } from "../../src/content";
 import { buildLibrary } from "../../src/engine/library";
 import { makeFixture } from "../fixtures/content";
 import { lib, meters, start } from "../helpers";
@@ -84,22 +85,22 @@ describe("condMet", () => {
   const s = start(l, { flags: ["a", "b"], meters: meters({ mood: 30, order: 70 }) });
 
   it("treats a missing cond as true", () => {
-    expect(condMet(undefined, s)).toBe(true);
+    expect(condMet(l, undefined, s)).toBe(true);
   });
 
   it("requires all flags and forbids notFlags", () => {
-    expect(condMet({ flags: ["a", "b"] }, s)).toBe(true);
-    expect(condMet({ flags: ["a", "c"] }, s)).toBe(false);
-    expect(condMet({ notFlags: ["c"] }, s)).toBe(true);
-    expect(condMet({ notFlags: ["b"] }, s)).toBe(false);
+    expect(condMet(l, { flags: ["a", "b"] }, s)).toBe(true);
+    expect(condMet(l, { flags: ["a", "c"] }, s)).toBe(false);
+    expect(condMet(l, { notFlags: ["c"] }, s)).toBe(true);
+    expect(condMet(l, { notFlags: ["b"] }, s)).toBe(false);
   });
 
   it("compares meters strictly", () => {
-    expect(condMet({ meters: { mood: { lt: 31 } } }, s)).toBe(true);
-    expect(condMet({ meters: { mood: { lt: 30 } } }, s)).toBe(false);
-    expect(condMet({ meters: { order: { gt: 69 } } }, s)).toBe(true);
-    expect(condMet({ meters: { order: { gt: 70 } } }, s)).toBe(false);
-    expect(condMet({ meters: { mood: { gt: 20, lt: 40 }, order: { gt: 60 } } }, s)).toBe(true);
+    expect(condMet(l, { meters: { mood: { lt: 31 } } }, s)).toBe(true);
+    expect(condMet(l, { meters: { mood: { lt: 30 } } }, s)).toBe(false);
+    expect(condMet(l, { meters: { order: { gt: 69 } } }, s)).toBe(true);
+    expect(condMet(l, { meters: { order: { gt: 70 } } }, s)).toBe(false);
+    expect(condMet(l, { meters: { mood: { gt: 20, lt: 40 }, order: { gt: 60 } } }, s)).toBe(true);
   });
 });
 
@@ -164,10 +165,10 @@ describe("coalition blocs", () => {
   it("lets a condition read mood or a single bloc", () => {
     const l = lib();
     const split = start(l, { meters: meters({ base: 20, backers: 80, public: 50 }) });
-    expect(condMet({ meters: { mood: { gt: 45 } } }, split)).toBe(true);
-    expect(condMet({ meters: { base: { lt: 25 } } }, split)).toBe(true);
-    expect(condMet({ meters: { base: { gt: 25 } } }, split)).toBe(false);
-    expect(condMet({ meters: { backers: { gt: 75 }, base: { lt: 25 } } }, split)).toBe(true);
+    expect(condMet(l, { meters: { mood: { gt: 45 } } }, split)).toBe(true);
+    expect(condMet(l, { meters: { base: { lt: 25 } } }, split)).toBe(true);
+    expect(condMet(l, { meters: { base: { gt: 25 } } }, split)).toBe(false);
+    expect(condMet(l, { meters: { backers: { gt: 75 }, base: { lt: 25 } } }, split)).toBe(true);
   });
 
   it("starts a run with every bloc and meter at the configured middle", () => {
@@ -175,5 +176,47 @@ describe("coalition blocs", () => {
     for (const k of ["base", "backers", "public", "money", "order", "inst"] as const) {
       expect(s.meters[k], k).toBe(50);
     }
+  });
+});
+
+describe("the rival", () => {
+  const l = lib();
+
+  it("comes from the side you did not pick, in either direction", () => {
+    // newRun, not the start() helper: that pins a trait-free cabinet and would mask this.
+    for (const align of ["left", "right"] as const) {
+      for (let seed = 1; seed <= 30; seed++) {
+        const s = newRun(library, seed, { align });
+        const rival = library.advisorsById.get(s.cabinet[library.config.rivalRole]!);
+        expect(rival, `${align} run has a rival`).toBeTruthy();
+        expect(rival!.align, `${align} run faces the other side`).not.toBe(align);
+      }
+    }
+  });
+
+  it("is not yours to replace", () => {
+    const s = newRun(library, 7, { align: "left" });
+    const before = s.cabinet[library.config.rivalRole];
+    expect(replaceAdvisor(library, s, library.config.rivalRole).cabinet[library.config.rivalRole]).toBe(before);
+    // A cabinet role still swaps.
+    const chief = s.cabinet.chief;
+    expect(replaceAdvisor(library, s, "chief").cabinet.chief).not.toBe(chief);
+  });
+
+  it("rises with how far you have gone, whichever way you went", () => {
+    const base = start(l, { rivalStanding: 30, drift: 0 });
+    const rotting = { ...base, drift: -80 };
+    const ascending = { ...base, drift: 80 };
+    expect(rivalPressure(l, base)).toBe(30);
+    expect(rivalPressure(l, rotting)).toBeGreaterThan(30);
+    expect(rivalPressure(l, rotting)).toBe(rivalPressure(l, ascending));
+  });
+
+  it("can be read by a condition, and so can drift", () => {
+    const s = start(l, { rivalStanding: 70, drift: -40 });
+    expect(condMet(l, { meters: { rival: { gt: 60 } } }, s)).toBe(true);
+    expect(condMet(l, { meters: { rival: { gt: 90 } } }, s)).toBe(false);
+    expect(condMet(l, { meters: { drift: { lt: -20 } } }, s)).toBe(true);
+    expect(condMet(l, { meters: { drift: { gt: 0 } } }, s)).toBe(false);
   });
 });

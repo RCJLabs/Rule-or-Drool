@@ -1,6 +1,7 @@
 import { endRun } from "./endings";
+export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
-import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, roll } from "./state";
+import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import type { Card, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
 
@@ -22,6 +23,22 @@ export function traitScale(lib: Library, state: GameState, speaker: string): { g
 }
 
 /**
+ * The share of the coalition an honest vote needs. A rival with standing takes votes that
+ * would otherwise be yours, so the bar rises as they do (item 7).
+ */
+export function electionBar(lib: Library, state: GameState): number {
+  const cfg = lib.config;
+  const over = Math.max(0, rivalPressure(lib, state) - cfg.rivalStart);
+  return cfg.electionMoodThreshold + over * cfg.rivalElectionPull;
+}
+
+/** Losing a vote to a rival who has become somebody is their win, and reads as one. */
+export function losingEnding(lib: Library, state: GameState): string {
+  const cfg = lib.config;
+  return rivalPressure(lib, state) >= cfg.rivalWinsAt ? cfg.rivalEnding : cfg.electionLossEnding;
+}
+
+/**
  * Apply one choice: meter effects (scaled by band volatility and advisor traits), drift, flags, queue,
  * arc pointer, election bookkeeping and any ending the choice itself carries.
  * Does not tick the card counter. Deterministic (no RNG), so preview() can reuse it.
@@ -34,8 +51,8 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   let endingId: string | null = choice.ending ?? null;
   if (card.type === "election") {
     if (choice.honest) {
-      const lost = moodOf(s.meters) < cfg.electionMoodThreshold;
-      endingId = lost ? (choice.ending ?? cfg.electionLossEnding) : null;
+      const lost = moodOf(s.meters) < electionBar(lib, s);
+      endingId = lost ? (choice.ending ?? losingEnding(lib, s)) : null;
     }
     const interval = choice.electionDelay ?? cfg.electionInterval;
     s = { ...s, nextElectionAt: s.cardCount + interval };
@@ -49,6 +66,10 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult * (v > 0 ? trait.gain : trait.loss)));
   }
   const drift = clampDrift(s.drift + (choice.drift ?? 0));
+  // What the rival banks: a stolen vote is the gift, a clean one is the cost. The rest of
+  // their threat is not banked at all, it is read off how far you have gone (rivalPressure).
+  const vote = card.type !== "election" ? 0 : choice.honest ? -cfg.rivalHonestLoss : cfg.rivalCheatGain;
+  const rivalStanding = clampMeter(s.rivalStanding + vote + (choice.rival ?? 0));
 
   let flags = s.flags;
   if (choice.clearFlags?.length) {
@@ -78,7 +99,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     queue = [...queue, { id: choice.next, dueAt: s.cardCount + 1 }];
   }
 
-  s = { ...s, meters, drift, flags, queue, activeArcs };
+  s = { ...s, meters, drift, flags, queue, activeArcs, rivalStanding };
   if (endingId) s = endRun(lib, s, endingId);
   return s;
 }
@@ -106,7 +127,9 @@ export function checkOuster(lib: Library, state: GameState): GameState {
 export function coupRisk(lib: Library, state: GameState): number {
   const cfg = lib.config;
   const shortfall = Math.max(0, 50 - state.meters.order) + Math.max(0, 50 - state.meters.inst);
-  return Math.min(1, Math.max(0, cfg.coupBase + cfg.coupPerPoint * shortfall));
+  // Take the ballot away and the rival does not go away with it; they just stop needing one.
+  const pressure = Math.max(0, rivalPressure(lib, state) - cfg.rivalStart);
+  return Math.min(1, Math.max(0, cfg.coupBase + cfg.coupPerPoint * shortfall + cfg.rivalCoupPerPoint * pressure));
 }
 
 /**
@@ -120,7 +143,10 @@ export function checkElection(lib: Library, state: GameState): GameState {
   if (state.cardCount < state.nextElectionAt) return state;
   const [p, s1] = roll(state);
   const s2 = { ...s1, nextElectionAt: s1.cardCount + cfg.electionInterval };
-  if (p < coupRisk(lib, s2)) return endRun(lib, s2, cfg.coupEnding);
+  if (p < coupRisk(lib, s2)) {
+    const theirs = rivalPressure(lib, s2) >= cfg.rivalWinsAt;
+    return endRun(lib, s2, theirs ? cfg.rivalEnding : cfg.coupEnding);
+  }
   return s2;
 }
 

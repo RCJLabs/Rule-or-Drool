@@ -1,3 +1,4 @@
+import { DEFAULT_CONFIG } from "../engine/config";
 import type { GameState, Meters } from "../engine/types";
 import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
 import { RUN_SAVE_VERSION } from "../version";
@@ -42,6 +43,9 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     for (const b of BLOC_KEYS) meters[b] = mood;
     s = { ...s, meters: meters as Meters };
   }
+  // v3 -> v4: the rival became a person with standing (BACKLOG item 7). A saved run has
+  // none, so it resumes with them where a run starts rather than dropping the save.
+  if (v < 4) s = { ...s, rivalStanding: DEFAULT_CONFIG.rivalStart };
   return s;
 }
 

@@ -1,3 +1,4 @@
+import { withRival } from "../engine/endings";
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { getCard, type Library } from "../engine/library";
@@ -98,7 +99,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
           <CardView
             key={`${card.id}:${state.cardCount}`}
             card={card}
-            text={degrade(card.text, degradeLevel(theme), state.seed)}
+            text={degrade(withRival(lib, state, card.text), degradeLevel(theme), state.seed)}
             speakerName={advisor?.name ?? roleLabel}
             roleLabel={roleLabel}
             advisorId={advisorId}

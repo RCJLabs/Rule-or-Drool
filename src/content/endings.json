@@ -108,5 +108,10 @@
     "id": "abandoned_backers",
     "title": "Funding Withdrawn",
     "text": "The people who paid for all of it stopped paying for all of it. The campaign office lights went out first."
+  },
+  {
+    "id": "rival_wins",
+    "title": "They Won",
+    "text": "The count came in on time, was not disputed, and was not close. {rival} gave a gracious speech about continuity."
   }
 ]

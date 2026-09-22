@@ -105,6 +105,40 @@ describe("elections", () => {
     expect(mean(locked)).toBeGreaterThan(mean(shared));
   });
 
+  it("gives each side a rival, and only the other side's", () => {
+    // You never run against yourself (BACKLOG item 7).
+    const rivals = content.advisors.filter((a) => a.role === library.config.rivalRole);
+    expect(rivals.length).toBeGreaterThanOrEqual(4);
+    for (const r of rivals) expect(r.align, `${r.id} takes a side`).toBeTruthy();
+    for (const side of ["left", "right"] as const) {
+      expect(rivals.filter((r) => r.align === side).length, `rivals for ${side}`).toBeGreaterThanOrEqual(2);
+    }
+    // Everybody else serves whoever is in office.
+    for (const a of content.advisors) {
+      if (a.role === library.config.rivalRole) continue;
+      expect(a.align, `${a.id} is nobody's partisan`).toBeUndefined();
+    }
+  });
+
+  it("mirrors the player: a reformer while you rot, a demagogue while you ascend", () => {
+    const rivalArcs = content.arcs.filter((a) => a.id.startsWith("arc_rival_"));
+    expect(rivalArcs.length).toBe(2);
+    const reformer = rivalArcs.find((a) => a.id.endsWith("reformer"))!;
+    const demagogue = rivalArcs.find((a) => a.id.endsWith("demagogue"))!;
+    // band only moves at an era boundary, so these have to read drift itself.
+    expect(reformer.entry.meters?.drift?.lt).toBeDefined();
+    expect(demagogue.entry.meters?.drift?.gt).toBeDefined();
+    expect(reformer.entry.meters!.drift!.lt!).toBeLessThanOrEqual(demagogue.entry.meters!.drift!.gt! + 1);
+    // And both wait until the rival is worth a story.
+    for (const a of rivalArcs) expect(a.entry.meters?.rival?.gt, `${a.id} waits for them`).toBeGreaterThan(0);
+  });
+
+  it("lets the player lose to the rival by choice, not only by accident", () => {
+    // The election and coup paths are rare; a run has to be able to end this way on purpose.
+    const byChoice = content.cards.filter((c) => [c.left, c.right].some((s) => s.ending === library.config.rivalEnding));
+    expect(byChoice.length).toBeGreaterThanOrEqual(2);
+  });
+
   it("lets a consequence have its own consequence", () => {
     // The premise is that the easy choice compounds. Chains used to be exactly one step
     // deep, so mechanically it did not (BACKLOG item 6).

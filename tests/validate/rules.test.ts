@@ -91,6 +91,25 @@ describe("rules: flags", () => {
   });
 });
 
+describe("rules: the rival", () => {
+  it("refuses to let a card fire the rival", () => {
+    const c = makeValid();
+    c.advisors.push({ id: "adv_r", role: "rival", name: "A Rival", traits: [], align: "right" });
+    c.cards.push(extraCard({ id: "rv_card", speaker: "rival", left: { label: "Fire them", drift: -1, fireSpeaker: true } }));
+    expect(codes(c)).toContain("error:fire-the-rival");
+  });
+
+  it("accepts rival and drift as conditions, and drift may be negative", () => {
+    const c = makeValid();
+    card(c, "ev_a").cond = { meters: { rival: { gt: 55 }, drift: { lt: -20 } } };
+    expect(codes(c)).toEqual([]);
+
+    const impossible = makeValid();
+    card(impossible, "ev_a").cond = { meters: { drift: { lt: -100 } } };
+    expect(codes(impossible)).toContain("error:cond-unsatisfiable");
+  });
+});
+
 describe("rules: delayed consequences", () => {
   it("rejects an enqueue chain that loops", () => {
     // An arc cycle is only a warning because a refusal always ends an arc. A queue has no

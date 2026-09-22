@@ -1,6 +1,6 @@
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
-import type { Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
+import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
 export function clampMeter(v: number): number {
@@ -49,15 +49,31 @@ export function hasFlag(state: GameState, flag: string): boolean {
   return state.flags.includes(flag);
 }
 
-export function condMet(cond: Cond | undefined, state: GameState): boolean {
+/**
+ * How big a threat the rival is right now, on 0-100. Part of it they have banked (stolen
+ * and clean votes, and cards that are about them); the rest is read straight off how far
+ * you have gone, because they are whoever you are not: a reformer while you rot, a
+ * demagogue while you ascend (5.9, BACKLOG item 7).
+ */
+export function rivalPressure(lib: Library, state: GameState): number {
+  return clampMeter(Math.round(state.rivalStanding + Math.abs(state.drift) * lib.config.rivalDriftPull));
+}
+
+export function condMet(lib: Library, cond: Cond | undefined, state: GameState): boolean {
   if (!cond) return true;
   if (cond.flags) for (const f of cond.flags) if (!state.flags.includes(f)) return false;
   if (cond.notFlags) for (const f of cond.notFlags) if (state.flags.includes(f)) return false;
   if (cond.meters) {
-    for (const k of [...METER_KEYS, "mood"] as const) {
+    for (const k of [...METER_KEYS, "mood", "rival", "drift"] as const) {
       const m = cond.meters[k];
       if (!m) continue;
-      const v = k === "mood" ? moodOf(state.meters) : state.meters[k];
+      // `band` only moves at an era boundary, so anything meant to follow where the run is
+      // heading has to read drift itself (BACKLOG item 7).
+      const v =
+        k === "mood" ? moodOf(state.meters)
+        : k === "rival" ? rivalPressure(lib, state)
+        : k === "drift" ? state.drift
+        : state.meters[k];
       if (m.lt !== undefined && !(v < m.lt)) return false;
       if (m.gt !== undefined && !(v > m.gt)) return false;
     }
@@ -101,9 +117,24 @@ export function rollSetup(lib: Library, seed: number, align: PlayerAlign, unlock
   return { align, modifiers, unlocked: [...unlocked] };
 }
 
-/** Swap the advisor in a role for another from the same pool, refreshing trait flags. */
+/**
+ * Who can hold a role in this run. Cabinet advisors carry no side and serve anyone; the
+ * rival carries one, and you get the rival from the side you did not pick (item 7).
+ */
+export function advisorPool(lib: Library, role: string, align: PlayerAlign): Advisor[] {
+  const all = lib.advisorsByRole.get(role) ?? [];
+  const sided = all.filter((a) => a.align !== undefined);
+  if (sided.length === 0) return [...all];
+  return sided.filter((a) => a.align !== align);
+}
+
+/**
+ * Swap the advisor in a role for another from the same pool, refreshing trait flags.
+ * The rival is not yours to replace, so that role is left alone.
+ */
 export function replaceAdvisor(lib: Library, state: GameState, role: string): GameState {
-  const pool = (lib.advisorsByRole.get(role) ?? []).filter((a) => a.id !== state.cabinet[role]);
+  if (role === lib.config.rivalRole) return state;
+  const pool = advisorPool(lib, role, state.align).filter((a) => a.id !== state.cabinet[role]);
   if (pool.length === 0) return state;
   const [p, s1] = roll(state);
   const cabinet = { ...s1.cabinet, [role]: pool[Math.floor(p * pool.length)]!.id };
@@ -134,7 +165,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
 
   const cabinet: Record<string, string> = {};
   for (const role of lib.roles) {
-    const pool = lib.advisorsByRole.get(role) ?? [];
+    const pool = advisorPool(lib, role, setup.align);
     if (pool.length === 0) continue;
     const pick = nextInt(rng, 0, pool.length - 1);
     rng = pick.state;
@@ -167,6 +198,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     over: null,
     current: null,
     arcBudget: budget.value,
+    rivalStanding: cfg.rivalStart,
     stats: { ...EMPTY_STATS },
     unlocked: [...(setup.unlocked ?? [])],
   };

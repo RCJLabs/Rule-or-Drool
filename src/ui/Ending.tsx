@@ -1,5 +1,5 @@
 import { STRINGS } from "../content/strings";
-import { epilogueByKey } from "../engine/endings";
+import { epilogueByKey, withRival } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
@@ -27,7 +27,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex }: Props) {
       <div className="ending">
         <p className="kicker">Your rule ends</p>
         <h1>{ending?.title ?? over.endingId}</h1>
-        <p className="ending-text">{ending?.text}</p>
+        <p className="ending-text">{ending ? withRival(lib, state, ending.text) : null}</p>
         <section className="epilogue">
           <h2>{STRINGS.ui.epilogue}</h2>
           <p className="band-label" data-band={band}>
