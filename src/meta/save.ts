@@ -12,14 +12,18 @@ export function migrateMeta(raw: unknown): MetaState | null {
   if (!raw || typeof raw !== "object") return null;
   const data = raw as Partial<MetaState> & { v?: number };
   if (typeof data.v !== "number" || data.v > META_SAVE_VERSION) return null;
-  // v1 is the first shape; future versions patch forward from here.
+  // v1 -> v2: epilogues became side-specific, so every `band:any:era` key a v1 save
+  // collected names a text that no longer exists. Dropping them keeps the codex count
+  // honest; the player re-collects the side's own future on their next run.
+  const collected = Array.isArray(data.epilogues) ? data.epilogues : [];
+  const epilogues = data.v < 2 ? collected.filter((k) => !k.includes(":any:")) : collected;
   const base = emptyMeta();
   return {
     ...base,
     ...data,
     v: META_SAVE_VERSION,
     endings: { ...(data.endings ?? {}) },
-    epilogues: Array.isArray(data.epilogues) ? [...data.epilogues] : [],
+    epilogues: [...epilogues],
     objectives: { ...(data.objectives ?? {}) },
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],

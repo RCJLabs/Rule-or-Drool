@@ -105,6 +105,30 @@ describe("elections", () => {
     expect(mean(locked)).toBeGreaterThan(mean(shared));
   });
 
+  it("closes every run with its own side's future", () => {
+    // The epilogue is the payoff for a twenty-minute run, so it reads differently for the
+    // Commons and the Ledger. findEpilogue prefers a side match, so a leftover "any" text
+    // would be unreachable content padding the codex (BACKLOG item 3).
+    expect(content.epilogues.some((e) => e.align === "any")).toBe(false);
+    for (const band of BANDS) {
+      for (const align of ["left", "right"] as const) {
+        for (const era of [1, 2, 3]) {
+          const found = content.epilogues.find((e) => e.band === band && e.align === align && e.era === era);
+          expect(found, `${band} / ${align} / era ${era}`).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("gives the two sides different words for the same band and era", () => {
+    for (const band of BANDS) {
+      for (const era of [1, 2, 3]) {
+        const texts = content.epilogues.filter((e) => e.band === band && e.era === era).map((e) => e.text);
+        expect(new Set(texts).size, `${band} / era ${era}`).toBe(texts.length);
+      }
+    }
+  });
+
   it("tells at least one shared arc differently on each side", () => {
     const branching = content.cards.filter((c) => c.left.nextByAlign || c.right.nextByAlign);
     expect(branching.length).toBeGreaterThan(0);

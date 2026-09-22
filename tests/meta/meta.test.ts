@@ -14,6 +14,7 @@ import {
   migrateMeta,
   todayKey,
 } from "../../src/meta";
+import { findEpilogue, epilogueKey } from "../../src/engine/endings";
 import { META_SAVE_VERSION } from "../../src/version";
 
 /** A finished run with whatever stats a test needs. */
@@ -145,6 +146,30 @@ describe("meta save", () => {
     expect(migrateMeta(null)).toBeNull();
     expect(migrateMeta({})).toBeNull();
     expect(migrateMeta({ v: META_SAVE_VERSION + 1 })).toBeNull();
+  });
+
+  it("drops the shared epilogue keys a v1 save collected", () => {
+    // Epilogues became side-specific in BACKLOG item 3, so a `band:any:era` key names a
+    // text that no longer ships. Keeping it would inflate the codex past what is reachable.
+    const v1 = migrateMeta({ v: 1, epilogues: ["decay:any:1", "ascent:left:2"] });
+    expect(v1!.epilogues).toEqual(["ascent:left:2"]);
+    expect(v1!.v).toBe(META_SAVE_VERSION);
+
+    const current = migrateMeta({ v: META_SAVE_VERSION, epilogues: ["decay:left:1"] });
+    expect(current!.epilogues).toEqual(["decay:left:1"]);
+  });
+
+  it("keeps the codex completable: every epilogue key can still be collected", () => {
+    const reachable = new Set<string>();
+    for (const band of ["decay", "muddle", "ascent"] as const) {
+      for (const align of ["left", "right"] as const) {
+        for (let era = 1; era <= library.config.eraCount; era++) {
+          const e = findEpilogue(library, band, align, era);
+          if (e) reachable.add(epilogueKey(e));
+        }
+      }
+    }
+    expect(reachable.size).toBe(codexProgress(library, emptyMeta()).epiloguesTotal);
   });
 });
 

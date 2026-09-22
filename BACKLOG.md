@@ -97,7 +97,35 @@ noticeably less than the 48% of cards they share today.
 
 </details>
 
-## 3. Write epilogues per side — *queued*
+## 3. Write epilogues per side — *done*
+
+**Shipped.** 18 epilogues: three bands × three eras × two sides, and no shared text left.
+The closing paragraph is now the Commons' future or the Ledger's, never a neutral one.
+
+The Commons decay into a mailing list and a brand of energy drink, murals kept because
+murals are cheap, an archive burned in an uninsured warehouse with the anniversary still
+observed. The Ledger decays into a nephew, six names and a bishop running the counties, and
+the last engineer dying without an apprentice. Muddle is committees that outlive their
+problems on one side and orderly stagnation on the other. Ascent is clinics, libraries and
+published accounts against ships that leave on schedule and a state remembered for being
+solvent and dull.
+
+**Removing the shared set was the point, not a side effect.** `findEpilogue` always prefers
+a side match, so keeping the nine `any` texts would have left them unreachable while still
+counting toward the codex — a Futures list you could never finish. Three of the best lines
+were kept by moving them to the side they actually belonged to. The codex now shows 18, of
+which a player collects 9 per side, and a test asserts every key is still reachable.
+
+**Two small things came with it.** The codex entry now names the party, because two entries
+reading "Decay · era 1" would otherwise be indistinguishable. And meta saves move to version
+2: a v1 save's `band:any:era` keys name texts that no longer ship, so the migration drops
+them rather than inflating the count past what can be collected.
+
+**A test was overpromising.** `Ending` had a case called "shows the ending, the epilogue by
+exit band and the seed" that never asserted the epilogue text, so it passed while rendering
+the "The record ends here" fallback. It now pins a real side-specific line.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** All 9 epilogues are `align: "any"`, so the closing paragraph, the payoff for a
 twenty-minute run, is identical whether you led the Commons or the Ledger.
@@ -106,6 +134,8 @@ twenty-minute run, is identical whether you led the Commons or the Ledger.
 an align-specific match and falls back to "any", so this is purely content.
 
 **Cheapest large win on this list.**
+
+</details>
 
 ## 4. Give run setup a side — *queued*
 

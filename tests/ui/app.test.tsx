@@ -131,10 +131,13 @@ describe("Ending", () => {
   afterEach(() => cleanup());
 
   it("shows the ending, the epilogue by exit band and the seed", () => {
-    const s = { ...newRun(library, 77, { align: "right" }), drift: 40, cardCount: 12, over: { endingId: "riots", epilogueKey: "ascent:any:1" } };
+    // The key names the player's own side, so the closing paragraph is the Ledger's
+    // future rather than a shared one (BACKLOG item 3).
+    const s = { ...newRun(library, 77, { align: "right" }), drift: 40, cardCount: 12, over: { endingId: "riots", epilogueKey: "ascent:right:1" } };
     render(<Ending lib={library} state={s} fold={null} onPlayAgain={() => {}} onCodex={() => {}} />);
     expect(screen.getByRole("heading", { name: "The Streets Decide" })).toBeTruthy();
     expect(screen.getByText("Ascent")).toBeTruthy();
+    expect(screen.getByText(/The donors complained, and stayed\./)).toBeTruthy();
     expect(screen.getByText("77")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Play again" })).toBeTruthy();
   });

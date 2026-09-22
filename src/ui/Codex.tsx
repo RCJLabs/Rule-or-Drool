@@ -58,6 +58,7 @@ export function Codex({ lib, meta, onBack }: Props) {
                 <li key={key} className={found ? "found" : "locked"}>
                   <b>
                     {STRINGS.bands[e.band]} · era {e.era}
+                    {e.align !== "any" && ` · ${STRINGS.parties[e.align]}`}
                   </b>
                   <span>{found ? e.text : STRINGS.ui.locked}</span>
                 </li>
