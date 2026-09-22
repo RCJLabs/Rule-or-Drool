@@ -16,7 +16,8 @@
     "validate": "tsx scripts/validate-content.ts",
     "validate:mvp": "tsx scripts/validate-content.ts --eras all --min-cell 25 --strict",
     "check": "npm run typecheck && npm test && npm run validate:mvp && npm run check:browser",
-    "simulate": "tsx scripts/simulate.ts"
+    "simulate": "tsx scripts/simulate.ts",
+    "store:assets": "tsx scripts/store-assets.ts"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",

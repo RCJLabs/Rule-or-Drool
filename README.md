@@ -44,6 +44,7 @@ npm run check          # typecheck + test + validate + build + browser audits (w
 npm run simulate       # 10k seeded runs per bot, prints the section 8 report
 npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThreshold=30
 npm run simulate -- --unlocked     # simulate an experienced player with every unlock
+npm run store:assets   # Play screenshots, feature graphic and icon from dist/ (twa/STORE.md)
 ```
 
 The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without

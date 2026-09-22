@@ -1192,7 +1192,9 @@ button {
   padding: 8px 18px;
   border: var(--border) solid var(--ink);
   border-radius: 999px;
-  background: transparent;
+  /* Filled like every other secondary button, not transparent: the decay looks draw no
+     borders, and there a transparent button is a line of text nobody would press. */
+  background: var(--paper);
   color: var(--ink);
   font-weight: 700;
   font-size: 14px;

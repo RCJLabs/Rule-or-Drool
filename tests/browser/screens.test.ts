@@ -1,12 +1,8 @@
-import type { Browser, Page } from "playwright-core";
+import type { Browser } from "playwright-core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { MANDATES } from "../../src/engine/mandates";
-import { rollSetup } from "../../src/engine/state";
-import { METER_KEYS, type PlayerAlign } from "../../src/engine/types";
-import { encodeRunCode } from "../../src/meta";
-import { choose, clipped, close, contrast, launch, lookOf, LOOKS, misfits, open, target, toLook, type OpenOptions } from "./harness";
+import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -19,82 +15,7 @@ import { choose, clipped, close, contrast, launch, lookOf, LOOKS, misfits, open,
  * card in the deck.
  */
 
-const SEED = 8065615;
 const LONGEST_MANDATE = MANDATES.reduce((a, b) => (b.title.length > a.title.length ? b : a));
-const { eraLength, eraCount } = library.config;
-
-const codeFor = (align: PlayerAlign, mandate: string | null = null) =>
-  encodeRunCode({ seed: SEED, align, modifiers: rollSetup(library, SEED, align, []).modifiers ?? [], unlocked: [], mandate });
-
-/** A new player's run, started the way a shared link starts one. */
-async function startRun(browser: Browser, align: PlayerAlign, opts: OpenOptions & { mandate?: string } = {}): Promise<Page> {
-  const page = await open(browser, { ...opts, query: `run=${codeFor(align, opts.mandate ?? null)}` });
-  await page.getByRole("button", { name: STRINGS.share.offerPlay }).click();
-  await page.waitForSelector(".card");
-  return page;
-}
-
-/** Play until the first era ends, leaning the run toward a direction on the way. */
-async function playToBoundary(page: Page, lean: "[" | "]" | null): Promise<void> {
-  for (let i = 0; i < eraLength * eraCount; i++) {
-    if (await page.locator(".era-jump").count()) return;
-    if (!(await page.locator(".card").count())) throw new Error(`the run ended at card ${i}, before its first era did`);
-    await choose(page, i % 3 === 0 ? "left" : "right");
-    if (lean && i % 2 === 0) await page.keyboard.press(lean);
-  }
-  throw new Error("a whole run's worth of cards and no era boundary");
-}
-
-/**
- * The end of a run in a given direction, without playing 105 cards to get there: play a few
- * so there is a save, rewrite it to the last card of the last era carrying these decisions,
- * and play that card.
- */
-interface Late {
-  drift: number;
-  flags: string[];
-  since: Record<string, number>;
-}
-const LATE: Record<"ascent" | "decay" | "muddle", Late> = {
-  ascent: {
-    drift: 58,
-    flags: ["ring_started", "housing_built", "seawall", "cheated_election", "habit_skim"],
-    since: { housing_built: 18, seawall: 44, ring_started: 81, cheated_election: 25, habit_skim: 9 },
-  },
-  decay: {
-    drift: -58,
-    flags: ["elections_abolished", "general_unleashed", "feed_captured", "water_rationed", "took_the_skim", "habit_skim"],
-    since: { took_the_skim: 7, feed_captured: 31, general_unleashed: 52, elections_abolished: 77, water_rationed: 90, habit_skim: 12 },
-  },
-  muddle: {
-    drift: 4,
-    flags: ["schools_starved", "media_captured", "cheated_election", "habit_bend", "habit_skim"],
-    since: { habit_skim: 5, schools_starved: 23, media_captured: 60, cheated_election: 25, habit_bend: 33 },
-  },
-};
-
-async function endRun(page: Page, late: Late): Promise<void> {
-  for (let i = 0; i < 4; i++) await choose(page, "right");
-  const patch = {
-    cardCount: eraLength * eraCount - 1,
-    era: eraCount,
-    drift: late.drift,
-    meters: Object.fromEntries(METER_KEYS.map((k) => [k, 55])),
-  };
-  await page.evaluate(`(() => {
-    const raw = JSON.parse(localStorage.getItem("rod.run"));
-    Object.assign(raw.state, ${JSON.stringify(patch)});
-    raw.state.flags = [...new Set([...raw.state.flags, ...${JSON.stringify(late.flags)}])];
-    raw.state.flagSince = { ...raw.state.flagSince, ...${JSON.stringify(late.since)} };
-    raw.state.stats = { ...raw.state.stats, electionsHonest: 1, electionsCheated: 2 };
-    localStorage.setItem("rod.run", JSON.stringify(raw));
-  })()`);
-  await page.reload();
-  await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
-  await page.waitForSelector(".card");
-  await choose(page, "right");
-  await page.waitForSelector(".history-title");
-}
 
 describe.skipIf(!target)("in a browser", () => {
   let browser: Browser;
@@ -163,7 +84,7 @@ describe.skipIf(!target)("in a browser", () => {
     it("on the offer of a run someone sent, and on a link that is broken", async () => {
       const failures: string[] = [];
       const links = [
-        ["a good link", codeFor("left", LONGEST_MANDATE.id)],
+        ["a good link", codeFor(SEED, "left", LONGEST_MANDATE.id)],
         ["a broken link", "1.4svgv.L.crisis_meteor.-.-"],
       ] as const;
       for (const [label, code] of links) {
@@ -235,16 +156,18 @@ describe.skipIf(!target)("in a browser", () => {
     });
 
     /**
-     * Meter names that do not fit their slot at 360px and are cut short with an ellipsis,
-     * as found when this audit was first run (v0.40.0). The decay looks set the names in
-     * bold capitals and the ascent looks space them out, and a slot is 54px wide: at the
-     * worst, "Institutions" in capitals needs 78. Shortening them is a writing and design
-     * decision, so they are listed rather than fixed here. The list is a ceiling: a name cut
-     * short that is not on it fails. One that starts fitting does not, because text width
-     * depends on the fonts a machine has, so take it off the list when it is fixed.
+     * Meter names cut short with an ellipsis at 360px, as found when this audit was first
+     * run (v0.40.0). A slot is 54px wide; the decay looks set the names in bold capitals and
+     * the ascent looks space them out. In Roboto, which is what Android draws them in, the
+     * worst is "Institutions" at 12px too long and four more miss by a pixel or less; in
+     * DejaVu Sans, the font of the machine this was written on, all fifteen below do.
+     * Shortening them is a writing and design decision, so they are listed rather than
+     * fixed here. The list is a ceiling: a name cut short that is not on it fails, and one
+     * that starts fitting does not, because text width depends on the fonts a machine has.
+     * Take a fixed one off.
      */
     const SHORTENED: Record<string, string[]> = {
-      muddle: [],
+      muddle: ["Institutions"],
       decay1: ["Movement", "Institutions"],
       decay2: ["The Money", "Everyone", "Gov Stuff"],
       decay3: ["THE MONEY", "EVERYONE!!", "THE SYSTEM"],

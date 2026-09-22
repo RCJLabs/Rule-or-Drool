@@ -156,13 +156,29 @@ is hiding part of its content.
   fits it. This was found by measuring what each drawing covers, counting solid shapes only
   (a searchlight at 12% is light, not a landmark). Which placements a run can actually reach
   came from 420,000 random compositions.
-- **Meter names cut short, not fixed here.** At 360px, every look except the neutral one
-  cuts one to three meter names short with an ellipsis: "THE SY…", "EVERYO…", "Institut…". The
-  decay looks set the names in bold capitals and the ascent looks space them out, and a slot
-  is 54px wide. "Institutions" in capitals needs 78. Fitting them is a writing decision
-  (shorter names for the deep looks) or a design one (no capitals or spacing on narrow
-  screens). Until then the test holds them to today's list as a ceiling: no new name can be
-  cut short, and a fixed one comes off the list.
+- **Meter names cut short, not fixed here.** A meter slot is 54px wide at 360px. The decay
+  looks set the names in bold capitals and the ascent looks space them out. How many
+  names don't fit depends heavily on the font, so this was measured twice:
+
+  | Width | Roboto (what Android draws) | DejaVu Sans (this sandbox) |
+  |---|---|---|
+  | 360px | 9 names, in 6 of the 7 looks | 15, in all 7 |
+  | 390px | 5 | 10 |
+  | 412px | 1 | 9 |
+
+  In Roboto the main offender is "Institutions": 12.4px too long in the first decay stage's
+  capitals and 5.2px in each ascent look. "THE SYSTEM" misses by 5.6px. "THE MONEY",
+  "The Money", "EVERYONE!!" and "Movement" each miss by a pixel or less, but the ellipsis
+  is drawn all the same. Fitting them is a writing decision (a shorter name for the
+  institutions meter, shorter slang in the deep looks) or a design one (less capitals or
+  spacing on narrow screens). Until then the test holds them to today's list as a
+  ceiling: no new name can be cut short, and a fixed one comes off the list.
+- **The probe itself was wrong the first time.** It read overflow from `scrollWidth`, which
+  is a whole number. An ellipsis is drawn for any overflow at all, so a label 0.47px too
+  long read as fitting while the screenshot showed "EVERYON…". Labels are now measured by
+  their text's own width, to the fraction. And a guess that went the other way: I expected
+  pixel density to change the results, since Chromium rounds letters to device pixels. At
+  1× and 3× the sets came out identical. The audits run at 3× anyway, as phones do.
 - **A race in the test, not the game.** Two key presses sent back to back could both arrive
   before the first peek was drawn. The second press then peeked again instead of
   committing, and a run stalled at random: 3 attempts in 4. No player presses twice inside
@@ -171,8 +187,10 @@ is hiding part of its content.
 
 **Limits.**
 - Fit is measured with the fonts on the machine running it: DejaVu Sans in this sandbox,
-  whatever the CI image has on GitHub. DejaVu is a wide face, so a pass here should be
-  conservative for Android's Roboto. It is still not a measurement on a phone.
+  whatever the CI image has on GitHub. The whole suite was also run in Roboto, pointing
+  Chromium's fontconfig at it, and passed. DejaVu sets a line of bold capitals 22% wider than
+  Roboto, so a pass here is conservative for Android. It is still not a measurement on a
+  phone.
 - Contrast reads solid backgrounds only. Text over a gradient or a picture needs a solid
   ground of its own, which the game gives it.
 - Fit covers the cards this seed deals, not the longest card in the deck.

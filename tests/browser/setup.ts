@@ -1,31 +1,13 @@
 import { existsSync } from "node:fs";
 import { preview, type PreviewServer } from "vite";
 import type { TestProject } from "vitest/node";
+import { findChromium } from "./drive";
 
 /**
  * The browser audits read the built site as it is deployed: the bundle Vite emitted, served
  * under the same base path. This serves it once for every audit file, or says loudly that
  * the audits are not running rather than letting a skip pass for a pass.
  */
-
-/** Where a Chromium usually is: this project's cloud sandbox, CI's Ubuntu image, Linux, a Mac. */
-const USUAL = [
-  "/opt/pw-browsers/chromium",
-  "/usr/bin/google-chrome",
-  "/usr/bin/chromium",
-  "/usr/bin/chromium-browser",
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-];
-
-/** CHROME_PATH if it is set, and it has to be right; otherwise the first usual place. */
-function findChromium(): string | null {
-  const asked = process.env.CHROME_PATH;
-  if (asked) {
-    if (existsSync(asked)) return asked;
-    throw new Error(`CHROME_PATH is ${asked}, and there is no browser there.`);
-  }
-  return USUAL.find((p) => existsSync(p)) ?? null;
-}
 
 let server: PreviewServer | undefined;
 

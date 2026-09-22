@@ -6,7 +6,8 @@ restarting a count. Same rule as before: every "evidence" line is measured again
 shipped content, not estimated.
 
 **Nine of the ten are done.** Phase 11 shipped once round three (BACKLOG-3.md, phases
-18–27) was through. Phase 17 is the one left.
+18–27) was through. Phase 17 is the one left, prepared and waiting on decisions only the
+owner can make.
 
 Status: **doing** · **queued** · **done**
 
@@ -597,7 +598,38 @@ it.
 
 </details>
 
-## Phase 17. Get it onto Play — *queued*
+## Phase 17. Get it onto Play — *doing*
+
+**Prepared; the rest is the owner's.** Everything that could be done from the repository is
+done, and [twa/STORE.md](twa/STORE.md) holds it:
+
+- **The listing:** name, short and full description, all within Play's limits, every number
+  in them checked against the content.
+- **The graphics, made from the built game:** eight 1080×1920 screenshots, the 1024×500
+  feature graphic and the 512px icon. `npm run store:assets` makes them in about ten
+  seconds, in Roboto, the font Android draws the game in.
+- **The icon had no alpha channel.** The site's icon is a 24-bit PNG, and the console asks
+  for 32-bit. The store copy is re-encoded. A screenshot could not do it: Chromium drops the
+  channel when every pixel is opaque, and only a canvas keeps it.
+- **The Bubblewrap manifest had been wrong since phase 7.** Loaded in `@bubblewrap/core`
+  1.25.0, it had no version name (its key is `appVersion`, not `appVersionName`) and no
+  splash duration, and Bubblewrap's own validator passed it anyway. Both are fixed, along
+  with a black dark-mode status bar.
+- **The versioning advice was wrong too.** It said to keep the app version in step with
+  the web version. The app is a shell around the live site, so web deploys reach Play
+  players with no store release. The shell version only moves when the shell does.
+- **Data safety, answered from measurement:** no network request but the game's own files,
+  no third-party URL, four `localStorage` keys. Content-rating notes come from searching all
+  526 cards for each theme the questionnaire asks about.
+- **The screenshots found a defect in phase 11's share button.** The decay looks draw no
+  borders, and the button's background was transparent, so there it was a line of text.
+  It is filled like the other buttons now.
+
+**Left, and only the owner can do it:** choose where `assetlinks.json` lives (a custom
+domain, or the `rcjlabs.github.io` repository); read the current Play policy pages, which
+this sandbox cannot reach; check whether the account needs a closed test before
+production (12 testers for 14 days, for personal accounts created since November 2023);
+then build and upload. STORE.md gives the steps for each.
 
 **Evidence.** `twa/` holds a Bubblewrap config and a README listing two blockers written up
 rather than guessed: Digital Asset Links must be served from the origin root, which belongs

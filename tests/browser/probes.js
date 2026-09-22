@@ -74,6 +74,15 @@
     return { x: d.scrollWidth - window.innerWidth, y: d.scrollHeight - window.innerHeight };
   }
 
+  /** How much wider an element's text is laid out than the box it has to fit in. */
+  function textOverflow(el, cs) {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const text = range.getBoundingClientRect().width;
+    const box = el.getBoundingClientRect().width - ["paddingLeft", "paddingRight", "borderLeftWidth", "borderRightWidth"].reduce((sum, k) => sum + parseFloat(cs[k]), 0);
+    return text - box;
+  }
+
   /**
    * Boxes that hide part of what is in them. A flex column squeezes before it scrolls, so a
    * screen that no longer fits shows up here, as a card cutting off its own text, rather
@@ -90,11 +99,15 @@
       const clipsY = /hidden|clip/.test(cs.overflowY);
       const clipsX = /hidden|clip/.test(cs.overflowX);
       if (!clipsY && !clipsX) continue;
+      const ellipsis = cs.textOverflow === "ellipsis";
       const y = clipsY ? el.scrollHeight - el.clientHeight : 0;
-      const x = clipsX ? el.scrollWidth - el.clientWidth : 0;
-      if (y > 1 || x > 1) {
+      // scrollWidth is a whole number, and an ellipsis is drawn for any overflow at all: a
+      // label a third of a pixel too long reads as fitting and shows as "EVERYON…". So a
+      // box that ellipsizes is measured by its text's own width, to the fraction.
+      const x = !clipsX ? 0 : ellipsis ? textOverflow(el, cs) : el.scrollWidth - el.clientWidth;
+      if (y > 1 || (ellipsis ? x > 0.05 : x > 1)) {
         const cls = typeof el.className === "string" && el.className ? el.className : el.tagName.toLowerCase();
-        out.push({ sel: cls, x, y, text: (el.textContent || "").trim().slice(0, 32), ellipsis: cs.textOverflow === "ellipsis" });
+        out.push({ sel: cls, x: +x.toFixed(2), y, text: (el.textContent || "").trim().slice(0, 32), ellipsis });
       }
     }
     return out;
