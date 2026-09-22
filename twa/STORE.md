@@ -41,8 +41,9 @@ PLAYS THE WAY YOU NEED IT TO
 A work of satire. The country, its parties and its people are invented, and the game is not affiliated with any real party, politician or government.
 ```
 
-**Category:** Games › Card, or Games › Simulation. Reigns-likes are listed under both, and
-it is a judgement call. **Tags:** satire, politics, card game, strategy, choices matter.
+**Category:** Games › Card or Games › Simulation. I have not checked where comparable
+games sit, so look at the ones you want it listed beside. **Tags:** satire, politics, card
+game, strategy, choices matter.
 
 ## Graphics
 
