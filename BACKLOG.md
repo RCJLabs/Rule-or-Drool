@@ -224,7 +224,49 @@ so band does little either.
 **Do.** Era two adds standing automation pressure on Money; era three adds the colonies as a
 soft fifth meter. Band-gate more content. Three acts instead of one long deck.
 
-## 9. Re-tier objectives and fix the dead unlock — *queued*
+## 9. Re-tier objectives and fix the dead unlock — *done*
+
+**Shipped.** 18 objectives, up from 13, ordered as a ladder because the codex renders them
+in list order. Measured as the median first-completion run across **40 independent players
+of 120 runs each**, because a single play history is noisy: unlocks change the deck, which
+reorders everything downstream.
+
+| Unlock | before | after |
+|---|---|---|
+| `u_dissident` | run 1 | run 1 |
+| `u_truth` | **never (0% of players)** | run 8 (100%) |
+| `u_survivor` | run 1 | run 10 (100%) |
+| `u_referendum` | run 28 | run 21 (98%) |
+| `u_engineer` | run 2 | run 27 (95%) |
+
+`u_truth` no longer sits behind "discover ten endings". A player who keeps surviving reaches
+a median of **5 endings of 22**, because 16 of them require losing in a specific way, so
+that gate was unreachable by playing well. It now hangs on ending runs in all three bands,
+which suits a truth commission better anyway: you need the whole record. `obj_ten_endings`
+stays as a long-tail collector goal goal and gates nothing; a player who varies their play
+reaches it around run 46.
+
+**Five new objectives**, weighted toward variety rather than only virtue: all three bands,
+the same band reached from both sides, all three blocs above 60, ten runs finished, and five
+endings as a step below ten. A test now asserts that ten plain runs across both sides and
+all three bands earns *every* unlock, so no future gate can quietly become unreachable.
+
+**"Never completes" mostly measured the bot, not the game.** `obj_saint` looked dead at 0%,
+but that was a competent bot never playing saintly: 44.5% of saintly runs satisfy it
+outright, and a varied player gets it by run 8. `obj_stepped_down` is the one genuinely rare
+one left, at 15% over 120 runs, and it gates nothing.
+
+**This surfaced a real regression from item 5**, fixed in the commit before this one. `mood`
+in a modifier's `meterStart` writes to all three blocs, so every number authored when
+support was a single meter was silently tripled. The four flaws were designed as exact even
+trades and two of them had become +8 and −12; two of the three unlocked traits had gone net
+*negative*, meaning earning them handed you a worse opening than the traits you started
+with. All 11 affected modifiers now name the blocs they move. Mixed-bot Ascent returned to
+22.5% locked and 17.6% unlocked over 32,000 runs, against 20.4% and a floor-straddling 15.3%
+before; the unlocked target had been failing about a third of the time. The validator now
+rejects `mood` in `meterStart` outright.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** A competent bot completes 5 of 13 objectives on run one, then nothing until
 run 24, and three never complete in 200 runs. `obj_ten_endings` gates `arc_truth`, but a
@@ -233,6 +275,8 @@ specific way. **That arc is effectively unreachable by playing well.**
 
 **Do.** Spread the early five, add objectives that reward variety rather than only virtue,
 and stop gating content behind an ending count good play cannot reach.
+
+</details>
 
 ## 10. Make the codex record what you did — *queued*
 

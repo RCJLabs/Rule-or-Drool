@@ -37,30 +37,30 @@ describe("daily seed", () => {
 
 describe("foldRun", () => {
   it("records the ending, the epilogue and the run, once each", () => {
-    const run = finished({ endingId: "riots", epilogueKey: "decay:any:1" });
+    const run = finished({ endingId: "riots", epilogueKey: "decay:left:1" });
     const first = foldRun(library, emptyMeta(), run);
     expect(first.newEnding).toBe(true);
     expect(first.meta.runs).toBe(1);
     expect(first.meta.endings.riots).toBe(1);
-    expect(first.meta.epilogues).toEqual(["decay:any:1"]);
+    expect(first.meta.epilogues).toEqual(["decay:left:1"]);
     expect(first.meta.bestCards).toBe(40);
     expect(first.meta.alignsPlayed).toEqual(["left"]);
 
     const second = foldRun(library, first.meta, run);
     expect(second.newEnding).toBe(false);
     expect(second.meta.endings.riots).toBe(2);
-    expect(second.meta.epilogues).toEqual(["decay:any:1"]);
+    expect(second.meta.epilogues).toEqual(["decay:left:1"]);
   });
 
   it("ignores a run that has not ended", () => {
     const meta = emptyMeta();
-    const open = { ...finished({ endingId: "riots", epilogueKey: "decay:any:1" }), over: null };
+    const open = { ...finished({ endingId: "riots", epilogueKey: "decay:left:1" }), over: null };
     expect(foldRun(library, meta, open).meta).toBe(meta);
   });
 
   it("completes objectives once and grants their unlocks", () => {
     const run = finished(
-      { endingId: "finale_ascent", epilogueKey: "ascent:any:3" },
+      { endingId: "finale_ascent", epilogueKey: "ascent:left:3" },
       { drift: 60, stats: { ...EMPTY_STATS, electionsHonest: 3, honest: 40 } },
     );
     const first = foldRun(library, emptyMeta(), run);
@@ -69,7 +69,9 @@ describe("foldRun", () => {
     expect(first.newObjectives).toContain("obj_reach_ascent");
     expect(first.newObjectives).toContain("obj_orbit_clean");
     expect(first.newObjectives).toContain("obj_saint");
-    expect(first.newUnlocks).toEqual(expect.arrayContaining(["u_referendum", "u_engineer", "u_survivor"]));
+    expect(first.newUnlocks).toEqual(expect.arrayContaining(["u_referendum", "u_engineer"]));
+    // Survival is no longer something one good run proves (BACKLOG item 9).
+    expect(first.newUnlocks).not.toContain("u_survivor");
 
     // A second identical run earns nothing new.
     const second = foldRun(library, first.meta, run);
@@ -80,7 +82,7 @@ describe("foldRun", () => {
 
   it("does not credit a cheated election toward the clean-elections objective", () => {
     const run = finished(
-      { endingId: "riots", epilogueKey: "decay:any:1" },
+      { endingId: "riots", epilogueKey: "decay:left:1" },
       { stats: { ...EMPTY_STATS, electionsHonest: 3, electionsCheated: 1, tempting: 5 } },
     );
     const fold = foldRun(library, emptyMeta(), run);
@@ -89,9 +91,43 @@ describe("foldRun", () => {
     expect(fold.newObjectives).not.toContain("obj_saint");
   });
 
+  it("earns every unlock from a plausible run of play", () => {
+    // BACKLOG item 9: u_truth used to sit behind "discover ten endings", which a player who
+    // keeps surviving never reaches, because most endings require losing a specific way.
+    // No unlock may need anything more exotic than finishing runs on both sides, in each
+    // band, with some clean elections.
+    const bands = [
+      { band: "decay", endingId: "finale_decay" },
+      { band: "muddle", endingId: "finale_muddle" },
+      { band: "ascent", endingId: "finale_ascent" },
+    ] as const;
+    let meta = emptyMeta();
+    for (let i = 0; i < 10; i++) {
+      const { band, endingId } = bands[i % bands.length]!;
+      const align = i % 2 ? ("right" as const) : ("left" as const);
+      meta = foldRun(
+        library,
+        meta,
+        finished(
+          { endingId, epilogueKey: `${band}:${align}:3` },
+          { align, drift: band === "ascent" ? 60 : band === "decay" ? -60 : 0, stats: { ...EMPTY_STATS, electionsHonest: 3 } },
+        ),
+      ).meta;
+    }
+    expect([...meta.unlocks].sort()).toEqual(allUnlockTokens());
+  });
+
+  it("leaves the ending collection gating nothing", () => {
+    // It stays as a long-tail goal, but a player who never loses on purpose must not be
+    // locked out of content by it.
+    const collectors = OBJECTIVES.filter((o) => o.id === "obj_ten_endings" || o.id === "obj_five_endings");
+    expect(collectors.length).toBe(2);
+    for (const o of collectors) expect(o.unlocks, o.id).toBeUndefined();
+  });
+
   it("completes the cross-run objectives only once both sides have played", () => {
-    const left = finished({ endingId: "riots", epilogueKey: "decay:any:1" });
-    const right = { ...finished({ endingId: "coup", epilogueKey: "decay:any:1" }), align: "right" as const };
+    const left = finished({ endingId: "riots", epilogueKey: "decay:left:1" });
+    const right = { ...finished({ endingId: "coup", epilogueKey: "decay:left:1" }), align: "right" as const };
     const one = foldRun(library, emptyMeta(), left);
     expect(one.newObjectives).not.toContain("obj_both_sides");
     const two = foldRun(library, one.meta, right);
@@ -100,7 +136,7 @@ describe("foldRun", () => {
   });
 
   it("records a daily result only when the run was a daily one", () => {
-    const run = finished({ endingId: "riots", epilogueKey: "decay:any:1" });
+    const run = finished({ endingId: "riots", epilogueKey: "decay:left:1" });
     expect(foldRun(library, emptyMeta(), run).meta.daily).toBeNull();
     const daily = foldRun(library, emptyMeta(), run, { day: "2026-09-21", seed: 42 }).meta.daily;
     expect(daily).toMatchObject({ day: "2026-09-21", seed: 42, cards: 40, endingId: "riots" });
@@ -180,7 +216,7 @@ describe("codexProgress", () => {
     expect(p.endingsTotal).toBe(library.endings.size);
     expect(p.epiloguesTotal).toBeGreaterThan(0);
 
-    const fold = foldRun(library, emptyMeta(), finished({ endingId: "riots", epilogueKey: "decay:any:1" }));
+    const fold = foldRun(library, emptyMeta(), finished({ endingId: "riots", epilogueKey: "decay:left:1" }));
     const after = codexProgress(library, fold.meta);
     expect(after.endingsSeen).toBe(1);
     expect(after.epiloguesSeen).toBe(1);
