@@ -6,7 +6,7 @@ the record of the seven build phases; this is what comes after them.
 
 Status: **doing** · **queued** · **done**
 
-**All ten are done.** What they add up to, measured against the state this file was written
+**All ten are done.** The next ten are in BACKLOG-2.md, numbered as phases 8–17. What they add up to, measured against the state this file was written
 against: 440 cards (was 341), 22 arcs (14), 25 modifiers (15), 23 endings (22), 18 epilogues
 (9), 91 story outcomes and 27 named legacies where neither existed. A left run and a right
 run share 35% of their cards, down from 48%. All five section 8 targets pass locked and
