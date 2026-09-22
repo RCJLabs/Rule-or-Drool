@@ -1,6 +1,7 @@
 import { withNames } from "../engine/endings";
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS } from "../content/strings";
+import { rivalReport } from "./rival";
 import { textLevel, type Settings } from "./settings";
 import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
@@ -99,6 +100,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   const advisorId = card ? (state.cabinet[card.speaker] ?? "") : "";
   const advisor = card ? lib.advisorsByRole.get(card.speaker)?.find((a) => a.id === advisorId) : undefined;
   const roleLabel = card ? (STRINGS.roles[card.speaker] ?? card.speaker) : "";
+  const rival = rivalReport(lib, state);
   const eraInfo = STRINGS.eras[state.era - 1];
   const year = yearInEra(state, lib.config.eraLength);
   const progress = Math.min(1, Math.max(0, (year - 1) / lib.config.eraLength));
@@ -134,7 +136,15 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         <div className="office">
           <span className="party">{STRINGS.parties[state.align]}</span>
           <span className="office-tools">
-            <button type="button" className="gear" onClick={onCabinet} aria-label={STRINGS.cabinet.title}>
+            {/* The cabinet is the only screen that says how the rival is doing, so the
+                button that opens it is where the run says it is worth opening
+                (BACKLOG-3 phase 24). */}
+            <button
+              type="button"
+              className={`gear${rival.somebody ? " flagged" : ""}`}
+              onClick={onCabinet}
+              aria-label={rival.somebody ? `${STRINGS.cabinet.title} — ${STRINGS.rival.wouldWin}` : STRINGS.cabinet.title}
+            >
               ☰
             </button>
             <button type="button" className="gear" onClick={onSettings} aria-label={STRINGS.ui.settings}>

@@ -103,6 +103,23 @@ export const STRINGS = {
     owed: "You backed them when they asked.",
     snubbed: "You turned them down when they asked.",
   },
+  /**
+   * The rival, in words rather than a bar (BACKLOG-3 phase 24). The rungs are the engine's
+   * own thresholds: below where they start costing you votes, above it, halfway to being
+   * able to win, and able to win.
+   */
+  rival: {
+    states: [
+      "A backbencher nobody quotes.",
+      "Getting column inches.",
+      "The obvious alternative.",
+      "Ready to take the office off you.",
+    ],
+    takingNone: "Taking nothing off you yet.",
+    taking: "Taking {n} points of the vote you would otherwise have.",
+    wouldWin: "Lose a ballot now and it is theirs by name.",
+    costs: { behind: "As things stand you would lose one." },
+  },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],
     nouns: ["Nachos", "Lotto", "Pills", "Energy Drink", "Payday Loans", "Cola", "Streaming", "Crypto", "Wings", "Slots"],

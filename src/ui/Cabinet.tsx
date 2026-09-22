@@ -2,6 +2,7 @@ import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import type { GameState } from "../engine/types";
 import { Portrait } from "./Portrait";
+import { rivalReport } from "./rival";
 
 interface Props {
   lib: Library;
@@ -36,6 +37,7 @@ export function Cabinet({ lib, state, onClose }: Props) {
   const rivalId = state.cabinet[rivalRole];
   const rival = rivalId ? lib.advisorsById.get(rivalId) : undefined;
   // Item 10 records who was let go; here it says who they were replacing.
+  const report = rivalReport(lib, state);
   const letGo = state.stats.firedAdvisors
     .map((id) => lib.advisorsById.get(id))
     .filter((a): a is NonNullable<typeof a> => !!a);
@@ -75,8 +77,15 @@ export function Cabinet({ lib, state, onClose }: Props) {
         </ul>
 
         {rival && (
-          <p className="cabinet-note">
-            <b>{rival.name}</b> · {STRINGS.roles[rivalRole] ?? rivalRole} — {STRINGS.cabinet.rival}
+          /* The one person in the list who is not yours, and the only place the run says how
+             they are doing. The standing was computed every card and shown nowhere until
+             now (BACKLOG-3 phase 24). */
+          <p className={`cabinet-note rival rung-${report.rung}`} data-rung={report.rung}>
+            <span className="rival-who">
+              <b>{rival.name}</b> · {STRINGS.roles[rivalRole] ?? rivalRole} — {STRINGS.cabinet.rival}
+            </span>
+            <span className="rival-state">{report.state}</span>
+            <span className="rival-cost">{report.cost}</span>
           </p>
         )}
         {letGo.length > 0 && (

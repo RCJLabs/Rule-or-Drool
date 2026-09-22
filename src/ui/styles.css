@@ -1386,6 +1386,53 @@ button {
   color: var(--muted);
   line-height: 1.4;
 }
+/**
+ * The rival's standing (BACKLOG-3 phase 24). Deliberately not a bar: the game's rule is that
+ * a number you are meant to feel is never printed, so this is four states in words, with the
+ * edge going from the muted rule to the danger colour as they climb.
+ */
+.cabinet-note.rival {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-left: 3px solid color-mix(in srgb, var(--muted) 60%, transparent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+.cabinet-note.rival[data-rung="2"] {
+  border-left-color: var(--accent);
+}
+.cabinet-note.rival[data-rung="3"] {
+  border-left-color: var(--danger);
+}
+.rival-state {
+  color: var(--ink);
+  font-weight: 600;
+}
+.cabinet-note.rival[data-rung="3"] .rival-state {
+  color: var(--danger);
+}
+
+/**
+ * A mark on the button that opens the screen which explains it. The run says nothing about
+ * the rival on its own; this is the one place it points, and only once they could actually
+ * take the office.
+ */
+.gear.flagged {
+  position: relative;
+  color: var(--ink);
+}
+.gear.flagged::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--danger);
+}
 /* The trait tag on the card, where it is actually changing the numbers. */
 .speaker-trait {
   margin-left: 6px;

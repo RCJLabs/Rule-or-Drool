@@ -556,7 +556,73 @@ reads as itself under both.
 
 </details>
 
-## Phase 24. The rival you cannot see coming — *queued*
+## Phase 24. The rival you cannot see coming — *done*
+
+**Shipped.** The cabinet says how the rival is doing, in four states rather than a seventh
+bar, and the button that opens it carries a mark once they could actually take the office.
+
+**The entry asked whether 0.3% is correct or a bug. It is correct, and the reason is not the
+rival.** Pressure is derived, not stored — `standing + |drift| x 0.35` — so it can be read at
+any state. Over 12,000 runs per sweep:
+
+| bot | mean pressure | over 30 (costs you votes) | over 60 (could win) | `rival_wins` |
+|---|---|---|---|---|
+| random | 37.9 | 77.2% of cards | 5.6% | **2.07%** of runs |
+| greedy | 44.3 | 84.4% | 16.4% | 0.20% |
+| saint | 39.1 | 92.8% | 0.03% | 0.13% |
+| **mixed** (competent) | 42.4 | 89.2% | 9.5% | **0.10%** |
+
+**The rival gets strong and then has nowhere to collect.** They are at or over the winning
+threshold at **9.1% of a competent player's elections** — but that threshold only does
+anything if you lose a vote, and a competent coalition clears the bar by a **median of 13
+mood points**. Over 3,145 honest votes the mixed bot lost two, and **neither because of the
+rival**.
+
+**What the standing is actually worth, measured against the counterfactual of a rival with
+no electoral pull at all:**
+
+| bot | mean bar lift | max | honest votes | lost ONLY because of the rival |
+|---|---|---|---|---|
+| random | 0.51 pts | 4.20 | 2,062 | **31 (1.50%)** |
+| greedy | 0.89 | 4.20 | 3,496 | 0 |
+| mixed | 0.76 | 4.20 | 3,145 | **0** |
+
+**So the mechanism works and it punishes bad play, which is a defensible design and not a
+number to tune.** The rival decided 1.5% of the random bot's elections and none of the
+competent bot's. Raising `rivalElectionPull` until it bites competent play would be changing
+the design because a bot found it convenient — the mistake this project has caught twice
+already. The engine is untouched: this phase is entirely presentation, so balance is
+unchanged by construction rather than by a harness run.
+
+**Not a seventh bar, because the game's rule is that a number you are meant to feel is never
+printed.** Four rungs, on the engine's own thresholds rather than new ones — below where
+they start costing you anything, above it, halfway to winning, and able to win:
+
+> *Ready to take the office off you.*
+> Taking 2.7 points of the vote you would otherwise have. Lose a ballot now and it is theirs
+> by name.
+
+The cost line is the real number the engine is charging (`electionBar` minus its floor), not
+an invented one, and it adds a clause when the coalition is already under the bar.
+
+**The unprompted half is a dot on the cabinet button**, and only at the top rung. The run
+never mentions the rival on its own; this is the one place it points, it costs no layout, and
+the button's label says why for anyone who cannot see a 6px dot.
+
+**One thing the measurement said that nothing in the game does.** Pressure counts `|drift|`,
+so a run deep into Ascent feeds the rival exactly as much as one deep into Decay — 16-26% of
+their standing is simply how far from the middle you have gone, in either direction. That is
+now visible, because the state moves whichever way you run.
+
+**Checked at rung 3 under all three looks**, including the light palette, which needs a
+banked standing over 60 at zero drift and cannot be reached with the debug drift keys:
+0 failing text styles on the cabinet screen in each.
+
+One correction to the entry's own numbers: it says the rival speaks 8.8 cards a run, 8.5% of
+all cards. Measured now it is 6.8-8.0% depending on the bot.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** The rival speaks **8.8 cards a run** (8.5% of all cards), holds a standing from
 0 to 100 that rises when you cheat and falls when you are honest, pulls drift and the
@@ -569,6 +635,8 @@ something that says whether the person on the other side is gaining. The cabinet
 who they are; it does not know how they are doing.
 
 **Done when** a player can answer "is my rival winning?" before the run ends.
+
+</details>
 
 ## Phase 25. An era should feel like a jump — *queued*
 
