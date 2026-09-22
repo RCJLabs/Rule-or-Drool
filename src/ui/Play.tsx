@@ -127,12 +127,21 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         )}
       </main>
       <footer className="status">
-        <button type="button" className="gear" onClick={onCabinet} aria-label={STRINGS.cabinet.title}>
-          ☰
-        </button>
-        <button type="button" className="gear" onClick={onSettings} aria-label={STRINGS.ui.settings}>
-          ⚙
-        </button>
+        {/* Who is in office, in words as well as in the card's shape (BACKLOG-3 phase 23).
+            The shape signature is geometry and says nothing to a screen reader or to anyone
+            who cannot pick it out at this size; this says it outright, and takes the party's
+            own corner so the two agree. */}
+        <div className="office">
+          <span className="party">{STRINGS.parties[state.align]}</span>
+          <span className="office-tools">
+            <button type="button" className="gear" onClick={onCabinet} aria-label={STRINGS.cabinet.title}>
+              ☰
+            </button>
+            <button type="button" className="gear" onClick={onSettings} aria-label={STRINGS.ui.settings}>
+              ⚙
+            </button>
+          </span>
+        </div>
         <div className="era">
           <b>{eraInfo?.name ?? `Era ${state.era}`}</b> · {STRINGS.ui.year} {year}
         </div>

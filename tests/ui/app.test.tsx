@@ -47,6 +47,23 @@ describe("App", () => {
     expect(localStorage.getItem("rod.run")).toContain('"cardCount":1');
   });
 
+  it("says which party is in office, in words, for the whole run", () => {
+    // The card's shape says it too, but shape says nothing to a screen reader and nothing to
+    // a player who cannot pick it out at this size (BACKLOG-3 phase 23).
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /the Ledger/ }));
+    fireEvent.click(screen.getByRole("button", { name: "Take office" }));
+    const chip = document.querySelector(".party")!;
+    expect(chip.textContent).toBe(STRINGS.parties.right);
+    expect(document.querySelector(".frame")!.getAttribute("data-align")).toBe("right");
+    // And it is still there several cards in, rather than a one-off at the start.
+    for (let i = 0; i < 3; i++) {
+      fireEvent.keyDown(window, { key: "ArrowLeft" });
+      fireEvent.keyDown(window, { key: "ArrowLeft" });
+    }
+    expect(document.querySelector(".party")!.textContent).toBe(STRINGS.parties.right);
+  });
+
   it("offers to continue a saved run", () => {
     const s = newRun(library, 9, { align: "left" });
     localStorage.setItem("rod.run", JSON.stringify({ v: 1, state: { ...s, cardCount: 4, era: 1 } }));

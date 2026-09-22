@@ -526,9 +526,19 @@ Those numbers are the same before and after. The party moves 2-3% of the screen;
 moves all of it. That is the right ratio: the path is what the game is about and the party
 is who is holding the pen.
 
+**Shape alone is not enough and the footer says it outright.** Geometry is invisible to a
+screen reader and easy to miss at this size, so the party is also named in words, in a chip
+that takes the party's own corner — the Commons is a pill, the Ledger is a box. It costs no
+height: the two controls already had a centred row to themselves with empty space either
+side, and the chip fills it. Measured at 21 viewport-and-look combinations with a promise
+badge and a teaching note both showing, nothing scrolls. The chip's radius is its own token
+rather than `--radius x --corner`, because scaling a 12 px radius gives a pill that is not
+quite a pill and a box that is not quite a box at 19 px tall.
+
 **Checked across all 28 combinations** — two parties, seven looks, plain screen on and off:
 the signature survives every one of them, and the contrast audit from phase 21 still reports
-0 failing text styles in each.
+0 failing text styles in each. With the chip in, the party moves 5-6 styled things and
+2.1-3.0% of the pixels, and the paths still move 100% of them under both.
 
 <details>
 <summary>Original entry</summary>

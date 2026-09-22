@@ -67,6 +67,7 @@ button {
   --ascent: 0;
   /* The party axis (BACKLOG-3 phase 23). Neutral here: the codex has no party in office. */
   --corner: 1;
+  --chip: calc(var(--radius) / 2);
   --card-edge: 0 0 0 0 transparent;
   --shadow: 0 14px 30px rgba(40, 30, 20, 0.16);
   position: relative;
@@ -219,10 +220,12 @@ button {
  */
 .frame[data-align="left"] {
   --corner: 1.7;
+  --chip: 999px;
   --card-edge: inset 5px 0 0 0 var(--accent);
 }
 .frame[data-align="right"] {
   --corner: 0.16;
+  --chip: 2px;
   --card-edge: inset 0 3px 0 0 var(--accent);
 }
 .frame[data-align="right"] .meters {
@@ -562,6 +565,34 @@ button {
 }
 .era b {
   color: var(--ink);
+}
+/* The controls had a centred row to themselves with empty space either side, so naming the
+   party costs no height. The chip takes the party's own corner: the Commons is a pill and
+   the Ledger is a box, the same distinction the card makes (BACKLOG-3 phase 23). */
+.office {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 23px;
+}
+.office-tools {
+  display: flex;
+  flex: none;
+}
+.party {
+  padding: 2px 9px;
+  border: 1px solid var(--accent);
+  /* Its own token rather than --radius x --corner: scaling a 12px radius gives a pill that
+     is not quite a pill and a box that is not quite a box on a chip this small. */
+  border-radius: var(--chip);
+  /* The colour is the ink rather than the accent: the border carries the party and the word
+     has to stay at full contrast under all seven looks. */
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 .progress {
   height: 4px;
