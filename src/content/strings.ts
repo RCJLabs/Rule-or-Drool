@@ -148,5 +148,12 @@ export const STRINGS = {
     unlocked: "Unlocked",
     updateReady: "A new version is ready.",
     reload: "Reload",
+    settings: "Settings",
+    close: "Close",
+    exitToMenu: "Leave to the main menu",
+    erase: "Erase all progress",
+    eraseConfirm: "Yes, erase everything",
+    eraseWarning: "This clears the codex, every unlock and the run in progress. It cannot be undone.",
+    savedRunKept: "Your run is saved. Continue it from the menu.",
   },
 } as const;

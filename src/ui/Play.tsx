@@ -1,6 +1,7 @@
 import { withRival } from "../engine/endings";
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS } from "../content/strings";
+import type { Settings } from "./settings";
 import { getCard, type Library } from "../engine/library";
 import { preview } from "../engine/preview";
 import type { GameState, Side } from "../engine/types";
@@ -22,15 +23,18 @@ interface Props {
   onDismissTransition: () => void;
   debug: boolean;
   onNudgeDrift?: (delta: number) => void;
+  settings: Settings;
+  onSettings: () => void;
 }
 
 const LEAVE_MS = 260;
 
-function reducedMotion(): boolean {
+function reducedMotion(settings: Settings): boolean {
+  if (settings.reduceMotion) return true;
   return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift }: Props) {
+export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings }: Props) {
   const [peek, setPeek] = useState<Side | null>(null);
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
@@ -55,7 +59,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
           setLeaving(null);
           onChoose(side);
         },
-        reducedMotion() ? 0 : LEAVE_MS,
+        reducedMotion(settings) ? 0 : LEAVE_MS,
       );
     },
     [busy, card, onChoose, showHint],
@@ -99,7 +103,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
           <CardView
             key={`${card.id}:${state.cardCount}`}
             card={card}
-            text={degrade(withRival(lib, state, card.text), degradeLevel(theme), state.seed)}
+            text={degrade(withRival(lib, state, card.text), settings.plainText ? 0 : degradeLevel(theme), state.seed)}
             speakerName={advisor?.name ?? roleLabel}
             roleLabel={roleLabel}
             advisorId={advisorId}
@@ -112,13 +116,16 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         )}
       </main>
       <footer className="status">
+        <button type="button" className="gear" onClick={onSettings} aria-label={STRINGS.ui.settings}>
+          ⚙
+        </button>
         <div className="era">
           <b>{eraInfo?.name ?? `Era ${state.era}`}</b> · {STRINGS.ui.year} {year}
         </div>
         <div className="progress" aria-hidden="true">
           <span style={{ width: `${progress * 100}%` }} />
         </div>
-        {showHint && <p className="hint">{STRINGS.ui.hint}</p>}
+        {(showHint || settings.alwaysHint) && <p className="hint">{STRINGS.ui.hint}</p>}
       </footer>
       {transition !== null && <EraTransition era={transition} onContinue={onDismissTransition} />}
       {debug && <Debug state={state} theme={theme} />}

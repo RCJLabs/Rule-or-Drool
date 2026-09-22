@@ -4,6 +4,7 @@ import { STRINGS } from "../content/strings";
 import { Codex } from "./Codex";
 import { Ending } from "./Ending";
 import { Play } from "./Play";
+import { SettingsMenu } from "./SettingsMenu";
 import { Setup } from "./Setup";
 import { useGame } from "./useGame";
 import { useServiceWorker } from "./useServiceWorker";
@@ -12,6 +13,17 @@ export function App() {
   const game = useGame(library);
   const sw = useServiceWorker();
   const debug = useMemo(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"), []);
+
+  const settingsMenu = game.showSettings ? (
+    <SettingsMenu
+      settings={game.settings}
+      onChange={game.setSettings}
+      onClose={game.closeSettings}
+      // Only offered mid-run: from the menu there is nothing to leave.
+      onExitToMenu={game.screen === "play" ? game.exitToMenu : undefined}
+      onEraseProgress={game.eraseProgress}
+    />
+  ) : null;
 
   const banner = sw.updateReady ? (
     <div className="update-banner" role="status">
@@ -25,7 +37,8 @@ export function App() {
     return (
       <>
         {banner}
-        <Codex lib={library} meta={game.meta} onBack={game.closeCodex} />
+        <Codex lib={library} meta={game.meta} onBack={game.closeCodex} onSettings={game.openSettings} />
+        {settingsMenu}
       </>
     );
   }
@@ -41,7 +54,9 @@ export function App() {
           onDaily={game.startDaily}
           onContinue={game.continueSaved}
           onCodex={game.openCodex}
+          onSettings={game.openSettings}
         />
+        {settingsMenu}
       </>
     );
   }
@@ -49,7 +64,15 @@ export function App() {
     return (
       <>
         {banner}
-        <Ending lib={library} state={game.state} fold={game.lastFold} onPlayAgain={game.reset} onCodex={game.openCodex} />
+        <Ending
+          lib={library}
+          state={game.state}
+          fold={game.lastFold}
+          onPlayAgain={game.reset}
+          onCodex={game.openCodex}
+          onSettings={game.openSettings}
+        />
+        {settingsMenu}
       </>
     );
   }
@@ -64,7 +87,10 @@ export function App() {
         onDismissTransition={game.dismissTransition}
         debug={debug}
         onNudgeDrift={game.nudgeDrift}
+        settings={game.settings}
+        onSettings={game.openSettings}
       />
+      {settingsMenu}
     </>
   );
 }

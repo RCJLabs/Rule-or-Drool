@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Library } from "../engine/library";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
-import { dailySeedFor, foldRun, loadMeta, saveMeta, type MetaState, type RunFold } from "../meta";
+import { clearMeta, dailySeedFor, emptyMeta, foldRun, loadMeta, saveMeta, type MetaState, type RunFold } from "../meta";
 import { beginRun, commitChoice, ensureCard } from "./flow";
 import { clearRun, loadRun, saveRun } from "./save";
+import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
 import { clampDrift } from "../engine/state";
 
 export type Screen = "setup" | "play" | "over" | "codex";
@@ -18,6 +19,8 @@ export function useGame(lib: Library) {
   const [meta, setMeta] = useState<MetaState>(() => loadMeta());
   const [lastFold, setLastFold] = useState<RunFold | null>(null);
   const [showCodex, setShowCodex] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [settings, setSettingsState] = useState<Settings>(() => loadSettings());
   const stateRef = useRef(state);
   stateRef.current = state;
   const metaRef = useRef(meta);
@@ -28,6 +31,48 @@ export function useGame(lib: Library) {
   useEffect(() => {
     if (state) saveRun(state);
   }, [state]);
+
+  useEffect(() => {
+    applySettings(settings);
+  }, [settings]);
+
+  const setSettings = useCallback((next: Settings) => {
+    setSettingsState(next);
+    saveSettings(next);
+  }, []);
+
+  /**
+   * Leave a run without ending it. The run is already saved on every choice, so this only
+   * has to put it back where the menu looks for it (`saved`) and clear the live state.
+   */
+  const exitToMenu = useCallback(() => {
+    const s = stateRef.current;
+    setShowSettings(false);
+    setShowCodex(false);
+    setTransition(null);
+    setLastFold(null);
+    if (s && !s.over) {
+      saveRun(s);
+      setSaved(s);
+    }
+    setState(null);
+  }, []);
+
+  /** Wipes the codex, every unlock and the run in progress. Confirmed in the menu first. */
+  const eraseProgress = useCallback(() => {
+    clearRun();
+    clearMeta();
+    const fresh = emptyMeta();
+    metaRef.current = fresh;
+    setMeta(fresh);
+    setSaved(null);
+    setState(null);
+    setTransition(null);
+    setLastFold(null);
+    setShowSettings(false);
+    setShowCodex(false);
+    dailyRef.current = null;
+  }, []);
 
   const start = useCallback(
     (seed: number, align: PlayerAlign, daily?: { day: string; seed: number }) => {
@@ -111,5 +156,12 @@ export function useGame(lib: Library) {
     reset,
     openCodex: () => setShowCodex(true),
     closeCodex: () => setShowCodex(false),
+    settings,
+    setSettings,
+    showSettings,
+    openSettings: () => setShowSettings(true),
+    closeSettings: () => setShowSettings(false),
+    exitToMenu,
+    eraseProgress,
   };
 }

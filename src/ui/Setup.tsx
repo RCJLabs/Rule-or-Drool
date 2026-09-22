@@ -19,9 +19,10 @@ interface Props {
   onDaily: (align: PlayerAlign) => void;
   onContinue: () => void;
   onCodex: () => void;
+  onSettings: () => void;
 }
 
-export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex }: Props) {
+export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex, onSettings }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const setup = useMemo(() => rollSetup(lib, seed, align, meta.unlocks), [lib, seed, align, meta.unlocks]);
@@ -63,6 +64,9 @@ export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex 
           </button>
           <button type="button" onClick={onCodex}>
             {STRINGS.ui.codex} {progress.endingsSeen}/{progress.endingsTotal}
+          </button>
+          <button type="button" onClick={onSettings}>
+            {STRINGS.ui.settings}
           </button>
         </div>
         <p className="hint">{STRINGS.ui.hint}</p>

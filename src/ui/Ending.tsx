@@ -14,9 +14,10 @@ interface Props {
   fold: RunFold | null;
   onPlayAgain: () => void;
   onCodex: () => void;
+  onSettings: () => void;
 }
 
-export function Ending({ lib, state, fold, onPlayAgain, onCodex }: Props) {
+export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: Props) {
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -68,6 +69,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex }: Props) {
         <div className="meta-row">
           <button type="button" onClick={onCodex}>
             {STRINGS.ui.codex}
+          </button>
+          <button type="button" onClick={onSettings}>
+            {STRINGS.ui.settings}
           </button>
         </div>
       </div>

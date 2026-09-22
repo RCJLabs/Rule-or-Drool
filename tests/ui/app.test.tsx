@@ -127,6 +127,31 @@ describe("CardView", () => {
   });
 });
 
+describe("App: the settings menu", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    window.history.replaceState({}, "", "/");
+  });
+  afterEach(() => cleanup());
+
+  it("opens from the menu screen, with nothing to leave", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Settings" }));
+    expect(screen.getByRole("dialog", { name: "Settings" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /Leave to the main menu/ })).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Close" }));
+    expect(screen.queryByRole("dialog", { name: "Settings" })).toBeNull();
+  });
+
+  it("offers leaving once a run is under way, and the menu then offers it back", () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: "Take office" }));
+    fireEvent.click(screen.getByRole("button", { name: "Settings" }));
+    fireEvent.click(screen.getByRole("button", { name: /Leave to the main menu/ }));
+    expect(screen.getByRole("button", { name: /Continue saved run/ })).toBeTruthy();
+  });
+});
+
 describe("Ending", () => {
   afterEach(() => cleanup());
 
@@ -134,7 +159,7 @@ describe("Ending", () => {
     // The key names the player's own side, so the closing paragraph is the Ledger's
     // future rather than a shared one (BACKLOG item 3).
     const s = { ...newRun(library, 77, { align: "right" }), drift: 40, cardCount: 12, over: { endingId: "riots", epilogueKey: "ascent:right:1" } };
-    render(<Ending lib={library} state={s} fold={null} onPlayAgain={() => {}} onCodex={() => {}} />);
+    render(<Ending lib={library} state={s} fold={null} onPlayAgain={() => {}} onCodex={() => {}} onSettings={() => {}} />);
     expect(screen.getByRole("heading", { name: "The Streets Decide" })).toBeTruthy();
     expect(screen.getByText("Ascent")).toBeTruthy();
     expect(screen.getByText(/The donors complained, and stayed\./)).toBeTruthy();

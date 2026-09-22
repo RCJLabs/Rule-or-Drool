@@ -587,6 +587,21 @@ button {
   white-space: pre-wrap;
 }
 
+/* The settings menu publishes these on the root, so a rule can opt out without any
+   component knowing about it. The OS preference below still applies on its own. */
+:root[data-reduce-motion] .card.settling,
+:root[data-reduce-motion] .card.leaving,
+:root[data-reduce-motion] .card-enter,
+:root[data-reduce-motion] .meter.danger .meter-icon,
+:root[data-reduce-motion] .ticker span,
+:root[data-reduce-motion] .progress span {
+  animation: none;
+  transition: none;
+}
+:root[data-no-portraits] .portrait {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card.settling,
   .card.leaving,
@@ -795,6 +810,85 @@ button {
   margin: 0;
   font-size: 13px;
   color: var(--muted);
+}
+/* ---- settings ------------------------------------------------------------------- */
+.gear {
+  padding: 4px 8px;
+  font-size: 15px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.gear:hover {
+  color: var(--ink);
+}
+.overlay-card.settings {
+  width: min(94vw, 460px);
+  text-align: left;
+}
+.overlay-card.settings h2 {
+  text-align: center;
+}
+.settings-list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.settings-list label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 6px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.settings-list label:hover {
+  background: var(--paper-2, rgba(0, 0, 0, 0.04));
+}
+.settings-list input {
+  margin-top: 3px;
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+.settings-list span {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.settings-list b {
+  font-size: 14px;
+}
+.settings-list em {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: normal;
+  line-height: 1.35;
+}
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.settings-actions button {
+  flex: 1 1 auto;
+}
+.settings-actions .danger {
+  border-color: var(--danger, #a8321e);
+  color: var(--danger, #a8321e);
+  font-weight: 700;
+}
+.settings-warning {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
 }
 .codex-foot {
   font-size: 12px;

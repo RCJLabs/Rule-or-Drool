@@ -9,10 +9,11 @@ interface Props {
   lib: Library;
   meta: MetaState;
   onBack: () => void;
+  onSettings: () => void;
 }
 
 /** Collected endings, futures and objectives (5.10). Unseen entries stay blank on purpose. */
-export function Codex({ lib, meta, onBack }: Props) {
+export function Codex({ lib, meta, onBack, onSettings }: Props) {
   const p = codexProgress(lib, meta);
   const endings = [...lib.endings.values()];
   const epilogues = [...new Map(lib.epilogues.map((e) => [epilogueKey(e), e])).values()];
@@ -25,6 +26,9 @@ export function Codex({ lib, meta, onBack }: Props) {
             {STRINGS.ui.back}
           </button>
           <h1>{STRINGS.ui.codex}</h1>
+          <button type="button" className="gear" onClick={onSettings} aria-label={STRINGS.ui.settings}>
+            ⚙
+          </button>
         </header>
 
         <p className="codex-progress">
