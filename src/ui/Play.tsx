@@ -2,6 +2,8 @@ import { withNames } from "../engine/endings";
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS } from "../content/strings";
 import type { Settings } from "./settings";
+import { lessonFor } from "./teach";
+import { TeachNote } from "./TeachNote";
 import { getCard, type Library } from "../engine/library";
 import { preview } from "../engine/preview";
 import type { GameState, Side } from "../engine/types";
@@ -26,6 +28,7 @@ interface Props {
   settings: Settings;
   onSettings: () => void;
   onCabinet: () => void;
+  onTaught: (id: string) => void;
 }
 
 const LEAVE_MS = 260;
@@ -35,7 +38,7 @@ function reducedMotion(settings: Settings): boolean {
   return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings, onCabinet }: Props) {
+export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings, onCabinet, onTaught }: Props) {
   const [peek, setPeek] = useState<Side | null>(null);
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
@@ -86,6 +89,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
     return () => window.removeEventListener("keydown", onKey);
   }, [busy, peek, commit, debug, onNudgeDrift]);
 
+  // One at a time, and only while the card that demonstrates it is on the table.
+  const lesson = lessonFor(lib, state, settings.taught);
   const previewSide = dragSide ?? peek;
   const projected = card && previewSide && !leaving ? preview(lib, state, card, previewSide) : null;
 
@@ -130,7 +135,11 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         <div className="progress" aria-hidden="true">
           <span style={{ width: `${progress * 100}%` }} />
         </div>
-        {(showHint || settings.alwaysHint) && <p className="hint">{STRINGS.ui.hint}</p>}
+        {lesson ? (
+          <TeachNote lesson={lesson} state={state} onDismiss={() => onTaught(lesson.id)} />
+        ) : (
+          (showHint || settings.alwaysHint) && <p className="hint">{STRINGS.ui.hint}</p>
+        )}
       </footer>
       {transition !== null && <EraTransition era={transition} onContinue={onDismissTransition} />}
       {debug && <Debug state={state} theme={theme} />}

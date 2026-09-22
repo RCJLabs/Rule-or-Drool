@@ -812,6 +812,66 @@ button {
   font-size: 13px;
   color: var(--muted);
 }
+/* ---- teaching as you go (phase 10) ------------------------------------------------ */
+/* Deliberately not a dialog: the thing being explained is on screen behind it. */
+.teach {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: min(100%, 460px);
+  margin: 0 auto;
+  padding: 10px 12px;
+  background: var(--paper);
+  border: var(--border) solid var(--ink);
+  border-left-width: 5px;
+  border-left-color: var(--accent);
+  border-radius: var(--radius);
+  text-align: left;
+}
+.teach b {
+  font-size: 14px;
+}
+.teach p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.teach button {
+  align-self: flex-end;
+  padding: 3px 12px;
+  font-size: 12px;
+}
+.overlay-card.how {
+  width: min(94vw, 460px);
+  max-height: 86vh;
+  overflow-y: auto;
+  text-align: left;
+}
+.overlay-card.how h2 {
+  text-align: center;
+}
+.how-list {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.how-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.how-list b {
+  font-size: 14px;
+}
+.how-list span {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
 /* ---- the cabinet (phase 12) ------------------------------------------------------ */
 .overlay-card.cabinet {
   width: min(94vw, 480px);

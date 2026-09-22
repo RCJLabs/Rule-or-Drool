@@ -41,6 +41,7 @@ export function useGame(lib: Library) {
   const [showCodex, setShowCodex] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showCabinet, setShowCabinet] = useState(false);
+  const [showHow, setShowHow] = useState(false);
   const [settings, setSettingsState] = useState<Settings>(() => loadSettings());
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -58,6 +59,16 @@ export function useGame(lib: Library) {
   useEffect(() => {
     applySettings(settings);
   }, [settings]);
+
+  /** Mark a lesson as given, so it never fires again on any run. */
+  const markTaught = useCallback((id: string) => {
+    setSettingsState((prev) => {
+      if (prev.taught.includes(id)) return prev;
+      const next = { ...prev, taught: [...prev.taught, id] };
+      saveSettings(next);
+      return next;
+    });
+  }, []);
 
   const setSettings = useCallback((next: Settings) => {
     setSettingsState(next);
@@ -189,7 +200,14 @@ export function useGame(lib: Library) {
     showCabinet,
     openCabinet: () => setShowCabinet(true),
     closeCabinet: () => setShowCabinet(false),
+    showHow,
+    openHowItWorks: () => {
+      setShowSettings(false);
+      setShowHow(true);
+    },
+    closeHowItWorks: () => setShowHow(false),
     exitToMenu,
     eraseProgress,
+    markTaught,
   };
 }

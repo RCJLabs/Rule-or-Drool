@@ -5,6 +5,7 @@ import { Codex } from "./Codex";
 import { Ending } from "./Ending";
 import { Play } from "./Play";
 import { Cabinet } from "./Cabinet";
+import { HowItWorks } from "./HowItWorks";
 import { SettingsMenu } from "./SettingsMenu";
 import { Setup } from "./Setup";
 import { useGame } from "./useGame";
@@ -23,8 +24,12 @@ export function App() {
       // Only offered mid-run: from the menu there is nothing to leave.
       onExitToMenu={game.screen === "play" ? game.exitToMenu : undefined}
       onEraseProgress={game.eraseProgress}
+      onHowItWorks={game.openHowItWorks}
     />
   ) : null;
+
+  // Raised over whatever screen asked for it, including the menu.
+  const howItWorks = game.showHow ? <HowItWorks onClose={game.closeHowItWorks} /> : null;
 
   const banner = sw.updateReady ? (
     <div className="update-banner" role="status">
@@ -40,6 +45,7 @@ export function App() {
         {banner}
         <Codex lib={library} meta={game.meta} onBack={game.closeCodex} onSettings={game.openSettings} />
         {settingsMenu}
+        {howItWorks}
       </>
     );
   }
@@ -58,6 +64,7 @@ export function App() {
           onSettings={game.openSettings}
         />
         {settingsMenu}
+        {howItWorks}
       </>
     );
   }
@@ -74,6 +81,7 @@ export function App() {
           onSettings={game.openSettings}
         />
         {settingsMenu}
+        {howItWorks}
       </>
     );
   }
@@ -91,9 +99,11 @@ export function App() {
         settings={game.settings}
         onSettings={game.openSettings}
         onCabinet={game.openCabinet}
+        onTaught={game.markTaught}
       />
       {game.showCabinet && <Cabinet lib={library} state={game.state} onClose={game.closeCabinet} />}
       {settingsMenu}
+        {howItWorks}
     </>
   );
 }

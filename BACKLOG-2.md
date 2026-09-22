@@ -139,7 +139,43 @@ under 10 KB, and the settings menu can mute it.
 
 </details>
 
-## Phase 10. Teach the game without a manual — *queued*
+## Phase 10. Teach the game without a manual — *done*
+
+**Shipped.** Six lessons, each attached to the moment that demonstrates it, each fired once
+ever rather than once per run. The whole tutorial was one line about dragging the card.
+
+| Lesson | Lands on card | Seen in a first run |
+|---|---|---|
+| Six meters, two kinds | 0 | 100% |
+| Nothing shows the direction | 4 | 100% |
+| One of them in particular | 5 | 99% |
+| A story, not a card | 5 | 100% |
+| The count reads the average | 25 | 98% |
+| This one is your own doing | 29 | 99% |
+
+Measured over 500 first-time runs. They are spread across the run rather than stacked at the
+front, and the premise — that a card arrived because of something you chose twenty cards ago
+— lands at card 29, which is the first point at which it can be pointed at rather than
+described.
+
+**They are not dialogs.** A modal would stop the run in order to explain the run, with the
+thing being explained hidden behind it. Each lesson is a note where the hint line goes, next
+to the card it is about, dismissed with a tap. Only one shows at a time, so a card that is
+several things at once still teaches the first thing the player has not had.
+
+**The bloc lesson names names.** It does not say "support is low"; it says the Unions are
+unhappy while the others are not, using the name for the side the player actually leads.
+
+**And they are replayable.** "How this works" in the settings menu collects all six, for a
+player who dismissed one or who would rather read than be told as they go.
+
+**Verified in Chromium against the built bundle:** four lessons across a first run in the
+order their moments arrived, none left on screen afterwards, **zero repeats in a fresh
+session**, and the collected list showing all six. Bundle up 1.0 KB gzipped.
+
+278 tests. Nothing here touches the engine, so the balance targets are unchanged.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** The whole tutorial is one line: "Drag the card left or right." Nothing explains
 that drift is hidden, that the coalition is three groups, that consequences arrive twenty
@@ -152,6 +188,8 @@ first bloc to drop below 40 is named, the first era jump says what changed. Seen
 in the settings store, and a replayable "how this works" from the menu.
 
 **Done when** a new player can say, unprompted, why they lost.
+
+</details>
 
 ## Phase 11. Make a run worth showing someone — *queued*
 

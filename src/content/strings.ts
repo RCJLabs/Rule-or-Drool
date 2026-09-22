@@ -180,6 +180,8 @@ export const STRINGS = {
     updateReady: "A new version is ready.",
     reload: "Reload",
     settings: "Settings",
+    gotIt: "Got it",
+    howItWorks: "How this works",
     close: "Close",
     exitToMenu: "Leave to the main menu",
     erase: "Erase all progress",

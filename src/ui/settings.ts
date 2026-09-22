@@ -18,6 +18,11 @@ export interface Settings {
   sound: boolean;
   /** A short buzz on commit and a longer one when something goes wrong, where supported. */
   haptics: boolean;
+  /**
+   * Lessons the player has already been shown. Each fires once ever rather than once per
+   * run, so a second run is not re-explained (BACKLOG-2 phase 10).
+   */
+  taught: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -29,6 +34,7 @@ export const DEFAULT_SETTINGS: Settings = {
   // starts silent is one nobody ever hears (BACKLOG-2 phase 9).
   sound: true,
   haptics: true,
+  taught: [],
 };
 
 const KEY = "rod.settings";
@@ -43,8 +49,12 @@ export function migrateSettings(raw: unknown): Settings {
   const out = { ...DEFAULT_SETTINGS };
   for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[]) {
     const value = data[key];
-    if (typeof value === "boolean") out[key] = value;
+    if (typeof value === "boolean" && typeof DEFAULT_SETTINGS[key] === "boolean") {
+      (out as Record<string, unknown>)[key] = value;
+    }
   }
+  // Not a preference but a record of what has been explained; a stray entry is harmless.
+  if (Array.isArray(data.taught)) out.taught = data.taught.filter((x): x is string => typeof x === "string");
   return out;
 }
 

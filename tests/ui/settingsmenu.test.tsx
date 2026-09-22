@@ -11,10 +11,18 @@ describe("SettingsMenu", () => {
     const onChange = vi.fn();
     const onClose = vi.fn();
     const onEraseProgress = vi.fn();
+    const onHowItWorks = vi.fn();
     render(
-      <SettingsMenu settings={DEFAULT_SETTINGS} onChange={onChange} onClose={onClose} onEraseProgress={onEraseProgress} {...over} />,
+      <SettingsMenu
+        settings={DEFAULT_SETTINGS}
+        onChange={onChange}
+        onClose={onClose}
+        onEraseProgress={onEraseProgress}
+        onHowItWorks={onHowItWorks}
+        {...over}
+      />,
     );
-    return { onChange, onClose, onEraseProgress };
+    return { onChange, onClose, onEraseProgress, onHowItWorks };
   };
 
   it("reports a toggle without mutating what it was given", () => {

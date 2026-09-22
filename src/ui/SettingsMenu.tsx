@@ -7,8 +7,11 @@ import type { Settings } from "./settings";
  * here; the menu itself does not change. `kind` is a toggle for now and is the seam where
  * a choice or a slider goes in later.
  */
+/** Only the settings that are actually a switch; `taught` is a record, not a preference. */
+type ToggleKey = { [K in keyof Settings]: Settings[K] extends boolean ? K : never }[keyof Settings];
+
 interface Row {
-  key: keyof Settings;
+  key: ToggleKey;
   kind: "toggle";
   title: string;
   blurb: string;
@@ -30,9 +33,10 @@ interface Props {
   /** Present during a run. Leaving keeps the save, so the menu can resume it. */
   onExitToMenu?: () => void;
   onEraseProgress: () => void;
+  onHowItWorks: () => void;
 }
 
-export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEraseProgress }: Props) {
+export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEraseProgress, onHowItWorks }: Props) {
   const [confirmErase, setConfirmErase] = useState(false);
 
   return (
@@ -62,6 +66,9 @@ export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEras
         </ul>
 
         <div className="settings-actions">
+          <button type="button" onClick={onHowItWorks}>
+            {STRINGS.ui.howItWorks}
+          </button>
           {onExitToMenu && (
             <button type="button" onClick={onExitToMenu}>
               {STRINGS.ui.exitToMenu}
