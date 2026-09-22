@@ -52,7 +52,11 @@ export const OBJECTIVES: readonly Objective[] = [
   },
   {
     id: "obj_honest_election",
-    title: "Won without counting twice",
+    /* Was "Won without counting twice", which the check does not test: it fires on one
+       honest win regardless of how many were arranged. A run that cheated twice and won
+       once honestly earned a title saying the opposite of what the new end-of-run record
+       says on the same screen (BACKLOG-3 phase 27). */
+    title: "A clean win",
     hint: "Win an election honestly.",
     unlocks: "u_dissident",
     check: ({ run }) => (run?.stats.electionsHonest ?? 0) >= 1,

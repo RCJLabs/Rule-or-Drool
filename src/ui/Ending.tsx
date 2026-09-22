@@ -6,6 +6,7 @@ import type { GameState } from "../engine/types";
 import { OBJECTIVES_BY_ID, type RunFold } from "../meta";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { Frame } from "./Frame";
+import { runRecord } from "./record";
 import { SetupSummary } from "./SetupSummary";
 import { themeFor } from "./theme";
 
@@ -25,12 +26,34 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
   const epilogue = epilogueByKey(lib, over.epilogueKey);
   const band = exitBand(lib, state);
   const mandate = state.mandate ? MANDATES_BY_ID.get(state.mandate) : undefined;
+  /**
+   * Only for the endings you reach by surviving. An ouster already says what happened and
+   * does not want a tally of your elections under it (BACKLOG-3 phase 27).
+   */
+  const record = over.endingId.startsWith(lib.config.finalePrefix) ? runRecord(lib, state) : null;
   return (
     <Frame theme={themeFor(state.drift, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
         <p className="kicker">Your rule ends</p>
         <h1>{ending?.title ?? over.endingId}</h1>
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
+        {record && (
+          <section className="record">
+            <h2>{STRINGS.record.title}</h2>
+            <ul className="record-lines">
+              {record.lines.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+            {record.carried.length > 0 && (
+              <ul className="era-carried-list">
+                {record.carried.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
         <section className="epilogue">
           <h2>{STRINGS.ui.epilogue}</h2>
           <p className="band-label" data-band={band}>

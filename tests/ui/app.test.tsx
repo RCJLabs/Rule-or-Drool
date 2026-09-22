@@ -97,7 +97,11 @@ describe("App", () => {
       act(() => {
         vi.advanceTimersByTime(300);
       });
-      if (document.querySelector(".overlay")) fireEvent.click(document.querySelector(".overlay button")!);
+      // The era boundary stopped being an .overlay in BACKLOG-3 phase 25 and this loop kept
+      // looking for one; the run only started reaching a boundary once phase 26 changed how
+      // arcs are drawn, so the stale selector sat here passing until then.
+      const blocker = document.querySelector(".overlay, .era-jump");
+      if (blocker) fireEvent.click(blocker.querySelector("button")!);
     }
     expect(document.querySelector(".ending")).not.toBeNull();
     const meta = JSON.parse(localStorage.getItem("rod.meta")!);

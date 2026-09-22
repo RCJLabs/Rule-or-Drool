@@ -711,7 +711,8 @@ button {
   border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
   text-align: left;
 }
-.era-carried ul {
+.era-carried ul,
+.era-carried-list {
   margin: 6px 0 0;
   padding: 0;
   list-style: none;
@@ -719,13 +720,15 @@ button {
   flex-direction: column;
   gap: 3px;
 }
-.era-carried li {
+.era-carried li,
+.era-carried-list li {
   padding-left: 14px;
   position: relative;
   font-size: 13.5px;
   line-height: 1.35;
 }
-.era-carried li::before {
+.era-carried li::before,
+.era-carried-list li::before {
   content: "·";
   position: absolute;
   left: 3px;
@@ -759,6 +762,36 @@ button {
 :root[data-reduce-motion] .era-owed,
 :root[data-reduce-motion] .era-rule {
   transition: none;
+}
+
+/**
+ * The record of a reign (BACKLOG-3 phase 27). It sits between the ending and the epilogue:
+ * the ending says how it stopped, this says what you did with it, and the epilogue says what
+ * the place looked like long after.
+ */
+.record {
+  margin: 18px 0;
+  padding: 14px var(--space);
+  border-radius: calc(var(--radius) * var(--corner));
+  border: var(--border) solid color-mix(in srgb, var(--ink) 22%, transparent);
+  text-align: left;
+}
+.record h2 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.record-lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14.5px;
+  line-height: 1.4;
 }
 
 /* ---- decay furniture ------------------------------------------------------------ */

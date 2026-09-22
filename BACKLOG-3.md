@@ -1,8 +1,10 @@
 # Backlog, round three
 
-Rounds one (BACKLOG.md) and two (BACKLOG-2.md) are done bar two parked items:
-**phase 11 (share a run)** and **phase 17 (get it onto Play)** are still queued and come after
-this round. These are the next ten, numbered as phases 18–27.
+**Round three is done.** All ten shipped, at v0.37.0. What is left across all three rounds is
+the two parked items: **phase 11 (share a run)** and **phase 17 (get it onto Play)**.
+
+Rounds one (BACKLOG.md) and two (BACKLOG-2.md) are done bar those two. These were the next
+ten, numbered as phases 18–27.
 
 Same rule as the first two rounds: every "evidence" line is measured against the shipped
 content at v0.26.0, not estimated. Where a number comes from a bot, the bot is named, because
@@ -812,7 +814,68 @@ out to farm them.
 
 </details>
 
-## Phase 27. The ending two runs in three get — *queued*
+## Phase 27. The ending two runs in three get — *done*
+
+**Shipped.** The endings you reach by surviving now carry a record of what the run did, and
+two muddle finales from different runs read the same **0.07%** of the time instead of 50%.
+
+**It drew two texts, not the six the entry assumed.** The epilogue is keyed
+`band:align:era`, and a run that survives all three eras always has era 3 — so a player who
+finishes ten runs as the Commons reads `muddle:left:3` ten times. Measured over 1,925 muddle
+finales: `muddle:left:3` 51%, `muddle:right:3` 49%, and nothing else.
+
+**The material to tell them apart was already in the state and unused.** Over the same runs:
+
+| | spread |
+|---|---|
+| legacies carried | 3 to 9 (2%, 11%, 24%, 29%, 20%, 11%, 3%) |
+| advisors let go | 0 in 40%, 1 in 44%, 2 in 14% |
+| people still in the room from day one | 7 in 14%, 8 in 43%, 9 in 42% |
+| elections won honestly | 0 in 24%, 1 in 48%, 2 in 25% |
+| elections counted twice | 1 in 26%, 2 in 48%, 3 in 24% |
+
+**67.9% of muddle finales already had a combination of facts no other run in the sweep had.**
+The screen just never read them.
+
+**So the record is assembled, not written.** Three lines and a list, between the ending and
+the epilogue — the ending says how it stopped, the record says what you did with it, the
+epilogue says where it went without you:
+
+> **What you did with it**
+> You won one vote honestly and counted 2 others twice.
+> You let one of the cabinet go; 8 of the people who started with you were still in the room.
+> The country is still carrying 6 things you did to it.
+
+| ending | runs | distinct readings, before → after | two runs read the same |
+|---|---|---|---|
+| **`finale_muddle`** | 1,925 | **2 → 1,419** | **50.0% → 0.07%** |
+| `finale_decay` | 492 | 2 → 444 | 50.3% → 0.05% |
+| `finale_ascent` | 478 | 2 → 411 | 51.4% → 0.10% |
+
+**All three finales, not just the muddle one.** The entry scoped it to the majority ending
+because that is the one a player reads most, but it is the same code and the same
+justification, and it takes 97% of a competent player's endings from two readings to
+hundreds rather than 64%. An ouster gets no record: "The Streets Decide" does not want a
+tally of your elections underneath it.
+
+**Every count is in the string rather than concatenated onto it**, because "You won 1 votes
+honestly and counted 1 others twice" is how this goes wrong — and the first draft did exactly
+that, saying "counted 2 of them twice" when only three votes had been held at all.
+
+**The record caught a lie the game had been telling.** `obj_honest_election` is titled "Won
+without counting twice" and checks `electionsHonest >= 1` — nothing about cheating. A run
+that cheated twice and won once honestly earned it, and now the record sits on the same
+screen saying it counted two others twice. Retitled "A clean win", which is what the check
+tests.
+
+**And a stale selector from phase 25 that only failed now.** The era boundary stopped being
+an `.overlay` in phase 25; a test loop that dismisses blockers still looked for one, and kept
+passing because that run never reached a boundary. Phase 26's arc change made it reach one,
+and the test hung. Fixed to dismiss either — and worth remembering that a test passing after
+a refactor is not evidence that it still tests what it says.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** **`finale_muddle` is 64.5% of a competent player's endings.** It draws from six
 epilogues (band × side × era), so a player who finishes ten runs reads the same ending card
@@ -825,3 +888,5 @@ be written from what the run actually did — how many promises were kept, what 
 still carrying, who was still in the room — because it is the one the player will read most.
 
 **Done when** two muddle finales from different runs do not read as the same ending.
+
+</details>

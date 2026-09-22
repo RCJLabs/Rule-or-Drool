@@ -120,6 +120,38 @@ export const STRINGS = {
     wouldWin: "Lose a ballot now and it is theirs by name.",
     costs: { behind: "As things stand you would lose one." },
   },
+  /**
+   * The record of a reign, assembled from what the run did (BACKLOG-3 phase 27). Written so
+   * that every combination reads as a sentence: the counts are in the strings rather than
+   * concatenated onto them, because "You won 1 votes" is how this goes wrong.
+   */
+  record: {
+    title: "What you did with it",
+    /* Two half-sentences rather than one template: the honest count and the cheated count
+       both need a plural, and "counted 1 others twice" is how that goes wrong. */
+    votes: {
+      wonOne: "You won one vote honestly",
+      wonMany: "You won {n} votes honestly",
+      cheatedOne: "counted one other twice",
+      cheatedMany: "counted {n} others twice",
+      clean: "{won}, and counted nothing twice.",
+      mixed: "{won} and {cheated}.",
+      neverClean: "You never won a vote you had not arranged first.",
+      none: "No vote was held while the office was yours.",
+    },
+    room: {
+      nobody: "You let nobody go. Everyone who started with you was there at the end.",
+      someOne: "You let one of the cabinet go; {k} of the people who started with you were still in the room.",
+      someMany: "You let {n} of the cabinet go; {k} of the people who started with you were still in the room.",
+      allOne: "You let one of the cabinet go, and nobody who started with you was there at the end.",
+      allMany: "You let {n} of the cabinet go, and nobody who started with you was there at the end.",
+    },
+    carrying: {
+      nothing: "The country is carrying nothing it cannot put down.",
+      one: "The country is still carrying one thing you did to it.",
+      many: "The country is still carrying {n} things you did to it.",
+    },
+  },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],
     nouns: ["Nachos", "Lotto", "Pills", "Energy Drink", "Payday Loans", "Cola", "Streaming", "Crypto", "Wings", "Slots"],
