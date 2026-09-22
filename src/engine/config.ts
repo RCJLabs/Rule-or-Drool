@@ -1,4 +1,4 @@
-import type { Band, MeterKey } from "./types";
+import type { Band, FxSpec, MeterKey } from "./types";
 
 /**
  * Tunable engine constants. Starting values come from TRANSFER.md; anything marked
@@ -63,6 +63,11 @@ export interface EngineConfig {
    * content instead of drawing the shared deck at the same rate (BACKLOG item 2). 1 disables.
    */
   alignAffinity: number;
+  /**
+   * The same idea for bands: a card written for one band is drawn more readily while you
+   * are in it, so Decay and Ascent look like different games (BACKLOG item 8). 1 disables.
+   */
+  bandAffinity: number;
   /** Chance per draw to continue an active arc (7, step 3). */
   arcContinueProb: number;
   /** Chance per draw to start a new arc when eligible and under budget. Added. */
@@ -76,6 +81,8 @@ export interface EngineConfig {
    * never reach Ascent": lower shortens runs, higher gives recovery room. See ROADMAP.
    */
   eraMeterPull: number;
+  /** One entry per era, indexed from era 1. Missing or empty means the baseline rules. */
+  eraRules: EraRule[];
   meterStart: number;
   /** After run-setup modifiers, meters are clamped here so no run opens in the danger zone. */
   meterStartMin: number;
@@ -91,6 +98,20 @@ export interface EngineConfig {
   /** Every bloc at or above this is a personality cult: nobody left to disagree with you. */
   cultAt: number;
   cultEnding: string;
+}
+
+/**
+ * What changes about the game itself in a given era, as opposed to which cards are eligible
+ * (BACKLOG item 8). Era 1 is the baseline and carries no rule.
+ */
+export interface EraRule {
+  /** Meter deltas applied every `passiveEvery` cards, with no card to blame for them. */
+  passive?: FxSpec;
+  passiveEvery?: number;
+  /** Multiplier on top of band volatility: above 1 and everything lands harder. */
+  volatility?: number;
+  /** Multiplies enqueue delays. Below 1 and the bill comes due sooner than it used to. */
+  queueScale?: number;
 }
 
 export const DEFAULT_CONFIG: EngineConfig = {
@@ -125,11 +146,22 @@ export const DEFAULT_CONFIG: EngineConfig = {
   advisorFlagPrefix: "advisor_",
   cooldownSize: 15,
   alignAffinity: 2,
+  bandAffinity: 3,
   arcContinueProb: 0.5,
   arcEntryProb: 0.2,
   arcBudgetMin: 4,
   arcBudgetMax: 6,
   eraMeterPull: 0.22,
+  eraRules: [
+    // Era 1 is the honeymoon: the rules are just the rules.
+    {},
+    // Era 2, the machines. The state gets richer and the people do not, which walks you
+    // toward oligarchy at one end and riots at the other without a single card to blame.
+    { passive: { money: 1, public: -1 }, passiveEvery: 6 },
+    // Era 3, the long shadow. The machinery is thin, so everything lands harder, and the
+    // bills you deferred arrive sooner than the delay you were quoted.
+    { passive: { inst: -1 }, passiveEvery: 8, volatility: 1.15, queueScale: 0.6 },
+  ],
   meterStart: 50,
   meterStartMin: 25,
   meterStartMax: 75,

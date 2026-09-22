@@ -1,0 +1,821 @@
+[
+  {
+    "id": "d01_payroll",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The ministry payroll did not run on Friday. Nobody has said so publicly and everybody has noticed.",
+    "left": {
+      "label": "Pay them from reserves",
+      "fx": {
+        "money": -6,
+        "order": 3,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pay the ones who matter",
+      "fx": {
+        "money": -2,
+        "base": 4,
+        "order": -3,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d02_lights",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The ministry has been running on a generator for nine days. The generator is rented and the rental is overdue.",
+    "left": {
+      "label": "Buy the generator",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "order": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Move it to your house",
+      "fx": {
+        "money": 2,
+        "inst": -5,
+        "base": 3,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d03_two_maps",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Two departments are using different maps of the same province. Both maps are being used to send people places.",
+    "left": {
+      "label": "Order one map",
+      "fx": {
+        "inst": 5,
+        "money": -3,
+        "order": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them sort it out",
+      "fx": {
+        "inst": -4,
+        "order": -3,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d04_queue",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "There is a queue outside the records office that forms at four in the morning. Someone is selling places in it.",
+    "left": {
+      "label": "Open more windows",
+      "fx": {
+        "money": -4,
+        "public": 5,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ban the queue",
+      "fx": {
+        "order": 3,
+        "public": -5,
+        "inst": -3,
+        "base": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d05_unpaid_police",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The provincial police have not been paid in two months and have found other work, mostly at roadblocks.",
+    "left": {
+      "label": "Find the back pay",
+      "fx": {
+        "money": -7,
+        "order": 5,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Formalise the roadblocks",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "inst": -5,
+        "public": -5
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "d06_exodus",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "The medical school's graduating class has emigrated in full. The dean found out from a group photograph.",
+    "left": {
+      "label": "Bond them to the country",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "public": -4,
+        "money": 2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Pay them to stay",
+      "fx": {
+        "money": -7,
+        "public": 4,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "d07_barter",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Two provinces have started settling accounts with each other in grain. It works, which is the worrying part.",
+    "left": {
+      "label": "Recognise the practice",
+      "fx": {
+        "inst": -4,
+        "public": 3,
+        "money": -2,
+        "base": 2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Insist on the currency",
+      "fx": {
+        "money": 4,
+        "public": -4,
+        "order": 2,
+        "inst": 3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "d08_archive",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "The land archive has been wet since spring. Nobody can now prove who owns the eastern valleys, including you.",
+    "left": {
+      "label": "Dry it and copy it",
+      "fx": {
+        "money": -5,
+        "inst": 6,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Reissue the deeds",
+      "fx": {
+        "money": 4,
+        "inst": -6,
+        "base": 4,
+        "public": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "d09_ghosts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The payroll has four thousand names on it that no building has ever seen. Removing them means removing someone's cousin.",
+    "left": {
+      "label": "Take them off",
+      "fx": {
+        "money": 6,
+        "base": -6,
+        "inst": 4,
+        "order": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave them on",
+      "fx": {
+        "money": -4,
+        "base": 4,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d10_l_hall",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "The union hall has become the only building in the district that reliably has heat, and the queue is not union members.",
+    "left": {
+      "label": "Open it to everyone",
+      "fx": {
+        "backers": -4,
+        "public": 6,
+        "base": 3,
+        "money": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it for members",
+      "fx": {
+        "backers": 5,
+        "public": -6,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "d11_r_militia",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Three counties have raised their own patrols. They are polite, armed, and have not asked you for anything yet.",
+    "left": {
+      "label": "Absorb them",
+      "fx": {
+        "order": 4,
+        "money": -5,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Bless them and look away",
+      "fx": {
+        "order": 2,
+        "base": 5,
+        "inst": -6,
+        "public": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "d12_rations",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The rationing card was a temporary measure four years ago. There is now a ministry for it, with a career structure.",
+    "left": {
+      "label": "Wind it down",
+      "fx": {
+        "money": -4,
+        "public": 4,
+        "inst": 4,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Expand the ministry",
+      "fx": {
+        "money": -3,
+        "order": 3,
+        "inst": -4,
+        "public": -3,
+        "base": 3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a01_surplus",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "There is a surplus. This has not happened in living memory and nobody has a procedure for it.",
+    "left": {
+      "label": "Put it in the fund",
+      "fx": {
+        "money": 6,
+        "inst": 4,
+        "base": -4,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give it back as a cheque",
+      "fx": {
+        "money": -6,
+        "public": 5,
+        "base": 5,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a02_expectations",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The clinics opened on time, so the papers are asking why the trains have not. This is the whole story of governing well.",
+    "left": {
+      "label": "Promise what is funded",
+      "fx": {
+        "public": -3,
+        "inst": 5,
+        "base": -2,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise the trains",
+      "fx": {
+        "public": 4,
+        "base": 4,
+        "money": -5,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a03_poaching",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your best administrators are being hired away by the firms that have grown up around your own reforms.",
+    "left": {
+      "label": "Pay them properly",
+      "fx": {
+        "money": -6,
+        "inst": 5,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ban the revolving door",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "backers": -5,
+        "base": 3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a04_visitors",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Four governments have sent delegations to study what you did. Two of them have better lawyers than you.",
+    "left": {
+      "label": "Open the files to them",
+      "fx": {
+        "inst": 4,
+        "public": 3,
+        "base": -3,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them the manual",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "base": 3,
+        "public": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a05_maintenance",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Everything you built is now old enough to need maintaining, which no ribbon has ever been cut for.",
+    "left": {
+      "label": "Fund the boring budget",
+      "fx": {
+        "money": -6,
+        "inst": 6,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Build something new",
+      "fx": {
+        "money": -5,
+        "base": 5,
+        "public": 3,
+        "inst": -5
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "a06_newcomers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "People are moving here on purpose now. The schools are full and the housing lists are being read aloud at meetings.",
+    "left": {
+      "label": "Build for them",
+      "fx": {
+        "money": -6,
+        "public": 4,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Close the register",
+      "fx": {
+        "order": 3,
+        "base": 5,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "a07_complacency",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The audit office has found nothing for three years running. Either you are clean or the audit office has stopped looking.",
+    "left": {
+      "label": "Audit the auditors",
+      "fx": {
+        "money": -3,
+        "inst": 5,
+        "base": -3,
+        "order": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Take the compliment",
+      "fx": {
+        "base": 3,
+        "inst": -4,
+        "public": 2,
+        "money": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a08_succession_bench",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "There are now four people who could do your job. Two of them are better at the parts you dislike.",
+    "left": {
+      "label": "Give them ministries",
+      "fx": {
+        "inst": 5,
+        "public": 3,
+        "base": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Split their portfolios",
+      "fx": {
+        "base": 4,
+        "order": 2,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a09_long_bond",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Somebody will lend you money for a hundred years at a rate that assumes the country still exists.",
+    "left": {
+      "label": "Borrow and build",
+      "fx": {
+        "money": 5,
+        "inst": 4,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Borrow and distribute",
+      "fx": {
+        "money": 4,
+        "base": 5,
+        "public": 4,
+        "inst": -5
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a10_l_cooperative",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The cooperatives are profitable and have started behaving like firms, including about wages.",
+    "left": {
+      "label": "Hold them to the charter",
+      "fx": {
+        "backers": 5,
+        "money": -4,
+        "inst": 4,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them be firms",
+      "fx": {
+        "money": 5,
+        "backers": -6,
+        "public": -2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a11_r_dividend",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The sovereign fund is large enough to pay a dividend. Your donors would prefer it stayed invested, with them.",
+    "left": {
+      "label": "Pay the dividend",
+      "fx": {
+        "public": 6,
+        "backers": -5,
+        "money": -5,
+        "base": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Reinvest it",
+      "fx": {
+        "money": 4,
+        "backers": 6,
+        "public": -5,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a12_quiet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Nothing happened this week. The bulletin has been filled with a story about a dog and the ratings are fine.",
+    "left": {
+      "label": "Let the week be quiet",
+      "fx": {
+        "inst": 4,
+        "public": 3,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Manufacture an emergency",
+      "fx": {
+        "base": 5,
+        "order": 3,
+        "public": -4,
+        "inst": -5
+      },
+      "drift": -6
+    }
+  }
+]

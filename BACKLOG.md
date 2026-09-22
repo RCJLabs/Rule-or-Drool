@@ -301,13 +301,56 @@ whose flavour follows your drift.
 
 </details>
 
-## 8. Give each era a rule, not just a deck — *queued*
+## 8. Give each era a rule, not just a deck — *done*
+
+**Shipped.** Eras now change the rules, and the player is told which rule at the jump. An
+`eraRules` table carries three levers: a standing `passive` on a beat of its own, a
+`volatility` multiplier on top of the band's, and a `queueScale` on enqueue delays.
+
+| Era | The rule |
+|---|---|
+| 1 | The honeymoon. The rules are just the rules. |
+| 2 | **The machines.** +1 Money and -1 Public every six cards, with no card to blame. The state gets steadily richer and the country does not, which walks you toward `oligarchy` at one end and `riots` at the other. |
+| 3 | **The long shadow.** -1 Institutions every eight cards, every effect landing at 1.15x, and enqueue delays at 0.6x, so the bills you deferred arrive sooner than the delay you were quoted. |
+
+**I did not add the colonies as a fifth meter.** That line predates item 5, which took the
+header to six meters; a seventh bar would crowd the display and re-open the balance work.
+Era three's rule uses the meters that already exist instead.
+
+**Bands were the weaker axis all along.** 74% of the pool drew in any band, and a run's
+draws were only **4.6-7.0%** band-specific. 24 new cards, 12 for Decay and 12 for Ascent:
+unpaid police who have found work at roadblocks, a land archive wet since spring, two
+departments using different maps, against a surplus nobody has a procedure for, the best
+administrators being hired away by the firms your own reforms created, and a week where
+nothing happened. Plus `bandAffinity` (3), the same trick `alignAffinity` played in item 2,
+so what is written for a band actually surfaces in it. Band-specific share of a run's draws
+is now **13.3-19.6%**, roughly tripled.
+
+**A heuristic I tried and threw away.** I tested whether a card's effect shape predicts its
+band — both sides costing state meters meaning Decay, a large investment available meaning
+Ascent. It found one Decay candidate and 37 Ascent candidates that were nothing of the sort:
+estate tax, charter towns, orbital lords. Effect shape does not encode tone, so the cards
+were written rather than relabelled.
+
+**Tuning, and a surprise.** A harsher passive *raises* mixed-bot Ascent, because it culls
+weak runs early and the survivors skew good: at -3 Public and -2 Institutions, Ascent went to
+34.9% and greedy's Decay fell through its floor to 69.5%. The rate, not the size, is the
+dial. At every six and eight cards it sits at **25.0% Ascent / 78.9% greedy Decay locked**
+and **20.9% / 81.1% unlocked**, all five targets passing in both states over 32,000 runs each.
+
+**Housekeeping.** Eight tests added since item 2 had been landing inside the `elections`
+describe block and reading as election tests. They now live in one named for what they
+actually check.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** Eras only change which cards are eligible. 72% of the pool draws in any band,
 so band does little either.
 
 **Do.** Era two adds standing automation pressure on Money; era three adds the colonies as a
 soft fifth meter. Band-gate more content. Three acts instead of one long deck.
+
+</details>
 
 ## 9. Re-tier objectives and fix the dead unlock — *done*
 

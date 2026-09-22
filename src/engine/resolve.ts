@@ -1,5 +1,6 @@
 import { endRun } from "./endings";
 export { rivalPressure } from "./state";
+import type { EraRule } from "./config";
 import { getCard, type Library } from "./library";
 import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import type { Card, GameState, Meters, RunStats, Side } from "./types";
@@ -20,6 +21,11 @@ export function traitScale(lib: Library, state: GameState, speaker: string): { g
     loss *= fx.loss;
   }
   return { gain, loss };
+}
+
+/** What era `state.era` changes about the rules themselves (BACKLOG item 8). */
+export function eraRule(lib: Library, state: GameState): EraRule {
+  return lib.config.eraRules[state.era - 1] ?? {};
 }
 
 /**
@@ -58,7 +64,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     s = { ...s, nextElectionAt: s.cardCount + interval };
   }
 
-  const mult = cfg.volatility[s.band];
+  const mult = cfg.volatility[s.band] * (eraRule(lib, s).volatility ?? 1);
   const trait = traitScale(lib, s, card.speaker);
   const meters: Meters = { ...s.meters };
   for (const k of METER_KEYS) {
@@ -83,7 +89,8 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
 
   let queue = s.queue;
   if (choice.enqueue?.length) {
-    queue = [...queue, ...choice.enqueue.map((e) => ({ id: e.id, dueAt: s.cardCount + e.delay }))];
+    const scale = eraRule(lib, s).queueScale ?? 1;
+    queue = [...queue, ...choice.enqueue.map((e) => ({ id: e.id, dueAt: s.cardCount + Math.max(1, Math.round(e.delay * scale)) }))];
   }
 
   let activeArcs = s.activeArcs;
@@ -173,6 +180,22 @@ export function advanceEra(lib: Library, state: GameState): GameState {
 }
 
 /**
+ * The era's standing pressure, applied every `passiveEvery` cards. Nothing on the table
+ * caused it, which is the point: era two's money arrives whether or not you asked for it,
+ * and era three's institutions wear out whoever is in charge (BACKLOG item 8).
+ */
+export function applyEraPassive(lib: Library, state: GameState): GameState {
+  const rule = eraRule(lib, state);
+  const every = rule.passiveEvery ?? 0;
+  if (!rule.passive || every <= 0 || state.cardCount === 0 || state.cardCount % every !== 0) return state;
+  const meters: Meters = { ...state.meters };
+  for (const [k, v] of Object.entries(fxDeltas(rule.passive))) {
+    meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + v);
+  }
+  return { ...state, meters };
+}
+
+/**
  * Resolve the card on the table (core loop steps 3–5): apply the choice, check
  * ousters, tick the counter, fire the election/coup check and era transition.
  */
@@ -200,6 +223,7 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
     if (s.cabinet[card.speaker] !== before) stats.advisorsFired++;
   }
   s = { ...s, stats, current: null, cardCount: s.cardCount + 1 };
+  s = applyEraPassive(lib, s);
   s = checkOuster(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);

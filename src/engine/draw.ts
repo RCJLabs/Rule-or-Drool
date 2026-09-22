@@ -67,10 +67,16 @@ function poolCandidates(lib: Library, state: GameState, relax: Relax): Card[] {
 
 function pickFrom(lib: Library, state: GameState, cards: Card[]): [Card | null, GameState] {
   if (cards.length === 0) return [null, state];
-  const affinity = lib.config.alignAffinity;
+  const { alignAffinity, bandAffinity } = lib.config;
   const r = pickWeighted(
     state.rngState,
-    cards.map((c) => (c.weight ?? 1) * (c.align === state.align ? affinity : 1)),
+    cards.map(
+      (c) =>
+        (c.weight ?? 1) *
+        (c.align === state.align ? alignAffinity : 1) *
+        // Eligibility already matched the band, so a narrow list means it was written for here.
+        (c.bands.length < BANDS.length ? bandAffinity : 1),
+    ),
   );
   const next = { ...state, rngState: r.state };
   if (r.index < 0) return [null, next];

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
+import { STRINGS } from "../src/content/strings";
 import { buildLibrary } from "../src/engine/library";
 import { BANDS } from "../src/engine/types";
 import { validateContent } from "../src/validate";
@@ -89,6 +90,16 @@ describe("elections", () => {
     }
   });
 
+});
+
+/**
+ * Guards on the shape of the game itself: how much of it is written for one side, one
+ * band or one era, and whether the mechanics each item added are actually carried by the
+ * content. These were landing under `elections` and reading as election tests.
+ */
+describe("content: the shape of a run", () => {
+  const events = content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0);
+
   // The two paths only feel different if a decent share of what a run shows belongs to
   // one side. Arcs are the strongest lever because they run for three cards (BACKLOG 2).
   it("locks at least a third of arcs to one side, both sides represented", () => {
@@ -103,6 +114,32 @@ describe("elections", () => {
     const locked = content.arcs.filter((a) => a.align !== "any").map((a) => a.weight);
     const shared = content.arcs.filter((a) => a.align === "any").map((a) => a.weight);
     expect(mean(locked)).toBeGreaterThan(mean(shared));
+  });
+
+  it("writes enough for Decay and Ascent that the bands look different", () => {
+    // 74% of the pool drew in any band, so the band you were in barely changed what you saw
+    // (BACKLOG item 8).
+    const banded = events.filter((c) => c.bands.length < BANDS.length);
+    for (const band of ["decay", "ascent"] as const) {
+      const n = banded.filter((c) => c.bands.includes(band)).length;
+      expect(n, `cards written for ${band}`).toBeGreaterThanOrEqual(40);
+    }
+    expect(banded.length / events.length).toBeGreaterThan(0.2);
+  });
+
+  it("gives every era past the first a rule of its own, and says so", () => {
+    const rules = library.config.eraRules;
+    expect(rules.length).toBe(library.config.eraCount);
+    expect(rules[0]).toEqual({});
+    for (let era = 2; era <= library.config.eraCount; era++) {
+      const rule = rules[era - 1]!;
+      const changesSomething = !!rule.passive || rule.volatility !== undefined || rule.queueScale !== undefined;
+      expect(changesSomething, `era ${era} changes a rule`).toBe(true);
+      // A rule the player is never told about is just an unexplained difficulty spike.
+      expect(STRINGS.eraRules[era - 1], `era ${era} is announced`).toBeTruthy();
+    }
+    // A passive with no beat would never fire.
+    for (const rule of rules) if (rule.passive) expect(rule.passiveEvery ?? 0).toBeGreaterThan(0);
   });
 
   it("gives each side a rival, and only the other side's", () => {

@@ -13,6 +13,7 @@ export function EraTransition({ era, onContinue }: Props) {
         <p className="kicker">Era {era}</p>
         <h2 id="era-title">{info?.name ?? `Era ${era}`}</h2>
         <p>{info?.jump ?? "Time passes."}</p>
+        {STRINGS.eraRules[era - 1] ? <p className="era-rule">{STRINGS.eraRules[era - 1]}</p> : null}
         <button type="button" className="primary" onClick={onContinue} autoFocus>
           {STRINGS.ui.continueEra}
         </button>

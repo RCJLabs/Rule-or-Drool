@@ -380,6 +380,13 @@ button {
 .overlay-card h2 {
   margin: 4px 0 10px;
 }
+/* The era's rule change, set apart from the flavour line above it (BACKLOG item 8). */
+.era-rule {
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px dashed var(--ink);
+  font-weight: 600;
+}
 .kicker {
   margin: 0;
   font-size: 12px;

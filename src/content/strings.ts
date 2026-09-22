@@ -45,6 +45,15 @@ export const STRINGS = {
     public: ["", "Everyone", "EVERYONE!!"],
   } as Record<string, readonly [string, string, string]>,
   bands: { decay: "Decay", muddle: "Muddle", ascent: "Ascent" },
+  /**
+   * What changes about the rules in each era, said plainly at the jump. Indexed by era;
+   * era 1 has no rule to announce, because it is the baseline (BACKLOG item 8).
+   */
+  eraRules: [
+    "",
+    "The work is done by machines now. The state gets steadily richer, and the country does not.",
+    "Nothing is maintained any more. Everything lands harder, and the bills you defer arrive sooner.",
+  ] as readonly string[],
   eras: [
     { name: "Your term", jump: "The office is yours. The country is watching, for now." },
     { name: "Twenty years on", jump: "Twenty years pass. A successor from your party takes the office you shaped." },

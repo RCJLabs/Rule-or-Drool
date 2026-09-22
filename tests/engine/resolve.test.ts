@@ -376,3 +376,48 @@ describe("resolve: losing to the rival", () => {
     expect(clean.rivalStanding).toBe(40 - l.config.rivalHonestLoss);
   });
 });
+
+describe("resolve: what each era changes about the rules", () => {
+  /** A library whose era rules are known, so the assertions are about the mechanism. */
+  const ruled = () =>
+    lib({
+      eraLength: 1000,
+      eraRules: [{}, { passive: { money: 2, public: -2 }, passiveEvery: 3 }, { passive: { inst: -1 }, passiveEvery: 2, volatility: 2, queueScale: 0.5 }],
+    });
+
+  it("leaves era one alone", () => {
+    const l = ruled();
+    let s = start(l, { era: 1, cardCount: 2 });
+    s = resolve(l, table(s, "f01"), "f01", "left");
+    expect(s.meters.money).toBe(50);
+    expect(s.meters.public).toBe(50);
+  });
+
+  it("applies the era's standing pressure on its own beat, with no card to blame", () => {
+    const l = ruled();
+    // cardCount ticks to 3, which is the beat.
+    const onBeat = resolve(l, table(start(l, { era: 2, cardCount: 2 }), "f01"), "f01", "left");
+    expect(onBeat.meters.money).toBe(52);
+    expect(onBeat.meters.public).toBe(48);
+    // cardCount ticks to 4, which is not.
+    const offBeat = resolve(l, table(start(l, { era: 2, cardCount: 3 }), "f01"), "f01", "left");
+    expect(offBeat.meters.money).toBe(50);
+  });
+
+  it("scales card effects by the era on top of the band", () => {
+    const l = ruled();
+    const era1 = resolve(l, table(start(l, { era: 1, cardCount: 1 }), "ev_fx"), "ev_fx", "left");
+    const era3 = resolve(l, table(start(l, { era: 3, cardCount: 1 }), "ev_fx"), "ev_fx", "left");
+    const move1 = Math.abs(era1.meters.money - 50);
+    const move3 = Math.abs(era3.meters.money - 50);
+    expect(move3).toBeGreaterThan(move1);
+  });
+
+  it("brings deferred bills due sooner in a late era", () => {
+    const l = ruled();
+    const early = resolve(l, table(start(l, { era: 1, cardCount: 0 }), "ev_enq"), "ev_enq", "left");
+    const late = resolve(l, table(start(l, { era: 3, cardCount: 0 }), "ev_enq"), "ev_enq", "left");
+    expect(late.queue[0]!.dueAt).toBeLessThan(early.queue[0]!.dueAt);
+    expect(late.queue[0]!.dueAt).toBeGreaterThanOrEqual(1);
+  });
+});
