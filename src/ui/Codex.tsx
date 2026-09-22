@@ -2,7 +2,7 @@ import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { LEGACIES, OBJECTIVES, codexProgress, type MetaState } from "../meta";
+import { HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, codexProgress, historyTitle, type MetaState } from "../meta";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
 
@@ -16,6 +16,18 @@ interface Props {
 /** Collected endings, futures and objectives (5.10). Unseen entries stay blank on purpose. */
 export function Codex({ lib, meta, onBack, onSettings }: Props) {
   const p = codexProgress(lib, meta);
+  // Found histories in the order that ranks them, so the list reads from the biggest things
+  // a run can do down to the habits every run has.
+  const rank = (key: string) => {
+    const i = HISTORY_ORDER.indexOf(key.split(":")[0]!);
+    return i < 0 ? HISTORY_ORDER.length : i;
+  };
+  const found = Object.entries(meta.histories ?? {})
+    .map(([key, n]) => {
+      const sig = key.split(":")[0]!;
+      return { key, n, title: historyTitle(key) ?? key, label: sig === NO_LEGACY ? "" : (LEGACIES[sig] ?? sig) };
+    })
+    .sort((a, b) => rank(a.key) - rank(b.key) || a.title.localeCompare(b.title));
   const endings = [...lib.endings.values()];
   const epilogues = [...new Map(lib.epilogues.map((e) => [epilogueKey(e), e])).values()];
 
@@ -35,6 +47,7 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
         <p className="codex-progress">
           {STRINGS.codex.stories} {p.storiesSeen}/{p.storiesTotal} · {STRINGS.codex.endings} {p.endingsSeen}/{p.endingsTotal} ·{" "}
           {STRINGS.codex.epilogues} {p.epiloguesSeen}/{p.epiloguesTotal} · {STRINGS.codex.legacies} {p.legaciesSeen}/{p.legaciesTotal} ·{" "}
+          {STRINGS.codex.historiesShort} {p.historiesSeen}/{p.historiesTotal} ·{" "}
           {STRINGS.codex.objectives} {p.objectivesDone}/{p.objectivesTotal}
         </p>
 
@@ -46,6 +59,7 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
             <ol className="codex-history">
               {meta.history.map((r, i) => (
                 <li key={`${r.endingId}-${i}`}>
+                  {r.history && historyTitle(r.history) && <b className="codex-run-history">{historyTitle(r.history)}</b>}
                   <b>
                     {STRINGS.parties[r.align]} · {r.cards} cards · {STRINGS.bands[r.band]}
                   </b>
@@ -104,6 +118,28 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
               );
             })}
           </ul>
+        </section>
+
+        {/* The collection a run is named into (post-run histories). Only the found ones are
+            listed: 198 rows of dots is noise, and the count says how much is left. */}
+        <section>
+          <h2>{STRINGS.codex.histories}</h2>
+          {found.length === 0 ? (
+            <p className="codex-empty">{STRINGS.codex.noHistories}</p>
+          ) : (
+            <ul className="codex-list">
+              {found.map(({ key, title, label, n }) => (
+                <li key={key} className="found">
+                  <b>{title}</b>
+                  <span>
+                    {label}
+                    {n > 1 ? ` · ${n} times` : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="codex-foot">{STRINGS.codex.unwritten.replace("{n}", String(p.historiesTotal - p.historiesSeen))}</p>
         </section>
 
         <section>

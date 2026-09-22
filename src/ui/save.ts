@@ -63,6 +63,10 @@ export function migrateRun(v: number, state: GameState): GameState | null {
   // save taken before this cannot know, and guessing would put a mark on the wrong card, so
   // the one card in progress is unmarked and everything after it is recorded properly.
   if (v < 8) s = { ...s, currentFrom: null };
+  // v8 -> v9: the run dates its flags, for the timeline at the end. A run already under way
+  // cannot know when it set the ones it has, and dating them all to card 0 would be a lie
+  // the timeline then tells, so they stay undated and only what happens next is recorded.
+  if (v < 9) s = { ...s, flagSince: {} };
   return s;
 }
 

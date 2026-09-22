@@ -277,6 +277,13 @@ export interface GameState {
   mandate: string | null;
   /** The card count at which that promise was broken, or null while it still holds. */
   mandateBrokenAt: number | null;
+  /**
+   * Flag -> the card count after which it was first set; 0 for anything the run started
+   * with. The end of a run tells the player *when* they did the things that defined it, not
+   * only that they did them, and a flag is the only record a decision leaves
+   * (post-run histories). Recorded once: a flag cleared and set again keeps its first date.
+   */
+  flagSince: Record<string, number>;
 }
 
 /**

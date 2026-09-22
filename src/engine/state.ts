@@ -246,5 +246,6 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     unlocked: [...(setup.unlocked ?? [])],
     mandate: mandate?.id ?? null,
     mandateBrokenAt: null,
+    flagSince: Object.fromEntries(flags.map((f) => [f, 0])),
   };
 }

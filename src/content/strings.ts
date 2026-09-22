@@ -195,6 +195,10 @@ export const STRINGS = {
     // The history half (BACKLOG item 10): what you did, not only how you died.
     stories: "Stories",
     legacies: "What the country was left with",
+    histories: "What history called you",
+    historiesShort: "Histories",
+    noHistories: "History has not made up its mind about you yet.",
+    unwritten: "{n} more are still unwritten.",
     cabinet: "People",
     history: "Your administrations",
     kept: "kept",

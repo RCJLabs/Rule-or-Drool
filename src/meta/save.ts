@@ -29,6 +29,10 @@ export function migrateMeta(raw: unknown): MetaState | null {
     // Past runs left no record of themselves, so these start empty and fill from here.
     arcOutcomes: Array.isArray(data.arcOutcomes) ? [...data.arcOutcomes] : [],
     legacies: { ...(data.legacies ?? {}) },
+    // v4 -> v5: every run is named by history now. Runs finished before were never named,
+    // and naming them after the fact from the codex record would guess at a band and side
+    // the record does not keep, so the collection starts empty and fills from here.
+    histories: { ...(data.histories ?? {}) },
     advisorsKept: { ...(data.advisorsKept ?? {}) },
     advisorsFired: { ...(data.advisorsFired ?? {}) },
     // v3 -> v4: runs can be taken on a promise (BACKLOG-2 phase 16). Nothing before this
@@ -40,6 +44,7 @@ export function migrateMeta(raw: unknown): MetaState | null {
       ...r,
       mandate: r.mandate ?? null,
       mandateKept: r.mandateKept ?? false,
+      history: r.history ?? null,
     })),
     nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],

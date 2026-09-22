@@ -4,8 +4,8 @@
  */
 export const APP_VERSION = "0.37.0";
 /** Gates run-state save migrations. Change only with a migration function. */
-export const RUN_SAVE_VERSION = 8;
+export const RUN_SAVE_VERSION = 9;
 /** Player settings are versioned separately again: they outlive both a run and a profile. */
 export const SETTINGS_VERSION = 2;
 /** Meta progression is versioned separately from run state (section 12). */
-export const META_SAVE_VERSION = 4;
+export const META_SAVE_VERSION = 5;

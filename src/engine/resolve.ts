@@ -265,5 +265,17 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   s = checkOuster(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);
-  return s;
+  return stampFlags(state, s);
+}
+
+/**
+ * Date every flag this card added, whichever step added it — the choice, a firing, a broken
+ * promise. Diffing once at the end means no step that sets a flag has to remember to do it.
+ */
+function stampFlags(before: GameState, after: GameState): GameState {
+  const added = after.flags.filter((f) => !before.flags.includes(f) && after.flagSince[f] === undefined);
+  if (added.length === 0) return after;
+  const flagSince = { ...after.flagSince };
+  for (const f of added) flagSince[f] = after.cardCount;
+  return { ...after, flagSince };
 }

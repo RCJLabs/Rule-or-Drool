@@ -39,6 +39,15 @@ describe("save", () => {
     expect("mood" in loaded!.meters).toBe(false);
   });
 
+  it("brings a v8 run forward with its flags undated rather than dated wrongly", () => {
+    // Dating every flag a run already had to card 0 would put them at the start of a
+    // timeline they did not happen at the start of.
+    const { flagSince: _drop, ...v8 } = newRun(library, 3, { align: "left" });
+    const s = migrateRun(8, { ...v8, flags: ["seawall"] } as never)!;
+    expect(s.flagSince).toEqual({});
+    expect(s.flags).toContain("seawall");
+  });
+
   it("migrateRun refuses versions it does not know", () => {
     const s = newRun(library, 1, { align: "left" });
     expect(migrateRun(RUN_SAVE_VERSION + 1, s)).toBeNull();

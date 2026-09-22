@@ -1,0 +1,731 @@
+{
+  "order": [
+    "long_ship",
+    "orbit_reached",
+    "elections_abolished",
+    "purge_begun",
+    "general_unleashed",
+    "heir_named",
+    "oracle_running",
+    "ring_started",
+    "referendum_called",
+    "seawall",
+    "water_rationed",
+    "bridge_ignored",
+    "moonshot_funded",
+    "feed_captured",
+    "housing_built",
+    "commission_open",
+    "counted_late_boxes",
+    "buried_the_audit",
+    "broke_mandate",
+    "pension_raided",
+    "schools_starved",
+    "media_captured",
+    "took_the_skim",
+    "broke_inquiry",
+    "broke_balance",
+    "broke_homes",
+    "broke_taxes",
+    "dirty_politics",
+    "cheated_election",
+    "habit_clamp",
+    "habit_bend",
+    "habit_skim"
+  ],
+  "histories": {
+    "long_ship": {
+      "titles": {
+        "decay": {
+          "left": "The Ship That Got Away",
+          "right": "First Class, Departed"
+        },
+        "muddle": {
+          "left": "The Ship and the Queue",
+          "right": "The Ship Nobody Waved Off"
+        },
+        "ascent": {
+          "left": "The Many Aboard",
+          "right": "The Voyage Century"
+        }
+      },
+      "after": {
+        "decay": "The long ship made it out. Most of what it left behind did not.",
+        "muddle": "The long ship is still out there, sending home the kind of news nobody reads.",
+        "ascent": "The long ship arrived somewhere. Its letters home are taught in schools."
+      }
+    },
+    "orbit_reached": {
+      "titles": {
+        "decay": {
+          "left": "Orbit, Then Nothing",
+          "right": "The Last Launch"
+        },
+        "muddle": {
+          "left": "The Satellite Years",
+          "right": "A Flag in Orbit"
+        },
+        "ascent": {
+          "left": "The Open Sky",
+          "right": "The Orbital Age"
+        }
+      },
+      "after": {
+        "decay": "Something you put in orbit is still up there. Nobody down here can reach it any more.",
+        "muddle": "The station is still up there, kept alive by a budget line nobody dares to cut.",
+        "ascent": "Orbit became ordinary. Children wave at the station the way yours waved at trains."
+      }
+    },
+    "elections_abolished": {
+      "titles": {
+        "decay": {
+          "left": "The Permanent Revolution",
+          "right": "The Long Emergency"
+        },
+        "muddle": {
+          "left": "The Provisional Century",
+          "right": "The Suspended Republic"
+        },
+        "ascent": {
+          "left": "The Benevolent Committee",
+          "right": "The Enlightened Decree"
+        }
+      },
+      "after": {
+        "decay": "Nobody has voted in living memory. The ballot boxes are in a museum, labelled as pottery.",
+        "muddle": "Elections were suspended and never quite resumed. Every year, someone promises next year.",
+        "ascent": "Nobody voted and it went well anyway, which historians find more upsetting than if it had not."
+      }
+    },
+    "purge_begun": {
+      "titles": {
+        "decay": {
+          "left": "The Committee of Lists",
+          "right": "The Loyalty Years"
+        },
+        "muddle": {
+          "left": "The Quiet Removals",
+          "right": "The Vetted Generation"
+        },
+        "ascent": {
+          "left": "The Purge Apologised For",
+          "right": "The Pardons"
+        }
+      },
+      "after": {
+        "decay": "The purge never formally ended. It ran out of people anyone was sure about.",
+        "muddle": "The purge is a chapter in the textbooks, and the chapter is short.",
+        "ascent": "The purge was investigated, named and apologised for, which is more than most countries manage."
+      }
+    },
+    "general_unleashed": {
+      "titles": {
+        "decay": {
+          "left": "The General's Peace",
+          "right": "The Garrison State"
+        },
+        "muddle": {
+          "left": "The Barracks Years",
+          "right": "The Uniformed Decades"
+        },
+        "ascent": {
+          "left": "The Army Sent Home",
+          "right": "The Disciplined Republic"
+        }
+      },
+      "after": {
+        "decay": "The general's people still run the checkpoints. They have forgotten what they were checking for.",
+        "muddle": "The army went back to barracks, eventually, and kept the barracks.",
+        "ascent": "The general's statue was moved to a smaller square, which counts here as a reckoning."
+      }
+    },
+    "heir_named": {
+      "titles": {
+        "decay": {
+          "left": "The People's Dynasty",
+          "right": "The House That Ate the State"
+        },
+        "muddle": {
+          "left": "The Heir Apparent",
+          "right": "The Family Business"
+        },
+        "ascent": {
+          "left": "The Reluctant Heir",
+          "right": "The Good Inheritance"
+        }
+      },
+      "after": {
+        "decay": "Your heir named an heir. The family still holds the office and none of them want it.",
+        "muddle": "The heir was competent enough. The family tree is on the currency.",
+        "ascent": "The heir you named gave the office back, which is the only thing anyone remembers about them."
+      }
+    },
+    "oracle_running": {
+      "titles": {
+        "decay": {
+          "left": "The Machine Decides",
+          "right": "The Algorithm's Republic"
+        },
+        "muddle": {
+          "left": "The Consultation Engine",
+          "right": "The Oracle Years"
+        },
+        "ascent": {
+          "left": "The Thinking Commons",
+          "right": "The Calculated Age"
+        }
+      },
+      "after": {
+        "decay": "The oracle is still running. Nobody remembers the question.",
+        "muddle": "The oracle is still consulted, and ignored, in that order.",
+        "ascent": "The oracle's answers are published, and nobody has yet found one that was wrong."
+      }
+    },
+    "ring_started": {
+      "titles": {
+        "decay": {
+          "left": "The Unfinished Ring",
+          "right": "The Ring to Nowhere"
+        },
+        "muddle": {
+          "left": "The Ring Works",
+          "right": "The Long Build"
+        },
+        "ascent": {
+          "left": "The Ring Complete",
+          "right": "The Age of the Ring"
+        }
+      },
+      "after": {
+        "decay": "Half a ring hangs over the equator. On clear nights you can see where the money ran out.",
+        "muddle": "The ring is three-quarters built, and has been for as long as anyone has been alive.",
+        "ascent": "The ring was finished. You can see it from anywhere, which was the point."
+      }
+    },
+    "referendum_called": {
+      "titles": {
+        "decay": {
+          "left": "Asked and Ignored",
+          "right": "The Referendum Nobody Honoured"
+        },
+        "muddle": {
+          "left": "The Great Asking",
+          "right": "The Plebiscite Years"
+        },
+        "ascent": {
+          "left": "The Country That Was Asked",
+          "right": "The Settled Question"
+        }
+      },
+      "after": {
+        "decay": "The country was asked once. The answer is kept in a drawer, still sealed.",
+        "muddle": "The referendum settled the question for about a generation, which is all they ever do.",
+        "ascent": "Asking the country directly became a habit. It is slow, and it has not been wrong yet."
+      }
+    },
+    "seawall": {
+      "titles": {
+        "decay": {
+          "left": "The Last Wall",
+          "right": "The Walled Estate"
+        },
+        "muddle": {
+          "left": "The Wall That Held",
+          "right": "The Seawall Years"
+        },
+        "ascent": {
+          "left": "The Dry Coast",
+          "right": "The Harbour Boom"
+        }
+      },
+      "after": {
+        "decay": "The seawall still stands. Nothing behind it is worth keeping dry.",
+        "muddle": "The seawall held, and the coast behind it is exactly as dull as it was, which is the triumph.",
+        "ascent": "The seawall still stands, and the coast behind it is the most expensive land on the continent."
+      }
+    },
+    "water_rationed": {
+      "titles": {
+        "decay": {
+          "left": "The Dry Century",
+          "right": "The Water Barons"
+        },
+        "muddle": {
+          "left": "The Ration Years",
+          "right": "The Metered Republic"
+        },
+        "ascent": {
+          "left": "The Shared Water",
+          "right": "The Careful Decades"
+        }
+      },
+      "after": {
+        "decay": "The rationing never lifted. Water is a currency now, and a volatile one.",
+        "muddle": "The rationing ended in the cities and never quite ended anywhere else.",
+        "ascent": "The rationing taught a country to count its water. It still does, and it never runs short."
+      }
+    },
+    "bridge_ignored": {
+      "titles": {
+        "decay": {
+          "left": "The Fallen Crossing",
+          "right": "The Divided City"
+        },
+        "muddle": {
+          "left": "The Long Way Round",
+          "right": "The Ferry Years"
+        },
+        "ascent": {
+          "left": "The Bridge Rebuilt",
+          "right": "The Toll Bridge Era"
+        }
+      },
+      "after": {
+        "decay": "The bridge fell. The two halves of the city stopped speaking, then stopped trading.",
+        "muddle": "The bridge fell and was replaced by a ferry, which was replaced by a slightly larger ferry.",
+        "ascent": "The bridge fell. The one they built instead is on the stamps."
+      }
+    },
+    "moonshot_funded": {
+      "titles": {
+        "decay": {
+          "left": "The Moonshot Missed",
+          "right": "The Grand Folly"
+        },
+        "muddle": {
+          "left": "The Moonshot Budget",
+          "right": "The Programme"
+        },
+        "ascent": {
+          "left": "The People's Moonshot",
+          "right": "The Bold Decades"
+        }
+      },
+      "after": {
+        "decay": "The moonshot budget was spent. The rocket was not.",
+        "muddle": "The moonshot programme still exists, as a department, with a canteen.",
+        "ascent": "The moonshot paid for itself in a way nobody predicted and everybody now claims they did."
+      }
+    },
+    "feed_captured": {
+      "titles": {
+        "decay": {
+          "left": "The One Channel",
+          "right": "The Sponsored State"
+        },
+        "muddle": {
+          "left": "The Feed Years",
+          "right": "The Curated Republic"
+        },
+        "ascent": {
+          "left": "The Feed Set Free",
+          "right": "The Quiet Feed"
+        }
+      },
+      "after": {
+        "decay": "The feed is still run from the office. It has not reported bad news in two hundred years.",
+        "muddle": "The feed is still run from here, and people have learned to read it upside down.",
+        "ascent": "The feed was handed back, eventually, and now it is mostly weather and recipes."
+      }
+    },
+    "housing_built": {
+      "titles": {
+        "decay": {
+          "left": "The Blocks",
+          "right": "The Developers' Century"
+        },
+        "muddle": {
+          "left": "The Estates",
+          "right": "The Housing Years"
+        },
+        "ascent": {
+          "left": "The Roof Over Everyone",
+          "right": "The Homeowners' Republic"
+        }
+      },
+      "after": {
+        "decay": "The housing still stands. It is the best-built thing in the country, and it is full.",
+        "muddle": "The housing was built and is still lived in, which is more than most promises manage.",
+        "ascent": "The housing was built, then more, then more. Nobody under forty remembers a waiting list."
+      }
+    },
+    "commission_open": {
+      "titles": {
+        "decay": {
+          "left": "The Endless Inquiry",
+          "right": "The Commission Century"
+        },
+        "muddle": {
+          "left": "The Standing Commission",
+          "right": "Still Sitting"
+        },
+        "ascent": {
+          "left": "The Commission That Reported",
+          "right": "The Findings"
+        }
+      },
+      "after": {
+        "decay": "The commission is still sitting. Its members are the grandchildren of its members.",
+        "muddle": "The commission publishes an interim report every decade, on schedule, to nobody.",
+        "ascent": "The commission finally reported. It was right about nearly everything, too late for nearly all of it."
+      }
+    },
+    "counted_late_boxes": {
+      "titles": {
+        "decay": {
+          "left": "The Late Count",
+          "right": "The District That Voted Twice"
+        },
+        "muddle": {
+          "left": "The Contested Returns",
+          "right": "The Recount Years"
+        },
+        "ascent": {
+          "left": "The Count Corrected",
+          "right": "The Honest Recount"
+        }
+      },
+      "after": {
+        "decay": "The late boxes were never explained. Counting after the close became the way it is done.",
+        "muddle": "The late boxes are still argued about, in the way that settles nothing and changes nothing.",
+        "ascent": "The late boxes were recounted in public and the rules changed. It only had to happen once."
+      }
+    },
+    "buried_the_audit": {
+      "titles": {
+        "decay": {
+          "left": "The Missing Accounts",
+          "right": "The Buried Ledger"
+        },
+        "muddle": {
+          "left": "The Audit Years",
+          "right": "The Sealed Files"
+        },
+        "ascent": {
+          "left": "The Audit Unearthed",
+          "right": "The Books Opened"
+        }
+      },
+      "after": {
+        "decay": "The audit is still buried, and so is everything it would have found.",
+        "muddle": "The audit was found decades later and published to general indifference.",
+        "ascent": "The audit was dug up and read aloud. It is the founding document of the modern treasury."
+      }
+    },
+    "broke_mandate": {
+      "titles": {
+        "decay": {
+          "left": "The Broken Word",
+          "right": "The Promise Discounted"
+        },
+        "muddle": {
+          "left": "The Unkept Promise",
+          "right": "The Small Print"
+        },
+        "ascent": {
+          "left": "The Promise Kept Late",
+          "right": "The Word Redeemed"
+        }
+      },
+      "after": {
+        "decay": "You broke the promise you took the job on. Nobody has believed one since.",
+        "muddle": "The promise you broke is a proverb now, used about weather and landlords.",
+        "ascent": "The promise was broken, then kept by whoever came after, which is how most promises are kept."
+      }
+    },
+    "pension_raided": {
+      "titles": {
+        "decay": {
+          "left": "The Spent Savings",
+          "right": "The Pension Raid"
+        },
+        "muddle": {
+          "left": "The Lean Retirement",
+          "right": "The Deferred Generation"
+        },
+        "ascent": {
+          "left": "The Pensions Repaid",
+          "right": "The Restored Fund"
+        }
+      },
+      "after": {
+        "decay": "The pensions were spent and never replaced. Nobody here retires; they just stop.",
+        "muddle": "The fund was refilled slowly, and the people it was taken from did not live to see it.",
+        "ascent": "The pensions were repaid with interest, by a generation that decided it owed them."
+      }
+    },
+    "schools_starved": {
+      "titles": {
+        "decay": {
+          "left": "The Unschooled Century",
+          "right": "The Illiterate Republic"
+        },
+        "muddle": {
+          "left": "The Quiet Classrooms",
+          "right": "The Adequate Schools"
+        },
+        "ascent": {
+          "left": "The Self-Taught Generation",
+          "right": "The Schools Rebuilt"
+        }
+      },
+      "after": {
+        "decay": "The schools were never fed. The country forgot how to fix things, then how to want to.",
+        "muddle": "The schools recovered, eventually. One generation did not, and it shows in the statistics.",
+        "ascent": "The schools were starved and the children taught each other anyway, which is the story everyone prefers."
+      }
+    },
+    "media_captured": {
+      "titles": {
+        "decay": {
+          "left": "The Party Paper",
+          "right": "The Owned Press"
+        },
+        "muddle": {
+          "left": "The Friendly Press",
+          "right": "The Approved Headlines"
+        },
+        "ascent": {
+          "left": "The Press Set Loose",
+          "right": "The Free Presses"
+        }
+      },
+      "after": {
+        "decay": "The press still answers to the office. It has never once been surprised.",
+        "muddle": "The press answers to the office in principle and to its advertisers in practice.",
+        "ascent": "The press was handed back and immediately turned on everyone, which is how you know it worked."
+      }
+    },
+    "took_the_skim": {
+      "titles": {
+        "decay": {
+          "left": "The Skimmed State",
+          "right": "The Grand Skim"
+        },
+        "muddle": {
+          "left": "The Small Percentage",
+          "right": "The Commission Economy"
+        },
+        "ascent": {
+          "left": "The Skim Returned",
+          "right": "The Clean Accounts"
+        }
+      },
+      "after": {
+        "decay": "The skim became the budget, and the budget became a rumour.",
+        "muddle": "The skim is still taken, at a rate everybody knows and nobody says.",
+        "ascent": "The skim was found, returned and spent on a hospital that carries your name, which is the joke."
+      }
+    },
+    "broke_inquiry": {
+      "titles": {
+        "decay": {
+          "left": "The Inquiry Abandoned",
+          "right": "The Unasked Questions"
+        },
+        "muddle": {
+          "left": "The Shelved Inquiry",
+          "right": "The Inquiry Years"
+        },
+        "ascent": {
+          "left": "The Inquiry Reopened",
+          "right": "The Answers, Eventually"
+        }
+      },
+      "after": {
+        "decay": "The inquiry you promised was never held, and the questions stopped being asked.",
+        "muddle": "The inquiry was promised, delayed, promised again, and finally held by a successor who found nothing.",
+        "ascent": "The inquiry you shelved was reopened and finished. It is required reading now."
+      }
+    },
+    "broke_balance": {
+      "titles": {
+        "decay": {
+          "left": "The Red Ink Century",
+          "right": "The Unbalanced Books"
+        },
+        "muddle": {
+          "left": "The Deficit Years",
+          "right": "The Overdraft Republic"
+        },
+        "ascent": {
+          "left": "The Debt Outgrown",
+          "right": "The Books Balanced, Finally"
+        }
+      },
+      "after": {
+        "decay": "The deficit you promised to close grew until it was the economy.",
+        "muddle": "The deficit is still there, and so is the promise to close it, and so is the laughter.",
+        "ascent": "The deficit was outgrown rather than closed, which economists still argue was cheating."
+      }
+    },
+    "broke_homes": {
+      "titles": {
+        "decay": {
+          "left": "The Homes Never Built",
+          "right": "The Empty Lots"
+        },
+        "muddle": {
+          "left": "The Waiting List",
+          "right": "The Housing Promise"
+        },
+        "ascent": {
+          "left": "The Homes, Late",
+          "right": "The Late Building Boom"
+        }
+      },
+      "after": {
+        "decay": "The homes you promised were never built. The lots became car parks, then nothing.",
+        "muddle": "The housing promise became a slogan, and the slogan became a joke about slogans.",
+        "ascent": "The homes you promised were built by someone else, who took the credit, which was fair."
+      }
+    },
+    "broke_taxes": {
+      "titles": {
+        "decay": {
+          "left": "The Tax Betrayal",
+          "right": "The Taxing Years"
+        },
+        "muddle": {
+          "left": "The Levy Years",
+          "right": "The Unkept Cut"
+        },
+        "ascent": {
+          "left": "The Fair Share",
+          "right": "The Tax Promise Kept Late"
+        }
+      },
+      "after": {
+        "decay": "The taxes you swore not to raise went up, and kept going, and paid for less every year.",
+        "muddle": "The new rate became the old rate, and nobody remembers the one before that.",
+        "ascent": "The taxes went up and something was built with them, the rarest sentence in the country's history."
+      }
+    },
+    "dirty_politics": {
+      "titles": {
+        "decay": {
+          "left": "The Cheap Win Century",
+          "right": "The Dirty Tricks Era"
+        },
+        "muddle": {
+          "left": "The Usual Methods",
+          "right": "The Way It Is Done"
+        },
+        "ascent": {
+          "left": "The Cleaner Politics",
+          "right": "The Rules Written Down"
+        }
+      },
+      "after": {
+        "decay": "The cheap win became the only win. Every campaign since has been worse than yours.",
+        "muddle": "The habit of the cheap win outlived you, as habits do, at about the same level.",
+        "ascent": "The cheap wins were written into the rulebook as things you cannot do, with yours as the example."
+      }
+    },
+    "cheated_election": {
+      "titles": {
+        "decay": {
+          "left": "The Counted-Twice Century",
+          "right": "The Stolen Mandate"
+        },
+        "muddle": {
+          "left": "The Doubtful Count",
+          "right": "The Managed Vote"
+        },
+        "ascent": {
+          "left": "The Last Stolen Vote",
+          "right": "The Clean Count After"
+        }
+      },
+      "after": {
+        "decay": "An election was counted twice, and after that every election was a formality.",
+        "muddle": "The election you counted twice is remembered, and it is remembered as normal.",
+        "ascent": "Yours was the last election counted twice. The one after it was watched by everyone."
+      }
+    },
+    "habit_clamp": {
+      "titles": {
+        "decay": {
+          "left": "The Iron Answer",
+          "right": "The Clampdown Years"
+        },
+        "muddle": {
+          "left": "The Same Answer",
+          "right": "The Firm Hand"
+        },
+        "ascent": {
+          "left": "The Clamp Loosened",
+          "right": "The Measured Hand"
+        }
+      },
+      "after": {
+        "decay": "The answer was always the same one, and the question stopped being asked.",
+        "muddle": "The office still reaches for the same answer first, and occasionally it is right.",
+        "ascent": "The clamp was loosened a notch a decade, until nobody could remember it being tight."
+      }
+    },
+    "habit_bend": {
+      "titles": {
+        "decay": {
+          "left": "The Bent Rules",
+          "right": "The Favoured Few"
+        },
+        "muddle": {
+          "left": "The Exceptions",
+          "right": "The Connected Decades"
+        },
+        "ascent": {
+          "left": "The Rules Straightened",
+          "right": "The Level Field"
+        }
+      },
+      "after": {
+        "decay": "The rules bent for the same people until the rules were the people.",
+        "muddle": "The rule still bends for the same families, which everyone knows and the forms do not.",
+        "ascent": "The rules were straightened, painfully, and the families involved sued, and lost."
+      }
+    },
+    "habit_skim": {
+      "titles": {
+        "decay": {
+          "left": "The Habitual Theft",
+          "right": "The Rent-Seeking Century"
+        },
+        "muddle": {
+          "left": "The Little Extra",
+          "right": "The Fee Economy"
+        },
+        "ascent": {
+          "left": "The Habit Broken",
+          "right": "The Honest Treasury"
+        }
+      },
+      "after": {
+        "decay": "Money was taken by habit, then by right, then by everyone.",
+        "muddle": "Money is still taken by habit, in amounts too small to prosecute and too large to ignore.",
+        "ascent": "The habit of taking was broken, slowly, by paying people enough to stop."
+      }
+    },
+    "none": {
+      "titles": {
+        "decay": {
+          "left": "The Drift",
+          "right": "The Slow Slide"
+        },
+        "muddle": {
+          "left": "The Unremarkable Years",
+          "right": "The Quiet Interval"
+        },
+        "ascent": {
+          "left": "The Unnoticed Rise",
+          "right": "The Steady Climb"
+        }
+      },
+      "after": {
+        "decay": "You left nothing a historian could point at. The country fell anyway, just without a reason.",
+        "muddle": "You left no mark a historian could find, which some of them consider the achievement.",
+        "ascent": "You left nothing to point at and the country rose anyway, which is either the best review or the worst."
+      }
+    }
+  }
+}

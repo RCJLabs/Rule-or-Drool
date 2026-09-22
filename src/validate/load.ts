@@ -80,6 +80,9 @@ export function loadRoot(rootArg: string): Loaded {
     else if (file === "modifiers.json") content.modifiers.push(...loadArray<Modifier>(raw, MODIFIER_SPEC, "modifier", file, (m) => m.id));
     else if (file === "endings.json") content.endings.push(...loadArray<Ending>(raw, ENDING_SPEC, "ending", file, (e) => e.id));
     else if (file === "epilogues.json") content.epilogues.push(...loadArray<Epilogue>(raw, EPILOGUE_SPEC, "epilogue", file, (e) => epilogueId(e)));
+    // Read by the meta layer rather than the engine, and checked as a whole by the
+    // `history-*` rules, so it is recognised here and not loaded into the engine's content.
+    else if (file === "histories.json") continue;
     else issues.error("file-unclassified", `not a content file: expected cards/**, arcs/** or one of ${REQUIRED_FILES.join(", ")}`, { kind: "file", id: file, file });
   }
   for (const required of REQUIRED_FILES) {

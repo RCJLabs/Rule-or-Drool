@@ -123,6 +123,15 @@ export const OBJECTIVES: readonly Objective[] = [
     check: ({ meta }) => meta.runs >= 10,
   },
   {
+    id: "obj_ten_histories",
+    title: "In the history books",
+    hint: "Be remembered ten different ways.",
+    // Measured: a competent player meets a median of 17 distinct histories in their first
+    // twenty runs, so ten is a place on the ladder rather than a wall. Unlike the endings
+    // objectives below it, this one is reached by winning, not by failing ten ways.
+    check: ({ meta }) => Object.keys(meta.histories ?? {}).length >= 10,
+  },
+  {
     id: "obj_five_endings",
     title: "Five ways out",
     hint: "Discover five different endings.",

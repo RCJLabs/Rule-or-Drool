@@ -433,6 +433,27 @@ describe("resolve: what a run records about itself", () => {
     expect(s.stats.arcOutcomes).toEqual(["arc_t2:right"]);
   });
 
+  it("dates each flag by the card that set it, and keeps the first date", () => {
+    // The end-of-run timeline says when a decision was made, and a flag is the only record a
+    // decision leaves (post-run histories).
+    const l = lib();
+    let s = start(l, { cardCount: 6 });
+    s = resolve(l, table(s, "ev_flags"), "ev_flags", "left");
+    expect(s.flagSince.f1).toBe(7);
+    expect(s.flagSince.f2).toBe(7);
+    // Cleared and set again later: still the day it was first done.
+    s = resolve(l, table(s, "ev_flags"), "ev_flags", "right");
+    s = resolve(l, table(s, "ev_flags"), "ev_flags", "left");
+    expect(s.flagSince.f1).toBe(7);
+    expect(s.flagSince.f3).toBe(8);
+  });
+
+  it("dates what a run starts with to card 0", () => {
+    const l = lib();
+    const s = start(l);
+    for (const f of s.flags) expect(s.flagSince[f]).toBe(0);
+  });
+
   it("records who was let go, not just how many", () => {
     const l = lib();
     const s = resolve(l, table(start(l), "ev_fire"), "ev_fire", "left");

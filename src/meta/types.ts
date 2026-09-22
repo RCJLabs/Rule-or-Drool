@@ -27,6 +27,11 @@ export interface MetaState {
   arcOutcomes: string[];
   /** Legacy flag -> how many runs ended with the country still carrying it. */
   legacies: Record<string, number>;
+  /**
+   * History key (`decision:band:side`) -> how many runs history has called that
+   * (post-run histories). The collectible a run gets for what it did, not how it stopped.
+   */
+  histories: Record<string, number>;
   /** Advisor id -> runs they served to the end. */
   advisorsKept: Record<string, number>;
   /** Advisor id -> times you let them go. */
@@ -58,6 +63,8 @@ export interface RunRecord {
   rival: string | null;
   /** Legacy flags the country was left with. */
   legacies: string[];
+  /** What history called the run, as a history key; null for runs recorded before histories. */
+  history: string | null;
   /** The promise the run was taken on, if any, and whether it survived the run. */
   mandate: string | null;
   mandateKept: boolean;

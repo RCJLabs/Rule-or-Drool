@@ -3,6 +3,7 @@ import type { Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
+import { ALL_HISTORY_KEYS, historyOf, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { OBJECTIVES } from "./objectives";
 import type { DailyRecord, MetaState , RunRecord } from "./types";
@@ -24,6 +25,7 @@ export function emptyMeta(): MetaState {
     alignsPlayed: [],
     arcOutcomes: [],
     legacies: {},
+    histories: {},
     advisorsKept: {},
     advisorsFired: {},
     mandatesKept: {},
@@ -42,6 +44,9 @@ export interface RunFold {
   newUnlocks: string[];
   /** True the first time this ending is seen. */
   newEnding: boolean;
+  /** What history calls the run, and whether this is the first time it has been called that. */
+  history: History | null;
+  newHistory: boolean;
 }
 
 /**
@@ -49,11 +54,13 @@ export interface RunFold {
  * objective against the updated meta. Pure, so the UI can show what a run earned.
  */
 export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: { day: string; seed: number }): RunFold {
-  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false };
+  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false, history: null, newHistory: false };
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
 
   const newEnding = !(endingId in meta.endings);
+  const history = historyOf(run, band);
+  const newHistory = !(history.key in (meta.histories ?? {}));
   const next: MetaState = {
     ...meta,
     runs: meta.runs + 1,
@@ -65,6 +72,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     unlocks: [...meta.unlocks],
     arcOutcomes: [...new Set([...meta.arcOutcomes, ...run.stats.arcOutcomes])],
     legacies: { ...meta.legacies },
+    histories: { ...(meta.histories ?? {}), [history.key]: ((meta.histories ?? {})[history.key] ?? 0) + 1 },
     advisorsKept: { ...meta.advisorsKept },
     advisorsFired: { ...meta.advisorsFired },
     mandatesKept: { ...meta.mandatesKept },
@@ -107,6 +115,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     band,
     rival: run.cabinet[lib.config.rivalRole] ?? null,
     legacies,
+    history: history.key,
     mandate: run.mandate,
     mandateKept,
   };
@@ -128,7 +137,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
       newUnlocks.push(o.unlocks);
     }
   }
-  return { meta: next, newObjectives, newUnlocks, newEnding };
+  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory };
 }
 
 /** Codex progress for the UI. */
@@ -140,6 +149,8 @@ export interface CodexProgress {
   storiesTotal: number;
   legaciesSeen: number;
   legaciesTotal: number;
+  historiesSeen: number;
+  historiesTotal: number;
   epiloguesSeen: number;
   epiloguesTotal: number;
   objectivesDone: number;
@@ -156,6 +167,8 @@ export function codexProgress(lib: Library, meta: MetaState): CodexProgress {
     storiesTotal: [...lib.arcs.keys()].reduce((n, id) => n + arcOutcomes(lib, id).length, 0),
     legaciesSeen: Object.keys(meta.legacies).length,
     legaciesTotal: Object.keys(LEGACIES).length,
+    historiesSeen: Object.keys(meta.histories ?? {}).length,
+    historiesTotal: ALL_HISTORY_KEYS.length,
     objectivesDone: Object.keys(meta.objectives).length,
     objectivesTotal: OBJECTIVES.length,
   };

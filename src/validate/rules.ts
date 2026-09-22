@@ -13,6 +13,7 @@ import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
 /** Conditions can read the rival's pressure too; effects cannot (BACKLOG item 7). */
 const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
+import { HISTORIES, HISTORY_ORDER, NO_LEGACY } from "../meta/histories";
 import { LEGACY_FLAGS } from "../meta/legacies";
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
@@ -507,5 +508,46 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     }
   }
 
+  checkHistories(issues);
   return issues.items;
+}
+
+/**
+ * Every legacy needs a history, or the run that is defined by it ends with no name; every
+ * title has to be different, or "198 histories" is a count and not a collection. The
+ * order has to hold each legacy exactly once, because it is how a run's defining decision is
+ * picked and a legacy missing from it could never define anything (post-run histories).
+ */
+function checkHistories(issues: Issues): void {
+  const legacies = [...LEGACY_FLAGS];
+  for (const f of legacies) {
+    if (!HISTORIES[f]) issues.error("history-missing", `legacy "${f}" has no history, so a run it defines has no name`);
+  }
+  if (!HISTORIES[NO_LEGACY]) issues.error("history-missing", `no fallback history for a run that leaves no legacy`);
+  for (const f of Object.keys(HISTORIES)) {
+    if (f !== NO_LEGACY && !LEGACY_FLAGS.has(f)) issues.error("history-orphan", `history "${f}" is for a flag that is not a legacy`);
+  }
+  const seen = new Set<string>();
+  for (const f of HISTORY_ORDER) {
+    if (seen.has(f)) issues.error("history-order", `"${f}" appears twice in the history order`);
+    seen.add(f);
+  }
+  for (const f of legacies) if (!seen.has(f)) issues.error("history-order", `legacy "${f}" is missing from the history order, so it can never define a run`);
+  const titles = new Map<string, string>();
+  for (const [f, h] of Object.entries(HISTORIES)) {
+    for (const band of BANDS) {
+      if (!h.after?.[band]?.trim()) issues.error("history-text", `history "${f}" has no "after" line for ${band}`);
+      for (const align of PLAYER_ALIGNS) {
+        const t = h.titles?.[band]?.[align]?.trim();
+        if (!t) {
+          issues.error("history-text", `history "${f}" has no title for ${band} × ${align}`);
+          continue;
+        }
+        const where = `${f}:${band}:${align}`;
+        const clash = titles.get(t);
+        if (clash) issues.error("history-duplicate", `"${t}" names both ${clash} and ${where}`);
+        else titles.set(t, where);
+      }
+    }
+  }
 }
