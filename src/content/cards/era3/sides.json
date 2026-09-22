@@ -58,9 +58,10 @@
     "right": {
       "label": "Add a third lottery",
       "fx": {
-        "mood": 1,
         "money": 2,
-        "inst": -1
+        "inst": -1,
+        "backers": 2,
+        "base": 1
       },
       "drift": -3
     }
@@ -83,9 +84,10 @@
     "left": {
       "label": "End the practice",
       "fx": {
-        "mood": -3,
         "order": -4,
-        "inst": 3
+        "inst": 3,
+        "backers": -3,
+        "base": -6
       },
       "drift": 4
     },

@@ -18,8 +18,10 @@
       "label": "Sign it into law",
       "fx": {
         "order": 4,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -3,
       "enqueue": [
@@ -55,17 +57,20 @@
     "left": {
       "label": "Sign it",
       "fx": {
-        "mood": 1,
         "order": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     },
     "right": {
       "label": "Veto it",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     }
@@ -89,8 +94,10 @@
       "label": "Hand them over",
       "fx": {
         "money": 7,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -3,
       "setFlags": [
@@ -130,8 +137,9 @@
       "label": "Build it taller",
       "fx": {
         "money": -2,
-        "mood": 2,
-        "order": 2
+        "order": 2,
+        "base": 4,
+        "public": 2
       },
       "drift": -3
     },
@@ -140,7 +148,8 @@
       "fx": {
         "money": -4,
         "inst": 1,
-        "mood": -2
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     }
@@ -164,8 +173,10 @@
       "label": "Golf partner",
       "fx": {
         "money": 5,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 3,
+        "base": 1,
+        "public": -1
       },
       "drift": -3,
       "enqueue": [
@@ -179,8 +190,10 @@
       "label": "Lowest bid",
       "fx": {
         "money": 3,
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "backers": -2,
+        "public": -3,
+        "base": -4
       },
       "drift": 3
     }
@@ -200,17 +213,21 @@
     "left": {
       "label": "Gild it",
       "fx": {
-        "mood": 2,
         "order": 1,
-        "money": -1
+        "money": -1,
+        "base": 3,
+        "public": 2,
+        "backers": 1
       },
       "drift": -3
     },
     "right": {
       "label": "Change the subject",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     }
@@ -243,7 +260,8 @@
       "fx": {
         "order": -5,
         "inst": 1,
-        "mood": 2
+        "public": 4,
+        "backers": 2
       },
       "drift": 3
     }
@@ -267,8 +285,10 @@
       "label": "Let it self-inspect",
       "fx": {
         "money": 7,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -3,
       "enqueue": [

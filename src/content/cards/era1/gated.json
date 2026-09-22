@@ -23,17 +23,20 @@
       "label": "Cut honestly",
       "fx": {
         "money": 6,
-        "mood": -4,
-        "inst": 1
+        "inst": 1,
+        "backers": -2,
+        "public": -4,
+        "base": -6
       },
       "drift": 3
     },
     "right": {
       "label": "Borrow and smile",
       "fx": {
-        "mood": 1,
         "money": 2,
-        "inst": -1
+        "inst": -1,
+        "backers": 2,
+        "base": 1
       },
       "drift": -3,
       "enqueue": [
@@ -67,17 +70,20 @@
     "left": {
       "label": "Publish the real one",
       "fx": {
-        "mood": -4,
-        "inst": 1
+        "inst": 1,
+        "public": -3,
+        "base": -4,
+        "backers": -5
       },
       "drift": 3
     },
     "right": {
       "label": "Publish the other",
       "fx": {
-        "mood": 1,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 2,
+        "base": 1
       },
       "drift": -3
     }
@@ -107,7 +113,9 @@
       "fx": {
         "money": 6,
         "order": -6,
-        "mood": -2
+        "backers": 1,
+        "public": -2,
+        "base": -5
       },
       "drift": 3
     },
@@ -115,8 +123,10 @@
       "label": "Send more",
       "fx": {
         "order": 3,
-        "mood": 1,
-        "money": -6
+        "money": -6,
+        "base": 4,
+        "public": 1,
+        "backers": -2
       },
       "drift": -3,
       "enqueue": [
@@ -152,16 +162,20 @@
       "fx": {
         "money": -6,
         "inst": 1,
-        "mood": 2
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 3
     },
     "right": {
       "label": "Cut a ribbon",
       "fx": {
-        "mood": 2,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 3,
+        "base": 2,
+        "public": 1
       },
       "drift": -3
     }
@@ -189,17 +203,20 @@
     "left": {
       "label": "Life size",
       "fx": {
-        "mood": -2,
-        "inst": 1
+        "inst": 1,
+        "public": -1,
+        "base": -2,
+        "backers": -3
       },
       "drift": 2
     },
     "right": {
       "label": "Somewhat taller",
       "fx": {
-        "mood": 1,
         "money": -2,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "public": 1
       },
       "drift": -3
     }
@@ -277,7 +294,9 @@
       "fx": {
         "order": 4,
         "inst": -1,
-        "mood": 1
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -3
     }
@@ -350,7 +369,8 @@
       "fx": {
         "money": -3,
         "inst": 1,
-        "mood": -2
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
@@ -388,7 +408,8 @@
       "fx": {
         "order": -5,
         "inst": 1,
-        "mood": -2
+        "backers": -2,
+        "base": -4
       },
       "drift": 3
     },
@@ -396,8 +417,10 @@
       "label": "Work the list",
       "fx": {
         "order": 4,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -4
     }
@@ -427,7 +450,8 @@
       "fx": {
         "money": -3,
         "inst": 3,
-        "mood": -2
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
@@ -435,8 +459,10 @@
       "label": "Procurement pays rent",
       "fx": {
         "money": 6,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -3
     }
@@ -464,17 +490,20 @@
     "left": {
       "label": "Take the blame",
       "fx": {
-        "mood": -4,
-        "inst": 1
+        "inst": 1,
+        "public": -3,
+        "base": -4,
+        "backers": -5
       },
       "drift": 3
     },
     "right": {
       "label": "Let them",
       "fx": {
-        "mood": 1,
         "order": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3,
       "fireSpeaker": true

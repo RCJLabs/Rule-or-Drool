@@ -35,8 +35,9 @@
       "label": "Buy the house",
       "fx": {
         "money": -2,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "public": 1
       },
       "drift": -3
     }
@@ -65,8 +66,10 @@
     "left": {
       "label": "Hand it to a regulator",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 4,
       "clearFlags": [
@@ -76,9 +79,10 @@
     "right": {
       "label": "Leave it running",
       "fx": {
-        "mood": 1,
         "order": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -4
     }
@@ -106,8 +110,10 @@
     "left": {
       "label": "Crew it on merit",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 4
     },
@@ -115,8 +121,10 @@
       "label": "Crew it with donors",
       "fx": {
         "money": 9,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -4
     }
@@ -152,8 +160,9 @@
       "label": "Fund all nine",
       "fx": {
         "money": -5,
-        "mood": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 4,
+        "public": 2
       },
       "drift": -3
     }

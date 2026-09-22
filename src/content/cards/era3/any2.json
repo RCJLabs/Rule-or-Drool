@@ -26,8 +26,10 @@
       "label": "Pay their price",
       "fx": {
         "money": -3,
-        "mood": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 3,
+        "public": 2,
+        "backers": 1
       },
       "drift": -3
     }
@@ -51,8 +53,10 @@
       "label": "Pay it and say why",
       "fx": {
         "money": -6,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 1,
+        "base": -2,
+        "backers": -5
       },
       "drift": 5
     },
@@ -60,8 +64,10 @@
       "label": "Roll it a twelfth time",
       "fx": {
         "money": 6,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "base": 2,
+        "public": -1
       },
       "drift": -4
     }
@@ -84,8 +90,10 @@
       "label": "Write a new measure",
       "fx": {
         "money": -4,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 1,
+        "base": -2,
+        "backers": -5
       },
       "drift": 5
     },
@@ -93,8 +101,10 @@
       "label": "Sell the timber",
       "fx": {
         "money": 7,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "base": 2,
+        "public": -1
       },
       "drift": -4
     }
@@ -117,8 +127,10 @@
       "label": "Fund the north",
       "fx": {
         "money": -6,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 1,
+        "base": -2,
+        "backers": -5
       },
       "drift": 5
     },
@@ -127,8 +139,10 @@
       "fx": {
         "order": 3,
         "money": 3,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -4
     }
@@ -185,17 +199,20 @@
     "left": {
       "label": "Publish both versions",
       "fx": {
-        "mood": -4,
-        "inst": 3
+        "inst": 3,
+        "public": -3,
+        "base": -4,
+        "backers": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Publish the tidy one",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -5
     }
@@ -226,8 +243,10 @@
       "label": "Extend the licence",
       "fx": {
         "money": 6,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -4,
       "enqueue": [
@@ -256,17 +275,20 @@
       "label": "Record all of it",
       "fx": {
         "money": -2,
-        "mood": 1,
-        "inst": 2
+        "inst": 2,
+        "public": 3,
+        "base": 1,
+        "backers": -1
       },
       "drift": 3
     },
     "right": {
       "label": "Put it in a museum",
       "fx": {
-        "mood": 1,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 2,
+        "base": 1
       },
       "drift": -3
     }
@@ -290,17 +312,21 @@
       "label": "Move it, and say why",
       "fx": {
         "money": 6,
-        "mood": -4,
-        "inst": 3
+        "inst": 3,
+        "backers": -2,
+        "public": -4,
+        "base": -6
       },
       "drift": 4
     },
     "right": {
       "label": "Leave it to the next",
       "fx": {
-        "mood": 2,
         "money": -2,
-        "inst": -2
+        "inst": -2,
+        "base": 3,
+        "public": 2,
+        "backers": 1
       },
       "drift": -4
     }
@@ -332,9 +358,11 @@
       "label": "Build the capability",
       "fx": {
         "order": 3,
-        "mood": 2,
         "money": -6,
-        "inst": -2
+        "inst": -2,
+        "base": 5,
+        "public": 2,
+        "backers": -1
       },
       "drift": -5
     }
@@ -363,8 +391,10 @@
       "label": "Sell the front too",
       "fx": {
         "money": 7,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "base": 2,
+        "public": -1
       },
       "drift": -5
     }
@@ -384,18 +414,22 @@
     "left": {
       "label": "Cut it to nine",
       "fx": {
-        "mood": -4,
         "money": 3,
-        "inst": 3
+        "inst": 3,
+        "public": -3,
+        "backers": -4,
+        "base": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Approve the forty-second",
       "fx": {
-        "mood": 3,
         "money": -3,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "public": 3,
+        "backers": 2
       },
       "drift": -5
     }
@@ -416,18 +450,21 @@
     "left": {
       "label": "Adopt the delay",
       "fx": {
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -1,
+        "backers": -3,
+        "base": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Keep the speed",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 2
       },
       "drift": -3
     }
@@ -447,18 +484,20 @@
     "left": {
       "label": "Write the protocol",
       "fx": {
-        "mood": -2,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "backers": -2,
+        "base": -4
       },
       "drift": 5
     },
     "right": {
       "label": "Trust the convention",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 2
       },
       "drift": -3
     }

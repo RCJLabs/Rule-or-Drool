@@ -18,17 +18,20 @@
       "label": "Pass it with teeth",
       "fx": {
         "money": 4,
-        "mood": 2,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 2
       },
       "drift": 3
     },
     "right": {
       "label": "Pass it with holes",
       "fx": {
-        "mood": 3,
         "money": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 3,
+        "public": 2
       },
       "drift": -3
     }
@@ -58,9 +61,11 @@
     "right": {
       "label": "Announce a target",
       "fx": {
-        "mood": 3,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 3,
+        "public": 2
       },
       "drift": -3
     }
@@ -83,17 +88,20 @@
     "left": {
       "label": "Retire them kindly",
       "fx": {
-        "mood": -3,
-        "inst": 2
+        "inst": 2,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Give them ministries",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 2
       },
       "drift": -3
     }
@@ -116,17 +124,21 @@
       "label": "Audit it anyway",
       "fx": {
         "money": 3,
-        "mood": -3,
-        "inst": 2
+        "inst": 2,
+        "backers": -2,
+        "public": -3,
+        "base": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Double it instead",
       "fx": {
-        "mood": 3,
         "money": -1,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": 2
       },
       "drift": -3
     }
@@ -149,7 +161,8 @@
       "label": "Meet the demand",
       "fx": {
         "money": -6,
-        "mood": 2
+        "public": 4,
+        "base": 2
       },
       "drift": 2
     },
@@ -182,17 +195,20 @@
       "label": "Go through the courts",
       "fx": {
         "money": -3,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Seize it by decree",
       "fx": {
-        "mood": 3,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "backers": 3,
+        "public": 1
       },
       "drift": -4
     }
@@ -215,17 +231,19 @@
       "label": "Rebate the poorest",
       "fx": {
         "money": -4,
-        "mood": 2,
-        "inst": 1
+        "inst": 1,
+        "public": 4,
+        "base": 2
       },
       "drift": 3
     },
     "right": {
       "label": "Exempt everyone loud",
       "fx": {
-        "mood": 2,
         "money": 2,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 2
       },
       "drift": -3
     }
@@ -249,8 +267,9 @@
       "label": "Legislate the seats",
       "fx": {
         "money": -3,
-        "mood": 2,
-        "inst": 2
+        "inst": 2,
+        "public": 4,
+        "base": 2
       },
       "drift": 3
     },
@@ -258,8 +277,10 @@
       "label": "Take the donation",
       "fx": {
         "money": 7,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -4
     }
@@ -282,8 +303,10 @@
       "label": "Buy the tower",
       "fx": {
         "money": -6,
-        "mood": 2,
-        "inst": 1
+        "inst": 1,
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 3
     },
@@ -292,7 +315,9 @@
       "fx": {
         "order": 3,
         "money": 2,
-        "mood": -2
+        "base": -1,
+        "backers": -2,
+        "public": -3
       },
       "drift": -3
     }
@@ -316,17 +341,20 @@
       "label": "Fund clinics instead",
       "fx": {
         "money": -4,
-        "mood": -2,
-        "inst": 2
+        "inst": 2,
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Approve the logo",
       "fx": {
-        "mood": 2,
         "money": -1,
-        "inst": -1
+        "inst": -1,
+        "base": 3,
+        "public": 2,
+        "backers": 1
       },
       "drift": -3
     }
@@ -349,16 +377,20 @@
       "label": "Subsidise producers",
       "fx": {
         "money": -6,
-        "mood": 2,
-        "inst": 1
+        "inst": 1,
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 3
     },
     "right": {
       "label": "Cap the prices",
       "fx": {
-        "mood": 3,
-        "money": 1
+        "money": 1,
+        "backers": 4,
+        "public": 3,
+        "base": 2
       },
       "drift": -3,
       "enqueue": [
@@ -386,8 +418,10 @@
     "left": {
       "label": "Separate the two",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
@@ -395,8 +429,9 @@
       "label": "Expand the academy",
       "fx": {
         "order": 2,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -420,17 +455,20 @@
       "label": "Cancel the worst of it",
       "fx": {
         "money": -6,
-        "mood": 3,
-        "inst": 1
+        "inst": 1,
+        "public": 6,
+        "base": 3
       },
       "drift": 3
     },
     "right": {
       "label": "Cancel all of it",
       "fx": {
-        "mood": 3,
         "money": -2,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "public": 3,
+        "backers": 2
       },
       "drift": -3,
       "enqueue": [
@@ -461,7 +499,9 @@
       "fx": {
         "money": -6,
         "inst": 2,
-        "mood": 2
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 3
     },
@@ -469,8 +509,10 @@
       "label": "Renew the contract",
       "fx": {
         "money": 5,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -3
     }
@@ -490,9 +532,11 @@
     "left": {
       "label": "Shut it down",
       "fx": {
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -1,
+        "backers": -3,
+        "base": -5
       },
       "drift": 4
     },
@@ -500,8 +544,9 @@
       "label": "Give it an office",
       "fx": {
         "order": 3,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -522,17 +567,21 @@
     "left": {
       "label": "Keep her",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Replace her today",
       "fx": {
-        "mood": 3,
         "order": 1,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": 2
       },
       "drift": -3,
       "fireSpeaker": true
@@ -553,18 +602,22 @@
     "left": {
       "label": "Cost it publicly",
       "fx": {
-        "mood": -3,
         "inst": 3,
-        "money": 2
+        "money": 2,
+        "public": -2,
+        "backers": -3,
+        "base": -4
       },
       "drift": 4
     },
     "right": {
       "label": "Announce it anyway",
       "fx": {
-        "mood": 3,
         "money": -2,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "public": 3,
+        "backers": 2
       },
       "drift": -4
     }
@@ -593,9 +646,11 @@
     "right": {
       "label": "Give it the contract",
       "fx": {
-        "mood": 3,
         "money": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "base": 3,
+        "public": 1
       },
       "drift": -4,
       "setFlags": [
@@ -621,7 +676,9 @@
       "fx": {
         "money": -6,
         "inst": 2,
-        "mood": 1
+        "public": 4,
+        "base": 1,
+        "backers": -2
       },
       "drift": 4
     },
@@ -629,8 +686,9 @@
       "label": "Pilot it in one city",
       "fx": {
         "money": -2,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "public": 1
       },
       "drift": -2
     }
@@ -651,8 +709,9 @@
       "label": "Regulate them properly",
       "fx": {
         "money": -2,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
@@ -660,8 +719,10 @@
       "label": "Leave them alone",
       "fx": {
         "money": 5,
-        "mood": 2,
-        "inst": -2
+        "inst": -2,
+        "backers": 5,
+        "base": 2,
+        "public": -1
       },
       "drift": -3
     }
@@ -682,17 +743,20 @@
     "left": {
       "label": "Publish all of it",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 4
     },
     "right": {
       "label": "Publish the totals",
       "fx": {
-        "mood": 1,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 2,
+        "base": 1
       },
       "drift": -3
     }
@@ -713,17 +777,20 @@
       "label": "Hire for the fifth day",
       "fx": {
         "money": -6,
-        "mood": 3,
-        "inst": 1
+        "inst": 1,
+        "public": 6,
+        "base": 3
       },
       "drift": 3
     },
     "right": {
       "label": "Let them work it out",
       "fx": {
-        "mood": 3,
         "money": 2,
-        "inst": -2
+        "inst": -2,
+        "backers": 5,
+        "base": 3,
+        "public": 1
       },
       "drift": -3
     }

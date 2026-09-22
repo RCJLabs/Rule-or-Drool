@@ -1,3 +1,4 @@
+import { STRINGS } from "../content/strings";
 import type { Preview } from "../engine/preview";
 import type { Meters, PlayerAlign } from "../engine/types";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
@@ -13,12 +14,29 @@ interface Props {
 }
 
 export const DANGER_BELOW = 15;
+/** A bloc this low is visibly unhappy, well before it is dangerous (BACKLOG-2 phase 8). */
+export const RESTLESS_BELOW = 32;
+
+/**
+ * Which bloc is the unhappiest, if any is unhappy enough to name. The coalition is three
+ * groups with different interests now, so "support is low" is not a useful thing to tell
+ * the player: they need to know *who*.
+ */
+export function restlessBloc(meters: Meters): (typeof BLOC_KEYS)[number] | null {
+  let worst: (typeof BLOC_KEYS)[number] | null = null;
+  for (const b of BLOC_KEYS) {
+    if (meters[b] >= RESTLESS_BELOW) continue;
+    if (!worst || meters[b] < meters[worst]) worst = b;
+  }
+  return worst;
+}
 
 /**
  * Six meters now: the three coalition blocs, then the three that belong to the state.
  * The gap between the groups is deliberate; they fail in different ways (BACKLOG item 5).
  */
 export function MetersBar({ meters, preview, theme, align }: Props) {
+  const restless = restlessBloc(meters);
   return (
     <header className="meters">
       {METER_KEYS.map((k) => {
@@ -30,11 +48,16 @@ export function MetersBar({ meters, preview, theme, align }: Props) {
         // A bloc only ends the run at the bottom, so only the bottom is dangerous.
         const danger = isBloc ? v < DANGER_BELOW : v < DANGER_BELOW || v > 100 - DANGER_BELOW;
         return (
-          <div key={k} className={`meter-slot${k === "money" ? " group-break" : ""}`}>
+          <div key={k} className={`meter-slot${k === "money" ? " group-break" : ""}${k === restless ? " restless" : ""}`}>
             <MeterIcon meter={k} value={v} dot={dot} danger={danger} label={meterLabel(k, theme, align)} />
           </div>
         );
       })}
+      {restless && (
+        <p className="restless-note" role="status">
+          {STRINGS.blocNames[align][restless]} {STRINGS.blocRestless[restless]}
+        </p>
+      )}
     </header>
   );
 }

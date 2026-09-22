@@ -38,6 +38,15 @@ export const STRINGS = {
     order: ["Order", "Cops", "COPS"],
     inst: ["Institutions", "Gov Stuff", "THE SYSTEM"],
   } as Record<string, readonly [string, string, string]>,
+  /**
+   * What it looks like when one bloc in particular is unhappy. Said of the bloc, so it
+   * reads after its name: "Unions are talking about a ballot" (BACKLOG-2 phase 8).
+   */
+  blocRestless: {
+    base: "have stopped turning up",
+    backers: "are taking meetings elsewhere",
+    public: "are not being asked and have noticed",
+  } as Record<"base" | "backers" | "public", string>,
   /** Decay-stage slang for the blocs, shared by both sides. */
   blocDecay: {
     base: ["", "The Fans", "THE FANS"],

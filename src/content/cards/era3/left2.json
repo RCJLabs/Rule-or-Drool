@@ -17,17 +17,20 @@
     "left": {
       "label": "Cut it to five",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 4
     },
     "right": {
       "label": "Add a review panel",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -49,18 +52,21 @@
     "left": {
       "label": "Open the seats",
       "fx": {
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -1,
+        "backers": -3,
+        "base": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Reserve nine more",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -83,8 +89,9 @@
       "label": "Create the appeal",
       "fx": {
         "money": -3,
-        "mood": 2,
-        "inst": 3
+        "inst": 3,
+        "public": 4,
+        "base": 2
       },
       "drift": 4
     },
@@ -117,17 +124,21 @@
       "label": "Evaluate all nine",
       "fx": {
         "money": 3,
-        "mood": -4,
-        "inst": 3
+        "inst": 3,
+        "public": -3,
+        "backers": -4,
+        "base": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Announce a tenth",
       "fx": {
-        "mood": 3,
         "money": -3,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "public": 3,
+        "backers": 2
       },
       "drift": -4
     }
@@ -181,18 +192,20 @@
     "left": {
       "label": "Write in plain words",
       "fx": {
-        "mood": 2,
         "inst": 3,
-        "money": -2
+        "money": -2,
+        "public": 4,
+        "base": 2
       },
       "drift": 4
     },
     "right": {
       "label": "Publish a glossary",
       "fx": {
-        "mood": 1,
         "order": 1,
-        "inst": -2
+        "inst": -2,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     }
@@ -216,18 +229,22 @@
       "label": "Try the firms",
       "fx": {
         "money": 4,
-        "mood": 2,
         "order": -3,
-        "inst": 1
+        "inst": 1,
+        "backers": 5,
+        "public": 2,
+        "base": -1
       },
       "drift": 3
     },
     "right": {
       "label": "Try the dead",
       "fx": {
-        "mood": 3,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "backers": 3,
+        "public": 1
       },
       "drift": -4
     }
@@ -252,7 +269,9 @@
         "money": -4,
         "order": -3,
         "inst": 3,
-        "mood": 2
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 4
     },
@@ -285,8 +304,10 @@
       "label": "Send the help",
       "fx": {
         "money": -6,
-        "mood": -2,
-        "inst": 2
+        "inst": 2,
+        "public": 1,
+        "base": -2,
+        "backers": -5
       },
       "drift": 5
     },
@@ -294,8 +315,10 @@
       "label": "Send condolences",
       "fx": {
         "money": 3,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 3,
+        "base": 1,
+        "public": -1
       },
       "drift": -4
     }
@@ -315,18 +338,21 @@
     "left": {
       "label": "Dissolve it",
       "fx": {
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -1,
+        "backers": -3,
+        "base": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Let it sit",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -356,8 +382,9 @@
       "label": "Weight it for loyalty",
       "fx": {
         "order": 3,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -5
     }
@@ -385,9 +412,10 @@
     "right": {
       "label": "Add a priority tier",
       "fx": {
-        "mood": 2,
         "money": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 4,
+        "base": 2
       },
       "drift": -4
     }
@@ -408,9 +436,10 @@
     "left": {
       "label": "Put it to them",
       "fx": {
-        "mood": -2,
         "order": -3,
-        "inst": 3
+        "inst": 3,
+        "backers": -2,
+        "base": -4
       },
       "drift": 5
     },
@@ -418,8 +447,9 @@
       "label": "Keep the legislature",
       "fx": {
         "order": 2,
-        "mood": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     }
@@ -440,8 +470,9 @@
       "label": "Lock it beyond reach",
       "fx": {
         "money": -6,
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "base": -3,
+        "backers": -6
       },
       "drift": 5
     },
@@ -449,8 +480,10 @@
       "label": "Leave a spending clause",
       "fx": {
         "money": 5,
-        "mood": 2,
-        "inst": -2
+        "inst": -2,
+        "backers": 5,
+        "base": 2,
+        "public": -1
       },
       "drift": -4
     }

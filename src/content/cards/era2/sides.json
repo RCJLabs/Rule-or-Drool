@@ -18,17 +18,21 @@
       "label": "Pay for it properly",
       "fx": {
         "money": -6,
-        "mood": 4,
-        "inst": 1
+        "inst": 1,
+        "public": 7,
+        "base": 4,
+        "backers": 1
       },
       "drift": 3
     },
     "right": {
       "label": "Announce it, fund half",
       "fx": {
-        "mood": 3,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 3,
+        "public": 2
       },
       "drift": -3
     }
@@ -50,17 +54,20 @@
     "left": {
       "label": "End the screening",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Extend it to the courts",
       "fx": {
-        "mood": 1,
         "order": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -4
     }
@@ -82,17 +89,20 @@
     "left": {
       "label": "Back a competent one",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Back the surname",
       "fx": {
-        "mood": 1,
         "order": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     }

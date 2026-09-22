@@ -143,6 +143,34 @@ describe("content: the shape of a run", () => {
     for (const rule of rules) if (rule.passive) expect(rule.passiveEvery ?? 0).toBeGreaterThan(0);
   });
 
+  it("makes an ordinary card choose between the blocs, not move them as one", () => {
+    // 66% of choices used the `mood` shorthand, so within a side the three blocs were one
+    // object: the Unions and the Movement were the same meter with different names
+    // (BACKLOG-2 phase 8).
+    const choices = events.flatMap((c) => [c.left, c.right]);
+    const shorthand = choices.filter((ch) => "mood" in (ch.fx ?? {}));
+    expect(shorthand.length / choices.length).toBeLessThan(0.05);
+
+    const spread = (ch: (typeof choices)[number]) => {
+      const v = (["base", "backers", "public"] as const).map((b) => ch.fx?.[b] ?? 0);
+      return Math.max(...v) - Math.min(...v);
+    };
+    const differentiating = choices.filter((ch) => spread(ch) > 0);
+    expect(differentiating.length / choices.length).toBeGreaterThan(0.6);
+  });
+
+  it("warns in each bloc's own voice, for each side", () => {
+    // A bloc should be able to walk out on you, but not without saying so first.
+    for (const bloc of ["base", "backers", "public"] as const) {
+      for (const align of ["left", "right"] as const) {
+        const warning = content.cards.find(
+          (c) => c.align === align && c.cond?.meters?.[bloc]?.lt !== undefined && (c.weight ?? 1) > 0,
+        );
+        expect(warning, `${align} warning for ${bloc}`).toBeTruthy();
+      }
+    }
+  });
+
   it("writes traits and flaws that only make sense on one side", () => {
     // All 15 modifiers were shared, so both sides opened the same way (BACKLOG item 4).
     for (const align of ["left", "right"] as const) {

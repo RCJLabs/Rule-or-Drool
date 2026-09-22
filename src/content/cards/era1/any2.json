@@ -17,17 +17,20 @@
     "left": {
       "label": "Publish the real count",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Use the new method",
       "fx": {
-        "mood": 2,
         "money": 2,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 2
       },
       "drift": -3
     }
@@ -57,9 +60,11 @@
     "right": {
       "label": "Build the bypass",
       "fx": {
-        "mood": 3,
         "money": -1,
-        "inst": -1
+        "inst": -1,
+        "base": 4,
+        "public": 3,
+        "backers": 2
       },
       "drift": -3
     }
@@ -82,9 +87,10 @@
     "left": {
       "label": "Protect her",
       "fx": {
-        "mood": -2,
         "money": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 4
     },
@@ -92,8 +98,10 @@
       "label": "Question her loyalty",
       "fx": {
         "order": 3,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -4
     }
@@ -149,17 +157,20 @@
     "left": {
       "label": "Leave it independent",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 4
     },
     "right": {
       "label": "Move it in-house",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -182,9 +193,11 @@
       "label": "Reform sentencing",
       "fx": {
         "money": 3,
-        "mood": -3,
         "order": -2,
-        "inst": 2
+        "inst": 2,
+        "backers": -1,
+        "public": -3,
+        "base": -5
       },
       "drift": 4
     },
@@ -192,8 +205,10 @@
       "label": "Build two more",
       "fx": {
         "order": 3,
-        "mood": 1,
-        "money": -5
+        "money": -5,
+        "base": 4,
+        "public": 1,
+        "backers": -2
       },
       "drift": -3
     }
@@ -216,18 +231,21 @@
     "left": {
       "label": "Publish the maps",
       "fx": {
-        "mood": -4,
         "money": -1,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -4,
+        "backers": -6
       },
       "drift": 4
     },
     "right": {
       "label": "Delay the review",
       "fx": {
-        "mood": 2,
         "money": 5,
-        "inst": -1
+        "inst": -1,
+        "backers": 4,
+        "base": 2
       },
       "drift": -3,
       "enqueue": [
@@ -256,8 +274,10 @@
       "label": "Break the patent",
       "fx": {
         "money": -2,
-        "mood": 3,
-        "inst": -1
+        "inst": -1,
+        "base": 4,
+        "public": 3,
+        "backers": 2
       },
       "drift": 3
     },
@@ -265,8 +285,9 @@
       "label": "Pay what they ask",
       "fx": {
         "money": -2,
-        "mood": 1,
-        "inst": 1
+        "inst": 1,
+        "public": 2,
+        "base": 1
       },
       "drift": -3
     }
@@ -290,8 +311,10 @@
       "label": "Register them all",
       "fx": {
         "money": -6,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 1,
+        "base": -2,
+        "backers": -5
       },
       "drift": 4
     },
@@ -329,9 +352,10 @@
     "left": {
       "label": "Sack him today",
       "fx": {
-        "mood": 2,
         "order": -2,
-        "inst": 2
+        "inst": 2,
+        "public": 4,
+        "backers": 2
       },
       "drift": 3,
       "fireSpeaker": true
@@ -339,9 +363,10 @@
     "right": {
       "label": "Call it exhaustion",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -364,17 +389,20 @@
       "label": "Meter it, rebate it",
       "fx": {
         "money": -2,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Keep it unmetered",
       "fx": {
-        "mood": 2,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 3,
+        "base": 2,
+        "public": 1
       },
       "drift": -3,
       "enqueue": [
@@ -435,17 +463,21 @@
     "left": {
       "label": "Fix the exam",
       "fx": {
-        "mood": -4,
-        "inst": 3
+        "inst": 3,
+        "public": -3,
+        "base": -4,
+        "backers": -5
       },
       "drift": 4
     },
     "right": {
       "label": "Celebrate the results",
       "fx": {
-        "mood": 3,
         "money": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 4,
+        "base": 3,
+        "public": 2
       },
       "drift": -4,
       "setFlags": [
@@ -477,8 +509,9 @@
       "label": "Settle it in court",
       "fx": {
         "money": -3,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
@@ -486,8 +519,10 @@
       "label": "Sell it to a developer",
       "fx": {
         "money": 7,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -4
     }
@@ -510,17 +545,21 @@
       "label": "Fix the ambulances",
       "fx": {
         "money": -4,
-        "mood": 1,
-        "inst": 2
+        "inst": 2,
+        "public": 3,
+        "base": 1,
+        "backers": -1
       },
       "drift": 3
     },
     "right": {
       "label": "Cut the ribbon",
       "fx": {
-        "mood": 3,
         "money": -1,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": 2
       },
       "drift": -3
     }
@@ -552,8 +591,10 @@
       "label": "Sign the twenty years",
       "fx": {
         "money": 7,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "backers": 5,
+        "base": 2,
+        "public": -1
       },
       "drift": -4
     }
@@ -574,17 +615,21 @@
     "left": {
       "label": "Use the neutral one",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 4
     },
     "right": {
       "label": "Use the other one",
       "fx": {
-        "mood": 3,
         "order": 1,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "backers": 3,
+        "public": 1
       },
       "drift": -4
     }
@@ -604,16 +649,20 @@
     "left": {
       "label": "Decline politely",
       "fx": {
-        "mood": -3,
-        "inst": 2
+        "inst": 2,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Take the chair",
       "fx": {
-        "mood": 3,
-        "inst": -2
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": 2
       },
       "drift": -3
     }
@@ -634,8 +683,9 @@
       "label": "Retender it openly",
       "fx": {
         "money": -2,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 3
     },
@@ -643,8 +693,10 @@
       "label": "Roll it over quietly",
       "fx": {
         "money": 6,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -4
     }
@@ -703,8 +755,10 @@
       "label": "Demand deliverables",
       "fx": {
         "money": 2,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "backers": 3,
+        "base": 1,
+        "public": -1
       },
       "drift": -3
     }
@@ -725,9 +779,10 @@
     "left": {
       "label": "Make it independent",
       "fx": {
-        "mood": -2,
         "money": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 4
     },
@@ -756,18 +811,20 @@
     "left": {
       "label": "Train a successor",
       "fx": {
-        "mood": -2,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "backers": -2,
+        "base": -4
       },
       "drift": 4
     },
     "right": {
       "label": "Stay indispensable",
       "fx": {
-        "mood": 2,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
@@ -789,8 +846,9 @@
       "label": "Convene the assembly",
       "fx": {
         "money": -2,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "base": -2,
+        "backers": -4
       },
       "drift": 4
     },
@@ -798,8 +856,10 @@
       "label": "Keep the decision",
       "fx": {
         "order": 2,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -3
     }

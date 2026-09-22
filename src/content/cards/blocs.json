@@ -1,0 +1,269 @@
+[
+  {
+    "id": "w_l_base",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The branch meeting took an hour and nobody moved a motion. They used to argue until midnight.",
+    "cond": {
+      "meters": {
+        "base": {
+          "lt": 30
+        }
+      }
+    },
+    "weight": 6,
+    "left": {
+      "label": "Give them a fight",
+      "fx": {
+        "base": 9,
+        "public": -5,
+        "backers": -3,
+        "inst": -2
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Let the branch go quiet",
+      "fx": {
+        "base": -3,
+        "inst": 3,
+        "public": 3,
+        "money": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "w_l_backers",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The unions have stopped sending anyone to your Tuesday meeting. They have not said why, which is how they say it.",
+    "cond": {
+      "meters": {
+        "backers": {
+          "lt": 30
+        }
+      }
+    },
+    "weight": 6,
+    "left": {
+      "label": "Go to them",
+      "fx": {
+        "backers": 9,
+        "money": -6,
+        "public": -4,
+        "base": 2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Govern without them",
+      "fx": {
+        "backers": -4,
+        "inst": 3,
+        "public": 3,
+        "order": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "w_l_public",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The cities have stopped writing to you. The letters go to the papers now, and the papers print them.",
+    "cond": {
+      "meters": {
+        "public": {
+          "lt": 30
+        }
+      }
+    },
+    "weight": 6,
+    "left": {
+      "label": "Fix what they wrote",
+      "fx": {
+        "public": 9,
+        "money": -7,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Answer them in a speech",
+      "fx": {
+        "public": -3,
+        "base": 4,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "w_r_base",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The congregation is still there on Sunday. Your name has stopped being in the prayers.",
+    "cond": {
+      "meters": {
+        "base": {
+          "lt": 30
+        }
+      }
+    },
+    "weight": 6,
+    "left": {
+      "label": "Give them the plank",
+      "fx": {
+        "base": 9,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Let the pulpit cool",
+      "fx": {
+        "base": -3,
+        "inst": 3,
+        "public": 3,
+        "money": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "w_r_backers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Three donors have taken the table at the other dinner. They still send a cheque, and it is smaller.",
+    "cond": {
+      "meters": {
+        "backers": {
+          "lt": 30
+        }
+      }
+    },
+    "weight": 6,
+    "left": {
+      "label": "Give them the evening",
+      "fx": {
+        "backers": 9,
+        "money": -5,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Do without the cheque",
+      "fx": {
+        "backers": -4,
+        "money": -3,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "w_r_public",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The county fairs have stopped inviting you. The reason given is scheduling, four times.",
+    "cond": {
+      "meters": {
+        "public": {
+          "lt": 30
+        }
+      }
+    },
+    "weight": 6,
+    "left": {
+      "label": "Go anyway, and listen",
+      "fx": {
+        "public": 9,
+        "money": -6,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Send a minister instead",
+      "fx": {
+        "public": -3,
+        "base": 3,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  }
+]

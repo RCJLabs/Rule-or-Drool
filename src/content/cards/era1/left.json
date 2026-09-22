@@ -17,17 +17,20 @@
     "left": {
       "label": "Expel her",
       "fx": {
-        "mood": 1,
         "order": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     },
     "right": {
       "label": "Keep the coalition",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     }
@@ -49,8 +52,10 @@
     "left": {
       "label": "Make it free",
       "fx": {
-        "mood": 3,
-        "money": -2
+        "money": -2,
+        "public": 4,
+        "base": 3,
+        "backers": 2
       },
       "drift": -3,
       "enqueue": [
@@ -63,9 +68,11 @@
     "right": {
       "label": "Means-test it",
       "fx": {
-        "mood": -3,
         "money": 2,
-        "inst": 1
+        "inst": 1,
+        "backers": -2,
+        "public": -3,
+        "base": -4
       },
       "drift": 3
     }
@@ -88,8 +95,10 @@
     "left": {
       "label": "Freeze rents",
       "fx": {
-        "mood": 2,
-        "money": 1
+        "money": 1,
+        "backers": 3,
+        "public": 2,
+        "base": 1
       },
       "drift": -3,
       "enqueue": [
@@ -129,9 +138,10 @@
     "left": {
       "label": "Approve it",
       "fx": {
-        "mood": 1,
         "money": 1,
-        "inst": -1
+        "inst": -1,
+        "backers": 2,
+        "base": 1
       },
       "drift": -3,
       "enqueue": [
@@ -144,8 +154,10 @@
     "right": {
       "label": "Audit the list",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     }
@@ -165,17 +177,20 @@
     "left": {
       "label": "Adopt the list",
       "fx": {
-        "mood": 1,
         "order": 2,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     },
     "right": {
       "label": "Skip it",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 2
     }
@@ -197,8 +212,9 @@
     "left": {
       "label": "Give them the raise",
       "fx": {
-        "mood": 1,
-        "money": -2
+        "money": -2,
+        "public": 2,
+        "base": 1
       },
       "drift": -2
     },
@@ -206,8 +222,9 @@
       "label": "Hold the line",
       "fx": {
         "order": -5,
-        "mood": -3,
-        "money": 3
+        "money": 3,
+        "public": -3,
+        "base": -6
       },
       "drift": 3
     }
@@ -230,8 +247,10 @@
       "label": "Trust the model",
       "fx": {
         "money": 6,
-        "mood": -1,
-        "inst": 1
+        "inst": 1,
+        "backers": 1,
+        "public": -1,
+        "base": -3
       },
       "drift": -2
     },
@@ -240,7 +259,9 @@
       "fx": {
         "money": -6,
         "inst": 1,
-        "mood": 2
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 3
     }
@@ -262,17 +283,20 @@
     "left": {
       "label": "Dissolve it",
       "fx": {
-        "mood": -3,
-        "inst": 1
+        "inst": 1,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 3
     },
     "right": {
       "label": "Add two more seats",
       "fx": {
-        "mood": 1,
         "order": 1,
-        "inst": -1
+        "inst": -1,
+        "base": 2,
+        "backers": 1
       },
       "drift": -3
     }

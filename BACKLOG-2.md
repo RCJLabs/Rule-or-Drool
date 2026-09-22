@@ -21,7 +21,53 @@ The measurements these were drawn from, taken at v0.17.0 (440 cards, 22 arcs, 23
 
 ---
 
-## Phase 8. Finish the coalition — *queued*
+## Phase 8. Finish the coalition — *done*
+
+**Shipped.** The shorthand is gone from the drawable deck: **412 of 414 choices converted**,
+taking `mood` from 66% of choices to under 1%. An ordinary card now chooses between the
+blocs rather than moving them as one.
+
+**The conversion was a rule, not a rewrite.** The shorthand almost never appeared alone —
+412 of the 414 sat alongside money, order or institutions — and those say which constituency
+a card is about: money is the backers' business, order is the base's, institutions are what
+the public notices. So `mood: n` redistributes along that axis: the bloc the card favours
+gets `n + step`, the one it costs gets `n - step`, the third keeps `n`. The three shares sum
+to `3n`, so the average is unchanged — which is why elections, which read the average, and
+the balance targets did not move.
+
+I checked the output against the prose before applying it, the way item 8's band heuristic
+was checked and thrown away. This one held: paying an inherited debt costs the backers and
+pleases the public; selling the last forest does the reverse; slowing the permits pleases the
+base and nobody else. Leads came out spread across the three blocs (119 / 163 / 130), not
+piled on one.
+
+**Measured:**
+
+| | before | after |
+|---|---|---|
+| Choices using the shorthand | 66% | **under 1%** |
+| Choices where the blocs differ from each other | 34% | **82%** |
+| Within one choice, blocs differ by | 0 points | **3.4 points** |
+| Runs lost to a bloc walking out (random) | 2.5% | **4.3%** |
+| …of those, with the other two still content | 38% | **61%** |
+
+**The run-level spread target was the wrong measure, and I have replaced it.** "Mean
+coalition spread above 35 points" barely moved (21.9 → 23.6) — but that number is dominated
+by the player, not the deck: measured with different bots it reads 26.9 for random, 23.6 for
+mixed and 19.3 for greedy, because greedy explicitly stabilises meters toward the middle. It
+measures how hard a competent player works to hold the coalition together, which is the
+thing the game is *about*. The honest measures are the per-choice ones above.
+
+**A bloc warns you before it leaves.** Six cards, one per bloc per side, gated on that bloc
+falling under 30 and written in its own voice: the branch meeting where nobody moves a
+motion, the unions who have stopped sending anyone to Tuesday and have not said why, the
+county fairs whose reason for not inviting you is scheduling, four times. Each offers the
+real trade — buy them back at the others' expense, or govern without them.
+
+**And the bar says who.** A bloc under 32 is outlined and named under the meters, because
+"support is low" is not useful when support is three groups with different interests.
+
+<details><summary>Original entry</summary>
 
 **The path-distinction one.** Item 5 split Mood into three blocs and item 2 pulled a left run
 and a right run apart to sharing 28% of their cards. But the split only went as deep as the
@@ -42,6 +88,8 @@ Then make the meter bar say which bloc is angry rather than only how low it is.
 **Done when** under a quarter of choices use the shorthand, the mean coalition spread is
 above 35 points, and a run can be lost to one bloc walking out while the other two are
 content.
+
+</details>
 
 ## Phase 9. Sound, haptics and feel — *queued*
 

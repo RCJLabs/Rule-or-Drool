@@ -18,8 +18,9 @@
       "label": "Publish the rulings",
       "fx": {
         "money": -2,
-        "mood": 2,
-        "inst": 3
+        "inst": 3,
+        "public": 4,
+        "base": 2
       },
       "drift": 5
     },
@@ -50,17 +51,21 @@
     "left": {
       "label": "Correct the syllabus",
       "fx": {
-        "mood": -4,
-        "inst": 3
+        "inst": 3,
+        "public": -3,
+        "base": -4,
+        "backers": -5
       },
       "drift": 5
     },
     "right": {
       "label": "Add a third speech",
       "fx": {
-        "mood": 3,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "backers": 3,
+        "public": 1
       },
       "drift": -5
     }
@@ -84,9 +89,10 @@
       "label": "Tax the estates",
       "fx": {
         "money": 6,
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -3,
+        "base": -6
       },
       "drift": 5
     },
@@ -118,8 +124,10 @@
       "label": "Set a public syllabus",
       "fx": {
         "money": -4,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 1,
+        "base": -2,
+        "backers": -5
       },
       "drift": 4
     },
@@ -127,8 +135,10 @@
       "label": "Licence two more",
       "fx": {
         "money": 6,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "backers": 4,
+        "base": 1,
+        "public": -2
       },
       "drift": -4
     }
@@ -151,8 +161,10 @@
       "label": "Open the academy",
       "fx": {
         "order": -4,
-        "mood": -2,
-        "inst": 3
+        "inst": 3,
+        "public": 1,
+        "backers": -2,
+        "base": -5
       },
       "drift": 5
     },
@@ -160,8 +172,10 @@
       "label": "Confirm the tradition",
       "fx": {
         "order": 3,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -4
     }
@@ -250,9 +264,11 @@
     "left": {
       "label": "Require open competition",
       "fx": {
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -1,
+        "backers": -3,
+        "base": -5
       },
       "drift": 5
     },
@@ -260,8 +276,10 @@
       "label": "Sign the fifth",
       "fx": {
         "order": 3,
-        "mood": 1,
-        "inst": -3
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -5
     }
@@ -315,17 +333,21 @@
     "left": {
       "label": "Strike the last page",
       "fx": {
-        "mood": -3,
-        "inst": 3
+        "inst": 3,
+        "public": -2,
+        "base": -3,
+        "backers": -4
       },
       "drift": 5
     },
     "right": {
       "label": "Pass it entire",
       "fx": {
-        "mood": 3,
         "order": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 5,
+        "backers": 3,
+        "public": 1
       },
       "drift": -5
     }
@@ -346,8 +368,10 @@
       "label": "Cancel the debts",
       "fx": {
         "money": -6,
-        "mood": 2,
-        "inst": 3
+        "inst": 3,
+        "public": 5,
+        "base": 2,
+        "backers": -1
       },
       "drift": 5
     },
@@ -407,9 +431,11 @@
     "left": {
       "label": "Publish the audit",
       "fx": {
-        "mood": -3,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "public": -1,
+        "backers": -3,
+        "base": -5
       },
       "drift": 5
     },
@@ -417,8 +443,10 @@
       "label": "Keep it internal",
       "fx": {
         "order": 2,
-        "mood": 1,
-        "inst": -2
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -1
       },
       "drift": -3
     }
@@ -439,9 +467,10 @@
     "left": {
       "label": "Prepare the handover",
       "fx": {
-        "mood": -2,
         "order": -2,
-        "inst": 3
+        "inst": 3,
+        "backers": -2,
+        "base": -4
       },
       "drift": 5
     },
@@ -449,8 +478,9 @@
       "label": "Find one more reason",
       "fx": {
         "order": 2,
-        "mood": 2,
-        "inst": -3
+        "inst": -3,
+        "base": 4,
+        "backers": 2
       },
       "drift": -4
     }
