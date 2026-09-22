@@ -32,6 +32,7 @@
   <h2>What came through</h2>
   <p class="sec-note">Unchanged from round one, reprinted here so the new ones are judged against them rather than from memory.</p>
   <div class="grid kept" id="kept"></div>
+  <div class="grid kept" id="kept-rule"></div>
 
   <h2>Drool — the screen that is selling you something</h2>
   <p class="sec-note">
@@ -59,7 +60,7 @@
 </div>
 
 <script type="module">
-import { DOWN, UP, FOOT, meters, esc, render } from "./mock.js";
+import { DOWN, UP, render } from "./mock.js";
 
 /* ---- the three that survived round one, verbatim ---------------------------------- */
 const KEPT = [
@@ -207,9 +208,10 @@ const RULE = [
   },
 ];
 
+// The two Drool survivors read against Decay meters and the Rule one against Ascent, so
+// the kept row is rendered in two passes rather than one.
 render("kept", KEPT.slice(0, 2), DOWN);
-document.getElementById("kept").insertAdjacentHTML("beforeend",
-  (await import("./mock.js")).mock(KEPT[2], UP));
+render("kept-rule", KEPT.slice(2), UP);
 render("drool", DROOL, DOWN);
 render("rule", RULE, UP);
 </script>

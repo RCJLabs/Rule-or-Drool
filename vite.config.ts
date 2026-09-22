@@ -1,7 +1,8 @@
-import { readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
+import { buildMockups } from "./tools/build-mockups.mjs";
 import { APP_VERSION } from "./src/version";
 
 /**
@@ -51,10 +52,35 @@ function serviceWorkerPrecache(): Plugin {
   };
 }
 
+/**
+ * The design pages are authored as a page plus a shared stylesheet and renderer, and shipped
+ * self-contained: markup already rendered, stylesheet inlined, no script. Split, they only
+ * work when served; a design page has to survive being saved and opened on a phone, which is
+ * where it is actually looked at (BACKLOG-3 phase 18).
+ */
+function mockupPages(): Plugin {
+  return {
+    name: "rod-mockups",
+    apply: "build",
+    async closeBundle() {
+      const out = resolve("dist/mockups");
+      const built = await buildMockups(out);
+      for (const shared of ["mock.css", "mock.js"]) {
+        try {
+          rmSync(join(out, shared));
+        } catch {
+          // Never copied, which is fine: nothing references them once the pages are inlined.
+        }
+      }
+      this.info?.(`mockups: ${built} self-contained design pages`);
+    },
+  };
+}
+
 // GitHub Pages serves the project at https://<owner>.github.io/Rule-or-Drool/
 export default defineConfig({
   base: "/Rule-or-Drool/",
-  plugins: [react(), serviceWorkerPrecache()],
+  plugins: [react(), mockupPages(), serviceWorkerPrecache()],
   build: {
     target: "es2022",
     sourcemap: true,
