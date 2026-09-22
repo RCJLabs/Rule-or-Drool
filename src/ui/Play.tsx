@@ -165,7 +165,9 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
           (showHint || settings.alwaysHint) && <p className="hint">{STRINGS.ui.hint}</p>
         )}
       </footer>
-      {transition !== null && <EraTransition era={transition} onContinue={onDismissTransition} />}
+      {transition !== null && (
+        <EraTransition lib={lib} state={state} era={transition} reduceMotion={settings.reduceMotion} onContinue={onDismissTransition} />
+      )}
       {debug && <Debug state={state} theme={theme} />}
     </Frame>
   );

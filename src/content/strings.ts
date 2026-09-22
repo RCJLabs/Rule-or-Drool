@@ -271,6 +271,11 @@ export const STRINGS = {
     mandates: "Promises",
     cameBack: "This card came back: an earlier choice sent it.",
     aHabit: "This card is here because you have made the same choice several times.",
-    impliedBy: "Already on: the plain screen does this."
+    impliedBy: "Already on: the plain screen does this.",
+    eraKicker: "Era {n}",
+    carried: "The country is left with",
+    andMore: "and {n} more",
+    owed: "{n} decisions are still owed.",
+    owedOne: "One decision is still owed."
   },
 } as const;

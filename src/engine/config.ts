@@ -57,7 +57,12 @@ export interface EngineConfig {
   /** drift <= decayAt is decay, >= ascentAt is ascent (5.2). */
   bandDecayAt: number;
   bandAscentAt: number;
-  /** Band is locked when advancing past this era (5.2: "after era 3"). */
+  /**
+   * Band is locked when advancing past this era (5.2: "after era 3"). Unreachable at
+   * `eraCount: 3`, because a run ends in a finale rather than advancing past the last era:
+   * measured over 11,762 crossings it fired 0 times. Kept because it is the rule for a
+   * longer game, not because it does anything today (BACKLOG-3 phase 25).
+   */
   bandLockAfterEra: number;
   /** Meter effect multiplier per band (5.2). */
   volatility: Record<Band, number>;

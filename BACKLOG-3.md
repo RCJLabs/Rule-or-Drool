@@ -638,7 +638,58 @@ who they are; it does not know how they are doing.
 
 </details>
 
-## Phase 25. An era should feel like a jump — *queued*
+## Phase 25. An era should feel like a jump — *done*
+
+**Shipped.** The boundary takes the whole frame, in the era it is arriving into, and says
+what the country is carrying into it.
+
+**There was always something to say, which is the first thing worth knowing.** Measured over
+11,762 crossings:
+
+| into | legacies carried | decisions still owed | band changed | meters moved |
+|---|---|---|---|---|
+| era 2 | **3.9** | 3.4 | 25% | 3.6 pts |
+| era 3 | **5.5** | 2.2 | 27% | 3.8 pts |
+
+**Not one crossing in 11,762 arrived carrying no legacy at all.** The transition had a
+heading and two lines of text while four to six specific things the country would be living
+with went unmentioned.
+
+**The band changes at a quarter of boundaries and nothing said so.** `muddle -> decay`,
+`muddle -> ascent` and both of them back again. That is the single largest hidden fact at the
+boundary, and it is not fixed by printing the word "Decay" — the game's rule is that the
+direction is never named. It is fixed by the transition *being* the look: the panel takes the
+frame and renders in the era it is arriving into, so the change happens there rather than
+behind a dialog.
+
+**The cabinet was dropped on the evidence.** The entry suggested showing its tenure; measured,
+**8.3 of the 9 are there from the first day**, so at a boundary it would say "everyone, since
+the start" nearly every time. Legacies and the queue carry the weight instead.
+
+**Three beats rather than one page** — the years, then what they were left with, then the
+rule that is different now — at 450, 1000 and 1550 ms, all instant under reduce motion. Every
+beat is in the DOM from the start and only its opacity waits, so the height never jumps
+under someone who is reading. Checked at 360x640, 412x732 and 390x844: the panel does not
+scroll and the button stays on screen.
+
+**A config value that can never fire.** The entry repeats the rule that the band locks past
+era 3. It does not: `advanceEra` ends the run in a finale when `era >= eraCount`, so era
+never exceeds 3 and `era > bandLockAfterEra` is never true — 0 times in 11,762 crossings. The
+value is kept, because it is the rule for a longer game, and now says so where it is defined.
+
+**And the phase turned up a shipped contrast bug that phase 21 missed.** The primary button
+was `#fff` on `var(--accent)`: **4.23:1 on the Decay accent and 1.76:1 on the Ascent one**.
+Phase 21 audited twelve screens and none of them put a primary button on a deep palette — the
+button lives in overlay panels, which sit outside the frame and take the light tokens. The
+era jump and **the ending screen** are inside the frame and take the path's. An `--on-accent`
+token fixes both, and the sponsor bar's hardcoded ink now reads from the same token. The
+ending screen is where this was worst: it is the last thing every run shows.
+
+Re-audited after the fix: 0 failing text styles on the era jump under all three looks, on the
+ending screen under both deep looks, and across all twelve of phase 21's screens.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** An era boundary is the largest structural event in a run: a successor takes
 office, the band is recomputed and past era 3 it locks, the era passive changes, the deck's
@@ -651,6 +702,8 @@ boundary is known (`legacies`, the queue, the cabinet's tenure) and none of it i
 
 **Done when** the boundary reads as time passing rather than as a dialog, and it says what
 carried over.
+
+</details>
 
 ## Phase 26. Forty runs, four endings — *queued*
 

@@ -41,6 +41,7 @@ button {
   --accent: #9a6a3a;
   --muted: #71675a;
   --danger: #c0392b;
+  --on-accent: #fff;
   --radius: 18px;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --space: 12px;
@@ -57,6 +58,7 @@ button {
   --accent: #9a6a3a;
   --muted: #71675a;
   --danger: #c0392b;
+  --on-accent: #fff;
   --radius: 18px;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --space: 12px;
@@ -101,6 +103,7 @@ button {
   --paper: rgba(255, 181, 69, 0.1);
   --accent: #ffb545;
   --muted: #c9a57a;
+  --on-accent: #1a1208;
   --radius: 14px;
   --space: 15px;
   --line: 1.55;
@@ -154,6 +157,7 @@ button {
   --accent: #a855f7;
   --muted: #9089aa;
   --danger: #ff2d55;
+  --on-accent: #12091d;
   --radius: 12px;
   --space: 10px;
   --line: 1.4;
@@ -641,10 +645,11 @@ button {
 }
 /* The era's rule change, set apart from the flavour line above it (BACKLOG item 8). */
 .era-rule {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   padding-top: 12px;
   border-top: 1px dashed var(--ink);
   font-weight: 600;
+  text-align: left;
 }
 .kicker {
   margin: 0;
@@ -652,6 +657,108 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--muted);
+}
+
+/**
+ * The era boundary (BACKLOG-3 phase 25). Not a card over the look: it is the whole frame,
+ * in the era it is arriving into, so the change happens here rather than behind a dialog.
+ * Absolute rather than fixed, unlike .overlay — this one belongs to the frame and wants the
+ * frame's own background and tokens.
+ */
+.era-jump {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  padding: calc(var(--space) * 2) var(--space);
+  background: var(--bg);
+  color: var(--ink);
+  animation: era-arrive 0.7s ease-out both;
+}
+.era-jump-inner {
+  width: min(92vw, 420px);
+  text-align: center;
+}
+.era-jump .primary {
+  margin-top: 20px;
+}
+.era-jump h2 {
+  margin: 6px 0 12px;
+}
+.era-jump-lead {
+  margin: 0;
+}
+/* The three beats. Each is present in the DOM from the start so the height does not jump
+   while a player is reading; only their opacity waits. */
+.era-carried,
+.era-owed,
+.era-rule {
+  transition: opacity 0.45s ease-out;
+}
+.era-jump[data-beat="0"] .era-carried,
+.era-jump[data-beat="0"] .era-owed,
+.era-jump[data-beat="0"] .era-rule,
+.era-jump[data-beat="1"] .era-owed,
+.era-jump[data-beat="1"] .era-rule,
+.era-jump[data-beat="2"] .era-rule {
+  opacity: 0;
+}
+.era-carried {
+  margin: 18px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  text-align: left;
+}
+.era-carried ul {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.era-carried li {
+  padding-left: 14px;
+  position: relative;
+  font-size: 13.5px;
+  line-height: 1.35;
+}
+.era-carried li::before {
+  content: "·";
+  position: absolute;
+  left: 3px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.era-more,
+.era-owed {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: left;
+}
+.era-owed {
+  margin-top: 10px;
+}
+@keyframes era-arrive {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+:root[data-reduce-motion] .era-jump {
+  animation: none;
+}
+:root[data-reduce-motion] .era-carried,
+:root[data-reduce-motion] .era-owed,
+:root[data-reduce-motion] .era-rule {
+  transition: none;
 }
 
 /* ---- decay furniture ------------------------------------------------------------ */
@@ -828,7 +935,7 @@ button {
   z-index: 2;
   padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
   background: var(--accent);
-  color: #12091d;
+  color: var(--on-accent);
   font-size: 11px;
   font-weight: 700;
   text-align: center;
@@ -916,13 +1023,13 @@ button {
   padding: 8px 14px;
   border: var(--border) solid var(--ink);
   border-radius: 999px;
-  background: var(--paper);
   cursor: pointer;
-}
-.primary {
   font-weight: 700;
   background: var(--accent);
-  color: #fff;
+  /* Not #fff: on the two path accents white measured 4.23:1 (Decay) and 1.76:1 (Ascent).
+     Phase 21 audited twelve screens and none of them put a primary button on a deep palette
+     — the ending and the era jump are inside the frame and do (BACKLOG-3 phase 25). */
+  color: var(--on-accent);
 }
 .primary.big {
   padding: 14px 20px;
