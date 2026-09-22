@@ -1,0 +1,271 @@
+# Backlog, round five
+
+Round four (BACKLOG-4.md) is phases 28 and 29, both done. BACKLOG-2's phase 17, getting the
+game onto Play, is prepared and waiting on decisions only the owner can make. These are the
+next ten, numbered as phases 30–39.
+
+Same rule as every round: each evidence line is measured against the shipped game at
+v0.41.0, not estimated. Where a number comes from a bot, the bot is named, because a bot
+measures the bot. Every bot also sees the exact numbers on both sides of a card, which a
+person never does. "A player" below is the mixed bot playing runs in a row with its profile
+carried forward, unlocks and all.
+
+Status: **doing** · **queued** · **done**
+
+The audit these were drawn from, at v0.41.0 (526 cards, 22 arcs, 23 endings, 4 crises,
+16 cabinet advisors):
+
+| | |
+|---|---|
+| A player's 10th run: cards already seen in an earlier run | **89%** (era 1: 92%) |
+| A player's 20th run: the same | 98% |
+| Share of the deck seen after 5 / 10 / 20 runs | 57% / 74% / 85% |
+| Every crisis met by | run 7 |
+| Every cabinet advisor met by | run 5 |
+| Era names written / eras that can be played | 5 / 3 |
+| Competent runs (mixed bot) that reach a finale | 96% |
+| Flip a run's defining decision: history name changes / ending changes | 99% / 40% |
+| One run code, two different players: different history name / ending | 98% / 76% |
+| Controls a screen reader can use to choose a side | **0** |
+| Phone held sideways (844×390): height of the card | 101px, text cut off |
+| Meter names cut short at 360px, in Roboto | 9 |
+| On a phone at 6× CPU throttling: first screen / a card committing | 0.45s / 0.33s, no long tasks |
+| A 40-run profile | 6.8 KB |
+
+## Recommended order
+
+The phases are numbered in the order worth doing them:
+
+- **30–31 first.** A screen reader can't play at all today, and the playtest recorder has to
+  exist before the closed test starts if that test is to produce data.
+- **32–33 are small and time-sensitive.** The meter names need only your decision, and
+  moving progress between addresses has to ship before any change of address.
+- **34, then 35–36.** The other road is the most direct answer to "decisions should
+  matter". After it comes the writing, which can run in batches alongside everything else.
+- **37–38 once there are players** to challenge and a daily worth coming back to.
+- **39 last**, because the long reign wants a bigger deck under it first.
+
+---
+
+## Phase 30. A screen reader can play — *queued*
+
+**Evidence.** On the run screen a screen reader finds three controls: *Your cabinet*,
+*Settings* and the teaching note's *Got it*. The card has no role and no label. There is no
+control for either choice. Nothing is announced when a card lands, a meter crosses a danger
+line or an era turns. A keyboard player has the arrow keys; a TalkBack user, on the phone
+the game is built for, has nothing to press.
+
+**Do.**
+- Two real buttons for the two choices, named by their labels, in the order they sit.
+- The card as a labelled group (speaker, role, text), announced when it lands.
+- A polite live region for what changed: a meter going into danger, an era, the end.
+- Focus that follows the screen: to the era panel when it opens, to the end screen's heading.
+
+Visible buttons are an option as well, a target to tap for anyone who does not drag. That is
+a design change to show you before making. Add a browser check: every action on every
+screen has a named control, and a new card reaches a live region.
+
+**Done when** the audit finds a named control for every action on every screen, and a
+TalkBack run from setup to an ending works on a real phone. That second part is yours to
+confirm, like the playthrough.
+
+## Phase 31. Let the playtest measure itself — *queued*
+
+**Evidence.** Every balance number in four rounds comes from bots with perfect information.
+The mixed bot finishes 96% of runs because it sees the exact meters each side would leave,
+which a person never does. No human run has ever been measured. If the Play account needs a
+closed test (12 testers for 14 days), those are the game's first real players, and nothing
+they do can be seen today.
+
+**Do.**
+- An opt-in setting, off by default: *Keep a record of my runs*. For each card it records the
+  time to decide, whether the player previewed a side, the side chosen, and the meters
+  before and after.
+- The record stays on the device. *Send my record* hands a file to the share sheet.
+- `npm run playtests` reads a folder of these files and prints a report for the humans
+  beside the bots': survival, time per card, the cards that make people hesitate, where runs
+  end.
+
+The game itself sends nothing, so the Data safety answer stays "no data collected". Check
+that wording again when this ships.
+
+**Done when** a recorded run exports, imports and reports; the setting is off unless turned
+on; and the file holds nothing but game state.
+
+## Phase 32. Everything fits — *queued*
+
+**Evidence.** Three layouts the audits either do not cover or cannot pass:
+
+- **Meter names cut short at 360px** (phase 29). In Roboto that's 9 names across 6 looks; the
+  worst is "Institutions", 12.4px too long in the first decay stage. The store screenshots
+  show it.
+- **A phone held sideways** (844×390). The card shrinks to 101px, the speaker's name
+  overlaps the text, and the portrait disappears.
+- **A laptop** (1280×720). The game is a phone-width column in an empty page, with the party
+  chip and the menu icons pinned to the far edges. Laptops are where shared links often get
+  opened.
+
+**Do.** The names are your call: a shorter name for the institutions meter, and either
+shorter slang for the deep looks or no capitals and letter-spacing on narrow screens. Then:
+
+- a landscape layout, with the meters beside the card;
+- a wide layout that keeps the party chip and menus near the card;
+- the fit audit extended to both sizes, and the known-truncation list emptied.
+
+**Done when** the audit passes at 844×390 and at 1280×720 with nothing cut off, and the
+list of meter names allowed to be cut short is empty.
+
+## Phase 33. Carry your progress — *queued*
+
+**Evidence.** A profile lives in one browser's storage for one address. A 40-run profile is
+6.8 KB. Moving to a custom domain, the recommended fix for Play's asset links, would start
+every web player over. The Play app shares its storage with the phone's browser only when
+both are the same browser at the same address.
+
+**Do.** Settings › *Move my progress*:
+- export as a file through the share sheet, or as a code to copy;
+- import shows what will be replaced and asks first;
+- older versions migrate through `migrateMeta`, and newer ones are refused.
+
+Ship it before any change of address.
+
+**Done when** a 40-run profile survives export and import exactly, and a newer version is
+refused with a message.
+
+## Phase 34. Take the other road — *queued*
+
+**Evidence.** Flip one decision and let the same player (the mixed bot) play on, 1,500 runs
+for each kind of flip:
+
+| Flip | History name changes | Ending changes | Later cards unchanged |
+|---|---|---|---|
+| The run's defining decision | 99% | 40% | 27% |
+| A random decision mid-run | 70% | 39% | 27% |
+| One of the first ten | 93% | 47% | 14% |
+
+Decisions matter a great deal, and nothing in the game lets a player find that out. The end
+screen says what each big decision became (phase 28), never what the other side would have
+done.
+
+**Do.**
+- Record each run's choices (run save v10).
+- On the end screen, beside the defining decision and each of the others under *What became
+  of it*: *Go back and choose otherwise*.
+- Replay the run to that card. The same seed and the same choices give the same state, so the
+  replay is exact. Hand it back with the other side taken, and the player plays on.
+- When the second road ends, show both: the name each road earned, and each world's picture.
+
+Decide whether a second road counts toward the codex. The simple rule is yes, marked as a
+second road, and never toward the daily.
+
+**Done when** replaying to any card reproduces the original state exactly, across 1,000
+seeded runs in a test, and a second road's end screen shows both roads.
+
+## Phase 35. More crises, more faces — *queued*
+
+**Evidence.**
+- The first thing a run tells you is the crisis you inherit. There are 4, and a player has
+  met every one by run 7.
+- The cabinet is 16 advisors, two per role, and a player has met them all by run 5.
+- Traits (11) and flaws (10) meet the design's target. Crises and the cabinet are the thin
+  ones: the full plan asks for 10+ crises and 30+ advisors.
+
+**Do.**
+- Six new crises, each with a rule of its own (a starting position, an arc it favours, or an
+  era it bends) and a card only it brings.
+- A third advisor for each of the eight roles, with a trait combination the role doesn't
+  have yet, and a card or two in their own voice.
+
+**Done when** there are 10 crises, none in more than 15% of runs, and 24 advisors, each
+serving in 20–45% of runs.
+
+## Phase 36. The deck by run five — *queued*
+
+**Evidence.** A player has seen 57% of the deck after five runs and 74% after ten. By the
+tenth run, 89% of a run's cards are ones they have played before; by the twentieth, 98%.
+The cause isn't a few overused cards: only 3 cards turn up in more than 60% of runs. It is
+the deck's size. A run draws about 100 of 526 cards, fairly evenly. Era 1, which every run
+plays, repeats the most: 92% by run ten. The design's full plan is 1,000+ cards.
+
+**Do.** Write where repetition bites first: era 1, then eras 2 and 3, by band and side, in
+batches the validator gates. A run draws 76 ordinary cards from a pool of 384; the other 28
+are arc, consequence, election and habit cards. Treating those 76 as independent draws
+predicts 86% repeats at run ten, against the 89% measured, so as a rough guide:
+
+- 200 more ordinary cards would take run ten to about 71% repeats;
+- doubling the ordinary deck would take it to about 61%.
+
+This is your voice work. Batches can be drafted for you to edit.
+
+**Done when** a player's tenth run is under 75% cards already seen, measured the same way.
+
+## Phase 37. Challenge a friend — *queued*
+
+**Evidence.** A shared link starts the sender's run (phase 11) and says nothing about how it
+went. Two different players given the same code almost always end differently: over 1,000
+codes, the mixed and greedy bots earned different history names 98% of the time, different
+endings 76% and went different directions 75%.
+
+**Do.** The link carries the sender's result as well as the setup: run code v2 adds the
+history, the ending and the cards played, and v1 links still open. The offer says what the
+sender got, along the lines of *They left The Seawall Years*. The receiver's end screen puts
+the two runs side by side, with both pictures. There's no server; everything rides in the
+link.
+
+**Done when** a v2 link round-trips, a v1 link still works, and the end screen compares the
+two runs.
+
+## Phase 38. The daily, every day — *queued*
+
+**Evidence.** The daily is now the same run for everyone (phase 11), but the profile keeps
+only its latest result. There is no record of past dailies and no streak: nothing to come
+back for tomorrow.
+
+**Do.**
+- Keep a log of dailies: the day, the history name, the ending, the cards played. That's
+  meta v6, and about 100 bytes a day.
+- A month view with each day's name, and a streak.
+- A daily share line carrying the day's number (*Rule or Drool #412*), so a group can compare
+  without sending links.
+
+**Done when** a year of dailies stays under 40 KB, the month view reads in every look, and
+a missed day breaks the streak.
+
+## Phase 39. Eras four and five — *queued*
+
+**Evidence.**
+- Two era names are written and never shown: *Two centuries on* and *Five centuries on*.
+  No card belongs to era 4 or 5.
+- A competent player (the mixed bot) finishes 96% of runs at card 105. The game ends just as
+  they have learned it.
+- The premise, that the bill comes later, has its largest canvas two centuries on.
+
+**Do.** An optional long reign, unlocked by finales:
+
+- eras 4 and 5, each with a rule of its own, as eras 2 and 3 have;
+- about 70 cards each;
+- their own finales and epilogues, and history names for the long view.
+
+Balance it with its own harness targets. It must not move the three-era ones.
+
+**Done when** eras 4 and 5 pass the validator's minimum cards per cell, a mixed bot reaches
+era 5 in a share set during the phase, and every section 8 target for three-era runs is
+unchanged.
+
+---
+
+## Considered, and not proposed
+
+- **The saint problem** (ROADMAP). The saint bot takes the side with more drift whatever it
+  costs, so it dies by definition, at a median of 19 cards. The fair test is the mixed bot,
+  which plays the same line but steps in when a meter is in danger. It finishes 96% of runs.
+- **Difficulty.** Competent bots finish 96–99% of runs, which would make the game too easy,
+  except that the bots see exact numbers. Decide once phase 31 has human runs to go on.
+- **Performance.** At 6× CPU throttling the first screen is up in 0.45s and a card commits
+  in 0.33s, 0.26s of which is the animation. There are no long tasks.
+- **A stats page.** Nearly everything the profile records is already on the codex screen.
+- **A voice pass as a measured item.** The writing is not formulaic: the most common
+  opening, "{advisor} has", starts 21 of 526 cards. The edit pass is still yours to do, but
+  no number says where to start.
+- **Music.** A drone that follows drift, as the cues already do, would be easy in the same
+  synth. Nothing measured says its absence costs anything. Revisit with playtest records.

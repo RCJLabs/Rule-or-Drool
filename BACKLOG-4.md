@@ -1,7 +1,7 @@
 # Backlog, round four
 
 Rounds one to three are done bar one item in BACKLOG-2: **phase 17 (get it onto Play)**.
-Phase 11 (share a run) shipped as v0.39.0.
+Phase 11 (share a run) shipped as v0.39.0. Round five, phases 30–39, is in BACKLOG-5.md.
 
 Same rule as before: every number is measured against the shipped content, and where it
 comes from a bot the bot is named, because a bot measures the bot. A "player" below is one
