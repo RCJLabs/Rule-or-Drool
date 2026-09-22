@@ -28,7 +28,64 @@ The audit these were drawn from, at v0.26.0 (526 cards, 22 arcs, 23 endings, 4 m
 
 ---
 
-## Phase 18. The two paths, and how little of them you see — *doing*
+## Phase 18. The two paths, and how little of them you see — *done*
+
+**Shipped.** Decay is a livestream and Ascent is a projection in gold, and both are now
+things a run reaches rather than decoration nobody sees. The looks were half the job; the
+other half was that the deepest stage needed `|drift| >= 55`, which is where drift sits on
+1.6% of cards drawn, so redrawing it without re-scaling would have fixed nothing.
+
+**What a run sees now, 3,000 runs per bot, counting the look each card was drawn under:**
+
+| | before | after |
+|---|---|---|
+| full Ascent, competent run | 1.9% of cards, 15.7% of runs | **15.4% of cards, 66.3% of runs** |
+| full Decay, cynical run | 5.3% of cards, 36.3% of runs | **21.6% of cards, 73.8% of runs** |
+| any Ascent look, competent run | 64.4% | 67.9% |
+| any Decay look, cynical run | 65.0% | 68.6% |
+
+`STAGE_AT` went from `[10, 30, 55]` to `[8, 20, 36]`, chosen by sweeping five candidates
+against the measured drift distribution rather than by eye. `[7, 17, 30]` put a cynical run
+at maximum intensity for 30% of its cards, which is exhausting; `[8, 20, 36]` keeps the
+pyramid — most of a run at stages one and two, the deep look as a destination.
+
+**Four rounds of mockups, thirty treatments, two survivors.** Round one offered five per
+path; Channel and Feed came through for Drool and Record for Rule. Round two put five more
+in each of those spaces. Round three narrowed Drool to the stream with the money showing and
+changed Rule's register entirely, from the official document to a country that got to the
+future. Round four was three iterations of each, and **Loud Stream** and **Warm Holo** won.
+The pages are `public/mockups/paths*.html`, shipped self-contained so they can be opened on
+the phone they were designed for.
+
+**Both looks arrive in three stages rather than all at once.** The stream is a LIVE badge and
+a viewer count that climbs with how bad things are; then the chat and one alert; then the
+emote spam, a second alert and a subscriber goal that never quite gets there. The projection
+is a plinth of light; then one dimmer pane behind the card; then two, so the card becomes the
+one pane in focus.
+
+**Overlaying the card's prose with the chat was wrong and the browser said so.** The first
+version put the chat over the card the way the mockup did, and at phone size it rendered the
+text unreadable — *"Rents doubled. The movement wants a [emote]reeze tnight"*. The chat gets
+gutters now and the card narrows to make room, which is the same crowded feeling and costs
+nothing you have to read. Three other collisions came out of the same check: the badges were
+sitting on the meter row, the alerts were covering the teaching note's button, and the card
+had a fixed width so the first gutter pushed it off the right-hand edge of the screen. The
+check that found them is part of the browser pass now: nothing the path draws may overlap
+anything you read or tap, and it reports which two elements collided rather than a boolean.
+
+**It also settles half of phase 21's evidence.** The old Decay palette had two pairs failing
+WCAG AA outright at 2.76:1 and 2.94:1. Every pair in both new looks clears the 3:1 floor, and
+only one — the Decay accent at stage three, 4.21:1 — is large-text-only, which is what it is
+used for. The typo transform came down from 0.6/0.3 to 0.4/0.2 at the same time: it used to
+carry the dumbing-down alone and was seen on almost nothing, and it now runs on a fifth of a
+cynical run's cards with the stream shouting over it. Two things saying the same thing is one
+thing too many.
+
+**The ticker and the AD badge are gone.** They were the old Decay chrome and the stream
+replaces both. The sponsor line survives, because a stream has to be paid for by somebody.
+
+<details>
+<summary>Original entry</summary>
 
 **Evidence.** The game is called Rule or Drool and a competent player never sees Drool.
 Measured over 3,000 runs per bot, counting the look each card was drawn under:
@@ -95,6 +152,8 @@ four: **the accessible version of Holo is cheaper than the inaccessible one**, s
 **Done when** a run that steers one way spends at least a quarter of its cards in that
 path's look with the deepest stage reachable by playing that way rather than by an outlier,
 and the two looks are distinguishable on a phone at arm's length with the text unread.
+
+</details>
 
 ## Phase 19. The bill you cannot see coming — *queued*
 

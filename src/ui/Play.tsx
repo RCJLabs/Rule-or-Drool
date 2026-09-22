@@ -12,6 +12,7 @@ import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
 import { Frame } from "./Frame";
 import { MandateBadge } from "./MandateBadge";
+import { StreamGutters } from "./PathChrome";
 import { MetersBar } from "./Meters";
 import { degrade } from "./degrade";
 import { yearInEra } from "./flow";
@@ -106,6 +107,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
     <Frame theme={theme} seed={state.seed} n={state.cardCount}>
       <MetersBar lib={lib} state={state} meters={state.meters} preview={projected} theme={theme} align={state.align} />
       <main className="stage">
+        <StreamGutters theme={theme} seed={state.seed} n={state.cardCount} />
         {card && (
           <CardView
             key={`${card.id}:${state.cardCount}`}

@@ -95,10 +95,15 @@ describe("App", () => {
     for (let i = 0; i < 6; i++) fireEvent.keyDown(window, { key: "[" });
     expect(document.querySelector(".frame")!.getAttribute("data-theme")).toBe("decay3");
     expect(document.querySelectorAll(".sponsor")).toHaveLength(1);
-    expect(document.querySelector(".ticker")).not.toBeNull();
+    // Deep Decay is a livestream now, with the chat and the alerts on (phase 18).
+    expect(document.querySelector(".stream-chat")).not.toBeNull();
+    expect(document.querySelector(".stream-alert")).not.toBeNull();
+    expect(document.querySelector(".holo")).toBeNull();
     for (let i = 0; i < 12; i++) fireEvent.keyDown(window, { key: "]" });
     expect(document.querySelector(".frame")!.getAttribute("data-theme")).toBe("ascent3");
     expect(document.querySelector(".sponsor")).toBeNull();
+    expect(document.querySelector(".stream")).toBeNull();
+    expect(document.querySelectorAll(".holo-pane")).toHaveLength(2);
   });
 });
 

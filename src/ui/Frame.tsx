@@ -1,39 +1,33 @@
 import type { CSSProperties, ReactNode } from "react";
+import { PathChrome } from "./PathChrome";
 import { sponsorCount, sponsorFor, type Theme } from "./theme";
 
 interface Props {
   theme: Theme;
   seed: number;
-  /** Changes per card so sponsors rotate. */
+  /** Changes per card so the stream moves on. */
   n: number;
   children: ReactNode;
 }
 
 /**
- * The frame is the trajectory meter (section 9): CSS reads data-theme plus the continuous
- * --decay / --ascent variables; sponsor banners creep in as Decay deepens.
+ * The frame is the trajectory meter (section 9). CSS reads data-theme plus the continuous
+ * --decay / --ascent variables; the chrome around the card is the path itself — a livestream
+ * on the way down, a projection on the way up (BACKLOG-3 phase 18).
+ *
+ * The sponsor line survives the rebuild because a stream has to be paid for by somebody, and
+ * it is the one piece of decay chrome that was already written.
  */
 export function Frame({ theme, seed, n, children }: Props) {
-  const count = sponsorCount(theme);
-  const sponsors = Array.from({ length: count }, (_, i) => sponsorFor(seed, n * 4 + i));
+  const sponsors = sponsorCount(theme);
   const style = { "--decay": theme.decay, "--ascent": theme.ascent } as CSSProperties;
-  const tickerText = [...sponsors, "BREAKING: everything is fine", ...sponsors].join("  ·  ");
   return (
     <div className="frame" data-theme={theme.name} data-band={theme.band} style={style}>
-      {count >= 2 && (
-        <div className="ticker" aria-hidden="true">
-          <span>{tickerText}  ·  {tickerText}  ·  </span>
-        </div>
-      )}
+      <PathChrome theme={theme} seed={seed} n={n} />
       {children}
-      {count >= 1 && (
+      {sponsors >= 1 && (
         <div className="sponsor" aria-hidden="true">
-          This decision brought to you by <b>{sponsors[0]}</b>
-        </div>
-      )}
-      {count >= 3 && (
-        <div className="ad-badge" aria-hidden="true">
-          AD
+          Sponsored by <b>{sponsorFor(seed, n)}</b>
         </div>
       )}
     </div>

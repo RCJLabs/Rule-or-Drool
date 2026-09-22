@@ -154,6 +154,57 @@ export const STRINGS = {
     mandates: "Promises you made",
     noMandates: "You have taken the job on no terms yet.",
   },
+  /**
+   * The stream the Decay path is broadcast on (BACKLOG-3 phase 18). Generic on purpose:
+   * a line written for one card would be better and would mean writing 526 of them, and a
+   * line that is about no card in particular is at least honestly about the audience
+   * rather than the country, which is the joke.
+   */
+  stream: {
+    chat: [
+      "do it do it do it",
+      "my aunt is on that list",
+      "keep it civil",
+      "LMAO four thousand",
+      "he's not even reading it",
+      "chat is this real",
+      "this is the best one yet",
+      "who is paying for the generator",
+      "first time seeing this W",
+      "ratio",
+      "my rent went up again btw",
+      "the other one was better",
+      "nobody in this chat votes",
+      "somebody clip that",
+      "second channel is up",
+      "we've seen this exact thing before",
+      "why is nobody talking about the roads",
+      "he's going to pick the left one",
+      "he's going to pick the right one",
+      "the mods are asleep",
+      "this used to be a news programme",
+      "bring back the old format",
+      "genuinely how is this legal",
+      "I only watch for the meters",
+    ] as readonly string[],
+    names: [
+      "krow_88", "quietvoter", "del_ta", "MOD", "nine_lives", "handsome_pete",
+      "ash_in_the_pan", "VOTECOUNTER", "brrr", "onlyhere4drama", "mrs_pollard", "xX_ledger_Xx",
+    ] as readonly string[],
+    emotes: ["KEKW", "LULW", "OMEGALUL", "PogU", "Sadge", "COPIUM", "🔥", "💀", "📉"] as readonly string[],
+    /** `{who}` is a sponsor name; these are the alerts that interrupt a card. */
+    alerts: [
+      "{who} gifted 50 subs — \u201cmake the hard call\u201d",
+      "{who} gifted 200 subs",
+      "{who} tipped £500 — \u201cdo it live\u201d",
+      "{who} is now the top donor this month",
+      "{who} raided the channel with 2,100 viewers",
+      "{who} tipped £50 — \u201cnobody remembers the careful ones\u201d",
+    ] as readonly string[],
+    live: "LIVE",
+    watching: "watching",
+    subGoal: "SUB GOAL",
+  },
   unlockNames: {
     u_dissident: "the Dissident, a leader who knows how the room looks from outside",
     u_engineer: "the Engineer, a leader who has built something that had to work",

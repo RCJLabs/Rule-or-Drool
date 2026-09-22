@@ -48,81 +48,129 @@ button {
     color 0.6s;
 }
 
+/**
+ * The two paths (BACKLOG-3 phase 18). Ascent is a projection in gold — a warm one rather
+ * than the cyan-on-black that reads as a console, and it keeps the two paths on opposite
+ * halves of the wheel. Decay is a livestream that gets louder in three stages.
+ */
 .frame[data-theme^="ascent"] {
-  --bg: #edf1f5;
-  --ink: #1c2430;
-  --paper: #ffffff;
-  --accent: #2f5d8a;
-  --muted: #75818e;
-  --radius: 22px;
-  --space: 16px;
+  --bg: #16100a;
+  --ink: #fff3df;
+  --paper: rgba(255, 181, 69, 0.1);
+  --accent: #ffb545;
+  --muted: #c9a57a;
+  --radius: 14px;
+  --space: 15px;
   --line: 1.55;
-  --shadow: 0 20px 50px rgba(20, 40, 70, 0.12);
+  --border: 1px;
+  --shadow: 0 0 30px rgba(255, 181, 69, 0.18);
+  --font: "Space Grotesk", ui-rounded, system-ui, sans-serif;
+}
+.frame[data-theme^="ascent"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(90% 52% at 50% 100%, rgba(255, 181, 69, calc(0.1 + var(--ascent) * 0.2)), transparent 62%),
+    repeating-linear-gradient(to bottom, rgba(255, 181, 69, calc(0.02 + var(--ascent) * 0.04)) 0 1px, transparent 1px 4px);
+}
+.frame[data-theme^="ascent"] .meters,
+.frame[data-theme^="ascent"] .stage,
+.frame[data-theme^="ascent"] .status {
+  position: relative;
+  z-index: 1;
+}
+.frame[data-theme^="ascent"] .card {
+  background: linear-gradient(160deg, rgba(255, 181, 69, 0.2), rgba(255, 181, 69, 0.06));
+  border-color: rgba(255, 181, 69, 0.62);
+  border-width: 1.5px;
 }
 .frame[data-theme="ascent2"],
 .frame[data-theme="ascent3"] {
-  --font: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --space: 20px;
-  --line: 1.65;
-  --border: 1px;
+  --space: 18px;
+  --line: 1.62;
 }
 .frame[data-theme="ascent3"] {
-  --bg: #f4f7fa;
-  --space: 26px;
-  --line: 1.75;
-  --border: 0.8px;
-  --shadow: 0 24px 60px rgba(20, 40, 70, 0.08);
+  --bg: #1a1208;
+  --space: 22px;
+  --line: 1.7;
+  --shadow: 0 0 44px rgba(255, 181, 69, 0.26);
+}
+.frame[data-theme^="ascent"] .card-text {
+  text-shadow: 0 0 calc(var(--ascent) * 13px) rgba(255, 181, 69, 0.34);
+}
+.frame[data-theme^="ascent"] .meter-label {
+  letter-spacing: 0.1em;
 }
 
 .frame[data-theme^="decay"] {
-  --bg: #ffe14d;
-  --ink: #1a0630;
-  --paper: #fff3fb;
-  --accent: #ff1f8f;
-  --muted: #6a2bb8;
-  --danger: #ff0044;
-  --radius: 8px;
-  --space: 8px;
-  --line: 1.3;
-  --border: 3px;
-  --shadow: 6px 6px 0 rgba(26, 6, 48, 0.55);
-  filter: saturate(calc(1 + var(--decay) * 0.9)) contrast(calc(1 + var(--decay) * 0.15));
+  --bg: #0c0a12;
+  --ink: #f2eefa;
+  --paper: #191527;
+  --accent: #a855f7;
+  --muted: #9089aa;
+  --danger: #ff2d55;
+  --radius: 12px;
+  --space: 10px;
+  --line: 1.4;
+  --border: 0;
+  --shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+  filter: saturate(calc(1 + var(--decay) * 0.5));
 }
 .frame[data-theme="decay2"],
 .frame[data-theme="decay3"] {
-  --font: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Marker Felt", "Segoe Print", cursive;
-  --tilt: -1.2deg;
+  --accent: #c026ff;
+  --space: 9px;
 }
 .frame[data-theme="decay3"] {
-  --bg: #37ff8b;
-  --paper: #fffb00;
-  --ink: #2b004d;
-  --accent: #ff0055;
-  --tilt: -2.4deg;
-  --radius: 2px;
-  --line: 1.2;
+  --bg: #0a0810;
+  --line: 1.35;
+}
+.frame[data-theme="decay3"] .card {
+  box-shadow: 0 0 26px rgba(192, 38, 255, 0.22);
 }
 .frame[data-theme="decay3"] .card-text {
-  font-weight: 700;
+  font-weight: 500;
 }
 .frame[data-theme^="decay"] .card-label {
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  text-transform: none;
+  font-weight: 600;
 }
 .frame[data-theme^="decay"] .meter-label {
   text-transform: uppercase;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   font-weight: 700;
 }
-.frame[data-theme="decay2"] .status,
-.frame[data-theme="decay3"] .status {
-  rotate: 0.8deg;
+/* The stream needs a strip of its own above the meters and room under the footer for the
+   alerts. The chat goes over the card's prose, which is the one thing it may cover. */
+.frame[data-theme^="decay"] .meters {
+  padding-top: 30px;
+}
+.frame[data-theme="decay3"] .meters {
+  padding-top: 38px;
+}
+/* The chat gets a gutter rather than the card. Overlaying the prose was the first attempt
+   and it made the text unreadable, which is a worse crime than being tidy: the card is the
+   game. Squeezing it is the same feeling and costs nothing you have to read. */
+.frame[data-theme="decay2"] .stage {
+  padding-right: 104px;
 }
 .frame[data-theme="decay3"] .stage {
-  rotate: 1deg;
+  padding-right: 112px;
+  padding-left: 58px;
 }
-.frame[data-theme^="decay"] .status {
-  padding-bottom: 40px;
+/* Reserved for the sponsor bar and the alert stack. They float so they read as an
+   interruption; the footer moves up so the interruption never lands on a button. */
+.frame[data-theme="decay1"] .status {
+  padding-bottom: 38px;
+}
+.frame[data-theme="decay2"] .status {
+  padding-bottom: 88px;
+}
+.frame[data-theme="decay3"] .status {
+  padding-bottom: 118px;
 }
 
 /* ---- meters ------------------------------------------------------------------ */
@@ -228,6 +276,7 @@ button {
 
 /* ---- stage and card ------------------------------------------------------------ */
 .stage {
+  position: relative;
   flex: 1;
   display: grid;
   place-items: center;
@@ -235,7 +284,7 @@ button {
 }
 .card {
   position: relative;
-  width: min(92vw, 380px);
+  width: min(100%, 380px);
   aspect-ratio: 5 / 7;
   max-height: 66dvh;
   display: flex;
@@ -397,51 +446,184 @@ button {
 }
 
 /* ---- decay furniture ------------------------------------------------------------ */
+/* ---- the stream, and the projection (BACKLOG-3 phase 18) ------------------------- */
+/**
+ * Both are decoration and both behave like it: aria-hidden, never interactive, and never
+ * over the two choices. The chat sits in the gap between the card and the status footer,
+ * which the decay themes widen to make room for it.
+ */
+.stream {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+/* The projection's panes are behind the card, not over it: they are the room the card is
+   being projected into, and a decorative pane on top of a choice is a bug. */
+.holo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.stream-live {
+  position: absolute;
+  top: calc(6px + env(safe-area-inset-top, 0px));
+  left: 9px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  background: #e5133b;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.stream-live::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+}
+.frame[data-theme="decay3"] .stream-live {
+  box-shadow: 0 0 14px rgba(255, 0, 64, 0.65);
+}
+.stream-views {
+  position: absolute;
+  top: calc(7px + env(safe-area-inset-top, 0px));
+  right: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.frame[data-theme="decay3"] .stream-views {
+  color: #ff77b0;
+  font-weight: 700;
+}
+.stream-goal {
+  position: absolute;
+  top: calc(6px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  translate: -50% 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(192, 38, 255, 0.55);
+  background: rgba(192, 38, 255, 0.16);
+  color: #eac6ff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.stream-chat {
+  position: absolute;
+  right: 4px;
+  top: 12%;
+  bottom: 8%;
+  width: 92px;
+  justify-content: flex-start;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 9px;
+  line-height: 1.32;
+  color: #cdc6e2;
+  text-align: right;
+  mask-image: linear-gradient(to bottom, #000 74%, transparent);
+}
+.stream-chat p {
+  margin: 0;
+}
+.stream-chat b {
+  color: var(--accent);
+  font-weight: 600;
+}
+.stream-emotes {
+  position: absolute;
+  left: 2px;
+  top: 26%;
+  width: 52px;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.75;
+  letter-spacing: -0.02em;
+  opacity: 0.8;
+  overflow: hidden;
+}
+.stream-emotes span {
+  display: block;
+}
+.stream-alert {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: calc(46px + env(safe-area-inset-bottom, 0px));
+  margin: 0;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: linear-gradient(90deg, #a855f7, #e5133b);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.stream-alert.second {
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(90deg, #ffb300, #ff0040);
+  font-size: 10px;
+}
+.frame[data-theme="decay3"] .stream-alert {
+  box-shadow: 0 0 20px rgba(192, 38, 255, 0.45);
+}
+.holo-plinth {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 54px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  filter: blur(5px);
+  opacity: calc(0.3 + var(--ascent) * 0.5);
+}
+.holo-pane {
+  position: absolute;
+  border: 1px solid rgba(255, 181, 69, 0.13);
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(255, 181, 69, 0.035), transparent);
+}
+.holo-pane.far {
+  inset: 16% 30px auto 8px;
+  height: 26%;
+  rotate: -2deg;
+}
+.holo-pane.near {
+  inset: auto 8px 16% 30px;
+  height: 26%;
+  rotate: 1.8deg;
+  opacity: 0.7;
+}
+
 .sponsor {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 7px 10px calc(7px + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+  padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px));
   background: var(--accent);
-  color: #fff;
-  font-size: 12px;
+  color: #12091d;
+  font-size: 11px;
+  font-weight: 700;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
-.ticker {
-  overflow: hidden;
-  white-space: nowrap;
-  background: var(--ink);
-  color: #fff;
-  font-size: 12px;
-  padding: 4px 0;
-}
-.ticker span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: ticker 24s linear infinite;
-}
-@keyframes ticker {
-  to {
-    transform: translateX(-100%);
-  }
-}
-.ad-badge {
-  position: absolute;
-  bottom: 46px;
-  right: 10px;
-  padding: 3px 8px;
-  background: #fff;
-  color: #d00;
-  font-weight: 800;
-  font-size: 11px;
-  border: 2px solid #d00;
-  rotate: 8deg;
-  z-index: 3;
-}
-
 /* ---- setup and ending ----------------------------------------------------------- */
 .setup,
 .ending {
@@ -594,7 +776,6 @@ button {
 :root[data-reduce-motion] .card.leaving,
 :root[data-reduce-motion] .card-enter,
 :root[data-reduce-motion] .meter.danger .meter-icon,
-:root[data-reduce-motion] .ticker span,
 :root[data-reduce-motion] .progress span {
   animation: none;
   transition: none;
@@ -608,7 +789,6 @@ button {
   .card.leaving,
   .card-enter,
   .meter.danger .meter-icon,
-  .ticker span,
   .progress span {
     animation: none;
     transition: none;
