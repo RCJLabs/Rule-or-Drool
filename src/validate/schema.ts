@@ -115,7 +115,7 @@ const meterMap = (values: Spec): Spec => ({ kind: "record", keys: FX_KEYS, value
  * Conditions can also read `rival`, the rival's current pressure (BACKLOG item 7). Effects
  * cannot: a choice moves the rival through its own `rival` field, not through `fx`.
  */
-const COND_KEYS = [...FX_KEYS, "rival", "drift"] as const;
+const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
 
 const COND_FIELDS: Record<string, Spec> = {
   flags: IDS,

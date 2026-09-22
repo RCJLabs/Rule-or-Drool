@@ -9,6 +9,13 @@ interface Props {
   onClose: () => void;
 }
 
+/** Where you left it when they asked you for something (BACKLOG-2 phase 15). */
+function standing(state: GameState, role: string): string | null {
+  if (state.flags.includes(`owed_${role}`)) return STRINGS.cabinet.owed;
+  if (state.flags.includes(`snubbed_${role}`)) return STRINGS.cabinet.snubbed;
+  return null;
+}
+
 /** "14 cards in post", or the two cases where a number would read oddly. */
 function tenure(state: GameState, role: string): string {
   const since = state.cabinetSince[role];
@@ -51,6 +58,7 @@ export function Cabinet({ lib, state, onClose }: Props) {
                   <span>
                     {STRINGS.roles[role] ?? role} · {tenure(state, role)}
                   </span>
+                  {standing(state, role) && <em className="cabinet-standing">{standing(state, role)}</em>}
                   {traits.length === 0 ? (
                     <em>{STRINGS.cabinet.noTrait}</em>
                   ) : (

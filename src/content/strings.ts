@@ -100,6 +100,8 @@ export const STRINGS = {
     theirs: "Applies to the cards they bring you.",
     letGo: "You let go of",
     rival: "Not yours, and not going anywhere.",
+    owed: "You backed them when they asked.",
+    snubbed: "You turned them down when they asked.",
   },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],

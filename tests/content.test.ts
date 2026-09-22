@@ -143,6 +143,40 @@ describe("content: the shape of a run", () => {
     for (const rule of rules) if (rule.passive) expect(rule.passiveEvery ?? 0).toBeGreaterThan(0);
   });
 
+  it("gives every cabinet advisor something they want from the job", () => {
+    // Two advisors per role, drawn at random, with no story: the rival became a person in
+    // item 7 and the eight people you work with did not (BACKLOG-2 phase 15).
+    const cabinet = content.advisors.filter((a) => a.role !== library.config.rivalRole);
+    for (const a of cabinet) {
+      const want = content.cards.find((c) => c.cond?.flags?.includes(`${library.config.advisorFlagPrefix}${a.id}`));
+      expect(want, `${a.name} wants something`).toBeTruthy();
+      expect(want!.speaker, `${a.name} asks for it herself`).toBe(a.role);
+      expect(want!.oneShot, `${a.name} asks once`).toBe(true);
+      // And it is addressed to the person, not the office.
+      expect(want!.text).toContain("{advisor}");
+    }
+  });
+
+  it("answers what they wanted, both ways, once they have served", () => {
+    for (const role of library.roles) {
+      if (role === library.config.rivalRole) continue;
+      for (const outcome of ["owed", "snubbed"] as const) {
+        const payoff = content.cards.find((c) => c.cond?.flags?.includes(`${outcome}_${role}`));
+        expect(payoff, `${role}: ${outcome}`).toBeTruthy();
+        // It waits: a debt or a grudge needs time in post to mean anything.
+        expect(payoff!.cond?.meters?.tenure?.gt, `${role}: ${outcome} waits`).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("lets a long-serving loyalist earn something and a kept crook cost something", () => {
+    const tenured = content.cards.filter((c) => c.cond?.meters?.tenure?.gt !== undefined);
+    const byTrait = (t: string) =>
+      tenured.filter((c) => c.cond?.flags?.includes(`${library.config.advisorFlagPrefix}${t}`));
+    expect(byTrait("loyal").length).toBeGreaterThanOrEqual(2);
+    expect(byTrait("corrupt").length).toBeGreaterThanOrEqual(2);
+  });
+
   it("makes an ordinary card choose between the blocs, not move them as one", () => {
     // 66% of choices used the `mood` shorthand, so within a side the three blocs were one
     // object: the Unions and the Movement were the same meter with different names
@@ -194,7 +228,10 @@ describe("content: the shape of a run", () => {
     // And the reverse: a flag that outlives the arc that set it should be named, or the
     // history quietly drops something the country is still carrying.
     const cleared = new Set(content.cards.flatMap((c) => [...(c.left.clearFlags ?? []), ...(c.right.clearFlags ?? [])]));
-    const durable = [...settable].filter((f) => !cleared.has(f) && !f.startsWith("promised_"));
+    // `promised_` and the cabinet's `owed_`/`snubbed_` are durable but are not legacies of
+    // state: they are about a person, and the cabinet screen is where they are shown.
+    const personal = (f: string) => f.startsWith("promised_") || f.startsWith("owed_") || f.startsWith("snubbed_");
+    const durable = [...settable].filter((f) => !cleared.has(f) && !personal(f));
     const unnamed = durable.filter((f) => !(f in LEGACIES));
     expect(unnamed, "durable flags missing a legacy name").toEqual([]);
   });

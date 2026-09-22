@@ -1,0 +1,789 @@
+[
+  {
+    "id": "p15_brenn",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} would like the accounts published in full, quarterly, with the embarrassing ones first.",
+    "cond": {
+      "flags": [
+        "advisor_adv_brenn"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Publish them",
+      "fx": {
+        "inst": 4,
+        "base": -3,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 4,
+      "setFlags": [
+        "owed_treasurer"
+      ]
+    },
+    "right": {
+      "label": "Publish the summary",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_treasurer"
+      ]
+    }
+  },
+  {
+    "id": "p15_vole",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} has found a way to move the reserve fund somewhere it earns more and is audited less.",
+    "cond": {
+      "flags": [
+        "advisor_adv_vole"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let her move it",
+      "fx": {
+        "money": 6,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_treasurer"
+      ]
+    },
+    "right": {
+      "label": "Leave it where it is",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_treasurer"
+      ]
+    }
+  },
+  {
+    "id": "p15_stannic",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} wants the garrison paid before anybody else, every month, without being asked.",
+    "cond": {
+      "flags": [
+        "advisor_adv_stannic"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Pay them first",
+      "fx": {
+        "order": 5,
+        "money": -4,
+        "public": -3,
+        "base": 2
+      },
+      "drift": -2,
+      "setFlags": [
+        "owed_general"
+      ]
+    },
+    "right": {
+      "label": "Pay them in turn",
+      "fx": {
+        "order": -3,
+        "public": 3,
+        "inst": 3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_general"
+      ]
+    }
+  },
+  {
+    "id": "p15_corvo",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} wants the border brigades doubled. She has the plan with her and it is already printed.",
+    "cond": {
+      "flags": [
+        "advisor_adv_corvo"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Approve the plan",
+      "fx": {
+        "order": 6,
+        "money": -5,
+        "public": -3,
+        "base": 3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_general"
+      ]
+    },
+    "right": {
+      "label": "Read it next month",
+      "fx": {
+        "order": -3,
+        "money": 3,
+        "inst": 2,
+        "base": -3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_general"
+      ]
+    }
+  },
+  {
+    "id": "p15_larkwood",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} would like the friendly paper given the interview first, always, as a standing rule.",
+    "cond": {
+      "flags": [
+        "advisor_adv_larkwood"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Make it the rule",
+      "fx": {
+        "base": 4,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "owed_spin"
+      ]
+    },
+    "right": {
+      "label": "Everyone at once",
+      "fx": {
+        "inst": 3,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_spin"
+      ]
+    }
+  },
+  {
+    "id": "p15_okonjo",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} wants the press briefing moved to the morning and answered on the record.",
+    "cond": {
+      "flags": [
+        "advisor_adv_okonjo"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "On the record",
+      "fx": {
+        "inst": 4,
+        "public": 3,
+        "base": -4
+      },
+      "drift": 5,
+      "setFlags": [
+        "owed_spin"
+      ]
+    },
+    "right": {
+      "label": "Keep it off the record",
+      "fx": {
+        "base": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_spin"
+      ]
+    }
+  },
+  {
+    "id": "p15_hollen",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} wants the ministries reorganised. She has a chart. It is correct and it will take two years.",
+    "cond": {
+      "flags": [
+        "advisor_adv_hollen"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let her do it",
+      "fx": {
+        "inst": 6,
+        "money": -4,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 5,
+      "setFlags": [
+        "owed_chief"
+      ]
+    },
+    "right": {
+      "label": "Not this term",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "money": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_chief"
+      ]
+    }
+  },
+  {
+    "id": "p15_ferris",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} would like to keep the staff he trained, all of them, including the two who briefed against you.",
+    "cond": {
+      "flags": [
+        "advisor_adv_ferris"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Keep them all",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "order": -2,
+        "public": 3
+      },
+      "drift": 4,
+      "setFlags": [
+        "owed_chief"
+      ]
+    },
+    "right": {
+      "label": "Clear the two out",
+      "fx": {
+        "base": 4,
+        "inst": -3,
+        "order": 3,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_chief"
+      ]
+    }
+  },
+  {
+    "id": "p15_adame",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{advisor} wants the court's budget set in law, out of your reach, for good.",
+    "cond": {
+      "flags": [
+        "advisor_adv_adame"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Put it in law",
+      "fx": {
+        "inst": 6,
+        "money": -3,
+        "base": -4
+      },
+      "drift": 6,
+      "setFlags": [
+        "owed_judge"
+      ]
+    },
+    "right": {
+      "label": "Keep it annual",
+      "fx": {
+        "base": 3,
+        "inst": -4,
+        "order": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "snubbed_judge"
+      ]
+    }
+  },
+  {
+    "id": "p15_stolt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{advisor} wants the old cases reopened. All of them. She has been waiting a long time to ask.",
+    "cond": {
+      "flags": [
+        "advisor_adv_stolt"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Reopen them",
+      "fx": {
+        "inst": 4,
+        "order": -4,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 4,
+      "setFlags": [
+        "owed_judge"
+      ]
+    },
+    "right": {
+      "label": "Let them lie",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_judge"
+      ]
+    }
+  },
+  {
+    "id": "p15_maraki",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{advisor} wants the research budget ringfenced, and would rather have that than his own salary.",
+    "cond": {
+      "flags": [
+        "advisor_adv_maraki"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Ringfence it",
+      "fx": {
+        "inst": 5,
+        "money": -5,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 5,
+      "setFlags": [
+        "owed_scientist"
+      ]
+    },
+    "right": {
+      "label": "Fund it yearly",
+      "fx": {
+        "money": 3,
+        "inst": -3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_scientist"
+      ]
+    }
+  },
+  {
+    "id": "p15_pell",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{advisor} wants one impossible project funded properly instead of nine sensible ones.",
+    "cond": {
+      "flags": [
+        "advisor_adv_pell"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Fund the impossible one",
+      "fx": {
+        "inst": 3,
+        "money": -6,
+        "base": 4,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "owed_scientist"
+      ]
+    },
+    "right": {
+      "label": "Fund the nine",
+      "fx": {
+        "inst": 3,
+        "public": 3,
+        "base": -3,
+        "money": -3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_scientist"
+      ]
+    }
+  },
+  {
+    "id": "p15_vast",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} wants the port concession renewed early, quietly, before anyone else bids.",
+    "cond": {
+      "flags": [
+        "advisor_adv_vast"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Renew it quietly",
+      "fx": {
+        "money": 5,
+        "backers": 5,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "setFlags": [
+        "owed_tycoon"
+      ]
+    },
+    "right": {
+      "label": "Put it out to tender",
+      "fx": {
+        "backers": -5,
+        "inst": 4,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 5,
+      "setFlags": [
+        "snubbed_tycoon"
+      ]
+    }
+  },
+  {
+    "id": "p15_kenner",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} wants her name on the new hospital. She is paying for most of it, and mentions this.",
+    "cond": {
+      "flags": [
+        "advisor_adv_kenner"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Put her name on it",
+      "fx": {
+        "money": 5,
+        "backers": 4,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "owed_tycoon"
+      ]
+    },
+    "right": {
+      "label": "Name it for the town",
+      "fx": {
+        "public": 4,
+        "backers": -4,
+        "money": -3,
+        "inst": 3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_tycoon"
+      ]
+    }
+  },
+  {
+    "id": "p15_quill",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} wants the membership to vote on the programme, not be shown it.",
+    "cond": {
+      "flags": [
+        "advisor_adv_quill"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let them vote",
+      "fx": {
+        "base": 5,
+        "backers": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -2,
+      "setFlags": [
+        "owed_organizer"
+      ]
+    },
+    "right": {
+      "label": "Show them the programme",
+      "fx": {
+        "base": -4,
+        "inst": 3,
+        "public": 3
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_organizer"
+      ]
+    }
+  },
+  {
+    "id": "p15_mbeki",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} wants the branch offices kept open in the districts that stopped voting for you.",
+    "cond": {
+      "flags": [
+        "advisor_adv_mbeki"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Keep them open",
+      "fx": {
+        "money": -5,
+        "public": 4,
+        "base": -3,
+        "backers": 3
+      },
+      "drift": 4,
+      "setFlags": [
+        "owed_organizer"
+      ]
+    },
+    "right": {
+      "label": "Close the empty ones",
+      "fx": {
+        "money": 4,
+        "public": -3,
+        "base": 3,
+        "backers": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "snubbed_organizer"
+      ]
+    }
+  }
+]

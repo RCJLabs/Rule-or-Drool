@@ -1,0 +1,768 @@
+[
+  {
+    "id": "p15_treasurer_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} has run the numbers your way for a long time now, and has stopped writing the memo that says otherwise.",
+    "cond": {
+      "flags": [
+        "owed_treasurer"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Ask for the memo",
+      "fx": {
+        "inst": 4,
+        "money": -3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Do not ask",
+      "fx": {
+        "base": 3,
+        "inst": -3,
+        "money": 3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_treasurer_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} has been correct and ignored for a long time, and the treasury staff have noticed which way that runs.",
+    "cond": {
+      "flags": [
+        "snubbed_treasurer"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Give her the ministry",
+      "fx": {
+        "inst": 5,
+        "base": -4,
+        "money": -2,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Move her sideways",
+      "fx": {
+        "base": 3,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "p15_general_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} has held the garrison together for years. He would like the parade, and he has earned the parade.",
+    "cond": {
+      "flags": [
+        "owed_general"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Hold the parade",
+      "fx": {
+        "order": 4,
+        "money": -3,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "No parade",
+      "fx": {
+        "order": -4,
+        "money": 3,
+        "inst": 2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "p15_general_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} still runs the garrison and still has not been thanked. The officers have started thanking him instead.",
+    "cond": {
+      "flags": [
+        "snubbed_general"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Thank him publicly",
+      "fx": {
+        "order": 3,
+        "base": 3,
+        "inst": -2,
+        "public": -2
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Rotate him out",
+      "fx": {
+        "order": -5,
+        "inst": 3,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "p15_spin_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} has kept your line straight for years and would now like to say something she believes.",
+    "cond": {
+      "flags": [
+        "owed_spin"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let her say it",
+      "fx": {
+        "public": 4,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep to the line",
+      "fx": {
+        "base": 3,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_spin_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} has been overruled so often that the lobby now asks her what you will not say.",
+    "cond": {
+      "flags": [
+        "snubbed_spin"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Give her the podium",
+      "fx": {
+        "public": 3,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the podium back",
+      "fx": {
+        "base": 3,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_chief_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} has run the building longer than anyone and has quietly stopped telling you about the small things.",
+    "cond": {
+      "flags": [
+        "owed_chief"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Ask what you missed",
+      "fx": {
+        "inst": 5,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Leave her to it",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_chief_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} has been passed over twice and still arrives first. The staff take their problems to her, not you.",
+    "cond": {
+      "flags": [
+        "snubbed_chief"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Make her deputy",
+      "fx": {
+        "inst": 4,
+        "base": -3,
+        "order": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appoint over her",
+      "fx": {
+        "base": 3,
+        "inst": -5,
+        "order": -3,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "p15_judge_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{advisor} has upheld every one of your laws, and would like one struck down where it deserves it.",
+    "cond": {
+      "flags": [
+        "owed_judge"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let the court rule",
+      "fx": {
+        "inst": 6,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Ask for the other ruling",
+      "fx": {
+        "base": 4,
+        "inst": -6,
+        "order": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "p15_judge_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{advisor} has ruled against you four times and is still on the bench, which is now the story.",
+    "cond": {
+      "flags": [
+        "snubbed_judge"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Say the court was right",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Pack the bench",
+      "fx": {
+        "base": 4,
+        "inst": -6,
+        "order": 3,
+        "public": -3
+      },
+      "drift": -7
+    }
+  },
+  {
+    "id": "p15_scientist_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{advisor} has delivered everything asked of him and has one thing he has never been allowed to publish.",
+    "cond": {
+      "flags": [
+        "owed_scientist"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let him publish",
+      "fx": {
+        "inst": 4,
+        "public": 3,
+        "base": -4,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep it in the drawer",
+      "fx": {
+        "base": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_scientist_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{advisor} stopped submitting proposals two years ago. His people still do, under other names.",
+    "cond": {
+      "flags": [
+        "snubbed_scientist"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Fund him properly",
+      "fx": {
+        "inst": 4,
+        "money": -5,
+        "public": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the field move on",
+      "fx": {
+        "money": 3,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_tycoon_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} has paid for a great deal and would like the thing you both know he is going to ask for.",
+    "cond": {
+      "flags": [
+        "owed_tycoon"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Refuse him once",
+      "fx": {
+        "backers": -6,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Give him it",
+      "fx": {
+        "backers": 5,
+        "money": 4,
+        "inst": -5,
+        "public": -4
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "p15_tycoon_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} has been refused every time and still writes the cheque. That is not generosity, it is patience.",
+    "cond": {
+      "flags": [
+        "snubbed_tycoon"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Find out what he wants",
+      "fx": {
+        "backers": 3,
+        "inst": -3,
+        "money": 3,
+        "public": -3
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Return the cheque",
+      "fx": {
+        "backers": -6,
+        "money": -4,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 5
+    }
+  },
+  {
+    "id": "p15_organizer_owed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} has turned out the vote for you for years and would like the programme to say one true thing.",
+    "cond": {
+      "flags": [
+        "owed_organizer"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Put it in the programme",
+      "fx": {
+        "base": 5,
+        "backers": 3,
+        "public": -3,
+        "money": -3
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Keep the programme vague",
+      "fx": {
+        "base": -4,
+        "public": 3,
+        "inst": 3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "p15_organizer_snubbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} has been told to wait so many times that the branches have started waiting too.",
+    "cond": {
+      "flags": [
+        "snubbed_organizer"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 30
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Go to the branches",
+      "fx": {
+        "base": 4,
+        "backers": 3,
+        "public": -3,
+        "money": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Run it from here",
+      "fx": {
+        "base": -5,
+        "order": 3,
+        "inst": 3,
+        "public": -2
+      },
+      "drift": -4
+    }
+  }
+]

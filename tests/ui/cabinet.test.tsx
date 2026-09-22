@@ -48,4 +48,18 @@ describe("Cabinet", () => {
     render(<Cabinet lib={library} state={after} onClose={() => {}} />);
     expect(screen.getByText(new RegExp(`${STRINGS.cabinet.letGo} ${gone.name}`))).toBeTruthy();
   });
+
+  it("says where you left it when they asked you for something", () => {
+    const s = newRun(library, 21, { align: "left" });
+    render(<Cabinet lib={library} state={{ ...s, flags: [...s.flags, "owed_chief", "snubbed_judge"] }} onClose={() => {}} />);
+    expect(screen.getByText(STRINGS.cabinet.owed)).toBeTruthy();
+    expect(screen.getByText(STRINGS.cabinet.snubbed)).toBeTruthy();
+  });
+
+  it("says nothing about people who have not asked yet", () => {
+    const s = newRun(library, 21, { align: "left" });
+    render(<Cabinet lib={library} state={s} onClose={() => {}} />);
+    expect(screen.queryByText(STRINGS.cabinet.owed)).toBeNull();
+    expect(screen.queryByText(STRINGS.cabinet.snubbed)).toBeNull();
+  });
 });

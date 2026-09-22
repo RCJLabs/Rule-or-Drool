@@ -202,7 +202,52 @@ score, which they currently do not.
 **Done when** a third of choices do something durable, and a run's flag count at the end is
 at least double what it is now.
 
-## Phase 15. Advisors with something at stake — *queued*
+## Phase 15. Advisors with something at stake — *done*
+
+**Shipped.** 38 cards and three small engine hooks. Each of the sixteen cabinet advisors now
+wants something from the job, asks for it once in their own voice, and it matters later
+whether you gave it to them.
+
+**Three hooks, no new system.** The engine already flagged which *traits* sat in the
+cabinet; it now also flags which *people* do, so a card can be written for Saffi Kenner
+rather than for whoever is the tycoon. Conditions can read `tenure`, resolved against the
+card's own speaker, so a card can wait for the person in that chair to have earned
+something. And `{advisor}` joins `{rival}` as a name the text can use.
+
+**What they want.** Odalys Brenn wants the accounts published in full, quarterly, with the
+embarrassing ones first. Tamsin Vole has found somewhere the reserve fund earns more and is
+audited less. Ferro Adame wants the court's budget set in law, out of your reach, for good.
+Lucian Vast wants the port concession renewed quietly, before anyone else bids. Rosa Quill
+wants the membership to vote on the programme rather than be shown it.
+
+**And what it costs later.** Sixteen payoffs, one per role per answer, waiting until thirty
+cards in post. Back your treasurer and she stops writing the memo that disagrees with you;
+snub her and the treasury staff notice which way that runs. Refuse your donor every time and
+he still writes the cheque, which is not generosity but patience. Plus the two the backlog
+named: a loyalist who has served three eras and never been thanked in public, and a corrupt
+one you kept until an auditor asked about the years you cannot account for.
+
+**Measured.** A full-length run meets 5.2 of these and sees both halves of a relationship
+90% of the time; a short run still meets 2.7. Where you stand with each of them shows on the
+cabinet screen phase 12 built, which is what makes the two compound.
+
+**Two corrections along the way.** First, I scaled the new cards down to the deck's average
+swing out of habit, and that was wrong for this batch: they are set-pieces, not routine
+cards, and flattening them cost Ascent. Restoring their drift and instead cutting how often
+they fire (weight 3–4 down to 1) fixed it. Second, the cause was never direction — the bot
+takes slightly *positive* drift on these — but **dilution**: 18.6 personal cards per run
+replaced a fifth of the deck with drift-neutral set-pieces and compressed the run's range.
+Five per run is both better balance and better writing.
+
+**And item 10's test caught the design question.** The 16 `owed_`/`snubbed_` flags are
+durable, so the legacy rule demanded they be named. They are not legacies of state, though —
+they are about a person — so they are excluded there and shown on the cabinet screen
+instead, which is where a relationship belongs.
+
+484 cards, 266 tests, all five targets pass in both states: 20.3% Ascent locked, 17.0%
+unlocked.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** Two advisors per role, drawn at random, never replaced unless a card fires
 them, and they have no story. The rival became a person in item 7; the eight people you
@@ -214,6 +259,8 @@ something; let a corrupt one you kept become a card you did not want. Reuse the 
 rather than adding a system.
 
 **Done when** the cabinet is a set of relationships rather than a set of multipliers.
+
+</details>
 
 ## Phase 16. Mandates: pick your own constraint — *queued*
 

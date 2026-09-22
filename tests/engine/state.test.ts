@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bandOf, cabinetTraitFlags, condMet, exitBand, fxDeltas, moodOf, newRun, replaceAdvisor, rivalPressure, rollSetup } from "../../src/engine/state";
+import { bandOf, cabinetFlags, condMet, exitBand, fxDeltas, moodOf, newRun, replaceAdvisor, rivalPressure, rollSetup, tenureOf } from "../../src/engine/state";
 import { library } from "../../src/content";
 import { buildLibrary } from "../../src/engine/library";
 import { makeFixture } from "../fixtures/content";
@@ -39,14 +39,20 @@ describe("newRun", () => {
     expect(["g0", "g1"]).toContain(s.cabinet.general);
   });
 
-  it("flags every trait sitting in the cabinet, so arcs can gate on them", () => {
+  it("flags who is in the cabinet, by person and by trait", () => {
     const l = lib();
     const s = newRun(l, 1, { align: "left" });
-    const expected = cabinetTraitFlags(l, s.cabinet);
+    const expected = cabinetFlags(l, s.cabinet);
     for (const f of expected) expect(s.flags).toContain(f);
     for (const f of s.flags) if (f.startsWith("advisor_")) expect(expected).toContain(f);
-    expect(cabinetTraitFlags(l, { chief: "c0", general: "g0" })).toEqual([]);
-    expect(cabinetTraitFlags(l, { chief: "c2", general: "g1" }).sort()).toEqual(["advisor_corrupt", "advisor_zealot"]);
+    // Trait-free advisors still get a flag of their own, so a card can name the person.
+    expect(cabinetFlags(l, { chief: "c0", general: "g0" }).sort()).toEqual(["advisor_c0", "advisor_g0"]);
+    expect(cabinetFlags(l, { chief: "c2", general: "g1" }).sort()).toEqual([
+      "advisor_c2",
+      "advisor_corrupt",
+      "advisor_g1",
+      "advisor_zealot",
+    ]);
   });
 
   it("applies modifiers and rejects unknown ones", () => {
@@ -268,5 +274,26 @@ describe("how long someone has served", () => {
     expect(after.cabinet.chief).not.toBe(before.cabinet.chief);
     expect(after.cabinetSince.chief).toBe(40);
     expect(after.cabinetSince.general).toBe(before.cabinetSince.general);
+  });
+});
+
+describe("tenure as a condition", () => {
+  const l = lib();
+
+  it("counts from when the person in that role took it", () => {
+    const s = start(l, { cardCount: 50, cabinetSince: { chief: 20, general: 0 } });
+    expect(tenureOf(s, "chief")).toBe(30);
+    expect(tenureOf(s, "general")).toBe(50);
+    expect(tenureOf(s, "nobody")).toBe(0);
+    expect(tenureOf(s, undefined)).toBe(0);
+  });
+
+  it("is read against whoever speaks the card, not the run", () => {
+    const s = start(l, { cardCount: 50, cabinetSince: { chief: 45, general: 0 } });
+    // The same condition, asked about two different people, answers differently.
+    expect(condMet(l, { meters: { tenure: { gt: 30 } } }, s, "general")).toBe(true);
+    expect(condMet(l, { meters: { tenure: { gt: 30 } } }, s, "chief")).toBe(false);
+    // With nobody named it is nobody's tenure, so a "served a while" card cannot fire.
+    expect(condMet(l, { meters: { tenure: { gt: 30 } } }, s)).toBe(false);
   });
 });

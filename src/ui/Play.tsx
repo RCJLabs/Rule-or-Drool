@@ -1,4 +1,4 @@
-import { withRival } from "../engine/endings";
+import { withNames } from "../engine/endings";
 import { useCallback, useEffect, useState } from "react";
 import { STRINGS } from "../content/strings";
 import type { Settings } from "./settings";
@@ -104,7 +104,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
           <CardView
             key={`${card.id}:${state.cardCount}`}
             card={card}
-            text={degrade(withRival(lib, state, card.text), settings.plainText ? 0 : degradeLevel(theme), state.seed)}
+            text={degrade(withNames(lib, state, card.text, card.speaker), settings.plainText ? 0 : degradeLevel(theme), state.seed)}
             speakerName={advisor?.name ?? roleLabel}
             roleLabel={roleLabel}
             traitName={advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined}

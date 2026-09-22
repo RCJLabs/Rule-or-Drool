@@ -43,7 +43,7 @@ export type Meters = Record<MeterKey, number>;
  */
 export type FxSpec = Partial<Record<MeterKey, number>> & { mood?: number };
 /** Conditions may also read `mood`, which is the average of the three blocs. */
-export type CondMeterKey = MeterKey | "mood" | "rival" | "drift";
+export type CondMeterKey = MeterKey | "mood" | "rival" | "drift" | "tenure";
 
 export interface MeterCond {
   lt?: number;

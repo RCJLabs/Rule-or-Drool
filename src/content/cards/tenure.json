@@ -1,0 +1,294 @@
+[
+  {
+    "id": "p15_loyal_general",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} has served three eras without once being thanked in public, and is now the last person here who remembers the first one.",
+    "cond": {
+      "flags": [
+        "advisor_loyal"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 60
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Say so at the ceremony",
+      "fx": {
+        "order": 4,
+        "base": 3,
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let him retire quietly",
+      "fx": {
+        "order": -4,
+        "money": 3,
+        "public": 2,
+        "base": -3
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "p15_loyal_chief",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} has outlasted everyone he came in with. Nobody has asked him what he thinks since the second era.",
+    "cond": {
+      "flags": [
+        "advisor_loyal"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 60
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Ask him now",
+      "fx": {
+        "inst": 4,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Carry on as you are",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "p15_loyal_organizer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} has held the branches together through two governments of yours. He has never asked for anything.",
+    "cond": {
+      "flags": [
+        "advisor_loyal"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 60
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Give him the seat",
+      "fx": {
+        "base": 4,
+        "backers": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Keep him where he works",
+      "fx": {
+        "base": -3,
+        "backers": 3,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "p15_corrupt_tycoon",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} has been in the room a long time. An auditor has asked, politely, for the years you cannot account for.",
+    "cond": {
+      "flags": [
+        "advisor_corrupt"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 45
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Hand over the years",
+      "fx": {
+        "inst": 5,
+        "backers": -6,
+        "money": -3,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Lose the years",
+      "fx": {
+        "inst": -6,
+        "backers": 4,
+        "money": 3,
+        "public": -4
+      },
+      "drift": -7
+    }
+  },
+  {
+    "id": "p15_corrupt_treasurer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} has been managing the reserve for years. A junior has found the second set of workings and brought them to you.",
+    "cond": {
+      "flags": [
+        "advisor_corrupt"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 45
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Follow the workings",
+      "fx": {
+        "inst": 5,
+        "money": -4,
+        "backers": -4,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Promote the junior away",
+      "fx": {
+        "inst": -5,
+        "money": 3,
+        "base": 3,
+        "public": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "p15_corrupt_spin",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} has placed every story for years and now has files on the people who placed the others.",
+    "cond": {
+      "flags": [
+        "advisor_corrupt"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 45
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Burn the files",
+      "fx": {
+        "inst": 4,
+        "base": -3,
+        "order": -3,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Read the files",
+      "fx": {
+        "order": 3,
+        "base": 3,
+        "inst": -5,
+        "public": -4
+      },
+      "drift": -6
+    }
+  }
+]

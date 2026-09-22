@@ -55,16 +55,26 @@ export function hasFlag(state: GameState, flag: string): boolean {
  * you have gone, because they are whoever you are not: a reformer while you rot, a
  * demagogue while you ascend (5.9, BACKLOG item 7).
  */
+/**
+ * How long whoever speaks this card has held their role, in cards. Conditions read it as
+ * `tenure`, so content can wait for someone to have earned something (phase 15).
+ */
+export function tenureOf(state: GameState, role: string | undefined): number {
+  if (!role) return 0;
+  const since = state.cabinetSince[role];
+  return since === undefined ? 0 : Math.max(0, state.cardCount - since);
+}
+
 export function rivalPressure(lib: Library, state: GameState): number {
   return clampMeter(Math.round(state.rivalStanding + Math.abs(state.drift) * lib.config.rivalDriftPull));
 }
 
-export function condMet(lib: Library, cond: Cond | undefined, state: GameState): boolean {
+export function condMet(lib: Library, cond: Cond | undefined, state: GameState, speaker?: string): boolean {
   if (!cond) return true;
   if (cond.flags) for (const f of cond.flags) if (!state.flags.includes(f)) return false;
   if (cond.notFlags) for (const f of cond.notFlags) if (state.flags.includes(f)) return false;
   if (cond.meters) {
-    for (const k of [...METER_KEYS, "mood", "rival", "drift"] as const) {
+    for (const k of [...METER_KEYS, "mood", "rival", "drift", "tenure"] as const) {
       const m = cond.meters[k];
       if (!m) continue;
       // `band` only moves at an era boundary, so anything meant to follow where the run is
@@ -73,6 +83,7 @@ export function condMet(lib: Library, cond: Cond | undefined, state: GameState):
         k === "mood" ? moodOf(state.meters)
         : k === "rival" ? rivalPressure(lib, state)
         : k === "drift" ? state.drift
+        : k === "tenure" ? tenureOf(state, speaker)
         : state.meters[k];
       if (m.lt !== undefined && !(v < m.lt)) return false;
       if (m.gt !== undefined && !(v > m.gt)) return false;
@@ -87,14 +98,20 @@ export function roll(state: GameState): [number, GameState] {
   return [r.value, { ...state, rngState: r.state }];
 }
 
-/** Flags naming every trait sitting in the cabinet, for arc gating (5.8). */
-export function cabinetTraitFlags(lib: Library, cabinet: Record<string, string>): string[] {
+/**
+ * Flags naming who is in the cabinet: one per person and one per trait in the room, so
+ * content can be written for Saffi Kenner or for whoever happens to be corrupt (5.8, phase 15).
+ */
+export function cabinetFlags(lib: Library, cabinet: Record<string, string>): string[] {
   const out: string[] = [];
+  const add = (flag: string) => {
+    if (!out.includes(flag)) out.push(flag);
+  };
   for (const id of Object.values(cabinet)) {
-    for (const t of lib.advisorsById.get(id)?.traits ?? []) {
-      const flag = `${lib.config.advisorFlagPrefix}${t}`;
-      if (!out.includes(flag)) out.push(flag);
-    }
+    // One per trait in the room, and one per person in it, so a card can be written for
+    // Saffi Kenner rather than for whoever happens to be the tycoon (BACKLOG-2 phase 15).
+    if (lib.advisorsById.has(id)) add(`${lib.config.advisorFlagPrefix}${id}`);
+    for (const t of lib.advisorsById.get(id)?.traits ?? []) add(`${lib.config.advisorFlagPrefix}${t}`);
   }
   return out;
 }
@@ -146,7 +163,7 @@ export function replaceAdvisor(lib: Library, state: GameState, role: string): Ga
   const cabinet = { ...s1.cabinet, [role]: pool[Math.floor(p * pool.length)]!.id };
   const cabinetSince = { ...s1.cabinetSince, [role]: s1.cardCount };
   const prefix = lib.config.advisorFlagPrefix;
-  const flags = [...s1.flags.filter((f) => !f.startsWith(prefix)), ...cabinetTraitFlags(lib, cabinet)];
+  const flags = [...s1.flags.filter((f) => !f.startsWith(prefix)), ...cabinetFlags(lib, cabinet)];
   return { ...s1, cabinet, cabinetSince, flags };
 }
 
@@ -179,7 +196,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     cabinet[role] = pool[pick.value]!.id;
   }
 
-  for (const f of cabinetTraitFlags(lib, cabinet)) if (!flags.includes(f)) flags.push(f);
+  for (const f of cabinetFlags(lib, cabinet)) if (!flags.includes(f)) flags.push(f);
   const cabinetSince: Record<string, number> = {};
   for (const role of Object.keys(cabinet)) cabinetSince[role] = 0;
 

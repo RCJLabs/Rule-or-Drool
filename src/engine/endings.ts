@@ -29,13 +29,21 @@ export function findEpilogue(lib: Pick<Library, "epilogues">, band: Band, align:
 }
 
 /**
- * Fill `{rival}` with the name of the person who ran against you. Endings are shared text,
- * but the rival is a specific someone from the side you did not pick (BACKLOG item 7).
+ * Fill the name tokens a card or ending may carry. `{rival}` is the person who ran against
+ * you (BACKLOG item 7); `{advisor}` is whoever is speaking, so a card can be written about
+ * the person in the room rather than the role (phase 15).
  */
-export function withRival(lib: Library, state: GameState, text: string): string {
-  if (!text.includes("{rival}")) return text;
-  const name = lib.advisorsById.get(state.cabinet[lib.config.rivalRole] ?? "")?.name;
-  return text.replaceAll("{rival}", name ?? "your rival");
+export function withNames(lib: Library, state: GameState, text: string, speaker?: string): string {
+  let out = text;
+  if (out.includes("{rival}")) {
+    const name = lib.advisorsById.get(state.cabinet[lib.config.rivalRole] ?? "")?.name;
+    out = out.replaceAll("{rival}", name ?? "your rival");
+  }
+  if (out.includes("{advisor}")) {
+    const name = speaker ? lib.advisorsById.get(state.cabinet[speaker] ?? "")?.name : undefined;
+    out = out.replaceAll("{advisor}", name ?? "your adviser");
+  }
+  return out;
 }
 
 export function epilogueByKey(lib: Library, key: string): Epilogue | null {

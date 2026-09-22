@@ -11,7 +11,7 @@ import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 /** Content may write and read `mood`, the shorthand across the coalition blocs. */
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
 /** Conditions can read the rival's pressure too; effects cannot (BACKLOG item 7). */
-const COND_KEYS = [...FX_KEYS, "rival", "drift"] as const;
+const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
@@ -195,9 +195,11 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       if (!m) continue;
       const p = `${path}.meters.${k}`;
       // Drift is the one signed reading: -100..100, where everything else is 0..100.
+      // drift is signed; tenure counts cards and has no ceiling.
       const floor = k === "drift" ? -100 : 0;
+      const ceiling = k === "tenure" ? Number.POSITIVE_INFINITY : 100;
       if (m.lt !== undefined && m.lt <= floor) issues.error("cond-unsatisfiable", `${k} < ${m.lt} can never hold (${k} is ${floor}..100)`, { ...where, path: p });
-      if (m.gt !== undefined && m.gt >= 100) issues.error("cond-unsatisfiable", `${k} > ${m.gt} can never hold (${k} is ${floor}..100)`, { ...where, path: p });
+      if (m.gt !== undefined && m.gt >= ceiling) issues.error("cond-unsatisfiable", `${k} > ${m.gt} can never hold (${k} is ${floor}..100)`, { ...where, path: p });
       if (m.lt !== undefined && m.gt !== undefined && m.lt - m.gt < 2) {
         issues.error("cond-unsatisfiable", `${k} > ${m.gt} and < ${m.lt} leaves no integer value`, { ...where, path: p });
       }
@@ -436,9 +438,11 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   }
   for (const [f, where] of flagReads) {
     if (engineSets(f)) {
-      const trait = f.slice(cfg.advisorFlagPrefix.length);
-      if (!traitsInPlay.has(trait)) {
-        issues.error("flag-unset", `no advisor has the trait "${trait}", so "${f}" is never set`, where);
+      // The engine sets one per trait in the cabinet and one per person in it, so a card
+      // may be written for a named advisor as well as for a kind of one (phase 15).
+      const name = f.slice(cfg.advisorFlagPrefix.length);
+      if (!traitsInPlay.has(name) && !advisorIds.has(name)) {
+        issues.error("flag-unset", `no advisor has the trait or id "${name}", so "${f}" is never set`, where);
       }
       continue;
     }

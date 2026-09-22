@@ -41,7 +41,7 @@ const LADDER: readonly Relax[] = [
 function eligible(lib: Library, card: Card, state: GameState, relax: Relax): boolean {
   if (!relax.cooldown && state.cooldown.includes(card.id)) return false;
   if (card.oneShot && state.seen.includes(card.id)) return false;
-  return condMet(lib, card.cond, state);
+  return condMet(lib, card.cond, state, card.speaker);
 }
 
 function poolCandidates(lib: Library, state: GameState, relax: Relax): Card[] {
@@ -109,7 +109,7 @@ export function tickQueue(lib: Library, state: GameState): [Card | null, GameSta
   for (const { q, i } of due) {
     const card = getCard(lib, q.id);
     dropped.add(i);
-    if (condMet(lib, card.cond, state)) {
+    if (condMet(lib, card.cond, state, card.speaker)) {
       found = card;
       break;
     }
@@ -123,7 +123,7 @@ function drawArcContinue(lib: Library, state: GameState): [Card | null, GameStat
   for (const a of state.activeArcs) {
     if (!a.nextCard) continue;
     const card = getCard(lib, a.nextCard);
-    if (condMet(lib, card.cond, state)) cands.push(card);
+    if (condMet(lib, card.cond, state, card.speaker)) cands.push(card);
   }
   if (cands.length === 0) return [null, state];
   const [p, s1] = roll(state);
