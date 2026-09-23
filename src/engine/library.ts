@@ -76,7 +76,8 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
         if (!BANDS.includes(band)) throw new Error(`card ${c.id}: unknown band ${band}`);
         const key = poolKey(era, band, c.align);
         const list = eventPool.get(key) ?? [];
-        list.push(c);
+        // Once per list, so a draw from one cell never needs to look for a card twice.
+        if (!list.includes(c)) list.push(c);
         eventPool.set(key, list);
       }
     }

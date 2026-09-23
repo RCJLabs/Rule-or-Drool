@@ -1,0 +1,1387 @@
+[
+  {
+    "id": "l31_old_joke",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A branch wants to expel a member over a joke made twelve years ago. The joke is bad. The branch is worse.",
+    "left": {
+      "label": "Keep the member",
+      "fx": {
+        "money": -1,
+        "inst": 2,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Expel the member",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "l32_pay_all_now",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The unions want a pay rise for every public worker, now. The treasury wants it phased. Both of them fund you.",
+    "left": {
+      "label": "Phase it honestly",
+      "fx": {
+        "inst": 2,
+        "backers": -4,
+        "public": -2,
+        "money": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay it all now",
+      "fx": {
+        "money": -5,
+        "inst": -2,
+        "backers": 5,
+        "public": 2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "l33_first_correction",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's paper has printed a correction for the first time. Several members have cancelled their subscriptions in protest.",
+    "oneShot": true,
+    "left": {
+      "label": "Praise the correction",
+      "fx": {
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Replace the editor",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": -1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "l34_coop_buses",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A cooperative wants the contract to run the city buses. It is run by its members, loved by its members, and has never run a bus.",
+    "oneShot": true,
+    "left": {
+      "label": "Tender it openly",
+      "fx": {
+        "inst": 2,
+        "base": -4,
+        "backers": -3,
+        "public": -2,
+        "money": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give them the buses",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l35_committee_proposal",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The committee on committees has recommended a new committee. It would meet on Fridays, which is when things get done.",
+    "left": {
+      "label": "Abolish two instead",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1,
+        "public": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Form the committee",
+      "fx": {
+        "inst": -2,
+        "backers": 3,
+        "public": 2,
+        "base": 2,
+        "order": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l36_rent_freeze",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A rent freeze would hold every rent in the capital from tomorrow. The economists agree on what happens next. The tenants agree on tomorrow.",
+    "left": {
+      "label": "Build instead",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -3,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Freeze the rents",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "base": 4,
+        "public": 3,
+        "backers": -5
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_housing_shortage",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "l37_founders_statue",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement's founders would like a statue in the main square. Three of them are still alive and arguing about the pose.",
+    "oneShot": true,
+    "left": {
+      "label": "Plant a garden instead",
+      "fx": {
+        "base": -3,
+        "money": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Cast the statue",
+      "fx": {
+        "base": 4,
+        "backers": 2,
+        "public": 1,
+        "money": -1,
+        "order": 2,
+        "inst": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l38_coal_date",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The climate plan closes the coal region's mines within the decade. The coal region is the oldest branch of the movement.",
+    "oneShot": true,
+    "left": {
+      "label": "Close them with a plan",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "base": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Move the date back",
+      "fx": {
+        "money": 4,
+        "inst": -2,
+        "backers": 5,
+        "base": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_old_promise",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l39_picket_fines",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A bill would let unions fine members who cross a picket line. The unions call it solidarity, and the judge calls it a court.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep courts for courts",
+      "fx": {
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass the bill",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "backers": 5
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "l40_housekeeper",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The minister for fair pay has a housekeeper on less than the minimum wage. The housekeeper would like to talk to the press.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay what is owed",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "base": -2,
+        "public": 5,
+        "order": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Settle it quietly",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "backers": 1,
+        "order": 2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "l41_free_buses",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Free public transport would cost a fortieth of the budget and fill every bus by Monday. The buses are already full.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy the buses first",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it free now",
+      "fx": {
+        "money": -1,
+        "inst": -3,
+        "base": 3,
+        "public": 4
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_invoice",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "l42_planners",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The housing ministry has four hundred people planning homes and none building them. The planners have a very good union.",
+    "left": {
+      "label": "Hire builders",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire more planners",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "backers": 4
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l43_assembly_vote",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The general assembly voted to abolish itself, then refused to accept the result. The minutes run to four hundred pages.",
+    "oneShot": true,
+    "left": {
+      "label": "Accept the vote",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -5,
+        "backers": -1,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Order a recount",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l44_reactors",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Nuclear power would meet the climate target on time. The movement was founded, in part, to stop nuclear power.",
+    "oneShot": true,
+    "left": {
+      "label": "Build the reactors",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise more wind",
+      "fx": {
+        "inst": -2,
+        "base": 5,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_blackout",
+          "delay": 24
+        }
+      ]
+    }
+  },
+  {
+    "id": "l45_street_names",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A campaign wants every street named after a banker renamed, which would take the council a year. The council has not fixed a street in a year.",
+    "oneShot": true,
+    "left": {
+      "label": "Fix the streets first",
+      "fx": {
+        "money": -6,
+        "base": -4,
+        "public": 5,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rename them",
+      "fx": {
+        "inst": -1,
+        "base": 4,
+        "backers": 1,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l46_coop_loans",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Cheap loans for cooperatives would start a thousand firms. A third would fail, and the auditors would find which third were friends.",
+    "left": {
+      "label": "Lend by the rules",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "backers": -1,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lend to friends first",
+      "fx": {
+        "money": -2,
+        "inst": -3,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l47_port_strike",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The port strike is legal and popular, and the shelves will be empty by Thursday. The strikers helped elect you.",
+    "left": {
+      "label": "Broker a deal",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -4,
+        "public": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Back the strike",
+      "fx": {
+        "base": 2,
+        "backers": 4,
+        "public": -5,
+        "inst": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "l48_peoples_tribunal",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A people's tribunal has found a landlord guilty of greed. It has no legal standing, excellent attendance and a sentencing committee.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the tribunal",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let it sit",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "backers": 1,
+        "public": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "l49_listening",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every ministry must now hold listening sessions. They are popular, and nothing said at any of them has been written down.",
+    "left": {
+      "label": "Write it all down",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "base": -2,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Hold more sessions",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "public": 3,
+        "order": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l50_windfall",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A windfall tax on the energy firms would pay this winter's heating bills, once. The firms have lawyers, and next winter.",
+    "oneShot": true,
+    "left": {
+      "label": "Insulate the homes",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "base": -2,
+        "public": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pay the bills",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 2,
+        "public": 5,
+        "backers": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "l51_elected_ministers",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Members could elect every minister directly. Turnout would be nine per cent, and the nine per cent would be very sure.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep appointments",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -5,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let members elect",
+      "fx": {
+        "inst": -3,
+        "base": 5,
+        "public": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l52_four_day_school",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A four-day school week would save a fortune on buildings. The teachers' union loves it, and so does no parent.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep five days",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "backers": -4,
+        "base": 2,
+        "public": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Try four days",
+      "fx": {
+        "money": 7,
+        "backers": 4,
+        "public": -3,
+        "base": 1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l53_palace_verse",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's anthem has a verse about burning the palace. You live in the palace. The verse is the best part.",
+    "oneShot": true,
+    "left": {
+      "label": "Sing every verse",
+      "fx": {
+        "money": -2,
+        "order": -5,
+        "base": 3,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Drop the verse",
+      "fx": {
+        "order": 3,
+        "base": -2,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l54_capital_meals",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "School meals are free in the capital and nowhere else. The capital votes for you, and the rest of the country has noticed.",
+    "left": {
+      "label": "Fund them everywhere",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it in the capital",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_census_gap",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "l55_office_office",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The equality office has twenty staff. The office that checks the equality office has thirty.",
+    "oneShot": true,
+    "left": {
+      "label": "Merge the two",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "backers": -4,
+        "public": -3,
+        "money": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Found a third office",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": 1,
+        "money": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l56_squatters",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Squatters have taken an empty office tower. It is empty because a pension fund owns it and waits. The pension fund is the unions'.",
+    "oneShot": true,
+    "left": {
+      "label": "Negotiate a lease",
+      "fx": {
+        "inst": 1,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let them stay",
+      "fx": {
+        "money": 2,
+        "base": 4,
+        "public": 1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l57_pay_ratio",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A bill would ban paying any chief more than fifty times the cleaner. Three chiefs would leave, loudly, on television.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the ratios",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Ban it outright",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l58_testing_ban",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The movement wants animal testing banned by spring. Next winter's vaccine is in animal testing now.",
+    "oneShot": true,
+    "left": {
+      "label": "Ban it after winter",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Ban it by spring",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 1,
+        "public": -2,
+        "order": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_fever_spreads",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "l59_pension_guarantee",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The unions' pension fund wants a state guarantee. It is well run, and would like to stay that way at your expense.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the guarantee",
+      "fx": {
+        "inst": 3,
+        "backers": -4,
+        "public": -2,
+        "base": 2,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Guarantee it",
+      "fx": {
+        "inst": -2,
+        "backers": 6,
+        "public": 2,
+        "base": 1,
+        "money": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "l60_misled_mug",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A minister called the other side's voters misled. It was meant kindly, and it is now on a mug.",
+    "oneShot": true,
+    "left": {
+      "label": "Apologise for it",
+      "fx": {
+        "money": -3,
+        "base": -2,
+        "public": 5
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Sell the mug",
+      "fx": {
+        "money": 5,
+        "base": 2,
+        "backers": 1,
+        "public": -5
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l61_rich_village",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The wealthiest neighbourhood in the city wants to leave it and become a village, with its own school and its own taxes.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the city whole",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Tax them to stay",
+      "fx": {
+        "money": 7,
+        "inst": -2,
+        "base": 2,
+        "order": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l62_open_jobs",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every public job could be advertised to the public. The unions prefer the current system, in which everyone knows someone.",
+    "left": {
+      "label": "Advertise them all",
+      "fx": {
+        "inst": 4,
+        "backers": -5,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the system",
+      "fx": {
+        "money": 1,
+        "inst": -4,
+        "base": 2,
+        "backers": 5,
+        "public": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l63_car_free",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The city could ban cars from the centre. Air, noise and deaths would fall. So would the shops, for a year.",
+    "oneShot": true,
+    "left": {
+      "label": "Ban the cars",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -4,
+        "public": 5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Ban them on Sundays",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -2,
+        "order": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "l64_land_tax",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A land value tax would be the fairest tax there is. It would also be the first tax on your own members' gardens.",
+    "oneShot": true,
+    "left": {
+      "label": "Levy it on everyone",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "base": -5,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Exempt the gardens",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l65_camp_debate",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The summer camp is famous for its debates. This year it is famous for the debate about who was allowed to debate.",
+    "left": {
+      "label": "Open the platform",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Tighten the list",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -2,
+        "order": 2
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  }
+]

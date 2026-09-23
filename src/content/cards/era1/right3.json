@@ -1,0 +1,1425 @@
+[
+  {
+    "id": "r31_lost_battle",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The general wants a parade for the anniversary of a battle we lost. It would be, the general says, a parade about resilience.",
+    "oneShot": true,
+    "left": {
+      "label": "Hold a memorial",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "base": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Hold the parade",
+      "fx": {
+        "money": -2,
+        "order": 2,
+        "base": 4,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "r32_top_rate",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Cutting the top tax rate would pay for itself, according to a study paid for by the top tax rate.",
+    "left": {
+      "label": "Keep the rate",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "backers": -5,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cut the rate",
+      "fx": {
+        "money": -5,
+        "inst": -2,
+        "backers": 5,
+        "public": 1
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "r33_green_belt",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A developer will build a thousand homes on the green belt. The developer has also built the bishop a chapel, by coincidence.",
+    "oneShot": true,
+    "left": {
+      "label": "Build on brownfield",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Approve the homes",
+      "fx": {
+        "money": 7,
+        "inst": -2,
+        "base": 2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "r34_courtroom_tablets",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A mayor wants the commandments hung in every courtroom. The judges would like to keep the one about false witness in working order.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep courts plain",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -6
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hang them up",
+      "fx": {
+        "inst": -3,
+        "base": 5,
+        "public": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "r35_half_fence",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The border fence is half built. Finishing it costs the same as the half, and the half is already falling over.",
+    "oneShot": true,
+    "left": {
+      "label": "Repair what stands",
+      "fx": {
+        "order": -2,
+        "inst": 2,
+        "base": -4,
+        "public": -2,
+        "money": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Finish the fence",
+      "fx": {
+        "money": -6,
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_maintenance",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "r36_uniform_war",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The row about school uniforms is going very well. Nobody has mentioned the price of bread in nine days.",
+    "left": {
+      "label": "Talk about bread",
+      "fx": {
+        "base": -4,
+        "public": 6
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Keep the row going",
+      "fx": {
+        "base": 4,
+        "backers": 2,
+        "public": -5
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_own_words",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "r37_museum_son",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A donor's son would like to run the national museum. He has visited a museum, and has opinions about the lighting.",
+    "oneShot": true,
+    "left": {
+      "label": "Appoint a curator",
+      "fx": {
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appoint the son",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "r38_bank_farm",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The farm subsidy goes to whoever owns the most land. The largest recipient is a bank, which does not farm.",
+    "left": {
+      "label": "Pay the farmers",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "backers": -4,
+        "public": 5,
+        "base": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the formula",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 4,
+        "public": -2,
+        "base": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "r39_all_friends",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every minister is now a friend of yours. It is very efficient, and nobody tells you anything you do not already know.",
+    "left": {
+      "label": "Hire a critic",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep it friendly",
+      "fx": {
+        "money": 1,
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "r40_water_cannon",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The police would like water cannon for the capital. There has not been a riot, which the police say proves the need.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the cannon",
+      "fx": {
+        "order": -7,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Buy two",
+      "fx": {
+        "order": 4,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "r41_retire_judges",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Judges retire at seventy. Lowering it to sixty-five would remove four who ruled against you, and one who ruled for you.",
+    "oneShot": true,
+    "left": {
+      "label": "Leave the age alone",
+      "fx": {
+        "inst": 5,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Lower the age",
+      "fx": {
+        "money": 1,
+        "order": 2,
+        "inst": -6,
+        "base": 3,
+        "public": 1
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "r42_monastery_mountain",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A mining firm wants the mountain. There is a monastery on the mountain, and the monastery has very good lawyers.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the mountain",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": 3,
+        "backers": -4,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the mountain",
+      "fx": {
+        "money": 7,
+        "inst": -3,
+        "base": -3,
+        "backers": 4,
+        "public": 1,
+        "order": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "r43_founders_chapter",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The history curriculum is due an update. The draft has a chapter on the founders and a paragraph on everyone else.",
+    "oneShot": true,
+    "left": {
+      "label": "Hand it to the teachers",
+      "fx": {
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Approve the draft",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 4,
+        "backers": 1,
+        "public": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "r44_church_car_parks",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Church land pays no tax. The largest landowner in the capital is a church with a car park business.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax the car parks",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -5,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it be",
+      "fx": {
+        "base": 4,
+        "backers": 1,
+        "public": 1,
+        "inst": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "r45_harvest_callup",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Conscription would fill the army and empty the farms at harvest. The farmers are your voters, and so are the colonels.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it voluntary",
+      "fx": {
+        "money": -3,
+        "order": -6,
+        "inst": 1,
+        "base": -2,
+        "public": 4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Call them up",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "base": 2,
+        "public": -6,
+        "backers": -2,
+        "inst": -1
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "r46_palace_or_hospital",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The old palace is falling down. Restoring it costs a hospital, and the tourists would love it more than a hospital.",
+    "oneShot": true,
+    "left": {
+      "label": "Build the hospital",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "base": -4,
+        "public": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Restore the palace",
+      "fx": {
+        "money": -2,
+        "base": 4,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "r47_chamber_bill",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The chamber of commerce has written a bill for you. It is very well drafted, and the chamber would like it back if you change a word.",
+    "left": {
+      "label": "Draft our own",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pass their bill",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "backers": 5
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "r48_estate_hunt",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Hunting on the old royal estate was banned a century ago. The families would like it back, for tradition and for the pheasants.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the ban",
+      "fx": {
+        "inst": 1,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Restore the hunt",
+      "fx": {
+        "money": 2,
+        "base": 2,
+        "backers": 4,
+        "public": -2,
+        "inst": -1
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "r49_friendly_news",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The main news channel now opens with you every night. The owner has asked for nothing, yet.",
+    "left": {
+      "label": "Ask for less coverage",
+      "fx": {
+        "money": -1,
+        "inst": 3,
+        "base": -2,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Enjoy it",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "r50_post_office_bank",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The small towns have lost their banks. A savings bank in every post office would fix it, and horrify the banks.",
+    "oneShot": true,
+    "left": {
+      "label": "Open the savings bank",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -4,
+        "public": 6
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Ask the banks nicely",
+      "fx": {
+        "money": 5,
+        "backers": 4,
+        "public": -3,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r51_veterans_rail",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Veterans want free travel on the railways. It is cheap and popular, and the railway is already on strike.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund it properly",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": 3,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Announce it today",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_invoice",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "r52_dress_code",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A dress code for the civil service would restore dignity, says the draft. The draft runs to forty pages and bans a colour.",
+    "oneShot": true,
+    "left": {
+      "label": "Drop the code",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Issue the code",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "r53_tax_holiday",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The largest employer in the north wants a tax holiday to stay. It asked for the same thing six years ago, and left anyway.",
+    "left": {
+      "label": "Refuse the holiday",
+      "fx": {
+        "money": 3,
+        "inst": 2,
+        "backers": -4,
+        "public": -3,
+        "base": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Grant the holiday",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "backers": 4,
+        "public": 3,
+        "base": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "r54_any_force",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A bill would let citizens defend their homes with any force at all. Burglars oppose it, and so do the coroners.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it proportionate",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "base": -4,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass the bill",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 4
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "r55_national_dish",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A foreign actor mocked the national dish on a talk show. The ministry would like to summon the ambassador.",
+    "oneShot": true,
+    "left": {
+      "label": "Laugh it off",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Summon the ambassador",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "r56_school_charities",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Private schools are charities and pay no tax. They are also where every minister's children go, including yours.",
+    "left": {
+      "label": "Tax them",
+      "fx": {
+        "money": 6,
+        "inst": 3,
+        "backers": -4,
+        "public": -2,
+        "base": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the status",
+      "fx": {
+        "inst": -2,
+        "backers": 4,
+        "public": 2,
+        "base": 1,
+        "order": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "r57_curfew_trial",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The general wants a curfew in one district, as an experiment. The district would like to know what it is an experiment in.",
+    "oneShot": true,
+    "left": {
+      "label": "No curfews",
+      "fx": {
+        "order": -8,
+        "inst": 2,
+        "public": 6
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Try one district",
+      "fx": {
+        "money": 1,
+        "order": 4,
+        "inst": -2,
+        "base": 2,
+        "public": -4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "r58_footpath",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "An old family wants to close the footpath across its estate. The path has been walked for nine centuries, and the family has owned the land for two.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the path open",
+      "fx": {
+        "inst": 1,
+        "backers": -4,
+        "public": 6
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let them close it",
+      "fx": {
+        "order": 2,
+        "backers": 4,
+        "public": -4,
+        "inst": -1
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "r59_ambassador",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your oldest supporter would like an embassy. He speaks no foreign language and considers this a strength.",
+    "oneShot": true,
+    "left": {
+      "label": "Send a warm letter",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Grant the embassy",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_foreign_note",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "r60_blasphemy",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Blasphemy is still a crime on paper. A town council has asked you to put it back into practice.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal it",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -6,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let the town decide",
+      "fx": {
+        "order": 2,
+        "inst": -4,
+        "base": 5,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "r61_farm_inheritance",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Inheritance tax falls on farms that cannot pay without selling a field. It also falls on estates that could buy the county.",
+    "oneShot": true,
+    "left": {
+      "label": "Exempt working farms",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -4,
+        "public": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Abolish it entirely",
+      "fx": {
+        "money": -5,
+        "inst": -2,
+        "base": 2,
+        "backers": 4,
+        "order": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "r62_founder_statue",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The statue of your party's founder was painted over in the night. The founder, it turns out, did several things worth painting over.",
+    "oneShot": true,
+    "left": {
+      "label": "Add a plaque with both",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -4,
+        "public": 2,
+        "order": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Guard the statue",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r63_merged_lobby",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The hunting, fishing and shooting lobbies have merged. The merged lobby would like a word, or several.",
+    "left": {
+      "label": "Hear them in public",
+      "fx": {
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Meet them privately",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 2,
+        "backers": 4,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "r64_club_guard",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The national guard wants to recruit from the shooting clubs. The clubs are keen and armed, and have never been asked anything.",
+    "oneShot": true,
+    "left": {
+      "label": "Recruit the usual way",
+      "fx": {
+        "order": -4,
+        "inst": 3,
+        "base": -4,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Swear them in",
+      "fx": {
+        "money": 1,
+        "order": 3,
+        "inst": -3,
+        "base": 4,
+        "public": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "r65_monarchists",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A society would like the Republic to have a king. Nobody has proposed a particular king, and several families have one ready.",
+    "oneShot": true,
+    "left": {
+      "label": "Thank them politely",
+      "fx": {
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Form a commission",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -3
+    }
+  }
+]

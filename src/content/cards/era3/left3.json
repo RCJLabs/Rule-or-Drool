@@ -1,0 +1,805 @@
+[
+  {
+    "id": "cl17_old_songs",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement's songs are sung at every meeting. Nobody knows what half the words mean, and one verse is about a factory that is now a park.",
+    "oneShot": true,
+    "left": {
+      "label": "Write new songs",
+      "fx": {
+        "base": -4,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sing them louder",
+      "fx": {
+        "base": 4,
+        "backers": 1,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl18_old_machines",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The universal income is most of what anyone earns now. The machines that pay for it are older than the economists who defend it.",
+    "left": {
+      "label": "Renew the machines",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -1,
+        "base": -2,
+        "public": -3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Raise the income",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "public": 3,
+        "backers": 1,
+        "money": 1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cl19_peoples_appeals",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The people's courts are the only courts in the east now. They are fair and fast, and have started hearing appeals against the state.",
+    "oneShot": true,
+    "left": {
+      "label": "Let them hear them",
+      "fx": {
+        "order": -5,
+        "inst": 3,
+        "base": -2,
+        "public": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Restrict their cases",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 1,
+        "public": -1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "cl20_board_rules",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every decision still goes through the allocation board, whose rules were written by your grandparents' friends and have not been read since.",
+    "left": {
+      "label": "Rewrite the rules",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Follow them anyway",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl21_card_number_one",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Membership cards are inherited now. Three generations of one family have held card number one.",
+    "oneShot": true,
+    "left": {
+      "label": "Make it earned again",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Print a gold card",
+      "fx": {
+        "inst": -2,
+        "base": 5,
+        "backers": 2,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cl22_tired_soil",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The cooperative farms feed the country and have not changed a method in sixty years. The soil has begun to notice.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund new methods",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Honour the old methods",
+      "fx": {
+        "money": 6,
+        "base": 2,
+        "backers": 2,
+        "public": -1,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q35_dust",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "cl23_hand_press",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's paper is still printed by hand, by volunteers. It carries the news from the day before yesterday, with great care.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire it with honour",
+      "fx": {
+        "base": -4,
+        "public": 1,
+        "money": 4,
+        "order": -2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it required reading",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": 1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "cl24_pension_country",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The unions' pension funds own most of the country now. They would like it run for pensioners, and the pensioners agree.",
+    "left": {
+      "label": "Govern for everyone",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -6,
+        "public": 4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Consult the funds",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 5,
+        "base": -1,
+        "public": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cl25_endless_room",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The general assembly meets online now, forever, in a room nobody can close. It has passed nine thousand motions, most of them about itself.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the room",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Open another room",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "backers": 1,
+        "public": -1,
+        "money": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cl26_monthly_recalls",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A law of your century lets any hundred citizens recall any official. Most officials now serve for about a month.",
+    "left": {
+      "label": "Raise the threshold",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Recall one more",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "public": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl27_long_lunch",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The ministries are run by committees their staff elect. The staff have elected themselves a longer lunch, and been very productive at it.",
+    "oneShot": true,
+    "left": {
+      "label": "Restore some managers",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ratify the lunch",
+      "fx": {
+        "inst": -3,
+        "backers": 4,
+        "base": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl28_not_invented_here",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The public health service is the best in the world, and the proudest. It has refused a new treatment because it was not invented here.",
+    "oneShot": true,
+    "left": {
+      "label": "Adopt the treatment",
+      "fx": {
+        "money": -4,
+        "backers": -4,
+        "public": 5,
+        "base": -1,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Invent our own",
+      "fx": {
+        "base": 2,
+        "backers": 2,
+        "public": -2,
+        "money": 1,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl29_nine_year_old",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement's leaders are chosen by lot from the members now. The lot has chosen a nine-year-old, who is doing fine.",
+    "oneShot": true,
+    "left": {
+      "label": "Set an age limit",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Celebrate the lot",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "public": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cl30_free_money",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Transport, housing and food are free. The only thing that costs money is money, and nobody has any.",
+    "oneShot": true,
+    "left": {
+      "label": "Charge for something",
+      "fx": {
+        "money": 6,
+        "base": -6,
+        "public": -4,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Make money free too",
+      "fx": {
+        "money": -6,
+        "inst": -2,
+        "base": 4,
+        "public": 4
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "cl31_unfinished_history",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "History lessons end with your century, because the committee cannot agree on what happened after it.",
+    "oneShot": true,
+    "left": {
+      "label": "Teach the recent past",
+      "fx": {
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep it finished",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cl32_cyclist_brigade",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The country's defence is a volunteer brigade of cyclists. They are very fit and very brave, and have never met a tank.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund a real defence",
+      "fx": {
+        "money": -6,
+        "base": -3,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Honour the cyclists",
+      "fx": {
+        "money": 6,
+        "base": 3,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "cl33_goals_met",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement's work is done, a historian writes. Every goal it set in your century has been met, and it is still setting goals.",
+    "oneShot": true,
+    "left": {
+      "label": "Let it wind down",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Set bolder goals",
+      "fx": {
+        "base": 5,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl34_assembly_pen",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The citizens' assemblies want the power to amend the constitution. They have been right about everything so far, which is the worry.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep a second check",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Give them the pen",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "public": 3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl35_envious_neighbours",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The endowment now earns more than it spends. A proposal would give the surplus to the neighbouring countries, which are poorer and envious.",
+    "oneShot": true,
+    "left": {
+      "label": "Give the surplus",
+      "fx": {
+        "money": -9,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Keep the surplus",
+      "fx": {
+        "money": 9,
+        "backers": 2,
+        "base": 1,
+        "public": 1,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl36_nothing_new",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The research council funds everything it is asked to. It has not been asked for anything new in six years.",
+    "left": {
+      "label": "Fund the strange ones",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Fund the safe ones",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl37_impure_founding",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "The purity committee has declared the movement's founding documents impure, and would like to redraft the founding, retroactively.",
+    "oneShot": true,
+    "left": {
+      "label": "Dissolve the committee",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Redraft the founding",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 5
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "cl38_nested_ministries",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The equality ministry now has a ministry of its own, which has a ministry of its own. They are all equal, and all hiring.",
+    "left": {
+      "label": "Collapse them into one",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -5,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire for all three",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 4,
+        "money": -2
+      },
+      "drift": -5
+    }
+  }
+]

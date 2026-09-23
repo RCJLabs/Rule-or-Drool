@@ -70,16 +70,24 @@ export function rivalPressure(lib: Library, state: GameState): number {
   return clampMeter(Math.round(state.rivalStanding + Math.abs(state.drift) * lib.config.rivalDriftPull));
 }
 
-export function condMet(lib: Library, cond: Cond | undefined, state: GameState, speaker?: string): boolean {
+/** Everything a condition can compare, in the order it compares them. */
+const COND_METERS = [...METER_KEYS, "mood", "rival", "drift", "tenure"] as const;
+
+/**
+ * Whether `cond` holds. `flags` is the run's flags as a set, for a caller checking a whole
+ * pool of cards against one state (BACKLOG-5 phase 36); it must be `state.flags`.
+ */
+export function condMet(lib: Library, cond: Cond | undefined, state: GameState, speaker?: string, flags?: ReadonlySet<string>): boolean {
   if (!cond) return true;
-  if (cond.flags) for (const f of cond.flags) if (!state.flags.includes(f)) return false;
-  if (cond.notFlags) for (const f of cond.notFlags) if (state.flags.includes(f)) return false;
+  const has = flags ? (f: string) => flags.has(f) : (f: string) => state.flags.includes(f);
+  if (cond.flags) for (const f of cond.flags) if (!has(f)) return false;
+  if (cond.notFlags) for (const f of cond.notFlags) if (has(f)) return false;
   if (cond.speakerTraits) {
     const traits = lib.advisorsById.get(state.cabinet[speaker ?? ""] ?? "")?.traits ?? [];
     for (const t of cond.speakerTraits) if (!traits.includes(t)) return false;
   }
   if (cond.meters) {
-    for (const k of [...METER_KEYS, "mood", "rival", "drift", "tenure"] as const) {
+    for (const k of COND_METERS) {
       const m = cond.meters[k];
       if (!m) continue;
       // `band` only moves at an era boundary, so anything meant to follow where the run is

@@ -1,0 +1,979 @@
+[
+  {
+    "id": "bl21_old_youth_wing",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The youth wing is now older than the movement was when it first won. It would like to go on being called the youth wing.",
+    "oneShot": true,
+    "left": {
+      "label": "Hand it to the young",
+      "fx": {
+        "base": -3,
+        "backers": -2,
+        "public": 5,
+        "money": -2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Keep the name",
+      "fx": {
+        "money": 2,
+        "inst": -1,
+        "base": 3,
+        "backers": 2,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "bl22_dividend_members",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The machine dividend is paid to everyone equally. The unions want it paid to members first, because members built the machines.",
+    "left": {
+      "label": "Pay everyone equally",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -6,
+        "base": -2,
+        "public": 5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pay members first",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 1,
+        "backers": 5,
+        "public": -4,
+        "order": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "bl23_board_building",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The allocation board has allocated itself a new building. The board allocated it, and allocated it well.",
+    "oneShot": true,
+    "left": {
+      "label": "Audit the board",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -3,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cut the ribbon",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": -1,
+        "money": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "bl24_three_day_week",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The four-day week is law, and the three-day week is a motion at congress. The machines would not notice, and the treasury would.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep four days",
+      "fx": {
+        "base": -5,
+        "backers": -4,
+        "public": -2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pass the motion",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": -2,
+        "money": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "bl25_peoples_courts",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The people's courts from your first term still sit. They are cheaper and faster, and have never once found for a landlord.",
+    "left": {
+      "label": "Fold them into courts",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Send them more cases",
+      "fx": {
+        "order": 2,
+        "inst": -4,
+        "base": 5,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "bl26_founding_video",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The archive has a film of the founding congress. Half of the heroes in it were later expelled, and are still in the film.",
+    "oneShot": true,
+    "left": {
+      "label": "Show the whole film",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Edit the heroes out",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "base": 4
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "bl27_maintained_privately",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Public ownership of the machines was the plan. The machines are publicly owned now, and privately maintained, at a margin.",
+    "left": {
+      "label": "Train our own engineers",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew the contracts",
+      "fx": {
+        "money": 3,
+        "inst": -3,
+        "base": 1,
+        "backers": 4,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "bl28_committee_layer",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Every neighbourhood has a committee now. The committees have formed a committee to decide which committees are neighbourhoods.",
+    "oneShot": true,
+    "left": {
+      "label": "Dissolve the top layer",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fund the new layer",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl29_illness_model",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The health model can predict who will be ill next year. The movement would like to use it, and to promise not to.",
+    "oneShot": true,
+    "left": {
+      "label": "Use it in the open",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "base": -2,
+        "public": -1,
+        "order": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Use it quietly",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "bl30_school_joiners",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The civil service is now mostly people who joined the movement at school. They are loyal and capable, and cannot imagine anything else.",
+    "left": {
+      "label": "Hire from outside",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promote from within",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 4,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "bl31_union_machines",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Through their funds, the unions own a third of the country's machines. They would like to be consulted before the machines are taxed.",
+    "left": {
+      "label": "Tax them like anyone",
+      "fx": {
+        "backers": -5,
+        "public": 4,
+        "money": 3,
+        "order": 2,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Consult them first",
+      "fx": {
+        "inst": -1,
+        "base": 1,
+        "backers": 5,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "bl32_holiday_credit",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's anniversary is a public holiday. A proposal would count attendance at the celebrations towards civic credit.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it voluntary",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Count the attendance",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 4,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "bl33_under_thirty",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Free housing for everyone under thirty worked so well that nobody over thirty will leave their flat.",
+    "oneShot": true,
+    "left": {
+      "label": "Build for everyone",
+      "fx": {
+        "money": -6,
+        "base": -2,
+        "public": -2,
+        "order": 2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise the age limit",
+      "fx": {
+        "inst": -1,
+        "base": 4,
+        "public": 3,
+        "money": 1,
+        "order": 2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_housing_shortage",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "bl34_sunday_militia",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The workers' militia from the old strikes still drills on Sundays. It is armed and ceremonial, and not entirely ceremonial.",
+    "oneShot": true,
+    "left": {
+      "label": "Disarm it politely",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -5
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give it a budget",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 5
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "bl35_drought_wheat",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The movement banned edited crops twenty years ago. The drought-proof wheat is ready, and the ban is a founding principle.",
+    "oneShot": true,
+    "left": {
+      "label": "Lift the ban",
+      "fx": {
+        "inst": 1,
+        "base": -5
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Import the flour",
+      "fx": {
+        "base": 3,
+        "backers": 1,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q35_dust",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "bl36_cohesion_law",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Speech that harms social cohesion is an offence now. The first case is against a comedian, and the comedian is winning.",
+    "oneShot": true,
+    "left": {
+      "label": "Narrow the law",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "base": -3,
+        "public": 7,
+        "money": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Prosecute harder",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 4,
+        "public": -5
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "bl37_founders_address",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement's founder is ninety and would like to address congress for three hours. Last year's address ran to four.",
+    "oneShot": true,
+    "left": {
+      "label": "Offer fifteen minutes",
+      "fx": {
+        "inst": 2,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give the founder the day",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 1,
+        "public": -1,
+        "money": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl38_ministry_of_time",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The ministry of time has been abolished three times and still sends a newsletter. It has four staff and a grievance.",
+    "oneShot": true,
+    "left": {
+      "label": "Close it properly",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "backers": -2,
+        "public": 4,
+        "money": 3,
+        "order": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Rename it again",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "bl39_income_index",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The universal income was set when bread was cheaper. Raising it with prices is fair, and would cost what the machines earn.",
+    "left": {
+      "label": "Index it to prices",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -1,
+        "base": -2,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise it before the vote",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "public": 3,
+        "money": 1,
+        "order": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "bl40_movement_or_party",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement has governed well for twenty years. A report asks whether it still needs to be a movement, or only a party.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the report",
+      "fx": {
+        "inst": 3,
+        "base": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Shelve it",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "bl41_tutor_models",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Every child has a tutor model that teaches perfectly. Results are the best ever, and no child has been bored in years.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep human teachers",
+      "fx": {
+        "money": -6,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Retire the teachers",
+      "fx": {
+        "money": 7,
+        "inst": -3,
+        "base": 1,
+        "backers": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "bl42_trusted_courts",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The courts are so trusted that people ask them to settle things courts should not settle, such as marriages and football.",
+    "oneShot": true,
+    "left": {
+      "label": "Decline the football",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "public": -2,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hear the football",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "bl43_machine_fund",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The machine fund is worth four times the budget. Every party promises never to touch it, including the one that wants to.",
+    "left": {
+      "label": "Write the rule in law",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Borrow from it once",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "base": 3,
+        "backers": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "bl44_purge_childhoods",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "The purge committee has run out of people to purge, and has begun reviewing its own members' childhoods.",
+    "oneShot": true,
+    "left": {
+      "label": "Dissolve the committee",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "base": -5,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Extend its mandate",
+      "fx": {
+        "order": 3,
+        "inst": -4,
+        "base": 5,
+        "public": 1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "bl45_warm_feed",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The movement's feed says only good things, in a warm voice, all day. Watching it is compulsory in the ministries, and nowhere else, so far.",
+    "left": {
+      "label": "Switch it off",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "public": -2,
+        "order": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Extend it to schools",
+      "fx": {
+        "order": 3,
+        "inst": -4,
+        "base": 4,
+        "backers": -1,
+        "public": -2,
+        "money": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  }
+]

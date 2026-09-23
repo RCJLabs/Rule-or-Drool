@@ -1,0 +1,2431 @@
+[
+  {
+    "id": "a45_island_ferry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The island ferry loses money on every crossing. The island has four hundred voters and an excellent memory.",
+    "left": {
+      "label": "Keep it sailing",
+      "fx": {
+        "money": -6,
+        "backers": -4,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the route",
+      "fx": {
+        "money": 7,
+        "backers": 3,
+        "public": -3
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "a46_clock_change",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Ending the clock change would save lives on winter roads. It would also cost you every farmer, for about a year.",
+    "oneShot": true,
+    "left": {
+      "label": "Stop the clocks",
+      "fx": {
+        "base": -3,
+        "backers": -2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Commission a study",
+      "fx": {
+        "money": 2,
+        "backers": 2,
+        "base": 1,
+        "order": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a47_poll_wording",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A pollster will ask any question you like, worded any way you like. The answer will be reported as the national mood.",
+    "left": {
+      "label": "Ask it straight",
+      "fx": {
+        "backers": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Word it kindly",
+      "fx": {
+        "money": 1,
+        "base": 2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a48_winter_storage",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The grid needs storage for the winter. Building it takes three years. Buying power from abroad takes a phone call and a promise.",
+    "oneShot": true,
+    "left": {
+      "label": "Build the storage",
+      "fx": {
+        "money": -7
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make the phone call",
+      "fx": {
+        "order": 2,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_foreign_note",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a49_court_fees",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Court fees would clear the backlog by pricing out the poorest cases. Nobody poor has ever funded a campaign.",
+    "left": {
+      "label": "Hire more judges",
+      "fx": {
+        "money": -6,
+        "backers": -2,
+        "public": 3,
+        "inst": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise the fees",
+      "fx": {
+        "money": 7,
+        "backers": 3,
+        "public": -3,
+        "base": -1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a50_shoe_stadium",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A sportswear firm will pay for the national stadium if the stadium is named after a shoe.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay for it ourselves",
+      "fx": {
+        "money": -6,
+        "backers": -4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Name it after the shoe",
+      "fx": {
+        "money": 9,
+        "backers": 3
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a51_school_recruiters",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The army wants to recruit in schools. It would fill the ranks in a year, and the head teachers would never forgive you.",
+    "left": {
+      "label": "Keep them out",
+      "fx": {
+        "order": -8
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Open the school gates",
+      "fx": {
+        "order": 4,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "a52_four_day_week",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The civil service asks to try a four-day week. Output would rise, the papers would say it fell, and both would be quoted.",
+    "oneShot": true,
+    "left": {
+      "label": "Trial it properly",
+      "fx": {
+        "money": -4,
+        "base": -2,
+        "backers": -3,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Refuse on camera",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "base": 3,
+        "backers": 3
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a53_lottery_surplus",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The lottery's good-causes fund has a surplus. The good causes would like it, and so would a marginal constituency.",
+    "left": {
+      "label": "Give it to the causes",
+      "fx": {
+        "money": -4,
+        "base": -3,
+        "backers": -4,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Spend it where it counts",
+      "fx": {
+        "base": 4,
+        "backers": 3,
+        "order": 2,
+        "inst": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "a54_fluoride",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Fluoride in the water would cut tooth decay in children by a quarter. A petition calls it mind control and has forty thousand names.",
+    "oneShot": true,
+    "left": {
+      "label": "Add the fluoride",
+      "fx": {
+        "money": -4,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave the water alone",
+      "fx": {
+        "money": 2,
+        "base": 3,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a55_impressionist",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A comedian has been doing an impression of you on television. It is very good. Your office has drafted a complaint.",
+    "oneShot": true,
+    "left": {
+      "label": "Laugh in public",
+      "fx": {
+        "base": -2,
+        "public": 4,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Send the complaint",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "backers": 1,
+        "public": -3,
+        "base": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "a56_postal_votes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The rules for postal voting are yours to write. Written one way, turnout doubles among people who do not vote for you.",
+    "left": {
+      "label": "Write them fairly",
+      "fx": {
+        "base": -4,
+        "backers": -3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Write them for us",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "base": 4,
+        "backers": 3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_lawyer_letter",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a57_sugar_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A tax on sugar would pay for school meals. The drinks industry has offered to fund the meals itself, voluntarily, for now.",
+    "left": {
+      "label": "Tax the sugar",
+      "fx": {
+        "money": 4,
+        "inst": 1,
+        "base": -2,
+        "backers": -4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Take their offer",
+      "fx": {
+        "money": 5,
+        "backers": 4,
+        "base": 1
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a58_rebrand",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every ministry has its own logo. A rebrand would give them one logo, at a cost exactly equal to what you promised to save on rebrands.",
+    "oneShot": true,
+    "left": {
+      "label": "Leave the logos",
+      "fx": {
+        "base": -2,
+        "backers": -1,
+        "public": -2,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rebrand the state",
+      "fx": {
+        "money": -2,
+        "base": 2,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_old_promise",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a59_early_release",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The prisons are full. Early release would empty a wing by Friday and fill the front pages by Saturday.",
+    "left": {
+      "label": "Reform the sentences",
+      "fx": {
+        "order": -6,
+        "inst": 1,
+        "base": -2,
+        "public": -2,
+        "money": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Build another prison",
+      "fx": {
+        "money": -3,
+        "order": 3,
+        "base": 3,
+        "public": 2,
+        "inst": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "a60_flu_priority",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The flu vaccine is ready and short. The priority list can follow risk, or it can follow the people who call your office.",
+    "oneShot": true,
+    "left": {
+      "label": "Follow the risk",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the calls",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "backers": 5,
+        "base": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a61_tax_office_hack",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Three hackers took the tax office offline for a week. The general has a list of suspects and a preference for the loudest.",
+    "oneShot": true,
+    "left": {
+      "label": "Fix the systems",
+      "fx": {
+        "money": -6,
+        "order": -4,
+        "inst": 1,
+        "public": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Arrest the loudest",
+      "fx": {
+        "money": 3,
+        "order": 3,
+        "base": 2,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 10
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "a62_delivery_drones",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A delivery firm wants to fly drones over the capital. It would bring jobs, noise and a very detailed map of everyone's garden.",
+    "oneShot": true,
+    "left": {
+      "label": "Write the rules first",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "backers": -4,
+        "base": 1,
+        "public": 4
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let them fly",
+      "fx": {
+        "money": 7,
+        "backers": 4,
+        "public": -3,
+        "base": 1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a63_official_car",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your official car is twelve years old. A new one would be safer, faster and on the front page for a week.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the old car",
+      "fx": {
+        "backers": -1,
+        "money": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Order the new one",
+      "fx": {
+        "order": 3,
+        "backers": 2,
+        "public": -1,
+        "money": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "a64_winter_bonus",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Pensioners could have a bonus this winter. It would arrive the week before the election, by coincidence.",
+    "left": {
+      "label": "Index it properly",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -3,
+        "public": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Send the bonus",
+      "fx": {
+        "money": -2,
+        "inst": -4,
+        "base": 5,
+        "public": 3,
+        "backers": -5
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "a65_licence_fee",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The national broadcaster wants a licence fee rise. It would also like to keep broadcasting things you have done.",
+    "left": {
+      "label": "Grant the rise",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Freeze the fee",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 1,
+        "order": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "a66_bees",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Half the country's bees died last spring. The pesticide responsible is made by your second-largest employer.",
+    "oneShot": true,
+    "left": {
+      "label": "Ban the pesticide",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "backers": -4,
+        "base": 2,
+        "order": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Fund a bee study",
+      "fx": {
+        "backers": 4,
+        "public": 1,
+        "base": 1,
+        "order": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a67_correct_ruling",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A judge has ruled against your transport plan. The ruling is correct, which makes it very hard to criticise.",
+    "left": {
+      "label": "Accept the ruling",
+      "fx": {
+        "inst": 5,
+        "base": -4,
+        "backers": -3,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Criticise the judge",
+      "fx": {
+        "money": 2,
+        "inst": -5,
+        "base": 4,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "a68_pothole_rings",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Volunteers are painting rings round potholes so the cameras can find them. The council that owns the potholes is yours.",
+    "oneShot": true,
+    "left": {
+      "label": "Fill the potholes",
+      "fx": {
+        "money": -6,
+        "backers": -1,
+        "public": 3,
+        "order": -2,
+        "inst": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Fine the painters",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "public": -3,
+        "base": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "a69_water_bid",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A foreign fund will buy the water company. It pays the most, and its last three water companies now mostly sell bottled water.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it public",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -4,
+        "base": 2,
+        "public": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the highest bid",
+      "fx": {
+        "money": 9,
+        "backers": 4,
+        "public": -3,
+        "base": 1,
+        "order": 2
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "q_taps_dry",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "a70_cold_ministry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The interior ministry has moved into a building it cannot afford to heat. The staff work in coats, and the minister elsewhere.",
+    "oneShot": true,
+    "left": {
+      "label": "Fix the building",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -4,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lease a tower",
+      "fx": {
+        "backers": 3,
+        "public": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a71_border_soup",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A charity has been feeding people at the border crossing. The border police say it encourages crossings, and they have a lorry.",
+    "left": {
+      "label": "Let the charity work",
+      "fx": {
+        "order": -5,
+        "inst": 1,
+        "base": -3,
+        "public": 6
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Send the lorry",
+      "fx": {
+        "money": 1,
+        "order": 3,
+        "base": 3,
+        "public": -4,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "a72_forecast",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The weather service wants a new supercomputer. The old one predicted last month's storm, and nobody read the forecast.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy the computer",
+      "fx": {
+        "money": -6,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy a louder siren",
+      "fx": {
+        "public": 3,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a73_sunday_trading",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A retailer will open two hundred stores if the Sunday laws go. The churches, the unions and the corner shops agree on something.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep Sundays",
+      "fx": {
+        "money": -6,
+        "base": 4,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Open on Sundays",
+      "fx": {
+        "money": 7,
+        "base": -1,
+        "backers": 4
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a74_consultancy",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A consultancy can tell you how to cut a tenth of the civil service. Its fee is roughly a tenth of the civil service.",
+    "left": {
+      "label": "Do the review in-house",
+      "fx": {
+        "money": -3,
+        "inst": 1,
+        "backers": -4,
+        "public": -2,
+        "base": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Hire the consultancy",
+      "fx": {
+        "money": -2,
+        "backers": 4,
+        "public": 2,
+        "base": 1,
+        "order": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "a75_praise_account",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A minister's aide has been running an anonymous account that praises the minister. It has more followers than the minister.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the account",
+      "fx": {
+        "money": -2,
+        "inst": 1,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promote the aide",
+      "fx": {
+        "base": 2,
+        "public": -2,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a76_jury_panels",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Juries are hard to find. A panel of three officials could decide most trials instead, faster and without the public.",
+    "left": {
+      "label": "Keep the juries",
+      "fx": {
+        "money": -5,
+        "order": -2,
+        "inst": 3,
+        "base": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Try the panels",
+      "fx": {
+        "money": 6,
+        "order": 3,
+        "inst": -3,
+        "base": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "a77_face_coin",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The mint has proposed a coin with your face on it. It says the coin is for collectors, and it would be legal tender.",
+    "oneShot": true,
+    "left": {
+      "label": "Decline the honour",
+      "fx": {
+        "money": -3,
+        "inst": 1,
+        "base": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Mint the coin",
+      "fx": {
+        "money": 5,
+        "base": 4,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a78_one_address",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Party membership has doubled in a month. Most of the new members joined on the same afternoon, from the same address.",
+    "oneShot": true,
+    "left": {
+      "label": "Freeze the new members",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -4,
+        "backers": -1,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Welcome them all",
+      "fx": {
+        "inst": -3,
+        "base": 5,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 15
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a79_three_hospitals",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Merging three small hospitals into one would save lives and close two. Each of the three is in a seat you hold.",
+    "oneShot": true,
+    "left": {
+      "label": "Merge them",
+      "fx": {
+        "inst": 1,
+        "base": -5,
+        "backers": -2,
+        "money": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep all three",
+      "fx": {
+        "money": -3,
+        "base": 4,
+        "public": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a80_admirals",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The navy has more admirals than ships. Retiring six admirals would pay for a ship, and six admirals would give interviews.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire the six",
+      "fx": {
+        "money": 4,
+        "order": -5,
+        "inst": 1,
+        "base": -2,
+        "public": -2,
+        "backers": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Build another ship",
+      "fx": {
+        "money": -4,
+        "order": 3,
+        "base": 2,
+        "public": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a81_complaints_line",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A hotline for complaints took nine thousand calls on its first day. Eight thousand were about the hotline.",
+    "oneShot": true,
+    "left": {
+      "label": "Staff it properly",
+      "fx": {
+        "money": -6,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Close it quietly",
+      "fx": {
+        "money": 6,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a82_port_casino",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A casino wants a licence for the old port. It promises jobs, tourists and a generous community fund, run by the casino.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the licence",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -4,
+        "public": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Grant the licence",
+      "fx": {
+        "money": 7,
+        "backers": 4,
+        "public": -3,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "a83_antibiotics",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Antibiotics sold over the counter are breeding a bug that ignores them. The pharmacies are small businesses, and they vote.",
+    "left": {
+      "label": "Require prescriptions",
+      "fx": {
+        "money": -2,
+        "inst": 1,
+        "base": -2,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the pharmacists",
+      "fx": {
+        "backers": 3,
+        "base": 1,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_fever_spreads",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "a84_new_flag",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The new flag polled well with everyone except people who remember the old flag, which is everyone who votes.",
+    "oneShot": true,
+    "left": {
+      "label": "Drop the redesign",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "public": -3,
+        "money": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Put it to a referendum",
+      "fx": {
+        "money": -2,
+        "base": 3,
+        "public": 3,
+        "order": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a85_mayor_envelope",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A mayor from your party was filmed taking an envelope. The film is grainy and the mayor is very recognisable.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the charges stand",
+      "fx": {
+        "inst": 5,
+        "base": -3,
+        "backers": -2,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Call it entrapment",
+      "fx": {
+        "money": 2,
+        "inst": -5,
+        "base": 4,
+        "backers": 2,
+        "order": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "a86_gift_university",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A billionaire will found a new university. It will teach whatever the billionaire likes, and the billionaire likes very few things.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund one ourselves",
+      "fx": {
+        "money": -6,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Accept the gift",
+      "fx": {
+        "money": 7,
+        "backers": 4,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a87_headcount",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nobody knows how many people work for the state. Counting them would take a year and would find at least one ministry.",
+    "oneShot": true,
+    "left": {
+      "label": "Count them",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "backers": -2,
+        "public": -2,
+        "base": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Estimate generously",
+      "fx": {
+        "money": 3,
+        "backers": 2,
+        "public": 2,
+        "base": 1,
+        "inst": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a88_metro_faces",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The police want facial recognition in the metro. It would catch some thieves, and every commuter, every day.",
+    "left": {
+      "label": "Refuse the cameras",
+      "fx": {
+        "order": -7,
+        "inst": 1,
+        "public": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Install them",
+      "fx": {
+        "money": 1,
+        "order": 4,
+        "public": -3,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "a89_bridge_toll",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A toll would pay for the bridge. Scrapping the toll would win the district. The bridge is the one that is cracking.",
+    "left": {
+      "label": "Keep the toll",
+      "fx": {
+        "money": 4,
+        "inst": 1,
+        "base": -4,
+        "public": -4,
+        "backers": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Scrap the toll",
+      "fx": {
+        "money": -2,
+        "base": 4,
+        "public": 4,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_maintenance",
+          "delay": 20
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "a90_night_trains",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Night trains could replace most short flights. The airline is national, loss-making and chaired by a former minister.",
+    "oneShot": true,
+    "left": {
+      "label": "Run the trains",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -4,
+        "public": 5,
+        "base": 2,
+        "order": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Subsidise the airline",
+      "fx": {
+        "money": -2,
+        "backers": 4,
+        "base": 1,
+        "order": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "a91_votes_at_sixteen",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The youth wing wants the vote at sixteen. It would add half a million voters, most of whom think you are old.",
+    "oneShot": true,
+    "left": {
+      "label": "Lower the age",
+      "fx": {
+        "inst": 1,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Promise to consider it",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a92_nobody_to_call",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A report says a fifth of the country has nobody to call. The press office wants to launch it on a busy news day, to be kind.",
+    "oneShot": true,
+    "left": {
+      "label": "Launch it properly",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -1,
+        "public": 5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Bury it kindly",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a93_forty_seconds",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "An official took forty seconds over a decision that should have taken a month. It was the right decision, and now it is precedent.",
+    "oneShot": true,
+    "left": {
+      "label": "Write down why",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "public": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Promote the official",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "public": 1,
+        "base": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a94_old_wrong",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court has ordered the state to apologise for a wrong a century old. The apology costs one sentence, and the sentence polls badly.",
+    "oneShot": true,
+    "left": {
+      "label": "Apologise",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "public": 5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appeal the order",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "base": 5,
+        "backers": 1,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a95_central_bank",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The central bank would like to raise rates. It is asking you, which it does not have to do, and which you should remember.",
+    "left": {
+      "label": "Let it decide",
+      "fx": {
+        "inst": 4,
+        "base": -3,
+        "backers": -4,
+        "public": -2,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ask it to wait",
+      "fx": {
+        "inst": -4,
+        "base": 3,
+        "backers": 4,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a96_bay_quota",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The fleet has overfished the bay. The fleet is three families, and each of them has a cousin in your party.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the bay",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -6
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Raise the quota",
+      "fx": {
+        "money": 7,
+        "inst": -3,
+        "backers": 5,
+        "base": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_same_mistake",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a97_blood_test",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A startup has a blood test that detects everything. The regulator would like evidence. The startup would like a launch.",
+    "oneShot": true,
+    "left": {
+      "label": "Wait for the evidence",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -4,
+        "base": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Launch it together",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 4,
+        "public": 1,
+        "base": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_inspection",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a98_fire_stations",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The fire service wants to merge forty stations into eight. It says it would answer faster, from further away.",
+    "oneShot": true,
+    "left": {
+      "label": "Merge them",
+      "fx": {
+        "money": 4,
+        "inst": 1,
+        "base": -3,
+        "public": -3,
+        "backers": 5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep every station",
+      "fx": {
+        "money": -2,
+        "base": 3,
+        "public": 3,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "a99_confident_answer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A journalist asked you a question you did not understand, and you answered it confidently. The clip is on its fourth million.",
+    "oneShot": true,
+    "left": {
+      "label": "Admit you did not know",
+      "fx": {
+        "base": -2,
+        "public": 6,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Say it was edited",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -4
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_own_words",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a100_impact_recipe",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every new law needs an impact assessment now. Nobody reads them, and one of them turned out to be a recipe.",
+    "oneShot": true,
+    "left": {
+      "label": "Read them properly",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -2,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Scrap the assessments",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 3,
+        "public": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_inspection",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a101_prefilled_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The state could fill in everyone's tax return and send it to sign. The tax-preparation industry is very worried about your health.",
+    "oneShot": true,
+    "left": {
+      "label": "Pre-fill the returns",
+      "fx": {
+        "inst": 2,
+        "backers": -5,
+        "public": 5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the forms",
+      "fx": {
+        "inst": -2,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a102_insult_law",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An old law makes it a crime to insult the head of state. Nobody has used it in sixty years, and your minister would like to.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal the law",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Use it just once",
+      "fx": {
+        "money": 1,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "public": -3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "a103_regional_powers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The regional parliament wants more powers. It would govern better, and take the credit for everything you pay for.",
+    "left": {
+      "label": "Devolve the powers",
+      "fx": {
+        "order": -4,
+        "inst": 2,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep them central",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 1,
+        "public": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a104_did_nothing",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A study found that your flagship programme did nothing. It is a good study, which rules out the easiest response.",
+    "left": {
+      "label": "End the programme",
+      "fx": {
+        "money": 6,
+        "inst": 3,
+        "base": -4,
+        "backers": -3,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Fund another study",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": 2,
+        "money": -1,
+        "order": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  }
+]

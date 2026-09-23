@@ -49,26 +49,43 @@ const LADDER: readonly Relax[] = [
   { cooldown: true, band: true, era: true },
 ];
 
-function eligible(lib: Library, card: Card, state: GameState, relax: Relax): boolean {
-  if (!relax.cooldown && state.cooldown.includes(card.id)) return false;
-  if (card.oneShot && state.seen.includes(card.id)) return false;
-  return condMet(lib, card.cond, state, card.speaker);
+/**
+ * What every card in a pool is checked against, gathered once a draw. A draw checks every
+ * card in its pool, and scanning the run's history once per card made a draw's cost grow
+ * with the deck times the history (BACKLOG-5 phase 36).
+ */
+interface Past {
+  cooldown: ReadonlySet<string>;
+  seen: ReadonlySet<string>;
+  flags: ReadonlySet<string>;
 }
 
-function poolCandidates(lib: Library, state: GameState, relax: Relax): Card[] {
+const pastOf = (state: GameState): Past => ({ cooldown: new Set(state.cooldown), seen: new Set(state.seen), flags: new Set(state.flags) });
+
+function eligible(lib: Library, card: Card, state: GameState, relax: Relax, past: Past): boolean {
+  if (!relax.cooldown && past.cooldown.has(card.id)) return false;
+  if (card.oneShot && past.seen.has(card.id)) return false;
+  return condMet(lib, card.cond, state, card.speaker, past.flags);
+}
+
+function poolCandidates(lib: Library, state: GameState, relax: Relax, past: Past): Card[] {
   const eras = relax.era ? lib.eras : [state.era];
   const bands: readonly Band[] = relax.band ? BANDS : [state.band];
   const out: Card[] = [];
-  const seenIds = new Set<string>();
+  // One cell holds a card once, and the two sides' cells hold different cards, so only a
+  // draw that has widened to other eras or bands can meet a card twice.
+  const met = relax.era || relax.band ? new Set<string>() : null;
   for (const era of eras) {
     for (const band of bands) {
       for (const align of [state.align, "any"] as const) {
         const list = lib.eventPool.get(poolKey(era, band, align));
         if (!list) continue;
         for (const c of list) {
-          if (seenIds.has(c.id)) continue;
-          seenIds.add(c.id);
-          if (eligible(lib, c, state, relax)) out.push(c);
+          if (met) {
+            if (met.has(c.id)) continue;
+            met.add(c.id);
+          }
+          if (eligible(lib, c, state, relax, past)) out.push(c);
         }
       }
     }
@@ -95,13 +112,14 @@ function pickFrom(lib: Library, state: GameState, cards: Card[]): [Card | null, 
 }
 
 function drawElection(lib: Library, state: GameState): [Card | null, GameState] {
+  const past = pastOf(state);
   for (const relax of LADDER) {
     const cands = lib.electionCards.filter(
       (c) =>
         alignOk(c, state) &&
         (relax.era || c.eras.includes(state.era)) &&
         (relax.band || c.bands.includes(state.band)) &&
-        eligible(lib, c, state, { ...relax, cooldown: true }),
+        eligible(lib, c, state, { ...relax, cooldown: true }, past),
     );
     if (cands.length > 0) return pickFrom(lib, state, cands);
   }
@@ -203,8 +221,9 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
 }
 
 function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {
+  const past = pastOf(state);
   for (const relax of LADDER) {
-    const cands = poolCandidates(lib, state, relax);
+    const cands = poolCandidates(lib, state, relax, past);
     if (cands.length > 0) return pickFrom(lib, state, cands);
   }
   return [null, state];

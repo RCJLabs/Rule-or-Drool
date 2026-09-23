@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
 import { rollSetup } from "../src/engine/state";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateTargets, playRun, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateTargets, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -53,6 +53,16 @@ describe("section 8 targets", () => {
     for (const bot of BOT_NAMES) s.set(bot, summarize(bot, results.get(bot)!));
     const misses = evaluateTargets(s).filter((t) => !t.info && !t.pass);
     expect(misses.map((m) => `${m.bot} ${m.name}: ${m.actual} (want ${m.target})`)).toEqual([]);
+  }, 60000);
+});
+
+// BACKLOG-5 phase 36: by their tenth run, 89% of a player's cards were ones they had played
+// before, because a run draws about 100 cards and the deck held 554. Measured as the audit
+// measured it: twenty players, each playing their runs in order, the median at run ten.
+describe("the deck by run ten", () => {
+  it("keeps a player's tenth run under 75% cards already seen", () => {
+    const { median } = quantiles(repeatShares(library, { players: 20, run: 10 }));
+    expect(median).toBeLessThan(0.75);
   }, 60000);
 });
 

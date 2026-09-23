@@ -1,0 +1,1380 @@
+[
+  {
+    "id": "c34_old_reactor",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The reactor that powers the north was built to last fifty years. It is ninety, and its manual is in a language nobody reads.",
+    "oneShot": true,
+    "left": {
+      "label": "Decommission it",
+      "fx": {
+        "money": -9,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Run it another decade",
+      "fx": {
+        "money": 7,
+        "inst": -2,
+        "order": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_insurance",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c35_untouchable_code",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The interior ministry runs on software written before anyone now alive was hired. It works, and nobody is allowed to touch it.",
+    "oneShot": true,
+    "left": {
+      "label": "Rewrite it slowly",
+      "fx": {
+        "money": -6,
+        "order": -3,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it running",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -3,
+        "backers": 1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c36_card_law",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A law of your century says every citizen must carry a card. The cards stopped being issued forty years ago.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal the law",
+      "fx": {
+        "order": -5,
+        "inst": 3,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Enforce it selectively",
+      "fx": {
+        "money": 3,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "c37_flooded_capital",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The capital on the coast floods every spring now. Moving the government inland would take ten years, and a new capital.",
+    "oneShot": true,
+    "left": {
+      "label": "Move the government",
+      "fx": {
+        "money": -6,
+        "order": -3,
+        "inst": 2,
+        "public": -3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Raise the steps",
+      "fx": {
+        "money": 2,
+        "base": 2,
+        "public": -1,
+        "order": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c38_last_paper",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Nobody under forty has read a newspaper. The last one would like a state subsidy, and would like to keep criticising the state.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund it at arm's length",
+      "fx": {
+        "money": -4,
+        "order": -3,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Fund it with conditions",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "backers": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "c39_pension_promises",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The pension promises of your century are coming due. There are two workers for every pensioner, and both are tired.",
+    "left": {
+      "label": "Share the cost fairly",
+      "fx": {
+        "order": -2,
+        "base": -5,
+        "public": -3,
+        "money": -3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Borrow from the young",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "base": 4,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -2,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "c40_three_formats",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The national archive has been digitised three times, in three formats, and can now be read by one machine in a museum.",
+    "oneShot": true,
+    "left": {
+      "label": "Copy it to paper",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 3,
+        "backers": -1,
+        "base": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the museum",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "base": 1,
+        "backers": 1,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c41_falling_satellites",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The old satellites are falling, about one a month. Most land in the sea. One landed on a school, empty, on a Sunday.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund the clean-up",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish a map",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c42_ancient_rifles",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The army's rifles are older than the soldiers' grandparents. Replacing them would cost a year's budget, and there has been no war since.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire half the army",
+      "fx": {
+        "money": 6,
+        "order": -6,
+        "base": -4,
+        "public": -1,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Buy new rifles",
+      "fx": {
+        "money": -6,
+        "order": 4,
+        "base": 3,
+        "inst": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c43_dry_well",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A dispute over a well is in its sixty-first year in the courts. Both families are still paying lawyers, and the well is dry.",
+    "oneShot": true,
+    "left": {
+      "label": "Settle it by statute",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "backers": -3,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let it run on",
+      "fx": {
+        "money": 3,
+        "backers": 1,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c44_tuesday_cabinet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Tuesday cabinet meeting has not been cancelled in a century, and has not decided anything in forty years.",
+    "oneShot": true,
+    "left": {
+      "label": "Give it a vote",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "backers": -3,
+        "public": 1,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the tradition",
+      "fx": {
+        "money": 4,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "backers": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "c45_three_currencies",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Three currencies circulate in the south: the state's, a company's, and cigarettes. Two of them are trusted.",
+    "oneShot": true,
+    "left": {
+      "label": "Back the state's",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 4,
+        "backers": -4,
+        "base": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Accept all three",
+      "fx": {
+        "money": 7,
+        "inst": -3,
+        "backers": 3,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c46_heat_belt_date",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The heat belt has moved another hundred kilometres north. The towns in its way would like a date, and a direction.",
+    "oneShot": true,
+    "left": {
+      "label": "Plan the move now",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 3,
+        "base": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Wait for next summer",
+      "fx": {
+        "money": 7,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_petition",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c47_golden_age_book",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your century is taught as a golden age. Most of the people who lived through it are dead, and one of them is writing a book.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the book be printed",
+      "fx": {
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Buy the rights",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "c48_horse_clause",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Nobody has read the whole constitution in eighty years. A scholar has, and found a clause about horses that is still in force.",
+    "oneShot": true,
+    "left": {
+      "label": "Amend the old clauses",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -3,
+        "public": 2,
+        "order": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Use the horse clause",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c49_empty_east",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The eastern towns are mostly empty now. Keeping their lights on costs what building one new town would.",
+    "oneShot": true,
+    "left": {
+      "label": "Build the new town",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -3,
+        "backers": 1,
+        "public": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the lights on",
+      "fx": {
+        "money": 2,
+        "base": 3,
+        "public": 3,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c50_new_antibiotics",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The old antibiotics stopped working, slowly, over thirty years. A new class is ready, and its maker would like thirty years' profit.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it for the state",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "public": 7,
+        "base": 4,
+        "backers": -1,
+        "order": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Grant the patent",
+      "fx": {
+        "money": 7,
+        "backers": 4,
+        "public": -3,
+        "base": 1,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c51_old_munitions",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The old bases are empty, and full of munitions nobody catalogued. Children have started collecting them.",
+    "oneShot": true,
+    "left": {
+      "label": "Clear the bases",
+      "fx": {
+        "money": -6,
+        "base": 2,
+        "order": -2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fence them again",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "base": 1,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_same_mistake",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c52_finance_rent",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The state still pays rent on the finance ministry building to a family who bought the lease in your century.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy the building",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "base": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pay the rent",
+      "fx": {
+        "money": 3,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c53_anniversary_committee",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "An anniversary of your time in office is coming. The committee would like to know whether it is being celebrated or examined.",
+    "oneShot": true,
+    "left": {
+      "label": "Examine it",
+      "fx": {
+        "inst": 3,
+        "base": -5
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Celebrate it",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 5
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c54_abolished_crime",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Half the laws are enforced by machines nobody switched off. One is still fining people for a crime that was abolished.",
+    "left": {
+      "label": "Audit the machines",
+      "fx": {
+        "money": -9,
+        "order": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the fines",
+      "fx": {
+        "money": 9,
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "c55_continuity",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every ministry has a department for continuity. None of them can say what it is continuing.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the departments",
+      "fx": {
+        "base": -4,
+        "backers": -4,
+        "public": -1,
+        "money": -2,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give them a mission",
+      "fx": {
+        "money": 2,
+        "base": 3,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c56_one_crew",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The water mains your century laid are failing a street at a time. The repair crews are one crew, and it is old.",
+    "left": {
+      "label": "Train new crews",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Patch the worst streets",
+      "fx": {
+        "money": 2,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c57_evening_draw",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The state lottery pays for a third of the budget now. The draws are daily, and so are the queues outside the shops.",
+    "left": {
+      "label": "Wean the budget off it",
+      "fx": {
+        "money": -9,
+        "inst": 3,
+        "backers": -3,
+        "public": 3,
+        "base": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Add an evening draw",
+      "fx": {
+        "money": 9,
+        "backers": 2,
+        "public": -2,
+        "base": 1,
+        "order": 2,
+        "inst": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_lottery_rot",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "c58_lost_map",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A border dispute from your century has flared again, over a line on a map nobody can find the original of.",
+    "oneShot": true,
+    "left": {
+      "label": "Ask the other side",
+      "fx": {
+        "order": -5,
+        "inst": 3,
+        "base": -2,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Redraw it ourselves",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 4
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c59_form_fillers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The official language has drifted from the way anyone speaks. Forms are filled in now by the few who can still read them, for a fee.",
+    "oneShot": true,
+    "left": {
+      "label": "Rewrite the forms",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "public": 4,
+        "base": 2,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "License the fillers",
+      "fx": {
+        "money": 6,
+        "backers": 2,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c60_untested_plans",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Sixty years of peace, prosperity and good government. The emergency plans were last tested by people who have since retired.",
+    "oneShot": true,
+    "left": {
+      "label": "Run a full drill",
+      "fx": {
+        "money": -6,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the plans",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "c61_three_councils",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every decision is reviewed by three councils now. Nothing bad has been decided in twenty years, and nothing quickly.",
+    "oneShot": true,
+    "left": {
+      "label": "Allow fast decisions",
+      "fx": {
+        "backers": -3,
+        "base": 2,
+        "public": 1,
+        "money": 3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a fourth council",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "c62_endowment_generation",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The endowment your century built pays for most of the state now. A generation has grown up never having paid for anything.",
+    "left": {
+      "label": "Bring in a small tax",
+      "fx": {
+        "base": -3,
+        "public": -3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Spend the endowment",
+      "fx": {
+        "money": 7,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "c63_polite_debate",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Public debate is so polite now that nobody can tell the parties apart. Turnout has fallen to a third, courteously.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund sharper debates",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "base": -2,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Praise the civility",
+      "fx": {
+        "backers": 1,
+        "base": 1,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "c64_young_judge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The courts have not been overruled in fifty years. A young judge would like to overrule one, and has written it beautifully.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the judgment stand",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promote the judge away",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "backers": 2,
+        "base": 1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c65_untold_machines",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The machines that run the grid have never failed. The engineers who understood them have retired, and the machines have not been told.",
+    "left": {
+      "label": "Train new engineers",
+      "fx": {
+        "money": -9,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Trust the machines",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q_blackout",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "c66_wedding_anthem",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The anthem is sung before every broadcast, advert and funeral. A campaign would like it sung before weddings too.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it for occasions",
+      "fx": {
+        "base": -4,
+        "public": 1,
+        "order": -2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Add the weddings",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c67_efficiency_queue",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The ministry of efficiency has two thousand staff, and a queue outside that is itself the subject of an efficiency study.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the ministry",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "backers": -4,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Expand the study",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 3,
+        "public": -1,
+        "money": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "c68_named_months",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The state sells naming rights to the months. March is a bank, and a soft drink would like April.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep April",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Sell April",
+      "fx": {
+        "money": 9,
+        "inst": -3,
+        "backers": 3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "c69_paid_juries",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Verdicts can be appealed now by paying for a second jury. The second jury has never disagreed with whoever paid for it.",
+    "left": {
+      "label": "Abolish paid appeals",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "backers": -5,
+        "base": 3,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise the fee",
+      "fx": {
+        "money": 9,
+        "inst": -3,
+        "backers": 5,
+        "public": -2,
+        "base": 1,
+        "order": 2
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  }
+]

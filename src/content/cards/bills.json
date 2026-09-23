@@ -444,5 +444,453 @@
       },
       "drift": -4
     }
+  },
+  {
+    "id": "b_contract_clause",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Clause nineteen of the contract has woken up. The state pays for anything the contractor did not foresee, and they foresaw very little.",
+    "weight": 0,
+    "left": {
+      "label": "Renegotiate in public",
+      "fx": {
+        "money": -3,
+        "inst": 4,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay and move on",
+      "fx": {
+        "money": -6,
+        "backers": 3,
+        "inst": -3,
+        "base": 1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_old_promise",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Someone has found the video of you promising the opposite, in better lighting.",
+    "weight": 0,
+    "left": {
+      "label": "Explain the change",
+      "fx": {
+        "public": 4,
+        "inst": 2,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Call it out of context",
+      "fx": {
+        "base": 3,
+        "backers": 2,
+        "public": -5,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_maintenance",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The thing you opened has not been maintained since the day you opened it. It has started to say so, in pieces.",
+    "weight": 0,
+    "left": {
+      "label": "Fund the upkeep",
+      "fx": {
+        "money": -6,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Close it for safety",
+      "fx": {
+        "money": 2,
+        "public": -5,
+        "inst": -2,
+        "base": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_resignations",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Three senior officials resigned on the same afternoon and have said nothing, which is louder than saying something.",
+    "weight": 0,
+    "left": {
+      "label": "Ask them why",
+      "fx": {
+        "inst": 5,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Announce a reshuffle",
+      "fx": {
+        "base": 3,
+        "order": 2,
+        "inst": -5,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_foreign_note",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A neighbouring government has noticed, in a note so polite it is nearly a threat.",
+    "weight": 0,
+    "left": {
+      "label": "Answer in kind",
+      "fx": {
+        "inst": 4,
+        "order": -2,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leak the note",
+      "fx": {
+        "base": 5,
+        "order": 2,
+        "inst": -4,
+        "money": -2,
+        "public": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_whistle",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A junior clerk kept copies of everything. The clerk has not decided what to do with them yet.",
+    "weight": 0,
+    "left": {
+      "label": "Protect the clerk",
+      "fx": {
+        "inst": 5,
+        "backers": -3,
+        "base": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Find the clerk",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "b_insurance",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The insurers have stopped covering the thing you said was safe. They were very polite about it, and very quick.",
+    "weight": 0,
+    "left": {
+      "label": "Make it safe",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Insure it ourselves",
+      "fx": {
+        "money": -3,
+        "inst": -3,
+        "backers": 2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_invoice",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An invoice has arrived for the thing you said was free. The number on it is hard to read aloud.",
+    "weight": 0,
+    "left": {
+      "label": "Pay it and say so",
+      "fx": {
+        "money": -7,
+        "inst": 3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Spread it over decades",
+      "fx": {
+        "money": -2,
+        "inst": -3,
+        "backers": 2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_ratings",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The ratings agency has moved the country one letter down the alphabet. It will not say why, which is why.",
+    "weight": 0,
+    "left": {
+      "label": "Balance the books",
+      "fx": {
+        "money": 3,
+        "inst": 2,
+        "backers": -4,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Denounce the agency",
+      "fx": {
+        "base": 4,
+        "money": -4,
+        "inst": -3,
+        "backers": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_inspection",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The inspection you cancelled has happened anyway, by a journalist, with a camera and a very good torch.",
+    "weight": 0,
+    "left": {
+      "label": "Order the inspection",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "public": 2,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Question the torch",
+      "fx": {
+        "base": 3,
+        "backers": 2,
+        "inst": -4,
+        "public": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "b_same_mistake",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The same mistake has happened again, somewhere else, because nobody ever wrote it down as a mistake.",
+    "weight": 0,
+    "left": {
+      "label": "Write it down now",
+      "fx": {
+        "inst": 5,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Call it bad luck",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b_petition",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A petition has passed the number that forces a debate. The debate is on Friday, in full, on television.",
+    "weight": 0,
+    "left": {
+      "label": "Debate it honestly",
+      "fx": {
+        "inst": 3,
+        "public": 3,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Schedule it at dawn",
+      "fx": {
+        "base": 3,
+        "backers": 2,
+        "inst": -3,
+        "public": -4
+      },
+      "drift": -5
+    }
   }
 ]

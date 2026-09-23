@@ -12,7 +12,7 @@
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateTargets, formatContentStats, formatSummary, formatTargets, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateTargets, formatContentStats, formatSummary, formatTargets, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 interface Args {
   runs: number;
@@ -114,6 +114,9 @@ function main(): void {
   const misses = targets.filter((t) => !t.info && !t.pass);
   console.log();
   console.log(`${targets.filter((t) => !t.info).length - misses.length} pass, ${misses.length} miss. ${(args.runs * args.bots.length).toLocaleString()} runs in ${elapsed.toFixed(1)}s.`);
+  // Fixed players rather than --runs and --seed, so the number compares across decks.
+  const repeats = quantiles(repeatShares(lib, { players: 20, run: 10 })).median;
+  console.log(`a player's tenth run: ${(100 * repeats).toFixed(1)}% cards already seen (median of 20 players, mixed bot; BACKLOG-5 phase 36 wants under 75%)`);
   if (args.strict && misses.length > 0) process.exit(1);
 }
 

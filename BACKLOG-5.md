@@ -643,7 +643,104 @@ serving in 20–45% of runs.
 
 </details>
 
-## Phase 36. The deck by run five — *queued*
+## Phase 36. The deck by run five — *done*
+
+**Shipped.** 300 new ordinary cards and 12 new bills, drafted for you to edit. The deck is
+866 cards, up from 554: 130 more in era 1, 90 in era 2 and 80 in era 3, 45% of them shared
+and the rest split between the two sides, and 51 written for one band. By their tenth run a
+player has seen 73% of that run's cards before, down from 89%.
+
+**The guide in this entry was wrong.** It said 200 more ordinary cards would take run ten to
+about 71%. Placeholder cards shaped like the deck's measured 79.5% at 200 (81.0% by the
+audit's median of 20) and 73.1% at 300 (73.3%), so the batch is 300. The guide treated a
+run's draws as independent; where that undercounts was not pursued.
+
+**The index came first.** A draw checks every card in its pool, and each check searched the
+run's history: the cards seen, the cooldown, the flags. The draw now gathers those into sets
+once per draw, a pool holds a card once, and a choice's effects are worked out once rather
+than once per meter. Results are identical: a fingerprint of 1,000 seeded runs per bot did
+not change. A simulated card took 54–58µs at 554 cards before the index and 35–36µs
+after. At 866 cards it takes 37–50µs.
+
+**How the drafts were fitted.**
+- They were written in batches by era and side, each gated by `validate:mvp`.
+- The first full draft missed two targets: a random median of 61 cards, and mixed Ascent at
+  15.1%. The drafts spread small costs over many meters, and the old deck's costs are few
+  and large: an old honest choice costs a lot of Money or none, and more of them help a
+  bloc. A player keeping the meters calm prefers many small costs, so the greedy bot took
+  the honest side of 66% of the new era 1 cards, against 35% of the old ones.
+- So each new card's effects were put on the old deck's distribution, meter by meter, per
+  era and side, by rank: the card with the biggest effect keeps the biggest. That added 618
+  effects, mostly ±1 and ±2, and removed 114. Thirty-seven of the additions contradicted
+  their card and were taken back out, among them a tax that cost money, donors cheering a
+  songbook, and Order from planting a garden, which leaves 581.
+- That fixed run length and mixed Ascent, and made greedy worse, because what the greedy
+  bot's drift depends on is which temptations it takes. Drift was matched to the old deck
+  the same way, then moved a point at a time between cards of the same era, side and kind:
+  the temptations a calm player takes when nothing is wrong corrupt more, the ones taken to
+  pull a meter off an edge corrupt less, and honest choices only a saint takes earn more
+  than the cheap ones everyone takes. Taken together, the new temptations corrupt a little
+  more than the old ones.
+- The pick counts that decided which cards moved came from seeds the targets are not
+  measured on, and the targets were then checked on three sets of seeds.
+
+**The deck's other conventions, kept.** Every choice that sends a bill also names the habit
+it was, and 170 of the new temptations do (skim 42, bend 82, clamp 46; clamp had 15 cards
+before). Each of the 12 new bills is sent by at least two cards. A consequence rides on
+36.4% of ordinary choices, over the one-third floor, and cards written for one band are
+21.1% of the deck, over the one-fifth floor.
+
+**Measured** the audit's way (the median of 20 players):
+
+| | The audit, v0.41.0 (526 cards) | v0.48.0 (866 cards) |
+|---|---|---|
+| A player's 10th run: cards already seen | 89% (era 1: 92%) | **73.3%** (eras 1/2/3: 71/71/77%) |
+| A player's 20th run: the same | 98% | 92.4% |
+| Share of the deck seen after 5 / 10 / 20 runs | 57% / 74% / 85% | 47% / 70% / 89% of a bigger deck |
+
+At 554 cards, before this phase, the tenth run measured 89.3%.
+
+**Balance,** 20,000 runs per bot, before → after:
+- random median run: 60 → 59 cards (mean 60.2 → 59.5);
+- the most common ouster: bankruptcy, 23.6% → 26.1%;
+- greedy ends in Decay: 75.3% → 75.7%;
+- saint ousted before era 2: 100% → 100%;
+- mixed reaches Ascent: 21.2% → 21.2%.
+
+**Done when, checked:** a player's tenth run is 73.3% cards already seen, under 75%,
+measured the same way: twenty players, the mixed bot, runs in order with unlocks carried
+forward, the median at run ten. A test holds it, and `npm run simulate` prints it.
+
+**Also checked:**
+- `validate:mvp` is clean at 866 cards.
+- The unit suite is 483 tests and the browser suite 35.
+- The content chunk grew from 73.0 to 104.0 KB gzipped. On a 6×-throttled CPU at 412×732
+  the first screen took 503–529ms, against 488–519ms before, and the first card
+  232–257ms, against 222–266ms: no difference beyond the noise.
+- The everyday deck is 51.2% neutral, down from 56.0% and inside the 40–60% band: 55% of
+  the new cards belong to one side.
+- The screen-reader test pinned seed 21 because its first card named its speaker through a
+  placeholder. The new deck changed that card, so it pins seed 3. About 6% of first cards
+  open with a placeholder now, against 9.5%.
+- The store listing's card count and its content-rating notes cover the new cards: water
+  cannon, armed militias, a casino licence, cigarettes as a currency, and churches as
+  landowners.
+
+**Yours:**
+- **The 300 cards and 12 bills are drafts, in your voice, to edit**: `any3.json`,
+  `left3.json` and `right3.json` in each of `era1/`, `era2/` and `era3/`, and the last
+  twelve bills in `bills.json`.
+- **Their numbers were fitted after they were written** (above). If you change a card's
+  effects or drift, run `npm run simulate` after the batch. The random median is the
+  tightest target: 59 against a ceiling of 60.
+- **Which habit a temptation names** (skim, bend or clamp) is my reading of 170 cards.
+- **Era 3 repeats most now:** 77% at run ten. A next batch would go there.
+- **Old run codes and today's daily.** A code sent before this update opens a different run
+  after it, and a run begun before it almost certainly cannot take the other road: phase
+  34's replay no longer ends where the run did. The daily is dealt from the date, so on the
+  day the update lands, players on the two versions get different dailies.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** A player has seen 57% of the deck after five runs and 74% after ten. By the
 tenth run, 89% of a run's cards are ones they have played before; by the twentieth, 98%.
@@ -667,6 +764,8 @@ on the draw's `seen` and cooldown lookups first, or the harness and the replay t
 slow with them.
 
 **Done when** a player's tenth run is under 75% cards already seen, measured the same way.
+
+</details>
 
 ## Phase 37. Challenge a friend — *queued*
 

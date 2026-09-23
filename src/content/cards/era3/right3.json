@@ -1,0 +1,866 @@
+[
+  {
+    "id": "cr17_three_families",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Three families own the three largest firms, the three largest papers and the three largest churches. They are not related, legally.",
+    "oneShot": true,
+    "left": {
+      "label": "Break them up",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "backers": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invite them to dinner",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 5
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cr18_company_courts",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The company towns have their own courts. The company court has found for the company for eighty consecutive years.",
+    "oneShot": true,
+    "left": {
+      "label": "End company courts",
+      "fx": {
+        "inst": 3,
+        "backers": -5,
+        "public": 4,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Accredit them",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cr19_eleven_schools",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The officer corps is drawn from eleven schools. The eleven schools are drawn from nine families.",
+    "left": {
+      "label": "Open the academy",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Honour the schools",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cr20_owed_to_ourselves",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The state's debt is owed mostly to the families who run the state. The interest is paid on time, every time, to themselves.",
+    "left": {
+      "label": "Restructure the debt",
+      "fx": {
+        "inst": 3,
+        "backers": -5
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Pay the interest",
+      "fx": {
+        "inst": -3,
+        "backers": 5
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "cr21_cracked_mould",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Every town has a statue of the founder, cast from one mould. The mould has cracked, and the next statue will have the crack.",
+    "oneShot": true,
+    "left": {
+      "label": "Stop casting statues",
+      "fx": {
+        "base": -6,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cast a new mould",
+      "fx": {
+        "base": 5,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr22_old_map",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The common land your century protected has been sold, plot by plot, under a law nobody read. The villagers have a petition, and a very old map.",
+    "oneShot": true,
+    "left": {
+      "label": "Honour the old map",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -5,
+        "public": 6,
+        "base": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Honour the sales",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 4,
+        "public": -4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_petition",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cr23_eldest_child",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every ministry is headed by the eldest child of the last minister. A younger child has applied, and caused a constitutional crisis.",
+    "oneShot": true,
+    "left": {
+      "label": "Appoint on merit",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -4,
+        "public": -1,
+        "order": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the custom",
+      "fx": {
+        "order": 3,
+        "inst": -4,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cr24_landed_juries",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Juries are drawn from landowners, under a law nobody repealed. Most defendants do not own land, and have noticed.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal the land rule",
+      "fx": {
+        "inst": 3,
+        "backers": -5,
+        "public": 4,
+        "order": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the old juries",
+      "fx": {
+        "order": 3,
+        "inst": -5,
+        "base": 1,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cr25_fence_to_nowhere",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The border fence from your century is still maintained, at great cost. There is nothing on the other side of it now but more of us.",
+    "oneShot": true,
+    "left": {
+      "label": "Take it down",
+      "fx": {
+        "money": 6,
+        "order": -4,
+        "base": -6,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Maintain the fence",
+      "fx": {
+        "order": 3,
+        "base": 4,
+        "money": -4,
+        "inst": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr26_church_estates",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The church estates have not paid tax in two centuries and are a third of the country now. The bishops are very reasonable about it.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax the estates",
+      "fx": {
+        "money": 6,
+        "base": -6,
+        "public": -2,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Remain reasonable",
+      "fx": {
+        "base": 5,
+        "backers": 1,
+        "public": -1,
+        "money": -4,
+        "inst": -1
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cr27_hero_quota",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The official history has one hero per decade. The committee has run out of heroes and would like to appoint some.",
+    "oneShot": true,
+    "left": {
+      "label": "Let history be messy",
+      "fx": {
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Appoint the heroes",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "backers": 1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "cr28_sunday_railway",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A family firm has run the railway for ninety years. The trains are beautiful and punctual, and run only on Sundays.",
+    "oneShot": true,
+    "left": {
+      "label": "Run a daily service",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "public": 5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Admire the Sundays",
+      "fx": {
+        "money": 5,
+        "base": 2,
+        "backers": 3,
+        "public": -2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cr29_weather_forecasts",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "Nobody may criticise the founding family in print. The family would like the law extended to paintings, songs and weather forecasts.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal the law",
+      "fx": {
+        "order": -4,
+        "inst": 4,
+        "base": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Extend it",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 5,
+        "backers": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "cr30_family_tanks",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The old families' militias have merged into one. It has more tanks than the army, and better manners.",
+    "oneShot": true,
+    "left": {
+      "label": "Disarm the militia",
+      "fx": {
+        "money": -4,
+        "order": -5,
+        "inst": 3,
+        "backers": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make it the army",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "backers": 4
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "cr31_four_peers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A law of your century guarantees a trial by one's peers. The richest citizen's peers are four people, all related.",
+    "oneShot": true,
+    "left": {
+      "label": "Widen the peers",
+      "fx": {
+        "inst": 3,
+        "backers": -5,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Respect the law",
+      "fx": {
+        "order": 2,
+        "inst": -5,
+        "base": 1,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cr32_page_9001",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The tax code runs to nine thousand pages, and someone asked for every page. The someones would like page nine thousand and one.",
+    "left": {
+      "label": "Simplify the code",
+      "fx": {
+        "inst": 3,
+        "backers": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Add the page",
+      "fx": {
+        "inst": -3,
+        "backers": 5
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cr33_family_foundations",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The great families have given their fortunes away, gracefully, to foundations run by the great families.",
+    "oneShot": true,
+    "left": {
+      "label": "Audit the foundations",
+      "fx": {
+        "inst": 3,
+        "backers": -5,
+        "public": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Thank them publicly",
+      "fx": {
+        "inst": -3,
+        "base": 1,
+        "backers": 4,
+        "public": -1,
+        "money": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cr34_senseless_clause",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The courts are admired, the laws are clear, and nobody has amended the constitution in a century. One clause no longer makes sense.",
+    "oneShot": true,
+    "left": {
+      "label": "Amend the clause",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Interpret around it",
+      "fx": {
+        "order": 2,
+        "base": 2,
+        "backers": 2,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cr35_examiners_children",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The civil service exam is the hardest in the world. The last three winners were the children of examiners.",
+    "oneShot": true,
+    "left": {
+      "label": "Change the examiners",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Congratulate the winners",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cr36_balanced_potholes",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The budget has balanced for forty years. The roads have not been resurfaced for thirty-nine.",
+    "left": {
+      "label": "Borrow for the roads",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "public": 5,
+        "base": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the balance",
+      "fx": {
+        "money": 7,
+        "inst": -3,
+        "backers": 2,
+        "base": 1,
+        "public": -1,
+        "order": 1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_maintenance",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cr37_loyalty_intervals",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The loyalty broadcast runs all day and night, with an interval for prayer and an interval for the lottery results.",
+    "oneShot": true,
+    "left": {
+      "label": "Pull the plug",
+      "fx": {
+        "order": -4,
+        "inst": 3,
+        "base": -6,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a third interval",
+      "fx": {
+        "money": 6,
+        "inst": -4,
+        "base": 4,
+        "backers": 1,
+        "public": -1,
+        "order": 2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "cr38_reputation_crimes",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The leader's bodyguard is larger than the police now, and has started investigating crimes against the leader's reputation.",
+    "left": {
+      "label": "Cut the bodyguard",
+      "fx": {
+        "order": -6,
+        "inst": 3,
+        "base": -5,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give it a budget",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "base": 4,
+        "backers": -1,
+        "public": -1,
+        "money": -2
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  }
+]

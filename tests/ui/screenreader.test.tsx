@@ -31,9 +31,10 @@ const described = (el: HTMLElement) =>
  * A seed whose first card names its speaker through a placeholder ("{advisor} wants the
  * court's budget…"), which the screen and the reader both fill in. The menu deals a random
  * seed, and an assertion on the raw text failed for the 9.5% of first cards that open with
- * one, so the run is pinned.
+ * one, so the run is pinned. It is pinned to a deck, too: 300 new cards changed what seed 21
+ * opens with, and about 6% of first cards have a placeholder now (BACKLOG-5 phase 36).
  */
-const SEED = 21;
+const SEED = 3;
 
 function startRun(settings: Record<string, unknown> = {}) {
   localStorage.setItem("rod.settings", JSON.stringify({ v: SETTINGS_VERSION, reduceMotion: true, ...settings }));

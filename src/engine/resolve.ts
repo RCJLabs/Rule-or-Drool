@@ -80,8 +80,9 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   const mult = cfg.volatility[s.band] * eraProduct(lib, s, "volatility");
   const trait = traitScale(lib, s, card.speaker);
   const meters: Meters = { ...s.meters };
+  const deltas = fxDeltas(choice.fx);
   for (const k of METER_KEYS) {
-    const v = fxDeltas(choice.fx)[k];
+    const v = deltas[k];
     if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult * (v > 0 ? trait.gain : trait.loss)));
   }
   const drift = clampDrift(s.drift + (choice.drift ?? 0));

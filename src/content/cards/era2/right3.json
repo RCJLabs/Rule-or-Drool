@@ -1,0 +1,984 @@
+[
+  {
+    "id": "br21_family_debt",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The machines made the old families richer than the state. One family has offered to pay off the national debt, in exchange for a small thing.",
+    "oneShot": true,
+    "left": {
+      "label": "Decline the small thing",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -4,
+        "public": 4,
+        "order": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Accept the offer",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 4,
+        "base": 1,
+        "public": 2,
+        "order": 2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "br22_machine_tax_cut",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The tax on machine income was cut to attract the machines. The machines came, and so did the missing tax.",
+    "left": {
+      "label": "Restore the rate",
+      "fx": {
+        "money": 6,
+        "inst": 2,
+        "backers": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Cut it again",
+      "fx": {
+        "inst": -2,
+        "base": 1,
+        "backers": 5,
+        "money": -5
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "br23_guarded_districts",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Private security guards the rich districts and the state guards the rest. The rest would like to know which one is cheaper.",
+    "left": {
+      "label": "Fund the police",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "base": 2,
+        "order": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the firms expand",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "q_private_guns",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "br24_heir_charged",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The founding family's heir has been charged with a crime. The charge is serious, and the family is the founding family.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the court decide",
+      "fx": {
+        "inst": 6,
+        "base": -3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Arrange a pardon",
+      "fx": {
+        "order": 2,
+        "inst": -6,
+        "base": 3,
+        "backers": 3
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "br25_founders_harvest",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The heritage channel has told the founding story so often that schoolchildren think the founders invented the harvest.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund other histories",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "base": -3,
+        "public": 4,
+        "order": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Renew the channel",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 4,
+        "backers": 1,
+        "public": 1,
+        "order": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br26_loyalty_question",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The civil service exam has a question on loyalty. Nobody fails it, because nobody is told that answering is optional.",
+    "oneShot": true,
+    "left": {
+      "label": "Drop the question",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Make it compulsory",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "br27_toll_roads",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A firm owns every road toll in the south. It would like to own the roads, since it already maintains them, in theory.",
+    "oneShot": true,
+    "left": {
+      "label": "Take the roads back",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "base": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the roads",
+      "fx": {
+        "money": 7,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "br28_deserving",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Charity has replaced most welfare. It is generous and efficient, and gives to the people its donors find deserving.",
+    "left": {
+      "label": "Restore the safety net",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Praise the donors",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "br29_camera_flyover",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The army wants to mark its centenary with a flyover of every machine it owns. Most of them are cameras.",
+    "oneShot": true,
+    "left": {
+      "label": "A small flyover",
+      "fx": {
+        "money": -3,
+        "order": -2,
+        "inst": 1,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "The full flyover",
+      "fx": {
+        "order": 3,
+        "base": 4,
+        "backers": -1,
+        "public": -4,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "br30_titled_chamber",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Inherited titles are ceremonial by law. A bill would seat them in a second chamber, ceremonially, with a vote.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep them ceremonial",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -4,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give them the chamber",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "backers": 4,
+        "public": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_petition",
+          "delay": 18
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "br31_character_committee",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The national character bill has passed. A committee must now decide whether the national character includes the people who objected to it.",
+    "oneShot": true,
+    "left": {
+      "label": "Include them",
+      "fx": {
+        "inst": 3,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave it to committee",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 5,
+        "public": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "br32_private_lake",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The largest landowner has fenced the lake. It is a private lake now, legally, and the town it supplies has been told.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it back",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4,
+        "base": 1,
+        "public": 6
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let them sell the water",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "backers": 4,
+        "public": -5
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "q_taps_dry",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "br33_one_sheep",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The old estates are exempt from the machine tax as working farms. One of them farms a single sheep.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the exemption",
+      "fx": {
+        "money": 6,
+        "inst": 2,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Admire the sheep",
+      "fx": {
+        "inst": -2,
+        "base": 1,
+        "backers": 4,
+        "money": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "br34_life_ministers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Ministers serve for life now unless they choose to leave. None has chosen to leave, and two have died in office, happily.",
+    "oneShot": true,
+    "left": {
+      "label": "Set a term limit",
+      "fx": {
+        "inst": 4,
+        "base": -3,
+        "backers": -3,
+        "order": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Honour their service",
+      "fx": {
+        "order": 3,
+        "inst": -5,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_resignations",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "br35_border_patrols",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The border towns have formed volunteer patrols. They wear the flag and a very old uniform, and would like to be paid.",
+    "left": {
+      "label": "Disband the patrols",
+      "fx": {
+        "order": -5,
+        "inst": 3,
+        "base": -3,
+        "public": 4,
+        "money": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay the patrols",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "base": 4,
+        "public": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "br36_founders_season",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The founder's birthday is a national holiday, and now a national week. A campaign would like it to be a season.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it a day",
+      "fx": {
+        "inst": 1,
+        "base": -4,
+        "public": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Declare the season",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": -1,
+        "public": -2,
+        "money": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br37_chamber_budget",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The chamber of commerce drafts every budget now. The budgets are excellent, for commerce and for the chamber.",
+    "left": {
+      "label": "Draft it ourselves",
+      "fx": {
+        "money": -3,
+        "inst": 5,
+        "backers": -5,
+        "base": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Accept the draft",
+      "fx": {
+        "money": 5,
+        "inst": -5,
+        "backers": 5,
+        "base": 1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "br38_tradition_defence",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The courts have ruled that tradition is a legal defence. The first defendant's tradition is not paying tax.",
+    "oneShot": true,
+    "left": {
+      "label": "Overturn it in law",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let tradition stand",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "backers": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "br39_youth_camps",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The party's youth camps teach riding, shooting and deference. Enrolment is up, and so is deference.",
+    "left": {
+      "label": "Add some debate",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 3,
+        "money": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Double the camps",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "br40_manifesto_fiction",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The fiscal council you created scores every promise before it is made. It has scored your next manifesto as fiction.",
+    "oneShot": true,
+    "left": {
+      "label": "Rewrite the manifesto",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -3,
+        "public": -2,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Question the council",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": -3,
+        "money": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br41_philanthropy",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Philanthropy funds every museum, park and orchestra now, beautifully. Nobody can remember what the state used to fund.",
+    "left": {
+      "label": "Fund one ourselves",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Thank the donors",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 1,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "br42_lend_a_judge",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The rule of law here is admired abroad. A foreign leader would like to learn how it is done, and to borrow a judge.",
+    "oneShot": true,
+    "left": {
+      "label": "Send a lecture",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -2,
+        "backers": -1,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lend the judge",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 2,
+        "base": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "br43_painting_ministers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The civil service runs so smoothly that ministers are no longer sure what they are for. Two have taken up painting.",
+    "oneShot": true,
+    "left": {
+      "label": "Give ministers work",
+      "fx": {
+        "inst": 1,
+        "base": -3,
+        "backers": -3,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Open a gallery",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": -2,
+        "money": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "br44_portrait_frames",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "A law requires your portrait in every office. The painter's studio would like the exclusive contract, and larger frames.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal the law",
+      "fx": {
+        "inst": 3,
+        "base": -5
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Order bigger frames",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 5,
+        "backers": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "br45_friday_lists",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The loyalty lists are published every Friday now. The feed that publishes them is the most watched in the country.",
+    "left": {
+      "label": "Stop the lists",
+      "fx": {
+        "order": -5,
+        "inst": 6,
+        "base": -5,
+        "public": 1,
+        "money": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sponsor the show",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -4,
+        "base": 5,
+        "public": 1
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  }
+]
