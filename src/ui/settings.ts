@@ -28,6 +28,12 @@ export interface Settings {
    * decides whether they are drawn.
    */
   showChoices: boolean;
+  /**
+   * Keep a record of each run on the device, for a playtest (BACKLOG-5 phase 31): the time
+   * each card took, the previews looked at, the side taken. Off unless the player turns it
+   * on, and it only ever leaves the device when they send it.
+   */
+  keepRecord: boolean;
   /** Synthesized cues: the card landing, a meter crossing into danger, a story opening. */
   sound: boolean;
   /** A short buzz on commit and a longer one when something goes wrong, where supported. */
@@ -46,6 +52,7 @@ export const DEFAULT_SETTINGS: Settings = {
   portraits: true,
   alwaysHint: false,
   showChoices: false,
+  keepRecord: false,
   // On by default. A mute is one tap away on every screen, whereas an audio feature that
   // starts silent is one nobody ever hears (BACKLOG-2 phase 9).
   sound: true,
@@ -60,9 +67,10 @@ export function migrateSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== "object") return { ...DEFAULT_SETTINGS };
   const data = raw as Partial<Settings> & { v?: number };
   if (typeof data.v !== "number" || data.v > SETTINGS_VERSION) return { ...DEFAULT_SETTINGS };
-  // v1 is the first shape; v2 adds `readable`; v3 adds `showChoices`. An unknown key is ignored and a missing one
-  // takes its default, so a settings file from either direction still loads — which is why
-  // adding a boolean preference needs a version bump and nothing else.
+  // v1 is the first shape; v2 adds `readable`; v3 adds `showChoices`; v4 adds `keepRecord`.
+  // An unknown key is ignored and a missing one takes its default, so a settings file from
+  // either direction still loads — which is why adding a boolean preference needs a version
+  // bump and nothing else.
   const out = { ...DEFAULT_SETTINGS };
   for (const key of Object.keys(DEFAULT_SETTINGS) as (keyof Settings)[]) {
     const value = data[key];

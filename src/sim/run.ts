@@ -3,7 +3,7 @@ import { getCard, type Library } from "../engine/library";
 import { resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { exitBand, newRun, rollSetup } from "../engine/state";
-import type { Band, GameState, PlayerAlign } from "../engine/types";
+import type { Band, GameState, PlayerAlign, RunSetup } from "../engine/types";
 import { BOTS, makeContext, type BotName, type BotOptions } from "./bots";
 
 export interface RunResult {
@@ -36,9 +36,18 @@ export interface RunOptions extends BotOptions {
 export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
 
 export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerAlign, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
+  return playRunFrom(lib, bot, seed, rollSetup(lib, seed, align, opts.unlocked ?? []), opts);
+}
+
+/**
+ * A bot playing from a given setup rather than one rolled from its own unlocks: the run a
+ * person played, from its code, so the two can be set side by side (BACKLOG-5 phase 31).
+ */
+export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: RunSetup, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
   const policy = BOTS[bot];
   const rng = makeRng(seed ^ 0x5bd1e995);
-  let state: GameState = newRun(lib, seed, rollSetup(lib, seed, align, opts.unlocked ?? []));
+  const align = setup.align;
+  let state: GameState = newRun(lib, seed, setup);
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   let electionsSeen = 0;
   let cheats = 0;

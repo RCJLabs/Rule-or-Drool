@@ -39,6 +39,9 @@ export function App() {
       onExitToMenu={game.screen === "play" ? game.exitToMenu : undefined}
       onEraseProgress={game.eraseProgress}
       onHowItWorks={game.openHowItWorks}
+      record={game.record}
+      onSendRecord={game.sendRecord}
+      onDeleteRecord={game.deleteRecord}
     />
   ) : null;
 
@@ -114,6 +117,7 @@ export function App() {
         transition={game.transition}
         onChoose={game.choose}
         onDismissTransition={game.dismissTransition}
+        paused={game.showSettings || game.showHow}
         debug={debug}
         onNudgeDrift={game.nudgeDrift}
         settings={game.settings}

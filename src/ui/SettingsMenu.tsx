@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { STRINGS } from "../content/strings";
+import type { SendOutcome } from "./playtest";
 import type { Settings } from "./settings";
 
 /**
@@ -42,6 +43,7 @@ const ROWS: readonly Row[] = [
   { key: "portraits", kind: "toggle", title: "Show portraits", blurb: "Draw the face of whoever is speaking." },
   { key: "alwaysHint", kind: "toggle", title: "Always show the hint", blurb: "Keep the how-to-swipe line under every card." },
   { key: "showChoices", kind: "toggle", title: "Show choice buttons", blurb: "Two buttons under the card, for tapping instead of dragging." },
+  { key: "keepRecord", kind: "toggle", title: STRINGS.playtest.title, blurb: STRINGS.playtest.blurb },
 ];
 
 interface Props {
@@ -52,10 +54,24 @@ interface Props {
   onExitToMenu?: () => void;
   onEraseProgress: () => void;
   onHowItWorks: () => void;
+  /** The playtest record (BACKLOG-5 phase 31): how many runs it holds, and whether it is full. */
+  record?: { runs: number; full: boolean };
+  onSendRecord?: () => Promise<SendOutcome>;
+  onDeleteRecord?: () => void;
 }
 
-export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEraseProgress, onHowItWorks }: Props) {
+export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEraseProgress, onHowItWorks, record, onSendRecord, onDeleteRecord }: Props) {
   const [confirmErase, setConfirmErase] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [sending, setSending] = useState<SendOutcome | "working" | null>(null);
+  const p = STRINGS.playtest;
+
+  const send = async () => {
+    if (!onSendRecord) return;
+    setSending("working");
+    setSending(await onSendRecord());
+  };
+  const recordLine = !record ? "" : record.full ? p.full.replace("{n}", String(record.runs)) : record.runs === 0 ? p.none : record.runs === 1 ? p.countOne : p.count.replace("{n}", String(record.runs));
 
   return (
     <div className="overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title">
@@ -84,6 +100,41 @@ export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEras
             );
           })}
         </ul>
+
+        {/* What the record holds, and the only two things to do with it. Shown while it is on,
+            and while there is anything in it, so turning it off never hides what was kept. */}
+        {record && (settings.keepRecord || record.runs > 0) && (
+          <div className="settings-record">
+            <p className="settings-note">{recordLine}</p>
+            {record.runs > 0 && (
+              <div className="settings-actions">
+                <button type="button" onClick={send} disabled={sending === "working"}>
+                  {p.send}
+                </button>
+                {confirmDelete ? (
+                  <button
+                    type="button"
+                    className="danger"
+                    onClick={() => {
+                      onDeleteRecord?.();
+                      setConfirmDelete(false);
+                      setSending(null);
+                    }}
+                  >
+                    {p.deleteConfirm}
+                  </button>
+                ) : (
+                  <button type="button" onClick={() => setConfirmDelete(true)}>
+                    {p.delete}
+                  </button>
+                )}
+              </div>
+            )}
+            <p className="settings-note" role="status">
+              {sending === "shared" ? p.shared : sending === "saved" ? p.saved : sending === "failed" ? p.failed : ""}
+            </p>
+          </div>
+        )}
 
         <div className="settings-actions">
           <button type="button" onClick={onHowItWorks}>

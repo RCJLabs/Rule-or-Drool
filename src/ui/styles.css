@@ -1980,6 +1980,21 @@ button {
   color: var(--danger, #a8321e);
   font-weight: 700;
 }
+.settings-record {
+  margin: -8px 0 12px;
+  padding: 0 6px;
+}
+.settings-note {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+/* Empty until there is something to say, and kept in the page while it is: a status line
+   that only appears with its message is not announced by every screen reader. */
+.settings-note:empty {
+  margin: 0;
+}
 .settings-warning {
   margin: 0 0 12px;
   font-size: 12px;

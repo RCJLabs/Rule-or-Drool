@@ -45,11 +45,20 @@ npm run simulate       # 10k seeded runs per bot, prints the section 8 report
 npm run simulate -- --runs 2000 --bot mixed --danger 40 --set electionMoodThreshold=30
 npm run simulate -- --unlocked     # simulate an experienced player with every unlock
 npm run store:assets   # Play screenshots, feature graphic and icon from dist/ (twa/STORE.md)
+npm run playtests      # report on the playtest records players sent, from playtests/
+npm run playtests -- some/folder --min 3 --look 300
 ```
 
 The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without
 one they skip with a banner saying so; CI sets `REQUIRE_BROWSER=1`, which makes that a
 failure instead.
+
+`playtests` reads the records players send from the game (Settings › Keep a record of my
+runs, then Send my record) and prints what they did beside each bot playing the same runs:
+survival, where runs end, time on a card, and the cards people hesitate on. Put the files in
+`playtests/`, which git ignores: they are other people's play, and this repository is
+public. A file that is not exactly the format is named and skipped. The format, and what it
+leaves out, is at the top of `src/playtest/record.ts`.
 
 `simulate --set key=value` overrides any numeric engine constant for a batch (see
 `src/engine/config.ts`); `--strict` exits 1 when a target misses. `validate` takes
@@ -65,9 +74,11 @@ src/sim/       bot policies, headless run loop, report and target checks
 src/validate/  JSON schema checker, semantic rules, disk loader (dependency-free)
 src/ui/        React app: setup, play (card, meters, frame theming), era transition, ending, codex
 src/meta/      progression: objectives, unlocks, daily seed, versioned meta save
+src/playtest/  the playtest record: its format, the strict reader, the card clock, the report
 public/        manifest, service worker, generated icons
 twa/           Play packaging config and the blockers to clear first
-scripts/       simulate.ts (harness CLI), validate-content.ts (validator CLI)
+scripts/       simulate.ts (harness CLI), validate-content.ts (validator CLI),
+               playtests.ts (playtest report), store-assets.ts (Play images)
 tests/         vitest suites, fixture content, and tests/fixtures/broken (a root that
                trips every validator rule on purpose)
 ```

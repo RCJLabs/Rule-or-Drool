@@ -129,7 +129,87 @@ confirm, like the playthrough.
 
 </details>
 
-## Phase 31. Let the playtest measure itself — *queued*
+## Phase 31. Let the playtest measure itself — *done*
+
+**Shipped.** A tester can keep a record of how they play and send it, and a folder of these
+reads beside the bots with one command. The game itself still sends nothing, and nothing
+about how a run plays has changed.
+
+- **The setting.** *Keep a record of my runs* is in Settings and off by default. It starts
+  with the next run, since a run already under way was not seen from its start. Settings
+  move to version 4.
+- **What a card records:**
+  - the card and the side taken;
+  - how long the card was in front of the player;
+  - how long each side's preview was up;
+  - the drift, and the six meters before and after.
+
+  The clock stops while the page is hidden or the settings are open. It keeps running in
+  the cabinet, because looking up the rival before an election is part of deciding.
+- **What a run records:**
+  - the game version and the run code (seed and setup);
+  - whether the run was the player's own, the daily or a shared code;
+  - which of the player's runs it was, and how it ended.
+
+  **What it leaves out:** dates, the device and settings. Settings are left out on purpose,
+  because *Show choice buttons* or the plain screen can say more about a player than they
+  meant to send.
+- **It stays on the device**, in two keys of its own. A run left for another is kept as
+  unfinished. A card left and come back to (the menu, a reload) is marked, and the report
+  does not time it.
+- **Size.** A full-length run is 14.6–14.8 KB (measured over 20 of them), so the cap of 100
+  runs is about 1.5 MB. A full record stops taking runs rather than dropping its first ones,
+  which are the ones worth most.
+- **Clearing it.** *Delete my record* and *Erase all progress* both clear it. Turning the
+  setting off stops recording the run under way and keeps what is already there.
+- **Send my record** hands a plain-text file to the share sheet. The file types a browser
+  will share include text/plain and not JSON. Where there is no share sheet, the file
+  downloads. It has one card to a line, so a tester can read it before sending.
+- **`npm run playtests`** reads `playtests/`, which git ignores. It refuses any file that is
+  not exactly the format: an unknown field at any level is an error, the same rule the
+  content validator applies. A run sent twice is counted once, and files that share a run
+  are taken to be one player's. It prints:
+  - survival for people, and for each bot playing the same run codes;
+  - how that changes over a player's runs;
+  - where runs end, and the cards they ended on;
+  - time on a card, by era and card type;
+  - the cards people hesitate on, measured against each player's own median time.
+
+**A measure I changed while building it.** The report first counted "looked at a side before
+choosing". A drag shows the preview of the side it is heading to from 8px of travel, so a slow
+swipe counted as looking at the side taken. The report now leads with *looked at the side not
+taken*, which no gesture produces on the way to a choice. It gives the other number with
+that caveat attached.
+
+**Done when, checked:**
+- **Exports, imports and reports.** A browser test plays a run to its end in Chromium with
+  the record on. It sends the record, which downloads here because this Chromium has no
+  share sheet. It reads the file back with the strict reader and runs `npm run playtests`
+  on it: one player, one run, and every bot replaying it.
+- **Off unless turned on.** A fresh profile plays with nothing kept. Settings saved before
+  v0.43.0 load with the setting off.
+- **Nothing but game state.** A test holds every field at every level of the file to the
+  format's list, and checks that no date appears. The reader refuses a file with an extra
+  field, such as a device, a setting or a date.
+
+**Also checked:**
+- 32 new unit and UI tests. The clock's three behaviours were each shown to fail without
+  their code: it stops for the settings, it stops while the page is hidden, and it is read
+  at the moment of choosing, not after the card's 260ms flight.
+- The browser suite is 27 tests. The settings with a record in them fit a 360×640 phone and
+  pass contrast.
+- The strict reader, and the validator it borrows from, are not in the game's bundle. The
+  bundle grew by 2.0 KB gzipped.
+
+**Yours:**
+- **The Data safety answer.** twa/STORE.md sets out both readings. I could not open Google's
+  pages to settle it.
+- **The share sheet on a phone.** Sharing a text file is a standard path, but it is
+  untested here.
+- **The data.** It exists only if testers turn the setting on before they start playing.
+  STORE.md has the three lines to send them.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** Every balance number in four rounds comes from bots with perfect information.
 The mixed bot finishes 96% of runs because it sees the exact meters each side would leave,
@@ -151,6 +231,8 @@ that wording again when this ships.
 
 **Done when** a recorded run exports, imports and reports; the setting is off unless turned
 on; and the file holds nothing but game state.
+
+</details>
 
 ## Phase 32. Everything fits — *queued*
 

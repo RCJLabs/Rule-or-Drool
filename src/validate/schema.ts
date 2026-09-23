@@ -10,8 +10,9 @@ export type Spec =
   | { kind: "number"; integer?: boolean; min?: number; max?: number }
   | { kind: "boolean" }
   | { kind: "enum"; values: readonly string[] }
-  | { kind: "array"; items: Spec; nonEmpty?: boolean; unique?: boolean }
+  | { kind: "array"; items: Spec; nonEmpty?: boolean; unique?: boolean; length?: number }
   | { kind: "object"; fields: Record<string, Spec>; required: readonly string[] }
+  | { kind: "nullable"; spec: Spec }
   | { kind: "record"; values: Spec; keys?: readonly string[] };
 
 export type Fail = (path: string, message: string) => void;
@@ -48,6 +49,7 @@ export function checkSpec(value: unknown, spec: Spec, path: string, fail: Fail):
     case "array": {
       if (!Array.isArray(value)) return fail(path, `expected array, got ${describe(value)}`);
       if (spec.nonEmpty && value.length === 0) return fail(path, "must not be empty");
+      if (spec.length !== undefined && value.length !== spec.length) return fail(path, `expected ${spec.length} entries, got ${value.length}`);
       const seen = new Set<string>();
       value.forEach((item, i) => {
         checkSpec(item, spec.items, `${path}[${i}]`, fail);
@@ -72,6 +74,9 @@ export function checkSpec(value: unknown, spec: Spec, path: string, fail: Fail):
       }
       return;
     }
+    case "nullable":
+      if (value !== null) checkSpec(value, spec.spec, path, fail);
+      return;
     case "record": {
       if (typeof value !== "object" || value === null || Array.isArray(value)) {
         return fail(path, `expected object, got ${describe(value)}`);

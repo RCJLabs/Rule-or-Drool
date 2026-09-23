@@ -76,17 +76,43 @@ the names are shortened, run the script again before uploading.
 
 Measured, not assumed: the game makes no network request except the service worker
 fetching the game's own files from its own origin. There is no analytics, no advertising
-SDK and no third-party URL anywhere in the source. Everything it stores is in four
-`localStorage` keys on the phone (`rod.run`, `rod.meta`, `rod.settings`, `rod.hintSeen`).
+SDK and no third-party URL anywhere in the source. Everything it stores is in `localStorage`
+on the phone: `rod.run`, `rod.meta`, `rod.settings` and `rod.hintSeen`, plus `rod.playtest`
+and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
 
 - **Does the app collect or share any of the required user data types?** No.
 - **Is all user data encrypted in transit?** No user data is transmitted.
 - **Can users request that data be deleted?** Nothing is held off the device. In the game,
-  Settings › Erase all progress clears it, as does clearing the app's storage.
+  Settings › Erase all progress clears it, the playtest record included, as does clearing
+  the app's storage. Settings › Delete my record clears the record alone.
 - **"Share this run"** sends a picture and a link through the system share sheet, only when
   the player presses it, to whoever they choose. Check the console's wording when you fill
   in the form; my understanding is that a transfer the user starts, and expects, is not
   "sharing" in its terms.
+- **"Send my record"** (BACKLOG-5 phase 31) is the one that needs a decision. It exists
+  only once a player turns on *Keep a record of my runs*, which is off by default. Pressing
+  it hands a plain-text file to the system share sheet, and the player picks where it
+  goes. The file holds each recorded run's code and, for every card, the side taken, how
+  long the card was up, how long each side's preview was up, and the meters either side of
+  the choice. It holds no identifier, no date, no device detail and no setting. The format
+  is `src/playtest/record.ts`. The game makes no request to send it anywhere.
+
+  **Your call, and I could not settle it.** Google's guidance says an app *collects* data
+  when it transmits it off the device. The exemption for transfers a user starts is
+  written for *sharing* data with a third party. The game never transmits the record
+  itself: an app the player picks from the share sheet does. But the feature exists so
+  that the file reaches you. So there are two readings:
+  - **No data collected.** This follows the letter: nothing leaves through the app, and
+    the player starts and directs every transfer.
+  - **App activity › App interactions: collected, optional, for analytics, not shared.**
+    This is the cautious reading, because you are the intended recipient. It is optional
+    because it is off unless turned on. The cost is one line on the listing.
+
+  The Play Console help pages were blocked from the sandbox this was written in. The
+  definitions above come from search results that quote them:
+  [Data safety section](https://support.google.com/googleplay/android-developer/answer/10787469)
+  and [User Data policy](https://support.google.com/googleplay/android-developer/answer/10144311).
+  Read them before choosing.
 
 ## Content rating questionnaire (IARC)
 
@@ -151,6 +177,14 @@ If the account is a personal one created in or after November 2023, Play has req
 closed test with at least 12 testers opted in for 14 days in a row before production
 access. That was the rule as I know it; check the console. It is the longest step here if it
 applies, so it is worth starting first.
+
+If the test is needed, it can also be the game's first measurement of people rather than
+bots (BACKLOG-5 phase 31):
+- Ask testers to turn on Settings › *Keep a record of my runs* before their first run.
+  It is off by default, and it starts with the next run.
+- At the end of the test, ask them to press *Send my record* and send you the file. It
+  is plain text, so a tester can open it and see what it holds first.
+- Put the files in `playtests/` and run `npm run playtests`. Git ignores that folder.
 
 ### 4. Build and upload
 

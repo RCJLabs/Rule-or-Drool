@@ -8,6 +8,8 @@ import { TeachNote } from "./TeachNote";
 import { getCard, type Library } from "../engine/library";
 import { preview } from "../engine/preview";
 import type { GameState, Meters, Side } from "../engine/types";
+import { CardClock } from "../playtest/clock";
+import type { Measure } from "../playtest/record";
 import { CardView } from "./CardView";
 import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
@@ -26,8 +28,11 @@ interface Props {
   lib: Library;
   state: GameState;
   transition: number | null;
-  onChoose: (side: Side) => void;
+  /** The side taken, and how long the card was in front of the player before it was. */
+  onChoose: (side: Side, measure: Measure) => void;
   onDismissTransition: () => void;
+  /** A menu is over the card: the settings, or how it works. The card's clock stops. */
+  paused?: boolean;
   debug: boolean;
   onNudgeDrift?: (delta: number) => void;
   settings: Settings;
@@ -52,7 +57,7 @@ interface Heard {
   era: number;
 }
 
-export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings, onCabinet, onTaught }: Props) {
+export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift , settings, onSettings, onCabinet, onTaught }: Props) {
   const [peek, setPeek] = useState<Side | null>(null);
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
@@ -63,6 +68,12 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   const focusNext = useRef(true);
   const choices = useRef<HTMLDivElement>(null);
   const describe = useId().replace(/\W/g, "");
+  // How long each card is in front of the player, for the playtest record (BACKLOG-5
+  // phase 31). Measured always, kept only if the player asked for a record.
+  const clock = useRef<CardClock | null>(null);
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
+  const inView = () => !pausedRef.current && (typeof document === "undefined" || document.visibilityState !== "hidden");
 
   const card = state.current ? getCard(lib, state.current) : null;
   const cardKey = card ? `${card.id}:${state.cardCount}` : null;
@@ -72,6 +83,9 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   const commit = useCallback(
     (side: Side) => {
       if (busy || !card) return;
+      // Read at the moment of deciding, not when the card has finished flying off.
+      const measure: Measure = clock.current?.read() ?? { ms: 0, looked: [0, 0] };
+      clock.current = null;
       setLeaving(side);
       setPeek(null);
       setDragSide(null);
@@ -82,7 +96,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
       window.setTimeout(
         () => {
           setLeaving(null);
-          onChoose(side);
+          onChoose(side, measure);
         },
         reducedMotion(settings) ? 0 : LEAVE_MS,
       );
@@ -169,6 +183,22 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   useEffect(() => {
     if (cardKey) focusNext.current = false;
   }, [cardKey]);
+
+  // A new card on the table starts its own clock; a hidden page or a menu over the card stops it.
+  useEffect(() => {
+    clock.current = cardKey ? new CardClock(() => performance.now(), inView()) : null;
+  }, [cardKey]);
+  useEffect(() => {
+    clock.current?.setRunning(inView());
+  }, [paused]);
+  useEffect(() => {
+    const onVisibility = () => clock.current?.setRunning(inView());
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+  useEffect(() => {
+    clock.current?.setPreview(previewSide);
+  }, [previewSide]);
 
   const dismissTransition = () => {
     focusNext.current = true;

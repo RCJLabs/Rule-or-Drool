@@ -3,3 +3,5 @@ dist/
 coverage/
 *.log
 .DS_Store
+# Playtest records testers send (npm run playtests). Other people's play: never committed.
+playtests/
