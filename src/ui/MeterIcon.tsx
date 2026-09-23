@@ -8,15 +8,21 @@ interface Props {
   dot: 0 | 1 | 2 | 3;
   danger: boolean;
   label: string;
+  /**
+   * What a screen reader hears: the meter's plain name and its level in words
+   * (BACKLOG-5 phase 30). It used to be the exact value, which the screen hides from
+   * everyone else.
+   */
+  spoken: string;
 }
 
 /** Reigns-style silhouette filled from the bottom to the meter's value. */
-export function MeterIcon({ meter, value, dot, danger, label }: Props) {
+export function MeterIcon({ meter, value, dot, danger, label, spoken }: Props) {
   const clip = `clip${useId().replace(/\W/g, "")}`;
   const v = Math.max(0, Math.min(100, value));
   const h = (v / 100) * 40;
   return (
-    <div className={`meter${danger ? " danger" : ""}`} role="img" aria-label={`${label} ${Math.round(v)} of 100`}>
+    <div className={`meter${danger ? " danger" : ""}`} role="img" aria-label={spoken}>
       <svg viewBox="0 0 40 40" className="meter-icon">
         <defs>
           <clipPath id={clip}>

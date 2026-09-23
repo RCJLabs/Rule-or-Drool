@@ -45,7 +45,8 @@ describe.skipIf(!target)("in a browser", () => {
     for (const party of ["left", "right"] as const) {
       for (const readable of [false, true]) {
         it(`on a run for ${STRINGS.parties[party]}, plain screen ${readable ? "on" : "off"}, in all seven looks`, async () => {
-          const page = await startRun(browser, party, { settings: { readable } });
+          // The choice buttons drawn, so they are read in every look as well.
+          const page = await startRun(browser, party, { settings: { readable, showChoices: !readable } });
           const failures: string[] = [];
           for (const look of LOOKS) {
             await toLook(page, look);
@@ -98,6 +99,50 @@ describe.skipIf(!target)("in a browser", () => {
     });
   });
 
+  describe("a screen reader can play", () => {
+    it("finds a named control for every action, and plays a card from its button", async () => {
+      const page = await startRun(browser, "left");
+      const failures: string[] = [];
+      // Everything a screen reader can press or be sent to, named.
+      const unnamed = (await page.evaluate(`[...document.querySelectorAll("button, [role=button], a[href], input, select, textarea")]
+        .filter((e) => !e.closest("[aria-hidden=true]"))
+        .filter((e) => !((e.getAttribute("aria-label") || e.textContent || "").trim()))
+        .map((e) => e.outerHTML.slice(0, 80))`)) as string[];
+      failures.push(...unnamed.map((h) => `unnamed control: ${h}`));
+      const labels = (await page.evaluate("[...document.querySelectorAll('.choice')].map((b) => b.textContent)")) as string[];
+      if (labels.length !== 2) failures.push(`expected two choice buttons, found ${labels.length}`);
+      const said = () => page.evaluate("document.querySelector(\"[aria-live='polite']\").textContent") as Promise<string>;
+      const before = await said();
+      if (!before.trim()) failures.push("nothing was said when the first card landed");
+      // Pressed the way TalkBack presses it: a click, with nothing to drag.
+      await page.locator(".choice").nth(1).dispatchEvent("click");
+      await page.waitForFunction(`document.querySelector("[aria-live='polite']").textContent !== ${JSON.stringify(before)}`);
+      const next = (await page.evaluate("document.querySelector('.card-text').textContent")) as string;
+      if (!(await said()).includes(next.slice(0, 16))) failures.push("the next card was not said aloud");
+      const meters = (await page.evaluate("[...document.querySelectorAll('.meter[role=img]')].map((m) => m.getAttribute('aria-label'))")) as string[];
+      for (const m of meters) if (/\d/.test(m)) failures.push(`a meter says its number: "${m}"`);
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    it("draws the hidden buttons for a keyboard player who tabs to them, peeking that side", async () => {
+      const page = await startRun(browser, "left");
+      await page.keyboard.press("Tab");
+      const state = (await page.evaluate(`(() => {
+        const row = document.querySelector(".choices");
+        const focused = document.activeElement;
+        return {
+          focusedChoice: focused?.classList.contains("choice") ? focused.getAttribute("data-side") : null,
+          rowHeight: Math.round(row.getBoundingClientRect().height),
+          peeking: document.querySelector(".card-labels").getAttribute("aria-hidden") === "false",
+        };
+      })()`)) as { focusedChoice: string | null; rowHeight: number; peeking: boolean };
+      await close(page);
+      expect(state).toEqual({ focusedChoice: "left", rowHeight: expect.any(Number), peeking: true });
+      expect(state.rowHeight).toBeGreaterThan(30);
+    });
+  });
+
   describe("the end of a run", () => {
     for (const band of ["ascent", "decay", "muddle"] as const) {
       it(`reads, and fits a phone's width, after a run that went to ${band}`, async () => {
@@ -137,6 +182,17 @@ describe.skipIf(!target)("in a browser", () => {
       for (const look of ["muddle", "decay3", "ascent3"]) {
         await toLook(page, look);
         failures.push(...(await misfits(page, look)));
+      }
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    it("at 360×640 with the choice buttons drawn, in each direction", async () => {
+      const page = await startRun(browser, "left", { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
+      const failures: string[] = [];
+      for (const look of ["muddle", "decay3", "ascent3"]) {
+        await toLook(page, look);
+        failures.push(...(await misfits(page, `buttons drawn, ${look}`)));
       }
       await close(page);
       expect(failures).toEqual([]);

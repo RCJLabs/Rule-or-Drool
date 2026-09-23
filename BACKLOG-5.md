@@ -47,7 +47,65 @@ The phases are numbered in the order worth doing them:
 
 ---
 
-## Phase 30. A screen reader can play — *queued*
+## Phase 30. A screen reader can play — *done*
+
+**Shipped.** A run can be played start to finish without seeing it or dragging anything,
+and nothing about how a run plays has changed. It is a second way to press the same two
+choices, and the game saying out loud what a sighted player takes in.
+
+- **Two buttons for the two choices**, named by their labels. They call the same commit
+  that the drag and the arrow keys do. They are always there for a screen reader, and out of
+  sight otherwise: a new setting, *Show choice buttons*, draws them under the card for anyone
+  who would rather tap than drag. They are also drawn while one has keyboard focus, so Tab
+  shows where you are and peeks that side.
+- **Each button says what it moves, the way the preview dots do**: which meters and how
+  much, never which way. As heard: *"Top it up. Moves Money a fair bit, Institutions a
+  little."*
+- **When a card lands, the game says what changed and what is next**: the meters the last
+  choice moved, anything that went into danger, a change of look, and the card. As heard,
+  from a real run in Chromium: *"Unions down a lot, Cities up a fair bit, Money down a fair
+  bit, Institutions up a fair bit. A gold light comes up. Ordin Pell, Chief Scientist,
+  Zealot. The ten-year model says close the coal towns now."*
+- **The look, in its own words.** The frame's look is the only sign of where the country is
+  heading, and it was purely visual. Each stage now has a line: *"The broadcast has gone
+  live"*, *"The chat has started talking"*, *"It is all stream now"* on the way down, a gold
+  light and a projection on the way up, and a line for easing back or going plain again.
+  None of them mentions drift.
+- **Meters say their level in words.** Each meter used to tell a screen reader its exact
+  value, *"Money 47 of 100"*, which the screen hides from everyone else. Now it says *"Money,
+  low"*, *"Order, in danger, too high"*. They use plain names too, not the deep looks' slang:
+  *"CA$H"* is a joke for the eye and noise read aloud. For the same reason, the text late
+  Decay misspells on screen is read as written.
+- **Focus follows the screen.** A run's first card, and the first after an era, take focus.
+  The era panel's words describe it, so arriving on *Continue* is not all a screen reader
+  hears. The end of a run lands on the history's name.
+
+**A bug this fixed, and one it did not.** I expected a race where one Enter press spent two
+cards, and I added a guard for it. The regression test passed without the guard, so the
+race was not real: React has re-rendered before the click that Enter triggers. The guard
+came out. The real bug was different, and a browser test on v0.41.0 showed it: with a side
+peeked, pressing Enter on the teaching note's *Got it* dismissed the note **and** played
+the card. The window's Enter handler now leaves Enter to whatever control has focus. The
+test fails without the fix and passes with it.
+
+**Checked:**
+- In the browser suite (24 tests):
+  - every control on the run screen has a name;
+  - a card played from its button reaches the live region;
+  - no meter says a number;
+  - Tab draws the hidden row and peeks that side;
+  - with the buttons drawn, the smallest phone (360×640) still fits in all three
+    directions, and the buttons pass contrast in all seven looks for both parties.
+- 14 new unit and UI tests. The two guarding what a later change could quietly undo, the
+  Enter fix and the meters' words, were each shown to fail without their fix.
+- Settings move to version 3, for the new preference. The bundle grew by 1.6 KB gzipped.
+
+**Not checked:** TalkBack on a real phone. Everything here is checked through the page's
+accessibility tree in Chromium, not a screen reader speaking. That, and the decay look's
+*Got it* button drawn as bare text (the share button's old problem; noted for phase 32), are
+yours to look at.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** On the run screen a screen reader finds three controls: *Your cabinet*,
 *Settings* and the teaching note's *Got it*. The card has no role and no label. There is no
@@ -68,6 +126,8 @@ screen has a named control, and a new card reaches a live region.
 **Done when** the audit finds a named control for every action on every screen, and a
 TalkBack run from setup to an ending works on a real phone. That second part is yours to
 confirm, like the playthrough.
+
+</details>
 
 ## Phase 31. Let the playtest measure itself — *queued*
 

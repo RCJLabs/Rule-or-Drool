@@ -505,6 +505,60 @@ button {
   border: 0;
 }
 
+/* ---- the choices as buttons (BACKLOG-5 phase 30) --------------------------------- */
+/* Always in the page for a screen reader, which has nothing to drag. Drawn when the player
+   asks for them in the settings, and while one has keyboard focus, so a keyboard player can
+   see where they are; otherwise they take no room at all. */
+.choices {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 var(--space) calc(var(--space) / 2);
+}
+.choices-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+/* Drawn back in only by a rule that needs :has(). A browser without it drops this rule and
+   keeps the row hidden, rather than dropping the hiding and showing it to everyone. */
+.choices-hidden:has(:focus-visible) {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0 var(--space) calc(var(--space) / 2);
+  margin: 0;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+}
+.choice {
+  flex: 1 1 0;
+  max-width: 184px;
+  min-height: 44px;
+  padding: 8px 12px;
+  /* Filled, not outlined alone: the decay looks draw no borders. */
+  border: var(--border) solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+/* Focus is put on these by the game, for a screen reader to start from. They are not
+   controls, so they get no ring. */
+.card:focus,
+.history-title:focus {
+  outline: none;
+}
+
 .card-bill::after {
   content: "";
   position: absolute;

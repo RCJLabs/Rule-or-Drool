@@ -207,6 +207,37 @@ export const STRINGS = {
     became: "What became of it",
     also: "Also left behind:",
   },
+  /**
+   * What a screen reader says (BACKLOG-5 phase 30). It says what a sighted player gets and
+   * no more: which meters a choice moves and roughly how much, never which way or the
+   * number, and the look in its own terms, never the drift behind it.
+   */
+  speech: {
+    /** A meter's level, in the words its fill gives the eye. */
+    levels: { danger: "in danger", tooLow: "in danger, too low", tooHigh: "in danger, too high", low: "low", half: "about half", high: "high" },
+    /**
+     * The preview dots' three sizes. Every size has its word: with the middle one left bare,
+     * "Moves Money, Institutions a little" sounded as if both moved a little.
+     */
+    sizes: ["a little", "a fair bit", "a lot"],
+    up: "up",
+    down: "down",
+    moves: "Moves {list}.",
+    movesNothing: "Moves no meter.",
+    inDanger: "{meter} is in danger.",
+    choicesHint: "The two choices are the buttons after the card.",
+    /**
+     * The look, when it changes. Each stage in the order a run reaches it; easing back
+     * within a look, and returning to the plain screen, get a line of their own.
+     */
+    look: {
+      decay: ["The broadcast has gone live.", "The chat has started talking.", "It is all stream now."],
+      ascent: ["A gold light comes up.", "The projection is taking shape.", "It is all gold now."],
+      easeDecay: "The stream calms a little.",
+      easeAscent: "The gold light dims a little.",
+      quiet: "The screen goes quiet again.",
+    },
+  },
   /** Taking a run out of the game (BACKLOG-2 phase 11). */
   share: {
     button: "Share this run",

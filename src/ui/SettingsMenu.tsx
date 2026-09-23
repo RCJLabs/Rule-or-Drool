@@ -41,6 +41,7 @@ const ROWS: readonly Row[] = [
   },
   { key: "portraits", kind: "toggle", title: "Show portraits", blurb: "Draw the face of whoever is speaking." },
   { key: "alwaysHint", kind: "toggle", title: "Always show the hint", blurb: "Keep the how-to-swipe line under every card." },
+  { key: "showChoices", kind: "toggle", title: "Show choice buttons", blurb: "Two buttons under the card, for tapping instead of dragging." },
 ];
 
 interface Props {

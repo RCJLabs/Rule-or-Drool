@@ -35,6 +35,8 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
   const rule = STRINGS.eraRules[era - 1];
   const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
   const owed = state.queue.length;
+  // Only what is on the panel: an era with nothing owed or no new rule has no such line.
+  const described = ["era-lead", owed > 0 ? "era-owed" : "", rule ? "era-rule" : ""].filter(Boolean).join(" ");
 
   // Three beats rather than one page: the years, then what they were left with, then the
   // rule that is different now. Time passing is the point, so it is not instant.
@@ -46,11 +48,16 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
   }, [reduceMotion]);
 
   return (
-    <div className="era-jump" role="dialog" aria-modal="true" aria-labelledby="era-title" data-beat={beat}>
+    // Focus lands on Continue, so the panel's own words are its description: without it a
+    // screen reader arrives, hears "Continue" and nothing of the twenty years (BACKLOG-5
+    // phase 30).
+    <div className="era-jump" role="dialog" aria-modal="true" aria-labelledby="era-title" aria-describedby={described} data-beat={beat}>
       <div className="era-jump-inner">
         <p className="kicker">{STRINGS.ui.eraKicker.replace("{n}", String(era))}</p>
         <h2 id="era-title">{info?.name ?? `Era ${era}`}</h2>
-        <p className="era-jump-lead">{info?.jump ?? "Time passes."}</p>
+        <p className="era-jump-lead" id="era-lead">
+          {info?.jump ?? "Time passes."}
+        </p>
 
         {carried.length > 0 && (
           <div className="era-carried">
@@ -63,9 +70,17 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
             {carried.length > NAMED && <p className="era-more">{STRINGS.ui.andMore.replace("{n}", String(carried.length - NAMED))}</p>}
           </div>
         )}
-        {owed > 0 && <p className="era-owed">{(owed === 1 ? STRINGS.ui.owedOne : STRINGS.ui.owed).replace("{n}", String(owed))}</p>}
+        {owed > 0 && (
+          <p className="era-owed" id="era-owed">
+            {(owed === 1 ? STRINGS.ui.owedOne : STRINGS.ui.owed).replace("{n}", String(owed))}
+          </p>
+        )}
 
-        {rule ? <p className="era-rule">{rule}</p> : null}
+        {rule ? (
+          <p className="era-rule" id="era-rule">
+            {rule}
+          </p>
+        ) : null}
         <button type="button" className="primary" onClick={onContinue} autoFocus>
           {STRINGS.ui.continueEra}
         </button>

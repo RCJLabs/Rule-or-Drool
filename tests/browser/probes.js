@@ -84,6 +84,15 @@
   }
 
   /**
+   * Hidden from the eye on purpose and kept for a screen reader: the `sr-only` technique,
+   * a box clipped to nothing. Its content is not cut off, it is out of sight by design.
+   */
+  function visuallyHidden(el) {
+    for (let a = el; a; a = a.parentElement) if (getComputedStyle(a).clipPath === "inset(50%)") return true;
+    return false;
+  }
+
+  /**
    * Boxes that hide part of what is in them. A flex column squeezes before it scrolls, so a
    * screen that no longer fits shows up here, as a card cutting off its own text, rather
    * than as a page that scrolls. Decoration is left out: the game marks it aria-hidden, and
@@ -93,7 +102,7 @@
   function clipped() {
     const out = [];
     for (const el of document.querySelectorAll("body *")) {
-      if (el.closest(".sr-only, svg, .debug, [aria-hidden='true']")) continue;
+      if (el.closest(".sr-only, svg, .debug, [aria-hidden='true']") || visuallyHidden(el)) continue;
       const cs = getComputedStyle(el);
       if (cs.display === "none" || cs.visibility === "hidden") continue;
       const clipsY = /hidden|clip/.test(cs.overflowY);

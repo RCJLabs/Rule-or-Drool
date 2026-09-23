@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { epilogueByKey, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
@@ -34,6 +34,12 @@ interface Props {
  */
 export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: Props) {
   const scene = useRef<HTMLElement>(null);
+  // The run screen and everything that had focus have just gone. Land on the history's
+  // name, so a screen reader starts where a sighted player's eye does (BACKLOG-5 phase 30).
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+  }, []);
   const [sharing, setSharing] = useState<ShareOutcome | "working" | null>(null);
   const over = state.over;
   if (!over) return null;
@@ -77,7 +83,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
           {STRINGS.ui.ruleEnds} · <b className="ending-how">{endingTitle}</b>
         </p>
         <p className="history-calls">{STRINGS.after.calls}</p>
-        <h1 className="history-title">{history.title}</h1>
+        <h1 className="history-title" ref={heading} tabIndex={-1}>
+          {history.title}
+        </h1>
         {fold?.newHistory && <p className="history-new">{STRINGS.after.newHistory}</p>}
         <div className="share-row">
           <button type="button" className="share" onClick={share} disabled={sharing === "working"}>

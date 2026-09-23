@@ -5,6 +5,7 @@ import type { Library } from "../engine/library";
 import { nearMisses } from "../engine/endings";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import { MeterIcon } from "./MeterIcon";
+import { meterLevel, meterName, stepOf } from "./speech";
 import { meterLabel, type Theme } from "./theme";
 
 interface Props {
@@ -51,14 +52,21 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
       {METER_KEYS.map((k) => {
         const affected = preview?.affected.includes(k) ?? false;
         const delta = preview ? Math.abs(preview.meters[k] - meters[k]) : 0;
-        const dot = !affected ? 0 : delta <= 2 ? 1 : delta <= 5 ? 2 : 3;
+        const dot = !affected ? 0 : stepOf(delta);
         const v = meters[k];
         const isBloc = (BLOC_KEYS as readonly string[]).includes(k);
         // A bloc only ends the run at the bottom, so only the bottom is dangerous.
         const danger = isBloc ? v < DANGER_BELOW : v < DANGER_BELOW || v > 100 - DANGER_BELOW;
         return (
           <div key={k} className={`meter-slot${k === "money" ? " group-break" : ""}${k === restless ? " restless" : ""}`}>
-            <MeterIcon meter={k} value={v} dot={dot} danger={danger} label={meterLabel(k, theme, align)} />
+            <MeterIcon
+              meter={k}
+              value={v}
+              dot={dot}
+              danger={danger}
+              label={meterLabel(k, theme, align)}
+              spoken={`${meterName(k, align)}, ${meterLevel(k, v, danger)}`}
+            />
           </div>
         );
       })}

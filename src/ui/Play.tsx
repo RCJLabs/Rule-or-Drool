@@ -1,5 +1,5 @@
 import { withNames } from "../engine/endings";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type FocusEvent } from "react";
 import { STRINGS } from "../content/strings";
 import { rivalReport } from "./rival";
 import { textLevel, type Settings } from "./settings";
@@ -7,17 +7,19 @@ import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
 import { getCard, type Library } from "../engine/library";
 import { preview } from "../engine/preview";
-import type { GameState, Side } from "../engine/types";
+import type { GameState, Meters, Side } from "../engine/types";
 import { CardView } from "./CardView";
 import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
 import { Frame } from "./Frame";
 import { MandateBadge } from "./MandateBadge";
 import { StreamGutters } from "./PathChrome";
-import { MetersBar } from "./Meters";
+import { DANGER_BELOW, MetersBar } from "./Meters";
 import { degrade } from "./degrade";
 import { yearInEra } from "./flow";
 import { hintSeen, markHintSeen } from "./save";
+import { newlyDangerous } from "./sound";
+import { choiceSummary, lookChange, meterName, resultSummary } from "./speech";
 import { themeFor } from "./theme";
 
 interface Props {
@@ -35,10 +37,19 @@ interface Props {
 }
 
 const LEAVE_MS = 260;
+const SIDES: readonly Side[] = ["left", "right"];
 
 function reducedMotion(settings: Settings): boolean {
   if (settings.reduceMotion) return true;
   return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/** What the last announcement was made about, to say what changed since. */
+interface Heard {
+  key: string;
+  meters: Meters;
+  stage: number;
+  era: number;
 }
 
 export function Play({ lib, state, transition, onChoose, onDismissTransition, debug, onNudgeDrift , settings, onSettings, onCabinet, onTaught }: Props) {
@@ -46,8 +57,15 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
   const [showHint, setShowHint] = useState(() => !hintSeen());
+  const [said, setSaid] = useState("");
+  const heard = useRef<Heard | null>(null);
+  // The run's first card, and the first after an era, take focus (see CardView).
+  const focusNext = useRef(true);
+  const choices = useRef<HTMLDivElement>(null);
+  const describe = useId().replace(/\W/g, "");
 
   const card = state.current ? getCard(lib, state.current) : null;
+  const cardKey = card ? `${card.id}:${state.cardCount}` : null;
   const theme = themeFor(state.drift, lib.config);
   const busy = transition !== null || leaving !== null;
 
@@ -75,12 +93,22 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (busy) return;
+      // A focused button answers Enter itself. Committing here as well meant that dismissing
+      // a teaching note with Enter, while a side was peeked, also played the card.
+      const onControl = e.target instanceof Element && e.target.closest("button, a, input, select, textarea") !== null;
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         e.preventDefault();
         const side: Side = e.key === "ArrowLeft" ? "left" : "right";
         if (peek === side) commit(side);
-        else setPeek(side);
-      } else if (e.key === "Enter" && peek) {
+        else {
+          setPeek(side);
+          // Between the two choice buttons, focus follows the peek, so Enter commits the side
+          // that is showing.
+          if (e.target instanceof Node && choices.current?.contains(e.target)) {
+            choices.current.querySelector<HTMLButtonElement>(`[data-side="${side}"]`)?.focus();
+          }
+        }
+      } else if (e.key === "Enter" && peek && !onControl) {
         commit(peek);
       } else if (e.key === "Escape") {
         setPeek(null);
@@ -100,10 +128,58 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
   const advisorId = card ? (state.cabinet[card.speaker] ?? "") : "";
   const advisor = card ? lib.advisorsByRole.get(card.speaker)?.find((a) => a.id === advisorId) : undefined;
   const roleLabel = card ? (STRINGS.roles[card.speaker] ?? card.speaker) : "";
+  const speakerName = advisor?.name ?? roleLabel;
+  const traitName = advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined;
+  // What the card says, and what the screen shows of it: late Decay mangles the second.
+  const spoken = card ? withNames(lib, state, card.text, card.speaker) : "";
+  const shown = card ? degrade(spoken, textLevel(settings, theme), state.seed) : "";
   const rival = rivalReport(lib, state);
   const eraInfo = STRINGS.eras[state.era - 1];
   const year = yearInEra(state, lib.config.eraLength);
   const progress = Math.min(1, Math.max(0, (year - 1) / lib.config.eraLength));
+
+  // What a sighted player takes in when a card lands, said aloud (BACKLOG-5 phase 30): how
+  // the last choice moved the meters, anything that went into danger, a change of look, and
+  // the card. The hidden drift and the numbers stay hidden.
+  useEffect(() => {
+    if (!card || !cardKey) return;
+    const prev = heard.current;
+    if (prev?.key === cardKey) return;
+    const parts: string[] = [];
+    if (prev && prev.era === state.era) {
+      const moved = resultSummary(prev.meters, state.meters, state.align);
+      if (moved) parts.push(moved);
+    }
+    if (prev) {
+      for (const m of newlyDangerous(prev.meters, state.meters, DANGER_BELOW)) {
+        parts.push(STRINGS.speech.inDanger.replace("{meter}", meterName(m, state.align)));
+      }
+    }
+    const look = lookChange(prev?.stage ?? 0, theme.stage);
+    if (look) parts.push(look);
+    parts.push(`${speakerName}, ${roleLabel}${traitName ? `, ${traitName}` : ""}.`);
+    if (state.currentFrom === "queue") parts.push(STRINGS.ui.cameBack);
+    if (state.currentFrom === "habit") parts.push(STRINGS.ui.aHabit);
+    parts.push(spoken);
+    if (!prev) parts.push(STRINGS.speech.choicesHint);
+    setSaid(parts.join(" "));
+    heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era };
+  }, [cardKey]);
+
+  useEffect(() => {
+    if (cardKey) focusNext.current = false;
+  }, [cardKey]);
+
+  const dismissTransition = () => {
+    focusNext.current = true;
+    onDismissTransition();
+  };
+
+  // Keyboard focus on a choice shows it the way the arrow keys do. A mouse or a script
+  // putting focus there does not, or the card would slide on its own.
+  const focusChoice = (side: Side) => (e: FocusEvent<HTMLButtonElement>) => {
+    if (e.currentTarget.matches(":focus-visible")) setPeek(side);
+  };
 
   return (
     <Frame theme={theme} align={state.align} seed={state.seed} n={state.cardCount} fill>
@@ -112,12 +188,13 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         <StreamGutters theme={theme} seed={state.seed} n={state.cardCount} />
         {card && (
           <CardView
-            key={`${card.id}:${state.cardCount}`}
+            key={cardKey}
             card={card}
-            text={degrade(withNames(lib, state, card.text, card.speaker), textLevel(settings, theme), state.seed)}
-            speakerName={advisor?.name ?? roleLabel}
+            text={shown}
+            spokenText={spoken}
+            speakerName={speakerName}
             roleLabel={roleLabel}
-            traitName={advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined}
+            traitName={traitName}
             advisorId={advisorId}
             seed={state.seed}
             from={state.currentFrom}
@@ -125,9 +202,36 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
             leaving={leaving}
             onDrag={setDragSide}
             onCommit={commit}
+            focusOnMount={focusNext.current}
           />
         )}
       </main>
+      {/* The two choices as buttons (BACKLOG-5 phase 30). Always there for a screen reader,
+          which has nothing to drag; drawn only when the player asks, or while one has
+          keyboard focus. Each says what it moves, as the preview dots do. */}
+      {card && (
+        <div ref={choices} className={`choices${settings.showChoices ? "" : " choices-hidden"}`}>
+          {SIDES.map((side) => (
+            <button
+              key={side}
+              type="button"
+              className="choice"
+              data-side={side}
+              aria-describedby={`${describe}-${side}`}
+              onClick={() => commit(side)}
+              onFocus={focusChoice(side)}
+              onBlur={() => setPeek((p) => (p === side ? null : p))}
+            >
+              {card[side].label}
+            </button>
+          ))}
+          {SIDES.map((side) => (
+            <span key={side} id={`${describe}-${side}`} className="sr-only">
+              {choiceSummary(preview(lib, state, card, side), state.meters, state.align)}
+            </span>
+          ))}
+        </div>
+      )}
       <footer className="status">
         {/* Who is in office, in words as well as in the card's shape (BACKLOG-3 phase 23).
             The shape signature is geometry and says nothing to a screen reader or to anyone
@@ -164,9 +268,12 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, de
         ) : (
           (showHint || settings.alwaysHint) && <p className="hint">{STRINGS.ui.hint}</p>
         )}
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          {said}
+        </p>
       </footer>
       {transition !== null && (
-        <EraTransition lib={lib} state={state} era={transition} reduceMotion={settings.reduceMotion} onContinue={onDismissTransition} />
+        <EraTransition lib={lib} state={state} era={transition} reduceMotion={settings.reduceMotion} onContinue={dismissTransition} />
       )}
       {debug && <Debug state={state} theme={theme} />}
     </Frame>
