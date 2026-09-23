@@ -141,6 +141,7 @@ export function App() {
           state={game.state}
           fold={game.lastFold}
           onPlayAgain={game.reset}
+          onTakeOtherRoad={game.takeOtherRoad}
           onCodex={game.openCodex}
           onSettings={game.openSettings}
         />

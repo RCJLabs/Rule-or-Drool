@@ -68,6 +68,8 @@ export interface RunRecord {
   /** The promise the run was taken on, if any, and whether it survived the run. */
   mandate: string | null;
   mandateKept: boolean;
+  /** A second road: the run taken again from one of its decisions (BACKLOG-5 phase 34). */
+  road?: true;
 }
 
 export interface DailyRecord {

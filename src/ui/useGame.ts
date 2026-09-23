@@ -4,6 +4,7 @@ import type { GameState, PlayerAlign, Side } from "../engine/types";
 import { clearMeta, dailySeedFor, emptyMeta, encodeRunCode, foldRun, loadMeta, runCodeOf, saveMeta, type MetaState, type RunFold } from "../meta";
 import { closeRun, openRun, takeCard, type Measure, type RecordedRun, type RunKind } from "../playtest/record";
 import { APP_VERSION } from "../version";
+import { canRetrace, otherSide, replayTo } from "../engine/replay";
 import { beginRun, beginRunFromCode, commitChoice, dailyCode, ensureCard } from "./flow";
 import type { RunCode } from "../meta";
 import { appendRecorded, clearRecorded, loadOpen, loadRecorded, MAX_RECORDED_RUNS, saveOpen, sendRecord } from "./playtest";
@@ -204,6 +205,19 @@ export function useGame(lib: Library) {
     else if (open) resumedRef.current = true;
   }, [lib, saved, shelveOpen]);
 
+  /** A run has ended: fold it into the profile, and into the daily only if it was that. */
+  const foldFinished = useCallback(
+    (done: GameState) => {
+      const fold = foldRun(lib, metaRef.current, done, dailyRef.current ?? undefined);
+      metaRef.current = fold.meta;
+      setMeta(fold.meta);
+      setLastFold(fold);
+      saveMeta(fold.meta);
+      dailyRef.current = null;
+    },
+    [lib],
+  );
+
   const choose = useCallback(
     (side: Side, measure: Measure) => {
       const s = stateRef.current;
@@ -225,16 +239,31 @@ export function useGame(lib: Library) {
       }
       cue(lib, settingsRef.current, s, r.state, side, r.eraChanged);
       if (r.eraChanged) setTransition(r.state.era);
-      if (r.state.over && !s.over) {
-        const fold = foldRun(lib, metaRef.current, r.state, dailyRef.current ?? undefined);
-        metaRef.current = fold.meta;
-        setMeta(fold.meta);
-        setLastFold(fold);
-        saveMeta(fold.meta);
-        dailyRef.current = null;
-      }
+      if (r.state.over && !s.over) foldFinished(r.state);
     },
-    [lib],
+    [lib, foldFinished],
+  );
+
+  /**
+   * Go back to a card of the run that has just ended and take the other side of it
+   * (BACKLOG-5 phase 34). The run is replayed to that card, which puts it back exactly as it
+   * was, the other side is taken, and the player plays on. The first road rides along, so the
+   * end of the second can show both. A second road does not branch again.
+   */
+  const takeOtherRoad = useCallback(
+    (k: number) => {
+      const first = stateRef.current;
+      if (!first?.over || first.road || !canRetrace(first)) return;
+      const back = replayTo(lib, first, k);
+      const made = first.choices![k];
+      if (!back || !made) return;
+      const r = commitChoice(lib, { ...back, road: { first, at: k } }, otherSide(made[1]));
+      setLastFold(null);
+      setTransition(r.eraChanged ? r.state.era : null);
+      setState(r.state);
+      if (r.state.over) foldFinished(r.state);
+    },
+    [lib, foldFinished],
   );
 
   const dismissTransition = useCallback(() => {
@@ -292,6 +321,7 @@ export function useGame(lib: Library) {
     startFromCode,
     continueSaved,
     choose,
+    takeOtherRoad,
     dismissTransition,
     nudgeDrift,
     reset,

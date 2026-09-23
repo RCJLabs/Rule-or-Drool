@@ -119,6 +119,9 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     mandate: run.mandate,
     mandateKept,
   };
+  // A second road counts like any run, and says what it is (BACKLOG-5 phase 34). It is
+  // never the daily: that was the first road's, and the fold is only told so for the first.
+  if (run.road) record.road = true;
   next.history = [record, ...meta.history].slice(0, HISTORY_LENGTH);
   if (daily) {
     const record: DailyRecord = { day: daily.day, seed: daily.seed, cards: run.cardCount, endingId, band };

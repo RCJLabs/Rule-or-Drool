@@ -6,7 +6,7 @@ import type { Browser, Page } from "playwright-core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { STRINGS } from "../../src/content/strings";
 import { parseRecord } from "../../src/playtest/parse";
-import { choose, close, codeFor, contrast, launch, misfits, open, SEED, startRun, target } from "./harness";
+import { choose, close, codeFor, contrast, launch, misfits, open, playOut, SEED, startRun, target } from "./harness";
 
 /**
  * The playtest record in the built game (BACKLOG-5 phase 31), end to end: a run played with
@@ -16,20 +16,6 @@ import { choose, close, codeFor, contrast, launch, misfits, open, SEED, startRun
  */
 
 const recordKeys = (page: Page) => page.evaluate("Object.keys(localStorage).filter((k) => k.startsWith('rod.playtest'))") as Promise<string[]>;
-
-/** Play the run out the way a keyboard player would, through each era, to its end. */
-async function playOut(page: Page): Promise<void> {
-  for (let i = 0; i < 400; i++) {
-    if (await page.locator(".history-title").count()) return;
-    if (await page.locator(".era-jump").count()) {
-      await page.getByRole("button", { name: STRINGS.ui.continueEra }).click();
-      await page.waitForSelector(".card");
-      continue;
-    }
-    await choose(page, i % 3 === 0 ? "left" : "right");
-  }
-  throw new Error("four hundred cards and the run never ended");
-}
 
 describe.skipIf(!target)("the playtest record, in a browser", () => {
   let browser: Browser;

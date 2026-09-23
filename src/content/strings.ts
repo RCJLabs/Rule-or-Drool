@@ -274,6 +274,14 @@ export const STRINGS = {
     shareTextOne: "One run of Rule or Drool, recorded on version {version}.",
     shareText: "{n} runs of Rule or Drool, recorded on version {version}.",
   },
+  road: {
+    choose: "Choose “{label}” instead",
+    mark: "The other road",
+    note: "The other road: at card {n} you chose “{label}” this time.",
+    first: "The first road",
+    second: "The other road",
+    parted: "The roads parted at card {n}: “{a}” the first time, “{b}” the second.",
+  },
   move: {
     open: "Move my progress",
     title: "Move my progress",

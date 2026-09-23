@@ -403,7 +403,63 @@ refused with a message.
 
 </details>
 
-## Phase 34. Take the other road — *queued*
+## Phase 34. Take the other road — *done*
+
+**Shipped.** On the end screen, every decision under *What became of it* that the run made
+on a card now has *Choose “‹the other side›” instead*, which names the side not taken.
+Pressing it:
+1. replays the run to that card;
+2. takes the other side;
+3. hands the run back, and the player plays on.
+
+The first card of the second road says where it left the first. When it ends, the end
+screen shows both roads side by side: each world's picture, the name each road earned, and
+where they parted ("card 17: “Build instead” the first time, “Freeze rents” the second").
+
+**The codex rule.** The owner left the backlog's default in place: a second road counts toward
+the codex, is marked *The other road* in the history, and is never the daily. A second road
+does not branch again. It is not in the playtest record either, since that record times
+runs from their first card.
+
+**How it works.**
+- **The record.** A run now keeps its choices, as the card and the side taken on each (run
+  save v10).
+- **The replay.** It deals the run from its setup and seed again and checks every card it
+  deals against that record. A replay that parts from the record stops: a run could be
+  saved on one version and finished on the next, and it is not handed back as something
+  that never happened.
+- **When going back is offered.** Only when the record covers every card. A run saved
+  before v10 has no record, and neither does a save edited to skip ahead, as the audits do.
+- **Saves.** A second road holds its finished first road inside its save, so leaving and
+  coming back keeps both.
+
+**Measured, over 1,000 competent runs (the mixed bot):**
+- Every run offers at least one way back, and 3.97 on average.
+- In 9.0% of those, the other side ends the run on the spot. The second road is then over
+  before it starts; it still counts, and its end screen shows both roads.
+- A replay takes 1.4 ms on this machine.
+
+**Done when, checked:**
+- **Replaying reproduces the state exactly.** Across 1,000 seeded runs, the replay put the
+  run back identical to the original state at every card checked: the first, the last and
+  two random ones in each run, over 3,000 in all. The runs cover every bot, both sides,
+  with and without every unlock and a promise. With the promise left out of the replay's
+  setup, the test fails, and the replay's own card check catches the divergence.
+- **A second road's end screen shows both roads.** A browser test plays a real run to its
+  end on a 360×640 phone. It goes back from the end screen and reads the note on the first
+  card, then reloads mid-road and continues. Played out, the second road's end screen shows
+  two pictures and both names, and passes contrast and fit.
+
+**Also checked:**
+- 12 new unit tests, covering:
+  - the daily left alone;
+  - a second road not branching;
+  - the case where the other side ends the run at once;
+  - the codex mark;
+  - the save migration.
+- The browser suite is 34 tests. The bundle grew by 1.1 KB gzipped.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** Flip one decision and let the same player (the mixed bot) play on, 1,500 runs
 for each kind of flip:
@@ -431,6 +487,8 @@ second road, and never toward the daily.
 
 **Done when** replaying to any card reproduces the original state exactly, across 1,000
 seeded runs in a test, and a second road's end screen shows both roads.
+
+</details>
 
 ## Phase 35. More crises, more faces — *queued*
 

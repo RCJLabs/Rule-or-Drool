@@ -258,7 +258,8 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
       if (before) stats.firedAdvisors = [...stats.firedAdvisors, before];
     }
   }
-  s = { ...s, stats, current: null, cardCount: s.cardCount + 1 };
+  const choices = state.choices ? [...state.choices, [cardId, side] as [string, Side]] : null;
+  s = { ...s, stats, current: null, cardCount: s.cardCount + 1, choices };
   s = applyEraPassive(lib, s);
   // Before the ouster check: a choice that breaks the promise and ends the run did both.
   s = checkMandate(lib, s);

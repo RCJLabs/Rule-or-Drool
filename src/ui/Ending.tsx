@@ -3,6 +3,7 @@ import { STRINGS } from "../content/strings";
 import { epilogueByKey, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
+import { canRetrace, otherSide } from "../engine/replay";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { LEGACIES, OBJECTIVES_BY_ID, historyOf, type RunFold } from "../meta";
@@ -21,6 +22,8 @@ interface Props {
   onPlayAgain: () => void;
   onCodex: () => void;
   onSettings: () => void;
+  /** Go back to the k-th card and take the other side (BACKLOG-5 phase 34). */
+  onTakeOtherRoad?: (k: number) => void;
 }
 
 /**
@@ -32,7 +35,7 @@ interface Props {
  * Read top to bottom it goes: the world you left, what history calls it, what became of the
  * decisions that made it, how it went, what you did with the office, and the long view.
  */
-export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: Props) {
+export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onTakeOtherRoad }: Props) {
   const scene = useRef<HTMLElement>(null);
   // The run screen and everything that had focus have just gone. Land on the history's
   // name, so a screen reader starts where a sighted player's eye does (BACKLOG-5 phase 30).
@@ -59,6 +62,22 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
   // A daily is marked in the text, so the people it goes to know they can play the same one.
   const dailyDay = fold?.meta.daily?.seed === state.seed ? fold.meta.daily.day : undefined;
 
+  // Another road from any decision that shaped this one, where the run can be retraced to it
+  // (BACKLOG-5 phase 34). A second road shows both instead, and does not branch again.
+  const road = state.road;
+  const retrace = !road && onTakeOtherRoad && canRetrace(state) ? onTakeOtherRoad : null;
+  const other = (at: number | null) => {
+    const made = at && at > 0 ? state.choices?.[at - 1] : undefined;
+    const card = made && lib.cards.get(made[0]);
+    return made && card ? { k: at! - 1, label: card[otherSide(made[1])].label } : null;
+  };
+  const first = road?.first;
+  const firstBand = first ? exitBand(lib, first) : band;
+  const firstHistory = first ? historyOf(first, firstBand) : null;
+  const firstWorld = first ? composeWorld({ band: firstBand, drift: first.drift, align: first.align, flags: first.flags, seed: first.seed, era: first.era }) : null;
+  const parted = road && first?.choices?.[road.at];
+  const partedCard = parted && lib.cards.get(parted[0]);
+
   const share = async () => {
     setSharing("working");
     const text = shareText(state, history, endingTitle, shareLink(state), dailyDay);
@@ -74,10 +93,39 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
   return (
     <Frame theme={themeFor(state.drift, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
-        <figure className="world-frame" data-band={band} ref={scene}>
-          <WorldAfter world={world} title={history.title} />
-          <figcaption className="world-when">{when}</figcaption>
-        </figure>
+        {first && firstWorld && firstHistory ? (
+          <div className="roads">
+            <div className="road">
+              <figure className="world-frame" data-band={firstBand}>
+                <WorldAfter world={firstWorld} title={firstHistory.title} />
+              </figure>
+              <p className="road-caption">
+                <span>{STRINGS.road.first}</span> <b>{firstHistory.title}</b>
+              </p>
+            </div>
+            <div className="road">
+              <figure className="world-frame" data-band={band} ref={scene}>
+                <WorldAfter world={world} title={history.title} />
+              </figure>
+              <p className="road-caption">
+                <span>{STRINGS.road.second}</span> <b>{history.title}</b>
+              </p>
+            </div>
+          </div>
+        ) : (
+          <figure className="world-frame" data-band={band} ref={scene}>
+            <WorldAfter world={world} title={history.title} />
+            <figcaption className="world-when">{when}</figcaption>
+          </figure>
+        )}
+        {road && parted && partedCard && (
+          <p className="roads-parted">
+            {STRINGS.road.parted
+              .replace("{n}", String(road.at + 1))
+              .replace("{a}", partedCard[parted[1]].label)
+              .replace("{b}", partedCard[otherSide(parted[1])].label)}
+          </p>
+        )}
 
         <p className="kicker">
           {STRINGS.ui.ruleEnds} · <b className="ending-how">{endingTitle}</b>
@@ -100,17 +148,25 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings }: P
         <section className="became">
           <h2>{STRINGS.after.became}</h2>
           <ul>
-            {history.consequences.map((c) => (
-              <li key={c.flag}>
-                {c.label && (
-                  <b>
-                    {c.label}
-                    {c.at !== null && c.at > 0 && <span className="became-when">{STRINGS.timeline.card.replace("{n}", String(c.at))}</span>}
-                  </b>
-                )}
-                <p>{c.after}</p>
-              </li>
-            ))}
+            {history.consequences.map((c) => {
+              const back = retrace ? other(c.at) : null;
+              return (
+                <li key={c.flag}>
+                  {c.label && (
+                    <b>
+                      {c.label}
+                      {c.at !== null && c.at > 0 && <span className="became-when">{STRINGS.timeline.card.replace("{n}", String(c.at))}</span>}
+                    </b>
+                  )}
+                  <p>{c.after}</p>
+                  {retrace && back && (
+                    <button type="button" className="road-back" onClick={() => retrace(back.k)}>
+                      {STRINGS.road.choose.replace("{label}", back.label)}
+                    </button>
+                  )}
+                </li>
+              );
+            })}
           </ul>
           {rest.length > 0 && (
             <p className="became-also">

@@ -284,6 +284,27 @@ export interface GameState {
    * (post-run histories). Recorded once: a flag cleared and set again keeps its first date.
    */
   flagSince: Record<string, number>;
+  /**
+   * Every choice the run has made, as the card and the side taken, in order (BACKLOG-5
+   * phase 34). The same seed and the same choices deal the same run, so this is enough to
+   * put any card of it back on the table. Null for a run saved before choices were kept,
+   * whose early choices are not known.
+   */
+  choices: ChoiceMade[] | null;
+  /** Set on a second road: the run it branched from, finished, and the card it went back to. */
+  road: Road | null;
+}
+
+/** One choice made: the card, and the side taken on it. */
+export type ChoiceMade = [card: string, side: Side];
+
+/**
+ * Where a second road left the first (phase 34): the first road as it ended, and the index
+ * of the card on which this one chose the other side.
+ */
+export interface Road {
+  first: GameState;
+  at: number;
 }
 
 /**

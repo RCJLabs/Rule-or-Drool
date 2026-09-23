@@ -67,6 +67,11 @@ export function migrateRun(v: number, state: GameState): GameState | null {
   // cannot know when it set the ones it has, and dating them all to card 0 would be a lie
   // the timeline then tells, so they stay undated and only what happens next is recorded.
   if (v < 9) s = { ...s, flagSince: {} };
+  // v9 -> v10: the run keeps its choices, so a card of it can be put back on the table
+  // (BACKLOG-5 phase 34). A run under way cannot know the ones it already made, so it has no
+  // record and cannot be gone back into; it is not a second road either. A second road's save
+  // holds its first road inside it, which a later migration will have to bring forward too.
+  if (v < 10) s = { ...s, choices: null, road: null };
   return s;
 }
 

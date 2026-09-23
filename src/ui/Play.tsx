@@ -149,6 +149,11 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const shown = card ? degrade(spoken, textLevel(settings, theme), state.seed) : "";
   const rival = rivalReport(lib, state);
   const eraInfo = STRINGS.eras[state.era - 1];
+  // The first card of a second road says where it left the first (BACKLOG-5 phase 34).
+  const branched = state.road && state.cardCount === state.road.at + 1 ? state.choices?.[state.road.at] : undefined;
+  const roadNote = branched
+    ? STRINGS.road.note.replace("{n}", String(state.road!.at + 1)).replace("{label}", getCard(lib, branched[0])[branched[1]].label)
+    : null;
   const year = yearInEra(state, lib.config.eraLength);
   const progress = Math.min(1, Math.max(0, (year - 1) / lib.config.eraLength));
 
@@ -171,6 +176,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     }
     const look = lookChange(prev?.stage ?? 0, theme.stage);
     if (look) parts.push(look);
+    if (roadNote) parts.push(roadNote);
     parts.push(`${speakerName}, ${roleLabel}${traitName ? `, ${traitName}` : ""}.`);
     if (state.currentFrom === "queue") parts.push(STRINGS.ui.cameBack);
     if (state.currentFrom === "habit") parts.push(STRINGS.ui.aHabit);
@@ -288,11 +294,13 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
         </div>
         <div className="era">
           <b>{eraInfo?.name ?? `Era ${state.era}`}</b> · {STRINGS.ui.year} {year}
+          {state.road && <span className="road-mark"> · {STRINGS.road.mark}</span>}
         </div>
         <MandateBadge state={state} />
         <div className="progress" aria-hidden="true">
           <span style={{ width: `${progress * 100}%` }} />
         </div>
+        {roadNote && <p className="road-note">{roadNote}</p>}
         {lesson ? (
           <TeachNote lesson={lesson} state={state} onDismiss={() => onTaught(lesson.id)} />
         ) : (

@@ -60,6 +60,7 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
               {meta.history.map((r, i) => (
                 <li key={`${r.endingId}-${i}`}>
                   {r.history && historyTitle(r.history) && <b className="codex-run-history">{historyTitle(r.history)}</b>}
+                  {r.road && <em className="codex-road">{STRINGS.road.mark}</em>}
                   <b>
                     {STRINGS.parties[r.align]} · {r.cards} cards · {STRINGS.bands[r.band]}
                   </b>

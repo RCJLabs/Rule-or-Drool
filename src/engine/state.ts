@@ -247,5 +247,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     mandate: mandate?.id ?? null,
     mandateBrokenAt: null,
     flagSince: Object.fromEntries(flags.map((f) => [f, 0])),
+    choices: [],
+    road: null,
   };
 }

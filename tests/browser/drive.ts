@@ -164,6 +164,20 @@ export async function playToBoundary(page: Page, lean: "[" | "]" | null): Promis
   throw new Error("a whole run's worth of cards and no era boundary");
 }
 
+/** Play the run out the way a keyboard player would, through each era, to its end. */
+export async function playOut(page: Page): Promise<void> {
+  for (let i = 0; i < 400; i++) {
+    if (await page.locator(".history-title").count()) return;
+    if (await page.locator(".era-jump").count()) {
+      await page.getByRole("button", { name: STRINGS.ui.continueEra }).click();
+      await page.waitForSelector(".card");
+      continue;
+    }
+    await choose(page, i % 3 === 0 ? "left" : "right");
+  }
+  throw new Error("four hundred cards and the run never ended");
+}
+
 /** What a run carried to its end, for `endRun`. */
 export interface Late {
   drift: number;
