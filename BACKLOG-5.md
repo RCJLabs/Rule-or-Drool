@@ -606,6 +606,10 @@ while.
   what either side draws. The everyday deck is 56.0% neutral, as before.
 - "A predecessor who will not leave" fits the setup offer and the end screen at 360px.
 - The bundle grew by 3.7 KB gzipped.
+- **A simulated card is 14% slower.** On the same engine it takes 57–61µs with the new cards
+  and 50–51µs without. The draw weighs every eligible card, and era 1's pools grew by a sixth.
+  Two harness tests that ran on vitest's 5s default went over it on CI (5.6s), so they now
+  carry a budget like the file's other simulations.
 
 **Yours:**
 - **The new writing.** Read it before or after it ships:
@@ -656,6 +660,11 @@ predicts 86% repeats at run ten, against the 89% measured, so as a rough guide:
 - doubling the ordinary deck would take it to about 61%.
 
 This is your voice work. Batches can be drafted for you to edit.
+
+Each card added makes every draw slower, because the draw weighs every eligible card. Phase
+35's 28 cards made a simulated card 14% slower. Two hundred more may be worth an index on the
+draw's `seen` and cooldown lookups first, or the harness and the replay tests will slow with
+them.
 
 **Done when** a player's tenth run is under 75% cards already seen, measured the same way.
 
