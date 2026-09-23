@@ -48,8 +48,11 @@ export interface MetaState {
    * (BACKLOG-2 phase 13).
    */
   nearMissed: string[];
-  /** Result of the most recent daily-seed run, if any. */
-  daily: DailyRecord | null;
+  /**
+   * Every daily played to its end, oldest first and one a day (BACKLOG-5 phase 38). The
+   * profile used to keep only the latest, which left nothing to come back for tomorrow.
+   */
+  dailies: DailyEntry[];
 }
 
 /** One line of the history: enough to recognise the run, not enough to replay it. */
@@ -72,13 +75,14 @@ export interface RunRecord {
   road?: true;
 }
 
-export interface DailyRecord {
-  /** UTC day, `YYYY-MM-DD`. */
+/** One day's daily, as the log keeps it: about 100 bytes, so a year of them is under 40 KB. */
+export interface DailyEntry {
+  /** UTC day, `YYYY-MM-DD`: the day the daily was dealt, which is not always the day it ended. */
   day: string;
-  seed: number;
+  /** What history called the run, as a history key; null for the one a v5 profile kept. */
+  history: string | null;
+  ending: string;
   cards: number;
-  endingId: string;
-  band: Band;
 }
 
 export interface ObjectiveContext {

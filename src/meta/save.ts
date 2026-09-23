@@ -1,6 +1,7 @@
 import { META_SAVE_VERSION } from "../version";
+import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
-import type { MetaState } from "./types";
+import type { DailyEntry, MetaState } from "./types";
 
 const META_KEY = "rod.meta";
 
@@ -10,7 +11,8 @@ const META_KEY = "rod.meta";
  */
 export function migrateMeta(raw: unknown): MetaState | null {
   if (!raw || typeof raw !== "object") return null;
-  const data = raw as Partial<MetaState> & { v?: number };
+  // `daily` is the one daily a v5 profile kept; it becomes the first day of the log below.
+  const { daily: kept, ...data } = raw as Partial<MetaState> & { v?: number; daily?: unknown };
   if (typeof data.v !== "number" || data.v > META_SAVE_VERSION) return null;
   // v1 -> v2: epilogues became side-specific, so every `band:any:era` key a v1 save
   // collected names a text that no longer exists. Dropping them keeps the codex count
@@ -49,8 +51,30 @@ export function migrateMeta(raw: unknown): MetaState | null {
     nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
-    daily: data.daily ?? null,
+    dailies: dailiesOf(data.dailies, kept),
   };
+}
+
+/**
+ * v5 -> v6: a log of dailies in place of the latest one (BACKLOG-5 phase 38). The one a v5
+ * profile kept is the log's first day; it never recorded what history called the run, so
+ * that day is named by its ending. A profile can arrive in a link anyone can send (phase
+ * 33), so anything that is not a day the log could have written is left out, and a day
+ * written twice keeps its first.
+ */
+function dailiesOf(log: unknown, kept: unknown): DailyEntry[] {
+  const found: unknown[] = Array.isArray(log) ? log : [];
+  const old = kept && typeof kept === "object" ? (kept as Record<string, unknown>) : null;
+  const entries = old ? [{ day: old.day, history: null, ending: old.endingId, cards: old.cards }, ...found] : found;
+  const byDay = new Map<string, DailyEntry>();
+  for (const e of entries) {
+    if (!e || typeof e !== "object") continue;
+    const { day, history, ending, cards } = e as Record<string, unknown>;
+    if (typeof day !== "string" || !Number.isFinite(dayIndex(day)) || byDay.has(day)) continue;
+    if (typeof ending !== "string" || typeof cards !== "number" || !Number.isFinite(cards)) continue;
+    byDay.set(day, { day, history: typeof history === "string" ? history : null, ending, cards });
+  }
+  return [...byDay.values()].sort((a, b) => a.day.localeCompare(b.day));
 }
 
 export function loadMeta(): MetaState {

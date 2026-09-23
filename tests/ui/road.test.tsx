@@ -97,11 +97,11 @@ describe("taking the other road", () => {
     const g = renderHook(() => useGame(library)).result;
     act(() => g.current.startDaily("left"));
     finish(g);
-    const daily = g.current.meta.daily;
-    expect(daily).not.toBeNull();
+    const dailies = g.current.meta.dailies;
+    expect(dailies).toHaveLength(1);
     act(() => g.current.takeOtherRoad(decisionCard(g.current.state!)));
     finish(g);
-    expect(g.current.meta.daily).toEqual(daily);
+    expect(g.current.meta.dailies).toEqual(dailies);
     expect(g.current.meta.runs).toBe(2);
   });
 });

@@ -114,6 +114,7 @@ export function App() {
         <Setup
           lib={library}
           saved={game.saved}
+          savedDaily={game.savedDaily}
           meta={game.meta}
           onStart={game.start}
           onDaily={game.startDaily}

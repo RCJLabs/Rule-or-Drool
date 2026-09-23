@@ -8,7 +8,7 @@ import { canRetrace, otherSide, replayTo } from "../engine/replay";
 import { beginRun, beginRunFromCode, commitChoice, dailyCode, ensureCard } from "./flow";
 import type { RunCode } from "../meta";
 import { appendRecorded, clearRecorded, loadOpen, loadRecorded, MAX_RECORDED_RUNS, saveOpen, sendRecord } from "./playtest";
-import { clearRun, loadRun, saveRun } from "./save";
+import { clearRun, loadRun, loadRunDaily, saveRun, type DailyMark } from "./save";
 import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
 import { buzz, newlyDangerous, play } from "./sound";
 import { DANGER_BELOW } from "./Meters";
@@ -42,6 +42,8 @@ export function useGame(lib: Library) {
     const s = loadRun();
     return s && !s.over ? s : null;
   });
+  /** The saved run's daily, when it is one, so it is still one when it is continued. */
+  const [savedDaily, setSavedDaily] = useState<DailyMark | null>(() => loadRunDaily());
   const [state, setState] = useState<GameState | null>(null);
   const [transition, setTransition] = useState<number | null>(null);
   const [meta, setMeta] = useState<MetaState>(() => loadMeta());
@@ -58,8 +60,11 @@ export function useGame(lib: Library) {
   settingsRef.current = settings;
   const metaRef = useRef(meta);
   metaRef.current = meta;
-  /** Set while a daily-seed run is in progress, so the result is recorded as one. */
-  const dailyRef = useRef<{ day: string; seed: number } | null>(null);
+  /**
+   * Set while a daily-seed run is in progress, so the result is recorded as one. Saved with
+   * the run, so a daily left for later is still one when it comes back (BACKLOG-5 phase 38).
+   */
+  const dailyRef = useRef<DailyMark | null>(null);
   /** How many runs the playtest record holds (BACKLOG-5 phase 31). */
   const [recorded, setRecorded] = useState(() => loadRecorded().length);
   /** The run being recorded, while the player has asked for a record and one is under way. */
@@ -89,7 +94,7 @@ export function useGame(lib: Library) {
   );
 
   useEffect(() => {
-    if (state) saveRun(state);
+    if (state) saveRun(state, dailyRef.current);
   }, [state]);
 
   useEffect(() => {
@@ -128,8 +133,9 @@ export function useGame(lib: Library) {
     setTransition(null);
     setLastFold(null);
     if (s && !s.over) {
-      saveRun(s);
+      saveRun(s, dailyRef.current);
       setSaved(s);
+      setSavedDaily(dailyRef.current);
     }
     setState(null);
   }, []);
@@ -145,6 +151,7 @@ export function useGame(lib: Library) {
     metaRef.current = fresh;
     setMeta(fresh);
     setSaved(null);
+    setSavedDaily(null);
     setState(null);
     setTransition(null);
     setLastFold(null);
@@ -154,8 +161,9 @@ export function useGame(lib: Library) {
   }, []);
 
   const start = useCallback(
-    (seed: number, align: PlayerAlign, mandate: string | null = null, daily?: { day: string; seed: number }) => {
+    (seed: number, align: PlayerAlign, mandate: string | null = null, daily?: DailyMark) => {
       setSaved(null);
+      setSavedDaily(null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = daily ?? null;
@@ -168,8 +176,9 @@ export function useGame(lib: Library) {
 
   /** A run someone else played, from its code: their setup, not this profile's. */
   const startFromCode = useCallback(
-    (code: RunCode, daily?: { day: string; seed: number }) => {
+    (code: RunCode, daily?: DailyMark) => {
       setSaved(null);
+      setSavedDaily(null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = daily ?? null;
@@ -197,13 +206,15 @@ export function useGame(lib: Library) {
     if (!saved) return;
     setSaved(null);
     setLastFold(null);
+    dailyRef.current = savedDaily?.seed === saved.seed ? savedDaily : null;
+    setSavedDaily(null);
     setState(ensureCard(lib, saved));
     // The recording carries on only if it is this run's, card for card; a record that lost
     // a card, or belongs to another run, is kept as far as it got.
     const open = openRef.current;
     if (open && (open.code !== encodeRunCode(runCodeOf(saved)) || open.cards.length !== saved.cardCount)) shelveOpen();
     else if (open) resumedRef.current = true;
-  }, [lib, saved, shelveOpen]);
+  }, [lib, saved, savedDaily, shelveOpen]);
 
   /** A run has ended: fold it into the profile, and into the daily only if it was that. */
   const foldFinished = useCallback(
@@ -302,6 +313,7 @@ export function useGame(lib: Library) {
   const reset = useCallback(() => {
     clearRun();
     setSaved(null);
+    setSavedDaily(null);
     setTransition(null);
     setState(null);
     setLastFold(null);
@@ -314,6 +326,7 @@ export function useGame(lib: Library) {
     state,
     transition,
     saved,
+    savedDaily,
     meta,
     lastFold,
     start,

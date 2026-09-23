@@ -2,7 +2,8 @@ import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, codexProgress, historyTitle, type MetaState } from "../meta";
+import { HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, codexProgress, historyTitle, todayKey, type MetaState } from "../meta";
+import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
 
@@ -11,10 +12,12 @@ interface Props {
   meta: MetaState;
   onBack: () => void;
   onSettings: () => void;
+  /** Today's UTC day, for the dailies; the clock's by default. */
+  today?: string;
 }
 
 /** Collected endings, futures and objectives (5.10). Unseen entries stay blank on purpose. */
-export function Codex({ lib, meta, onBack, onSettings }: Props) {
+export function Codex({ lib, meta, onBack, onSettings, today = todayKey() }: Props) {
   const p = codexProgress(lib, meta);
   // Found histories in the order that ranks them, so the list reads from the biggest things
   // a run can do down to the habits every run has.
@@ -80,6 +83,8 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
             </ol>
           )}
         </section>
+
+        <DailyMonth lib={lib} dailies={meta.dailies} today={today} browse />
 
         <section>
           <h2>{STRINGS.codex.stories}</h2>
@@ -238,7 +243,6 @@ export function Codex({ lib, meta, onBack, onSettings }: Props) {
 
         <footer className="codex-foot">
           Runs finished {meta.runs} · longest {meta.bestCards} cards
-          {meta.daily && ` · daily ${meta.daily.day}: ${meta.daily.cards} cards`}
         </footer>
       </div>
     </Frame>

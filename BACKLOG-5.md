@@ -783,7 +783,80 @@ link.
 **Done when** a v2 link round-trips, a v1 link still works, and the end screen compares the
 two runs.
 
-## Phase 38. The daily, every day — *queued*
+## Phase 38. The daily, every day — *done*
+
+**Shipped.** The profile keeps every daily played to its end, and the game shows them as a
+month, with a streak and a number for each day.
+
+- **The log** (meta v6): one entry a day with the day, the history key, the ending and the
+  cards played. A v5 profile kept only its latest daily; that one becomes the log's first
+  day, named by its ending, because v5 never recorded what history called it.
+- **The number.** #1 is 2026-09-21, the first daily the game dealt, so 2026-09-23 is #3. A
+  daily's share line leads with it, *Rule or Drool #412 — "The Seawall Years"*, and so does
+  the picture's title pill. A day before #1 has no number: a phone whose clock has lost its
+  place says it is 1970, and gets the plain wording.
+- **The streak** counts days in a row with a daily played to its end. It stays alive through
+  today while today's daily is still there to play, and a missed day ends it. The best
+  streak is kept too.
+- **The month view.**
+  - **In the codex:** the streak, the month in weeks with each day played marked, missed
+    days struck through, and each day's name under it. It pages back to the first month
+    played.
+  - **At the end of a daily**, in whatever look the run ended in, under a line with the
+    day's number and the streak.
+  - **On the menu:** the button says *Daily #3* or *Daily #3 played*, with the streak
+    under it.
+- **Moving a profile** now shows dailies played and the streak beside the other numbers, so
+  replacing a profile says what it would lose.
+
+**Found, and fixed:**
+- **A daily left mid-run stopped being the daily.** Only memory knew a run was the day's
+  daily. Reopened in a new tab, or after a phone killed the app (a run is 105 cards), it
+  finished as an ordinary run: the day went unrecorded and the menu offered it again. With
+  a streak on top, closing the app would have broken it. The run's save now carries the
+  day. A browser audit reloads each of its seven dailies mid-run, and every one still
+  counts.
+- **The spent daily button read 3.31:1.** "Daily run played" was dimmed with half opacity.
+  No audit had a profile that had played today's daily, so none had seen it. It is dimmed
+  by colour now, as the codex already did for the same reason.
+
+**Done when, checked:**
+- **A year of dailies stays under 40 KB:** 34.2 KB for a year of typical entries (94 bytes a
+  day). The test takes the worst case: a leap year with the longest history key and ending
+  the game has on every day, 39.2 KB (107 bytes a day).
+- **The month view reads in every look:** a browser audit plays today's daily on a
+  360×640 phone and ends it in each of the seven looks. It checks the end screen for
+  contrast and for fit. It also reads the menu and the codex, with a month of dailies in
+  them, with the plain screen on and off.
+- **A missed day breaks the streak:** unit tests, across month and year ends and a leap day.
+
+**Also checked:**
+- The unit suite is 501 tests and the browser suite 37. Twelve mutations were each caught
+  by a test: the resume, the saved day, the streak's two rules, one entry a day, the seed
+  check, the migration and its clean-up, a day before the first, the menu's played state,
+  the share number and the numbering.
+- The bundle grew by 2.3 KB gzipped.
+- A year of dailies makes a forty-run profile's move code 7,210 characters instead of 2,202.
+
+**Yours:**
+- **Days are UTC days,** as the daily itself always was, and the screen says so: *a new
+  daily every day at 00:00 UTC*. In the Americas that is afternoon or evening. So someone
+  who plays in their evening one day and their afternoon the next misses a UTC day without
+  missing one on their own calendar. A daily by local date, as Wordle does it, would fix
+  that, but changes which run a group spread across time zones counts as today's. It is
+  your call, and cheapest before launch.
+- **#1 is 2026-09-21.** If you would rather the first public daily be #1, move
+  `FIRST_DAILY` in `src/meta/daily.ts` before anyone shares a number.
+- **The 40 KB bound has 2% to spare in the worst case.** Phase 39's history names for the
+  long view could be longer than today's longest key. The test measures with the real keys,
+  so it would say so.
+- **The daily button is at the bottom of the menu,** under the whole setup. On a phone it
+  is out of sight until you scroll. Not changed here.
+- **A move link with a year of dailies in it** is over 7,000 characters. It pastes, but some
+  chat apps may cut a link that long (not measured).
+- **The new wording** (`STRINGS.daily`): the streak lines, the month view and the menu line.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** The daily is now the same run for everyone (phase 11), but the profile keeps
 only its latest result. There is no record of past dailies and no streak: nothing to come
@@ -798,6 +871,8 @@ back for tomorrow.
 
 **Done when** a year of dailies stays under 40 KB, the month view reads in every look, and
 a missed day breaks the streak.
+
+</details>
 
 ## Phase 39. Eras four and five — *queued*
 

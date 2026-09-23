@@ -3,7 +3,7 @@ import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import { rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
-import { codexProgress, todayKey, type Decoded, type MetaState, type RunCode } from "../meta";
+import { codexProgress, dailyNumber, streakOf, todayKey, type Decoded, type MetaState, type RunCode } from "../meta";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
@@ -11,11 +11,15 @@ import { Frame } from "./Frame";
 import { MandatePicker } from "./MandatePicker";
 import { SetupSummary } from "./SetupSummary";
 import { randomSeed } from "./flow";
+import { dailyName } from "./DailyMonth";
+import type { DailyMark } from "./save";
 import { themeFor } from "./theme";
 
 interface Props {
   lib: Library;
   saved: GameState | null;
+  /** The saved run's daily, when it is one. */
+  savedDaily?: DailyMark | null;
   meta: MetaState;
   onStart: (seed: number, align: PlayerAlign, mandate: string | null) => void;
   onDaily: (align: PlayerAlign, mandate: string | null) => void;
@@ -26,15 +30,20 @@ interface Props {
   onContinue: () => void;
   onCodex: () => void;
   onSettings: () => void;
+  /** Today's UTC day, for the daily; the clock's by default. */
+  today?: string;
 }
 
-export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, onPlayShared, onDismissShared }: Props) {
+export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, onPlayShared, onDismissShared, today = todayKey() }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const [mandate, setMandate] = useState<string | null>(null);
   const setup = useMemo(() => rollSetup(lib, seed, align, meta.unlocks), [lib, seed, align, meta.unlocks]);
   const progress = codexProgress(lib, meta);
-  const dailyPlayed = meta.daily?.day === todayKey();
+  const dailyPlayed = meta.dailies.some((d) => d.day === today);
+  const n = dailyNumber(today);
+  const dailyLabel = n ? (dailyPlayed ? STRINGS.ui.dailyDone : STRINGS.ui.daily).replace("{n}", String(n)) : dailyPlayed ? STRINGS.ui.dailyPlainDone : STRINGS.ui.dailyPlain;
+  const { current: streak } = streakOf(meta.dailies, today);
   return (
     <Frame theme={themeFor(0)} align={align} seed={0} n={0}>
       <div className="setup">
@@ -75,6 +84,7 @@ export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex,
         {saved && (
           <button type="button" className="primary" onClick={onContinue}>
             {STRINGS.ui.continueRun} · era {saved.era}, {STRINGS.parties[saved.align]}
+            {savedDaily && ` · ${dailyName(savedDaily.day)}`}
           </button>
         )}
         <fieldset className="align">
@@ -100,7 +110,7 @@ export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex,
         </button>
         <div className="meta-row">
           <button type="button" onClick={() => onDaily(align, mandate)} disabled={dailyPlayed}>
-            {dailyPlayed ? STRINGS.ui.dailyDone : STRINGS.ui.daily}
+            {dailyLabel}
           </button>
           <button type="button" onClick={onCodex}>
             {STRINGS.ui.codex} {progress.endingsSeen}/{progress.endingsTotal}
@@ -109,6 +119,7 @@ export function Setup({ lib, saved, meta, onStart, onDaily, onContinue, onCodex,
             {STRINGS.ui.settings}
           </button>
         </div>
+        {streak > 0 && <p className="menu-streak">{STRINGS.daily.menuStreak.replace("{n}", String(streak))}</p>}
         <p className="hint">{STRINGS.ui.hint}</p>
         <footer className="version">v{APP_VERSION}</footer>
       </div>

@@ -89,6 +89,10 @@ describe("moving progress", () => {
 
   it("sums a profile up in the numbers a player would miss", () => {
     expect(progressSummary(library, meta)).toMatchObject({ runs: 40, unlocks: meta.unlocks.length, endingsTotal: library.endings.size });
-    expect(progressSummary(library, emptyMeta())).toEqual({ runs: 0, endings: 0, endingsTotal: library.endings.size, unlocks: 0 });
+    expect(progressSummary(library, emptyMeta())).toEqual({ runs: 0, endings: 0, endingsTotal: library.endings.size, unlocks: 0, dailies: 0, streak: 0 });
+    // A streak is the thing a replace would lose that no other number shows (BACKLOG-5 phase 38).
+    const day = (d: string) => ({ day: d, history: null, ending: "riots", cards: 40 });
+    const dailies = [day("2026-09-19"), day("2026-09-21"), day("2026-09-22")];
+    expect(progressSummary(library, { ...emptyMeta(), dailies }, "2026-09-23")).toMatchObject({ dailies: 3, streak: 2 });
   });
 });

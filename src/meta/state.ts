@@ -6,7 +6,7 @@ import { META_SAVE_VERSION } from "../version";
 import { ALL_HISTORY_KEYS, historyOf, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { OBJECTIVES } from "./objectives";
-import type { DailyRecord, MetaState , RunRecord } from "./types";
+import type { DailyEntry, MetaState, RunRecord } from "./types";
 
 /** How many past runs the codex keeps. */
 export const HISTORY_LENGTH = 12;
@@ -32,7 +32,7 @@ export function emptyMeta(): MetaState {
     mandatesBroken: {},
     history: [],
     nearMissed: [],
-    daily: null,
+    dailies: [],
   };
 }
 
@@ -47,6 +47,8 @@ export interface RunFold {
   /** What history calls the run, and whether this is the first time it has been called that. */
   history: History | null;
   newHistory: boolean;
+  /** The day this run went into the log as, when it was that day's daily. */
+  daily: DailyEntry | null;
 }
 
 /**
@@ -54,7 +56,7 @@ export interface RunFold {
  * objective against the updated meta. Pure, so the UI can show what a run earned.
  */
 export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: { day: string; seed: number }): RunFold {
-  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false, history: null, newHistory: false };
+  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false, history: null, newHistory: false, daily: null };
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
 
@@ -123,9 +125,12 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   // never the daily: that was the first road's, and the fold is only told so for the first.
   if (run.road) record.road = true;
   next.history = [record, ...meta.history].slice(0, HISTORY_LENGTH);
-  if (daily) {
-    const record: DailyRecord = { day: daily.day, seed: daily.seed, cards: run.cardCount, endingId, band };
-    next.daily = record;
+  // One entry a day, and only for the run that was dealt as that day's daily: the first to
+  // finish keeps the day (BACKLOG-5 phase 38).
+  let entry: DailyEntry | null = null;
+  if (daily && daily.seed === run.seed && !meta.dailies.some((d) => d.day === daily.day)) {
+    entry = { day: daily.day, history: history.key, ending: endingId, cards: run.cardCount };
+    next.dailies = [...meta.dailies, entry].sort((a, b) => a.day.localeCompare(b.day));
   }
 
   const newObjectives: string[] = [];
@@ -140,7 +145,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
       newUnlocks.push(o.unlocks);
     }
   }
-  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory };
+  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory, daily: entry };
 }
 
 /** Codex progress for the UI. */

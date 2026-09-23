@@ -144,12 +144,16 @@ export function MoveProgress({ lib, meta, settings, incoming, onReplace, onClose
   );
 }
 
+/** "12, streak 4": the dailies, and the streak a replace would carry off or bring. */
+const dailies = (p: ProgressSummary) => (p.streak > 0 ? STRINGS.move.dailiesStreak.replace("{n}", String(p.dailies)).replace("{s}", String(p.streak)) : String(p.dailies));
+
 function Compare({ here, coming }: { here: ProgressSummary; coming: ProgressSummary }) {
   const m = STRINGS.move;
   const rows: [string, string, string][] = [
     [m.runs, String(here.runs), String(coming.runs)],
     [m.endings, `${here.endings} of ${here.endingsTotal}`, `${coming.endings} of ${coming.endingsTotal}`],
     [m.unlocks, String(here.unlocks), String(coming.unlocks)],
+    [m.dailies, dailies(here), dailies(coming)],
   ];
   return (
     <table>

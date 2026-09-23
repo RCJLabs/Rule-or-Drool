@@ -54,6 +54,11 @@ export interface OpenOptions {
   query?: string;
   /** A touch screen, as a phone has: CSS sees `pointer: coarse`. */
   touch?: boolean;
+  /**
+   * The browser's clock, fixed at this moment. The daily is dealt from the date, so a test of
+   * it would deal a different run every day it ran (BACKLOG-5 phase 38). Timers still run.
+   */
+  at?: string;
 }
 
 /**
@@ -72,6 +77,7 @@ export async function openAt(browser: Browser, url: string, opts: OpenOptions = 
     content: `if (!localStorage.getItem("rod.settings")) localStorage.setItem("rod.settings", ${JSON.stringify(settings)});`,
   });
   await context.addInitScript({ content: PROBES });
+  if (opts.at) await context.clock.setFixedTime(new Date(opts.at));
   const page = await context.newPage();
   const seen: string[] = [];
   errors.set(page, seen);

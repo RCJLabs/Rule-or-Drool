@@ -1,6 +1,6 @@
 import { STRINGS } from "../content/strings";
 import type { GameState } from "../engine/types";
-import { encodeRunCode, runCodeOf, type History } from "../meta";
+import { dailyNumber, encodeRunCode, runCodeOf, type History } from "../meta";
 
 /**
  * Taking a run out of the game (BACKLOG-2 phase 11). "Look what happened to me" is how this
@@ -23,7 +23,11 @@ export function shareLink(state: GameState, base = typeof location === "undefine
  */
 export function shareText(state: GameState, history: History, endingTitle: string, link: string, dailyDay?: string): string {
   const { daily, left, play } = STRINGS.share;
-  const head = `${STRINGS.title} — “${history.title}”${dailyDay ? ` (${daily.replace("{day}", dailyDay)})` : ""}`;
+  // A daily leads with its number, *Rule or Drool #412*, so a group can line their days up
+  // without opening anyone's link (BACKLOG-5 phase 38).
+  const n = dailyDay ? dailyNumber(dailyDay) : null;
+  const title = n ? `${STRINGS.title} ${daily.replace("{n}", String(n))}` : STRINGS.title;
+  const head = `${title} — “${history.title}”`;
   const facts = runFacts(state, endingTitle);
   const things = history.consequences.filter((c) => c.label).slice(0, 3).map((c, i) => (i === 0 ? c.label : lowerFirst(c.label)));
   const lines = [head, facts];
@@ -45,6 +49,8 @@ export interface CardText {
   kicker: string;
   title: string;
   facts: string;
+  /** A daily's number, beside the game's name. */
+  number?: number;
 }
 
 export const CARD_W = 1200;
@@ -82,7 +88,7 @@ export async function renderCard(scene: SVGSVGElement, text: CardText): Promise<
 
   const family = `system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
   const pad = 56;
-  pill(ctx, STRINGS.title.toUpperCase(), pad, 40, family);
+  pill(ctx, `${STRINGS.title.toUpperCase()}${text.number ? ` ${STRINGS.share.daily.replace("{n}", String(text.number))}` : ""}`, pad, 40, family);
   pill(ctx, text.when.toUpperCase(), CARD_W - pad, 40, family, "right");
 
   ctx.textBaseline = "alphabetic";

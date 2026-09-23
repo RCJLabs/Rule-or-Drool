@@ -1,5 +1,5 @@
 import type { Library } from "../engine/library";
-import { codexProgress, migrateMeta, type MetaState } from "../meta";
+import { codexProgress, migrateMeta, streakOf, todayKey, type MetaState } from "../meta";
 import { APP_VERSION, META_SAVE_VERSION, SETTINGS_VERSION } from "../version";
 import { migrateSettings, type Settings } from "./settings";
 
@@ -129,15 +129,19 @@ export async function readProgress(input: string): Promise<Readout> {
   return { ok: true, meta, settings: migrateSettings(data.settings ?? {}), game: game ?? "" };
 }
 
-/** What a profile amounts to, in the three numbers a player would miss. */
+/** What a profile amounts to, in the numbers a player would miss. */
 export interface ProgressSummary {
   runs: number;
   endings: number;
   endingsTotal: number;
   unlocks: number;
+  /** Dailies played, and the streak running (BACKLOG-5 phase 38). */
+  dailies: number;
+  streak: number;
 }
 
-export function progressSummary(lib: Library, meta: MetaState): ProgressSummary {
+export function progressSummary(lib: Library, meta: MetaState, today: string = todayKey()): ProgressSummary {
   const p = codexProgress(lib, meta);
-  return { runs: meta.runs, endings: p.endingsSeen, endingsTotal: p.endingsTotal, unlocks: meta.unlocks.length };
+  const streak = streakOf(meta.dailies, today).current;
+  return { runs: meta.runs, endings: p.endingsSeen, endingsTotal: p.endingsTotal, unlocks: meta.unlocks.length, dailies: meta.dailies.length, streak };
 }

@@ -34,9 +34,13 @@ describe("what goes into the group chat", () => {
     expect(lines[3]).toBe("Play the same run: https://example.test/?run=1.x.R.-.-.-");
   });
 
-  it("says when it was the daily, so the people it goes to can play the same one", () => {
+  it("leads a daily with its number, so a group can compare without sending links", () => {
     const s = finished();
-    expect(shareText(s, historyOf(s, "ascent"), "Orbit", "l", "2026-09-22").split("\n")[0]).toContain("daily run, 2026-09-22");
+    const h = historyOf(s, "ascent");
+    expect(shareText(s, h, "Orbit", "l", "2026-09-22").split("\n")[0]).toBe(`Rule or Drool #2 — “${h.title}”`);
+    expect(shareText(s, h, "Orbit", "l").split("\n")[0]).toBe(`Rule or Drool — “${h.title}”`);
+    // A clock that has lost its place gives a day with no number, and the line says nothing of one.
+    expect(shareText(s, h, "Orbit", "l", "1970-01-01").split("\n")[0]).toBe(`Rule or Drool — “${h.title}”`);
   });
 
   it("links to the run's setup, not its seed", () => {

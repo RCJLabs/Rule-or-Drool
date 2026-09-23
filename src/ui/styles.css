@@ -1570,8 +1570,11 @@ button {
   cursor: pointer;
   font-size: 14px;
 }
+/* Dimmed by colour, not opacity: "Daily #3 played" is information as well as a spent button,
+   and at half opacity it read 3.31:1 (BACKLOG-5 phase 38, the first audit with a daily played). */
 .meta-row button[disabled] {
-  opacity: 0.5;
+  color: var(--muted);
+  border-style: dashed;
   cursor: default;
 }
 .earned {
@@ -1727,6 +1730,144 @@ button {
   font-size: 13px;
   color: var(--muted);
 }
+/* ---- the daily, day by day (BACKLOG-5 phase 38) ---------------------------------- */
+/* Drawn in whichever look the screen is in: the end of a daily wears the run's own. Every
+   word is ink or muted on the ground, never on the accent, which in the late decay looks is
+   too dark a purple for small text; the accent only marks. */
+.daily-month {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.daily-month h2 {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.daily-streak,
+.daily-mark {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.daily-best,
+.daily-none,
+.daily-turnover {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.daily-month-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.daily-month-head h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+  text-align: center;
+}
+.daily-month-head button {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.daily-month-head button[disabled] {
+  visibility: hidden;
+}
+.daily-grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+.daily-grid th {
+  padding: 0 0 2px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+}
+.daily-grid td {
+  position: relative;
+  height: 36px;
+  padding: 0;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--muted);
+}
+.daily-grid td[data-day="played"] {
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+/* A mark as well as a colour, so a played day reads without telling colours apart. */
+.daily-grid td[data-day="played"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.daily-grid td[data-day="today"] {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+  color: var(--ink);
+  font-weight: 700;
+}
+.daily-grid td[data-day="missed"] {
+  text-decoration: line-through;
+}
+.daily-days {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.daily-days li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.daily-days b {
+  font-size: 14.5px;
+}
+.daily-days span {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.menu-streak {
+  margin: 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+
 /* ---- teaching as you go (phase 10) ------------------------------------------------ */
 /* Deliberately not a dialog: the thing being explained is on screen behind it. */
 .teach {

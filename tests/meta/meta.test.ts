@@ -4,17 +4,26 @@ import { newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import { EMPTY_STATS } from "../../src/engine/types";
 import {
+  ALL_HISTORY_KEYS,
+  FIRST_DAILY,
   HISTORY_LENGTH,
   LEGACIES,
   OBJECTIVES,
   allUnlockTokens,
   codexProgress,
+  dailyNumber,
   dailySeed,
   dailySeedFor,
+  dayIndex,
+  dayKey,
+  daysOfMonth,
   emptyMeta,
   foldRun,
   migrateMeta,
+  shiftMonth,
+  streakOf,
   todayKey,
+  weekdayOf,
 } from "../../src/meta";
 import { findEpilogue, epilogueKey } from "../../src/engine/endings";
 import { META_SAVE_VERSION } from "../../src/version";
@@ -137,11 +146,20 @@ describe("foldRun", () => {
     expect(two.meta.alignsPlayed.sort()).toEqual(["left", "right"]);
   });
 
-  it("records a daily result only when the run was a daily one", () => {
+  it("logs a daily only when the run was that day's daily, once a day, the first kept", () => {
     const run = finished({ endingId: "riots", epilogueKey: "decay:left:1" });
-    expect(foldRun(library, emptyMeta(), run).meta.daily).toBeNull();
-    const daily = foldRun(library, emptyMeta(), run, { day: "2026-09-21", seed: 42 }).meta.daily;
-    expect(daily).toMatchObject({ day: "2026-09-21", seed: 42, cards: 40, endingId: "riots" });
+    expect(foldRun(library, emptyMeta(), run).meta.dailies).toEqual([]);
+    // A run dealt from another seed is not that day's daily, whatever it was started as.
+    expect(foldRun(library, emptyMeta(), run, { day: "2026-09-21", seed: run.seed + 1 }).daily).toBeNull();
+    const one = foldRun(library, emptyMeta(), run, { day: "2026-09-21", seed: run.seed });
+    expect(one.daily).toEqual({ day: "2026-09-21", history: one.history!.key, ending: "riots", cards: 40 });
+    expect(one.meta.dailies).toEqual([one.daily]);
+    const again = foldRun(library, one.meta, { ...run, cardCount: 90 }, { day: "2026-09-21", seed: run.seed });
+    expect(again.daily).toBeNull();
+    expect(again.meta.dailies).toEqual(one.meta.dailies);
+    // A daily left and finished after a later one goes in its own place.
+    const earlier = foldRun(library, one.meta, run, { day: "2026-09-19", seed: run.seed });
+    expect(earlier.meta.dailies.map((d) => d.day)).toEqual(["2026-09-19", "2026-09-21"]);
   });
 });
 
@@ -177,7 +195,32 @@ describe("meta save", () => {
     const m = emptyMeta();
     expect(migrateMeta(JSON.parse(JSON.stringify(m)))).toEqual(m);
     const sparse = migrateMeta({ v: 1, runs: 3 });
-    expect(sparse).toMatchObject({ v: META_SAVE_VERSION, runs: 3, endings: {}, unlocks: [], daily: null });
+    expect(sparse).toMatchObject({ v: META_SAVE_VERSION, runs: 3, endings: {}, unlocks: [], dailies: [] });
+  });
+
+  it("brings the one daily a v5 profile kept into the log, and leaves out what is not a day", () => {
+    const v5 = migrateMeta({ v: 5, runs: 2, daily: { day: "2026-09-22", seed: 9, cards: 61, endingId: "riots", band: "decay" } })!;
+    expect(v5.dailies).toEqual([{ day: "2026-09-22", history: null, ending: "riots", cards: 61 }]);
+    expect("daily" in v5).toBe(false);
+    // A profile can arrive in a link anyone can send (phase 33).
+    const junk = migrateMeta({
+      v: 6,
+      dailies: [
+        null,
+        3,
+        { day: "2026-02-30", ending: "riots", cards: 1 },
+        { day: "yesterday", ending: "riots", cards: 1 },
+        { day: "2026-09-20", ending: 5, cards: 1 },
+        { day: "2026-09-23", history: "x", ending: "riots", cards: 12 },
+        { day: "2026-09-21", history: 7, ending: "coup", cards: 30 },
+        { day: "2026-09-23", history: null, ending: "coup", cards: 99 },
+      ],
+    })!;
+    expect(junk.dailies).toEqual([
+      { day: "2026-09-21", history: null, ending: "coup", cards: 30 },
+      { day: "2026-09-23", history: "x", ending: "riots", cards: 12 },
+    ]);
+    expect(migrateMeta({ v: 6, dailies: "lots" })!.dailies).toEqual([]);
   });
 
   it("refuses junk and versions from the future", () => {
@@ -343,5 +386,63 @@ describe("the codex as a history", () => {
     expect(p.storiesTotal).toBeGreaterThan(p.endingsTotal);
     expect(p.legaciesTotal).toBe(Object.keys(LEGACIES).length);
     expect(p.storiesSeen).toBe(0);
+  });
+});
+
+describe("the daily, day by day (BACKLOG-5 phase 38)", () => {
+  const log = (...days: string[]) => days.map((day) => ({ day }));
+
+  it("numbers each day from the first daily the game dealt", () => {
+    expect(dailyNumber(FIRST_DAILY)).toBe(1);
+    expect(dailyNumber("2026-09-23")).toBe(3);
+    expect(dailyNumber("2027-09-21")).toBe(366);
+    // No daily was dealt before the first, and a phone that has lost its clock says 1970.
+    expect(dailyNumber("2026-09-20")).toBeNull();
+    expect(dailyNumber("1970-01-01")).toBeNull();
+    expect(dailyNumber("not a day")).toBeNull();
+  });
+
+  it("counts days in a row, alive through today while today's is still to play", () => {
+    expect(streakOf([], "2026-09-23")).toEqual({ current: 0, best: 0 });
+    expect(streakOf(log("2026-09-21", "2026-09-22", "2026-09-23"), "2026-09-23")).toEqual({ current: 3, best: 3 });
+    expect(streakOf(log("2026-09-21", "2026-09-22"), "2026-09-23")).toEqual({ current: 2, best: 2 });
+  });
+
+  it("breaks the streak on a missed day", () => {
+    expect(streakOf(log("2026-09-20", "2026-09-21"), "2026-09-23")).toEqual({ current: 0, best: 2 });
+    expect(streakOf(log("2026-09-18", "2026-09-19", "2026-09-20", "2026-09-22", "2026-09-23"), "2026-09-23")).toEqual({ current: 2, best: 3 });
+    expect(streakOf(log("2026-09-18", "2026-09-19", "2026-09-20", "2026-09-22"), "2026-09-23")).toEqual({ current: 1, best: 3 });
+  });
+
+  it("runs on across months, years and a leap day", () => {
+    expect(streakOf(log("2026-09-30", "2026-10-01"), "2026-10-01").current).toBe(2);
+    expect(streakOf(log("2026-12-31", "2027-01-01"), "2027-01-01").current).toBe(2);
+    expect(streakOf(log("2028-02-28", "2028-02-29", "2028-03-01"), "2028-03-01").current).toBe(3);
+    expect(streakOf(log("2027-02-28", "2027-03-01"), "2027-03-01").current).toBe(2);
+  });
+
+  it("lays a month out in weeks from a Monday", () => {
+    expect(daysOfMonth("2026-09")).toHaveLength(30);
+    expect(daysOfMonth("2028-02")).toHaveLength(29);
+    expect(daysOfMonth("2026-09")[0]).toBe("2026-09-01");
+    expect(weekdayOf("2026-09-21")).toBe(0);
+    expect(weekdayOf("2026-09-27")).toBe(6);
+    expect(weekdayOf("2026-09-01")).toBe(1);
+    expect(shiftMonth("2026-12", 1)).toBe("2027-01");
+    expect(shiftMonth("2026-01", -1)).toBe("2025-12");
+    expect(dayIndex("2026-02-30")).toBeNaN();
+    expect(dayKey(dayIndex("2028-02-29"))).toBe("2028-02-29");
+  });
+
+  it("keeps a year of dailies under 40 KB", () => {
+    // Every day of a leap year, each carrying the longest history and ending the log can hold.
+    const history = ALL_HISTORY_KEYS.reduce((a, b) => (b.length > a.length ? b : a));
+    const ending = [...library.endings.keys()].reduce((a, b) => (b.length > a.length ? b : a));
+    const first = dayIndex("2028-01-01");
+    const dailies = Array.from({ length: 366 }, (_, i) => ({ day: dayKey(first + i), history, ending, cards: 105 }));
+    const bytes = new TextEncoder().encode(JSON.stringify(dailies)).length;
+    expect(bytes).toBeLessThan(40_000);
+    // And it comes back whole through the migration a saved profile goes through.
+    expect(migrateMeta(JSON.parse(JSON.stringify({ ...emptyMeta(), dailies })))!.dailies).toEqual(dailies);
   });
 });

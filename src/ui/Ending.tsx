@@ -6,7 +6,8 @@ import { MANDATES_BY_ID } from "../engine/mandates";
 import { otherSide, replays } from "../engine/replay";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
-import { LEGACIES, OBJECTIVES_BY_ID, historyOf, type RunFold } from "../meta";
+import { LEGACIES, OBJECTIVES_BY_ID, dailyNumber, historyOf, monthOf, todayKey, type RunFold } from "../meta";
+import { DailyMonth, dailyName, streakLine } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { runRecord, timeline } from "./record";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
@@ -24,6 +25,8 @@ interface Props {
   onSettings: () => void;
   /** Go back to the k-th card and take the other side (BACKLOG-5 phase 34). */
   onTakeOtherRoad?: (k: number) => void;
+  /** Today's UTC day, for the streak; the clock's by default. */
+  today?: string;
 }
 
 /**
@@ -35,7 +38,7 @@ interface Props {
  * Read top to bottom it goes: the world you left, what history calls it, what became of the
  * decisions that made it, how it went, what you did with the office, and the long view.
  */
-export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onTakeOtherRoad }: Props) {
+export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onTakeOtherRoad, today = todayKey() }: Props) {
   const scene = useRef<HTMLElement>(null);
   // The run screen and everything that had focus have just gone. Land on the history's
   // name, so a screen reader starts where a sighted player's eye does (BACKLOG-5 phase 30).
@@ -62,8 +65,10 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const shown = new Set(history.consequences.map((c) => c.flag));
   const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f)).map((f) => LEGACIES[f]!);
   const when = STRINGS.world.when[Math.min(state.era, STRINGS.world.when.length) - 1] ?? "";
-  // A daily is marked in the text, so the people it goes to know they can play the same one.
-  const dailyDay = fold?.meta.daily?.seed === state.seed ? fold.meta.daily.day : undefined;
+  // A daily is marked in the text by its number, so a group can compare without links
+  // (BACKLOG-5 phase 38). Only the run that went into the log as the day's daily says so.
+  const daily = fold?.daily ?? null;
+  const dailyDay = daily?.day;
 
   // Another road from any decision that shaped this one, where the run can be retraced to it
   // (BACKLOG-5 phase 34). A second road shows both instead, and does not branch again.
@@ -87,7 +92,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     const svg = scene.current?.querySelector("svg");
     // The picture is the best part and still optional: a failed render shares the words.
     const card = svg
-      ? await renderCard(svg, { when, kicker: STRINGS.after.calls, title: history.title, facts: runFacts(state, endingTitle) }).catch(() => null)
+      ? await renderCard(svg, { when, kicker: STRINGS.after.calls, title: history.title, facts: runFacts(state, endingTitle), number: (dailyDay && dailyNumber(dailyDay)) || undefined }).catch(() => null)
       : null;
     const slug = history.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     setSharing(await shareRun(text, card, `rule-or-drool-${slug}.png`));
@@ -146,6 +151,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
             {sharing === "shared" ? STRINGS.share.shared : sharing === "copied" ? STRINGS.share.copied : sharing === "failed" ? STRINGS.share.failed : ""}
           </p>
         </div>
+        {daily && fold && (
+          <p className="daily-mark">
+            {dailyName(daily.day)} · {streakLine(fold.meta.dailies, today)}
+          </p>
+        )}
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
 
         <section className="became">
@@ -208,6 +218,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           </p>
           <p>{epilogue?.text ?? "The record ends here."}</p>
         </section>
+        {daily && fold && <DailyMonth lib={lib} dailies={fold.meta.dailies} today={today} month={monthOf(daily.day)} streak={false} />}
         {fold && (fold.newObjectives.length > 0 || fold.newUnlocks.length > 0 || fold.newEnding || fold.newHistory) && (
           <section className="earned">
             <h2>{STRINGS.ui.earned}</h2>

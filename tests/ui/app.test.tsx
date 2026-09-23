@@ -89,7 +89,7 @@ describe("App", () => {
   it("records a finished run in the codex and offers a daily run", () => {
     vi.useFakeTimers();
     render(<App />);
-    expect(screen.getByRole("button", { name: "Daily run" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /^Daily #\d+$/ })).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Take office" }));
     // Drive the run into a meter extreme so it ends quickly.
     for (let i = 0; i < 400 && !document.querySelector(".ending"); i++) {

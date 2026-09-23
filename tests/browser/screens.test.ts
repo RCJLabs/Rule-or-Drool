@@ -6,6 +6,7 @@ import { STRINGS } from "../../src/content/strings";
 import { MANDATES } from "../../src/engine/mandates";
 import { rollSetup } from "../../src/engine/state";
 import { encodeRunCode } from "../../src/meta/runcode";
+import { emptyMeta } from "../../src/meta/state";
 import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
@@ -97,6 +98,70 @@ describe.skipIf(!target)("in a browser", () => {
         await page.waitForSelector(".shared-run");
         failures.push(...(await contrast(page, label)));
         failures.push(...(await misfits(page, label, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+  });
+
+  /**
+   * The month of dailies (BACKLOG-5 phase 38). It is drawn at the end of a daily in whatever
+   * look the run ended in, so it is read in each of the seven. The clock is fixed, because
+   * the daily is dealt from the date. Ending a run reloads the page in the middle of it, so
+   * each of these is also a daily left and taken up again, which must still count as one.
+   */
+  describe("the daily, day by day", () => {
+    const AT = "2026-09-23T12:00:00Z";
+    // The drift a run ends on, and whose decisions it carries. Decay's own decisions take
+    // another 16 off at the finale, which would carry the first two decay looks past theirs.
+    const ENDS: [look: string, drift: number, way: "ascent" | "decay" | "muddle"][] = [
+      ["muddle", 0, "muddle"],
+      ["decay1", -13, "muddle"],
+      ["decay2", -26, "muddle"],
+      ["decay3", -58, "decay"],
+      ["ascent1", 13, "ascent"],
+      ["ascent2", 27, "ascent"],
+      ["ascent3", 58, "ascent"],
+    ];
+
+    it("reads its month at the end of a daily, in all seven looks, on the smallest phone", async () => {
+      const failures: string[] = [];
+      for (const [look, drift, way] of ENDS) {
+        const page = await open(browser, { width: 360, height: 640, at: AT });
+        await page.getByRole("button", { name: "Daily #3", exact: true }).click();
+        await page.waitForSelector(".card");
+        await endRun(page, { ...LATE[way], drift });
+        if ((await lookOf(page)) !== look) failures.push(`meant to end in ${look}, ended in ${await lookOf(page)}`);
+        if (!(await page.isVisible(".daily-month"))) failures.push(`${look}: the daily was not counted, so its month is not shown`);
+        failures.push(...(await contrast(page, `the daily's end in ${look}`)));
+        failures.push(...(await misfits(page, `the daily's end in ${look}`, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    it("reads on the menu and in the codex with a month in it, plain screen on and off", async () => {
+      // Three weeks in: the first three dailies, then an October with days missed, a streak
+      // running and today's still to play.
+      const day = (d: string, ending = "riots") => ({ day: d, history: "habit_skim:decay:left", ending, cards: 61 });
+      const dailies = ["2026-09-21", "2026-09-22", "2026-09-23", "2026-10-01", "2026-10-02", "2026-10-04", "2026-10-12", "2026-10-13"];
+      const meta = { ...emptyMeta(), runs: 8, dailies: dailies.map((d, i) => day(d, ["riots", "finale_muddle", "abandoned_backers"][i % 3])) };
+      const failures: string[] = [];
+      for (const readable of [false, true]) {
+        const page = await open(browser, { width: 360, height: 640, at: "2026-10-14T12:00:00Z", settings: { readable } });
+        await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+        await page.reload();
+        await page.waitForSelector(".menu-streak");
+        const label = `plain screen ${readable ? "on" : "off"}`;
+        failures.push(...(await contrast(page, `menu, ${label}`)));
+        failures.push(...(await misfits(page, `menu, ${label}`, { mayScroll: true })));
+        await page.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
+        await page.waitForSelector(".codex .daily-month");
+        failures.push(...(await contrast(page, `codex, ${label}`)));
+        failures.push(...(await misfits(page, `codex, ${label}`, { mayScroll: true })));
+        await page.getByRole("button", { name: STRINGS.daily.earlier }).click();
+        await page.getByRole("heading", { name: "September 2026" }).waitFor();
+        failures.push(...(await contrast(page, `codex, September, ${label}`)));
         await close(page);
       }
       expect(failures).toEqual([]);

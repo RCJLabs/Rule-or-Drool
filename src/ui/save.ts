@@ -6,15 +6,29 @@ import { RUN_SAVE_VERSION } from "../version";
 const RUN_KEY = "rod.run";
 const HINT_KEY = "rod.hintSeen";
 
+/** Which day's daily a run is, when it is one. */
+export interface DailyMark {
+  day: string;
+  seed: number;
+}
+
 interface RunSave {
   v: number;
   state: GameState;
+  /**
+   * Set while the run is a daily (BACKLOG-5 phase 38). It lived only in memory, so a daily
+   * left for later and reopened in a new tab finished as an ordinary run: the day went
+   * unrecorded and the menu offered it again. It sits beside the state rather than in it
+   * because it is about the profile, not the run, which plays the same either way; an older
+   * save without it resumes as an ordinary run, as it always did.
+   */
+  daily?: DailyMark | null;
 }
 
 /** Run state is saved after every step. Meta progression gets its own key in phase 6. */
-export function saveRun(state: GameState): void {
+export function saveRun(state: GameState, daily: DailyMark | null = null): void {
   try {
-    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state } satisfies RunSave));
+    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily } satisfies RunSave));
   } catch {
     // Storage unavailable (private mode, quota). The run just is not resumable.
   }
@@ -84,6 +98,19 @@ export function loadRun(): GameState | null {
     const s = parsed.state;
     if (typeof s.seed !== "number" || typeof s.cardCount !== "number" || !s.meters || !Array.isArray(s.flags)) return null;
     return migrateRun(parsed.v, s);
+  } catch {
+    return null;
+  }
+}
+
+/** The saved run's daily, if it is one and still the run saved beside it. */
+export function loadRunDaily(): DailyMark | null {
+  try {
+    const raw = localStorage.getItem(RUN_KEY);
+    if (!raw) return null;
+    const { state, daily } = JSON.parse(raw) as Partial<RunSave>;
+    if (!daily || typeof daily.day !== "string" || typeof daily.seed !== "number") return null;
+    return state?.seed === daily.seed ? { day: daily.day, seed: daily.seed } : null;
   } catch {
     return null;
   }
