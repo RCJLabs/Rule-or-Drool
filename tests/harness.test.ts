@@ -71,7 +71,13 @@ describe("the long reign's targets", () => {
   it("meets every target", () => {
     const eraCount = library.config.longEraCount;
     const bots: BotName[] = ["random", "greedy", "mixed"];
-    const results = simulate(library, { runs: 1500, seed: 1, bots, align: "alternate", danger: 25, maxCards: 1000, eraCount });
+    // The mixed bot plays more of them: Decay is the hard place by about 5 points, measured
+    // on the Decay-locked quarter of its reigns, and at 1,500 runs that quarter is small enough
+    // that one sample put it at 1.9 and another of the same content at 5 (BACKLOG-6 phase 42).
+    const results = new Map([
+      ...simulate(library, { runs: 1500, seed: 1, bots: ["random", "greedy"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
+      ...simulate(library, { runs: 4000, seed: 1, bots: ["mixed"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
+    ]);
     const s = new Map<BotName, BotSummary>();
     for (const bot of bots) s.set(bot, summarize(bot, results.get(bot)!));
     const misses = evaluateLongTargets(s, eraCount).filter((t) => !t.info && !t.pass);
@@ -84,7 +90,7 @@ describe("the long reign's targets", () => {
         expect(r.relaxed.band + r.relaxed.era).toBe(0);
       }
     }
-  }, 120000);
+  }, 180000);
 });
 
 // BACKLOG-5 phase 36: by their tenth run, 89% of a player's cards were ones they had played
@@ -208,5 +214,37 @@ describe("the questions", () => {
       by.push(seen.size === questions.length ? run : Infinity);
     }
     expect(quantiles(by).median).toBeLessThanOrEqual(20);
+  }, 120000);
+});
+
+// BACKLOG-6 phase 42: an answer comes back in the eras after it. Of the questions a competent
+// run answered, in runs that reached era 2, 73% met a card that came of the answer (4,000 runs
+// on two seed sets); the target is 60%.
+describe("the answers come back", () => {
+  it("meets something that came of an answer in at least 60% of the runs that reached era 2", () => {
+    let pairs = 0;
+    let met = 0;
+    for (let i = 0; i < 2000; i++) {
+      const seed = 500_000 + i;
+      const rng = makeRng(seed ^ 0x5bd1e995);
+      let s: GameState = newRun(library, seed, rollSetup(library, seed, i % 2 ? "left" : "right", []));
+      const answered = new Set<string>();
+      const seen = new Set<string>();
+      while (!s.over) {
+        s = draw(library, s);
+        const card = getCard(library, s.current!);
+        seen.add(card.id);
+        const side = BOTS.mixed(makeContext(library, s, card, rng, { danger: 25 }));
+        if (questionOf(library, card) !== undefined && card.step === 1) for (const f of card[side].setFlags ?? []) answered.add(f);
+        s = resolve(library, s, card.id, side);
+      }
+      if (s.era < 2) continue;
+      for (const f of answered) {
+        pairs++;
+        if ([...seen].some((id) => library.cards.get(id)!.cond?.flags?.includes(f))) met++;
+      }
+    }
+    expect(pairs).toBeGreaterThan(3000);
+    expect(met / pairs).toBeGreaterThanOrEqual(0.6);
   }, 120000);
 });

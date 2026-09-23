@@ -11,8 +11,8 @@ that follow from it.
 | App name | Rule or Drool | 13 / 30 |
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
-**Full description** (2,162 / 4,000 characters). Every number in it was checked
-against the content when written: 1,223 cards, 22 stories and 16 questions, 30 advisors, 42
+**Full description** (2,207 / 4,000 characters). Every number in it was checked
+against the content when written: 1,351 cards, 22 stories and 16 questions, 30 advisors, 42
 endings, 585 history names. Re-check them if the content changes.
 
 ```
@@ -23,8 +23,8 @@ The catch: the easy choice now is the ruinous choice later. The bridge you did n
 HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
-• Sixteen questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, raise the minimum wage, control the rents, price carbon, bail out the banks. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes.
-• 1,223 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
+• Sixteen questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, raise the minimum wage, control the rents, price carbon, bail out the banks. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes, and the answer comes back in the eras after.
+• 1,351 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
@@ -120,7 +120,7 @@ and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
 
 ## Content rating questionnaire (IARC)
 
-These are notes to answer from, not answers. The 1,223 cards were searched for each theme the
+These are notes to answer from, not answers. The 1,351 cards were searched for each theme the
 questionnaire asks about:
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people
@@ -146,8 +146,10 @@ questionnaire asks about:
   has become a vineyard. **Illegal drugs are referred to** since v0.53.0, as policy: a question
   asks whether to legalise and tax drugs or crack down on them, and its cards mention dealers,
   seized drugs resold by police, a cartel, and tobacco firms' packets turning up in school
-  playgrounds. No drug is named and no one is shown or described taking one. The
-  questionnaire asks about references to illegal drugs; answer it from this.
+  playgrounds. No drug is named and no one is shown or described taking one. The cards that
+  follow each answer later in a run (v0.54.0) add more of the same kind: the drug squads
+  turned into a dynasty that sells what it seized, and legal drug firms sponsoring the
+  schools. The questionnaire asks about references to illegal drugs; answer it from this.
 - **Gambling:** a national lottery appears as policy satire (its surplus, an evening draw,
   its results read out on a loyalty broadcast), and a casino asks for a licence. There is no
   simulated gambling and nothing to buy.
@@ -163,7 +165,8 @@ questionnaire asks about:
   going to war for an ally, deporting everyone without papers, the top tax rate, universal
   health care, and since v0.53.0 the minimum wage, rent control, a carbon price, tariffs, the
   pension age, student debt, the drug laws, police and prisons, face recognition, a law against
-  misinformation, adding seats to the highest court, and bailing out banks. Each is asked of
+  misinformation, adding seats to the highest court, and bailing out banks. Since v0.54.0
+  each answer comes back in the eras after it, whichever party gave it. Each is asked of
   both parties, and the game does not score the answer, only
   how it is carried out. No real country, party, person, faith or slogan appears; a test
   (`tests/guardrails.test.ts`) searches everything the game can show for them.

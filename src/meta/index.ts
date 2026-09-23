@@ -2,6 +2,7 @@ export * from "./types";
 export * from "./objectives";
 export * from "./legacies";
 export * from "./histories";
+export * from "./questions";
 export * from "./daily";
 export * from "./runcode";
 export * from "./challenge";

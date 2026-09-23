@@ -465,6 +465,10 @@ export const STRINGS = {
     empty: "Play a run and this fills in.",
     // The history half (BACKLOG item 10): what you did, not only how you died.
     stories: "Stories",
+    // The questions, and how you have answered each across your runs (BACKLOG-6 phase 42).
+    questions: "The questions",
+    questionsShort: "Questions",
+    notAsked: "Not asked yet",
     legacies: "What the country was left with",
     histories: "What history called you",
     historiesShort: "Histories",

@@ -1,11 +1,12 @@
 import { arcOutcomes, epilogueKey, nearMisses } from "../engine/endings";
-import type { Library } from "../engine/library";
+import { questionOf, type Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
 import { ALL_HISTORY_KEYS, historyOf, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { OBJECTIVES } from "./objectives";
+import { answeredQuestions } from "./questions";
 import type { DailyEntry, MetaState, RunRecord } from "./types";
 
 /** How many past runs the codex keeps. */
@@ -152,9 +153,15 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
 export interface CodexProgress {
   endingsSeen: number;
   endingsTotal: number;
-  /** Story outcomes: the collectible that rewards playing an arc out (BACKLOG item 10). */
+  /**
+   * Story outcomes: the collectible that rewards playing an arc out (BACKLOG item 10). The
+   * questions are arcs too, but they are counted apart, by how they were answered.
+   */
   storiesSeen: number;
   storiesTotal: number;
+  /** Questions answered at least once, of all the questions (BACKLOG-6 phase 42). */
+  questionsAsked: number;
+  questionsTotal: number;
   legaciesSeen: number;
   legaciesTotal: number;
   historiesSeen: number;
@@ -166,13 +173,21 @@ export interface CodexProgress {
 }
 
 export function codexProgress(lib: Library, meta: MetaState): CodexProgress {
+  const questions = answeredQuestions(lib, meta);
   return {
     endingsSeen: Object.keys(meta.endings).length,
     endingsTotal: lib.endings.size,
     epiloguesSeen: meta.epilogues.length,
     epiloguesTotal: new Set(lib.epilogues.map(epilogueKey)).size,
-    storiesSeen: meta.arcOutcomes.length,
-    storiesTotal: [...lib.arcs.keys()].reduce((n, id) => n + arcOutcomes(lib, id).length, 0),
+    // Only outcomes of stories this deck still has: a profile can carry one of a card an update
+    // took out, as the left's last step of the war was in phase 42.
+    storiesSeen: meta.arcOutcomes.filter((key) => {
+      const card = lib.cards.get(key.split(":")[0]!);
+      return card?.arc !== undefined && questionOf(lib, card) === undefined;
+    }).length,
+    storiesTotal: [...lib.arcs.values()].filter((a) => a.question === undefined).reduce((n, a) => n + arcOutcomes(lib, a.id).length, 0),
+    questionsAsked: questions.filter((q) => q.asked > 0).length,
+    questionsTotal: questions.length,
     legaciesSeen: Object.keys(meta.legacies).length,
     legaciesTotal: Object.keys(LEGACIES).length,
     historiesSeen: Object.keys(meta.histories ?? {}).length,

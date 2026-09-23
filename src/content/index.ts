@@ -78,6 +78,7 @@ import questionCameras from "./cards/questions/cameras.json";
 import questionSpeech from "./cards/questions/speech.json";
 import questionCourts from "./cards/questions/courts.json";
 import questionBanks from "./cards/questions/banks.json";
+import comebacks from "./cards/comebacks.json";
 import consequences from "./cards/consequences.json";
 import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
@@ -198,6 +199,8 @@ export const content: Content = {
     ...asCards(questionSpeech, "questions/speech.json"),
     ...asCards(questionCourts, "questions/courts.json"),
     ...asCards(questionBanks, "questions/banks.json"),
+    // What comes of each answer, in the eras after it (BACKLOG-6 phase 42).
+    ...asCards(comebacks, "comebacks.json"),
     ...asCards(consequences, "consequences.json"),
     ...asCards(chains, "chains.json"),
     ...asCards(promises, "promises.json"),

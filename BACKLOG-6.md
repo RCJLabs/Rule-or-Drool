@@ -564,7 +564,153 @@ schools.
 
 </details>
 
-## Phase 42. The answers come back — *queued*
+## Phase 42. The answers come back — *done*
+
+**Shipped.** Every answer to every question now comes back in the eras after it:
+- **128 cards**, four per answer: one in era 2, one in era 3, and two centuries on in eras
+  4–5 (one for a reign locked in Decay, one for Muddle and Ascent). Each reads the answer's
+  legacy, so a run meets only what its own answers left behind: the veterans' pensions and
+  the war debt, the empty fields and the deported citizens' children, the tax cut's interest
+  and the money that left, the health service at seventy-five or the hospitals the market
+  closed, and so on for all sixteen.
+- **Shared by both sides.** Both sides are asked every question and give the same two
+  answers, so each card serves whichever side gave the answer. As in the deck's other shared
+  cards, no coalition is named. Each is written to read true whichever way the answer was
+  carried out. Honest is on the left, as on every era 2–5 card.
+- **The codex has the questions.** A new section lists each question, blank until it has
+  been asked, and then how often you gave each answer across your runs ("Send the army 2 ·
+  Stay out of it 1"). The count at the top shows how many of the sixteen you have been asked.
+  It is read from the legacies a profile already keeps, so nothing new is saved. The
+  questions no longer count as stories there.
+- **The end screen already names it.** The "what became of it" list shows the first four
+  legacies a run carries, each with its "after" line, and phases 40–41 wrote those lines for
+  every answer. 90% of the questions a competent run answers are on that list. The rest are
+  named in its "also" line.
+
+**How it was built:**
+- **Drawn from the deck, not queued.** A queued card would arrive a fixed number of cards
+  later whatever the era, and the targets ask for one in each era. Placeholder cards set the
+  weight first: at weight 1 a competent run met a comeback for 25% of its answers, at 3 for
+  56%, and at 5 for 74%. They are weight 5, and each comes once a run.
+- **The war cost more afterwards than staying out.** The veterans' pensions and the war
+  debt cost 10 money on the honest side against 4 for staying out's comebacks. That tipped
+  Decay 7.7 points toward the war on the right. The money is even now. The top rate's
+  comebacks were evened the same way: the cut's fast options paid and the tax's cost.
+- **The treaty's honest ending moved on the left.** Both sides had it on the war (*The Last
+  Signature*). A player who will not resign pays for that road's extra step, so the war
+  answer leaned toward Decay on both sides. Every later question puts its honest ending on
+  each side's own base's policy. The left's is now on staying out: the photograph of our
+  shells wins a prize abroad, and you say you knew (*In Those Words*). The right keeps *The
+  Last Signature*. The right's war road also costs the Donors 3 twice where it cost 4.
+- **Two centuries on is written twice.** 96 cards for any band left 19.7% of the deck
+  written for a band, under the 20% that keeps the band you are in visible. A long reign's
+  band is locked after its third era, so what is left of each answer two centuries on is
+  now written for Decay and for the rest: 32 cards more. "The health service is the oldest
+  thing that still works" was not true in a reign that went down.
+
+**Measured.** The mixed bot:
+
+| Target | Wanted | Now |
+|---|---|---|
+| A card that reads each answer in era 2, era 3, and eras 4–5 | every answer | all 32, every band |
+| Answered a question, reached era 2, met something that came of it | ≥ 60% | 73.4% and 73.2% (two seed sets) |
+| The least-met answer | – | 66% (rents controlled) |
+| In a long reign | – | 98.2% |
+| No decision names more than 15% of histories | ≤ 15% | 8.3% |
+
+A competent run meets 2.9 comebacks: 1.3 in era 2 and 1.5 in era 3. A long reign meets 2.8
+more, nearly all in era 4, where each answer's card becomes eligible at weight 5.
+Random play meets one for 40% of its answers, because most of its runs end first.
+
+**Every question still keeps its answer out of the direction.** The paired-seed measure of
+phases 40–41, on 12,000 seeds a side (at least 2,129 runs a row):
+
+| Question | Side | Answer moves Ascent | Answer moves Decay | Honest road | Fast road | Gap |
+|---|---|---|---|---|---|---|
+| The treaty | left | 1.1 points | 0.6 points | 24.3% | 7.5% | +16.9 |
+| The treaty | right | 2.2 points | 3.0 points | 23.4% | 6.3% | +17.2 |
+| Without papers | left | 1.5 points | 1.3 points | 21.3% | 9.9% | +11.4 |
+| Without papers | right | 1.5 points | 0.4 points | 24.1% | 11.7% | +12.4 |
+| The top rate | left | 0.8 points | 3.3 points | 25.5% | 10.7% | +14.8 |
+| The top rate | right | 2.4 points | 2.4 points | 27.6% | 9.9% | +17.6 |
+| Everyone covered | left | 1.0 points | 0.7 points | 22.7% | 6.1% | +16.6 |
+| Everyone covered | right | 2.7 points | 3.9 points | 26.1% | 4.8% | +21.3 |
+| The minimum wage | left | 0.8 points | 0.4 points | 22.2% | 9.6% | +12.6 |
+| The minimum wage | right | 0.9 points | 0.6 points | 23.5% | 9.0% | +14.5 |
+| Somewhere to live | left | 0.7 points | 0.5 points | 23.5% | 8.7% | +14.8 |
+| Somewhere to live | right | 0.2 points | 1.4 points | 24.3% | 9.9% | +14.4 |
+| What we burn | left | 1.9 points | 2.6 points | 22.8% | 8.1% | +14.7 |
+| What we burn | right | 1.0 points | 2.1 points | 25.1% | 8.3% | +16.9 |
+| The last factories | left | 1.9 points | 2.6 points | 23.9% | 6.2% | +17.7 |
+| The last factories | right | 0.2 points | 1.8 points | 22.9% | 5.3% | +17.5 |
+| The pension age | left | 0.9 points | 1.5 points | 23.4% | 9.9% | +13.5 |
+| The pension age | right | 1.1 points | 1.0 points | 23.6% | 9.3% | +14.4 |
+| Student debt | left | 2.6 points | 3.5 points | 22.2% | 7.5% | +14.7 |
+| Student debt | right | 1.1 points | 0.5 points | 22.7% | 6.0% | +16.7 |
+| The drug laws | left | 0.3 points | 1.0 points | 22.4% | 8.6% | +13.7 |
+| The drug laws | right | 1.5 points | 1.4 points | 23.3% | 9.4% | +13.9 |
+| Crime and punishment | left | 0.8 points | 2.6 points | 21.2% | 9.2% | +12.0 |
+| Crime and punishment | right | 1.2 points | 1.4 points | 25.0% | 10.0% | +15.1 |
+| The cameras | left | 0.5 points | 0.5 points | 24.2% | 9.0% | +15.1 |
+| The cameras | right | 1.2 points | 1.3 points | 23.8% | 9.2% | +14.6 |
+| What counts as true | left | 2.2 points | 1.5 points | 21.9% | 5.9% | +16.1 |
+| What counts as true | right | 1.3 points | 2.8 points | 26.0% | 6.4% | +19.6 |
+| The highest court | left | 2.1 points | 3.1 points | 22.6% | 9.5% | +13.0 |
+| The highest court | right | 1.0 points | 1.1 points | 23.2% | 8.5% | +14.7 |
+| The failing banks | left | 1.6 points | 2.3 points | 21.7% | 9.7% | +12.0 |
+| The failing banks | right | 0.1 points | 1.0 points | 26.1% | 9.6% | +16.5 |
+
+The answer moves Ascent or Decay by at most 3.9 points (the target is 5), and the honest road
+reaches Ascent at least +11.4 points more often than the fast one (the target is +10).
+
+**Everything else still holds**, at 20,000 runs a bot:
+
+| Target | Wanted | v0.53.0 | Now |
+|---|---|---|---|
+| Random: median run length | 40–60 cards | 49 | 49 |
+| Random: most common ouster | ≤ 35% | bankruptcy 19.4% | bankruptcy 18.7% |
+| Greedy: ends in Decay | ≥ 70% | 81.1% | 80.6% |
+| Saint: ousted before era 2 | ≥ 60% | 100% | 100% |
+| Mixed: reaches Ascent | 15–30% | 20.1% | 19.7% |
+| A player's tenth run: cards seen before | under 75% | 68.6% | 64.8% |
+| Long reign: all six targets | as phase 39 | pass | pass |
+| Questions: a run meets three (median), each met in ≥ 15% of runs | phase 41 | 3; 17.0–19.4% | 3; 16.9–19.2% |
+| A player has met all sixteen by (median) | run 20 | run 15 | run 17 |
+
+- **Stories:** every story is met in at least 85.7% as many runs as with no questions.
+- **Whole-run roads:** carrying every answer out honestly reaches Ascent 33.4% of the time on
+  the left and 35.3% on the right, against 0.7% and 0.5% for the fast road.
+- **The download** grew by 10.5 KB gzipped: the content file went from 146.8 KB to 157.0 KB.
+
+**Also checked:**
+- The unit suite is 572 tests and the browser suite 41. The new tests cover:
+  - every answer read in each era and each long-reign band;
+  - the comebacks shared, once a run, and naming no coalition;
+  - the 60% reach, as a harness test on 2,000 runs;
+  - the codex's questions and its counts, including that an outcome of a card an update took
+    out is not counted as a story.
+- **Two tests changed, and why:**
+  - **Section 10's shared-card share** leaves out the comebacks, as it already left out
+    cards written for one crisis or one advisor. Such a card serves both sides and is dealt
+    only when its answer was given. The 128 shared cards would otherwise have taken the share
+    to 64%, against a limit of 60%.
+  - **The long reign's targets** play the mixed bot 4,000 times instead of 1,500. "Decay is
+    the hard place" is measured on the quarter of its reigns locked in Decay. At 1,500 runs
+    one sample put the gap at 1.9 points and another, on the same content, at 5. With and
+    without the comebacks, 12,000-run samples put it at 4.4–5.8.
+
+**Yours:**
+- **The cards are drafts.** 128 cards, written to the deck's rules and measured, but not
+  edited by you. The treaty's new last step on the left is too.
+- **The content rating.** The comebacks add more references to drugs of the same kind, as
+  policy: a drug squad that became a dynasty selling what it seized, and drug firms
+  sponsoring schools. `twa/STORE.md` has the notes.
+- **A player meets all sixteen questions two runs later** than at v0.53.0 (the 17th run,
+  median). That is still inside the 20.
+- **Old links and replays:** as with any change to the deck, a run code from before this
+  version deals differently, and a run finished before it cannot take the other road.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - Of the cards a run can draw in era 1, 126–131 per side turn up in fewer than 5% of runs.
@@ -596,6 +742,8 @@ schools.
 
 **Cost.** About three cards per road. For sixteen questions that is around 100 cards, plus
 the codex section.
+
+</details>
 
 ## Phase 43. Endings you choose — *queued*
 

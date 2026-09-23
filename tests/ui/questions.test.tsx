@@ -7,6 +7,8 @@ import { newRun } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import { Play } from "../../src/ui/Play";
 import { DEFAULT_SETTINGS } from "../../src/ui/settings";
+import { Codex } from "../../src/ui/Codex";
+import { emptyMeta } from "../../src/meta";
 
 /**
  * A question (BACKLOG-6 phase 40) says it is one, so a player knows this is the big decision,
@@ -66,5 +68,32 @@ describe("a question on the table", () => {
       expect(container.querySelector(".card")!.classList.contains("card-question")).toBe(false);
       cleanup();
     }
+  });
+});
+
+describe("the questions in the codex", () => {
+  const codex = (legacies: Record<string, number>) =>
+    render(<Codex lib={library} meta={{ ...emptyMeta(), legacies }} onBack={noop} onSettings={noop} today="2026-09-23" />);
+  const section = () => [...document.querySelectorAll("section")].find((s) => s.querySelector("h2")?.textContent === STRINGS.codex.questions)!;
+
+  it("keeps a question blank until it has been asked", () => {
+    codex({});
+    const rows = section().querySelectorAll("li");
+    expect(rows.length).toBe(Object.keys(STRINGS.questions.titles).length);
+    for (const row of rows) {
+      expect(row.classList.contains("locked")).toBe(true);
+      expect(row.textContent).not.toContain(STRINGS.questions.titles.treaty);
+    }
+  });
+
+  it("names one you have answered, and how often you gave each answer", () => {
+    const { container } = codex({ went_to_war: 2, stayed_out: 1 });
+    const found = section().querySelectorAll("li.found");
+    expect(found).toHaveLength(1);
+    expect(found[0]!.textContent).toContain(STRINGS.questions.titles.treaty);
+    expect(found[0]!.textContent).toContain("Send the army 2");
+    expect(found[0]!.textContent).toContain("Stay out of it 1");
+    // And the count at the top says one of the questions has been asked.
+    expect(container.querySelector(".codex-progress")!.textContent).toContain(`${STRINGS.codex.questionsShort} 1/`);
   });
 });

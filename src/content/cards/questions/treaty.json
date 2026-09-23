@@ -155,8 +155,7 @@
         "backers": 2,
         "inst": -3
       },
-      "drift": -12,
-      "next": "q_treaty_l_a4"
+      "drift": -12
     }
   },
   {
@@ -195,11 +194,12 @@
         "inst": -3,
         "public": 1
       },
-      "drift": -12
+      "drift": -12,
+      "next": "q_treaty_l_b4"
     }
   },
   {
-    "id": "q_treaty_l_a4",
+    "id": "q_treaty_l_b4",
     "type": "arc",
     "arc": "q_treaty_l",
     "step": 4,
@@ -214,20 +214,19 @@
       "muddle",
       "ascent"
     ],
-    "speaker": "general",
-    "text": "The corridor is in its third year. The enemy will sign a peace tomorrow, with anyone but you.",
+    "speaker": "spin",
+    "text": "The photograph of our shells won a prize abroad. The photographer has asked, from the stage, whether you knew.",
     "left": {
-      "label": "Sign it and step down",
+      "label": "Say that you knew",
       "drift": 8,
-      "ending": "last_signature"
+      "ending": "in_those_words"
     },
     "right": {
-      "label": "Keep the corridor open",
+      "label": "Call it a fake again",
       "fx": {
-        "order": 2,
-        "backers": 2,
-        "inst": -3,
-        "money": -2
+        "base": 2,
+        "order": 1,
+        "inst": -3
       },
       "drift": -12
     }
@@ -297,7 +296,7 @@
     "left": {
       "label": "Draft every family",
       "fx": {
-        "backers": -4,
+        "backers": -3,
         "base": -1,
         "inst": 3,
         "public": 1
@@ -376,7 +375,7 @@
     "left": {
       "label": "Add the names back",
       "fx": {
-        "backers": -4,
+        "backers": -3,
         "public": 2,
         "inst": 1
       },

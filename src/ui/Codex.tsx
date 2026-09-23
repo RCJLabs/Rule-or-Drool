@@ -2,7 +2,7 @@ import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, codexProgress, historyTitle, todayKey, type MetaState } from "../meta";
+import { HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, answeredQuestions, codexProgress, historyTitle, todayKey, type MetaState } from "../meta";
 import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
@@ -31,6 +31,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey() }: Pro
       return { key, n, title: historyTitle(key) ?? key, label: sig === NO_LEGACY ? "" : (LEGACIES[sig] ?? sig) };
     })
     .sort((a, b) => rank(a.key) - rank(b.key) || a.title.localeCompare(b.title));
+  const questions = answeredQuestions(lib, meta);
   const endings = [...lib.endings.values()];
   const epilogues = [...new Map(lib.epilogues.map((e) => [epilogueKey(e), e])).values()];
 
@@ -48,7 +49,8 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey() }: Pro
         </header>
 
         <p className="codex-progress">
-          {STRINGS.codex.stories} {p.storiesSeen}/{p.storiesTotal} · {STRINGS.codex.endings} {p.endingsSeen}/{p.endingsTotal} ·{" "}
+          {STRINGS.codex.stories} {p.storiesSeen}/{p.storiesTotal} · {STRINGS.codex.questionsShort} {p.questionsAsked}/{p.questionsTotal} ·{" "}
+          {STRINGS.codex.endings} {p.endingsSeen}/{p.endingsTotal} ·{" "}
           {STRINGS.codex.epilogues} {p.epiloguesSeen}/{p.epiloguesTotal} · {STRINGS.codex.legacies} {p.legaciesSeen}/{p.legaciesTotal} ·{" "}
           {STRINGS.codex.historiesShort} {p.historiesSeen}/{p.historiesTotal} ·{" "}
           {STRINGS.codex.objectives} {p.objectivesDone}/{p.objectivesTotal}
@@ -89,7 +91,8 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey() }: Pro
         <section>
           <h2>{STRINGS.codex.stories}</h2>
           <ul className="codex-list">
-            {[...lib.arcs.keys()].map((arcId) => {
+            {[...lib.arcs.values()].map(({ id: arcId, question }) => {
+              if (question !== undefined) return null;
               const outcomes = arcOutcomes(lib, arcId);
               const seen = outcomes.filter((o) => meta.arcOutcomes.includes(o.key));
               if (seen.length === 0) return null;
@@ -102,7 +105,21 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey() }: Pro
                 </li>
               );
             })}
-            {meta.arcOutcomes.length === 0 && <li className="locked">{STRINGS.codex.empty}</li>}
+            {p.storiesSeen === 0 && <li className="locked">{STRINGS.codex.empty}</li>}
+          </ul>
+        </section>
+
+        {/* Each question, and how you have answered it across your runs (BACKLOG-6 phase 42).
+            One you have not been asked stays blank, like everything else not yet found. */}
+        <section>
+          <h2>{STRINGS.codex.questions}</h2>
+          <ul className="codex-list">
+            {questions.map(({ id, answers, asked }) => (
+              <li key={id} className={asked ? "found" : "locked"}>
+                <b>{asked ? (STRINGS.questions.titles[id] ?? id) : "· · ·"}</b>
+                <span>{asked ? answers.map((a) => `${a.label} ${a.times}`).join(" · ") : STRINGS.codex.notAsked}</span>
+              </li>
+            ))}
           </ul>
         </section>
 

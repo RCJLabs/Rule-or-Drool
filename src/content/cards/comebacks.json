@@ -1,0 +1,5000 @@
+[
+  {
+    "id": "back_went_to_war_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The veterans of the ally's war are home, and the pensions they were promised are in a drawer at the treasury.",
+    "cond": {
+      "flags": [
+        "went_to_war"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay them in full",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "order": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay them in medals",
+      "fx": {
+        "money": 3,
+        "order": -1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_went_to_war_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The war for the ally is still on the books. Its debt is older than most of the soldiers who fought it.",
+    "cond": {
+      "flags": [
+        "went_to_war"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay it down",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Borrow to service it",
+      "fx": {
+        "money": 4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_went_to_war_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the ally's war has a museum. Nobody can agree what the last room should say.",
+    "cond": {
+      "flags": [
+        "went_to_war"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Say what it cost",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Say that we won",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_went_to_war_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the ally's war is a streaming drama. Its sponsor wants a different ending, and has offered to pay for it.",
+    "cond": {
+      "flags": [
+        "went_to_war"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the real ending",
+      "fx": {
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the ending",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_stayed_out_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The ally survived without us, just. Its ambassador has sent back the medal of friendship we gave it, second class.",
+    "cond": {
+      "flags": [
+        "stayed_out"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Send aid, openly",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Deny we were asked",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_stayed_out_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Our history books say we kept the peace. The ally's say we kept our distance. Both are taught to the same exchange students.",
+    "cond": {
+      "flags": [
+        "stayed_out"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Teach both",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "money": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ban theirs",
+      "fx": {
+        "base": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_stayed_out_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries after we stayed out, the ally's descendants want their version of it in our history lessons.",
+    "cond": {
+      "flags": [
+        "stayed_out"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Hear them out",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Seal the archive",
+      "fx": {
+        "order": 2,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_stayed_out_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Two centuries on, the ally's heirs run the lottery that pays our pensions. They draw our numbers last, every week.",
+    "cond": {
+      "flags": [
+        "stayed_out"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Ask them why, publicly",
+      "fx": {
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Buy more tickets",
+      "fx": {
+        "base": 2,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_mass_deportation_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The fields the deportations emptied have not been filled. The harvest is rotting in rows, and the farmers want someone back.",
+    "cond": {
+      "flags": [
+        "mass_deportation"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "A lawful work visa",
+      "fx": {
+        "base": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Look away at the border",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_mass_deportation_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Some of those deported were citizens. Their children, grown now, are suing for the passports they were born with.",
+    "cond": {
+      "flags": [
+        "mass_deportation"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Restore them",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Fight every case",
+      "fx": {
+        "base": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_mass_deportation_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the deportation lists are public. Half the country has found a grandparent on one.",
+    "cond": {
+      "flags": [
+        "mass_deportation"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Build a memorial",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Close the archive",
+      "fx": {
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_mass_deportation_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the deportation lists are a subscription service. For a fee it will tell you whether your grandparents counted.",
+    "cond": {
+      "flags": [
+        "mass_deportation"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Open it for free",
+      "fx": {
+        "money": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise the fee",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_papers_granted_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The new citizens have voted for the first time. Every party is suddenly very interested in their opinions.",
+    "cond": {
+      "flags": [
+        "papers_granted"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Court them honestly",
+      "fx": {
+        "inst": 2,
+        "money": -2,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Redraw their districts",
+      "fx": {
+        "base": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_papers_granted_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The generation given papers runs the hospitals, the farms and a third of the councils. Someone has proposed a loyalty test.",
+    "cond": {
+      "flags": [
+        "papers_granted"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the test",
+      "fx": {
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold the test",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_papers_granted_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, every family has a story of how it got its papers. Several of the stories involve the same great-grandmother.",
+    "cond": {
+      "flags": [
+        "papers_granted"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Open the records",
+      "fx": {
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let the legends stand",
+      "fx": {
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_papers_granted_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "Two centuries on, citizenship papers trade like coins, and the oldest fetch the most. Most of ours are forged in the ministry.",
+    "cond": {
+      "flags": [
+        "papers_granted"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Shut the ministry press",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "order": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax the forgeries",
+      "fx": {
+        "money": 5,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_top_rate_cut_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The top rate cut is ten years old, and so is the hole it left. The growth it promised went to the people whose rate was cut.",
+    "cond": {
+      "flags": [
+        "top_rate_cut"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Close the hole",
+      "fx": {
+        "backers": -5,
+        "money": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Borrow and wait",
+      "fx": {
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_top_rate_cut_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Interest on the debt from the tax cut now costs more than the schools. The lenders send a card every year.",
+    "cond": {
+      "flags": [
+        "top_rate_cut"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Raise the rate back",
+      "fx": {
+        "backers": -5,
+        "money": 3,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Cut the schools",
+      "fx": {
+        "money": 3,
+        "public": -3,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_top_rate_cut_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Two centuries on, the treasury still pays interest on the tax cut. A child has asked the minister what it bought.",
+    "cond": {
+      "flags": [
+        "top_rate_cut"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Tell the child",
+      "fx": {
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Change the subject",
+      "fx": {
+        "base": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_top_rate_cut_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, the richest family pays less tax than its gardener. The gardener has started a channel about it, with a sponsor.",
+    "cond": {
+      "flags": [
+        "top_rate_cut"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Tax the family",
+      "fx": {
+        "backers": -4,
+        "money": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy the channel",
+      "fx": {
+        "backers": 3,
+        "money": -1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_top_rate_raised_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Since the top rate went up, three of the richest families have become citizens of a small island with a very good lawyer.",
+    "cond": {
+      "flags": [
+        "top_rate_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Tax them on leaving",
+      "fx": {
+        "backers": -4,
+        "money": 3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invite them back, lower",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_top_rate_raised_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The very rich have found the one kind of income the top rate forgot. It is called something new every year.",
+    "cond": {
+      "flags": [
+        "top_rate_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Close it again",
+      "fx": {
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it be",
+      "fx": {
+        "backers": 4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_top_rate_raised_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the tax on the very rich is older than any fortune in the country. One family means to outlast it.",
+    "cond": {
+      "flags": [
+        "top_rate_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let the tax stand",
+      "fx": {
+        "backers": -3,
+        "inst": 2,
+        "money": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Grant an exemption",
+      "fx": {
+        "backers": 4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_top_rate_raised_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, the tax on the very rich is collected by a firm the very rich own. It reports record compliance.",
+    "cond": {
+      "flags": [
+        "top_rate_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Take it back in-house",
+      "fx": {
+        "backers": -3,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew the contract",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_universal_care_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Care for everyone is ten years old, and the waiting list is older. The nurses have asked to be paid like the promise.",
+    "cond": {
+      "flags": [
+        "universal_care"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay the nurses",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire cheaper ones",
+      "fx": {
+        "money": 3,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_universal_care_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The health service is seventy-five. It has cured two diseases and invented a third, which is the paperwork.",
+    "cond": {
+      "flags": [
+        "universal_care"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Cut the paperwork",
+      "fx": {
+        "inst": 3,
+        "backers": -2,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Charge a small fee",
+      "fx": {
+        "money": 4,
+        "public": -3,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_universal_care_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the health service is the oldest thing in the country that still works. Someone wants to sell it, for its own good.",
+    "cond": {
+      "flags": [
+        "universal_care"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep it public",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the good parts",
+      "fx": {
+        "money": 6,
+        "backers": 3,
+        "public": -2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_universal_care_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, care is still free, and the queue for it is a reality show. The winners are seen first.",
+    "cond": {
+      "flags": [
+        "universal_care"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Cancel the show",
+      "fx": {
+        "money": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell another season",
+      "fx": {
+        "money": 5,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_care_market_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The market closed the hospitals it could not make pay. The nearest emergency room for three towns is a ferry ride away.",
+    "cond": {
+      "flags": [
+        "care_market"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Reopen one, publicly",
+      "fx": {
+        "money": -5,
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Run a cheap ferry",
+      "fx": {
+        "money": -1,
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_care_market_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The insurers price care by the years of life you have left. The old have noticed which way the numbers go.",
+    "cond": {
+      "flags": [
+        "care_market"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Ban the pricing",
+      "fx": {
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Call it actuarial",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_care_market_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the richest live to a hundred and forty. Everyone else has the old average, and a good view of the difference.",
+    "cond": {
+      "flags": [
+        "care_market"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Make the cure public",
+      "fx": {
+        "money": -4,
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "License it slowly",
+      "fx": {
+        "money": 4,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_care_market_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, care is sold by subscription tier. The cheapest tier covers everything except illness.",
+    "cond": {
+      "flags": [
+        "care_market"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Cover illness for all",
+      "fx": {
+        "money": -4,
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a premium tier",
+      "fx": {
+        "money": 4,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_wage_raised_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The minimum wage has not moved since it was raised. The people on it have noticed that prices did.",
+    "cond": {
+      "flags": [
+        "wage_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Tie it to prices",
+      "fx": {
+        "backers": -2,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promise it next year",
+      "fx": {
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_wage_raised_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Machines do most of the jobs the minimum wage once covered. It is paid mainly now to the people who fix the machines.",
+    "cond": {
+      "flags": [
+        "wage_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Retrain the rest",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lower the minimum",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "public": -3,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_wage_raised_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, nobody earns the minimum wage, and it is still the most argued-about number in the country.",
+    "cond": {
+      "flags": [
+        "wage_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Set it by formula",
+      "fx": {
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Raise it before a vote",
+      "fx": {
+        "base": 3,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_wage_raised_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the minimum wage is paid in a currency only the company shop accepts. The law was never repealed, only redeemed.",
+    "cond": {
+      "flags": [
+        "wage_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay it in money",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Open more shops",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_wage_left_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "With wages left to employers, the delivery riders are paid by the hour, but only for the minutes they are moving.",
+    "cond": {
+      "flags": [
+        "wage_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay them by the hour",
+      "fx": {
+        "backers": -4,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Call them partners",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_wage_left_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The average worker has two jobs now, and three is common. Turnout has fallen to the people with one.",
+    "cond": {
+      "flags": [
+        "wage_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Set a floor, finally",
+      "fx": {
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Move the vote to Sunday",
+      "fx": {
+        "base": 1,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_wage_left_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, wages are set at an auction every morning. The court is asked whether a person may bid below nothing.",
+    "cond": {
+      "flags": [
+        "wage_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Rule that they may not",
+      "fx": {
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rule for the market",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_wage_left_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, jobs are auctioned by the hour to whoever works cheapest. The cheapest bidder this year was a machine, bidding for its owner.",
+    "cond": {
+      "flags": [
+        "wage_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Set a floor, at last",
+      "fx": {
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the auction run",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_zoning_cleared_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The towers built when the zoning rules went are twenty years old. The ones built fastest have started to lean.",
+    "cond": {
+      "flags": [
+        "zoning_cleared"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Inspect them all",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Inspect the famous ones",
+      "fx": {
+        "money": 1,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_zoning_cleared_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Rents fell when the building boom came and rose again when it stopped. The towers are owned by four firms now.",
+    "cond": {
+      "flags": [
+        "zoning_cleared"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Break the four up",
+      "fx": {
+        "backers": -5,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let them merge",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_zoning_cleared_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the towers of the building boom are listed monuments. Nobody may fix them, and nobody will move out.",
+    "cond": {
+      "flags": [
+        "zoning_cleared"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let them be rebuilt",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep them as they are",
+      "fx": {
+        "base": 2,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_zoning_cleared_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, the boom-years towers house a million people and no inspectors. The top floors are sold as views of the collapse.",
+    "cond": {
+      "flags": [
+        "zoning_cleared"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Empty the worst of them",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell more views",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_rents_controlled_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The controlled rents have held for twenty years. So have the tenants, who will not move for anything, jobs included.",
+    "cond": {
+      "flags": [
+        "rents_controlled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let the cap travel",
+      "fx": {
+        "inst": 2,
+        "money": -2,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Lift it for newcomers",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "base": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_rents_controlled_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The rent-controlled blocks have waiting lists longer than a life. Places on them are being left in wills.",
+    "cond": {
+      "flags": [
+        "rents_controlled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Build more like them",
+      "fx": {
+        "money": -5,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Auction the places",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "public": -2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_rents_controlled_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, one family has paid the same controlled rent since the day it was set. Its flat is the smallest museum in the country.",
+    "cond": {
+      "flags": [
+        "rents_controlled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the rent",
+      "fx": {
+        "backers": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the flat",
+      "fx": {
+        "money": 3,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_rents_controlled_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, the controlled flats trade on an exchange. The rent is the only thing about them that never changes.",
+    "cond": {
+      "flags": [
+        "rents_controlled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Give them to the tenants",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "List them publicly",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_carbon_priced_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The carbon price has doubled on schedule. The smoke over the old coal towns has cleared, and so have the jobs.",
+    "cond": {
+      "flags": [
+        "carbon_priced"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Build there first",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pause the price",
+      "fx": {
+        "money": 2,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_carbon_priced_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Our rivers run cooler than any around us. The neighbours' factories have moved up to the border, to breathe our air.",
+    "cond": {
+      "flags": [
+        "carbon_priced"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Tax what crosses",
+      "fx": {
+        "backers": -3,
+        "money": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Welcome the factories",
+      "fx": {
+        "money": 4,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_carbon_priced_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the price on carbon is so old nobody remembers the smoke. A party promises to abolish it as unnecessary.",
+    "cond": {
+      "flags": [
+        "carbon_priced"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep it anyway",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Abolish it",
+      "fx": {
+        "base": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_carbon_priced_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the carbon price is paid in credits the credit firm prints itself. The air has not noticed either way.",
+    "cond": {
+      "flags": [
+        "carbon_priced"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Audit the credits",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy more credits",
+      "fx": {
+        "money": -1,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_gas_drilled_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The gas under the valley is half gone. The refinery town has doubled, and the valley's water is tested monthly, at last.",
+    "cond": {
+      "flags": [
+        "gas_drilled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Publish every test",
+      "fx": {
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Test it yearly",
+      "fx": {
+        "backers": 3,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_gas_drilled_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The gas under the valley has run out. The refinery town has a school, a hospital and nothing left to pay for them.",
+    "cond": {
+      "flags": [
+        "gas_drilled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay for them anyway",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Drill the next valley",
+      "fx": {
+        "money": 5,
+        "backers": 3,
+        "public": -1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_gas_drilled_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the drilled valley has sunk three metres. The lake that filled it is the most popular in the country.",
+    "cond": {
+      "flags": [
+        "gas_drilled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Say how it formed",
+      "fx": {
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it natural",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_gas_drilled_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the drilled valley still burns in places. The fires are a tourist attraction, with a gift shop.",
+    "cond": {
+      "flags": [
+        "gas_drilled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Put the fires out",
+      "fx": {
+        "money": -5,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Open a second shop",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_tariffs_raised_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The tariffs are ten years old. The factories they saved have the best lobbyists in the country and the oldest machines.",
+    "cond": {
+      "flags": [
+        "tariffs_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Tie them to new machines",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew them quietly",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_tariffs_raised_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The neighbours have kept their tariffs on us since we raised ours. Nobody remembers who started it, only who pays.",
+    "cond": {
+      "flags": [
+        "tariffs_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Take ours down first",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise them again",
+      "fx": {
+        "backers": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_tariffs_raised_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the tariff wall is a real wall, and a tourist attraction. The factory behind it makes souvenirs of the wall.",
+    "cond": {
+      "flags": [
+        "tariffs_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let the trade through",
+      "fx": {
+        "backers": -3,
+        "money": 2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Tariff the souvenirs",
+      "fx": {
+        "money": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_tariffs_raised_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Two centuries on, the tariffs protect one factory, which makes the forms for the tariffs.",
+    "cond": {
+      "flags": [
+        "tariffs_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Scrap the forms",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Print more forms",
+      "fx": {
+        "money": 2,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_trade_opened_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Open trade made the shoes cheap and the factory towns quiet. The towns have started a party of their own.",
+    "cond": {
+      "flags": [
+        "trade_opened"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Invest in the towns",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy the party",
+      "fx": {
+        "backers": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_trade_opened_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The trade tribunal has overruled another of our laws. It is the fourth this year, and it was about bread.",
+    "cond": {
+      "flags": [
+        "trade_opened"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Leave the tribunal",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rewrite the bread law",
+      "fx": {
+        "money": 3,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_trade_opened_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Two centuries on, nothing sold here is made here. A campaign to make one thing, anything, has a waiting list of volunteers.",
+    "cond": {
+      "flags": [
+        "trade_opened"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund the one thing",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Import a campaign",
+      "fx": {
+        "money": 2,
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_trade_opened_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, the trade tribunal sits in the old chamber of our parliament, and rents it back to us on the days it is free.",
+    "cond": {
+      "flags": [
+        "trade_opened"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Take the chamber back",
+      "fx": {
+        "money": -3,
+        "backers": -1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay the rent",
+      "fx": {
+        "backers": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_pension_age_raised_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The later pension age has filled the offices with the nearly retired. The young cannot find a desk, and the old cannot find the stairs.",
+    "cond": {
+      "flags": [
+        "pension_age_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let them go part-time",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise it again",
+      "fx": {
+        "money": 4,
+        "public": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_pension_age_raised_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The later pension age saved what it promised. The treasury has found the savings, and would like to spend them on something else.",
+    "cond": {
+      "flags": [
+        "pension_age_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep them in the fund",
+      "fx": {
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Spend them",
+      "fx": {
+        "money": 5,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_pension_age_raised_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, people live to a hundred and twenty and retire at a hundred. Nobody remembers what the argument was about.",
+    "cond": {
+      "flags": [
+        "pension_age_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Set it by the evidence",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave it where it is",
+      "fx": {
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_pension_age_raised_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Two centuries on, the pension age is a hundred and ten, and the few who reach it are paid in commemorative coins.",
+    "cond": {
+      "flags": [
+        "pension_age_raised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Pay them in money",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Mint more coins",
+      "fx": {
+        "money": 3,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_pension_age_kept_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The pension age was kept, and the bill for it has come early. The young are paying for a retirement they expect never to see.",
+    "cond": {
+      "flags": [
+        "pension_age_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Share the bill openly",
+      "fx": {
+        "backers": -2,
+        "public": -2,
+        "money": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Borrow the difference",
+      "fx": {
+        "money": 4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_pension_age_kept_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The pensioners outnumber the workers now. Every election goes to whoever promises them the most and pays the least.",
+    "cond": {
+      "flags": [
+        "pension_age_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Promise the truth",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise them more",
+      "fx": {
+        "base": 4,
+        "money": -2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_pension_age_kept_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Two centuries on, the pension age has never moved and people live twice as long. Pensioners are the largest employer of pensioners.",
+    "cond": {
+      "flags": [
+        "pension_age_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Change it, with notice",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave it to the next one",
+      "fx": {
+        "base": 2,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_pension_age_kept_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the pensions are paid out by a lottery, and the pensioners are its only players.",
+    "cond": {
+      "flags": [
+        "pension_age_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund them properly",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Raise the jackpot",
+      "fx": {
+        "money": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_cancelled_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The generation whose debt was cancelled bought houses, started firms and had children. The next generation borrowed it all again.",
+    "cond": {
+      "flags": [
+        "debt_cancelled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Make the degrees free",
+      "fx": {
+        "money": -5,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cancel it again",
+      "fx": {
+        "base": 4,
+        "money": -2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_cancelled_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The cancelled student debt was paid for by people who never went to university. They have worked out how much, to the coin.",
+    "cond": {
+      "flags": [
+        "debt_cancelled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund their training too",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Thank them warmly",
+      "fx": {
+        "base": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_debt_cancelled_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the day student debt was cancelled is a holiday. Nobody works, and nobody can say what a student loan was.",
+    "cond": {
+      "flags": [
+        "debt_cancelled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Teach what it cost",
+      "fx": {
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Add a second holiday",
+      "fx": {
+        "base": 3,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_cancelled_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, degrees are free and worth exactly that. The one university left sells certificates by the metre.",
+    "cond": {
+      "flags": [
+        "debt_cancelled"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund real teaching",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them by the kilo",
+      "fx": {
+        "money": 4,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_kept_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The graduates are still paying. Half of them have moved abroad to do it, and send the payments with a postcard.",
+    "cond": {
+      "flags": [
+        "debt_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Cap the repayments",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Chase them abroad",
+      "fx": {
+        "money": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_kept_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The student loans are finally being repaid, by graduates in their fifties, alongside their children's.",
+    "cond": {
+      "flags": [
+        "debt_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Forgive the oldest",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the loans on",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_kept_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, a student loan has passed down five generations. A court is asked whether a debt can be inherited from so far back.",
+    "cond": {
+      "flags": [
+        "debt_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Rule that it cannot",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rule for the lender",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_debt_kept_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Two centuries on, debts are inherited like surnames. A newborn owes a great-great-grandmother's tuition, with interest.",
+    "cond": {
+      "flags": [
+        "debt_kept"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Cancel inherited debts",
+      "fx": {
+        "money": -3,
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the debts on",
+      "fx": {
+        "money": 4,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_drugs_crackdown_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The crackdown has filled the prisons with people who sold what someone else grew. The ones who grow it have never met a judge.",
+    "cond": {
+      "flags": [
+        "drugs_crackdown"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Go after the growers",
+      "fx": {
+        "money": -3,
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Build another prison",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_drugs_crackdown_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The drug squads have more armour than the army. The army has asked, politely, to borrow some.",
+    "cond": {
+      "flags": [
+        "drugs_crackdown"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Disarm the squads",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lend it",
+      "fx": {
+        "order": 3,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_drugs_crackdown_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the plant the crackdown was about is extinct in the wild. It survives in one botanical garden, under guard.",
+    "cond": {
+      "flags": [
+        "drugs_crackdown"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let it grow again",
+      "fx": {
+        "order": -2,
+        "inst": 2,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the guard",
+      "fx": {
+        "order": 2,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_drugs_crackdown_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Two centuries on, the drug squads are a dynasty. The commander's great-grandfather seized the first crop, and the family still sells it.",
+    "cond": {
+      "flags": [
+        "drugs_crackdown"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Disband the dynasty",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promote the heir",
+      "fx": {
+        "order": 3,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_drugs_legalised_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The tax on legal drugs pays for the clinics now. The firms that sell them would like to advertise again, for the tax's sake.",
+    "cond": {
+      "flags": [
+        "drugs_legalised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund the clinics first",
+      "fx": {
+        "money": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them advertise",
+      "fx": {
+        "money": 4,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_drugs_legalised_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Legal drugs are sold in plain packets, and the plain packets have a designer. He has made plainness very fashionable.",
+    "cond": {
+      "flags": [
+        "drugs_legalised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Plainer packets",
+      "fx": {
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave the fashion",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_drugs_legalised_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, a family firm has sold legal drugs for nine generations. It has applied to be a national treasure.",
+    "cond": {
+      "flags": [
+        "drugs_legalised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the title",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Grant it",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_drugs_legalised_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, the legal drug firms sponsor the schools, the courts and the weather report.",
+    "cond": {
+      "flags": [
+        "drugs_legalised"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "End the sponsorships",
+      "fx": {
+        "money": -4,
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them the anthem",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_tough_sentences_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The long sentences have filled every cell. The first prisoners to serve one in full are coming out, at sixty, with nowhere to go.",
+    "cond": {
+      "flags": [
+        "tough_sentences"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Build them somewhere",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep them in",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_tough_sentences_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The prisons are the largest employer in four towns. The towns have asked, politely, that crime not fall any further.",
+    "cond": {
+      "flags": [
+        "tough_sentences"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Close one anyway",
+      "fx": {
+        "public": -2,
+        "money": 1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep them full",
+      "fx": {
+        "money": 2,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_tough_sentences_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Two centuries on, the police outnumber the crimes. They patrol in pairs, looking for one.",
+    "cond": {
+      "flags": [
+        "tough_sentences"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Stand half of them down",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invent new crimes",
+      "fx": {
+        "order": 3,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_tough_sentences_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Two centuries on, a third of the country guards the other two thirds. Nobody remembers which third started it.",
+    "cond": {
+      "flags": [
+        "tough_sentences"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Open the gates",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire more guards",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_justice_reformed_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The reformed prisons send fewer people back. The halfway houses are full, and their neighbours want them moved.",
+    "cond": {
+      "flags": [
+        "justice_reformed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep them where they are",
+      "fx": {
+        "public": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Move them out of town",
+      "fx": {
+        "public": 3,
+        "order": 1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_justice_reformed_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Crime has fallen since the reforms. A new party says it is only hiding. Its leader was released under the reforms.",
+    "cond": {
+      "flags": [
+        "justice_reformed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Answer with the numbers",
+      "fx": {
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Tighten the reforms",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_justice_reformed_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the last prison is a hotel. Guests pay extra for the cells, and complain about the beds.",
+    "cond": {
+      "flags": [
+        "justice_reformed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Teach what it was",
+      "fx": {
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the cells",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_justice_reformed_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, the halfway houses are run by the grandchildren of the men who once filled the prisons. They are very well run, and very dear.",
+    "cond": {
+      "flags": [
+        "justice_reformed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Take them public",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them franchise",
+      "fx": {
+        "money": 3,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_everywhere_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The face scanners cut street crime, and spotted three ministers where they had said they were not. Everyone wants the footage.",
+    "cond": {
+      "flags": [
+        "cameras_everywhere"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Publish the rules",
+      "fx": {
+        "inst": 3,
+        "order": -1,
+        "base": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the footage",
+      "fx": {
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_everywhere_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The scanners' records are forty years deep. A court has been asked who owns a face, and for how long.",
+    "cond": {
+      "flags": [
+        "cameras_everywhere"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let people delete theirs",
+      "fx": {
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "The state keeps it all",
+      "fx": {
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_everywhere_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the scanners still run on every street, and nobody has looked at the footage in a hundred years.",
+    "cond": {
+      "flags": [
+        "cameras_everywhere"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Switch them off",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "money": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the archive",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_everywhere_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the scanners sell every face they see to whoever bids. Children are taught to walk with their heads down.",
+    "cond": {
+      "flags": [
+        "cameras_everywhere"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Switch them off",
+      "fx": {
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take a cut",
+      "fx": {
+        "money": 5,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_banned_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Without the scanners, the police have gone back to asking. Street crime is up a little, and so is trust in the police.",
+    "cond": {
+      "flags": [
+        "cameras_banned"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep asking",
+      "fx": {
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Bring back a few",
+      "fx": {
+        "order": 3,
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_banned_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The scanners are banned, but every phone is one. A court has been asked whether the ban covers a crowd filming itself.",
+    "cond": {
+      "flags": [
+        "cameras_banned"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let people film",
+      "fx": {
+        "inst": 3,
+        "order": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Ban the crowd's cameras",
+      "fx": {
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_cameras_banned_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, ours is the last country where nobody's face is on file. Tourists come to walk down a street unrecorded.",
+    "cond": {
+      "flags": [
+        "cameras_banned"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep it that way",
+      "fx": {
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Photograph the tourists",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_cameras_banned_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Two centuries on, the ban on scanners is enforced by scanners, which check that nobody is carrying one.",
+    "cond": {
+      "flags": [
+        "cameras_banned"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Enforce it by hand",
+      "fx": {
+        "order": -2,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy newer scanners",
+      "fx": {
+        "order": 3,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_truth_law_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The law against misinformation has a waiting list of complaints. The most common complaint is about the law.",
+    "cond": {
+      "flags": [
+        "truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Review it in public",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fine the complainers",
+      "fx": {
+        "order": 2,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_truth_law_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The truth panel has ruled on forty thousand claims. It was wrong eleven times, and the eleven are now a political movement.",
+    "cond": {
+      "flags": [
+        "truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Correct all eleven",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ban the movement",
+      "fx": {
+        "order": 3,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_truth_law_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Two centuries on, the truth panel still meets. Its oldest ruling, that the moon is not a lamp, is under appeal.",
+    "cond": {
+      "flags": [
+        "truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Hear the appeal",
+      "fx": {
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Rule it out of time",
+      "fx": {
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_truth_law_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, the truth panel rules on the weather, the scores and the past. Its rulings go out before the events.",
+    "cond": {
+      "flags": [
+        "truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Dissolve the panel",
+      "fx": {
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Widen its remit",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_no_truth_law_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "With no law against lies, the most trusted news in the country is a man who reads the horoscopes and the election results together.",
+    "cond": {
+      "flags": [
+        "no_truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund real reporters",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire him",
+      "fx": {
+        "base": 3,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_no_truth_law_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A fake of you has given a better speech than any you have given. The polls prefer it.",
+    "cond": {
+      "flags": [
+        "no_truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Say it was a fake",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire its writer",
+      "fx": {
+        "base": 3,
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_no_truth_law_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, nobody trusts any picture. Disputes are settled by asking the oldest person present.",
+    "cond": {
+      "flags": [
+        "no_truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Build a public record",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appoint an oldest person",
+      "fx": {
+        "order": 2,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_no_truth_law_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, every event has six versions and a sponsor for each. Viewers at home vote for the one that happened.",
+    "cond": {
+      "flags": [
+        "no_truth_law"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Fund one true archive",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell a seventh version",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_court_packed_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The judges added to the highest court are retiring. Whoever sits in your chair names their successors, and the other side is counting.",
+    "cond": {
+      "flags": [
+        "court_packed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let the bar nominate",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Name them early",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_court_packed_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The highest court has grown with every government. It sits in a theatre now, and the judges cannot hear each other.",
+    "cond": {
+      "flags": [
+        "court_packed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Shrink it by law",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add four more",
+      "fx": {
+        "base": 3,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_court_packed_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Two centuries on, the highest court has a thousand seats and meets in a stadium. Its rulings take a season.",
+    "cond": {
+      "flags": [
+        "court_packed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Cut it to nine",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell season tickets",
+      "fx": {
+        "money": 4,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_court_packed_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, a seat on the highest court is auctioned every spring. The court has ruled the auction lawful, unanimously.",
+    "cond": {
+      "flags": [
+        "court_packed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Abolish the auction",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold it twice a year",
+      "fx": {
+        "money": 4,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_court_left_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The court you left alone has struck down another of your laws. Your own side wants to know what the court is for.",
+    "cond": {
+      "flags": [
+        "court_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Rewrite the law",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Attack the judges",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_court_left_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The highest court has outlived three governments that wanted it changed. It has started quoting them in its rulings.",
+    "cond": {
+      "flags": [
+        "court_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Take the lesson",
+      "fx": {
+        "base": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Change it now",
+      "fx": {
+        "base": 3,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "back_court_left_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, the highest court has nine seats, as it always had, and a waiting list of a hundred years for a case.",
+    "cond": {
+      "flags": [
+        "court_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Add courts below it",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the list stand",
+      "fx": {
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "back_court_left_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Two centuries on, the highest court still sits, in a building nobody else uses. Its rulings are read aloud to an empty square.",
+    "cond": {
+      "flags": [
+        "court_left"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Obey the rulings",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rent out the square",
+      "fx": {
+        "money": 4,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_bailed_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The banks rescued with public money are profitable again. Their boards would like the public's seat on each board removed.",
+    "cond": {
+      "flags": [
+        "banks_bailed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the public's seat",
+      "fx": {
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Remove it",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_bailed_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The rescued banks have grown too large to fail again, and are behaving accordingly. The regulator has noticed nothing.",
+    "cond": {
+      "flags": [
+        "banks_bailed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Break them up",
+      "fx": {
+        "backers": -5,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Guarantee them",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_bailed_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Two centuries on, the rescued banks own the treasury's building and rent it back. The rent has never once been late.",
+    "cond": {
+      "flags": [
+        "banks_bailed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Buy it back",
+      "fx": {
+        "money": -5,
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew the lease",
+      "fx": {
+        "money": 3,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_bailed_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Two centuries on, the banks have been rescued nine times. The rescue has a ministry of its own, and a bank.",
+    "cond": {
+      "flags": [
+        "banks_bailed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Let the next one fail",
+      "fx": {
+        "backers": -4,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Rescue them in advance",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_failed_2",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The banks allowed to fail are gone, and the rest lend as if they remember. Small firms cannot borrow at all.",
+    "cond": {
+      "flags": [
+        "banks_failed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Start a public bank",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Guarantee big loans",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_failed_3",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A generation raised on the crash keeps its savings under the floor. The floors are being robbed, and the banks are empty.",
+    "cond": {
+      "flags": [
+        "banks_failed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Guarantee every deposit",
+      "fx": {
+        "money": -4,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax cash kept at home",
+      "fx": {
+        "money": 4,
+        "base": -1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_failed_45",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Two centuries on, the failed bank is a museum where savers' letters are read aloud. A bank has offered to sponsor it.",
+    "cond": {
+      "flags": [
+        "banks_failed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the sponsor",
+      "fx": {
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the money",
+      "fx": {
+        "money": 4,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "back_banks_failed_45d",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4,
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "Two centuries on, nobody trusts a bank, so the militias hold the savings. The interest is paid in protection.",
+    "cond": {
+      "flags": [
+        "banks_failed"
+      ]
+    },
+    "weight": 5,
+    "oneShot": true,
+    "left": {
+      "label": "Found a public bank",
+      "fx": {
+        "money": -4,
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax the militias' vaults",
+      "fx": {
+        "money": 4,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  }
+]

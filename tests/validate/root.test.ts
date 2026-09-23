@@ -30,7 +30,11 @@ describe("validateRoot: shipped content", () => {
     // advisor has to serve both sides, because crises and the cabinet are nobody's politics
     // (content.test.ts), so counting those would move this share with every crisis or face
     // added without changing what either side draws (BACKLOG-5 phase 35).
-    const personal = (c: (typeof content.cards)[number]) => (c.cond?.flags ?? []).some((f) => f.startsWith("crisis_") || f.startsWith("advisor_adv_"));
+    // The same holds for what comes of a question's answer (BACKLOG-6 phase 42): both sides are
+    // asked every question and give the same answers, so a card that reads one serves whichever
+    // side gave it, and it is dealt only when that answer was given.
+    const answers = new Set(content.cards.filter((c) => c.arc !== undefined && content.arcs.some((a) => a.question !== undefined && a.cards[0] === c.id)).flatMap((c) => [...(c.left.setFlags ?? []), ...(c.right.setFlags ?? [])]));
+    const personal = (c: (typeof content.cards)[number]) => (c.cond?.flags ?? []).some((f) => f.startsWith("crisis_") || f.startsWith("advisor_adv_") || answers.has(f));
     const events = content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0 && !personal(c));
     const any = events.filter((c) => c.align === "any").length;
     expect(content.cards.length).toBeGreaterThanOrEqual(300);

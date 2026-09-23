@@ -726,3 +726,37 @@ describe("content: the questions", () => {
     expect(failures).toBeGreaterThanOrEqual(11);
   });
 });
+
+// BACKLOG-6 phase 42: what comes of each answer, in the eras after it. The cards read the
+// answer's legacy, so a run meets only what its own answers left behind.
+describe("content: the answers come back", () => {
+  const answers = [...new Set(content.arcs.filter((a) => a.question !== undefined).flatMap((a) => {
+    const asking = library.cards.get(a.cards[0]!)!;
+    return [...(asking.left.setFlags ?? []), ...(asking.right.setFlags ?? [])];
+  }))];
+  const reading = (flag: string) => content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0 && c.cond?.flags?.includes(flag));
+
+  it("has, for every answer, a card that reads it in era 2, in era 3, and two centuries on in every band", () => {
+    expect(answers.length).toBeGreaterThanOrEqual(32);
+    for (const flag of answers) {
+      const cards = reading(flag);
+      expect(cards.some((c) => c.eras.includes(2)), `${flag} in era 2`).toBe(true);
+      expect(cards.some((c) => c.eras.includes(3)), `${flag} in era 3`).toBe(true);
+      // A long reign's band is locked after its third era, so its last two are lived in one
+      // direction, and each direction needs its own card.
+      for (const band of BANDS) {
+        expect(cards.some((c) => c.eras.some((e) => e >= 4) && c.bands.includes(band)), `${flag} two centuries on, ${band}`).toBe(true);
+      }
+    }
+  });
+
+  it("comes back once a run, for either side, with nobody's coalition named", () => {
+    for (const flag of answers) {
+      for (const c of reading(flag)) {
+        expect(c.oneShot, c.id).toBe(true);
+        expect(c.align, c.id).toBe("any");
+        for (const name of ["Movement", "Unions", "Cities", "Faithful", "Donors", "Country"]) expect(c.text, c.id).not.toContain(name);
+      }
+    }
+  });
+});
