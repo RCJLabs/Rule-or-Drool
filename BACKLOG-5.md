@@ -802,6 +802,15 @@ is 166 characters.
   roads.
 - **Every share link now carries its run's result,** so a reply to a challenge is one back.
 
+**Found, and fixed: a key pressed as a card landed was dropped.** This phase's first deploy
+failed in CI. The daily audit hung, waiting for a card to show its peeked side, though the
+same commit had passed on its branch. The game re-attached its keyboard listener a moment
+after each new card was on the page. A key pressed in that moment went to the old listener,
+which still took the last card for leaving, and dropped it. In a reproduction, every press
+made as the next card landed was lost (0 of 6). The listener now changes with the card (6 of
+6), and a browser test presses at exactly that moment. No person presses that fast, but the
+audits do.
+
 **Done when, checked:**
 - **A v2 link round-trips:** across 400 runs by every bot, the result reads back exactly,
   and the run dealt again from it is the sender's run to the last meter and flag. A fixed
@@ -814,7 +823,7 @@ is 166 characters.
   mid-run, so the audit also covers a challenge that is left and taken up again.
 
 **Also checked:**
-- The unit suite is 518 tests and the browser suite 38.
+- The unit suite is 518 tests and the browser suite 39.
 - Fifteen mutations were each caught by a test. A sixteenth found a check that could never
   fail, a card count that the replay already guarantees, and it was taken out.
 - The bundle grew by 1.8 KB gzipped.

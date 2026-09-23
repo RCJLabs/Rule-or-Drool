@@ -1,5 +1,5 @@
 import { withNames } from "../engine/endings";
-import { useCallback, useEffect, useId, useRef, useState, type FocusEvent } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type FocusEvent } from "react";
 import { STRINGS } from "../content/strings";
 import { rivalReport } from "./rival";
 import { textLevel, type Settings } from "./settings";
@@ -104,7 +104,11 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     [busy, card, onChoose, showHint],
   );
 
-  useEffect(() => {
+  // A layout effect, not a passive one: a passive effect is re-attached a moment after the new
+  // card is on the page, and a key pressed in that moment reached the old listener, which
+  // still took the last card for leaving and dropped it. No person presses that fast; the
+  // browser audits did, and one hung on it in CI (BACKLOG-5 phase 37).
+  useLayoutEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (busy) return;
       // A focused button answers Enter itself. Committing here as well meant that dismissing

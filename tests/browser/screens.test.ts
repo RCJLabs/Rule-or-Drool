@@ -12,7 +12,7 @@ import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
 import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
-import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
+import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -207,6 +207,38 @@ describe.skipIf(!target)("in a browser", () => {
         await close(page);
       }
       expect(failures).toEqual([]);
+    });
+  });
+
+  /**
+   * A key pressed the moment the next card lands (BACKLOG-5 phase 37). The key listener was
+   * re-attached a moment after the new card was on the page, and a press in that moment went
+   * to the old one, which still took the last card for leaving and dropped it. No person
+   * presses that fast, but the audits do, and one hung on it in CI waiting for a peek.
+   */
+  describe("the keyboard", () => {
+    it("hears a key pressed the moment the next card lands", async () => {
+      const page = await startRun(browser, "left");
+      const heard: boolean[] = [];
+      for (let i = 0; i < 3; i++) {
+        await page.evaluate(`(() => {
+          const stage = document.querySelector(".card").parentElement;
+          window.__pressed = false;
+          new MutationObserver((list, obs) => {
+            for (const m of list) for (const n of m.addedNodes) if (n.nodeType === 1 && n.classList.contains("card")) {
+              obs.disconnect();
+              window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+              window.__pressed = true;
+            }
+          }).observe(stage, { childList: true, subtree: true });
+        })()`);
+        await choose(page, "left");
+        await page.waitForSelector(".card-labels[aria-hidden='false']", { timeout: 2000 }).catch(() => null);
+        heard.push((await page.evaluate("window.__pressed")) === true && (await page.locator(".card-labels[aria-hidden='false']").count()) > 0);
+        await page.keyboard.press("Escape");
+      }
+      expect(heard).toEqual([true, true, true]);
+      await close(page);
     });
   });
 
