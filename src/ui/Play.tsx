@@ -306,6 +306,18 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
         <EraTransition lib={lib} state={state} era={transition} reduceMotion={settings.reduceMotion} onContinue={dismissTransition} />
       )}
       {debug && <Debug state={state} theme={theme} />}
+      {/* Shown by the stylesheet on a phone held sideways, and to the eye only: a screen
+          reader has no orientation, and the run under it plays the same (BACKLOG-5 phase 32). */}
+      <div className="upright" aria-hidden="true">
+        <svg className="upright-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="15" y="6" width="18" height="32" rx="3" />
+          <path d="M22 33h4" />
+          <path d="M8 26a16 16 0 0 0 7 13" />
+          <path d="M8 35l7 4-1-8" />
+        </svg>
+        <b>{STRINGS.ui.upright}</b>
+        <span>{STRINGS.ui.uprightBody}</span>
+      </div>
     </Frame>
   );
 }

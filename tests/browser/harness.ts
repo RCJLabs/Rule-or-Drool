@@ -2,6 +2,7 @@ import { chromium, type Browser, type Page } from "playwright-core";
 import { inject } from "vitest";
 import type { PlayerAlign } from "../../src/engine/types";
 import { openAt, startRunAt, type OpenOptions } from "./drive";
+import { robotoEnv } from "./roboto";
 
 export * from "./drive";
 
@@ -17,8 +18,9 @@ export const target = inject("audit");
 /** The seed every audited run is dealt, so the same cards come each time and a failure reproduces. */
 export const SEED = 8065615;
 
+/** Chromium, drawing in Roboto as an Android phone does (see roboto.ts). */
 export function launch(): Promise<Browser> {
-  return chromium.launch({ executablePath: target!.chrome });
+  return chromium.launch({ executablePath: target!.chrome, env: robotoEnv() });
 }
 
 export function open(browser: Browser, opts: OpenOptions = {}): Promise<Page> {

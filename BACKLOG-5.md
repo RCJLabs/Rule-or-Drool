@@ -234,7 +234,81 @@ on; and the file holds nothing but game state.
 
 </details>
 
-## Phase 32. Everything fits — *queued*
+## Phase 32. Everything fits — *done*
+
+**Shipped.** Every meter name is whole on a 360px phone in all seven looks, for both
+parties. A phone held sideways is asked to turn upright, rather than shown a card 101px
+tall. On a laptop, the party chip and the menus sit beside the card. The owner's calls were:
+- measure the fit in Roboto;
+- rename "Institutions" to "State";
+- rename "THE SYSTEM" to "THE MAN";
+- ask for upright, rather than build a sideways layout.
+
+**Two things this entry had wrong.**
+- **The evidence and the audit used different fonts.** The evidence counted 9 names cut
+  short in Roboto, the font Android draws the game in. The audit ran in this machine's
+  DejaVu Sans, a fifth wider, and listed 15. Emptying that list would have meant renaming
+  words that fit on every Android phone ("Movement", "Everyone", "Gov Stuff").
+- **Sideways was rarer than it read.** Both manifests already lock the installed app
+  upright, so only a phone's browser tab can be turned sideways.
+
+**The names.**
+- "Institutions" is now "State". The meter fails at both ends the same way: no ministry
+  left, or forty-one committees.
+- The deepest decay slang for it is now "THE MAN" instead of "THE SYSTEM".
+- The decay looks dropped the 0.02em between letters on meter names. That spacing was what
+  cut "THE MONEY", "EVERYONE!!" and "MOVEMENT" short, each by 1.1px or less. The capitals
+  and the bold stay.
+- Every other name keeps its words. The tightest is "The Money", with 0.6px to spare.
+
+**The audit is measured in Roboto.** The five weights the game uses (400 to 800) are in
+`tests/browser/fonts/`: 620 KB, under the SIL Open Font License, never shipped to players.
+Chromium is pointed at them through fontconfig. A guard test lays text out in the system
+font and again in that Roboto file loaded as a web font, and requires the widths to match.
+With the fontconfig removed, the guard fails, and so does the name check. The store
+screenshots use the same font and were taken again; no name is cut in them now.
+
+**Sideways.** During a run, a touch screen held sideways and under 500px tall shows *Turn
+your phone upright* over the run. The run itself is untouched underneath. The stylesheet
+alone decides when the notice shows, and it is hidden from screen readers, since someone
+playing by ear loses nothing sideways. The menus, the codex and the end of a run are pages
+that scroll, and they fit sideways.
+
+**Laptop.**
+- The row under the card is capped at the teaching note's 460px. The chip and the menus now
+  sit about 40px from the card, where they used to sit at the window's edges.
+- In decay2 and decay3, the card kept a gutter for the stream chat at every width, which
+  pushed it off centre under a centred footer. The gutter now applies only below 600px, the
+  width at which a centred card could reach the chat.
+- "The chat never covers the card" was a rule nothing tested. A check now covers every
+  phone size and the laptop. It fails if the gutter is taken away on phones.
+
+**The decay looks' "Got it"** was a word on the teaching note with nothing to show it could
+be pressed: no border, and a face the same colour as the note. It now wears the accent
+outline the party chip has in those looks.
+
+**Done when, checked:**
+- **844×390**, as a touch phone, in three looks: the notice covers the screen, fits, and
+  passes contrast. Turned upright again, the run is back. The menus, the codex and the end
+  of a run fit.
+- **1280×720**, in three looks: nothing is cut off and nothing scrolls. The chip and the
+  menus are within 60px of the card, and the chat stays off the card. The menus, the codex
+  and the end of a run fit.
+- **The list of names allowed to be cut short is gone.** The test now fails any name cut
+  short at 360px.
+
+**Also checked:** the browser suite is 30 tests and the unit suite 435. The bundle grew by
+296 bytes gzipped.
+
+**Not checked:**
+- **Other phones' fonts.** Samsung's own font and an iPhone's San Francisco are not
+  measured. "The Money" has 0.6px to spare in Roboto; a wider system font could cut it.
+- **Tablets.** My understanding is that Android 16 ignores the portrait lock on tablets and
+  unfolded foldables for apps targeting API 36, as the Play build does. Those screens are
+  tall enough for the laptop layout, which the 768×1024 audit covers, but no tablet has
+  been tried.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** Three layouts the audits either do not cover or cannot pass:
 
@@ -256,6 +330,8 @@ shorter slang for the deep looks or no capitals and letter-spacing on narrow scr
 
 **Done when** the audit passes at 844×390 and at 1280×720 with nothing cut off, and the
 list of meter names allowed to be cut short is empty.
+
+</details>
 
 ## Phase 33. Carry your progress — *queued*
 

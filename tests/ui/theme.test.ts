@@ -26,11 +26,11 @@ describe("themeFor", () => {
 
 describe("labels, degradation and sponsors", () => {
   it("dumbs labels down only in deep decay", () => {
-    expect(meterLabel("inst", themeFor(0), "left")).toBe("Institutions");
-    expect(meterLabel("inst", themeFor(-15), "left")).toBe("Institutions");
+    expect(meterLabel("inst", themeFor(0), "left")).toBe("State");
+    expect(meterLabel("inst", themeFor(-15), "left")).toBe("State");
     expect(meterLabel("inst", themeFor(-22), "left")).toBe("Gov Stuff");
-    expect(meterLabel("inst", themeFor(-40), "left")).toBe("THE SYSTEM");
-    expect(meterLabel("inst", themeFor(60), "left")).toBe("Institutions");
+    expect(meterLabel("inst", themeFor(-40), "left")).toBe("THE MAN");
+    expect(meterLabel("inst", themeFor(60), "left")).toBe("State");
   });
 
   it("degrades text only from stage 2 down", () => {

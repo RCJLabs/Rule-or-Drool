@@ -63,7 +63,7 @@ Four meters, range 0–100, start at 50. Either extreme ousts you.
 | Mood | Riots remove you | Personality cult consumes you |
 | Money | Bankruptcy | Oligarchs own you |
 | Order | Anarchy | Police state turns on you |
-| Institutions | State collapse | Bureaucratic paralysis |
+| Institutions (shown as "State") | State collapse | Bureaucratic paralysis |
 
 ### 5.2 Drift and bands (hidden)
 - `drift` ranges -100 to +100, starts at 0.

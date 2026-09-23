@@ -86,6 +86,16 @@ describe("a screen reader can play", () => {
     expect(screen.getByRole("button", { name: next.left.label })).toBeTruthy();
   });
 
+  it("keeps the turn-upright notice to the eye: a screen reader has no orientation", () => {
+    // A phone held sideways is asked to turn (BACKLOG-5 phase 32). Someone playing by ear
+    // loses nothing sideways, so the notice is not read out and the run stays in reach.
+    startRun();
+    const notice = document.querySelector(".upright")!;
+    expect(notice.getAttribute("aria-hidden")).toBe("true");
+    expect(notice.textContent).toContain(STRINGS.ui.upright);
+    expect(screen.getByRole("button", { name: cardNow().left.label })).toBeTruthy();
+  });
+
   it("lets Enter on another control do only that, even with a side peeked", () => {
     // A side peeked, then Enter on the teaching note's button: it dismissed the note and
     // played the card as well, one press doing two things (checked in Chromium on v0.41.0).

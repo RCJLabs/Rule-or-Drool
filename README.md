@@ -51,7 +51,10 @@ npm run playtests -- some/folder --min 3 --look 300
 
 The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without
 one they skip with a banner saying so; CI sets `REQUIRE_BROWSER=1`, which makes that a
-failure instead.
+failure instead. They draw in Roboto, as an Android phone does, from `tests/browser/fonts/`
+(SIL Open Font License). Chromium reads the font through fontconfig, which only it does on
+Linux, and CI is Linux. On a Mac or Windows the audits see the system's own font, and a fit
+result there belongs to that font.
 
 `playtests` reads the records players send from the game (Settings › Keep a record of my
 runs, then Send my record) and prints what they did beside each bot playing the same runs:

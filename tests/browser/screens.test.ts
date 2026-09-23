@@ -1,8 +1,9 @@
+import { readFileSync } from "node:fs";
 import type { Browser } from "playwright-core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { STRINGS } from "../../src/content/strings";
 import { MANDATES } from "../../src/engine/mandates";
-import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, playToBoundary, SEED, startRun, target, toLook } from "./harness";
+import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -166,6 +167,32 @@ describe.skipIf(!target)("in a browser", () => {
   });
 
   describe("a run fits the screen", () => {
+    it("is measured in Roboto, the font an Android phone draws the game in", async () => {
+      // Every fit here is only true in the font it was measured in. The game asks for the
+      // system font, and Chromium is pointed at Roboto for it (roboto.ts); if that stopped
+      // working, this machine's DejaVu Sans, a fifth wider, would come back without a word.
+      // The same file loaded as a web font has to lay the same text out to the same width.
+      const page = await open(browser);
+      const font = readFileSync(new URL("./fonts/Roboto-400.ttf", import.meta.url)).toString("base64");
+      await page.addStyleTag({ content: `@font-face { font-family: "Audit Roboto"; src: url(data:font/ttf;base64,${font}); }` });
+      const widths = (await page.evaluate(`(async () => {
+        await document.fonts.load('100px "Audit Roboto"');
+        const width = (family) => {
+          const s = document.createElement("span");
+          s.style.cssText = "position: absolute; white-space: nowrap; font-size: 100px; font-weight: 400; font-family: " + family;
+          s.textContent = "Institutions of the State";
+          document.body.append(s);
+          const w = s.getBoundingClientRect().width;
+          s.remove();
+          return w;
+        };
+        return { system: width("system-ui"), roboto: width('"Audit Roboto"'), fallback: width("monospace") };
+      })()`)) as { system: number; roboto: number; fallback: number };
+      expect(widths.roboto).not.toBeCloseTo(widths.fallback, 0);
+      expect(widths.system).toBeCloseTo(widths.roboto, 1);
+      await close(page);
+    });
+
     const PHONES: [number, number, string][] = [
       [360, 640, "small Android"],
       [390, 844, "iPhone 14"],
@@ -182,8 +209,77 @@ describe.skipIf(!target)("in a browser", () => {
       for (const look of ["muddle", "decay3", "ascent3"]) {
         await toLook(page, look);
         failures.push(...(await misfits(page, look)));
+        for (const c of await overCard(page)) failures.push(`${look}: .${c} is over the card`);
       }
       await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    it("on a laptop (1280×720), with the party and the menus beside the card, in each direction", async () => {
+      // A shared link is often opened on a laptop. The game stays a phone-width column, and
+      // the row under the card used to put the party chip and the menus at the window's edges.
+      const page = await startRun(browser, "left", { width: 1280, height: 720, mandate: LONGEST_MANDATE.id });
+      const failures: string[] = [];
+      for (const look of ["muddle", "decay3", "ascent3"]) {
+        await toLook(page, look);
+        failures.push(...(await misfits(page, `laptop, ${look}`)));
+        for (const c of await overCard(page)) failures.push(`laptop, ${look}: .${c} is over the card`);
+        const gap = (await page.evaluate(`(() => {
+          const card = document.querySelector(".card").getBoundingClientRect();
+          const party = document.querySelector(".party").getBoundingClientRect();
+          const tools = document.querySelector(".office-tools").getBoundingClientRect();
+          return { left: card.left - party.left, right: tools.right - card.right };
+        })()`)) as { left: number; right: number };
+        if (gap.left > 60 || gap.right > 60) failures.push(`laptop, ${look}: the chip is ${gap.left}px and the menus ${gap.right}px out from the card`);
+      }
+      await close(page);
+
+      const menu = await open(browser, { width: 1280, height: 720 });
+      failures.push(...(await misfits(menu, "laptop, the menu", { mayScroll: true })));
+      await menu.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
+      await menu.waitForSelector(".codex");
+      failures.push(...(await misfits(menu, "laptop, the codex", { mayScroll: true })));
+      await close(menu);
+      const ended = await startRun(browser, "left", { width: 1280, height: 720 });
+      await endRun(ended, LATE.decay);
+      failures.push(...(await misfits(ended, "laptop, the end of a run", { mayScroll: true })));
+      await close(ended);
+      expect(failures).toEqual([]);
+    });
+
+    it("on a phone held sideways (844×390), asks for it upright, and every other screen still works", async () => {
+      // The installed app is locked upright; a browser tab is not. Sideways the card was
+      // 101px tall with the speaker's name over the text, so a run asks to be turned.
+      const failures: string[] = [];
+      const page = await startRun(browser, "left", { width: 844, height: 390, touch: true });
+      for (const look of ["muddle", "decay3", "ascent3"]) {
+        await toLook(page, look);
+        const notice = (await page.evaluate(`(() => {
+          const n = document.querySelector(".upright");
+          const r = n.getBoundingClientRect();
+          const fits = [...n.children].every((c) => { const b = c.getBoundingClientRect(); return b.left >= 0 && b.right <= innerWidth && b.top >= 0 && b.bottom <= innerHeight; });
+          return { shown: getComputedStyle(n).display !== "none", covers: r.left <= 0 && r.top <= 0 && r.right >= innerWidth && r.bottom >= innerHeight, fits };
+        })()`)) as { shown: boolean; covers: boolean; fits: boolean };
+        if (!notice.shown || !notice.covers || !notice.fits) failures.push(`sideways, ${look}: the notice is ${JSON.stringify(notice)}`);
+        failures.push(...(await contrast(page, `sideways, ${look}`)));
+      }
+      // Turned upright again, the run is where it was and the notice is gone.
+      await page.setViewportSize({ width: 390, height: 844 });
+      if ((await page.evaluate(`getComputedStyle(document.querySelector(".upright")).display`)) !== "none") failures.push("upright again: the notice stayed");
+      failures.push(...(await misfits(page, "turned upright again")));
+      await close(page);
+
+      // The menus, the codex and the end of a run are pages that scroll, and work sideways.
+      const menu = await open(browser, { width: 844, height: 390, touch: true });
+      failures.push(...(await misfits(menu, "sideways, the menu", { mayScroll: true })));
+      await menu.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
+      await menu.waitForSelector(".codex");
+      failures.push(...(await misfits(menu, "sideways, the codex", { mayScroll: true })));
+      await close(menu);
+      const ended = await startRun(browser, "left", { width: 844, height: 390, touch: true });
+      await endRun(ended, LATE.ascent);
+      failures.push(...(await misfits(ended, "sideways, the end of a run", { mayScroll: true })));
+      await close(ended);
       expect(failures).toEqual([]);
     });
 
@@ -212,37 +308,24 @@ describe.skipIf(!target)("in a browser", () => {
     });
 
     /**
-     * Meter names cut short with an ellipsis at 360px, as found when this audit was first
-     * run (v0.40.0). A slot is 54px wide; the decay looks set the names in bold capitals and
-     * the ascent looks space them out. In Roboto, which is what Android draws them in, the
-     * worst is "Institutions" at 12px too long and four more miss by a pixel or less; in
-     * DejaVu Sans, the font of the machine this was written on, all fifteen below do.
-     * Shortening them is a writing and design decision, so they are listed rather than
-     * fixed here. The list is a ceiling: a name cut short that is not on it fails, and one
-     * that starts fitting does not, because text width depends on the fonts a machine has.
-     * Take a fixed one off.
+     * Every meter name whole at 360px, in every look, for both parties (BACKLOG-5 phase 32).
+     * A slot is 54px wide; the decay looks set the names in bold capitals and the ascent
+     * looks space them out. This used to be a list of fifteen names allowed to be cut short.
+     * "Institutions" became "State", "THE SYSTEM" became "THE MAN", and the decay looks lost
+     * a fiftieth of an em between letters. The tightest now is "The Money", with 0.6px to
+     * spare in Roboto.
      */
-    const SHORTENED: Record<string, string[]> = {
-      muddle: ["Institutions"],
-      decay1: ["Movement", "Institutions"],
-      decay2: ["The Money", "Everyone", "Gov Stuff"],
-      decay3: ["THE MONEY", "EVERYONE!!", "THE SYSTEM"],
-      ascent1: ["Movement", "Institutions"],
-      ascent2: ["Movement", "Institutions"],
-      ascent3: ["Movement", "Institutions"],
-    };
-    it("cuts no meter name short at 360px beyond the known ones, for either party", async () => {
-      const found: Record<string, Set<string>> = Object.fromEntries(LOOKS.map((look) => [look, new Set<string>()]));
+    it("cuts no meter name short at 360px, in any look, for either party", async () => {
+      const cut: string[] = [];
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width: 360, height: 780 });
         for (const look of LOOKS) {
           await toLook(page, look);
-          for (const c of await clipped(page)) if (c.ellipsis) found[look]!.add(c.text);
+          for (const c of await clipped(page)) if (c.ellipsis) cut.push(`${party} ${look}: "${c.text}" is ${c.x}px too long`);
         }
         await close(page);
       }
-      const unexpected = LOOKS.flatMap((look) => [...found[look]!].filter((name) => !SHORTENED[look]?.includes(name)).map((name) => `${look}: "${name}" is cut short`));
-      expect(unexpected).toEqual([]);
+      expect(cut).toEqual([]);
     });
   });
 });

@@ -52,6 +52,8 @@ export interface OpenOptions {
   settings?: Record<string, unknown>;
   /** More query string. The debug flag is always on, for the keys that push drift. */
   query?: string;
+  /** A touch screen, as a phone has: CSS sees `pointer: coarse`. */
+  touch?: boolean;
 }
 
 /**
@@ -62,6 +64,7 @@ export async function openAt(browser: Browser, url: string, opts: OpenOptions = 
   const context = await browser.newContext({
     viewport: { width: opts.width ?? 390, height: opts.height ?? 844 },
     deviceScaleFactor: opts.scale ?? 3,
+    hasTouch: opts.touch ?? false,
     serviceWorkers: "block",
   });
   const settings = JSON.stringify({ v: SETTINGS_VERSION, reduceMotion: true, ...opts.settings });
@@ -76,6 +79,22 @@ export async function openAt(browser: Browser, url: string, opts: OpenOptions = 
   await page.goto(`${url}?debug=1${opts.query ? `&${opts.query}` : ""}`);
   await page.waitForSelector(".frame");
   return page;
+}
+
+/**
+ * The stream's decorations that overlap the card, by class. The chat and the emotes get a
+ * gutter so they never cover the prose: the first version did, and made the game unreadable.
+ */
+export async function overCard(page: Page): Promise<string[]> {
+  return (await page.evaluate(`(() => {
+    const card = document.querySelector(".card");
+    if (!card) return [];
+    const c = card.getBoundingClientRect();
+    return [...document.querySelectorAll(".stream-chat, .stream-emotes")].filter((el) => {
+      const r = el.getBoundingClientRect();
+      return r.width > 0 && r.left < c.right && r.right > c.left && r.top < c.bottom && r.bottom > c.top;
+    }).map((el) => el.className);
+  })()`)) as string[];
 }
 
 export async function close(page: Page): Promise<void> {

@@ -11,7 +11,9 @@ export const STRINGS = {
     left: "Movements, unions, committees. Your people want everything fixed by Friday.",
     right: "Donors, generals, the old families. Your people want it kept the way it was.",
   },
-  meters: { base: "Base", backers: "Backers", public: "Public", money: "Money", order: "Order", inst: "Institutions" },
+  // "State" was "Institutions" until BACKLOG-5 phase 32, which did not fit a 360px phone. It
+  // fails at both ends the same way: no ministry left, or forty-one committees.
+  meters: { base: "Base", backers: "Backers", public: "Public", money: "Money", order: "Order", inst: "State" },
   /**
    * The three coalition blocs are the same slots for both sides; who they are is not.
    * This is where most of the path distinction in BACKLOG item 5 actually lives.
@@ -36,7 +38,7 @@ export const STRINGS = {
   meterLabels: {
     money: ["Money", "Cash", "CA$H"],
     order: ["Order", "Cops", "COPS"],
-    inst: ["Institutions", "Gov Stuff", "THE SYSTEM"],
+    inst: ["State", "Gov Stuff", "THE MAN"],
   } as Record<string, readonly [string, string, string]>,
   /**
    * What it looks like when one bloc in particular is unhappy. Said of the bloc, so it
@@ -434,6 +436,8 @@ export const STRINGS = {
     carried: "The country is left with",
     andMore: "and {n} more",
     owed: "{n} decisions are still owed.",
-    owedOne: "One decision is still owed."
+    owedOne: "One decision is still owed.",
+    upright: "Turn your phone upright",
+    uprightBody: "Your run is right where you left it."
   },
 } as const;

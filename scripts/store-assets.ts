@@ -8,10 +8,10 @@
  * Run after a build:  npm run build && npm run store:assets   (writes twa/store/)
  *
  * The game's font is the system's, which on Android is Roboto. Rendered here it would be
- * this machine's, and DejaVu Sans is a fifth wider, so this fetches Roboto from Google Fonts
- * and points Chromium's fontconfig at it: the screenshots look like the phone. Where that
- * cannot be done (no network, or a Mac, where Chrome does not read fontconfig) they are
- * made anyway, in whatever the machine has, and the script says so.
+ * this machine's, and DejaVu Sans is a fifth wider, so Chromium is pointed at the Roboto the
+ * browser audits measure in (tests/browser/roboto.ts): the screenshots look like the phone.
+ * Only Chromium on Linux reads fontconfig; on a Mac or Windows they come out in the system's
+ * own font.
  */
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
@@ -33,45 +33,11 @@ import { LESSONS } from "../src/ui/teach";
 import { WorldAfter } from "../src/ui/WorldAfter";
 import { composeWorld } from "../src/ui/world";
 import { close, endRun, findChromium, LATE, openAt, playToBoundary, startRunAt, toLook, type OpenOptions } from "../tests/browser/drive";
+import { robotoEnv } from "../tests/browser/roboto";
 
 const OUT = resolve("twa/store");
 const PHONE = { width: 360, height: 640, scale: 3 };
 const SEED = 8065615;
-const FONT_DIR = resolve("node_modules/.cache/store-fonts");
-
-/** Roboto from Google Fonts, and a fontconfig that prefers it. Null if it cannot be had. */
-async function robotoConfig(): Promise<string | null> {
-  try {
-    mkdirSync(FONT_DIR, { recursive: true });
-    for (const weight of [400, 500, 700, 900]) {
-      const file = join(FONT_DIR, `Roboto-${weight}.ttf`);
-      if (existsSync(file)) continue;
-      // Without a browser's user agent the CSS API answers with plain TrueType files.
-      const css = await (await fetch(`https://fonts.googleapis.com/css2?family=Roboto:wght@${weight}`)).text();
-      const url = css.match(/url\((https:\/\/fonts\.gstatic\.com[^)]+\.ttf)\)/)?.[1];
-      if (!url) throw new Error(`no TrueType file for Roboto ${weight}`);
-      writeFileSync(file, Buffer.from(await (await fetch(url)).arrayBuffer()));
-    }
-    const conf = join(FONT_DIR, "fonts.conf");
-    writeFileSync(
-      conf,
-      `<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <include ignore_missing="yes">/etc/fonts/fonts.conf</include>
-  <dir>${FONT_DIR}</dir>
-  <alias binding="strong"><family>system-ui</family><prefer><family>Roboto</family></prefer></alias>
-  <alias binding="strong"><family>sans-serif</family><prefer><family>Roboto</family></prefer></alias>
-</fontconfig>
-`,
-    );
-    return conf;
-  } catch (e) {
-    console.warn(`  Roboto unavailable (${(e as Error).message}); using this machine's fonts.`);
-    return null;
-  }
-}
-
 /**
  * A profile thirty runs in, so the codex has something to show: thirty runs of the mixed
  * bot, each folded into the profile by the game's own fold, unlocks and all. Nothing in it
@@ -213,11 +179,10 @@ async function main(): Promise<void> {
   if (!chrome) throw new Error("No Chromium found. Point CHROME_PATH at one.");
   mkdirSync(OUT, { recursive: true });
 
-  const fonts = await robotoConfig();
   const server = await preview({ logLevel: "silent", preview: { port: 4181, strictPort: false, open: false } });
   const url = server.resolvedUrls?.local[0];
   if (!url) throw new Error("vite preview started without a local URL");
-  const browser = await chromium.launch({ executablePath: chrome, env: { ...process.env, ...(fonts ? { FONTCONFIG_FILE: fonts } : {}) } });
+  const browser = await chromium.launch({ executablePath: chrome, env: robotoEnv() });
   try {
     const veteran = veteranProfile();
     await screenshots(browser, url, veteran);
@@ -227,7 +192,7 @@ async function main(): Promise<void> {
     await browser.close();
     await server.close();
   }
-  console.log(`Store graphics in ${OUT}${fonts ? ", in Roboto" : ""}:`);
+  console.log(`Store graphics in ${OUT}:`);
   for (const f of ["01-card.jpg", "02-decay.jpg", "03-ascent.jpg", "04-twenty-years-on.jpg", "05-end-ascent.jpg", "06-end-decay.jpg", "07-codex.jpg", "08-menu.jpg", "feature-graphic.jpg", "icon-512.png"]) {
     console.log(`  ${f.padEnd(24)} ${(statSync(join(OUT, f)).size / 1024).toFixed(0).padStart(4)} KB`);
   }

@@ -64,13 +64,13 @@ game, strategy, choices matter.
 | `08-menu.jpg` | 1080×1920 | The start of a run: a side, a setup, a promise |
 
 The screenshots are a 360×640 phone at three device pixels per CSS pixel, in Roboto, the
-font Android draws the game in. The script fetches Roboto and points Chromium at it, since
-this machine's default is a fifth wider. The profile in `07` and `08` was played, not
-written: thirty runs of the mixed bot folded in by the game's own code.
+font Android draws the game in. It is the copy the browser audits measure in
+(`tests/browser/fonts/`), since this machine's default is a fifth wider. The profile in `07`
+and `08` was played, not written: thirty runs of the mixed bot folded in by the game's own
+code.
 
-**Known flaw in these shots.** In `02` and `03` some meter names are cut short ("THE MON…",
-"Institutio…"). That is the game as a 360px phone shows it today (BACKLOG-4 phase 29). If
-the names are shortened, run the script again before uploading.
+Every meter name is whole in these, as of v0.44.0 (BACKLOG-5 phase 32). The earlier shots
+cut "THE MON…" and "Institutio…" short. The audit now fails any name cut short at 360px.
 
 ## Data safety form
 
