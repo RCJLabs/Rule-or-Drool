@@ -26,7 +26,12 @@ describe("validateRoot: shipped content", () => {
   });
 
   it("holds the MVP content scope from section 10", () => {
-    const events = content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0);
+    // The deck a side draws from day to day. A card written for one crisis or one named
+    // advisor has to serve both sides, because crises and the cabinet are nobody's politics
+    // (content.test.ts), so counting those would move this share with every crisis or face
+    // added without changing what either side draws (BACKLOG-5 phase 35).
+    const personal = (c: (typeof content.cards)[number]) => (c.cond?.flags ?? []).some((f) => f.startsWith("crisis_") || f.startsWith("advisor_adv_"));
+    const events = content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0 && !personal(c));
     const any = events.filter((c) => c.align === "any").length;
     expect(content.cards.length).toBeGreaterThanOrEqual(300);
     expect(content.arcs.length).toBeGreaterThanOrEqual(12);

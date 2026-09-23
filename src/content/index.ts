@@ -55,6 +55,7 @@ import blocCards from "./cards/blocs.json";
 import wantCards from "./cards/wants.json";
 import keptCards from "./cards/kept.json";
 import tenureCards from "./cards/tenure.json";
+import voiceCards from "./cards/voices.json";
 import edgeCards from "./cards/edges.json";
 import billCards from "./cards/bills.json";
 import habitCards from "./cards/habits.json";
@@ -138,6 +139,7 @@ export const content: Content = {
     ...asCards(wantCards, "wants.json"),
     ...asCards(keptCards, "kept.json"),
     ...asCards(tenureCards, "tenure.json"),
+    ...asCards(voiceCards, "voices.json"),
     ...asCards(edgeCards, "edges.json"),
     ...asCards(billCards, "bills.json"),
     ...asCards(habitCards, "habits.json"),

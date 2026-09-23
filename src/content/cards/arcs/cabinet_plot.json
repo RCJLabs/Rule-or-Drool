@@ -16,7 +16,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Someone in your cabinet has been skimming the reconstruction fund for years. The paperwork is beautiful.",
+    "text": "{advisor} has been skimming the reconstruction fund for years, and would rather you heard it first. The paperwork is beautiful.",
     "left": {
       "label": "Bury it",
       "fx": {
@@ -60,7 +60,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Now that you are both in it, they would like a larger share, and a nephew in the ministry of transport.",
+    "text": "Now that you are both in it, {advisor} would like a larger share, and a nephew in the ministry of transport.",
     "cond": {
       "flags": [
         "buried_the_audit"
@@ -111,7 +111,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "They mention, warmly, that your signature is on nine of the transfers, and that they keep copies at home.",
+    "text": "{advisor} mentions, warmly, that your signature is on nine of the transfers, and that there are copies at home.",
     "cond": {
       "flags": [
         "buried_the_audit"

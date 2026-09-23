@@ -132,6 +132,26 @@ describe("the end screen", () => {
     expect(document.querySelector(".road-back")).toBeNull();
   });
 
+  it("offers nothing for a run begun before an update that deals it differently", () => {
+    // A third advisor in each role changed the cabinet a seed deals (BACKLOG-5 phase 35). A
+    // run saved before that and finished after it holds a record the update no longer deals:
+    // sometimes a different card, sometimes the same cards under different people. Either
+    // way a way back would lead into a run that never happened, so none is offered.
+    const s = ended();
+    const offered = (state: GameState) => {
+      const { unmount } = render(<Ending lib={library} state={state} fold={null} onPlayAgain={noop} onCodex={noop} onSettings={noop} onTakeOtherRoad={noop} />);
+      const n = document.querySelectorAll(".road-back").length;
+      unmount();
+      return n;
+    };
+    expect(offered(s)).toBeGreaterThan(0);
+    const k = Math.floor(s.cardCount / 2);
+    expect(offered({ ...s, choices: s.choices!.map((c, i) => (i === k ? (["not_a_card", c[1]] as typeof c) : c)) })).toBe(0);
+    const [role, id] = Object.entries(s.cabinet).find(([r]) => r !== library.config.rivalRole)!;
+    const someoneElse = [...library.advisorsById.values()].find((a) => a.role === role && a.id !== id)!;
+    expect(offered({ ...s, cabinet: { ...s.cabinet, [role]: someoneElse.id } })).toBe(0);
+  });
+
   it("shows both roads at the end of the second: each name and each world", () => {
     const g = renderHook(() => useGame(library)).result;
     act(() => g.current.start(2024, "left"));

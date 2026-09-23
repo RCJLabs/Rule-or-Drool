@@ -43,8 +43,8 @@
         "muddle",
         "ascent"
       ],
-      "flags": [
-        "advisor_corrupt"
+      "speakerTraits": [
+        "corrupt"
       ]
     },
     "weight": 2,

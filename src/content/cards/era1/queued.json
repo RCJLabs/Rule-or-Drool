@@ -418,5 +418,221 @@
         }
       ]
     }
+  },
+  {
+    "id": "q35_dust",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The farms you did not water have blown away, one field at a time. The dust reaches the city anyway.",
+    "weight": 0,
+    "left": {
+      "label": "Buy grain abroad",
+      "fx": {
+        "money": -6,
+        "public": 3,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the farmers",
+      "fx": {
+        "base": 2,
+        "public": -4,
+        "order": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q35_leak_proof",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The forgery has been authenticated by three universities and, awkwardly, by the port.",
+    "weight": 0,
+    "left": {
+      "label": "Apologise at last",
+      "fx": {
+        "base": -4,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the universities",
+      "fx": {
+        "base": 3,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q35_martyrs",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The plotters you tried behind closed doors are martyrs now. They have a song, and the song is catchy.",
+    "weight": 0,
+    "left": {
+      "label": "Open the transcripts",
+      "fx": {
+        "inst": 3,
+        "order": -3,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Ban the song",
+      "fx": {
+        "order": 3,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q35_pensions_taken",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The year is up. The creditors have taken the pension fund, as agreed, and are sorry to hear about the pensioners.",
+    "weight": 0,
+    "left": {
+      "label": "Pay the pensioners",
+      "fx": {
+        "money": -8,
+        "public": 3,
+        "base": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the creditors",
+      "fx": {
+        "base": 3,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q35_shadow_court",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Your predecessor holds court at the residence on Thursdays. Half your ministers go, and the other half send flowers.",
+    "weight": 0,
+    "left": {
+      "label": "Evict her properly",
+      "fx": {
+        "order": -3,
+        "inst": 4,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Start going yourself",
+      "fx": {
+        "base": 3,
+        "backers": 2,
+        "inst": -5
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "q35_dam",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The new dam has a crack in it, just below the plaque with your name on.",
+    "weight": 0,
+    "left": {
+      "label": "Drain it and rebuild",
+      "fx": {
+        "money": -7,
+        "public": 3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Paint over the crack",
+      "fx": {
+        "money": 2,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -3
+    }
   }
 ]

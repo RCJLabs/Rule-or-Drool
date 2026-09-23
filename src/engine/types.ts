@@ -57,6 +57,13 @@ export interface Cond {
   notFlags?: string[];
   /** Strict comparisons against current meter values, or against `mood` (the bloc average). */
   meters?: Partial<Record<CondMeterKey, MeterCond>>;
+  /**
+   * Every one of these traits must belong to whoever speaks the card. `advisor_corrupt` is
+   * true when anyone in the room is corrupt, so a card written about a crooked treasurer and
+   * gated on it would accuse an honest one whenever the crook sat elsewhere (BACKLOG-5
+   * phase 35). An arc entry reads it against the speaker of the arc's first card.
+   */
+  speakerTraits?: string[];
 }
 
 export interface Enqueue {
@@ -153,6 +160,34 @@ export interface Modifier {
   meterStart?: FxSpec;
   flags?: string[];
   arcWeights?: Record<string, number>;
+  /**
+   * Eras whose rules this modifier changes, on top of the era's own (BACKLOG-5 phase 35). A
+   * crisis you inherit can outlast you: the grid nobody fixed is still failing twenty years
+   * on.
+   */
+  bends?: EraBend[];
+}
+
+/**
+ * What changes about the game itself in a given era, as opposed to which cards are eligible
+ * (BACKLOG item 8). Era 1 is the baseline and carries no rule of its own.
+ */
+export interface EraRule {
+  /** Meter deltas applied every `passiveEvery` cards, with no card to blame for them. */
+  passive?: FxSpec;
+  passiveEvery?: number;
+  /** Multiplier on top of band volatility: above 1 and everything lands harder. */
+  volatility?: number;
+  /** Multiplies enqueue delays. Below 1 and the bill comes due sooner than it used to. */
+  queueScale?: number;
+}
+
+/**
+ * An era rule a modifier adds. It is added to the era's own rather than replacing it: its
+ * standing pressure runs on its own beat beside the era's, and its multipliers multiply.
+ */
+export interface EraBend extends EraRule {
+  era: number;
 }
 
 export interface Ending {

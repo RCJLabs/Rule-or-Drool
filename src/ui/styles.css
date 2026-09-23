@@ -782,6 +782,13 @@ button {
 .era-jump[data-beat="2"] .era-rule {
   opacity: 0;
 }
+/* A crisis bending the era reads as part of the era's rule, not a second one (BACKLOG-5
+   phase 35). */
+.era-rule + .era-bend {
+  margin-top: 8px;
+  padding-top: 0;
+  border-top: 0;
+}
 .era-carried {
   margin: 18px 0 0;
   padding: 12px 0 0;

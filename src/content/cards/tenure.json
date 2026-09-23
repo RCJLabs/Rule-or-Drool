@@ -16,14 +16,14 @@
     "speaker": "general",
     "text": "{advisor} has served three eras without once being thanked in public, and is now the last person here who remembers the first one.",
     "cond": {
-      "flags": [
-        "advisor_loyal"
-      ],
       "meters": {
         "tenure": {
           "gt": 60
         }
-      }
+      },
+      "speakerTraits": [
+        "loyal"
+      ]
     },
     "oneShot": true,
     "weight": 1,
@@ -38,7 +38,7 @@
       "drift": 4
     },
     "right": {
-      "label": "Let him retire quietly",
+      "label": "A quiet retirement",
       "fx": {
         "order": -4,
         "money": 3,
@@ -63,21 +63,21 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "{advisor} has outlasted everyone he came in with. Nobody has asked him what he thinks since the second era.",
+    "text": "{advisor} has outlasted everyone who came in at the same time. Nobody has asked the chief of staff's opinion since the second era.",
     "cond": {
-      "flags": [
-        "advisor_loyal"
-      ],
       "meters": {
         "tenure": {
           "gt": 60
         }
-      }
+      },
+      "speakerTraits": [
+        "loyal"
+      ]
     },
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Ask him now",
+      "label": "Ask now",
       "fx": {
         "inst": 4,
         "base": -3,
@@ -114,21 +114,21 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "{advisor} has held the branches together through two governments of yours. He has never asked for anything.",
+    "text": "{advisor} has held the branches together through two governments of yours, and has never asked for anything.",
     "cond": {
-      "flags": [
-        "advisor_loyal"
-      ],
       "meters": {
         "tenure": {
           "gt": 60
         }
-      }
+      },
+      "speakerTraits": [
+        "loyal"
+      ]
     },
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Give him the seat",
+      "label": "Offer the seat",
       "fx": {
         "base": 4,
         "backers": 3,
@@ -142,7 +142,7 @@
       ]
     },
     "right": {
-      "label": "Keep him where he works",
+      "label": "Keep them at work",
       "fx": {
         "base": -3,
         "backers": 3,
@@ -169,14 +169,14 @@
     "speaker": "tycoon",
     "text": "{advisor} has been in the room a long time. An auditor has asked, politely, for the years you cannot account for.",
     "cond": {
-      "flags": [
-        "advisor_corrupt"
-      ],
       "meters": {
         "tenure": {
           "gt": 45
         }
-      }
+      },
+      "speakerTraits": [
+        "corrupt"
+      ]
     },
     "oneShot": true,
     "weight": 1,
@@ -222,14 +222,14 @@
     "speaker": "treasurer",
     "text": "{advisor} has been managing the reserve for years. A junior has found the second set of workings and brought them to you.",
     "cond": {
-      "flags": [
-        "advisor_corrupt"
-      ],
       "meters": {
         "tenure": {
           "gt": 45
         }
-      }
+      },
+      "speakerTraits": [
+        "corrupt"
+      ]
     },
     "oneShot": true,
     "weight": 1,
@@ -275,14 +275,14 @@
     "speaker": "spin",
     "text": "{advisor} has placed every story for years and now has files on the people who placed the others.",
     "cond": {
-      "flags": [
-        "advisor_corrupt"
-      ],
       "meters": {
         "tenure": {
           "gt": 45
         }
-      }
+      },
+      "speakerTraits": [
+        "corrupt"
+      ]
     },
     "oneShot": true,
     "weight": 1,

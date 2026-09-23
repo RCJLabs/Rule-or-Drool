@@ -3,7 +3,7 @@ import { library } from "../../src/content";
 import { draw } from "../../src/engine/draw";
 import { getCard } from "../../src/engine/library";
 import { MANDATES } from "../../src/engine/mandates";
-import { canRetrace, replayTo } from "../../src/engine/replay";
+import { canRetrace, replays, replayTo } from "../../src/engine/replay";
 import { resolve } from "../../src/engine/resolve";
 import { makeRng } from "../../src/engine/rng";
 import { newRun, rollSetup } from "../../src/engine/state";
@@ -40,6 +40,8 @@ describe("going back to a card", () => {
       const states = playKeeping(seed);
       const last = states[states.length - 1]!;
       expect(canRetrace(last)).toBe(true);
+      // And the whole record, replayed, ends where the run ended, as saved and loaded back.
+      if (seed % 10 === 0) expect(replays(library, JSON.parse(JSON.stringify(last)) as GameState), `seed ${seed}`).toBe(true);
       const n = last.cardCount;
       const r = makeRng(seed * 7919);
       for (const k of new Set([0, n, Math.floor(r() * n), Math.floor(r() * n)])) {

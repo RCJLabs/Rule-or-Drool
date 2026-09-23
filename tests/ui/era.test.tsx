@@ -72,3 +72,26 @@ describe("the era boundary says what carried over", () => {
     expect(screen.getByRole("dialog").getAttribute("data-beat")).toBe("3");
   });
 });
+
+describe("the era boundary says what a crisis does to the era", () => {
+  // The grid a run inherited is still failing twenty years on (BACKLOG-5 phase 35).
+  const bent = STRINGS.bends["crisis_blackouts:2"]!;
+  const blackouts = (era: number) => ({ ...at({ modifiers: ["crisis_blackouts", "trait_orator", "flaw_vain"] }), era });
+
+  it("says it beside the era's own rule, in the era it bends", () => {
+    const { container } = show(blackouts(2));
+    const rules = [...container.querySelectorAll(".era-rule")].map((p) => p.textContent);
+    expect(rules).toEqual([STRINGS.eraRules[1], bent]);
+    // Part of what a screen reader hears on arriving, as the era's rule is.
+    const described = screen.getByRole("dialog").getAttribute("aria-describedby")!.split(" ");
+    expect(described).toContain(container.querySelector(".era-bend")!.id);
+  });
+
+  it("says nothing of it for another era, or for a run that did not inherit it", () => {
+    const third = render(<EraTransition lib={library} state={{ ...blackouts(3) }} era={3} reduceMotion onContinue={() => {}} />);
+    expect(third.container.querySelector(".era-bend")).toBeNull();
+    cleanup();
+    const other = show(at({ modifiers: ["crisis_war", "trait_orator", "flaw_vain"] }));
+    expect(other.container.querySelector(".era-bend")).toBeNull();
+  });
+});

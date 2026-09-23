@@ -16,9 +16,9 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The general offers to handle the opposition's organisers privately. He does not say what handle means and you do not ask.",
+    "text": "The general offers to handle the opposition's organisers privately, without saying what handle means, and you do not ask.",
     "left": {
-      "label": "Let him handle it",
+      "label": "Let it be handled",
       "fx": {
         "order": 3,
         "inst": -3,
@@ -33,7 +33,7 @@
       ]
     },
     "right": {
-      "label": "Tell him no",
+      "label": "Tell the general no",
       "fx": {
         "order": -4,
         "inst": 3,
@@ -60,14 +60,14 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "It worked. He would now like the interior ministry as well, for efficiency, and mentions how quiet the streets are.",
+    "text": "It worked. The general would now like the interior ministry as well, for efficiency, and mentions how quiet the streets are.",
     "cond": {
       "flags": [
         "general_unleashed"
       ]
     },
     "left": {
-      "label": "Give him the ministry",
+      "label": "Hand over the ministry",
       "fx": {
         "order": 3,
         "money": 2,
@@ -80,7 +80,7 @@
       "next": "arc_sm3"
     },
     "right": {
-      "label": "Retire him now",
+      "label": "Retire the general",
       "fx": {
         "order": -5,
         "inst": 3,
@@ -111,7 +111,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "He proposes you take the title permanently. It is phrased as a request. The garrison has already been told.",
+    "text": "The general proposes you take the title permanently. It is phrased as a request. The garrison has already been told.",
     "cond": {
       "flags": [
         "general_unleashed"
@@ -123,7 +123,7 @@
       "ending": "leader_for_life"
     },
     "right": {
-      "label": "Refuse him",
+      "label": "Refuse the general",
       "drift": 5,
       "ending": "assassination"
     }

@@ -490,7 +490,136 @@ seeded runs in a test, and a second road's end screen shows both roads.
 
 </details>
 
-## Phase 35. More crises, more faces — *queued*
+## Phase 35. More crises, more faces — *done*
+
+**Shipped.** Six new crises and a third advisor in every cabinet role. A run now inherits one
+of ten crises and is served by people drawn from twenty-four.
+
+**The crises.** Each starts you somewhere of its own and deals one card nobody else gets, in
+your first era. Four favour an arc. Two bend an era, which is a rule the game did not have
+before.
+
+| Crisis | Starts you | Its rule | Its card |
+|---|---|---|---|
+| A drought | Public −6, Money −6, Base −4 | favours the water arc (×2.2) | the river, and who gets it |
+| A leak | Public −6, Backers −6, State −2, Base +2 | favours the press (×1.8) and impeachment (×1.5) arcs | the predecessor's messages |
+| A failed coup | Order +8, Money −8, Backers −3, Public −3, Base −2 | favours the purge on the left and the strongman on the right (×1.8 each) | the plotters in the cells |
+| A debt crisis | Money −10, Backers −4, Public −2 | bends your own term: every bill you put off comes due in 70% of the time | the pension fund as collateral |
+| Blackouts | Money −7, Public −4, Backers −3, Order −2 | bends era 2: Public −1 every 6 cards, beside the era's own pressure | the rota that skips the ministries |
+| A predecessor who will not leave | Public −5, Backers −5, Money −5, State −3 | favours the succession arc (×2.2) | the locks at the residence |
+
+Five of the six cards send a consequence back later on their tempting side.
+
+**How a bend works.** A modifier can now carry `bends`: rules for one era, added to the era's
+own rather than replacing them. Its standing pressure runs on its own beat beside the era's,
+and its multipliers multiply the era's. The era jump says it under the era's own rule. The
+debt crisis bends your own term, which has no jump, so its blurb says it at setup.
+
+**The faces.** Each role gained a third advisor with a trait combination it did not have:
+
+| Role | New advisor | Traits |
+|---|---|---|
+| Treasurer | Hester Coyne | zealot, loyal |
+| General | Casimir Orde | competent, corrupt |
+| Press Secretary | Juno Farrant | zealot |
+| Chief of Staff | Rufus Tolliver | corrupt |
+| Chief Justice | Evander Crane | loyal, corrupt |
+| Chief Scientist | Anouk Veldt | loyal |
+| Donor | Cosima Wexler | zealot |
+| Organizer | Lorna Pike | competent, corrupt |
+
+Each has two cards in their own voice. The first is what they want from the job, and it feeds
+the owed and snubbed cards every role already had. The second comes once they have served a
+while.
+
+**What changed in existing content, and why:**
+- **A card about a kind of advisor now waits for that kind.** Seven cards named whoever spoke
+  them as corrupt or as loyal, but were gated on the flag for the whole room. So "{advisor}
+  has been managing the reserve for years. A junior has found the second set of workings"
+  could name Odalys Brenn, the treasurer who wants the accounts published. A condition can
+  now read the speaker's own traits (`speakerTraits`), and those seven use it.
+- **The cabinet plot needs a crooked treasurer.** Its entry needed only a crook somewhere in
+  the room, and it always sacked the treasurer, so two times in three it sacked an honest one
+  for skimming. It was entered in 50% of competent runs, which put all three treasurers at
+  47–50% of runs, over the ceiling below. Its entry now reads the treasurer's traits, and its
+  three cards name the treasurer. It is entered in 17.3% of runs.
+- **Pronouns.** Nineteen cards named whoever held a role and gave them a gender. Six roles now
+  have both men and women in them, and some of those cards were already wrong: the general's
+  parade card called Ines Corvo "he". They are written without a pronoun for the speaker
+  now. Cards written for one person keep theirs.
+- **A way back only into the same run** (phase 34). A third advisor in each role changes the
+  cabinet a seed deals, so a run begun before this update deals differently after it. The
+  end screen used to check only that the record covered every card. It now replays the whole
+  record and offers a way back only when that ends where the run ended.
+
+**Measured:**
+- **Crises.** Over 20,000 seeded setups, each of the ten is dealt in 9.9–10.2% of runs, for a
+  new player and a fully unlocked one alike.
+- **Advisors.** Over 20,000 competent runs (the mixed bot), each of the 24 serves in
+  32.8–41.3% of runs. Serving means holding the role at any point, including after
+  someone is let go. `npm run simulate` now prints this range, and the most common crisis.
+- **Meeting them all.** Measured as the audit measured it (the mixed bot playing runs in a
+  row; the median of 400 players), a player now meets every crisis by run 28 instead of run
+  8, and every cabinet advisor by run 9 instead of 5. The audit said run 7 for the crises; this
+  sample says 8 for the same four.
+- **Balance,** 20,000 runs per bot, before → after:
+  - random median run: 60 → 60 cards (mean 59.8 → 60.2);
+  - the most common ouster: bankruptcy, 23.4% → 23.6%;
+  - greedy ends in Decay: 75.1% → 75.3%;
+  - saint ousted before era 2: 100% → 100%;
+  - mixed reaches Ascent: 18.3% → 21.2%.
+- **The first draft missed.** Its random median was 61 cards. Three of its crises cut State,
+  which honest play pushes up. Those runs ended in paralysis later, and they gave the mixed
+  bot more room before State became a danger: 31–35% Ascent. After retuning, measured over
+  10,000 runs (about 1,000 per crisis):
+
+  | | Random run, mean | Mixed Ascent |
+  |---|---|---|
+  | The new six | 56.8–61.2 cards | 18.4–22.5% |
+  | The old four | 59.6–61.7 cards | 18.6–23.3% |
+
+  The failed coup ends random runs soonest.
+
+**Done when, checked:**
+- **10 crises, none in more than 15% of runs:** 9.9–10.2%. A test deals 20,000 setups for
+  each kind of player.
+- **24 advisors, each serving in 20–45% of runs:** 32.8–41.3%. A test plays 2,000
+  competent runs.
+
+**Also checked:**
+- `validate:mvp` is clean at 554 cards. The validator now rejects a bend that never applies,
+  changes nothing or bends one era twice, and a speaker condition nobody in the role can
+  meet.
+- The unit suite is 482 tests and the browser suite 35. The new browser test takes a
+  blackouts run to the era 2 jump on 360×640 and 412×732: the panel does not scroll, and it
+  passes fit and contrast. That run already carries the most the panel shows, with 142px to
+  spare.
+- Mutation-checked, each failing a test:
+  - speaker traits ignored;
+  - an arc entry read without its first speaker;
+  - a bend's beat or its multipliers dropped;
+  - the replay check cut down to the cards, or to the record's length;
+  - a pronoun put back;
+  - a tenure card reading the room again.
+- The neutral-card test now measures the everyday deck. A card for one crisis or one named
+  advisor has to serve both sides. Counting those put the share past 60% without changing
+  what either side draws. The everyday deck is 56.0% neutral, as before.
+- "A predecessor who will not leave" fits the setup offer and the end screen at 360px.
+- The bundle grew by 3.7 KB gzipped.
+
+**Yours:**
+- **The new writing.** Read it before or after it ships:
+  - the six crises' names and blurbs (`strings.ts`);
+  - their cards and consequences (`era1/gated.json`, `era1/queued.json`);
+  - the eight advisors (`advisors.json`), their wants (`wants.json`) and their second cards
+    (`voices.json`).
+- **Changes to writing you shipped.** The cabinet plot's three cards, and the nineteen
+  pronoun rewrites in `kept.json`, `tenure.json`, `strongman.json`, `mandates.json` and
+  `elections/shared.json`.
+- **Old run codes.** A code sent before this update opens with a different cabinet after it.
+  Any new card could already change what a code deals.
+
+<details><summary>Original entry</summary>
 
 **Evidence.**
 - The first thing a run tells you is the crisis you inherit. There are 4, and a player has
@@ -507,6 +636,8 @@ seeded runs in a test, and a second road's end screen shows both roads.
 
 **Done when** there are 10 crises, none in more than 15% of runs, and 24 advisors, each
 serving in 20–45% of runs.
+
+</details>
 
 ## Phase 36. The deck by run five — *queued*
 

@@ -1,0 +1,383 @@
+[
+  {
+    "id": "v35_coyne",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} has found the money for your statue by closing a hospital, and is equally proud of both.",
+    "cond": {
+      "flags": [
+        "advisor_adv_coyne"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 20
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Reopen the hospital",
+      "fx": {
+        "public": 4,
+        "money": -4,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Unveil the statue",
+      "fx": {
+        "base": 4,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "v35_orde",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} reports the army's readiness at an all-time high. The auditors report its budget at an all-time high, and can find about half of it.",
+    "cond": {
+      "flags": [
+        "advisor_adv_orde"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 20
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Send in the auditors",
+      "fx": {
+        "inst": 4,
+        "money": 3,
+        "order": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pin on another medal",
+      "fx": {
+        "order": 4,
+        "base": 2,
+        "money": -4,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "v35_farrant",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} has started believing the briefings she writes. This morning she corrected a minister using one.",
+    "cond": {
+      "flags": [
+        "advisor_adv_farrant"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 15
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Brief her honestly",
+      "fx": {
+        "inst": 3,
+        "public": 2,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Write her better ones",
+      "fx": {
+        "base": 4,
+        "inst": -3,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "v35_tolliver",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} decides who reaches you now, and has decided the health minister's warning can wait until after the donors' lunch.",
+    "cond": {
+      "flags": [
+        "advisor_adv_tolliver"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 15
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "See the minister",
+      "fx": {
+        "public": 3,
+        "inst": 2,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Lunch first",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "v35_crane",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{advisor} has moved into a house built for him by the court's busiest litigant. He says the rent is very fair.",
+    "cond": {
+      "flags": [
+        "advisor_adv_crane"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 20
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Ask what the rent is",
+      "fx": {
+        "inst": 4,
+        "backers": -4,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Admire the house",
+      "fx": {
+        "backers": 4,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "v35_veldt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{advisor} has published a study showing that your policies worked. The data section is blank, and titled Forthcoming.",
+    "cond": {
+      "flags": [
+        "advisor_adv_veldt"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 15
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Withdraw the study",
+      "fx": {
+        "inst": 3,
+        "public": 2,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Quote it everywhere",
+      "fx": {
+        "base": 4,
+        "backers": 2,
+        "inst": -4
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "v35_wexler",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} has bought the country's biggest newspaper to explain her idea to it. The first issue is forty pages long.",
+    "cond": {
+      "flags": [
+        "advisor_adv_wexler"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 15
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Block the sale",
+      "fx": {
+        "inst": 3,
+        "backers": -5,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give her an interview",
+      "fx": {
+        "backers": 4,
+        "base": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "v35_pike",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} has found four hundred voters in the river wards who died before the last election. All of them voted for you.",
+    "cond": {
+      "flags": [
+        "advisor_adv_pike"
+      ],
+      "meters": {
+        "tenure": {
+          "gt": 15
+        }
+      }
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Strike them off",
+      "fx": {
+        "base": -4,
+        "inst": 4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let the dead vote",
+      "fx": {
+        "base": 4,
+        "backers": 2,
+        "inst": -5
+      },
+      "drift": -5,
+      "rival": 2
+    }
+  }
+]

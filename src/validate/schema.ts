@@ -125,6 +125,7 @@ const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
 const COND_FIELDS: Record<string, Spec> = {
   flags: IDS,
   notFlags: IDS,
+  speakerTraits: { kind: "array", items: ID, nonEmpty: true, unique: true },
   meters: { kind: "record", keys: COND_KEYS, values: { kind: "object", required: [], fields: { lt: INT, gt: INT } } },
 };
 
@@ -201,6 +202,21 @@ export const MODIFIER_SPEC: Spec = {
     meterStart: meterMap(INT),
     flags: IDS,
     arcWeights: { kind: "record", values: WEIGHT },
+    bends: {
+      kind: "array",
+      nonEmpty: true,
+      items: {
+        kind: "object",
+        required: ["era"],
+        fields: {
+          era: POSITIVE_INT,
+          passive: meterMap(INT),
+          passiveEvery: POSITIVE_INT,
+          volatility: { kind: "number", min: 0.01 },
+          queueScale: { kind: "number", min: 0.01 },
+        },
+      },
+    },
   },
 };
 

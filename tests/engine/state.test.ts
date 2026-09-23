@@ -108,6 +108,18 @@ describe("condMet", () => {
     expect(condMet(l, { meters: { order: { gt: 70 } } }, s)).toBe(false);
     expect(condMet(l, { meters: { mood: { gt: 20, lt: 40 }, order: { gt: 60 } } }, s)).toBe(true);
   });
+
+  it("reads speaker traits off whoever speaks, not off the room", () => {
+    // A crooked chief sits in this cabinet, and the room's flag says so. A card written for a
+    // crooked general must still wait for one (BACKLOG-5 phase 35).
+    const crook = start(l, { cabinet: { chief: "c2", general: "g1" }, flags: ["advisor_corrupt", "advisor_zealot"] });
+    expect(condMet(l, { speakerTraits: ["corrupt"] }, crook, "chief")).toBe(true);
+    expect(condMet(l, { speakerTraits: ["corrupt"] }, crook, "general")).toBe(false);
+    expect(condMet(l, { speakerTraits: ["zealot"] }, crook, "general")).toBe(true);
+    // Every trait asked for, and nobody to ask without a speaker.
+    expect(condMet(l, { speakerTraits: ["corrupt", "loyal"] }, crook, "chief")).toBe(false);
+    expect(condMet(l, { speakerTraits: ["corrupt"] }, crook)).toBe(false);
+  });
 });
 
 describe("rollSetup", () => {

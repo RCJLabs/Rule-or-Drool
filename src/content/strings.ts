@@ -65,6 +65,14 @@ export const STRINGS = {
     "The work is done by machines now. The state gets steadily richer, and the country does not.",
     "Nothing is maintained any more. Everything lands harder, and the bills you defer arrive sooner.",
   ] as readonly string[],
+  /**
+   * What a crisis does to a later era's rules, said at the jump beside the era's own rule
+   * (BACKLOG-5 phase 35). Keyed `modifier:era`. A crisis that bends your own term says so in
+   * its blurb, because era one has no jump to say it at.
+   */
+  bends: {
+    "crisis_blackouts:2": "The grid you inherited was never fixed. The lights still go out every few cards, and the public's patience goes out with them.",
+  } as Record<string, string>,
   eras: [
     { name: "Your term", jump: "The office is yours. The country is watching, for now." },
     { name: "Twenty years on", jump: "Twenty years pass. A successor from your party takes the office you shaped." },
@@ -328,6 +336,12 @@ export const STRINGS = {
     crisis_pandemic: { name: "A pandemic", blurb: "A fever was already loose in the port cities." },
     crisis_war: { name: "A war", blurb: "You inherit a front, a garrison and a casualty list." },
     crisis_disaster: { name: "A disaster", blurb: "Half a province is still under its own rubble." },
+    crisis_drought: { name: "A drought", blurb: "It has not rained properly in three years, and the reservoirs are keeping count." },
+    crisis_leak: { name: "A leak", blurb: "Your predecessor's private messages are public, and some of them mention you." },
+    crisis_coup: { name: "A failed coup", blurb: "The tanks went home on Tuesday. Nobody is sure who sent them out." },
+    crisis_debt: { name: "A debt crisis", blurb: "The creditors keep the calendar now: in your term, every bill you put off comes due sooner." },
+    crisis_blackouts: { name: "Blackouts", blurb: "The grid fails most evenings. Nobody has fixed it in twenty years, and nobody will in the next twenty." },
+    crisis_predecessor: { name: "A predecessor who will not leave", blurb: "The last leader lost the vote and kept the keys." },
     trait_orator: { name: "An orator", blurb: "You are very good in a room, and it has carried you this far." },
     trait_technocrat: { name: "A technocrat", blurb: "You have read the actual file. People find this unsettling." },
     trait_fixer: { name: "A fixer", blurb: "You know where the money is and who moved it." },

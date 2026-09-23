@@ -74,6 +74,10 @@ export function condMet(lib: Library, cond: Cond | undefined, state: GameState, 
   if (!cond) return true;
   if (cond.flags) for (const f of cond.flags) if (!state.flags.includes(f)) return false;
   if (cond.notFlags) for (const f of cond.notFlags) if (state.flags.includes(f)) return false;
+  if (cond.speakerTraits) {
+    const traits = lib.advisorsById.get(state.cabinet[speaker ?? ""] ?? "")?.traits ?? [];
+    for (const t of cond.speakerTraits) if (!traits.includes(t)) return false;
+  }
   if (cond.meters) {
     for (const k of [...METER_KEYS, "mood", "rival", "drift", "tenure"] as const) {
       const m = cond.meters[k];

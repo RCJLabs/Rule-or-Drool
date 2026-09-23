@@ -203,9 +203,9 @@ describe("content: the shape of a run", () => {
   });
 
   it("lets a long-serving loyalist earn something and a kept crook cost something", () => {
+    // Read off the speaker, not the room: a kept crook is the one speaking (BACKLOG-5 phase 35).
     const tenured = content.cards.filter((c) => c.cond?.meters?.tenure?.gt !== undefined);
-    const byTrait = (t: string) =>
-      tenured.filter((c) => c.cond?.flags?.includes(`${library.config.advisorFlagPrefix}${t}`));
+    const byTrait = (t: string) => tenured.filter((c) => c.cond?.speakerTraits?.includes(t));
     expect(byTrait("loyal").length).toBeGreaterThanOrEqual(2);
     expect(byTrait("corrupt").length).toBeGreaterThanOrEqual(2);
   });
@@ -499,6 +499,83 @@ describe("content: the shape of a run", () => {
         expect(Object.keys(by).sort(), `${c.id} covers both sides`).toEqual(["left", "right"]);
         expect(by.left).not.toBe(by.right);
       }
+    }
+  });
+});
+
+/**
+ * More crises, more faces (BACKLOG-5 phase 35). A player had met all four crises by their
+ * seventh run and all sixteen advisors by their fifth.
+ */
+describe("content: what a run inherits, and who it inherits", () => {
+  const crises = content.modifiers.filter((m) => m.kind === "crisis");
+  const cabinet = content.advisors.filter((a) => a.role !== library.config.rivalRole);
+  const TRAIT_FLAGS = ["competent", "loyal", "zealot", "corrupt"].map((t) => `${library.config.advisorFlagPrefix}${t}`);
+
+  it("has ten crises, each with a rule of its own and a card only it brings", () => {
+    expect(crises.length).toBeGreaterThanOrEqual(10);
+    const rules = new Set<string>();
+    for (const m of crises) {
+      // Where it starts you, which story it favours and which era it bends: no two alike.
+      const rule = JSON.stringify([m.meterStart ?? null, m.arcWeights ?? null, m.bends ?? null]);
+      expect(rule, `${m.id} has a rule`).not.toBe("[null,null,null]");
+      expect(rules.has(rule), `${m.id}'s rule is its own`).toBe(false);
+      rules.add(rule);
+      // A card nothing else brings, in the term it is inherited in.
+      const own = content.cards.filter((c) => (m.flags ?? []).some((f) => c.cond?.flags?.includes(f)));
+      expect(own.some((c) => c.eras.includes(1)), `${m.id} brings a card of its own`).toBe(true);
+      expect(STRINGS.modifiers[m.id]?.name, `${m.id} is named at setup`).toBeTruthy();
+    }
+  });
+
+  it("says at the jump what a crisis does to the era it bends", () => {
+    for (const m of content.modifiers) {
+      // Era one has no jump to say it at; a crisis that bends your own term says so in its blurb.
+      for (const b of m.bends ?? []) if (b.era > 1) expect(STRINGS.bends[`${m.id}:${b.era}`], `${m.id} bends era ${b.era}`).toBeTruthy();
+    }
+    for (const key of Object.keys(STRINGS.bends)) {
+      const [id, era] = key.split(":");
+      expect(library.modifiers.get(id!)?.bends?.some((b) => b.era === Number(era)), `${key} is a real bend`).toBe(true);
+    }
+  });
+
+  it("seats three people in every cabinet role, no two of them alike", () => {
+    for (const role of library.roles) {
+      if (role === library.config.rivalRole) continue;
+      const combos = cabinet.filter((a) => a.role === role).map((a) => [...a.traits].sort().join("+"));
+      expect(combos.length, role).toBeGreaterThanOrEqual(3);
+      expect(new Set(combos).size, `${role}: ${combos.join(", ")}`).toBe(combos.length);
+    }
+  });
+
+  it("writes a card about a kind of advisor for that kind of advisor", () => {
+    // `advisor_corrupt` is set when anyone in the room is corrupt. A card that names whoever
+    // speaks and waits on it accused an honest treasurer whenever the crook sat elsewhere.
+    for (const c of content.cards) {
+      if (!c.text.includes("{advisor}")) continue;
+      expect((c.cond?.flags ?? []).filter((f) => TRAIT_FLAGS.includes(f)), `${c.id} reads the room for its speaker`).toEqual([]);
+    }
+    const plot = content.arcs.find((a) => a.id === "arc_cabinet_plot")!;
+    expect(plot.entry.speakerTraits).toEqual(["corrupt"]);
+    expect(plot.entry.flags ?? []).not.toContain(`${library.config.advisorFlagPrefix}corrupt`);
+  });
+
+  it("assumes nothing about who holds a role", () => {
+    // Three people can hold each role, and they are not all he or all she. A card that names
+    // whoever holds it does so without a pronoun for them; a card for one person may use theirs.
+    const gendered = /\b(he|him|his|himself|she|her|hers|herself)\b/i;
+    for (const c of content.cards) {
+      const forOne = (c.cond?.flags ?? []).some((f) => f.startsWith(`${library.config.advisorFlagPrefix}adv_`));
+      if (forOne || !c.text.includes("{advisor}")) continue;
+      expect(`${c.text} | ${c.left.label} | ${c.right.label}`, c.id).not.toMatch(gendered);
+    }
+  });
+
+  it("gives every face a card or two in their own voice", () => {
+    for (const a of cabinet) {
+      const own = content.cards.filter((c) => c.cond?.flags?.includes(`${library.config.advisorFlagPrefix}${a.id}`));
+      expect(own.length, a.id).toBeGreaterThanOrEqual(1);
+      for (const c of own) expect(c.speaker, `${c.id} is spoken by ${a.name}`).toBe(a.role);
     }
   });
 });

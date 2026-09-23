@@ -79,7 +79,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Give her the ministry",
+      "label": "Promote to minister",
       "fx": {
         "inst": 5,
         "base": -4,
@@ -89,7 +89,7 @@
       "drift": 5
     },
     "right": {
-      "label": "Move her sideways",
+      "label": "Move sideways",
       "fx": {
         "base": 3,
         "inst": -4,
@@ -117,7 +117,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "{advisor} has held the garrison together for years. He would like the parade, and he has earned the parade.",
+    "text": "{advisor} has held the garrison together for years, would like the parade, and has earned the parade.",
     "cond": {
       "flags": [
         "owed_general"
@@ -175,7 +175,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "{advisor} still runs the garrison and still has not been thanked. The officers have started thanking him instead.",
+    "text": "{advisor} still runs the garrison and still has not been thanked. The officers have started doing it for you.",
     "cond": {
       "flags": [
         "snubbed_general"
@@ -189,7 +189,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Thank him publicly",
+      "label": "Thank the general",
       "fx": {
         "order": 3,
         "base": 3,
@@ -199,7 +199,7 @@
       "drift": -2
     },
     "right": {
-      "label": "Rotate him out",
+      "label": "Rotate the general out",
       "fx": {
         "order": -5,
         "inst": 3,
@@ -224,7 +224,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "{advisor} has kept your line straight for years and would now like to say something she believes.",
+    "text": "{advisor} has kept your line straight for years and would now like, just once, to say something true.",
     "cond": {
       "flags": [
         "owed_spin"
@@ -238,7 +238,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Let her say it",
+      "label": "Let it be said",
       "fx": {
         "public": 4,
         "inst": 3,
@@ -275,7 +275,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "{advisor} has been overruled so often that the lobby now asks her what you will not say.",
+    "text": "{advisor} has been overruled so often that the lobby now asks the press office what you will not say.",
     "cond": {
       "flags": [
         "snubbed_spin"
@@ -289,7 +289,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Give her the podium",
+      "label": "Hand over the podium",
       "fx": {
         "public": 3,
         "inst": 3,
@@ -349,7 +349,7 @@
       "drift": 5
     },
     "right": {
-      "label": "Leave her to it",
+      "label": "Leave them to it",
       "fx": {
         "inst": -3,
         "base": 3,
@@ -377,7 +377,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "{advisor} has been passed over twice and still arrives first. The staff take their problems to her, not you.",
+    "text": "{advisor} has been passed over twice and still arrives first. The staff take their problems down the hall now, not to you.",
     "cond": {
       "flags": [
         "snubbed_chief"
@@ -391,7 +391,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Make her deputy",
+      "label": "Promote to deputy",
       "fx": {
         "inst": 4,
         "base": -3,
@@ -400,7 +400,7 @@
       "drift": 4
     },
     "right": {
-      "label": "Appoint over her",
+      "label": "Hire over their head",
       "fx": {
         "base": 3,
         "inst": -5,
@@ -544,7 +544,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "{advisor} has delivered everything asked of him and has one thing he has never been allowed to publish.",
+    "text": "{advisor} has delivered everything asked for, and has one finding that has never been allowed out of the building.",
     "cond": {
       "flags": [
         "owed_scientist"
@@ -558,7 +558,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Let him publish",
+      "label": "Let it be published",
       "fx": {
         "inst": 4,
         "public": 3,
@@ -596,7 +596,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "{advisor} stopped submitting proposals two years ago. His people still do, under other names.",
+    "text": "{advisor} stopped submitting proposals two years ago. The lab still does, under other names.",
     "cond": {
       "flags": [
         "snubbed_scientist"
@@ -610,7 +610,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Fund him properly",
+      "label": "Fund the lab properly",
       "fx": {
         "inst": 4,
         "money": -5,
@@ -648,7 +648,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "{advisor} has paid for a great deal and would like the thing you both know he is going to ask for.",
+    "text": "{advisor} has paid for a great deal and would like the thing you both know is coming.",
     "cond": {
       "flags": [
         "owed_tycoon"
@@ -662,7 +662,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Refuse him once",
+      "label": "Refuse, just once",
       "fx": {
         "backers": -6,
         "inst": 4,
@@ -671,7 +671,7 @@
       "drift": 5
     },
     "right": {
-      "label": "Give him it",
+      "label": "Hand it over",
       "fx": {
         "backers": 5,
         "money": 4,
@@ -714,7 +714,7 @@
     "oneShot": true,
     "weight": 1,
     "left": {
-      "label": "Find out what he wants",
+      "label": "Find out what they want",
       "fx": {
         "backers": 3,
         "inst": -3,

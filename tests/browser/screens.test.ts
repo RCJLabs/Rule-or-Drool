@@ -1,8 +1,11 @@
 import { readFileSync } from "node:fs";
 import type { Browser } from "playwright-core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { MANDATES } from "../../src/engine/mandates";
+import { rollSetup } from "../../src/engine/state";
+import { encodeRunCode } from "../../src/meta/runcode";
 import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
@@ -324,6 +327,26 @@ describe.skipIf(!target)("in a browser", () => {
         const panel = (await page.evaluate("(() => { const j = document.querySelector('.era-jump'); return j.scrollHeight - j.clientHeight; })()")) as number;
         if (panel > 0) failures.push(`${width}×${height}: the era panel scrolls by ${panel}px`);
         failures.push(...(await misfits(page, `${width}×${height}`)));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    it("at an era boundary a crisis bends, on the short phones", async () => {
+      // The bend is a second rule on a panel that must not scroll (BACKLOG-5 phase 35). The
+      // run is the audit seed's own, with the crisis swapped for the one that bends era 2.
+      const failures: string[] = [];
+      const setup = rollSetup(library, SEED, "left", []);
+      const code = encodeRunCode({ seed: SEED, align: "left", modifiers: ["crisis_blackouts", ...setup.modifiers!.slice(1)], unlocked: [], mandate: null });
+      for (const [width, height] of [[360, 640], [412, 732]] as const) {
+        const page = await open(browser, { width, height, query: `run=${code}` });
+        await page.getByRole("button", { name: STRINGS.share.offerPlay }).click();
+        await page.waitForSelector(".card");
+        await playToBoundary(page, null);
+        expect(await page.locator(".era-bend").textContent()).toBe(STRINGS.bends["crisis_blackouts:2"]);
+        const panel = (await page.evaluate("(() => { const j = document.querySelector('.era-jump'); return j.scrollHeight - j.clientHeight; })()")) as number;
+        if (panel > 0) failures.push(`${width}×${height}: the era panel scrolls by ${panel}px`);
+        failures.push(...(await misfits(page, `${width}×${height}, bent`)), ...(await contrast(page, `${width}×${height}, bent`)));
         await close(page);
       }
       expect(failures).toEqual([]);

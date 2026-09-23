@@ -37,4 +37,18 @@ export function replayTo(lib: Library, state: GameState, k: number): GameState |
   return s.current === (record[k]?.[0] ?? s.current) ? s : null;
 }
 
+/**
+ * Whether the whole record still deals the run it was made on, and ends where it ended, so
+ * that every way back into it goes back into this run. A run begun before an update can fail
+ * this where the update changed what a seed deals: a third advisor in each role changes the
+ * cabinet a seed draws, which can deal the same cards for a while and still not be the same
+ * run (BACKLOG-5 phase 35).
+ */
+export function replays(lib: Library, state: GameState): boolean {
+  if (!canRetrace(state)) return false;
+  const again = replayTo(lib, state, state.cardCount);
+  const run = (s: GameState) => JSON.stringify([s.cabinet, s.meters, s.drift, s.flags, s.over]);
+  return again !== null && run(again) === run(state);
+}
+
 export const otherSide = (side: Side): Side => (side === "left" ? "right" : "left");

@@ -34,6 +34,10 @@ export interface BotSummary {
   cheatsPerElection: number;
   arcsPerRun: number;
   relaxedPerRun: { cooldown: number; band: number; era: number };
+  /** Each cabinet advisor -> the share of runs they held their role in at some point, fewest first. */
+  served: [string, number][];
+  /** Each crisis -> the share of runs that inherited it, most first. */
+  crises: [string, number][];
 }
 
 export function quantiles(values: number[]): Quantiles {
@@ -60,7 +64,13 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
   let cheats = 0;
   let arcs = 0;
   const relaxed = { cooldown: 0, band: 0, era: 0 };
+  const served = new Map<string, number>();
+  const crises = new Map<string, number>();
   for (const r of results) {
+    for (const id of r.served) served.set(id, (served.get(id) ?? 0) + 1);
+    // Setup draws the crisis first, so it leads the list (5.9).
+    const crisis = r.modifiers[0];
+    if (crisis) crises.set(crisis, (crises.get(crisis) ?? 0) + 1);
     endingCounts.set(r.endingId, (endingCounts.get(r.endingId) ?? 0) + 1);
     byEraCounts.set(r.era, (byEraCounts.get(r.era) ?? 0) + 1);
     elections += r.electionsSeen;
@@ -87,6 +97,8 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     cheatsPerElection: elections > 0 ? cheats / elections : 0,
     arcsPerRun: arcs / n,
     relaxedPerRun: { cooldown: relaxed.cooldown / n, band: relaxed.band / n, era: relaxed.era / n },
+    served: [...served.entries()].map(([id, c]) => [id, c / n] as [string, number]).sort((a, b) => a[1] - b[1]),
+    crises: [...crises.entries()].map(([id, c]) => [id, c / n] as [string, number]).sort((a, b) => b[1] - a[1]),
   };
 }
 
@@ -115,6 +127,13 @@ export function formatSummary(s: BotSummary): string {
   lines.push(
     `relaxed draws per run   cooldown ${f1(s.relaxedPerRun.cooldown)}  band ${f1(s.relaxedPerRun.band)}  era ${f1(s.relaxedPerRun.era)}`,
   );
+  const fewest = s.served[0];
+  const most = s.served[s.served.length - 1];
+  if (fewest && most) {
+    lines.push(`cabinet     ${s.served.length} advisors, each served in ${pct(fewest[1])}–${pct(most[1])} of runs (fewest ${fewest[0]}, most ${most[0]})`);
+  }
+  const common = s.crises[0];
+  if (common) lines.push(`crises      ${s.crises.length} inherited, the most common in ${pct(common[1])} of runs (${common[0]})`);
   lines.push("endings");
   for (const [id, share] of s.endings) lines.push(`  ${id.padEnd(18)} ${pct(share).padStart(6)}`);
   return lines.join("\n");

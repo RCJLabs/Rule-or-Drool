@@ -174,7 +174,9 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
     if (!alignOk(arc, state)) continue;
     if (!arc.entry.eras.includes(state.era)) continue;
     if (!arc.entry.bands.includes(state.band)) continue;
-    if (!condMet(lib, arc.entry, state)) continue;
+    // An entry is read as the arc's first card would be: a trait or a tenure it asks for is
+    // that speaker's (BACKLOG-5 phase 35).
+    if (!condMet(lib, arc.entry, state, lib.cards.get(arc.cards[0] ?? "")?.speaker)) continue;
     if (arc.cards.length === 0) continue;
     cands.push(arc);
   }

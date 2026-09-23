@@ -263,6 +263,18 @@ describe("draw: arcs", () => {
     expect(ids).not.toContain("arc_t2");
   });
 
+  it("reads an entry's speaker traits off whoever speaks the arc's first card", () => {
+    // The cabinet plot waits for a crooked treasurer, not for a crook anywhere in the room
+    // (BACKLOG-5 phase 35). The fixture's arc opens on the chief.
+    const fx = makeFixture();
+    const l = buildLibrary(
+      { ...fx, arcs: fx.arcs.map((a) => ({ ...a, entry: { ...a.entry, speakerTraits: ["corrupt"] } })) },
+      { eraLength: 1000, electionInterval: 1000, arcEntryProb: 1 },
+    );
+    expect(draw(l, start(l, { cabinet: { chief: "c2", general: "g0" } })).current).toBe("arc_t1");
+    expect(draw(l, start(l, { cabinet: { chief: "c1", general: "g0" }, flags: ["advisor_corrupt"] })).current).not.toBe("arc_t1");
+  });
+
   it("scales arc entry weight by modifiers", () => {
     const l = lib({ arcEntryProb: 1 });
     const s = draw(l, start(l, { modifiers: ["mod_crisis"] }));

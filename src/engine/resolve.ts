@@ -1,10 +1,9 @@
 import { endRun } from "./endings";
 export { rivalPressure } from "./state";
-import type { EraRule } from "./config";
 import { getCard, type Library } from "./library";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
 import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
-import type { Card, GameState, Meters, RunStats, Side } from "./types";
+import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
 
 /**
@@ -24,9 +23,22 @@ export function traitScale(lib: Library, state: GameState, speaker: string): { g
   return { gain, loss };
 }
 
-/** What era `state.era` changes about the rules themselves (BACKLOG item 8). */
-export function eraRule(lib: Library, state: GameState): EraRule {
-  return lib.config.eraRules[state.era - 1] ?? {};
+/**
+ * The rules an era is played under: its own (BACKLOG item 8), then whatever this run's
+ * modifiers bend it with (BACKLOG-5 phase 35).
+ */
+export function eraRules(lib: Library, state: Pick<GameState, "era" | "modifiers">): EraRule[] {
+  return [lib.config.eraRules[state.era - 1] ?? {}, ...eraBends(lib, state.modifiers, state.era)];
+}
+
+/** What a run's modifiers add to one era's rules, in the order the modifiers were drawn. */
+export function eraBends(lib: Library, modifiers: readonly string[], era: number): EraBend[] {
+  return modifiers.flatMap((id) => (lib.modifiers.get(id)?.bends ?? []).filter((b) => b.era === era));
+}
+
+/** A multiplier the era's rules stack: every rule in force multiplies it. */
+function eraProduct(lib: Library, state: GameState, key: "volatility" | "queueScale"): number {
+  return eraRules(lib, state).reduce((m, r) => m * (r[key] ?? 1), 1);
 }
 
 /**
@@ -65,7 +77,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     s = { ...s, nextElectionAt: s.cardCount + interval };
   }
 
-  const mult = cfg.volatility[s.band] * (eraRule(lib, s).volatility ?? 1);
+  const mult = cfg.volatility[s.band] * eraProduct(lib, s, "volatility");
   const trait = traitScale(lib, s, card.speaker);
   const meters: Meters = { ...s.meters };
   for (const k of METER_KEYS) {
@@ -90,7 +102,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
 
   let queue = s.queue;
   if (choice.enqueue?.length) {
-    const scale = eraRule(lib, s).queueScale ?? 1;
+    const scale = eraProduct(lib, s, "queueScale");
     queue = [...queue, ...choice.enqueue.map((e) => ({ id: e.id, dueAt: s.cardCount + Math.max(1, Math.round(e.delay * scale)) }))];
   }
 
@@ -192,17 +204,21 @@ export function advanceEra(lib: Library, state: GameState): GameState {
 /**
  * The era's standing pressure, applied every `passiveEvery` cards. Nothing on the table
  * caused it, which is the point: era two's money arrives whether or not you asked for it,
- * and era three's institutions wear out whoever is in charge (BACKLOG item 8).
+ * and era three's institutions wear out whoever is in charge (BACKLOG item 8). A bend brings
+ * pressure of its own, on its own beat (BACKLOG-5 phase 35).
  */
 export function applyEraPassive(lib: Library, state: GameState): GameState {
-  const rule = eraRule(lib, state);
-  const every = rule.passiveEvery ?? 0;
-  if (!rule.passive || every <= 0 || state.cardCount === 0 || state.cardCount % every !== 0) return state;
-  const meters: Meters = { ...state.meters };
-  for (const [k, v] of Object.entries(fxDeltas(rule.passive))) {
-    meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + v);
+  if (state.cardCount === 0) return state;
+  let meters: Meters | null = null;
+  for (const rule of eraRules(lib, state)) {
+    const every = rule.passiveEvery ?? 0;
+    if (!rule.passive || every <= 0 || state.cardCount % every !== 0) continue;
+    meters ??= { ...state.meters };
+    for (const [k, v] of Object.entries(fxDeltas(rule.passive))) {
+      meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + v);
+    }
   }
-  return { ...state, meters };
+  return meters ? { ...state, meters } : state;
 }
 
 /**

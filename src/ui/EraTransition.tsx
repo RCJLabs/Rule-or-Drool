@@ -35,8 +35,14 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
   const rule = STRINGS.eraRules[era - 1];
   const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
   const owed = state.queue.length;
+  // What the crisis this run inherited does to the era it is arriving into, beside the era's
+  // own rule (BACKLOG-5 phase 35).
+  const bends = state.modifiers
+    .filter((id) => lib.modifiers.get(id)?.bends?.some((b) => b.era === era))
+    .map((id) => STRINGS.bends[`${id}:${era}`])
+    .filter((text): text is string => !!text);
   // Only what is on the panel: an era with nothing owed or no new rule has no such line.
-  const described = ["era-lead", owed > 0 ? "era-owed" : "", rule ? "era-rule" : ""].filter(Boolean).join(" ");
+  const described = ["era-lead", owed > 0 ? "era-owed" : "", rule ? "era-rule" : "", ...bends.map((_, i) => `era-bend-${i}`)].filter(Boolean).join(" ");
 
   // Three beats rather than one page: the years, then what they were left with, then the
   // rule that is different now. Time passing is the point, so it is not instant.
@@ -81,6 +87,11 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
             {rule}
           </p>
         ) : null}
+        {bends.map((text, i) => (
+          <p key={text} className="era-rule era-bend" id={`era-bend-${i}`}>
+            {text}
+          </p>
+        ))}
         <button type="button" className="primary" onClick={onContinue} autoFocus>
           {STRINGS.ui.continueEra}
         </button>

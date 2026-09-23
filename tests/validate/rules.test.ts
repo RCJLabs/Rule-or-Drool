@@ -167,6 +167,44 @@ describe("rules: modifiers", () => {
   });
 });
 
+describe("rules: a modifier bending an era", () => {
+  it("rejects a bend that can never apply, changes nothing, or bends one era twice", () => {
+    // A bend is a rule the player is told about at the jump, so one that never fires is a
+    // promise the game does not keep (BACKLOG-5 phase 35).
+    const c = makeValid();
+    c.modifiers[1]!.bends = [{ era: 2, passive: { order: -1 } }, { era: 3 }, { era: 3, volatility: 1.1 }, { era: 9, queueScale: 0.5 }];
+    expect(codes(c)).toEqual(["error:bend-empty", "error:bend-no-beat", "error:bend-twice", "warn:era-out-of-range"]);
+
+    const fine = makeValid();
+    fine.modifiers[1]!.bends = [{ era: 1, queueScale: 0.7 }, { era: 2, passive: { order: -1 }, passiveEvery: 6 }];
+    expect(codes(fine)).toEqual([]);
+  });
+});
+
+describe("rules: written for whoever speaks", () => {
+  it("rejects a card or an arc waiting for a speaker nobody in the role can be", () => {
+    // The fixture's only chief is loyal and its only general a zealot. An arc entry is read
+    // against the speaker of its first card, which here is the general.
+    const c = makeValid();
+    card(c, "ev_a").cond = { speakerTraits: ["corrupt"] };
+    c.arcs[0]!.entry = { ...c.arcs[0]!.entry, speakerTraits: ["loyal"] };
+    const issues = run(c).filter((i) => i.code === "cond-unsatisfiable");
+    expect(issues.map((i) => `${i.kind}:${i.id}:${i.path}`).sort()).toEqual(["arc:arc_a:entry.speakerTraits", "card:ev_a:cond.speakerTraits"]);
+
+    const fine = makeValid();
+    card(fine, "ev_a").cond = { speakerTraits: ["loyal"] };
+    fine.arcs[0]!.entry = { ...fine.arcs[0]!.entry, speakerTraits: ["zealot"] };
+    expect(codes(fine)).toEqual([]);
+  });
+
+  it("warns on a trait nobody has heard of", () => {
+    const c = makeValid();
+    c.advisors[0]!.traits = ["loyal", "sparkly"];
+    card(c, "ev_a").cond = { speakerTraits: ["sparkly"] };
+    expect(codes(c)).toEqual(["warn:trait-unknown"]);
+  });
+});
+
 describe("rules: arcs", () => {
   it("reports cards unreachable from the entry card", () => {
     const c = makeValid();

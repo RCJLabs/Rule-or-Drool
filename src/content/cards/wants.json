@@ -785,5 +785,407 @@
         "snubbed_organizer"
       ]
     }
+  },
+  {
+    "id": "p35_coyne",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{advisor} wants the currency backed by something solid. She has proposed gold, then grain, and this morning, your good name.",
+    "cond": {
+      "flags": [
+        "advisor_adv_coyne"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Leave it floating",
+      "fx": {
+        "inst": 3,
+        "backers": 3,
+        "base": -3,
+        "money": -2
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_treasurer"
+      ]
+    },
+    "right": {
+      "label": "Back it with your name",
+      "fx": {
+        "base": 5,
+        "money": 3,
+        "inst": -4,
+        "backers": -4
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_treasurer"
+      ]
+    }
+  },
+  {
+    "id": "p35_orde",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{advisor} can have the army modernised by spring. The rifles would come from his brother's firm, the only one that can deliver by spring.",
+    "cond": {
+      "flags": [
+        "advisor_adv_orde"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Put it out to tender",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "order": -3,
+        "public": 2
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_general"
+      ]
+    },
+    "right": {
+      "label": "Buy from the brother",
+      "fx": {
+        "order": 5,
+        "backers": 3,
+        "inst": -4,
+        "money": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_general"
+      ]
+    }
+  },
+  {
+    "id": "p35_farrant",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{advisor} wants the hostile papers' passes pulled. She has the list, and it is in order of how much she hates them.",
+    "cond": {
+      "flags": [
+        "advisor_adv_farrant"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Keep them accredited",
+      "fx": {
+        "inst": 3,
+        "public": 2,
+        "base": -4
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_spin"
+      ]
+    },
+    "right": {
+      "label": "Pull the passes",
+      "fx": {
+        "base": 5,
+        "order": 2,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_spin"
+      ]
+    }
+  },
+  {
+    "id": "p35_tolliver",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "{advisor} has been selling fifteen-minute slots in your diary. The list of buyers is, he points out, a list of your friends.",
+    "cond": {
+      "flags": [
+        "advisor_adv_tolliver"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Close the diary",
+      "fx": {
+        "inst": 4,
+        "backers": -5,
+        "public": 2
+      },
+      "drift": 5,
+      "setFlags": [
+        "snubbed_chief"
+      ]
+    },
+    "right": {
+      "label": "Raise the price",
+      "fx": {
+        "money": 5,
+        "backers": 4,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_chief"
+      ]
+    }
+  },
+  {
+    "id": "p35_crane",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{advisor} will hear your emergency powers case himself. He asks which way you would like it to go, so he can start writing.",
+    "cond": {
+      "flags": [
+        "advisor_adv_crane"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Let him decide",
+      "fx": {
+        "inst": 5,
+        "order": -3,
+        "base": -3
+      },
+      "drift": 5,
+      "setFlags": [
+        "snubbed_judge"
+      ]
+    },
+    "right": {
+      "label": "Tell him",
+      "fx": {
+        "order": 4,
+        "base": 3,
+        "inst": -6
+      },
+      "drift": -6,
+      "setFlags": [
+        "owed_judge"
+      ]
+    }
+  },
+  {
+    "id": "p35_veldt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{advisor} will sign the safety report on the new dam today, if you would like it signed today. She has not been to the dam.",
+    "cond": {
+      "flags": [
+        "advisor_adv_veldt"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Send her to the dam",
+      "fx": {
+        "inst": 3,
+        "money": -3,
+        "public": 2,
+        "backers": -2
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_scientist"
+      ]
+    },
+    "right": {
+      "label": "Sign it today",
+      "fx": {
+        "money": 3,
+        "backers": 3,
+        "inst": -3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "owed_scientist"
+      ],
+      "enqueue": [
+        {
+          "id": "q35_dam",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "p35_wexler",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "{advisor} will fund the whole campaign if the party adopts her idea. The idea is forty pages long, and she wrote all of it.",
+    "cond": {
+      "flags": [
+        "advisor_adv_wexler"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Thank her, no",
+      "fx": {
+        "money": -4,
+        "backers": -4,
+        "base": 3,
+        "inst": 2
+      },
+      "drift": 4,
+      "setFlags": [
+        "snubbed_tycoon"
+      ]
+    },
+    "right": {
+      "label": "Adopt the forty pages",
+      "fx": {
+        "money": 6,
+        "backers": 4,
+        "base": -4,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_tycoon"
+      ]
+    }
+  },
+  {
+    "id": "p35_pike",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "{advisor} can deliver the river wards, every vote, every time. She would like the paving contracts, which is how the river wards are delivered.",
+    "cond": {
+      "flags": [
+        "advisor_adv_pike"
+      ]
+    },
+    "oneShot": true,
+    "weight": 1,
+    "left": {
+      "label": "Pave it by tender",
+      "fx": {
+        "base": -4,
+        "inst": 4,
+        "money": -2,
+        "public": 2
+      },
+      "drift": 5,
+      "setFlags": [
+        "snubbed_organizer"
+      ]
+    },
+    "right": {
+      "label": "Give her the paving",
+      "fx": {
+        "base": 5,
+        "backers": 2,
+        "inst": -4,
+        "money": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "owed_organizer"
+      ]
+    }
   }
 ]

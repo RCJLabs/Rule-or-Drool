@@ -22,6 +22,8 @@ export interface RunResult {
   /** Arcs this run entered. */
   arcs: number;
   modifiers: string[];
+  /** Everyone who held a cabinet role at any point in the run, the rival aside (BACKLOG-5 phase 35). */
+  served: string[];
   /** Pool draws that only succeeded because a filter was relaxed (content thinness). */
   relaxed: { cooldown: number; band: number; era: number };
 }
@@ -48,6 +50,11 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
   const rng = makeRng(seed ^ 0x5bd1e995);
   const align = setup.align;
   let state: GameState = newRun(lib, seed, setup);
+  const served = new Set<string>();
+  const seat = (s: GameState) => {
+    for (const [role, id] of Object.entries(s.cabinet)) if (role !== lib.config.rivalRole) served.add(id);
+  };
+  seat(state);
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   let electionsSeen = 0;
   let cheats = 0;
@@ -74,6 +81,7 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
       if (!card[side].honest) cheats++;
     }
     state = resolve(lib, state, id, side);
+    seat(state);
   }
 
   const endingId = state.over!.endingId;
@@ -91,6 +99,7 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
     cheats,
     arcs: state.activeArcs.length,
     modifiers: state.modifiers,
+    served: [...served],
     relaxed,
   };
 }

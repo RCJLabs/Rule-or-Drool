@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { epilogueByKey, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
-import { canRetrace, otherSide } from "../engine/replay";
+import { otherSide, replays } from "../engine/replay";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { LEGACIES, OBJECTIVES_BY_ID, historyOf, type RunFold } from "../meta";
@@ -44,6 +44,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     heading.current?.focus({ preventScroll: true });
   }, []);
   const [sharing, setSharing] = useState<ShareOutcome | "working" | null>(null);
+  // Retraced once, whole. A record this version of the game no longer deals the same way
+  // would take a way back into a run that never happened (BACKLOG-5 phase 35).
+  const retraceable = useMemo(() => !state.road && replays(lib, state), [lib, state]);
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -65,7 +68,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // Another road from any decision that shaped this one, where the run can be retraced to it
   // (BACKLOG-5 phase 34). A second road shows both instead, and does not branch again.
   const road = state.road;
-  const retrace = !road && onTakeOtherRoad && canRetrace(state) ? onTakeOtherRoad : null;
+  const retrace = retraceable && onTakeOtherRoad ? onTakeOtherRoad : null;
   const other = (at: number | null) => {
     const made = at && at > 0 ? state.choices?.[at - 1] : undefined;
     const card = made && lib.cards.get(made[0]);

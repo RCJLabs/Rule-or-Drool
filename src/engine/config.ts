@@ -1,4 +1,4 @@
-import type { Band, FxSpec, MeterKey } from "./types";
+import type { Band, EraRule, MeterKey } from "./types";
 
 /**
  * Tunable engine constants. Starting values come from TRANSFER.md; anything marked
@@ -127,20 +127,6 @@ export interface EngineConfig {
   /** Every bloc at or above this is a personality cult: nobody left to disagree with you. */
   cultAt: number;
   cultEnding: string;
-}
-
-/**
- * What changes about the game itself in a given era, as opposed to which cards are eligible
- * (BACKLOG item 8). Era 1 is the baseline and carries no rule.
- */
-export interface EraRule {
-  /** Meter deltas applied every `passiveEvery` cards, with no card to blame for them. */
-  passive?: FxSpec;
-  passiveEvery?: number;
-  /** Multiplier on top of band volatility: above 1 and everything lands harder. */
-  volatility?: number;
-  /** Multiplies enqueue delays. Below 1 and the bill comes due sooner than it used to. */
-  queueScale?: number;
 }
 
 export const DEFAULT_CONFIG: EngineConfig = {

@@ -129,6 +129,18 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
         { kind: "modifier", id: m.id, path: "meterStart.mood" },
       );
     }
+    // A bend is a rule a run lives under for a whole era, so one that cannot fire, or does
+    // nothing, is a rule the player is told about and never meets (BACKLOG-5 phase 35).
+    const bent = new Set<number>();
+    (m.bends ?? []).forEach((b, i) => {
+      const where: Where = { kind: "modifier", id: m.id, path: `bends[${i}]` };
+      if (b.era > cfg.eraCount) issues.warn("era-out-of-range", `bends era ${b.era}, beyond eraCount ${cfg.eraCount}`, where);
+      if (bent.has(b.era)) issues.error("bend-twice", `bends era ${b.era} more than once; put it in one bend`, where);
+      bent.add(b.era);
+      if (b.passive && !b.passiveEvery) issues.error("bend-no-beat", `passive needs passiveEvery, or it never applies`, where);
+      if (!b.passive && b.passiveEvery) issues.warn("bend-no-beat", `passiveEvery with no passive does nothing`, where);
+      if (!b.passive && b.volatility === undefined && b.queueScale === undefined) issues.error("bend-empty", `the bend changes nothing about era ${b.era}`, where);
+    });
   }
   // Run setup draws one of each kind, so a side with a thin pool opens every run the same
   // way, and an empty one cannot open a run at all (BACKLOG item 4).
@@ -191,6 +203,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!cond) return;
     for (const f of cond.flags ?? []) note(flagReads, f, { ...where, path: `${path}.flags` });
     for (const f of cond.notFlags ?? []) note(flagReads, f, { ...where, path: `${path}.notFlags` });
+    for (const t of cond.speakerTraits ?? []) {
+      if (!opts.knownTraits.includes(t)) issues.warn("trait-unknown", `trait "${t}" is not one of ${opts.knownTraits.join(", ")}`, { ...where, path: `${path}.speakerTraits` });
+    }
     const both = (cond.flags ?? []).filter((f) => (cond.notFlags ?? []).includes(f));
     for (const f of both) issues.error("cond-unsatisfiable", `flag "${f}" is required and forbidden at once`, { ...where, path });
     for (const k of COND_KEYS) {
@@ -219,6 +234,12 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!roles.has(card.speaker)) issues.error("speaker-unknown", `no advisor has the role "${card.speaker}"`, { ...where, path: "speaker" });
     if (card.text.length > opts.maxText) issues.warn("text-length", `text is ${card.text.length} characters; the plan says under ${opts.maxText}`, { ...where, path: "text" });
     checkCond(card.cond, where, "cond");
+    // Read against whoever holds the speaking role, so a role with nobody like that makes
+    // the card undrawable (BACKLOG-5 phase 35).
+    const wanted = card.cond?.speakerTraits ?? [];
+    if (wanted.length && !content.advisors.some((a) => a.role === card.speaker && wanted.every((t) => a.traits.includes(t)))) {
+      issues.error("cond-unsatisfiable", `nobody who can be ${card.speaker} is ${wanted.join(" and ")}`, { ...where, path: "cond.speakerTraits" });
+    }
 
     if (card.arc) {
       const arc = arcs.get(card.arc);
@@ -332,6 +353,12 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       if (e > cfg.eraCount) issues.warn("era-out-of-range", `entry era ${e} is beyond eraCount ${cfg.eraCount}`, { ...where, path: "entry.eras" });
     }
     checkCond(arc.entry, where, "entry");
+    // Read against whoever speaks the arc's first card, as the draw reads it.
+    const opener = cards.get(arc.cards[0] ?? "")?.speaker;
+    const asked = arc.entry.speakerTraits ?? [];
+    if (asked.length && !content.advisors.some((a) => a.role === opener && asked.every((t) => a.traits.includes(t)))) {
+      issues.error("cond-unsatisfiable", `nobody who can be ${opener ?? "its opener"} is ${asked.join(" and ")}, so the arc never starts`, { ...where, path: "entry.speakerTraits" });
+    }
     if (arc.weight <= 0) issues.error("arc-dead", `weight 0 means the arc can never start`, { ...where, path: "weight" });
 
     const members = new Set(arc.cards);

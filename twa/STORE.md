@@ -12,7 +12,7 @@ that follow from it.
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
 **Full description** (1,845 / 4,000 characters). Every number in it was checked
-against the content when written: 526 cards, 22 arcs, 22 advisors, 23 endings, 198 history
+against the content when written: 554 cards, 22 arcs, 30 advisors, 23 endings, 198 history
 names. Re-check them if the content changes.
 
 ```
@@ -23,7 +23,7 @@ The catch: the easy choice now is the ruinous choice later. The bridge you did n
 HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
-• 526 cards, 22 stories that play out over several cards, and 22 advisors whose traits change what their advice costs you.
+• 554 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
@@ -119,7 +119,7 @@ and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
 
 ## Content rating questionnaire (IARC)
 
-These are notes to answer from, not answers. The 526 cards were searched for each theme the
+These are notes to answer from, not answers. The 554 cards were searched for each theme the
 questionnaire asks about:
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people

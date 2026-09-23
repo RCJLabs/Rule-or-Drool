@@ -384,7 +384,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The figures you have been given for two years were wrong in the same direction every time. He is not sorry and he is not leaving unless you make him.",
+    "text": "The figures you have been given for two years were wrong the same way every time. The treasurer is not sorry, and will not go unless pushed.",
     "cond": {
       "flags": [
         "mandate_m_loyal"
@@ -405,7 +405,7 @@
       "drift": -3
     },
     "right": {
-      "label": "Let him go",
+      "label": "Let the treasurer go",
       "fx": {
         "money": 4,
         "inst": 6,

@@ -63,6 +63,112 @@
     }
   },
   {
+    "id": "crisis_drought",
+    "kind": "crisis",
+    "meterStart": {
+      "public": -6,
+      "base": -4,
+      "money": -6
+    },
+    "flags": [
+      "crisis_drought"
+    ],
+    "arcWeights": {
+      "arc_water": 2.2
+    }
+  },
+  {
+    "id": "crisis_leak",
+    "kind": "crisis",
+    "meterStart": {
+      "public": -6,
+      "backers": -6,
+      "inst": -2,
+      "base": 2
+    },
+    "flags": [
+      "crisis_leak"
+    ],
+    "arcWeights": {
+      "arc_press": 1.8,
+      "arc_impeachment": 1.5
+    }
+  },
+  {
+    "id": "crisis_coup",
+    "kind": "crisis",
+    "meterStart": {
+      "order": 8,
+      "money": -8,
+      "backers": -3,
+      "public": -3,
+      "base": -2
+    },
+    "flags": [
+      "crisis_coup"
+    ],
+    "arcWeights": {
+      "arc_purge": 1.8,
+      "arc_strongman": 1.8
+    }
+  },
+  {
+    "id": "crisis_debt",
+    "kind": "crisis",
+    "meterStart": {
+      "money": -10,
+      "backers": -4,
+      "public": -2
+    },
+    "flags": [
+      "crisis_debt"
+    ],
+    "bends": [
+      {
+        "era": 1,
+        "queueScale": 0.7
+      }
+    ]
+  },
+  {
+    "id": "crisis_blackouts",
+    "kind": "crisis",
+    "meterStart": {
+      "money": -7,
+      "public": -4,
+      "backers": -3,
+      "order": -2
+    },
+    "flags": [
+      "crisis_blackouts"
+    ],
+    "bends": [
+      {
+        "era": 2,
+        "passive": {
+          "public": -1
+        },
+        "passiveEvery": 6
+      }
+    ]
+  },
+  {
+    "id": "crisis_predecessor",
+    "kind": "crisis",
+    "meterStart": {
+      "inst": -3,
+      "public": -5,
+      "backers": -5,
+      "money": -5
+    },
+    "flags": [
+      "crisis_predecessor"
+    ],
+    "arcWeights": {
+      "arc_succession": 2.2
+    }
+  },
+  {
     "id": "trait_orator",
     "kind": "trait",
     "meterStart": {

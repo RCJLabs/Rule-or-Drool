@@ -181,6 +181,279 @@
     }
   },
   {
+    "id": "g_drought_river",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The river is low enough to walk across. The farms want the city's water. The city has more voters; the farms have the food.",
+    "cond": {
+      "flags": [
+        "crisis_drought"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Share it by need",
+      "fx": {
+        "money": -4,
+        "base": -3,
+        "public": 3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Water the voters",
+      "fx": {
+        "base": 4,
+        "backers": 2,
+        "public": -4,
+        "order": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q35_dust",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_leak_archive",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Forty thousand of your predecessor's messages are online. Three are to you, and one of those is about the port contract.",
+    "cond": {
+      "flags": [
+        "crisis_leak"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Answer for it",
+      "fx": {
+        "inst": 3,
+        "public": 2,
+        "base": -4,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it a forgery",
+      "fx": {
+        "base": 4,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q35_leak_proof",
+          "delay": 12
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_coup_cells",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The coup failed on a Tuesday. The plotters are in the cells, and a few of them have friends in your cabinet.",
+    "cond": {
+      "flags": [
+        "crisis_coup"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Try them in open court",
+      "fx": {
+        "inst": 4,
+        "order": -3,
+        "backers": -2,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Close the courtroom",
+      "fx": {
+        "order": 5,
+        "base": 3,
+        "inst": -5,
+        "public": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q35_martyrs",
+          "delay": 18
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_debt_collateral",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The creditors will roll the debt over for one more year. As collateral, they would like the state pension fund.",
+    "cond": {
+      "flags": [
+        "crisis_debt"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the terms",
+      "fx": {
+        "money": -6,
+        "backers": -2,
+        "public": 2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pledge the pensions",
+      "fx": {
+        "money": 6,
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q35_pensions_taken",
+          "delay": 20
+        }
+      ]
+    }
+  },
+  {
+    "id": "g_blackout_rota",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The lights go out at seven, district by district, on a rota that has somehow never reached a ministry.",
+    "cond": {
+      "flags": [
+        "crisis_blackouts"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Put us on the rota",
+      "fx": {
+        "public": 4,
+        "inst": 2,
+        "order": -3,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the ministries lit",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "g_predecessor_locks",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Your predecessor has changed the locks at the residence. Moving her would take the police, and she was always popular with the police.",
+    "cond": {
+      "flags": [
+        "crisis_predecessor"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Send in the police",
+      "fx": {
+        "order": -4,
+        "inst": 4,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Rent somewhere nice",
+      "fx": {
+        "money": -3,
+        "backers": 2,
+        "base": 2,
+        "inst": -4
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "q35_shadow_court",
+          "delay": 15
+        }
+      ]
+    }
+  },
+  {
     "id": "g_vain_portrait",
     "type": "event",
     "align": "any",
@@ -359,8 +632,8 @@
     "speaker": "treasurer",
     "text": "Your treasurer hands you an envelope and explains it is customary. It is not customary.",
     "cond": {
-      "flags": [
-        "advisor_corrupt"
+      "speakerTraits": [
+        "corrupt"
       ]
     },
     "oneShot": true,

@@ -422,6 +422,59 @@ describe("resolve: what each era changes about the rules", () => {
   });
 });
 
+describe("resolve: a crisis that bends an era", () => {
+  /**
+   * The fixture with two crises that bend eras, and era rules that are known: era 2 adds 2
+   * Money every 3 cards. A bend is added to the era's own rules rather than replacing them
+   * (BACKLOG-5 phase 35).
+   */
+  const bent = () => {
+    const fx = makeFixture();
+    return buildLibrary(
+      {
+        ...fx,
+        modifiers: [
+          ...fx.modifiers,
+          { id: "mod_grid", kind: "crisis", bends: [{ era: 2, passive: { order: -2 }, passiveEvery: 4, volatility: 2 }] },
+          { id: "mod_debt", kind: "crisis", bends: [{ era: 1, queueScale: 0.5 }] },
+        ],
+      },
+      { eraLength: 1000, electionInterval: 1000, arcEntryProb: 0, eraRules: [{}, { passive: { money: 2 }, passiveEvery: 3 }, {}] },
+    );
+  };
+  const after = (l: ReturnType<typeof bent>, over: Parameters<typeof start>[1], id = "f01") => resolve(l, table(start(l, over), id), id, "left");
+
+  it("adds its pressure on a beat of its own, beside the era's", () => {
+    const l = bent();
+    const grid = ["mod_grid"];
+    // The count ticks to 12, which is both beats; to 9, the era's; to 8, the bend's.
+    expect(after(l, { era: 2, cardCount: 11, modifiers: grid }).meters).toMatchObject({ money: 52, order: 48 });
+    expect(after(l, { era: 2, cardCount: 8, modifiers: grid }).meters).toMatchObject({ money: 52, order: 50 });
+    expect(after(l, { era: 2, cardCount: 7, modifiers: grid }).meters).toMatchObject({ money: 50, order: 48 });
+  });
+
+  it("bends only its own era, and only the runs that inherited it", () => {
+    const l = bent();
+    expect(after(l, { era: 3, cardCount: 11, modifiers: ["mod_grid"] }).meters.order).toBe(50);
+    expect(after(l, { era: 2, cardCount: 11, modifiers: [] }).meters.order).toBe(50);
+  });
+
+  it("stacks its multipliers on the era's and the band's", () => {
+    const l = bent();
+    const plain = after(l, { era: 2, cardCount: 1, modifiers: [] }, "ev_fx");
+    const grid = after(l, { era: 2, cardCount: 1, modifiers: ["mod_grid"] }, "ev_fx");
+    expect(grid.meters.money - 50).toBe(2 * (plain.meters.money - 50));
+  });
+
+  it("brings a deferred bill due sooner in the era it bends", () => {
+    const l = bent();
+    const plain = after(l, { era: 1, cardCount: 10, modifiers: [] }, "ev_enq");
+    const debt = after(l, { era: 1, cardCount: 10, modifiers: ["mod_debt"] }, "ev_enq");
+    expect(plain.queue[0]!.dueAt).toBe(12);
+    expect(debt.queue[0]!.dueAt).toBe(11);
+  });
+});
+
 describe("resolve: what a run records about itself", () => {
   it("records the choice that left an arc, and nothing that stayed in it", () => {
     const l = lib({ arcEntryProb: 1, arcContinueProb: 1 });
