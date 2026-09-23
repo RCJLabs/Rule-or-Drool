@@ -143,6 +143,7 @@
         "backers": -2
       },
       "drift": -5,
+      "ending": "victory_declared",
       "clearFlags": [
         "fever_owned"
       ]

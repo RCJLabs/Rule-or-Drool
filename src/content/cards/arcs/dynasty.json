@@ -130,6 +130,7 @@
         "inst": -5
       },
       "drift": -7,
+      "ending": "family_firm",
       "clearFlags": [
         "dynasty"
       ]

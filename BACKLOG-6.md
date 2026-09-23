@@ -745,7 +745,98 @@ the codex section.
 
 </details>
 
-## Phase 43. Endings you choose — *queued*
+## Phase 43. Endings you choose — *done*
+
+**Shipped.** Every story can now end the run at its turning point. The fourteen that could not
+each have one choice at their climax that ends it:
+
+| Story | The choice | Ending | Kind |
+|---|---|---|---|
+| Term limits | Accept, humbly | *Continuity* | failure |
+| The moonshot | Theirs, and join them | *The Job You Wanted* | leaving in good order |
+| The press | Enjoy the quiet | *The Quiet* | failure |
+| The plague | Declare victory | *Victory Declared* | failure |
+| The oracle | Follow the advice | *The Model's Advice* | failure |
+| The water | Fund the campaign | *The Posters* | failure |
+| The referendum | Concede, and go | *The Country Decided* | leaving in good order |
+| The truth commission | All nine, and resign | *Clean Hands* | leaving in good order |
+| The split (left) | Give them the party | *Given Back* | leaving in good order |
+| The general strike (left) | Charter your own union | *The General Strike* | failure |
+| The commune (left) | Make it policy, go home | *The Town Council* | leaving in good order |
+| The dynasty (right) | Name them successor | *The Family Firm* | failure |
+| The concordat (right) | Ask for the blessing | *The Blessing* | failure |
+| The estates (right) | Close it | *The Closed Counties* | failure |
+
+- **13 new endings**, drafts for your edit. The general strike story ends in the ending of that
+  name the minimum wage added in phase 41. The game has 55 endings now.
+- **Five of the fourteen are ways to leave in good order**, on the honest side of the card,
+  and their labels say so. Across all 22 stories, 13 of the 24 choices that end a run are on
+  the honest side.
+- **The choice keeps its effects.** Each ending was an existing choice, so its drift and effects
+  stand, and a legacy it set is still left behind. The moonshot's is still "Orbit was
+  reached", and the term limit's is still "The vote was abolished".
+
+**How it was placed.** A story's last card is reached in 3–12% of competent runs and its middle
+card in 10–25%. The first draft put the plague's and the water's endings on their middle cards,
+for the offers. A careless player takes an offered ending half the time, so random play's
+median run fell from 49 cards to 39, under the target of 40. Both endings now sit on their
+story's last card, with endings written for it, and the median is 43.
+
+**Measured.** The mixed bot, which never takes an ending, for what is offered. A "curious"
+player is the same bot, except that it takes an ending it has not found yet some of the time
+it is offered one.
+
+| Target | Wanted | v0.54.0 | Now |
+|---|---|---|---|
+| Runs that offer a choice that ends the run | ≥ 75% | 70.0% | 85.0% |
+| ... from a story | – | 46.4% | 72.8% |
+| Different endings offered by choice in a player's first 20 runs (median) | ≥ 12 | 13 | 22 |
+| Every story can end the run at its turning point | 22 of 22 | 8 | 22 |
+| Ten endings found by the 20th run: a player who takes a new one half the time | – | 67% of players | 100% |
+| ... a quarter of the time | – | 8% | 52% |
+| ... never | – | 0% | 0% |
+
+The ten-endings objective ("Collector") is reachable now by a player who takes a quarter of
+the endings they have not seen. Half of such players have it by their 20th run, and one who
+takes half gets it by the 13th (median). A player who never takes one finds four endings in
+20 runs, as before.
+
+**Everything else still holds**, at 20,000 runs a bot:
+
+| Target | Wanted | v0.54.0 | Now |
+|---|---|---|---|
+| Random: median run length | 40–60 cards | 49 | 43 |
+| Random: most common ouster | ≤ 35% | bankruptcy 18.7% | bankruptcy 15.4% |
+| Greedy: ends in Decay | ≥ 70% | 80.6% | 80.3% |
+| Saint: ousted before era 2 | ≥ 60% | 100% | 100% |
+| Mixed: reaches Ascent | 15–30% | 19.7% | 19.9% |
+| A player's tenth run: cards seen before | under 75% | 64.8% | 63.8% |
+| Long reign: all six targets | as phase 39 | pass | pass |
+
+- **The questions:** every answer moves Ascent and Decay by at most 3.7 points, and every
+  honest road beats the fast one by at least 11.7 (12,000 seeds a side, all 32 rows). A run
+  still meets three; a player has met all sixteen by their 16th run.
+- **The comebacks:** 73.7% of the answers in runs that reach era 2 meet one.
+- **History names:** the most any decision names is 8.5%.
+
+**Also checked:**
+- The unit suite is 576 tests and the browser suite 41. New tests cover:
+  - every story can end the run;
+  - a third or more of the stories' endings are on the honest side;
+  - 75% of runs offer an ending, and a player's first twenty runs offer twelve or more.
+- **The download** grew by 1.0 KB gzipped.
+
+**Yours:**
+- **The endings and five new labels are drafts:** 13 ending texts, and the choices relabelled to
+  say they leave. Those are "Theirs, and join them", "Concede, and go", "All nine, and
+  resign", "Give them the party" and "Make it policy, go home".
+- **The game never warns that a choice ends the run.** The labels of the good exits say so, and
+  the failures are consequences, as the questions' are ("Ignore the court"). A mark on such a
+  choice would make endings easier to choose on purpose, and would also give the failures
+  away. That is a design call, and yours.
+- **Careless play is shorter:** random runs last 43 cards (median), against a floor of 40.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - 95% of competent runs end in a finale, so a player sees 4 of 26 endings in 20 runs.
@@ -772,6 +863,8 @@ the codex section.
 - Every harness target still holds.
 
 **Cost.** Around 14 endings and 20–30 cards.
+
+</details>
 
 ## Phase 44. Fewer repeats — *queued*
 

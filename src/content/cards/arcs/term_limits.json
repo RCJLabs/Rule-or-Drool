@@ -125,6 +125,7 @@
       "setFlags": [
         "elections_abolished"
       ],
+      "ending": "continuity",
       "clearFlags": [
         "postponed_vote"
       ]

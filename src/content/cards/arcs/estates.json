@@ -136,6 +136,7 @@
         "inst": -6
       },
       "drift": -7,
+      "ending": "closed_counties",
       "clearFlags": [
         "estates"
       ]

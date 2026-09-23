@@ -112,7 +112,7 @@
       ]
     },
     "left": {
-      "label": "Make it policy",
+      "label": "Make it policy, go home",
       "fx": {
         "inst": 5,
         "public": 5,
@@ -121,6 +121,7 @@
         "money": -3
       },
       "drift": 7,
+      "ending": "town_council",
       "clearFlags": [
         "commune"
       ]

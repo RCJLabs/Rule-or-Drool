@@ -141,6 +141,7 @@
         "public": 2
       },
       "drift": -5,
+      "ending": "the_posters",
       "clearFlags": [
         "water_rationed"
       ]

@@ -113,7 +113,7 @@
       ]
     },
     "left": {
-      "label": "Prosecute all nine",
+      "label": "All nine, and resign",
       "fx": {
         "order": -5,
         "inst": 8,
@@ -121,6 +121,7 @@
         "public": 5
       },
       "drift": 9,
+      "ending": "clean_hands",
       "clearFlags": [
         "commission_open"
       ]

@@ -134,11 +134,12 @@
         "base": 2
       },
       "drift": -8,
-      "clearFlags": [
-        "oracle_running"
-      ],
       "setFlags": [
         "cheated_election"
+      ],
+      "ending": "model_choice",
+      "clearFlags": [
+        "oracle_running"
       ]
     }
   }

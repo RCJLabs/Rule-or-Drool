@@ -170,7 +170,7 @@
       ]
     },
     "right": {
-      "label": "The engineers' names",
+      "label": "Theirs, and join them",
       "fx": {
         "inst": 3,
         "public": 5,
@@ -178,11 +178,12 @@
         "base": -1
       },
       "drift": 5,
-      "clearFlags": [
-        "moonshot_funded"
-      ],
       "setFlags": [
         "orbit_reached"
+      ],
+      "ending": "job_you_wanted",
+      "clearFlags": [
+        "moonshot_funded"
       ]
     }
   }

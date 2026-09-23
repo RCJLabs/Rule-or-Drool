@@ -139,6 +139,7 @@
         "money": -3
       },
       "drift": -6,
+      "ending": "general_strike",
       "clearFlags": [
         "strike_on"
       ]

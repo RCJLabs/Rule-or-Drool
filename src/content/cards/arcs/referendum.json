@@ -116,13 +116,14 @@
       ]
     },
     "left": {
-      "label": "Concede tonight",
+      "label": "Concede, and go",
       "fx": {
         "inst": 7,
         "base": -6,
         "public": 5
       },
       "drift": 9,
+      "ending": "country_decided",
       "clearFlags": [
         "referendum_called"
       ]

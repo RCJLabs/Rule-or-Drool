@@ -760,3 +760,25 @@ describe("content: the answers come back", () => {
     }
   });
 });
+
+// BACKLOG-6 phase 43: an ending a player can choose is one they will take, to see it. Every
+// story can end the run at its turning point, and many of those endings are a way to leave in
+// good order, on the honest side of the card, rather than a failure.
+describe("content: endings you choose", () => {
+  const stories = content.arcs.filter((a) => a.question === undefined);
+  const endingChoices = stories.flatMap((a) =>
+    a.cards.flatMap((id) => {
+      const c = library.cards.get(id)!;
+      return (["left", "right"] as const).filter((s) => c[s].ending).map((s) => ({ arc: a.id, c, s, other: s === "left" ? ("right" as const) : ("left" as const) }));
+    }),
+  );
+
+  it("lets every story end the run at a turning point", () => {
+    for (const a of stories) expect(endingChoices.some((e) => e.arc === a.id), a.id).toBe(true);
+  });
+
+  it("has at least a third of the stories' endings on the honest side of their card", () => {
+    const honest = endingChoices.filter((e) => (e.c[e.s].drift ?? 0) > (e.c[e.other].drift ?? 0));
+    expect(honest.length / endingChoices.length).toBeGreaterThanOrEqual(1 / 3);
+  });
+});

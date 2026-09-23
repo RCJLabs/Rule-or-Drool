@@ -193,6 +193,7 @@
         "public": -5
       },
       "drift": -5,
+      "ending": "the_quiet",
       "clearFlags": [
         "paper_bought"
       ]

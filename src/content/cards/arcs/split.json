@@ -104,14 +104,13 @@
     "speaker": "rival",
     "text": "The expelled third is standing in forty seats. They wrote your manifesto, so they know which promises you have not kept.",
     "left": {
-      "label": "Buy the wing back",
+      "label": "Give them the party",
       "fx": {
-        "money": -8,
-        "backers": -4,
-        "base": -2,
-        "public": 3
+        "base": -3,
+        "inst": 3
       },
-      "drift": 2,
+      "drift": 5,
+      "ending": "given_back",
       "clearFlags": [
         "split_open"
       ]

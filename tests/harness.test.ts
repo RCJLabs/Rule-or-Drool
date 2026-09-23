@@ -248,3 +248,44 @@ describe("the answers come back", () => {
     expect(met / pairs).toBeGreaterThanOrEqual(0.6);
   }, 120000);
 });
+
+// BACKLOG-6 phase 43: endings a player can choose. Measured on 3,000 competent runs, 85% offer
+// one (a card whose choice itself ends the run, not an election), and a player's first twenty
+// runs offer 22 different ones (median of 60 players).
+describe("endings you choose", () => {
+  const offeredIn = (seed: number, align: PlayerAlign, unlocks: string[] = []) => {
+    const rng = makeRng(seed ^ 0x5bd1e995);
+    let s: GameState = newRun(library, seed, rollSetup(library, seed, align, unlocks));
+    const offered = new Set<string>();
+    while (!s.over) {
+      s = draw(library, s);
+      const card = getCard(library, s.current!);
+      if (card.type !== "election") for (const side of ["left", "right"] as const) if (card[side].ending) offered.add(card[side].ending!);
+      s = resolve(library, s, card.id, BOTS.mixed(makeContext(library, s, card, rng, { danger: 25 })));
+    }
+    return { s, offered };
+  };
+
+  it("offers an ending by choice in at least 75% of runs", () => {
+    let offering = 0;
+    const n = 2000;
+    for (let i = 0; i < n; i++) if (offeredIn(700_000 + i, i % 2 ? "left" : "right").offered.size > 0) offering++;
+    expect(offering / n).toBeGreaterThanOrEqual(0.75);
+  }, 120000);
+
+  it("offers a player at least twelve different endings by choice in their first twenty runs", () => {
+    const players = 20;
+    const distinct: number[] = [];
+    for (let p = 0; p < players; p++) {
+      let meta = emptyMeta();
+      const seen = new Set<string>();
+      for (let r = 1; r <= 20; r++) {
+        const { s, offered } = offeredIn(100_000 + p * 1000 + r, (p + r) % 2 ? "left" : "right", meta.unlocks);
+        for (const e of offered) seen.add(e);
+        meta = foldRun(library, meta, s).meta;
+      }
+      distinct.push(seen.size);
+    }
+    expect(quantiles(distinct).median).toBeGreaterThanOrEqual(12);
+  }, 120000);
+});

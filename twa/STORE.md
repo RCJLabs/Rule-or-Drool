@@ -11,8 +11,8 @@ that follow from it.
 | App name | Rule or Drool | 13 / 30 |
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
-**Full description** (2,207 / 4,000 characters). Every number in it was checked
-against the content when written: 1,351 cards, 22 stories and 16 questions, 30 advisors, 42
+**Full description** (2,237 / 4,000 characters). Every number in it was checked
+against the content when written: 1,351 cards, 22 stories and 16 questions, 30 advisors, 55
 endings, 585 history names. Re-check them if the content changes.
 
 ```
@@ -28,7 +28,7 @@ HOW IT PLAYS
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
-• 42 ways for a rule to end, and 585 names history can give it, from what you did and where it took the country.
+• 55 ways for a rule to end, many of them yours to choose, and 585 names history can give it, from what you did and where it took the country.
 • At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Mandates: promises you make at the start, at a price.
