@@ -3,14 +3,14 @@ import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import { rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
-import { codexProgress, dailyNumber, streakOf, todayKey, type Decoded, type MetaState, type RunCode } from "../meta";
+import { codexProgress, dailyNumber, dailySeed, encodeRunCode, historyTitle, streakOf, todayKey, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
 import { MandatePicker } from "./MandatePicker";
 import { SetupSummary } from "./SetupSummary";
-import { randomSeed } from "./flow";
+import { dailyCode, randomSeed } from "./flow";
 import { dailyName } from "./DailyMonth";
 import type { DailyMark } from "./save";
 import { themeFor } from "./theme";
@@ -25,6 +25,8 @@ interface Props {
   onDaily: (align: PlayerAlign, mandate: string | null) => void;
   /** A run someone sent, decoded from the link that opened the game, if one did. */
   shared?: Decoded | null;
+  /** How it went for them, when the link said (BACKLOG-5 phase 37). */
+  sharedResult?: RunResult | null;
   onPlayShared?: (code: RunCode) => void;
   onDismissShared?: () => void;
   onContinue: () => void;
@@ -34,7 +36,7 @@ interface Props {
   today?: string;
 }
 
-export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, onPlayShared, onDismissShared, today = todayKey() }: Props) {
+export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, sharedResult, onPlayShared, onDismissShared, today = todayKey() }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const [mandate, setMandate] = useState<string | null>(null);
@@ -44,6 +46,11 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
   const n = dailyNumber(today);
   const dailyLabel = n ? (dailyPlayed ? STRINGS.ui.dailyDone : STRINGS.ui.daily).replace("{n}", String(n)) : dailyPlayed ? STRINGS.ui.dailyPlainDone : STRINGS.ui.dailyPlain;
   const { current: streak } = streakOf(meta.dailies, today);
+  // Today's daily, sent by someone who played it, is today's daily here too (phases 37 and 38).
+  const sharedIsDaily =
+    !!shared?.ok &&
+    shared.code.seed === dailySeed(today) &&
+    encodeRunCode(shared.code) === encodeRunCode(dailyCode(lib, shared.code.seed, shared.code.align, shared.code.mandate));
   return (
     <Frame theme={themeFor(0)} align={align} seed={0} n={0}>
       <div className="setup">
@@ -59,6 +66,10 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
                   {shared.code.mandate && ` · ${MANDATES_BY_ID.get(shared.code.mandate)?.title ?? ""}`}
                 </p>
                 <SetupSummary lib={lib} modifiers={shared.code.modifiers} />
+                {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
+                {sharedIsDaily && n && (
+                  <p className="shared-daily">{(dailyPlayed ? STRINGS.share.offerDailyPlayed : STRINGS.share.offerDaily).replace("{n}", String(n))}</p>
+                )}
                 <p className="shared-body">{STRINGS.share.offerBody}</p>
                 {/* Not .meta-row: its button rule repaints the background, and the primary
                     button's white text sat on paper at 1.02:1 until the audit caught it. */}
@@ -124,5 +135,17 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
         <footer className="version">v{APP_VERSION}</footer>
       </div>
     </Frame>
+  );
+}
+
+/** What the sender got: the name history gave their run, and how it ended. */
+function TheirResult({ lib, result }: { lib: Library; result: RunResult }) {
+  const title = result.history ? historyTitle(result.history) : null;
+  const ending = result.ending ? lib.endings.get(result.ending)?.title : undefined;
+  return (
+    <p className="shared-result">
+      {title && <b>{STRINGS.share.theyLeft.replace("{history}", title)}</b>}
+      <span>{ending ? STRINGS.share.theirEnd.replace("{ending}", ending).replace("{n}", String(result.cards)) : STRINGS.share.theirCards.replace("{n}", String(result.cards))}</span>
+    </p>
   );
 }

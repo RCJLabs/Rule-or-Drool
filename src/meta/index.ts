@@ -4,5 +4,6 @@ export * from "./legacies";
 export * from "./histories";
 export * from "./daily";
 export * from "./runcode";
+export * from "./challenge";
 export * from "./state";
 export * from "./save";

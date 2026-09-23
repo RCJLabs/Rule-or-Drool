@@ -265,6 +265,27 @@ export const STRINGS = {
     offerPlay: "Play their run",
     offerDismiss: "Not now",
     offerBroken: "That link is for a run this version of the game cannot reproduce.",
+    // What the sender got, when the link says (BACKLOG-5 phase 37).
+    theyLeft: "They left {history}.",
+    theirEnd: "{ending}, after {n} cards.",
+    theirCards: "They played {n} cards.",
+    offerDaily: "It is today's daily, #{n}, and playing it counts as yours.",
+    offerDailyPlayed: "It is today's daily, #{n}, which you have played.",
+  },
+  /** Their run and yours, at the end of a run someone sent (BACKLOG-5 phase 37). */
+  vs: {
+    title: "Their run and yours",
+    theirs: "Their run",
+    yours: "Your run",
+    history: "History called it",
+    ending: "It ended",
+    cards: "Cards",
+    went: "It went",
+    bothLeft: "You both left {history}.",
+    sameWay: "You both went to {band}, and history called you different things.",
+    otherWays: "They went to {theirs}. You went to {yours}.",
+    unreplayed: "Their run was played on another version of the game, so it cannot be drawn here.",
+    unknown: "not known here",
   },
   /** The daily, day by day (BACKLOG-5 phase 38). */
   daily: {

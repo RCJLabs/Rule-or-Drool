@@ -1,4 +1,6 @@
 import { DEFAULT_CONFIG } from "../engine/config";
+import type { Library } from "../engine/library";
+import { decodeRunResult, encodeRunResult, type RunResult } from "../meta/challenge";
 import type { GameState, Meters } from "../engine/types";
 import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
 import { RUN_SAVE_VERSION } from "../version";
@@ -23,12 +25,17 @@ interface RunSave {
    * save without it resumes as an ordinary run, as it always did.
    */
   daily?: DailyMark | null;
+  /**
+   * How the run went for whoever sent it, when it came in a link that said (BACKLOG-5 phase
+   * 37), so the end still compares the two after a reload. Kept in the link's own words.
+   */
+  vs?: string | null;
 }
 
 /** Run state is saved after every step. Meta progression gets its own key in phase 6. */
-export function saveRun(state: GameState, daily: DailyMark | null = null): void {
+export function saveRun(state: GameState, daily: DailyMark | null = null, vs: RunResult | null = null): void {
   try {
-    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily } satisfies RunSave));
+    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null } satisfies RunSave));
   } catch {
     // Storage unavailable (private mode, quota). The run just is not resumable.
   }
@@ -98,6 +105,18 @@ export function loadRun(): GameState | null {
     const s = parsed.state;
     if (typeof s.seed !== "number" || typeof s.cardCount !== "number" || !s.meters || !Array.isArray(s.flags)) return null;
     return migrateRun(parsed.v, s);
+  } catch {
+    return null;
+  }
+}
+
+/** How the saved run went for whoever sent it, if it came in a link that said. */
+export function loadRunChallenge(lib: Library): RunResult | null {
+  try {
+    const raw = localStorage.getItem(RUN_KEY);
+    if (!raw) return null;
+    const { vs } = JSON.parse(raw) as Partial<RunSave>;
+    return typeof vs === "string" ? decodeRunResult(lib, vs) : null;
   } catch {
     return null;
   }

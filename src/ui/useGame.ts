@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Library } from "../engine/library";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
-import { clearMeta, dailySeedFor, emptyMeta, encodeRunCode, foldRun, loadMeta, runCodeOf, saveMeta, type MetaState, type RunFold } from "../meta";
+import { clearMeta, dailySeedFor, emptyMeta, encodeRunCode, foldRun, loadMeta, runCodeOf, saveMeta, type MetaState, type RunFold, type RunResult } from "../meta";
 import { closeRun, openRun, takeCard, type Measure, type RecordedRun, type RunKind } from "../playtest/record";
 import { APP_VERSION } from "../version";
 import { canRetrace, otherSide, replayTo } from "../engine/replay";
 import { beginRun, beginRunFromCode, commitChoice, dailyCode, ensureCard } from "./flow";
 import type { RunCode } from "../meta";
 import { appendRecorded, clearRecorded, loadOpen, loadRecorded, MAX_RECORDED_RUNS, saveOpen, sendRecord } from "./playtest";
-import { clearRun, loadRun, loadRunDaily, saveRun, type DailyMark } from "./save";
+import { clearRun, loadRun, loadRunChallenge, loadRunDaily, saveRun, type DailyMark } from "./save";
 import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
 import { buzz, newlyDangerous, play } from "./sound";
 import { DANGER_BELOW } from "./Meters";
@@ -44,6 +44,14 @@ export function useGame(lib: Library) {
   });
   /** The saved run's daily, when it is one, so it is still one when it is continued. */
   const [savedDaily, setSavedDaily] = useState<DailyMark | null>(() => loadRunDaily());
+  /**
+   * How the run went for whoever sent it, while their run is being played and at its end
+   * (BACKLOG-5 phase 37); and the one saved beside a run left for later.
+   */
+  const [challenge, setChallenge] = useState<RunResult | null>(null);
+  const [savedChallenge, setSavedChallenge] = useState<RunResult | null>(() => loadRunChallenge(lib));
+  const challengeRef = useRef(challenge);
+  challengeRef.current = challenge;
   const [state, setState] = useState<GameState | null>(null);
   const [transition, setTransition] = useState<number | null>(null);
   const [meta, setMeta] = useState<MetaState>(() => loadMeta());
@@ -94,8 +102,8 @@ export function useGame(lib: Library) {
   );
 
   useEffect(() => {
-    if (state) saveRun(state, dailyRef.current);
-  }, [state]);
+    if (state) saveRun(state, dailyRef.current, challenge);
+  }, [state, challenge]);
 
   useEffect(() => {
     applySettings(settings);
@@ -133,10 +141,12 @@ export function useGame(lib: Library) {
     setTransition(null);
     setLastFold(null);
     if (s && !s.over) {
-      saveRun(s, dailyRef.current);
+      saveRun(s, dailyRef.current, challengeRef.current);
       setSaved(s);
       setSavedDaily(dailyRef.current);
+      setSavedChallenge(challengeRef.current);
     }
+    setChallenge(null);
     setState(null);
   }, []);
 
@@ -152,6 +162,8 @@ export function useGame(lib: Library) {
     setMeta(fresh);
     setSaved(null);
     setSavedDaily(null);
+    setSavedChallenge(null);
+    setChallenge(null);
     setState(null);
     setTransition(null);
     setLastFold(null);
@@ -164,6 +176,8 @@ export function useGame(lib: Library) {
     (seed: number, align: PlayerAlign, mandate: string | null = null, daily?: DailyMark) => {
       setSaved(null);
       setSavedDaily(null);
+      setSavedChallenge(null);
+      setChallenge(null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = daily ?? null;
@@ -174,11 +188,16 @@ export function useGame(lib: Library) {
     [lib, beginRecording],
   );
 
-  /** A run someone else played, from its code: their setup, not this profile's. */
+  /**
+   * A run someone else played, from its code: their setup, not this profile's. When the link
+   * said how it went for them, the end compares the two (BACKLOG-5 phase 37).
+   */
   const startFromCode = useCallback(
-    (code: RunCode, daily?: DailyMark) => {
+    (code: RunCode, daily?: DailyMark, vs?: RunResult | null) => {
       setSaved(null);
       setSavedDaily(null);
+      setSavedChallenge(null);
+      setChallenge(vs ?? null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = daily ?? null;
@@ -202,19 +221,35 @@ export function useGame(lib: Library) {
     [lib, startFromCode],
   );
 
+  /**
+   * A run from a link. Today's daily sent by someone who played it is today's daily for
+   * whoever plays it too, so the menu does not go on to offer them the run they have just
+   * played (BACKLOG-5 phases 37 and 38).
+   */
+  const playShared = useCallback(
+    (code: RunCode, vs: RunResult | null = null) => {
+      const today = dailySeedFor();
+      const isToday = code.seed === today.seed && encodeRunCode(code) === encodeRunCode(dailyCode(lib, today.seed, code.align, code.mandate));
+      startFromCode(code, isToday ? today : undefined, vs);
+    },
+    [lib, startFromCode],
+  );
+
   const continueSaved = useCallback(() => {
     if (!saved) return;
     setSaved(null);
     setLastFold(null);
     dailyRef.current = savedDaily?.seed === saved.seed ? savedDaily : null;
     setSavedDaily(null);
+    setChallenge(savedChallenge);
+    setSavedChallenge(null);
     setState(ensureCard(lib, saved));
     // The recording carries on only if it is this run's, card for card; a record that lost
     // a card, or belongs to another run, is kept as far as it got.
     const open = openRef.current;
     if (open && (open.code !== encodeRunCode(runCodeOf(saved)) || open.cards.length !== saved.cardCount)) shelveOpen();
     else if (open) resumedRef.current = true;
-  }, [lib, saved, savedDaily, shelveOpen]);
+  }, [lib, saved, savedDaily, savedChallenge, shelveOpen]);
 
   /** A run has ended: fold it into the profile, and into the daily only if it was that. */
   const foldFinished = useCallback(
@@ -269,6 +304,8 @@ export function useGame(lib: Library) {
       const made = first.choices![k];
       if (!back || !made) return;
       const r = commitChoice(lib, { ...back, road: { first, at: k } }, otherSide(made[1]));
+      // A second road's end shows the two roads; the run someone sent was the first's to compare.
+      setChallenge(null);
       setLastFold(null);
       setTransition(r.eraChanged ? r.state.era : null);
       setState(r.state);
@@ -314,6 +351,8 @@ export function useGame(lib: Library) {
     clearRun();
     setSaved(null);
     setSavedDaily(null);
+    setSavedChallenge(null);
+    setChallenge(null);
     setTransition(null);
     setState(null);
     setLastFold(null);
@@ -327,11 +366,13 @@ export function useGame(lib: Library) {
     transition,
     saved,
     savedDaily,
+    challenge,
     meta,
     lastFold,
     start,
     startDaily,
     startFromCode,
+    playShared,
     continueSaved,
     choose,
     takeOtherRoad,

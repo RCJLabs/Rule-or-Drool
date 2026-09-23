@@ -767,7 +767,70 @@ slow with them.
 
 </details>
 
-## Phase 37. Challenge a friend — *queued*
+## Phase 37. Challenge a friend — *done*
+
+**Shipped.** A shared link says how the sender's run went, and the receiver's game deals
+that run again from it. The offer says what they got: *They left The Homes Never Built. Out
+of Office, after 60 cards.* The receiver's end puts the two worlds side by side under *Their
+run* and *Your run*. A line says how they differ (*They went to Decay. You went to
+Ascent.*), and a table compares what history called each, how each ended, the cards and the
+direction. There is no server.
+
+**Not a run code v2, as planned.** The result rides beside the run code, as `?run=…&vs=…`,
+and the run code itself is unchanged:
+- **The code is what a run started from.** The playtest record and the replay both key on
+  it, and a result is not part of that.
+- **A version of the game from before this still opens the link.** A stale tab, or the Play
+  app before it reloads, reads the code and ignores the rest. A new code format would have
+  been a broken link to it.
+
+**The result** is `1.<history>.<ending>.<cards>.<sides>`. It is the format version, what
+history called the run, how it ended, how many cards it took, and the side taken on every
+card, a bit each. It is 56 characters on average and 70 at most, so the audit's whole link
+is 166 characters.
+- **The sides bring the run back.** The deal decides which card comes, so the receiver's
+  game plays the same sides from the same code, and draws the sender's world from their run.
+- **A run that no longer deals the same** (played on a version that changed the deck) does
+  not end where the link says. Then the comparison uses what the link says, without their
+  picture, and says why.
+
+**Also:**
+- **Saved with the run.** A challenge left mid-run still compares at the end.
+- **A daily sent on its own day is today's daily** for whoever plays it (phase 38), and the
+  offer says so. Otherwise the menu would go on to offer the run they had just played.
+- **A second road taken from a challenge does not compare.** Its end already shows two
+  roads.
+- **Every share link now carries its run's result,** so a reply to a challenge is one back.
+
+**Done when, checked:**
+- **A v2 link round-trips:** across 400 runs by every bot, the result reads back exactly,
+  and the run dealt again from it is the sender's run to the last meter and flag. A fixed
+  example pins the format, so a change to it cannot quietly break links already sent.
+- **A v1 link still works:** it opens as before, with no comparison, and a v2 link's run
+  code is exactly the v1 code.
+- **The end screen compares the two runs:** unit tests, and a browser audit that opens a
+  real link on a 360×640 phone, reads the offer, and ends the run in each direction. It
+  checks both worlds, the comparison, contrast and fit. Ending the run reloads the page
+  mid-run, so the audit also covers a challenge that is left and taken up again.
+
+**Also checked:**
+- The unit suite is 518 tests and the browser suite 38.
+- Fifteen mutations were each caught by a test. A sixteenth found a check that could never
+  fail, a card count that the replay already guarantees, and it was taken out.
+- The bundle grew by 1.8 KB gzipped.
+
+**Yours:**
+- **The link holds every choice the sender made.** Nothing shows them before the end, but a
+  curious receiver could read them out of the link. It is a satire with no scores, so it
+  seemed fine; say if not.
+- **The share text still says** *Play the same run:* before the link. Something like *Beat
+  mine:* would say what the link does now; the words are yours.
+- **The store listing** says a friend "starts the very run you played". It could add that
+  they see both at the end. That is your listing copy, so it is unchanged.
+- **Links sent before this version** carry no result, so they open as before, with no
+  comparison.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** A shared link starts the sender's run (phase 11) and says nothing about how it
 went. Two different players given the same code almost always end differently: over 1,000
@@ -782,6 +845,8 @@ link.
 
 **Done when** a v2 link round-trips, a v1 link still works, and the end screen compares the
 two runs.
+
+</details>
 
 ## Phase 38. The daily, every day — *done*
 

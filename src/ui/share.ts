@@ -1,6 +1,6 @@
 import { STRINGS } from "../content/strings";
 import type { GameState } from "../engine/types";
-import { dailyNumber, encodeRunCode, runCodeOf, type History } from "../meta";
+import { dailyNumber, encodeRunCode, encodeRunResult, runCodeOf, type History, type RunResult } from "../meta";
 
 /**
  * Taking a run out of the game (BACKLOG-2 phase 11). "Look what happened to me" is how this
@@ -12,9 +12,14 @@ import { dailyNumber, encodeRunCode, runCodeOf, type History } from "../meta";
  * through somebody else's unlocks.
  */
 
-/** The link that starts this run, on whatever host the game is being served from. */
-export function shareLink(state: GameState, base = typeof location === "undefined" ? "" : `${location.origin}${location.pathname}`): string {
-  return `${base}?run=${encodeRunCode(runCodeOf(state))}`;
+/**
+ * The link that starts this run, on whatever host the game is being served from. With the
+ * run's result, it says how it went as well, so the end of theirs can put the two side by side
+ * (BACKLOG-5 phase 37). The run code is left as it was, so a version of the game from before
+ * that still opens the link.
+ */
+export function shareLink(state: GameState, base = typeof location === "undefined" ? "" : `${location.origin}${location.pathname}`, result: RunResult | null = null): string {
+  return `${base}?run=${encodeRunCode(runCodeOf(state))}${result ? `&vs=${encodeRunResult(result)}` : ""}`;
 }
 
 /**

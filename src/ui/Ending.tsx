@@ -1,12 +1,26 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { epilogueByKey, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { otherSide, replays } from "../engine/replay";
 import { exitBand } from "../engine/state";
-import type { GameState } from "../engine/types";
-import { LEGACIES, OBJECTIVES_BY_ID, dailyNumber, historyOf, monthOf, todayKey, type RunFold } from "../meta";
+import type { Band, GameState } from "../engine/types";
+import {
+  LEGACIES,
+  OBJECTIVES_BY_ID,
+  bandOfHistory,
+  dailyNumber,
+  historyOf,
+  historyTitle,
+  monthOf,
+  resultOf,
+  runCodeOf,
+  theirRun,
+  todayKey,
+  type RunFold,
+  type RunResult,
+} from "../meta";
 import { DailyMonth, dailyName, streakLine } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { runRecord, timeline } from "./record";
@@ -27,6 +41,8 @@ interface Props {
   onTakeOtherRoad?: (k: number) => void;
   /** Today's UTC day, for the streak; the clock's by default. */
   today?: string;
+  /** How the run went for whoever sent it, when their link said (BACKLOG-5 phase 37). */
+  challenge?: RunResult | null;
 }
 
 /**
@@ -38,7 +54,7 @@ interface Props {
  * Read top to bottom it goes: the world you left, what history calls it, what became of the
  * decisions that made it, how it went, what you did with the office, and the long view.
  */
-export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onTakeOtherRoad, today = todayKey() }: Props) {
+export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onTakeOtherRoad, today = todayKey(), challenge = null }: Props) {
   const scene = useRef<HTMLElement>(null);
   // The run screen and everything that had focus have just gone. Land on the history's
   // name, so a screen reader starts where a sighted player's eye does (BACKLOG-5 phase 30).
@@ -50,6 +66,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // Retraced once, whole. A record this version of the game no longer deals the same way
   // would take a way back into a run that never happened (BACKLOG-5 phase 35).
   const retraceable = useMemo(() => !state.road && replays(lib, state), [lib, state]);
+  // The run someone sent, when their link said how it went (BACKLOG-5 phase 37): dealt again
+  // from their sides, so their world is drawn from their own run. A second road does not
+  // compare; its end already shows two.
+  const vs = challenge && !state.road ? challenge : null;
+  const theirs = useMemo(() => (vs ? theirRun(lib, runCodeOf(state), vs) : null), [lib, state, vs]);
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -85,10 +106,22 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const firstWorld = first ? composeWorld({ band: firstBand, drift: first.drift, align: first.align, flags: first.flags, seed: first.seed, era: first.era }) : null;
   const parted = road && first?.choices?.[road.at];
   const partedCard = parted && lib.cards.get(parted[0]);
+  const theirBand = theirs ? exitBand(lib, theirs) : bandOfHistory(vs?.history ?? null);
+  const theirHistory = theirs && theirBand ? historyOf(theirs, theirBand) : null;
+  const theirWorld = theirs && theirBand ? composeWorld({ band: theirBand, drift: theirs.drift, align: theirs.align, flags: theirs.flags, seed: theirs.seed, era: theirs.era }) : null;
+  // Two worlds side by side: the first road and the other (phase 34), or their run and yours
+  // (phase 37). The one on the right is always this run, and is the picture a share sends.
+  const pair =
+    first && firstWorld && firstHistory
+      ? { label: STRINGS.road.first, world: firstWorld, band: firstBand, title: firstHistory.title, mine: STRINGS.road.second }
+      : theirWorld && theirHistory && theirBand
+        ? { label: STRINGS.vs.theirs, world: theirWorld, band: theirBand, title: theirHistory.title, mine: STRINGS.vs.yours }
+        : null;
 
   const share = async () => {
     setSharing("working");
-    const text = shareText(state, history, endingTitle, shareLink(state), dailyDay);
+    // The link says how this run went, so whoever opens it can put theirs beside it.
+    const text = shareText(state, history, endingTitle, shareLink(state, undefined, resultOf(lib, state)), dailyDay);
     const svg = scene.current?.querySelector("svg");
     // The picture is the best part and still optional: a failed render shares the words.
     const card = svg
@@ -101,14 +134,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   return (
     <Frame theme={themeFor(state.drift, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
-        {first && firstWorld && firstHistory ? (
+        {pair ? (
           <div className="roads">
             <div className="road">
-              <figure className="world-frame" data-band={firstBand}>
-                <WorldAfter world={firstWorld} title={firstHistory.title} />
+              <figure className="world-frame" data-band={pair.band}>
+                <WorldAfter world={pair.world} title={pair.title} />
               </figure>
               <p className="road-caption">
-                <span>{STRINGS.road.first}</span> <b>{firstHistory.title}</b>
+                <span>{pair.label}</span> <b>{pair.title}</b>
               </p>
             </div>
             <div className="road">
@@ -116,7 +149,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
                 <WorldAfter world={world} title={history.title} />
               </figure>
               <p className="road-caption">
-                <span>{STRINGS.road.second}</span> <b>{history.title}</b>
+                <span>{pair.mine}</span> <b>{history.title}</b>
               </p>
             </div>
           </div>
@@ -155,6 +188,16 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           <p className="daily-mark">
             {dailyName(daily.day)} · {streakLine(fold.meta.dailies, today)}
           </p>
+        )}
+        {vs && (
+          <Versus
+            lib={lib}
+            vs={vs}
+            replayed={!!theirs}
+            theirBand={theirBand}
+            theirTitle={theirHistory?.title ?? (vs.history ? historyTitle(vs.history) : null)}
+            mine={{ key: history.key, title: history.title, ending: endingTitle, cards: state.cardCount, band }}
+          />
         )}
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
 
@@ -268,5 +311,63 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
         </div>
       </div>
     </Frame>
+  );
+}
+
+interface Mine {
+  key: string;
+  title: string;
+  ending: string;
+  cards: number;
+  band: Band;
+}
+
+/**
+ * Their run and yours (BACKLOG-5 phase 37): what history called each, how each ended, how long
+ * each lasted and which way each went, and a line on the difference. When their run cannot be
+ * dealt again here, it is what their link says it was, and the screen says so.
+ */
+function Versus({ lib, vs, replayed, theirBand, theirTitle, mine }: { lib: Library; vs: RunResult; replayed: boolean; theirBand: Band | null; theirTitle: string | null; mine: Mine }) {
+  const heading = useId();
+  const v = STRINGS.vs;
+  const theirEnding = vs.ending ? (lib.endings.get(vs.ending)?.title ?? null) : null;
+  const verdict =
+    vs.history && vs.history === mine.key
+      ? v.bothLeft.replace("{history}", mine.title)
+      : theirBand && theirBand === mine.band
+        ? v.sameWay.replace("{band}", STRINGS.bands[mine.band])
+        : theirBand
+          ? v.otherWays.replace("{theirs}", STRINGS.bands[theirBand]).replace("{yours}", STRINGS.bands[mine.band])
+          : null;
+  const rows: [string, string, string][] = [
+    [v.history, theirTitle ?? v.unknown, mine.title],
+    [v.ending, theirEnding ?? v.unknown, mine.ending],
+    [v.cards, String(vs.cards), String(mine.cards)],
+    [v.went, theirBand ? STRINGS.bands[theirBand] : v.unknown, STRINGS.bands[mine.band]],
+  ];
+  return (
+    <section className="versus" aria-labelledby={heading}>
+      <h2 id={heading}>{v.title}</h2>
+      {verdict && <p className="versus-verdict">{verdict}</p>}
+      {!replayed && <p className="versus-note">{v.unreplayed}</p>}
+      <table className="versus-table">
+        <thead>
+          <tr>
+            <td />
+            <th scope="col">{v.theirs}</th>
+            <th scope="col">{v.yours}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([label, theirs, yours]) => (
+            <tr key={label}>
+              <th scope="row">{label}</th>
+              <td>{theirs}</td>
+              <td>{yours}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
   );
 }

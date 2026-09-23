@@ -2,7 +2,7 @@ import { draw } from "./draw";
 import type { Library } from "./library";
 import { resolve } from "./resolve";
 import { newRun } from "./state";
-import type { GameState, Side } from "./types";
+import type { GameState, RunSetup, Side } from "./types";
 
 /**
  * Putting a card of a run back on the table (BACKLOG-5 phase 34). A run is its setup and its
@@ -52,3 +52,18 @@ export function replays(lib: Library, state: GameState): boolean {
 }
 
 export const otherSide = (side: Side): Side => (side === "left" ? "right" : "left");
+
+/**
+ * A run dealt from its setup and played with these sides, one a card, to its end (BACKLOG-5
+ * phase 37). The deal decides which card comes, so the sides are all a run needs to come
+ * back: this is how a link carries someone's whole run in about twenty characters. Null when
+ * the sides run out before the run ends, or go on after it.
+ */
+export function playSides(lib: Library, seed: number, setup: RunSetup, sides: readonly Side[]): GameState | null {
+  let s = draw(lib, newRun(lib, seed, setup));
+  for (const side of sides) {
+    if (s.over || !s.current) return null;
+    s = draw(lib, resolve(lib, s, s.current, side));
+  }
+  return s.over ? s : null;
+}

@@ -5,7 +5,12 @@ import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { MANDATES } from "../../src/engine/mandates";
 import { rollSetup } from "../../src/engine/state";
-import { encodeRunCode } from "../../src/meta/runcode";
+import { encodeRunResult, resultOf } from "../../src/meta/challenge";
+import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
+import { draw } from "../../src/engine/draw";
+import { resolve } from "../../src/engine/resolve";
+import { newRun } from "../../src/engine/state";
+import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
 import { clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
@@ -98,6 +103,43 @@ describe.skipIf(!target)("in a browser", () => {
         await page.waitForSelector(".shared-run");
         failures.push(...(await contrast(page, label)));
         failures.push(...(await misfits(page, label, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+  });
+
+  /**
+   * Their run and yours (BACKLOG-5 phase 37): a link that says how the sender's run went,
+   * offered, played and ended in each direction, with both worlds drawn on the smallest phone.
+   * Their run is played here, to its end, from the same code the link carries.
+   */
+  describe("their run and yours", () => {
+    it("offers a run with how it went, and ends with both, readable at 360px in each direction", async () => {
+      const code = codeFor(SEED, "left");
+      const decoded = decodeRunCode(library, code);
+      if (!decoded.ok) throw new Error("the audit's own code does not decode");
+      let theirs = draw(library, newRun(library, SEED, setupOf(decoded.code)));
+      for (let i = 0; !theirs.over && i < 400; i++) theirs = draw(library, resolve(library, theirs, theirs.current!, i % 3 ? "right" : "left"));
+      const vs = encodeRunResult(resultOf(library, theirs)!);
+      const failures: string[] = [];
+      for (const band of ["ascent", "decay", "muddle"] as const) {
+        const page = await open(browser, { width: 360, height: 640, query: `run=${code}&vs=${vs}` });
+        if (band === "ascent") {
+          await page.getByText(/^They left /).waitFor();
+          failures.push(...(await contrast(page, "the offer of their run")));
+          failures.push(...(await misfits(page, "the offer of their run", { mayScroll: true })));
+        }
+        await page.getByRole("button", { name: STRINGS.share.offerPlay }).click();
+        await page.waitForSelector(".card");
+        // Ending the run reloads the page in the middle of it, so the comparison has to have
+        // been saved with the run to be there at the end.
+        await endRun(page, LATE[band]);
+        const drawn = await page.locator(".roads .world-frame svg").count();
+        if (drawn !== 2) failures.push(`${band}: ${drawn} worlds drawn, not theirs beside yours`);
+        if (!(await page.isVisible(".versus-table"))) failures.push(`${band}: no comparison`);
+        failures.push(...(await contrast(page, `their run and yours, ending ${band}`)));
+        failures.push(...(await misfits(page, `their run and yours, ending ${band}`, { mayScroll: true })));
         await close(page);
       }
       expect(failures).toEqual([]);

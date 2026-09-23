@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { library } from "../content";
-import { decodeRunCode, type Decoded } from "../meta";
+import { decodeRunCode, decodeRunResult, type Decoded, type RunResult } from "../meta";
 import { STRINGS } from "../content/strings";
 import { Codex } from "./Codex";
 import { Ending } from "./Ending";
@@ -29,6 +29,13 @@ export function App() {
     const raw = new URLSearchParams(window.location.search).get("run");
     return raw ? decodeRunCode(library, raw) : null;
   });
+  // How it went for them, when the link says (BACKLOG-5 phase 37): beside the run code, not in
+  // it, so a version of the game from before this still opens the link.
+  const [sharedResult, setSharedResult] = useState<RunResult | null>(() => {
+    if (typeof window === "undefined") return null;
+    const raw = new URLSearchParams(window.location.search).get("vs");
+    return raw ? decodeRunResult(library, raw) : null;
+  });
   // Progress brought in a link (BACKLOG-5 phase 33): read, shown against what is here, and
   // put in place only if the player says so. The fragment never reaches a server.
   const [incoming, setIncoming] = useState<string | null>(() => (typeof window === "undefined" ? null : progressInHash()));
@@ -52,8 +59,10 @@ export function App() {
   /** The link has done its job once it is answered, so a reload does not offer it again. */
   const answerShared = () => {
     setShared(null);
+    setSharedResult(null);
     const url = new URL(window.location.href);
     url.searchParams.delete("run");
+    url.searchParams.delete("vs");
     window.history.replaceState(null, "", url.pathname + (url.search || ""));
   };
 
@@ -119,9 +128,10 @@ export function App() {
           onStart={game.start}
           onDaily={game.startDaily}
           shared={shared}
+          sharedResult={sharedResult}
           onPlayShared={(code) => {
             answerShared();
-            game.startFromCode(code);
+            game.playShared(code, sharedResult);
           }}
           onDismissShared={answerShared}
           onContinue={game.continueSaved}
@@ -141,6 +151,7 @@ export function App() {
           lib={library}
           state={game.state}
           fold={game.lastFold}
+          challenge={game.challenge}
           onPlayAgain={game.reset}
           onTakeOtherRoad={game.takeOtherRoad}
           onCodex={game.openCodex}
