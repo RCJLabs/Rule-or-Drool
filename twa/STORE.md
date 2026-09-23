@@ -11,9 +11,9 @@ that follow from it.
 | App name | Rule or Drool | 13 / 30 |
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
-**Full description** (1,847 / 4,000 characters). Every number in it was checked
-against the content when written: 1,053 cards, 22 arcs, 30 advisors, 26 endings, 297 history
-names. Re-check them if the content changes.
+**Full description** (2,104 / 4,000 characters). Every number in it was checked
+against the content when written: 1,097 cards, 22 stories and 4 questions, 30 advisors, 30
+endings, 369 history names. Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -23,11 +23,12 @@ The catch: the easy choice now is the ruinous choice later. The bridge you did n
 HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
-• 1,053 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
+• The questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, cover everyone's care. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes.
+• 1,097 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
-• 26 ways for a rule to end, and 297 names history can give it, from what you did and where it took the country.
+• 30 ways for a rule to end, and 369 names history can give it, from what you did and where it took the country.
 • At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Mandates: promises you make at the start, at a price.
@@ -119,7 +120,7 @@ and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
 
 ## Content rating questionnaire (IARC)
 
-These are notes to answer from, not answers. The 1,053 cards were searched for each theme the
+These are notes to answer from, not answers. The 1,097 cards were searched for each theme the
 questionnaire asks about:
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people
@@ -127,8 +128,12 @@ questionnaire asks about:
   cannon, a curfew, a law letting citizens defend their homes "with any force at all", armed
   militias (one with tanks), youth camps that teach shooting, and old munitions that children
   collect. The long reign's cards (v0.51.0) add two wars, one forgotten and one over a dry
-  river, militias that run the ministries, and a neighbour with a missile. The pictures are
-  flat silhouettes (tanks, a searchlight), with no blood and no injury.
+  river, militias that run the ministries, and a neighbour with a missile. The questions
+  (v0.52.0) add a war fought for an ally, told in text: a draft, a third year of fighting,
+  towns that "have buried their dead", and our shells photographed on both sides of a trench.
+  They also add deportation raids that take citizens by mistake, a patient who dies on a
+  waiting list and a child who dies waiting for a transfer, all told in a sentence and none
+  shown. The pictures are flat silhouettes (tanks, a searchlight), with no blood and no injury.
 - **Language:** no profanity found.
 - **Sexual content:** none found.
 - **Drugs, alcohol, tobacco:** medicine, several times: drug pricing, a drug made in orbit,
@@ -147,7 +152,11 @@ questionnaire asks about:
   room where votes were once counted. The jokes are at institutions and the politicians
   courting them, not at belief.
 - **Politics:** throughout, and all fictional. The country, the parties (the Commons and the
-  Ledger) and every person are invented.
+  Ledger) and every person are invented. Since v0.52.0 some cards name real policies plainly:
+  going to war for an ally, deporting everyone without papers, the top tax rate, universal
+  health care. Each is asked of both parties, and the game does not score the answer, only
+  how it is carried out. No real country, party, person, faith or slogan appears; a test
+  (`tests/guardrails.test.ts`) searches everything the game can show for them.
 
 ## Yours to decide
 

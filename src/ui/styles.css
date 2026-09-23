@@ -469,6 +469,21 @@ button {
   line-height: var(--line);
   text-align: center;
 }
+/* A question (BACKLOG-6 phase 40) is titled, so it reads as the big decision it is, and every
+   step after it carries the same title so the thread can be followed between other cards. */
+.question-title {
+  flex: 0 0 auto;
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.question-title[data-asking] {
+  color: var(--ink);
+}
 
 /* A phone short enough that the card would be squeezed past reading gets less of the
    stream and a tighter speaker block, rather than a card with its prose cut off. */
@@ -478,6 +493,11 @@ button {
   }
   .card-text {
     font-size: 15px;
+  }
+  /* The Ascent's airy lines (up to 1.7) cut the last line of a median card off at 360×640
+     once the choice buttons, a promise and the first lesson are all drawn (BACKLOG-6 phase 40). */
+  .frame[data-theme^="ascent"] {
+    --line: 1.5;
   }
   .frame[data-theme="decay3"] .stream-emotes,
   .frame[data-theme="decay3"] .stream-alert.second {

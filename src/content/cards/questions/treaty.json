@@ -1,0 +1,457 @@
+[
+  {
+    "id": "q_treaty_l_q",
+    "type": "arc",
+    "arc": "q_treaty_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Our oldest ally has been invaded. The treaty is one sentence long, and the sentence says we fight.",
+    "left": {
+      "label": "Send the army",
+      "fx": {
+        "base": -3,
+        "backers": 3,
+        "public": -1,
+        "order": 1
+      },
+      "setFlags": [
+        "went_to_war"
+      ],
+      "next": "q_treaty_l_a"
+    },
+    "right": {
+      "label": "Stay out of it",
+      "fx": {
+        "base": 3,
+        "backers": -2,
+        "public": 1,
+        "inst": -1
+      },
+      "setFlags": [
+        "stayed_out"
+      ],
+      "next": "q_treaty_l_b"
+    }
+  },
+  {
+    "id": "q_treaty_l_a",
+    "type": "arc",
+    "arc": "q_treaty_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The Movement will march against a war. It might not march against a humanitarian corridor, even one with tanks in it.",
+    "left": {
+      "label": "Call it a war",
+      "fx": {
+        "base": -2,
+        "inst": 3,
+        "order": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Call it a corridor",
+      "fx": {
+        "base": 4,
+        "public": 2,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_treaty_l_a3"
+    }
+  },
+  {
+    "id": "q_treaty_l_b",
+    "type": "arc",
+    "arc": "q_treaty_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Staying out is not the same as not selling. The shipyards have orders from both sides, and the Unions like the overtime.",
+    "left": {
+      "label": "Sell to nobody",
+      "fx": {
+        "backers": -4,
+        "money": -2,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sell to both sides",
+      "fx": {
+        "backers": 4,
+        "money": 4,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_treaty_l_b3"
+    }
+  },
+  {
+    "id": "q_treaty_l_a3",
+    "type": "arc",
+    "arc": "q_treaty_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The corridor needs more soldiers than have volunteered. The generals want a draft, and want it called something else.",
+    "left": {
+      "label": "Bring them home",
+      "fx": {
+        "order": -2,
+        "backers": -2,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Call it national service",
+      "fx": {
+        "order": 3,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_treaty_l_a4"
+    }
+  },
+  {
+    "id": "q_treaty_l_b3",
+    "type": "arc",
+    "arc": "q_treaty_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Our shells have been photographed on both sides of the same trench. The photograph is on every front page but ours.",
+    "left": {
+      "label": "Stop the sales, say so",
+      "fx": {
+        "backers": -4,
+        "money": -2,
+        "inst": 3,
+        "public": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Call it a fake",
+      "fx": {
+        "backers": 3,
+        "order": 1,
+        "inst": -3,
+        "public": 1
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_treaty_l_a4",
+    "type": "arc",
+    "arc": "q_treaty_l",
+    "step": 4,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The corridor is in its third year. The enemy will sign a peace tomorrow, with anyone but you.",
+    "left": {
+      "label": "Sign it and step down",
+      "drift": 8,
+      "ending": "last_signature"
+    },
+    "right": {
+      "label": "Keep the corridor open",
+      "fx": {
+        "order": 2,
+        "backers": 2,
+        "inst": -3,
+        "money": -2
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_treaty_r_q",
+    "type": "arc",
+    "arc": "q_treaty_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Our oldest ally has been invaded. The treaty is one sentence long, and the Faithful know it by heart.",
+    "left": {
+      "label": "Send the army",
+      "fx": {
+        "base": 3,
+        "backers": 1,
+        "public": -3,
+        "order": 1
+      },
+      "setFlags": [
+        "went_to_war"
+      ],
+      "next": "q_treaty_r_a"
+    },
+    "right": {
+      "label": "Stay out of it",
+      "fx": {
+        "base": -3,
+        "backers": -1,
+        "public": 3,
+        "inst": -1
+      },
+      "setFlags": [
+        "stayed_out"
+      ],
+      "next": "q_treaty_r_b"
+    }
+  },
+  {
+    "id": "q_treaty_r_a",
+    "type": "arc",
+    "arc": "q_treaty_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The war needs a draft. The Donors would like their children's names left off it, as a courtesy.",
+    "left": {
+      "label": "Draft every family",
+      "fx": {
+        "backers": -4,
+        "base": -1,
+        "inst": 3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Leave the names off",
+      "fx": {
+        "backers": 5,
+        "base": 2,
+        "inst": -3,
+        "public": -1
+      },
+      "drift": -12,
+      "next": "q_treaty_r_a3"
+    }
+  },
+  {
+    "id": "q_treaty_r_b",
+    "type": "arc",
+    "arc": "q_treaty_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The Faithful want to know why the treaty they learned at school does not mean what it says.",
+    "left": {
+      "label": "Say we broke it",
+      "fx": {
+        "base": -3,
+        "inst": 3,
+        "order": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Reinterpret the treaty",
+      "fx": {
+        "base": 4,
+        "inst": -4,
+        "order": 1,
+        "backers": 1
+      },
+      "drift": -12,
+      "next": "q_treaty_r_b3"
+    }
+  },
+  {
+    "id": "q_treaty_r_a3",
+    "type": "arc",
+    "arc": "q_treaty_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The draft has emptied the towns and none of the Donors' houses. The towns have noticed, and so has the army.",
+    "left": {
+      "label": "Add the names back",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Blame the town mayors",
+      "fx": {
+        "backers": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_treaty_r_a4"
+    }
+  },
+  {
+    "id": "q_treaty_r_b3",
+    "type": "arc",
+    "arc": "q_treaty_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The ally has fallen. Its old president is on our news every night, reading our treaty aloud, slowly.",
+    "left": {
+      "label": "Take in the survivors",
+      "fx": {
+        "public": -2,
+        "money": -3,
+        "base": -2,
+        "inst": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Take the news off air",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -4,
+        "public": 1
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_treaty_r_a4",
+    "type": "arc",
+    "arc": "q_treaty_r",
+    "step": 4,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The war is in its third year and the towns have buried their dead. The enemy will sign a peace tomorrow, with anyone but you.",
+    "left": {
+      "label": "Sign it and step down",
+      "drift": 8,
+      "ending": "last_signature"
+    },
+    "right": {
+      "label": "Fight on",
+      "fx": {
+        "base": 3,
+        "order": 2,
+        "money": -4,
+        "public": -3
+      },
+      "drift": -12
+    }
+  }
+]

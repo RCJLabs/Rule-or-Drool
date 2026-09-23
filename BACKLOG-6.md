@@ -79,8 +79,8 @@ slogans.
 
 The game is a binary swiper, and TRANSFER locks that. A third option on a card would mean
 redesigning the swipe, the keys, the screen-reader buttons and the preview, and rebalancing
-every bot and target. The questions add decisions a run did not have. That is what this round means by
-more choices.
+every bot and target. The questions add decisions a run did not have. That is what this
+round means by more choices.
 
 ## Decisions for you
 
@@ -117,7 +117,167 @@ the round can stop after any of them.
 
 ---
 
-## Phase 40. The four you named — *queued*
+## Phase 40. The four you named — *done*
+
+**Shipped.** Four questions, asked plainly, of both sides:
+- **The treaty.** Go to war for the ally, or stay out.
+- **Without papers.** Deport everyone here without papers, or give them a way to papers.
+- **The top rate.** Cut it, or tax the very rich.
+- **Everyone covered.** Care for everyone, paid for by the state, or vouchers and a market.
+
+The answer moves the coalition and carries no drift. How it is carried out decides where the
+country goes. A run meets two of the four, in its first era. The card says it is the
+question, and every step after it carries the question's title.
+
+**What it adds:**
+- **44 cards**, drafts for your edit. Each question is an arc per side, in that side's own
+  voice, with the coalition reacting as that side's would:
+  1. the question, which carries no drift;
+  2. how the answer is carried out: the honest way (drift +5) leaves the story, and the fast
+     way (−12) goes on;
+  3. a turning point on the fast road: an honest way out (+6), or worse (−12);
+  4. on two roads, a fourth step before an ending that is the honest way out (+8).
+- **4 endings**, one per question, each reached by choosing it:
+  - *The Last Signature*: the enemy will sign with anyone but you, so you sign and step down.
+    Not a failure.
+  - *Taking Responsibility*: a death on a list you managed; you say so and resign. Not a
+    failure.
+  - *Contempt of Court*: you ignore the court on papers or deportations.
+  - *In Receivership*: you hand the budget to the lenders after the top rate goes wrong.
+- **Each side fails on its own base's policy.** On the left the court ending sits on the
+  road to papers and the lenders on the tax on the very rich; on the right, on deportation
+  and the cut. Care's resignation follows the same rule: care for everyone on the left, the
+  market on the right. The treaty's, which is not a failure, is on the war for both.
+- **8 legacies**, one per answer, each named in the codex, with 72 history names and 24
+  "after" lines. They rank as a block just under the captured feed: deportation, the war,
+  care for everyone, papers, staying out, the market, the cut, the tax.
+- **An engine change:** questions are arcs with a `question` id and a budget of their own
+  (2 a run, one at a time), so they neither take the stories' slots nor wait for them. With
+  no questions in the content, every run is exactly what it was: the hash of 8,000
+  three-era runs did not change.
+- **The conventions, as tests and validator rules:** a question carries no drift; every card
+  after it carries drift of opposite signs; every question is asked of both sides; each
+  answer leaves a named legacy; an honest ending waits a step; the court and the lenders fail
+  each side on a different answer.
+- **A guardrail test** (`tests/guardrails.test.ts`) searches everything the game can show
+  for real countries, peoples, faiths, parties, slogans and politicians. It found none,
+  before or after.
+
+**How it was balanced.** Each draft was measured against the targets below, and each miss
+changed the design, not the target:
+- **The first draft ended random play at card 31** (median; the target is 40–60). Both
+  answers' fast roads could end the run, three questions a run. Now each side's arc has one
+  ending, on its own base's policy.
+- **Greedy play reached Decay 68% of the time** (target ≥ 70%). The fast ways were no better
+  for the meters than the honest ones, so nothing tempted. They were put on the deck's own
+  pattern: the fast way helps now, the honest way costs now.
+- **The answers carried money.** The war, deportation, the cut and care for everyone all cost
+  money, and the other answers saved it. The mixed bot, near a meter's edge on 37% of the
+  questions it met, took the cheaper answer 63% of the time, and an answer moved Ascent by up
+  to 10 points. The answers now move the coalition, and money moves with how it is done.
+- **An honest ending left no honest way to go on.** Signing the peace or resigning ends the
+  run, so anyone who wants to keep playing was pushed down the fast road, and the answer
+  carrying that ending was harsher. Those endings now wait a step, behind an honest way out.
+- **The honest road was worth only 4–8 points of Ascent a question** at +4 and −8. It is +5
+  and −12 now, inside TRANSFER's range for a story's steps (±5 to ±15).
+- **Three questions a run became two.** At three, nearly every run met three of the same four,
+  and a war for the ally named up to a quarter of all histories.
+- **On the left, care moved the Movement and the Unions together.** Every other question splits
+  a coalition whichever way it goes, and that one did not. Now the Unions prefer the health
+  plans they bargained for, as unions often do, and the money on the honest ways is evened out.
+- **Histories rank the questions under the captured feed, deportation first.** Ranked first
+  among them, just under the moonshot, a war for the ally named 15.0–15.5% of competent runs'
+  histories on two fresh samples of 6,000, over the rule that no decision names more than 15%.
+
+**Measured.** The mixed bot, paired seeds: each seed played twice, the question answered one
+way and then the other, or its method taken the honest way at every step and then the fast
+way at every step that does not end the run. Everything else as the bot plays it.
+
+| Question | Side | Answer moves Ascent | Answer moves Decay | Honest road | Fast road | Gap |
+|---|---|---|---|---|---|---|
+| The treaty | left | 2.9 points | 2.9 points | 22.5% | 8.1% | +14.4 |
+| The treaty | right | 0.8 points | 1.7 points | 21.4% | 5.7% | +15.8 |
+| Without papers | left | 0.5 points | 1.1 points | 21.4% | 9.9% | +11.5 |
+| Without papers | right | 1.5 points | 0.9 points | 21.2% | 9.9% | +11.3 |
+| The top rate | left | 1.6 points | 4.5 points | 21.6% | 9.9% | +11.7 |
+| The top rate | right | 0.9 points | 2.1 points | 22.7% | 8.8% | +13.9 |
+| Everyone covered | left | 2.3 points | 1.1 points | 24.2% | 5.9% | +18.4 |
+| Everyone covered | right | 0.1 points | 1.3 points | 25.0% | 3.8% | +21.2 |
+
+Over a whole run, with every question it meets carried out the same way, the honest road
+reaches Ascent 24.5% of the time against 3.6% for the fast road on the left, and 26.2%
+against 2.4% on the right.
+
+**Everything else still holds**, at 20,000 runs a bot:
+
+| Target | Wanted | v0.51.0 | Now |
+|---|---|---|---|
+| Random: median run length | 40–60 cards | 59 | 53 |
+| Random: most common ouster | ≤ 35% | bankruptcy 26.1% | bankruptcy 21.2% |
+| Greedy: ends in Decay | ≥ 70% | 75.7% | 80.6% |
+| Saint: ousted before era 2 | ≥ 60% | 100% | 100% |
+| Mixed: reaches Ascent | 15–30% | 21.2% | 19.9% |
+| A player's tenth run: cards seen before | under 75% | 73.3% | 72.4% |
+| Long reign: all six targets | as phase 39 | pass | pass |
+
+- **Each question** is met in 45–47% of runs on each side, and a run meets two (median).
+- **Stories** are unhurt: every story is still met in at least 90% as many runs as with no
+  questions (the target was 80%), and a competent run still enters 6.1 of them (6.2 before).
+- **History names:** the most any decision names is 13.6% (deportation), and the most any one
+  title names is 4.0%. A harness test now holds the 15% rule on 6,000 runs.
+- **Random play** ends early more often: 33.4% of random runs end in the first era, up from
+  25.4%. The four new endings end 5.2% (the lenders), 5.1% (the court), 2.5% (the peace) and
+  2.4% (the resignation) of random runs. Competent bots take none of them.
+- **The bundle** grew by 6.2 KB gzipped.
+
+**Done when, checked:**
+- Each question met in at least 35% of runs, each side: 45–47%.
+- A run meets at least two (median): two.
+- An answer moves the Ascent share and the Decay share by at most 5 points: at most 4.5.
+- The honest road reaches Ascent at least 10 points more often than the fast road: at least
+  +11.3.
+- Every existing story met in at least 80% as many runs: at least 90%.
+- No decision names more than 15% of histories: 13.6%.
+- Every harness target holds, three eras and long: all pass.
+
+**Also checked:**
+- The unit suite is 561 tests and the browser suite 41. The new browser audit puts the
+  longest question card each side can be asked on a 360px phone in all seven looks, and
+  checks contrast and fit.
+- A screen reader hears the question's title before the card, as a sighted player sees it.
+- Two tests pinned to the old deck were re-pinned: the screen-reader test's seed (seed 3 no
+  longer opens on a card that names its speaker; 21 does again) and one malformed challenge
+  link ("AAAA" is three bytes, the right length for a run of 17–24 cards, which the new deck
+  happened to deal).
+- **A card that did not fit, found on the way.** The audit seed now opens on a median-length
+  card, and at 360×640 in the brightest Ascent look, with the choice buttons, a promise and the
+  first lesson all drawn, its last line was cut off by 5px. The Ascent's line spacing (up to
+  1.7) is now 1.5 on screens 700px tall or less. That was true before this phase, for any
+  card of that length.
+- **The browser drivers play like someone paying attention.** They swiped on a fixed pattern
+  chosen to survive the old deck. The new one walked a run into a question's ending at card 12,
+  and another up to Money 96, where card 35 ended it either way. They now never take a side
+  that ends the run when the other does not, and take the calmer side while a meter is within
+  15 of an edge.
+
+**Yours:**
+- **The cards and names are drafts.** 44 cards, 4 endings, 72 history names, 24 "after" lines
+  and 8 legacy names, written to the deck's rules and checked, but not edited by you. These
+  are the most sensitive cards in the game: read them for tone before launch.
+- **Honest is on the left.** 907 of the deck's 970 event cards put the honest choice on the
+  left swipe, and the method cards here follow that so as not to stand out. A player who
+  notices can steer the hidden drift without reading a card. This predates the phase. Moving
+  half the deck's honest choices to the right is mechanical and changes nothing for the bots.
+- **Repeats.** Four questions, two a run: a player has met all four within a few runs, and
+  from then on the questions repeat. Phase 41's twelve are the fix, and the budget can go
+  back to three with sixteen.
+- **No picture yet.** The world drawn after a run has no landmark for the new legacies.
+- **Old links and replays.** As with any change to the deck, a run code sent before this
+  version deals differently now, and a run finished before it cannot take the other road.
+- **The content rating.** The store notes now list the war, the raids and the two deaths
+  (`twa/STORE.md`). The questionnaire should be answered from them.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - War for an ally has one card, in era 3, about a treaty signed in the first era.
@@ -182,6 +342,8 @@ the round can stop after any of them.
 - About 50 cards, 4 endings and their history titles, drafted for your edit.
 - A small engine change: the second budget. Like any content change, it changes which cards
   a given seed draws, so the fingerprint of 8,000 runs is expected to move.
+
+</details>
 
 ## Phase 41. Twelve more questions — *queued*
 

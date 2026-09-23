@@ -128,5 +128,25 @@
     "id": "rival_wins",
     "title": "They Won",
     "text": "The count came in on time, was not disputed, and was not close. {rival} gave a gracious speech about continuity."
+  },
+  {
+    "id": "last_signature",
+    "title": "The Last Signature",
+    "text": "The enemy would sign with anyone but you, so you signed and resigned the same afternoon. The pen is in a museum now. So is the war."
+  },
+  {
+    "id": "contempt",
+    "title": "Contempt of Court",
+    "text": "The court held you in contempt. The army was asked to choose between you and the court, and chose the court, politely."
+  },
+  {
+    "id": "receivership",
+    "title": "In Receivership",
+    "text": "The lenders run the budget now. They kept your office open for the photographs, and then the photographs stopped."
+  },
+  {
+    "id": "took_responsibility",
+    "title": "Taking Responsibility",
+    "text": "You read the name in the chamber and resigned before anyone could call a vote. It is the only resignation speech the country still quotes."
   }
 ]

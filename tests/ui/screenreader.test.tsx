@@ -32,9 +32,11 @@ const described = (el: HTMLElement) =>
  * court's budget…"), which the screen and the reader both fill in. The menu deals a random
  * seed, and an assertion on the raw text failed for the 9.5% of first cards that open with
  * one, so the run is pinned. It is pinned to a deck, too: 300 new cards changed what seed 21
- * opens with, and about 6% of first cards have a placeholder now (BACKLOG-5 phase 36).
+ * opens with, and about 6% of first cards have a placeholder now (BACKLOG-5 phase 36). The
+ * questions changed it back: they are asked from their own roll, which moves every draw after
+ * it, and seed 3 now opens without one (BACKLOG-6 phase 40).
  */
-const SEED = 3;
+const SEED = 21;
 
 function startRun(settings: Record<string, unknown> = {}) {
   localStorage.setItem("rod.settings", JSON.stringify({ v: SETTINGS_VERSION, reduceMotion: true, ...settings }));

@@ -1,8 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
-import { rollSetup } from "../src/engine/state";
+import { draw } from "../src/engine/draw";
+import { getCard } from "../src/engine/library";
+import { resolve } from "../src/engine/resolve";
+import { makeRng } from "../src/engine/rng";
+import { exitBand, newRun, rollSetup } from "../src/engine/state";
+import { historyOf } from "../src/meta/histories";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateLongTargets, evaluateTargets, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, makeContext, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -122,4 +127,30 @@ describe("who a run inherits", () => {
       expect(share.get(a.id) ?? 0, a.id).toBeLessThanOrEqual(0.45);
     }
   }, 60000);
+});
+
+// What history calls a run is its defining decision: the first legacy it carries, ranked by
+// how much history it makes. Three legacies are carried by 95-99% of runs, and the rule the
+// ranking was built to keep is that no decision names more than 15% of them. The questions
+// (BACKLOG-6 phase 40) are answered in nearly every run, so this is where they would break it:
+// ranked first among them just under the moonshot, a war for the ally named 15.0-15.5% of them
+// on fresh samples, and they rank under the captured feed, deportation first, for that reason.
+describe("what history calls a run", () => {
+  it("names no more than 15% of competent runs for any one decision", () => {
+    const n = 6000;
+    const named = new Map<string, number>();
+    for (let i = 0; i < n; i++) {
+      const seed = 600_000 + i;
+      const rng = makeRng(seed ^ 0x5bd1e995);
+      let s = draw(library, newRun(library, seed, rollSetup(library, seed, i % 2 ? "left" : "right", [])));
+      while (!s.over) {
+        const card = getCard(library, s.current!);
+        s = draw(library, resolve(library, s, card.id, BOTS.mixed(makeContext(library, s, card, rng, { danger: 25 }))));
+      }
+      const { signature } = historyOf(s, exitBand(library, s));
+      named.set(signature, (named.get(signature) ?? 0) + 1);
+    }
+    const most = [...named.entries()].sort((a, b) => b[1] - a[1])[0]!;
+    expect(most[1] / n, most[0]).toBeLessThanOrEqual(0.15);
+  }, 120000);
 });

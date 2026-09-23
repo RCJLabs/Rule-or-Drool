@@ -1,0 +1,369 @@
+[
+  {
+    "id": "q_papers_l_q",
+    "type": "arc",
+    "arc": "q_papers_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants papers for everyone here without them. Half the Cities want every one of them deported.",
+    "left": {
+      "label": "Deport them all",
+      "fx": {
+        "base": -4,
+        "backers": 2,
+        "public": 3
+      },
+      "setFlags": [
+        "mass_deportation"
+      ],
+      "next": "q_papers_l_a"
+    },
+    "right": {
+      "label": "A way to papers",
+      "fx": {
+        "base": 4,
+        "backers": -2,
+        "public": -3
+      },
+      "setFlags": [
+        "papers_granted"
+      ],
+      "next": "q_papers_l_b"
+    }
+  },
+  {
+    "id": "q_papers_l_a",
+    "type": "arc",
+    "arc": "q_papers_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The courts put the hearings at eleven years. The ministry has a quicker process, which it calls administrative.",
+    "left": {
+      "label": "Fund the courts",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "public": -1,
+        "base": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Use the quick process",
+      "fx": {
+        "public": 3,
+        "order": 2,
+        "money": 1,
+        "inst": -4
+      },
+      "drift": -12,
+      "next": "q_papers_l_a3"
+    }
+  },
+  {
+    "id": "q_papers_l_b",
+    "type": "arc",
+    "arc": "q_papers_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A way to papers needs a law, and the law needs votes you do not have. The ministry could simply stop checking.",
+    "left": {
+      "label": "Win the vote first",
+      "fx": {
+        "base": -3,
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Stop checking",
+      "fx": {
+        "base": 5,
+        "backers": 1,
+        "inst": -4
+      },
+      "drift": -12,
+      "next": "q_papers_l_b3"
+    }
+  },
+  {
+    "id": "q_papers_l_a3",
+    "type": "arc",
+    "arc": "q_papers_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The quick process has deported eleven citizens, one of them a judge. The court has ordered it stopped until each case is heard.",
+    "left": {
+      "label": "Obey the court",
+      "fx": {
+        "public": -3,
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Appeal, and carry on",
+      "fx": {
+        "order": 2,
+        "public": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_papers_l_b3",
+    "type": "arc",
+    "arc": "q_papers_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court has ruled that a government cannot repeal a law by not mentioning it. The checks are to resume on Monday.",
+    "left": {
+      "label": "Obey the court",
+      "fx": {
+        "base": -4,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Ignore the court",
+      "drift": -12,
+      "ending": "contempt"
+    }
+  },
+  {
+    "id": "q_papers_r_q",
+    "type": "arc",
+    "arc": "q_papers_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful want everyone here without papers deported. The Donors' farms would stop by Thursday.",
+    "left": {
+      "label": "Deport them all",
+      "fx": {
+        "base": 4,
+        "backers": -4,
+        "public": 1
+      },
+      "setFlags": [
+        "mass_deportation"
+      ],
+      "next": "q_papers_r_a"
+    },
+    "right": {
+      "label": "A way to papers",
+      "fx": {
+        "base": -4,
+        "backers": 4,
+        "public": -1
+      },
+      "setFlags": [
+        "papers_granted"
+      ],
+      "next": "q_papers_r_b"
+    }
+  },
+  {
+    "id": "q_papers_r_a",
+    "type": "arc",
+    "arc": "q_papers_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Deporting everyone needs a hearing for each of them. The courts put the queue at eleven years.",
+    "left": {
+      "label": "Fund the courts",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Skip the hearings",
+      "fx": {
+        "base": 4,
+        "order": 2,
+        "inst": -4
+      },
+      "drift": -12,
+      "next": "q_papers_r_a3"
+    }
+  },
+  {
+    "id": "q_papers_r_b",
+    "type": "arc",
+    "arc": "q_papers_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A way to papers needs a law. The Donors would rather you just stopped the inspections, and never mentioned it.",
+    "left": {
+      "label": "Pass the law openly",
+      "fx": {
+        "base": -3,
+        "inst": 3,
+        "backers": -1,
+        "money": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Stop the inspections",
+      "fx": {
+        "backers": 5,
+        "money": 1,
+        "inst": -4
+      },
+      "drift": -12,
+      "next": "q_papers_r_b3"
+    }
+  },
+  {
+    "id": "q_papers_r_a3",
+    "type": "arc",
+    "arc": "q_papers_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The raids took citizens too, a decorated veteran among them. The court has ordered them stopped until each case is heard.",
+    "left": {
+      "label": "Obey the court",
+      "fx": {
+        "base": -4,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Ignore the court",
+      "drift": -12,
+      "ending": "contempt"
+    }
+  },
+  {
+    "id": "q_papers_r_b3",
+    "type": "arc",
+    "arc": "q_papers_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court has ruled that a government cannot repeal a law by not mentioning it. The inspections resume on Monday.",
+    "left": {
+      "label": "Obey the court",
+      "fx": {
+        "backers": -4,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Appeal, and carry on",
+      "fx": {
+        "backers": 3,
+        "money": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  }
+]

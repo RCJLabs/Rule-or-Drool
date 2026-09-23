@@ -5,7 +5,7 @@ import { rivalReport } from "./rival";
 import { textLevel, type Settings } from "./settings";
 import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
-import { getCard, type Library } from "../engine/library";
+import { getCard, questionOf, type Library } from "../engine/library";
 import { preview } from "../engine/preview";
 import type { GameState, Meters, Side } from "../engine/types";
 import { CardClock } from "../playtest/clock";
@@ -77,6 +77,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
 
   const card = state.current ? getCard(lib, state.current) : null;
   const cardKey = card ? `${card.id}:${state.cardCount}` : null;
+  const questionId = card ? questionOf(lib, card) : undefined;
+  const asked = card && questionId ? { title: STRINGS.questions.titles[questionId] ?? questionId, asking: card.step === 1 } : undefined;
   const theme = themeFor(state.drift, lib.config);
   const busy = transition !== null || leaving !== null;
 
@@ -184,6 +186,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     parts.push(`${speakerName}, ${roleLabel}${traitName ? `, ${traitName}` : ""}.`);
     if (state.currentFrom === "queue") parts.push(STRINGS.ui.cameBack);
     if (state.currentFrom === "habit") parts.push(STRINGS.ui.aHabit);
+    // A question says it is one out loud too, as its title does on the card (BACKLOG-6 phase 40).
+    if (asked) parts.push(`${asked.asking ? `${STRINGS.questions.asking}: ${asked.title}` : asked.title}.`);
     parts.push(spoken);
     if (!prev) parts.push(STRINGS.speech.choicesHint);
     setSaid(parts.join(" "));
@@ -238,6 +242,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             advisorId={advisorId}
             seed={state.seed}
             from={state.currentFrom}
+            question={asked}
             peek={peek}
             leaving={leaving}
             onDrag={setDragSide}

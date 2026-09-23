@@ -105,3 +105,13 @@ export function getCard(lib: Library, id: string): Card {
   if (!card) throw new Error(`unknown card id: ${id}`);
   return card;
 }
+
+/** The question an arc asks, or undefined for a story (BACKLOG-6 phase 40). */
+export function questionOfArc(lib: Library, arcId: string): string | undefined {
+  return lib.arcs.get(arcId)?.question;
+}
+
+/** The question a card belongs to, whichever of its steps it is, or undefined. */
+export function questionOf(lib: Library, card: Pick<Card, "arc">): string | undefined {
+  return card.arc === undefined ? undefined : questionOfArc(lib, card.arc);
+}

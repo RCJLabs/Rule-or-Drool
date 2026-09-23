@@ -62,6 +62,10 @@ import arcDynasty from "./cards/arcs/dynasty.json";
 import arcConcordat from "./cards/arcs/concordat.json";
 import arcEstates from "./cards/arcs/estates.json";
 import arcRival from "./cards/arcs/rival.json";
+import questionTreaty from "./cards/questions/treaty.json";
+import questionPapers from "./cards/questions/papers.json";
+import questionTopRate from "./cards/questions/top_rate.json";
+import questionCare from "./cards/questions/care.json";
 import consequences from "./cards/consequences.json";
 import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
@@ -164,6 +168,11 @@ export const content: Content = {
     ...asCards(arcConcordat, "arcs/concordat.json"),
     ...asCards(arcEstates, "arcs/estates.json"),
     ...asCards(arcRival, "arcs/rival.json"),
+    // The questions (BACKLOG-6 phase 40): policies asked plainly, one arc per side each.
+    ...asCards(questionTreaty, "questions/treaty.json"),
+    ...asCards(questionPapers, "questions/papers.json"),
+    ...asCards(questionTopRate, "questions/top_rate.json"),
+    ...asCards(questionCare, "questions/care.json"),
     ...asCards(consequences, "consequences.json"),
     ...asCards(chains, "chains.json"),
     ...asCards(promises, "promises.json"),

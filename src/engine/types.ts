@@ -131,6 +131,14 @@ export interface Arc {
   weight: number;
   /** Card ids; the first is the entry card. */
   cards: string[];
+  /**
+   * Set on a question: a policy the country argues about, asked plainly (BACKLOG-6 phase 40).
+   * The id is the question's, shared by each side's arc for it, since each side asks it in
+   * its own voice. A question is drawn from a budget of its own rather than the stories',
+   * and its first card carries no drift: the answer decides who is pleased and who pays,
+   * and only how it is carried out decides where the country goes.
+   */
+  question?: string;
 }
 
 export interface Advisor {

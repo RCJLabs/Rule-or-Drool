@@ -189,6 +189,43 @@ describe.skipIf(!target)("in a browser", () => {
   });
 
   /**
+   * The questions (BACKLOG-6 phase 40). A question's card carries a title, and so does every
+   * step after it: one more line on the card. So the longest card each side can be asked is
+   * read in all seven looks on the smallest phone.
+   */
+  describe("a question", () => {
+    it("is titled, and fits and reads in all seven looks at 360px, for each side", async () => {
+      const failures: string[] = [];
+      for (const party of ["left", "right"] as const) {
+        const steps = library.content.arcs
+          .filter((a) => a.question && (a.align === party || a.align === "any"))
+          .flatMap((a) => a.cards.map((id) => ({ arc: a.id, id, length: library.cards.get(id)!.text.length })));
+        const longest = steps.sort((x, y) => y.length - x.length)[0]!;
+        const page = await startRun(browser, party, { width: 360, height: 640 });
+        for (let i = 0; i < 3; i++) await choose(page, "right");
+        // Put that card on the table, as the step of its question it is, and take the run up again.
+        await page.evaluate(`(() => {
+          const raw = JSON.parse(localStorage.getItem("rod.run"));
+          raw.state.current = ${JSON.stringify(longest.id)};
+          raw.state.currentFrom = "arc";
+          raw.state.activeArcs = [...raw.state.activeArcs, { id: ${JSON.stringify(longest.arc)}, nextCard: ${JSON.stringify(longest.id)} }];
+          localStorage.setItem("rod.run", JSON.stringify(raw));
+        })()`);
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(".question-title");
+        for (const look of LOOKS) {
+          await toLook(page, look);
+          failures.push(...(await contrast(page, `${party}'s longest question card in ${look}`)));
+          failures.push(...(await misfits(page, `${party}'s longest question card in ${look}`)));
+        }
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+  });
+
+  /**
    * The month of dailies (BACKLOG-5 phase 38). It is drawn at the end of a daily in whatever
    * look the run ended in, so it is read in each of the seven. The clock is fixed, because
    * the daily is dealt from the date. Ending a run reloads the page in the middle of it, so

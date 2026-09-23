@@ -24,6 +24,11 @@ interface Props {
    * Everything else is dealt and looks it.
    */
   from?: CardSource | null;
+  /**
+   * The question this card belongs to, if it is one (BACKLOG-6 phase 40): its title, and
+   * whether this is the card that asks it.
+   */
+  question?: { title: string; asking: boolean };
   /** Keyboard peek: shows the choice for that side without a pointer. */
   peek: Side | null;
   /** Set once a choice is committed; the card flies off that way. */
@@ -44,7 +49,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
+export function CardView({ card, text, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const nameId = `speaker${useId().replace(/\W/g, "")}`;
   useEffect(() => {
@@ -89,6 +94,7 @@ export function CardView({ card, text, spokenText, speakerName, roleLabel, trait
   if (card.type === "election") classes.push("election");
   if (from === "queue") classes.push("card-bill");
   if (from === "habit") classes.push("card-habit");
+  if (question) classes.push("card-question");
   if (dragging) classes.push("dragging");
   else if (leaving) classes.push("leaving");
   else classes.push("settling");
@@ -131,6 +137,11 @@ export function CardView({ card, text, spokenText, speakerName, roleLabel, trait
           {traitName && <b className="speaker-trait">{traitName}</b>}
         </span>
       </div>
+      {question && (
+        <p className="question-title" data-asking={question.asking || undefined}>
+          {question.asking ? `${STRINGS.questions.asking}: ${question.title}` : question.title}
+        </p>
+      )}
       {spokenText && spokenText !== text ? (
         <>
           <p className="card-text" aria-hidden="true">

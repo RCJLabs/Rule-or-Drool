@@ -38,6 +38,16 @@ export const LEGACIES: Record<string, string> = {
   habit_clamp: "The answer was always the same one",
   counted_late_boxes: "A district was counted after the close",
   broke_mandate: "The promise it was taken on was broken",
+  // The questions (BACKLOG-6 phase 40): each answer is something the country carries, and how
+  // it was carried out is what the history's direction says about it.
+  went_to_war: "The country went to war for its ally",
+  stayed_out: "The country stayed out of its ally's war",
+  mass_deportation: "Everyone without papers was ordered out",
+  papers_granted: "A way to papers was opened",
+  top_rate_cut: "The top rate was cut",
+  top_rate_raised: "The very rich were taxed",
+  universal_care: "Care was made universal",
+  care_market: "Care was left to the market",
 };
 
 export const LEGACY_FLAGS: ReadonlySet<string> = new Set(Object.keys(LEGACIES));

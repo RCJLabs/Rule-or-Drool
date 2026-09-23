@@ -3,8 +3,10 @@ import type { Browser, Page } from "playwright-core";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { rollSetup } from "../../src/engine/state";
-import { METER_KEYS, type PlayerAlign, type Side } from "../../src/engine/types";
+import { preview } from "../../src/engine/preview";
+import { METER_KEYS, type GameState, type PlayerAlign, type Side } from "../../src/engine/types";
 import { encodeRunCode } from "../../src/meta";
+import { stability } from "../../src/sim/bots";
 import { SETTINGS_VERSION } from "../../src/version";
 
 /**
@@ -158,13 +160,36 @@ export async function choose(page: Page, side: Side): Promise<void> {
   await page.waitForFunction("(() => { const c = document.querySelector('.card'); return !c || !c.__audited; })()");
 }
 
+/**
+ * The side to play for a driver that means to keep going, the way a player who is paying
+ * attention would: the one asked for, unless that ends the run and the other does not, and
+ * the calmer of the two while a meter is near its edge. The drivers swipe on a fixed pattern
+ * that was chosen to survive the deck it was written against, and any new card can undo that:
+ * the questions (BACKLOG-6 phase 40) ended one audit's run at card 12 on the fast side of a
+ * turning point, and walked another's Money up to 96, where card 35 ended it either way. The
+ * engine's own preview says, from the saved run.
+ */
+async function goingOn(page: Page, side: Side): Promise<Side> {
+  const id = await page.getAttribute(".card", "data-card");
+  const card = id ? library.cards.get(id) : undefined;
+  if (!card) return side;
+  const saved = (await page.evaluate(`localStorage.getItem("rod.run")`)) as string | null;
+  const state = saved ? (JSON.parse(saved) as { state: GameState }).state : null;
+  const other: Side = side === "left" ? "right" : "left";
+  if (state?.current !== card.id) return card[side].ending && !card[other].ending ? other : side;
+  const [mine, theirs] = [preview(library, state, card, side), preview(library, state, card, other)];
+  if (mine.endingId && !theirs.endingId) return other;
+  const nearEdge = METER_KEYS.some((k) => state.meters[k] <= 15 || state.meters[k] >= 85);
+  return nearEdge && !theirs.endingId && stability(theirs.meters) > stability(mine.meters) ? other : side;
+}
+
 /** Play until the first era ends, leaning the run toward a direction on the way. */
 export async function playToBoundary(page: Page, lean: "[" | "]" | null): Promise<void> {
   const { eraLength, eraCount } = library.config;
   for (let i = 0; i < eraLength * eraCount; i++) {
     if (await page.locator(".era-jump").count()) return;
     if (!(await page.locator(".card").count())) throw new Error(`the run ended at card ${i}, before its first era did`);
-    await choose(page, i % 3 === 0 ? "left" : "right");
+    await choose(page, await goingOn(page, i % 3 === 0 ? "left" : "right"));
     if (lean && i % 2 === 0) await page.keyboard.press(lean);
   }
   throw new Error("a whole run's worth of cards and no era boundary");
@@ -179,7 +204,7 @@ export async function playOut(page: Page): Promise<void> {
       await page.waitForSelector(".card");
       continue;
     }
-    await choose(page, i % 3 === 0 ? "left" : "right");
+    await choose(page, await goingOn(page, i % 3 === 0 ? "left" : "right"));
   }
   throw new Error("four hundred cards and the run never ended");
 }

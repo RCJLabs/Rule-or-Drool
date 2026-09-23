@@ -416,6 +416,41 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       return false;
     };
     if (visit(entry)) issues.warn("arc-cycle", `next pointers form a loop; make sure a refusal can always end it`, where);
+
+    // A question (BACKLOG-6 phase 40) asks a policy plainly and does not score it: the answer
+    // moves who is pleased and who pays, and only how it is carried out moves drift. So its
+    // first card carries none, and every card after it asks the honest and the fast way.
+    if (arc.question !== undefined) {
+      const asking = cards.get(entry);
+      for (const side of SIDES) {
+        if (asking && (asking[side].drift ?? 0) !== 0) {
+          issues.error("question-drift", `a question's first card carries no drift; how it is carried out does`, { kind: "card", id: entry, path: `${side}.drift` });
+        }
+      }
+      for (const id of arc.cards.slice(1)) {
+        const c = cards.get(id);
+        const l = c?.left.drift ?? 0;
+        const r = c?.right.drift ?? 0;
+        if (c && !(l !== 0 && r !== 0 && Math.sign(l) !== Math.sign(r))) {
+          issues.error("question-method", `after a question, each card asks the honest way and the fast way: drift on both sides, of opposite signs`, { kind: "card", id });
+        }
+      }
+    }
+  }
+
+  // Each side asks every question, in its own words: a question only one side is asked is
+  // that side's policy being scored after all.
+  {
+    const askedBy = new Map<string, Set<string>>();
+    for (const a of content.arcs) {
+      if (a.question === undefined) continue;
+      const sides = askedBy.get(a.question) ?? new Set<string>();
+      for (const s of a.align === "any" ? SIDES : [a.align]) sides.add(s);
+      askedBy.set(a.question, sides);
+    }
+    for (const [q, sides] of askedBy) {
+      for (const s of SIDES) if (!sides.has(s)) issues.error("question-one-sided", `question "${q}" is never asked of the ${s}`, { kind: "arc", id: q, path: "question" });
+    }
   }
 
   // ---- reachability: cards, then endings ----------------------------------------------

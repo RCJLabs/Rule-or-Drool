@@ -1,5 +1,5 @@
 import { draw } from "../engine/draw";
-import { getCard, type Library } from "../engine/library";
+import { getCard, questionOfArc, type Library } from "../engine/library";
 import { resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { exitBand, newRun, rollSetup } from "../engine/state";
@@ -19,8 +19,10 @@ export interface RunResult {
   finale: boolean;
   electionsSeen: number;
   cheats: number;
-  /** Arcs this run entered. */
+  /** Stories this run entered. */
   arcs: number;
+  /** Questions this run was asked (BACKLOG-6 phase 40), which are arcs with a budget of their own. */
+  questions: number;
   modifiers: string[];
   /** Everyone who held a cabinet role at any point in the run, the rival aside (BACKLOG-5 phase 35). */
   served: string[];
@@ -100,7 +102,8 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
     finale: endingId.startsWith(lib.config.finalePrefix),
     electionsSeen,
     cheats,
-    arcs: state.activeArcs.length,
+    arcs: state.activeArcs.filter((a) => questionOfArc(lib, a.id) === undefined).length,
+    questions: state.activeArcs.filter((a) => questionOfArc(lib, a.id) !== undefined).length,
     modifiers: state.modifiers,
     served: [...served],
     relaxed,

@@ -1,4 +1,4 @@
-import { getCard, poolKey, type Library } from "./library";
+import { getCard, poolKey, questionOfArc, type Library } from "./library";
 import { pickWeighted } from "./rng";
 import { condMet, hasFlag, roll } from "./state";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
@@ -194,11 +194,49 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
    * by an era-1 arc that had already ended. Measured: at the same weight of 2, arcs eligible
    * from era 1 were entered in 36-44% of runs and arcs gated to eras 2-3 in 3.0-3.3%.
    */
-  if (state.activeArcs.filter((a) => a.nextCard).length >= state.arcBudget) return [null, state];
+  // A question running does not hold a story's slot: it has a budget of its own.
+  if (state.activeArcs.filter((a) => a.nextCard && questionOfArc(lib, a.id) === undefined).length >= state.arcBudget) return [null, state];
+  const cands = startable(lib, state, false);
+  if (cands.length === 0) return [null, state];
+  const [p, s1] = roll(state);
+  if (p >= lib.config.arcEntryProb) return [null, s1];
+  const [arc, s2] = pickArc(lib, s1, cands);
+  if (!arc) return [null, s2];
+  return [
+    getCard(lib, arc.cards[0]!),
+    {
+      ...s2,
+      activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: arc.cards[0]! }],
+      stats: { ...s2.stats, arcsEntered: s2.stats.arcsEntered + 1 },
+    },
+  ];
+}
+
+/**
+ * Ask a question (BACKLOG-6 phase 40): a policy the country argues about, one at a time, each
+ * once, up to the run's budget. It is not a story, so it neither takes a story's slot nor
+ * counts as one entered; its later steps are drawn like any arc's.
+ */
+function drawQuestionEntry(lib: Library, state: GameState): [Card | null, GameState] {
+  const asked = state.activeArcs.filter((a) => questionOfArc(lib, a.id) !== undefined);
+  if (asked.length >= lib.config.questionBudget || asked.some((a) => a.nextCard)) return [null, state];
+  const answered = new Set(asked.map((a) => questionOfArc(lib, a.id)));
+  const cands = startable(lib, state, true).filter((a) => !answered.has(a.question));
+  if (cands.length === 0) return [null, state];
+  const [p, s1] = roll(state);
+  if (p >= lib.config.questionEntryProb) return [null, s1];
+  const [arc, s2] = pickArc(lib, s1, cands);
+  if (!arc) return [null, s2];
+  return [getCard(lib, arc.cards[0]!), { ...s2, activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: arc.cards[0]! }] }];
+}
+
+/** The stories, or the questions, this run could start now. */
+function startable(lib: Library, state: GameState, questions: boolean): Arc[] {
   // Still every arc ever entered, so a finished story cannot start again.
   const started = new Set(state.activeArcs.map((a) => a.id));
   const cands: Arc[] = [];
   for (const arc of lib.arcs.values()) {
+    if ((arc.question !== undefined) !== questions) continue;
     if (started.has(arc.id)) continue;
     if (arc.requires && !state.unlocked.includes(arc.requires)) continue;
     if (!alignOk(arc, state)) continue;
@@ -210,26 +248,15 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
     if (arc.cards.length === 0) continue;
     cands.push(arc);
   }
-  if (cands.length === 0) return [null, state];
-  const [p, s1] = roll(state);
-  if (p >= lib.config.arcEntryProb) return [null, s1];
+  return cands;
+}
+
+function pickArc(lib: Library, state: GameState, cands: Arc[]): [Arc | undefined, GameState] {
   const r = pickWeighted(
-    s1.rngState,
-    cands.map((a) => arcWeight(lib, s1, a)),
+    state.rngState,
+    cands.map((a) => arcWeight(lib, state, a)),
   );
-  const s2 = { ...s1, rngState: r.state };
-  const arc = cands[r.index];
-  if (!arc) return [null, s2];
-  const entry = arc.cards[0]!;
-  const card = getCard(lib, entry);
-  return [
-    card,
-    {
-      ...s2,
-      activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: entry }],
-      stats: { ...s2.stats, arcsEntered: s2.stats.arcsEntered + 1 },
-    },
-  ];
+  return [cands[r.index], { ...state, rngState: r.state }];
 }
 
 function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {
@@ -255,6 +282,7 @@ export function draw(lib: Library, state: GameState): GameState {
     ...(electionDue(lib, state) ? [["election", drawElection] as Source] : []),
     ["queue", tickQueue],
     ["arc", drawArcContinue],
+    ["arc", drawQuestionEntry],
     ["arc", drawArcEntry],
     ["deck", drawEvent],
   ];

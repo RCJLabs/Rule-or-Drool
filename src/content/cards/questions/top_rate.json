@@ -1,0 +1,379 @@
+[
+  {
+    "id": "q_top_rate_l_q",
+    "type": "arc",
+    "arc": "q_top_rate_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants a tax on the very rich. The Treasurer wants the top rate cut, to keep the factories from leaving.",
+    "left": {
+      "label": "Cut the top rate",
+      "fx": {
+        "base": -4,
+        "backers": 2,
+        "public": 2,
+        "money": -1
+      },
+      "setFlags": [
+        "top_rate_cut"
+      ],
+      "next": "q_top_rate_l_a"
+    },
+    "right": {
+      "label": "Tax the very rich",
+      "fx": {
+        "base": 4,
+        "backers": -2,
+        "public": -2,
+        "money": 1
+      },
+      "setFlags": [
+        "top_rate_raised"
+      ],
+      "next": "q_top_rate_l_b"
+    }
+  },
+  {
+    "id": "q_top_rate_l_a",
+    "type": "arc",
+    "arc": "q_top_rate_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The cut leaves a hole the size of the housing budget. The treasury can borrow it so that nobody notices until your successor.",
+    "left": {
+      "label": "Cut spending to match",
+      "fx": {
+        "public": -3,
+        "base": -2,
+        "money": 2,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Borrow it quietly",
+      "fx": {
+        "money": 4,
+        "public": 2,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_top_rate_l_a3"
+    }
+  },
+  {
+    "id": "q_top_rate_l_b",
+    "type": "arc",
+    "arc": "q_top_rate_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The very rich have lawyers faster than the treasury. Half the new tax is already sitting in companies with no staff.",
+    "left": {
+      "label": "Close the loopholes",
+      "fx": {
+        "backers": -2,
+        "order": -2,
+        "inst": 2,
+        "money": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Spend it anyway",
+      "fx": {
+        "base": 4,
+        "public": 3,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -12,
+      "next": "q_top_rate_l_b3"
+    }
+  },
+  {
+    "id": "q_top_rate_l_a3",
+    "type": "arc",
+    "arc": "q_top_rate_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The hole was noticed after all, by the lenders. They would like a seat at the budget.",
+    "left": {
+      "label": "Raise the rate back",
+      "fx": {
+        "money": 3,
+        "public": -3,
+        "backers": -2,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Borrow a little more",
+      "fx": {
+        "money": 3,
+        "public": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_top_rate_l_b3",
+    "type": "arc",
+    "arc": "q_top_rate_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The tax you spent never arrived. The lenders have, and they would like a seat at the budget.",
+    "left": {
+      "label": "Cut back, in public",
+      "fx": {
+        "base": -5,
+        "money": 3,
+        "inst": 1
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Give them the seat",
+      "drift": -12,
+      "ending": "receivership"
+    }
+  },
+  {
+    "id": "q_top_rate_r_q",
+    "type": "arc",
+    "arc": "q_top_rate_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors want the top rate cut. They have brought a study showing it pays for itself, written by the Donors.",
+    "left": {
+      "label": "Cut the top rate",
+      "fx": {
+        "backers": 5,
+        "base": -1,
+        "public": -3,
+        "money": -1
+      },
+      "setFlags": [
+        "top_rate_cut"
+      ],
+      "next": "q_top_rate_r_a"
+    },
+    "right": {
+      "label": "Tax the very rich",
+      "fx": {
+        "backers": -5,
+        "base": 1,
+        "public": 3,
+        "money": 1
+      },
+      "setFlags": [
+        "top_rate_raised"
+      ],
+      "next": "q_top_rate_r_b"
+    }
+  },
+  {
+    "id": "q_top_rate_r_a",
+    "type": "arc",
+    "arc": "q_top_rate_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The cut leaves a hole the size of the school budget. The Donors' study says growth will fill it by the spring.",
+    "left": {
+      "label": "Cut spending to match",
+      "fx": {
+        "public": -4,
+        "base": -1,
+        "money": 2,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Borrow until spring",
+      "fx": {
+        "money": 4,
+        "public": 2,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_top_rate_r_a3"
+    }
+  },
+  {
+    "id": "q_top_rate_r_b",
+    "type": "arc",
+    "arc": "q_top_rate_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The very rich have lawyers faster than the treasury. Half the new tax is already sitting in companies with no staff.",
+    "left": {
+      "label": "Close the loopholes",
+      "fx": {
+        "backers": -5,
+        "money": 2,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Spend it anyway",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -12,
+      "next": "q_top_rate_r_b3"
+    }
+  },
+  {
+    "id": "q_top_rate_r_a3",
+    "type": "arc",
+    "arc": "q_top_rate_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Spring came and the growth did not. The lenders have, and they would like a seat at the budget.",
+    "left": {
+      "label": "Raise the rate back",
+      "fx": {
+        "backers": -6,
+        "money": 3,
+        "inst": 1
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Give them the seat",
+      "drift": -12,
+      "ending": "receivership"
+    }
+  },
+  {
+    "id": "q_top_rate_r_b3",
+    "type": "arc",
+    "arc": "q_top_rate_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The money you spent never arrived. The lenders have, and they would like a seat at the budget.",
+    "left": {
+      "label": "Cut back, in public",
+      "fx": {
+        "public": -4,
+        "base": -1,
+        "money": 3,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Borrow to cover it",
+      "fx": {
+        "money": 3,
+        "public": 2,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  }
+]

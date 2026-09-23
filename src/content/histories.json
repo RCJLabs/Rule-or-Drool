@@ -14,6 +14,14 @@
     "bridge_ignored",
     "moonshot_funded",
     "feed_captured",
+    "mass_deportation",
+    "went_to_war",
+    "universal_care",
+    "papers_granted",
+    "stayed_out",
+    "care_market",
+    "top_rate_cut",
+    "top_rate_raised",
     "housing_built",
     "commission_open",
     "counted_late_boxes",
@@ -890,6 +898,214 @@
         "decay": "You left nothing a historian could point at. The country fell anyway, just without a reason.",
         "muddle": "You left no mark a historian could find, which some of them consider the achievement.",
         "ascent": "You left nothing to point at and the country rose anyway, which is either the best review or the worst."
+      }
+    },
+    "went_to_war": {
+      "titles": {
+        "decay": {
+          "left": "The Endless Corridor",
+          "right": "The Forever War"
+        },
+        "muddle": {
+          "left": "The Ally's War",
+          "right": "The Treaty War"
+        },
+        "ascent": {
+          "left": "The War That Kept Its Word",
+          "right": "The Honoured Treaty"
+        }
+      },
+      "long": {
+        "decay": "The War Nobody Ended",
+        "muddle": "The Old Alliance",
+        "ascent": "The Alliance of Centuries"
+      },
+      "after": {
+        "decay": "The war for the ally never quite ended. It became the reason for everything else.",
+        "muddle": "The war was won, or at least stopped, and the ally still sends a card every year.",
+        "ascent": "The war was fought in the open and ended in a treaty that still holds. Both countries teach it the same way."
+      }
+    },
+    "stayed_out": {
+      "titles": {
+        "decay": {
+          "left": "The Neutral Shipyards",
+          "right": "The Reinterpreted Treaty"
+        },
+        "muddle": {
+          "left": "The Sidelines",
+          "right": "The Quiet Border"
+        },
+        "ascent": {
+          "left": "The Clean Hands",
+          "right": "The Honest Refusal"
+        }
+      },
+      "long": {
+        "decay": "The Treaty Nobody Kept",
+        "muddle": "The Long Neutrality",
+        "ascent": "The Peace That Held"
+      },
+      "after": {
+        "decay": "The country stayed out and sold to both sides. The ally never forgave it, and neither did the photograph.",
+        "muddle": "The country stayed out of the war. Historians still argue about it, which is the most a neutral can hope for.",
+        "ascent": "The country stayed out, said so plainly, and took in the survivors. The ally's grandchildren are citizens now."
+      }
+    },
+    "mass_deportation": {
+      "titles": {
+        "decay": {
+          "left": "The Administrative Years",
+          "right": "The Raids"
+        },
+        "muddle": {
+          "left": "The Long Queue",
+          "right": "The Deportations"
+        },
+        "ascent": {
+          "left": "The Hearings",
+          "right": "The Rule of Law"
+        }
+      },
+      "long": {
+        "decay": "The Empty Fields",
+        "muddle": "The Eleven-Year Queue",
+        "ascent": "The Lawful Border"
+      },
+      "after": {
+        "decay": "The deportations ran without hearings until nobody could say who had been a citizen. The fields went quiet first.",
+        "muddle": "The deportations went through the courts, slowly. The last hearing was held long after anyone remembered the first.",
+        "ascent": "Everyone got a hearing, which took years and cost a fortune. The courts built for it are still the best in the country."
+      }
+    },
+    "papers_granted": {
+      "titles": {
+        "decay": {
+          "left": "The Blind Eye",
+          "right": "The Cheap Labour Years"
+        },
+        "muddle": {
+          "left": "The Amnesty",
+          "right": "The Guest Workers"
+        },
+        "ascent": {
+          "left": "The Open Door",
+          "right": "The New Citizens"
+        }
+      },
+      "long": {
+        "decay": "The Unwritten Citizens",
+        "muddle": "The Papered Generation",
+        "ascent": "The Nation of Newcomers"
+      },
+      "after": {
+        "decay": "The checks simply stopped, and never started again. A generation lived here without a single document saying so.",
+        "muddle": "A way to papers was opened and taken, slowly. Their grandchildren vote, mostly for whoever reminds them.",
+        "ascent": "A way to papers was passed as a law and kept as one. The newcomers' grandchildren run half the country."
+      }
+    },
+    "top_rate_cut": {
+      "titles": {
+        "decay": {
+          "left": "The Hole in the Budget",
+          "right": "The Donors' Decade"
+        },
+        "muddle": {
+          "left": "The Business Years",
+          "right": "The Tax Cut"
+        },
+        "ascent": {
+          "left": "The Paid-For Cut",
+          "right": "The Lean State"
+        }
+      },
+      "long": {
+        "decay": "The Borrowed Century",
+        "muddle": "The Low Rate",
+        "ascent": "The Balanced Books"
+      },
+      "after": {
+        "decay": "The top rate was cut and never paid for. The debt it left is older than anyone now paying it.",
+        "muddle": "The top rate was cut. The growth came, a little, and the argument about it never ended.",
+        "ascent": "The cut was paid for in the open, line by line. It is the only tax cut the treasury still uses as an example."
+      }
+    },
+    "top_rate_raised": {
+      "titles": {
+        "decay": {
+          "left": "The Giveaway Years",
+          "right": "The Missing Millions"
+        },
+        "muddle": {
+          "left": "The Wealth Tax",
+          "right": "The Top Rate"
+        },
+        "ascent": {
+          "left": "The Share Paid",
+          "right": "The Closed Loopholes"
+        }
+      },
+      "long": {
+        "decay": "The Tax That Never Arrived",
+        "muddle": "The Long Levy",
+        "ascent": "The Shared Fortune"
+      },
+      "after": {
+        "decay": "The very rich were taxed on paper. The money was spent before it came, and it never came.",
+        "muddle": "The very rich were taxed, and paid about half. Every government since has promised the other half.",
+        "ascent": "The very rich were taxed and the loopholes closed. The rich stayed, to general astonishment."
+      }
+    },
+    "universal_care": {
+      "titles": {
+        "decay": {
+          "left": "The Free Waiting List",
+          "right": "The Borrowed Hospitals"
+        },
+        "muddle": {
+          "left": "The Health Service",
+          "right": "The Covered Country"
+        },
+        "ascent": {
+          "left": "Care for Everyone",
+          "right": "The Healthy Republic"
+        }
+      },
+      "long": {
+        "decay": "The Longest List",
+        "muddle": "The Old Service",
+        "ascent": "The Healed Nation"
+      },
+      "after": {
+        "decay": "Care was promised free and put on the debt. The list is still there, and the debt, and the promise.",
+        "muddle": "Everyone was covered, eventually, after a wait. The wait is a national institution.",
+        "ascent": "Care was made universal and paid for in the open. Nobody alive has seen a medical bill."
+      }
+    },
+    "care_market": {
+      "titles": {
+        "decay": {
+          "left": "The Insurers' Rules",
+          "right": "The Uncovered Towns"
+        },
+        "muddle": {
+          "left": "The Voucher Years",
+          "right": "The Health Market"
+        },
+        "ascent": {
+          "left": "The Regulated Market",
+          "right": "The Honest Market"
+        }
+      },
+      "long": {
+        "decay": "The Priced Life",
+        "muddle": "The Long Market",
+        "ascent": "The Market With Rules"
+      },
+      "after": {
+        "decay": "Care was left to the insurers, who wrote the rules and left out the expensive towns. The towns are still out.",
+        "muddle": "Care was left to a market with vouchers. It works well for the people it works for.",
+        "ascent": "Care was left to a market with rules that had teeth. It is the one market nobody complains about."
       }
     }
   }

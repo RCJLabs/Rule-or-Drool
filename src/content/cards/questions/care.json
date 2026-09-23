@@ -1,0 +1,454 @@
+[
+  {
+    "id": "q_care_l_q",
+    "type": "arc",
+    "arc": "q_care_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants care for everyone, paid for by the state. The Unions would rather keep the health plans they bargained for.",
+    "left": {
+      "label": "Care for everyone",
+      "fx": {
+        "base": 3,
+        "backers": -2,
+        "public": -1,
+        "money": -1
+      },
+      "setFlags": [
+        "universal_care"
+      ],
+      "next": "q_care_l_a"
+    },
+    "right": {
+      "label": "Vouchers and a market",
+      "fx": {
+        "base": -3,
+        "backers": 2,
+        "public": 1,
+        "money": 1
+      },
+      "setFlags": [
+        "care_market"
+      ],
+      "next": "q_care_l_b"
+    }
+  },
+  {
+    "id": "q_care_l_a",
+    "type": "arc",
+    "arc": "q_care_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Care for everyone costs what it costs. A tax everyone can see would pay for it. So would borrowing, which nobody can see.",
+    "left": {
+      "label": "A tax everyone sees",
+      "fx": {
+        "public": -3,
+        "base": -1,
+        "money": 1,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Call it free",
+      "fx": {
+        "public": 3,
+        "base": 2,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -12,
+      "next": "q_care_l_a3"
+    }
+  },
+  {
+    "id": "q_care_l_b",
+    "type": "arc",
+    "arc": "q_care_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Vouchers and a market. The insurers have read the plan closely and found the parts they wrote.",
+    "left": {
+      "label": "Regulate the insurers",
+      "fx": {
+        "inst": 1,
+        "public": -3,
+        "money": -1,
+        "backers": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let them write it",
+      "fx": {
+        "money": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_care_l_b3"
+    }
+  },
+  {
+    "id": "q_care_l_a3",
+    "type": "arc",
+    "arc": "q_care_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Free care has a waiting list, which the ministry can publish or manage. Managing it looks better by the election.",
+    "left": {
+      "label": "Publish the list",
+      "fx": {
+        "public": -3,
+        "base": -1,
+        "inst": 2
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Manage the list",
+      "fx": {
+        "public": 3,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -12,
+      "next": "q_care_l_a4"
+    }
+  },
+  {
+    "id": "q_care_l_b3",
+    "type": "arc",
+    "arc": "q_care_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The insurers stopped covering the town by the chemical plant. A child died waiting for a transfer, and the town has your number.",
+    "left": {
+      "label": "Say so, and fix it",
+      "fx": {
+        "money": -2,
+        "backers": -1,
+        "inst": 3,
+        "public": -1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Blame the insurers",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_care_l_a4",
+    "type": "arc",
+    "arc": "q_care_l",
+    "step": 4,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The list you managed hid a patient who has now died on it. The papers have the name. So do you.",
+    "left": {
+      "label": "Say so, and resign",
+      "drift": 8,
+      "ending": "took_responsibility"
+    },
+    "right": {
+      "label": "Blame the hospital",
+      "fx": {
+        "base": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_care_r_q",
+    "type": "arc",
+    "arc": "q_care_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Country wants its hospital kept open. The Donors want vouchers, and the insurers have offered to write them.",
+    "left": {
+      "label": "Care for everyone",
+      "fx": {
+        "backers": -4,
+        "public": 4,
+        "base": 1,
+        "money": -1
+      },
+      "setFlags": [
+        "universal_care"
+      ],
+      "next": "q_care_r_a"
+    },
+    "right": {
+      "label": "Vouchers and a market",
+      "fx": {
+        "backers": 4,
+        "public": -4,
+        "base": -1,
+        "money": 1
+      },
+      "setFlags": [
+        "care_market"
+      ],
+      "next": "q_care_r_b"
+    }
+  },
+  {
+    "id": "q_care_r_a",
+    "type": "arc",
+    "arc": "q_care_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Care for everyone costs what it costs. The Faithful would pay a tax for it. The Donors would rather it was borrowed.",
+    "left": {
+      "label": "A tax everyone sees",
+      "fx": {
+        "backers": -4,
+        "public": -1,
+        "money": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Put it on the debt",
+      "fx": {
+        "backers": 3,
+        "public": 2,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -12,
+      "next": "q_care_r_a3"
+    }
+  },
+  {
+    "id": "q_care_r_b",
+    "type": "arc",
+    "arc": "q_care_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The insurers have written the voucher rules themselves, to save the ministry the trouble. They left out the expensive towns.",
+    "left": {
+      "label": "Rewrite the rules",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 1,
+        "money": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sign them as written",
+      "fx": {
+        "backers": 5,
+        "money": 1,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -12,
+      "next": "q_care_r_b3"
+    }
+  },
+  {
+    "id": "q_care_r_a3",
+    "type": "arc",
+    "arc": "q_care_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A farmer died on the waiting list you said was gone. The Country has the name, and so do the papers.",
+    "left": {
+      "label": "Say so, and fix it",
+      "fx": {
+        "money": -4,
+        "public": -1,
+        "inst": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Blame the bureaucrats",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_care_r_b3",
+    "type": "arc",
+    "arc": "q_care_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The towns left out of the vouchers are asking why. The insurers have a word for it they would like you to use.",
+    "left": {
+      "label": "Put the towns back",
+      "fx": {
+        "backers": -3,
+        "money": -2,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Call it choice",
+      "fx": {
+        "backers": 3,
+        "money": 1,
+        "inst": -2
+      },
+      "drift": -12,
+      "next": "q_care_r_b4"
+    }
+  },
+  {
+    "id": "q_care_r_b4",
+    "type": "arc",
+    "arc": "q_care_r",
+    "step": 4,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The town by the chemical plant was one of the towns left out. A child died waiting for a transfer. The pastor read the name aloud.",
+    "left": {
+      "label": "Say so, and resign",
+      "drift": 8,
+      "ending": "took_responsibility"
+    },
+    "right": {
+      "label": "Call it a tragedy",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

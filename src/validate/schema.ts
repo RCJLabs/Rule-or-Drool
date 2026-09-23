@@ -182,6 +182,7 @@ export const ARC_SPEC: Spec = {
     entry: { kind: "object", required: ["eras", "bands"], fields: { eras: ERAS, bands: BAND_LIST, ...COND_FIELDS } },
     weight: WEIGHT,
     cards: { kind: "array", items: ID, nonEmpty: true, unique: true },
+    question: ID,
   },
 };
 

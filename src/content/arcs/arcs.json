@@ -576,5 +576,193 @@
       "arc_rd2",
       "arc_rd3"
     ]
+  },
+  {
+    "id": "q_treaty_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_treaty_l_q",
+      "q_treaty_l_a",
+      "q_treaty_l_b",
+      "q_treaty_l_a3",
+      "q_treaty_l_b3",
+      "q_treaty_l_a4"
+    ],
+    "question": "treaty"
+  },
+  {
+    "id": "q_treaty_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_treaty_r_q",
+      "q_treaty_r_a",
+      "q_treaty_r_b",
+      "q_treaty_r_a3",
+      "q_treaty_r_b3",
+      "q_treaty_r_a4"
+    ],
+    "question": "treaty"
+  },
+  {
+    "id": "q_papers_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_papers_l_q",
+      "q_papers_l_a",
+      "q_papers_l_b",
+      "q_papers_l_a3",
+      "q_papers_l_b3"
+    ],
+    "question": "papers"
+  },
+  {
+    "id": "q_papers_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_papers_r_q",
+      "q_papers_r_a",
+      "q_papers_r_b",
+      "q_papers_r_a3",
+      "q_papers_r_b3"
+    ],
+    "question": "papers"
+  },
+  {
+    "id": "q_top_rate_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_top_rate_l_q",
+      "q_top_rate_l_a",
+      "q_top_rate_l_b",
+      "q_top_rate_l_a3",
+      "q_top_rate_l_b3"
+    ],
+    "question": "top_rate"
+  },
+  {
+    "id": "q_top_rate_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_top_rate_r_q",
+      "q_top_rate_r_a",
+      "q_top_rate_r_b",
+      "q_top_rate_r_a3",
+      "q_top_rate_r_b3"
+    ],
+    "question": "top_rate"
+  },
+  {
+    "id": "q_care_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_care_l_q",
+      "q_care_l_a",
+      "q_care_l_b",
+      "q_care_l_a3",
+      "q_care_l_b3",
+      "q_care_l_a4"
+    ],
+    "question": "care"
+  },
+  {
+    "id": "q_care_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_care_r_q",
+      "q_care_r_a",
+      "q_care_r_b",
+      "q_care_r_a3",
+      "q_care_r_b3",
+      "q_care_r_b4"
+    ],
+    "question": "care"
   }
 ]

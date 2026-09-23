@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
 import { STRINGS } from "../src/content/strings";
-import { LEGACIES } from "../src/meta";
+import { HISTORIES, LEGACIES } from "../src/meta";
 import { buildLibrary, poolKey } from "../src/engine/library";
 import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../src/engine/mandates";
 import { BANDS } from "../src/engine/types";
@@ -41,10 +41,11 @@ describe("content", () => {
   });
 
   it("offers a real tradeoff on every event card (sign of drift differs between sides)", () => {
+    // Only a question carries no drift (BACKLOG-6 phase 40), and a question is never an event.
     for (const c of events) {
       const l = c.left.drift ?? 0;
       const r = c.right.drift ?? 0;
-      expect(Math.sign(l) !== Math.sign(r) || (l === 0 && r === 0), c.id).toBe(true);
+      expect(Math.sign(l) !== Math.sign(r), c.id).toBe(true);
     }
   });
 });
@@ -104,17 +105,21 @@ describe("content: the shape of a run", () => {
 
   // The two paths only feel different if a decent share of what a run shows belongs to
   // one side. Arcs are the strongest lever because they run for three cards (BACKLOG 2).
+  // The stories, not the questions: a question is asked of both sides by design, and drawn
+  // from a budget of its own, so its weight only competes with other questions' (phase 40).
+  const stories = content.arcs.filter((a) => a.question === undefined);
+
   it("locks at least a third of arcs to one side, both sides represented", () => {
-    const locked = content.arcs.filter((a) => a.align !== "any");
-    expect(locked.length / content.arcs.length).toBeGreaterThanOrEqual(1 / 3);
+    const locked = stories.filter((a) => a.align !== "any");
+    expect(locked.length / stories.length).toBeGreaterThanOrEqual(1 / 3);
     expect(locked.filter((a) => a.align === "left").length).toBeGreaterThanOrEqual(3);
     expect(locked.filter((a) => a.align === "right").length).toBeGreaterThanOrEqual(3);
   });
 
   it("gives a side-locked arc more entry weight than the average shared arc", () => {
     const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
-    const locked = content.arcs.filter((a) => a.align !== "any").map((a) => a.weight);
-    const shared = content.arcs.filter((a) => a.align === "any").map((a) => a.weight);
+    const locked = stories.filter((a) => a.align !== "any").map((a) => a.weight);
+    const shared = stories.filter((a) => a.align === "any").map((a) => a.weight);
     expect(mean(locked)).toBeGreaterThan(mean(shared));
   });
 
@@ -623,5 +628,99 @@ describe("content: every card can be drawn", () => {
       ),
     );
     expect(smallest).toBeGreaterThan(library.config.cooldownSize * 2);
+  });
+});
+
+/**
+ * The questions (BACKLOG-6 phase 40): policies asked plainly, of both sides, without the game
+ * taking one. The answer decides who is pleased and who pays; only how it is carried out
+ * moves drift, and each side's arc fails on its own base's policy.
+ */
+describe("content: the questions", () => {
+  const questions = content.arcs.filter((a) => a.question !== undefined);
+  const ids = [...new Set(questions.map((a) => a.question!))];
+  const card = (id: string) => library.cards.get(id)!;
+  const arcFor = (q: string, align: "left" | "right") => questions.find((a) => a.question === q && (a.align === align || a.align === "any"))!;
+
+  it("asks four questions, each of both sides in that side's own words", () => {
+    expect(ids.length).toBeGreaterThanOrEqual(4);
+    for (const q of ids) {
+      const l = arcFor(q, "left");
+      const r = arcFor(q, "right");
+      expect(l && r, q).toBeTruthy();
+      expect(card(l.cards[0]!).text, q).not.toBe(card(r.cards[0]!).text);
+    }
+  });
+
+  it("scores no answer, and every way of carrying one out", () => {
+    for (const arc of questions) {
+      const [asking, ...after] = arc.cards.map(card);
+      expect([asking!.left.drift ?? 0, asking!.right.drift ?? 0], asking!.id).toEqual([0, 0]);
+      for (const c of after) {
+        const l = c.left.drift ?? 0;
+        const r = c.right.drift ?? 0;
+        expect(l !== 0 && r !== 0 && Math.sign(l) !== Math.sign(r), c.id).toBe(true);
+      }
+    }
+  });
+
+  it("leaves a legacy history can name for every answer, the same two on both sides", () => {
+    for (const q of ids) {
+      const answers = (["left", "right"] as const).map((align): [string[], string[]] => {
+        const asking = card(arcFor(q, align).cards[0]!);
+        return [asking.left.setFlags ?? [], asking.right.setFlags ?? []];
+      });
+      for (const [a, b] of answers) {
+        expect(a.length, q).toBe(1);
+        expect(b.length, q).toBe(1);
+        for (const f of [...a, ...b]) {
+          expect(f in LEGACIES, f).toBe(true);
+          expect(HISTORIES[f], f).toBeDefined();
+        }
+        expect(a[0]).not.toBe(b[0]);
+      }
+      expect(answers[0]).toEqual(answers[1]);
+    }
+  });
+
+  it("titles every question, so the card can say it is one", () => {
+    for (const q of ids) expect(STRINGS.questions.titles[q], q).toBeTruthy();
+  });
+
+  it("can end the run at one turning point per side, and fails each side on its own base's policy", () => {
+    /** Every card reachable from a card by its next pointers, itself included. */
+    const reach = (id: string): string[] => {
+      const c = card(id);
+      return [id, ...[c.left.next, c.right.next].filter((n): n is string => !!n).flatMap(reach)];
+    };
+    let failures = 0;
+    for (const q of ids) {
+      const failsOn: string[] = [];
+      for (const align of ["left", "right"] as const) {
+        const arc = arcFor(q, align);
+        const asking = card(arc.cards[0]!);
+        const ending = arc.cards.map(card).filter((c) => c.left.ending || c.right.ending);
+        // One card that can end it, and never the question itself or the step straight after:
+        // there is always a way to carry an answer out before there is a way to leave.
+        expect(ending, `${q} ${align}`).toHaveLength(1);
+        const turning = ending[0]!;
+        expect(turning.step!, turning.id).toBeGreaterThanOrEqual(3);
+        // Which answer leads there, and whether the ending is the fast way out or the honest one.
+        const via = [asking.left, asking.right].find((ans) => reach(ans.next!).includes(turning.id))!;
+        const fast = (turning.left.ending ? turning.left : turning.right).drift! < 0;
+        if (fast) failsOn.push(via.setFlags![0]!);
+        // An honest way out that ends the run leaves no honest way to go on, so it only comes
+        // after a step where going on honestly was still possible.
+        if (!fast) expect(turning.step, turning.id).toBe(4);
+      }
+      // A failure that only one answer can reach would be that answer's policy scored after all,
+      // unless each side reaches it from its own side of the argument.
+      if (failsOn.length === 2) {
+        failures++;
+        expect(failsOn[0], q).not.toBe(failsOn[1]);
+      }
+    }
+    // Not vacuous: the deportation court and the lenders are failures on both sides.
+    expect(failures).toBeGreaterThanOrEqual(2);
   });
 });

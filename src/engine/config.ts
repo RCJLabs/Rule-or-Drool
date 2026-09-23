@@ -108,6 +108,10 @@ export interface EngineConfig {
   /** Arcs per run (5.7: 4–6). */
   arcBudgetMin: number;
   arcBudgetMax: number;
+  /** Questions a run may meet in all, one at a time (BACKLOG-6 phase 40). */
+  questionBudget: number;
+  /** Chance per draw to ask a question, when one is eligible and none is running. */
+  questionEntryProb: number;
   /**
    * At an era boundary meters move this fraction of the way back to 50. Added; 0 disables.
    * This is the main dial between "random runs end too late" and "a careful player can
@@ -189,6 +193,15 @@ export const DEFAULT_CONFIG: EngineConfig = {
   arcEntryProb: 0.075,
   arcBudgetMin: 4,
   arcBudgetMax: 6,
+  /**
+   * Questions have a budget of their own because the stories' is full: a run enters about
+   * six stories against a budget of 4-6, so a question entered through it would take a
+   * story's place (BACKLOG-6 phase 40). Two a run while there are four questions: at three,
+   * nearly every run met three of the same four, and a war for the ally named up to a quarter
+   * of all histories.
+   */
+  questionBudget: 2,
+  questionEntryProb: 0.12,
   eraMeterPull: 0.22,
   eraRules: [
     // Era 1 is the honeymoon: the rules are just the rules.

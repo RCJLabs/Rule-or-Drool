@@ -105,7 +105,10 @@ describe("a result that is not quite one", () => {
   const swap = (i: number, v: string) => parts.map((p, j) => (j === i ? v : p)).join(".");
 
   it("is refused when it is not the format", () => {
-    for (const bad of ["", "2" + text.slice(1), text + ".x", swap(3, "zzzz"), swap(3, "0"), swap(3, (176).toString(36)), "1.-.riots.4w.-", swap(4, "!!"), swap(4, "AAAA")]) {
+    // Sides one byte longer than this run's cards: "AAAA" was three bytes, which is the right
+    // length for any run of 17-24 cards, and so only wrong for runs of other lengths.
+    const tooLong = btoa("\0".repeat(Math.ceil(result.cards / 8) + 1)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    for (const bad of ["", "2" + text.slice(1), text + ".x", swap(3, "zzzz"), swap(3, "0"), swap(3, (176).toString(36)), "1.-.riots.4w.-", swap(4, "!!"), swap(4, tooLong)]) {
       expect(decodeRunResult(library, bad), bad).toBeNull();
     }
   });

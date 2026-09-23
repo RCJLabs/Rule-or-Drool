@@ -41,6 +41,7 @@ export interface BotSummary {
   electionsPerRun: number;
   cheatsPerElection: number;
   arcsPerRun: number;
+  questionsPerRun: number;
   relaxedPerRun: { cooldown: number; band: number; era: number };
   /** Each cabinet advisor -> the share of runs they held their role in at some point, fewest first. */
   served: [string, number][];
@@ -71,6 +72,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
   let elections = 0;
   let cheats = 0;
   let arcs = 0;
+  let questions = 0;
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   const served = new Map<string, number>();
   const crises = new Map<string, number>();
@@ -84,6 +86,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     elections += r.electionsSeen;
     cheats += r.cheats;
     arcs += r.arcs;
+    questions += r.questions;
     relaxed.cooldown += r.relaxed.cooldown;
     relaxed.band += r.relaxed.band;
     relaxed.era += r.relaxed.era;
@@ -116,6 +119,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     electionsPerRun: elections / n,
     cheatsPerElection: elections > 0 ? cheats / elections : 0,
     arcsPerRun: arcs / n,
+    questionsPerRun: questions / n,
     relaxedPerRun: { cooldown: relaxed.cooldown / n, band: relaxed.band / n, era: relaxed.era / n },
     served: [...served.entries()].map(([id, c]) => [id, c / n] as [string, number]).sort((a, b) => a[1] - b[1]),
     crises: [...crises.entries()].map(([id, c]) => [id, c / n] as [string, number]).sort((a, b) => b[1] - a[1]),
@@ -151,7 +155,7 @@ export function formatSummary(s: BotSummary): string {
       `finale band decay ${pct(s.finaleBands.decay)}  muddle ${pct(s.finaleBands.muddle)}  ascent ${pct(s.finaleBands.ascent)}`,
     );
   }
-  lines.push(`elections   ${f1(s.electionsPerRun)} per run, cheated ${pct(s.cheatsPerElection)} of them   arcs ${f1(s.arcsPerRun)} per run`);
+  lines.push(`elections   ${f1(s.electionsPerRun)} per run, cheated ${pct(s.cheatsPerElection)} of them   stories ${f1(s.arcsPerRun)}, questions ${f1(s.questionsPerRun)} per run`);
   lines.push(
     `relaxed draws per run   cooldown ${f1(s.relaxedPerRun.cooldown)}  band ${f1(s.relaxedPerRun.band)}  era ${f1(s.relaxedPerRun.era)}`,
   );

@@ -305,6 +305,19 @@ export const STRINGS = {
     locked: "The country's direction is set now. Nothing you do changes where it is going, only whether you are there when it arrives.",
     offer: "A long reign: five eras, to five centuries on.",
   },
+  /**
+   * The questions (BACKLOG-6 phase 40): policies asked plainly. The card says it is one, so a
+   * player knows this is the big decision, and every step after it carries the same title.
+   */
+  questions: {
+    asking: "The question",
+    titles: {
+      treaty: "The treaty",
+      papers: "Without papers",
+      top_rate: "The top rate",
+      care: "Everyone covered",
+    } as Record<string, string>,
+  },
   /** The daily, day by day (BACKLOG-5 phase 38). */
   daily: {
     title: "Your dailies",
