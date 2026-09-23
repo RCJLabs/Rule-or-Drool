@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
+import { withNames } from "../../src/engine/endings";
 import { getCard } from "../../src/engine/library";
 import { exitBand, newRun } from "../../src/engine/state";
 import { historyOf } from "../../src/meta";
@@ -26,9 +27,18 @@ const described = (el: HTMLElement) =>
     .map((id) => document.getElementById(id)?.textContent ?? "")
     .join(" ");
 
+/**
+ * A seed whose first card names its speaker through a placeholder ("{advisor} wants the
+ * court's budget…"), which the screen and the reader both fill in. The menu deals a random
+ * seed, and an assertion on the raw text failed for the 9.5% of first cards that open with
+ * one, so the run is pinned.
+ */
+const SEED = 21;
+
 function startRun(settings: Record<string, unknown> = {}) {
   localStorage.setItem("rod.settings", JSON.stringify({ v: SETTINGS_VERSION, reduceMotion: true, ...settings }));
   render(<App />);
+  fireEvent.change(screen.getByRole("spinbutton", { name: new RegExp(STRINGS.ui.seed) }), { target: { value: String(SEED) } });
   fireEvent.click(screen.getByRole("button", { name: "Take office" }));
 }
 
@@ -57,8 +67,13 @@ describe("a screen reader can play", () => {
   it("plays a card from a button, and says the next one aloud", () => {
     startRun();
     const first = cardNow();
+    const state = JSON.parse(localStorage.getItem("rod.run")!).state;
+    expect(state.seed).toBe(SEED);
+    expect(first.text).toContain("{");
     expect(live()).toContain(STRINGS.speech.choicesHint);
-    expect(live()).toContain(first.text.slice(0, 20));
+    // The card as the screen shows it, names filled in: never a placeholder read out.
+    expect(live()).toContain(withNames(library, state, first.text, first.speaker));
+    expect(live()).not.toMatch(/[{}]/);
     fireEvent.click(screen.getByRole("button", { name: first.right.label }));
     act(() => {
       vi.advanceTimersByTime(50);
