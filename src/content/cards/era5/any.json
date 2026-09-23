@@ -1,0 +1,1894 @@
+[
+  {
+    "id": "k01_translated_speeches",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your century's speeches need translating now. The translator has made you sound wiser than you were, and asked if that is all right.",
+    "oneShot": true,
+    "left": {
+      "label": "Translate them plainly",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the wise version",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k02_palace_dig",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Archaeologists digging under the old palace have reached your century's layer, and found something in it that should not be there.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the find",
+      "fx": {
+        "order": -2,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Bury it again",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "k03_giant_myth",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "In the national myth, the country was founded by a giant who drank a river. Historians think it was you, and a reservoir.",
+    "oneShot": true,
+    "left": {
+      "label": "Teach the reservoir",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the giant",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k04_oldest_institution",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The civil service is the oldest institution on earth. It has outlived four languages, two coastlines and every reason it was set up.",
+    "oneShot": true,
+    "left": {
+      "label": "Ask what it is for",
+      "fx": {
+        "money": -3,
+        "order": -3,
+        "inst": 2,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Celebrate its age",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k05_vineyard_vote",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The climate has settled five degrees warmer than your century. The south is desert, the north is a vineyard, and the vineyard votes.",
+    "oneShot": true,
+    "left": {
+      "label": "Share the north",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the vineyard's vote",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k06_three_oclock_bow",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The country stops work at three o'clock to bow toward the old capital. It began as your lunch break, and nobody wants to tell them.",
+    "oneShot": true,
+    "left": {
+      "label": "Tell them",
+      "fx": {
+        "order": -2,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Bow with them",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k07_stationery_line",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasurer is four hundred years old, thanks to a treatment offered only to treasurers. It is in the budget, under stationery.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the line",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it as stationery",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "k08_two_tongues",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The country speaks two languages now: the old one in the capital and the new one everywhere else. The laws are written in the old one.",
+    "oneShot": true,
+    "left": {
+      "label": "Write laws in the new",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the old tongue",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "k09_seed_vault",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The seed vault your century sealed is open. Its seeds are for crops that stopped growing here three centuries ago, and a firm wants them.",
+    "oneShot": true,
+    "left": {
+      "label": "Plant them in public",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them to the firm",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "k10_last_form",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The last paper document in the country is a form your century printed. The head of state must fill it in by hand, once a year.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire the form",
+      "fx": {
+        "order": -2,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Fill it in on camera",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k11_found_right",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A model trained on five centuries of rulings interprets the constitution now. It has found a right nobody wrote down, and a good one.",
+    "oneShot": true,
+    "left": {
+      "label": "Adopt the right",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Retrain the model",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "k12_inherited_memory",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Memories can be inherited now, for a fee. The richest families remember your century personally, and have opinions about it.",
+    "oneShot": true,
+    "left": {
+      "label": "Ban the inheritance",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Tax it lightly",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "k13_world_parliament",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A world parliament has been proposed, the ninth attempt in five centuries. It would outrank yours, and promises to be very kind about it.",
+    "oneShot": true,
+    "left": {
+      "label": "Join it",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Join it later",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "k14_neighbour_absorbed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The neighbouring country has asked to be absorbed. It has run out of reasons to be a country, and has brought a list of demands.",
+    "oneShot": true,
+    "left": {
+      "label": "Take them in fairly",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take their water only",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -3,
+        "base": 1,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "k15_grid_religion",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A new religion worships the grid. It is peaceful and well organised, and has started switching off the lights of unbelievers.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the unbelievers",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it official",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "k16_forgotten_war",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Historians have found a war your century began that nobody remembers. It never formally ended, and the other side has just remembered.",
+    "oneShot": true,
+    "left": {
+      "label": "Sign a peace",
+      "fx": {
+        "money": -3,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Declare a victory",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k17_signed_advice",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The oldest machine in the country gives advice nobody asked for. It is usually right, and it has started signing its name.",
+    "oneShot": true,
+    "left": {
+      "label": "Give it a vote",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take its advice quietly",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k18_leisure_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Most people work four hours a week and are paid in time off. The treasury would like to tax the time off.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax the idle rich",
+      "fx": {
+        "money": 3,
+        "inst": 2,
+        "backers": -5,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax every weekend",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "base": -1,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "k19_very_old_hat",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court may rule on whether anyone alive descends from you. Six families claim it, and one of them has a very old hat.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse to rule",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Rule for the hat",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k20_sea_farmers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The drowned coast is farmed now, by divers. They are the richest farmers in history and have asked for their own flag.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them a charter",
+      "fx": {
+        "order": -3,
+        "inst": 2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax them hard",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "k21_nobody_in_charge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "An audit finds that no one person has been in charge of anything for ninety years. The country has run very well.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the audit",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take charge of it",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "k22_empty_plinth",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The capital's squares hold a statue of every leader in five centuries. There is room for one more, and it has to be somebody's.",
+    "oneShot": true,
+    "left": {
+      "label": "Leave the plinth empty",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Put yourself up",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k23_votes_at_thirty",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Parents cast their children's votes until the children turn thirty. The children are forty now, and still waiting.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them their votes",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Raise the age to fifty",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "k24_army_choir",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "There has been no war anywhere for two centuries. The army is a choir now, and a very good one, and it wants a budget.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep it a choir",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rearm the choir",
+      "fx": {
+        "money": -2,
+        "order": 4,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "k25_perfect_police",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The courts have acquitted nobody in a century. The judge says this is because the police are perfect. The police agree.",
+    "oneShot": true,
+    "left": {
+      "label": "Order a review",
+      "fx": {
+        "money": -2,
+        "order": -4,
+        "inst": 3,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Congratulate the police",
+      "fx": {
+        "money": 2,
+        "order": 4,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "k26_grudge_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "There are so many memorials that a tax on remembering has been proposed. It would be paid by anyone who holds a grudge.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the tax",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Tax the grudges",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "k27_wire_eating_bird",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A new bird has evolved in the capital. It eats the old wiring, and it is protected by a law your century wrote.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the bird",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Amend the law",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k28_heirloom_votes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Votes can be inherited now. The oldest families hold eleven each, which they say is only fair after five centuries of voting.",
+    "oneShot": true,
+    "left": {
+      "label": "One person, one vote",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -1,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Allow the heirlooms",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 2,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k29_open_air_farmer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Food is grown in towers now. The last farmer in the open air is a hundred and ten, a tourist attraction, and would like a pension.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay the pension",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell tickets to him",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "k30_wrong_dam",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court hears cases five centuries old. Today: the valley towns against the dam your century built, which is still there, and still wrong.",
+    "oneShot": true,
+    "left": {
+      "label": "Take the dam down",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Adjourn for a century",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k31_rude_word",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A word your century used in every speech has come to mean something rude. The anthem uses it four times.",
+    "oneShot": true,
+    "left": {
+      "label": "Change the anthem",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sing it louder",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "k32_orbit_bookings",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Low orbit is so crowded that launches are booked a decade ahead. The oldest bookings are yours, and have never been used.",
+    "oneShot": true,
+    "left": {
+      "label": "Give up the slots",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the old slots",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "k33_twin_cities",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Two cities have grown into each other and cannot agree which one they are. Both have a mayor, and both mayors have a parade.",
+    "oneShot": true,
+    "left": {
+      "label": "Let them vote on it",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 2,
+        "base": -1,
+        "backers": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Pick the friendlier one",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k34_census_categories",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The census counts people, machines, and people who live mostly as machines. The categories have started to disagree.",
+    "oneShot": true,
+    "left": {
+      "label": "Count everyone once",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Count only who votes",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_census_gap",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k35_sold_wind",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The wind that crosses the plains has been sold. Its owners would like the villages to stop using it to dry their laundry.",
+    "oneShot": true,
+    "left": {
+      "label": "Declare the wind free",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Enforce the deeds",
+      "fx": {
+        "money": 6,
+        "order": 1,
+        "inst": -2,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k36_council_wolves",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Half the country has been given back to the forest. It is thriving, and the wolves have started attending council meetings.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the forest wild",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Open it to hunters",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k37_one_building",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The median age is ninety. The pension office, the hospital and the parliament are the same building now, with a very good lift.",
+    "oneShot": true,
+    "left": {
+      "label": "Build for the young",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Build another lift",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k38_last_ship",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The navy's last ship is five hundred years old and kept afloat by volunteers. It is the navy. It would like a second ship.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire it with honours",
+      "fx": {
+        "money": 2,
+        "order": -2,
+        "inst": 2,
+        "base": -3,
+        "backers": -2,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Commission a replica",
+      "fx": {
+        "money": -3,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "k39_four_word_law",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The legal code has been simplified to one law, written by the machine. It is four words long, and the judges disagree about the third.",
+    "oneShot": true,
+    "left": {
+      "label": "Put it to a jury",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -1,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the machine explain",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k40_cut_century",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "There is so much history now that schools teach only the last fifty years. Your century has been cut, to general relief.",
+    "oneShot": true,
+    "left": {
+      "label": "Put it back in",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave it out",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "k41_wrong_building",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Pilgrims walk to the place where your term began. They have the wrong building, and its owner charges them at the door.",
+    "oneShot": true,
+    "left": {
+      "label": "Correct the signs",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Tax the pilgrims",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "k42_next_five_centuries",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A model predicts the country's next five centuries. It is either wonderful or gone, and it depends on this budget.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund the long plan",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Fund this year",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "k43_oldest_witness",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Letters your grandchildren wrote have been found in an attic. They say a great deal about you, and a publisher would like to print them.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish it whole",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish the kind parts",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "k44_change_anything",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The anthem, the flag and the borders are five centuries old. A referendum would ask whether to change anything at all, just to see.",
+    "oneShot": true,
+    "left": {
+      "label": "Hold the referendum",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cancel it as a fad",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "k45_time_capsule",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A time capsule from your century has been opened. It holds a letter from you to the future, and the future would like to reply.",
+    "oneShot": true,
+    "left": {
+      "label": "Reply honestly",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Reply with a pageant",
+      "fx": {
+        "money": -2,
+        "order": 1,
+        "inst": -2,
+        "base": 3,
+        "public": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "k46_painted_gardens",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The heat has killed the old capital's gardens. A firm offers to paint them green every spring, and its painters are already there.",
+    "oneShot": true,
+    "left": {
+      "label": "Plant new gardens",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Paint them green",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  }
+]

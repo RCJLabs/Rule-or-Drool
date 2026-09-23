@@ -178,6 +178,18 @@ export interface EraRule {
   passiveEvery?: number;
   /** Multiplier on top of band volatility: above 1 and everything lands harder. */
   volatility?: number;
+  /**
+   * A further multiplier for the band the run is in, so an era can pull the bands further
+   * apart: five centuries on, a country in Decay takes everything harder and one on the
+   * Ascent takes it softer (BACKLOG-5 phase 39).
+   */
+  bandVolatility?: Partial<Record<Band, number>>;
+  /**
+   * Standing pressure for the band the run is in, on the same beat as `passive`: five
+   * centuries on, a country in Decay comes apart on its own and one on the Ascent keeps
+   * adding to itself (BACKLOG-5 phase 39).
+   */
+  bandPassive?: Partial<Record<Band, FxSpec>>;
   /** Multiplies enqueue delays. Below 1 and the bill comes due sooner than it used to. */
   queueScale?: number;
 }
@@ -271,6 +283,11 @@ export interface GameState {
   rngState: number;
   align: PlayerAlign;
   era: number;
+  /**
+   * How many eras this run has: the ordinary three, or five for a long reign (BACKLOG-5
+   * phase 39). The run ends in a finale when it outlasts the last of them.
+   */
+  eraCount: number;
   cardCount: number;
   meters: Meters;
   drift: number;
@@ -357,6 +374,8 @@ export interface RunSetup {
   unlocked?: string[];
   /** The mandate the player took the job on, if they set themselves one (phase 16). */
   mandate?: string | null;
+  /** Eras the run has; omitted means the ordinary game's (BACKLOG-5 phase 39). */
+  eraCount?: number;
 }
 
 /** Advisor traits the engine knows about (5.8). */

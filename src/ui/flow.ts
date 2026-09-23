@@ -13,8 +13,10 @@ export function beginRun(
   align: PlayerAlign,
   unlocked: readonly string[] = [],
   mandate: string | null = null,
+  eraCount?: number,
 ): GameState {
-  return draw(lib, newRun(lib, seed, { ...rollSetup(lib, seed, align, unlocked), mandate }));
+  const setup = { ...rollSetup(lib, seed, align, unlocked), mandate };
+  return draw(lib, newRun(lib, seed, eraCount === undefined ? setup : { ...setup, eraCount }));
 }
 
 /**

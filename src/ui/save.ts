@@ -93,6 +93,13 @@ export function migrateRun(v: number, state: GameState): GameState | null {
   // record and cannot be gone back into; it is not a second road either. A second road's save
   // holds its first road inside it, which a later migration will have to bring forward too.
   if (v < 10) s = { ...s, choices: null, road: null };
+  // v10 -> v11: a run has its own number of eras, five for a long reign (BACKLOG-5 phase 39).
+  // Every run saved before is an ordinary one, and so is the first road a second road holds.
+  if (v < 11) {
+    const ordinary = <T extends GameState>(x: T): T => ({ ...x, eraCount: DEFAULT_CONFIG.eraCount });
+    s = ordinary(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: ordinary(s.road.first) } };
+  }
   return s;
 }
 

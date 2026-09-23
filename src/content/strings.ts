@@ -64,6 +64,8 @@ export const STRINGS = {
     "",
     "The work is done by machines now. The state gets steadily richer, and the country does not.",
     "Nothing is maintained any more. Everything lands harder, and the bills you defer arrive sooner.",
+    "Nobody owes your party anything now. Every few cards your base and your backers drift a little further away.",
+    "This is where it was always going. In Decay everything lands harder than it ever has; on the Ascent the country takes almost anything in its stride.",
   ] as readonly string[],
   /**
    * What a crisis does to a later era's rules, said at the jump beside the era's own rule
@@ -168,7 +170,7 @@ export const STRINGS = {
    * the country went; each landmark is one decision the run made.
    */
   world: {
-    when: ["A generation later", "A century later", "Centuries later"],
+    when: ["A generation later", "A century later", "Centuries later", "Centuries after that", "A thousand years later"],
     sky: {
       decay: ["the city under a brown haze", "the city under smoke, half its lights out", "a dark city of broken towers under a red sun"],
       muddle: ["the city under an ordinary grey sky", "the city under a flat grey sky, much as it was", "the city under a low grey sky, unchanged and unimproved"],
@@ -286,6 +288,22 @@ export const STRINGS = {
     otherWays: "They went to {theirs}. You went to {yours}.",
     unreplayed: "Their run was played on another version of the game, so it cannot be drawn here.",
     unknown: "not known here",
+  },
+  /**
+   * The long reign: two eras more, for whoever has seen a finale (BACKLOG-5 phase 39). The
+   * direction is set as the fourth era begins, so the panel says so where it happens.
+   */
+  reign: {
+    legend: "How long",
+    ordinary: "Three eras",
+    ordinaryBlurb: "Your term, twenty years on and seventy-five years on.",
+    long: "The long reign",
+    longBlurb: "Two eras more: two centuries on and five. After the third, nothing you do changes where the country is going.",
+    short: "Long reign",
+    opened: "the long reign, two eras more: two centuries on and five centuries on",
+    opens: "Opens the long reign",
+    locked: "The country's direction is set now. Nothing you do changes where it is going, only whether you are there when it arrives.",
+    offer: "A long reign: five eras, to five centuries on.",
   },
   /** The daily, day by day (BACKLOG-5 phase 38). */
   daily: {

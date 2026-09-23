@@ -217,12 +217,26 @@ export const LATE: Record<"ascent" | "decay" | "muddle", Late> = {
  */
 export async function endRun(page: Page, late: Late): Promise<void> {
   const { eraLength, eraCount } = library.config;
+  await playFrom(page, late, { cardCount: eraLength * eraCount - 1, era: eraCount });
+  await page.waitForSelector(".history-title");
+}
+
+/**
+ * A run moved to a card without playing to it: play a few so there is a save, rewrite it to
+ * stand on `cardCount` in `era` carrying these decisions, and play that card. A long reign past
+ * its third era also takes the band its first three set (BACKLOG-5 phase 39).
+ */
+export async function playFrom(page: Page, late: Late, at: { cardCount: number; era: number; band?: string }): Promise<void> {
   for (let i = 0; i < 4; i++) await choose(page, "right");
   const patch = {
-    cardCount: eraLength * eraCount - 1,
-    era: eraCount,
+    cardCount: at.cardCount,
+    era: at.era,
     drift: late.drift,
     meters: Object.fromEntries(METER_KEYS.map((k) => [k, 55])),
+    // The clock moves with the card, so the one card played is not also an election, or a
+    // coup's turn for a run that abolished them.
+    nextElectionAt: at.cardCount + library.config.electionInterval,
+    ...(at.band ? { band: at.band, bandLocked: true } : {}),
   };
   await page.evaluate(`(() => {
     const raw = JSON.parse(localStorage.getItem("rod.run"));
@@ -236,7 +250,6 @@ export async function endRun(page: Page, late: Late): Promise<void> {
   await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
   await page.waitForSelector(".card");
   await choose(page, "right");
-  await page.waitForSelector(".history-title");
 }
 
 interface Failure {

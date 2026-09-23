@@ -1,4 +1,5 @@
 import data from "../content/histories.json";
+import { DEFAULT_CONFIG } from "../engine/config";
 import type { Band, GameState, PlayerAlign } from "../engine/types";
 import { LEGACIES } from "./legacies";
 
@@ -20,6 +21,12 @@ import { LEGACIES } from "./legacies";
  */
 export interface HistoryText {
   titles: Record<Band, Record<PlayerAlign, string>>;
+  /**
+   * What history calls a run that lived past its third era, by where the country ended up
+   * (BACKLOG-5 phase 39). Two centuries on nobody remembers your name, or which side held the
+   * office, so the long view names the decision and the direction and not the party.
+   */
+  long: Record<Band, string>;
   /** What became of the decision, by where the country ended up. */
   after: Record<Band, string>;
 }
@@ -38,13 +45,23 @@ export const HISTORIES: Readonly<Record<string, HistoryText>> = FILE.histories;
 const BANDS: readonly Band[] = ["decay", "muddle", "ascent"];
 const SIDES: readonly PlayerAlign[] = ["left", "right"];
 
+/** Where a long-view key has the side, which the long view does not name. */
+export const LONG_VIEW = "long";
+/** The ordinary game's eras: a run that lives past them is seen from the long view. */
+const ORDINARY_ERAS = DEFAULT_CONFIG.eraCount;
+
 /** Every history key there is, which is the codex's denominator. */
 export const ALL_HISTORY_KEYS: readonly string[] = Object.keys(HISTORIES).flatMap((sig) =>
-  BANDS.flatMap((band) => SIDES.map((side) => historyKey(sig, band, side))),
+  BANDS.flatMap((band) => [...SIDES.map((side) => historyKey(sig, band, side)), historyKey(sig, band, LONG_VIEW)]),
 );
 
-export function historyKey(signature: string, band: Band, align: PlayerAlign): string {
+export function historyKey(signature: string, band: Band, align: PlayerAlign | typeof LONG_VIEW): string {
   return `${signature}:${band}:${align}`;
+}
+
+/** Whether history sees a run from the long view: it lived past the ordinary game's eras. */
+export function inLongView(state: Pick<GameState, "era">): boolean {
+  return state.era > ORDINARY_ERAS;
 }
 
 export interface Consequence {
@@ -80,11 +97,18 @@ export function historyOf(state: GameState, band: Band): History {
     at: state.flagSince?.[f] ?? null,
   }));
   if (consequences.length === 0) consequences.push({ flag: NO_LEGACY, label: "", after: text.after[band], at: null });
-  return { key: historyKey(signature, band, state.align), signature, title: text.titles[band][state.align], consequences };
+  const long = inLongView(state);
+  return {
+    key: historyKey(signature, band, long ? LONG_VIEW : state.align),
+    signature,
+    title: long ? text.long[band] : text.titles[band][state.align],
+    consequences,
+  };
 }
 
 /** The title a key names, for the codex. */
 export function historyTitle(key: string): string | null {
-  const [sig, band, side] = key.split(":") as [string, Band, PlayerAlign];
-  return HISTORIES[sig]?.titles[band]?.[side] ?? null;
+  const [sig, band, side] = key.split(":") as [string, Band, PlayerAlign | typeof LONG_VIEW];
+  const text = HISTORIES[sig];
+  return (side === LONG_VIEW ? text?.long?.[band] : text?.titles[band]?.[side]) ?? null;
 }

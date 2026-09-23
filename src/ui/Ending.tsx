@@ -276,6 +276,12 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
                   {STRINGS.ui.unlocked}: {STRINGS.unlockNames[u] ?? u}
                 </li>
               ))}
+              {/* A way to play rather than content: the first finale opens the long reign (BACKLOG-5 phase 39). */}
+              {fold.newObjectives.some((id) => OBJECTIVES_BY_ID.get(id)?.opens) && (
+                <li>
+                  {STRINGS.ui.unlocked}: {STRINGS.reign.opened}
+                </li>
+              )}
             </ul>
           </section>
         )}

@@ -60,11 +60,18 @@ export function engineEndings(config: EngineConfig): string[] {
     config.coupEnding,
     config.cultEnding,
     ...BANDS.map((b) => `${config.finalePrefix}${b}`),
+    // A long reign's finales (BACKLOG-5 phase 39), when the config has one.
+    ...(config.longEraCount > config.eraCount ? BANDS.map((b) => `${config.longFinalePrefix}${b}`) : []),
   ].filter((id): id is string => typeof id === "string");
 }
 
+/** The last era any run can reach: a long reign's, when it is longer (BACKLOG-5 phase 39). */
+export function lastEra(config: EngineConfig): number {
+  return Math.max(config.eraCount, config.longEraCount);
+}
+
 export function resolveEras(content: Content, opts: Pick<RuleOptions, "eras" | "config">): { eras: number[]; empty: number[] } {
-  const all = Array.from({ length: opts.config.eraCount }, (_, i) => i + 1);
+  const all = Array.from({ length: lastEra(opts.config) }, (_, i) => i + 1);
   const present = new Set<number>();
   for (const c of content.cards) if (c.type === "event" && (c.weight ?? 1) > 0) for (const e of c.eras) present.add(e);
   const empty = all.filter((e) => !present.has(e));
@@ -134,7 +141,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     const bent = new Set<number>();
     (m.bends ?? []).forEach((b, i) => {
       const where: Where = { kind: "modifier", id: m.id, path: `bends[${i}]` };
-      if (b.era > cfg.eraCount) issues.warn("era-out-of-range", `bends era ${b.era}, beyond eraCount ${cfg.eraCount}`, where);
+      if (b.era > lastEra(cfg)) issues.warn("era-out-of-range", `bends era ${b.era}, beyond the last era, ${lastEra(cfg)}`, where);
       if (bent.has(b.era)) issues.error("bend-twice", `bends era ${b.era} more than once; put it in one bend`, where);
       bent.add(b.era);
       if (b.passive && !b.passiveEvery) issues.error("bend-no-beat", `passive needs passiveEvery, or it never applies`, where);
@@ -162,7 +169,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     const key = `${e.band}:${e.align}:${e.era}`;
     if (epilogueKeys.has(key)) issues.error("duplicate-id", `epilogue ${key} is defined more than once`, { kind: "epilogue", id: key });
     epilogueKeys.add(key);
-    if (e.era > cfg.eraCount) issues.warn("era-out-of-range", `era ${e.era} is beyond eraCount ${cfg.eraCount}`, { kind: "epilogue", id: key, path: "era" });
+    if (e.era > lastEra(cfg)) issues.warn("era-out-of-range", `era ${e.era} is beyond the last era, ${lastEra(cfg)}`, { kind: "epilogue", id: key, path: "era" });
   }
 
   // Unlock gating (5.10): anything that names a `requires` must name a token some
@@ -229,7 +236,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     const where: Where = { kind: "card", id: card.id };
 
     for (const e of card.eras) {
-      if (e > cfg.eraCount) issues.warn("era-out-of-range", `era ${e} is beyond eraCount ${cfg.eraCount}; the card is unreachable until more eras ship`, { ...where, path: "eras" });
+      if (e > lastEra(cfg)) issues.warn("era-out-of-range", `era ${e} is beyond the last era, ${lastEra(cfg)}; the card is unreachable until more eras ship`, { ...where, path: "eras" });
     }
     if (!roles.has(card.speaker)) issues.error("speaker-unknown", `no advisor has the role "${card.speaker}"`, { ...where, path: "speaker" });
     if (card.text.length > opts.maxText) issues.warn("text-length", `text is ${card.text.length} characters; the plan says under ${opts.maxText}`, { ...where, path: "text" });
@@ -350,7 +357,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   for (const arc of content.arcs) {
     const where: Where = { kind: "arc", id: arc.id };
     for (const e of arc.entry.eras) {
-      if (e > cfg.eraCount) issues.warn("era-out-of-range", `entry era ${e} is beyond eraCount ${cfg.eraCount}`, { ...where, path: "entry.eras" });
+      if (e > lastEra(cfg)) issues.warn("era-out-of-range", `entry era ${e} is beyond the last era, ${lastEra(cfg)}`, { ...where, path: "entry.eras" });
     }
     checkCond(arc.entry, where, "entry");
     // Read against whoever speaks the arc's first card, as the draw reads it.
@@ -561,19 +568,25 @@ function checkHistories(issues: Issues): void {
   }
   for (const f of legacies) if (!seen.has(f)) issues.error("history-order", `legacy "${f}" is missing from the history order, so it can never define a run`);
   const titles = new Map<string, string>();
+  const named = (t: string, where: string) => {
+    const clash = titles.get(t);
+    if (clash) issues.error("history-duplicate", `"${t}" names both ${clash} and ${where}`);
+    else titles.set(t, where);
+  };
   for (const [f, h] of Object.entries(HISTORIES)) {
     for (const band of BANDS) {
       if (!h.after?.[band]?.trim()) issues.error("history-text", `history "${f}" has no "after" line for ${band}`);
+      // The long view names a run that lived past its third era (BACKLOG-5 phase 39).
+      const long = h.long?.[band]?.trim();
+      if (!long) issues.error("history-text", `history "${f}" has no long-view title for ${band}`);
+      else named(long, `${f}:${band}:long`);
       for (const align of PLAYER_ALIGNS) {
         const t = h.titles?.[band]?.[align]?.trim();
         if (!t) {
           issues.error("history-text", `history "${f}" has no title for ${band} × ${align}`);
           continue;
         }
-        const where = `${f}:${band}:${align}`;
-        const clash = titles.get(t);
-        if (clash) issues.error("history-duplicate", `"${t}" names both ${clash} and ${where}`);
-        else titles.set(t, where);
+        named(t, `${f}:${band}:${align}`);
       }
     }
   }

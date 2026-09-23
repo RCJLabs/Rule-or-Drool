@@ -948,7 +948,126 @@ a missed day breaks the streak.
 
 </details>
 
-## Phase 39. Eras four and five — *queued*
+## Phase 39. Eras four and five — *done*
+
+**Shipped.** The long reign is two more eras, *Two centuries on* and *Five centuries on*, for a
+player who has reached a finale. It is chosen on the menu, beside the promise. The direction
+is set as the fourth era begins, as the original design had it (5.2: "band lock-in after era
+3"), and the jump into that era says so. A long reign ends in a finale of its own, and history
+names it from the long view.
+
+**What it adds:**
+- **187 cards:** 91 for two centuries on and 96 for five. Like phase 36's, they are drafts
+  for you to edit. In each era:
+  - 46 cards for either side and any direction;
+  - 23 written for one direction;
+  - 12–14 for one side;
+  - 10 that answer a legacy of the first three eras (the seawall, the election counted twice,
+    the long ship and others).
+
+  Three more in era 5 answer a decision made two centuries on. Their effects were fitted to
+  era 3's averages, honest side and tempting side separately, without removing any meter a
+  card touches.
+- **A rule for each era:**
+  - *Two centuries on:* nobody owes your party anything, and your base and your backers drift
+    away every six cards.
+  - *Five centuries on:* this is where it was always going. Every five cards, a country in
+    Decay comes apart a little (order and the state), a Muddle one loses a little of the
+    public's patience, and one on the Ascent adds to the state. Everything lands 1.3 times
+    harder in Decay and 0.8 times as hard on the Ascent.
+- **An ending, an epilogue and a history name for five centuries:**
+  - three finales: *The Long Way Down*, *The Oldest Argument* and *The Far Shore*;
+  - twelve epilogues for eras 4 and 5;
+  - 99 history names for the long view, one for each decision and direction. They name no
+    side, because two centuries on nobody remembers your name, or your party.
+- **Opened by the first finale.** *Outlast yourself* now opens the long reign. A new
+  objective, *The long view*, is for seeing one through. A long finale counts for the other
+  finale objectives too (*Under its own weight*, *Orbit, honestly*).
+- **Elections** come round in eras 4 and 5 as in the first three.
+
+**Three-era runs are exactly unchanged.** A long reign deals what the ordinary run on its
+setup deals until its fourth era. A draw that has to widen reaches eras 4 and 5 only once a
+run is in them.
+- A hash of 8,000 three-era runs, every card and choice, is the same before and after, with
+  no unlocks and with all of them.
+- The 20,000-run harness gives the same numbers to the decimal for every bot, ending and
+  target: random median 59 cards, bankruptcy 26.1%, greedy Decay 75.7%, saint 100%, mixed
+  Ascent 21.2%.
+
+**Its own targets, and why they are not about survival.** The bots see every effect before
+they choose, so they offset any steady pressure an era applies. Measured while balancing:
+- draining 24 points of order and 24 of the state over era 5 left the greedy bot finishing
+  95% of its Decay reigns;
+- 42 points of standing for the rival over era 5 changed nothing, because the bots cheat the
+  one election in it when they would lose it.
+
+Survival targets for competent play would measure the bots' foresight, not the game. How
+hard five centuries are for a person waits on playtest records, as the ordinary game's
+difficulty does (see *Considered, and not proposed*). So the targets hold the long reign's
+shape. At 20,000 long reigns per bot:
+
+| Target | Wanted | Measured |
+|---|---|---|
+| Mixed bot reaches era 5 | 85–97% | 93.7% |
+| Mixed bot sees the long finale | 80–95% | 91.5% |
+| Where the country ends up is unchanged: mixed Ascent | 15–30% | 21.2% |
+| Where the country ends up is unchanged: greedy Decay | ≥ 70% | 75.7% |
+| Decay is the hardest place to spend it (mixed, finishing from era 4) | ≥ 3 points under Ascent | 92.8% against 98.4% |
+| The same for careless play (random) | ≥ 20 points under Ascent | 5.9% against 49.5% |
+
+A harness test holds these on 1,500 runs per bot, and `npm run simulate -- --long` prints them.
+
+**Links, saves and the daily:**
+- **A long reign's run code is format 2,** with the era count as a seventh part:
+  `2.<seed>.L.<crisis~trait~flaw>.-.-.5`. An ordinary run's code is the same six-part format
+  1 as before, so every link sent since phase 11 still opens. A long reign's link does not
+  open on an older version, which could not play it, and that version says it cannot
+  reproduce the run.
+- **Run saves go to v11.** Every run saved before is an ordinary one, and so is the first road
+  a second road holds.
+- **A challenge carries a long reign too** (up to 175 cards), and the receiver's game replays
+  it exactly. The daily stays three eras.
+- **A playtest record takes a long reign's code.** Its reader accepted only format 1 and would
+  have refused a tester's whole file for one long reign in it.
+
+**Done when, checked:**
+- **Eras 4 and 5 pass the validator's minimum cards per cell.** Each of their twelve cells
+  holds 69–74 cards, against the validator's default of 31 and CI's gate of 25. The validator
+  now checks all five eras. The deck-depth test (every cell more than twice the cooldown)
+  covers them too. None of 15,000 long reigns, by three bots, needed a relaxed draw.
+- **A mixed bot reaches era 5 in a share set during the phase:** set at 85–97%, measured at
+  93.7%.
+- **Every section 8 target for three-era runs is unchanged:** identical, above.
+
+**Also checked:**
+- The unit suite is 541 tests and the browser suite 40. The new audit chooses the long reign
+  on the menu, jumps to the fourth era and ends five centuries on, in each direction at
+  360×640, checking contrast and fit.
+- Twenty mutations of the new logic were each caught by a test. One of them showed that a
+  test could hang rather than fail: it searched for a long finale forever. It now gives up
+  after fifty runs.
+- The bundle grew by 21 KB gzipped, nearly all of it the cards and names.
+
+**Yours:**
+- **The cards and names are drafts.** The 187 cards and 99 long-view names were written to
+  the deck's rules and checked, but not edited by you. Five of era 5's cards are about a
+  religion of some kind, which may be one theme too many.
+- **Difficulty for people is unknown.** Competent bots finish 91.5% of long reigns; careless
+  play almost never survives Decay. The era rules were set by how they read, since the bots
+  offset any setting.
+- **Repetition.** A long reign draws about 57 of the 187 new cards. By the second long reign
+  48% of them have been seen before, by the third 68% and by the fourth 81% (median of 20
+  players, mixed bot). More cards for eras 4 and 5 are the fix once people play it.
+- **The lock.** Eras 4 and 5 cannot change where the country is going, as 5.2 has it. If
+  playtests show that makes them feel settled, it is one config value, `bandLockAfterEra`.
+- **Everyone sees the new totals.** The codex counts 26 endings, 297 history names and 30
+  epilogues for every player, including those who have not opened the long reign.
+- **The store listing's numbers are updated** (1,053 cards, 26 endings, 297 names). Its copy
+  still says "for three eras". Whether it mentions the long reign is your wording.
+- **Most players get it straight away.** The first finale opens it, and every profile that
+  has already reached one has it at once.
+
+<details><summary>Original entry</summary>
 
 **Evidence.**
 - Two era names are written and never shown: *Two centuries on* and *Five centuries on*.
@@ -968,6 +1087,8 @@ Balance it with its own harness targets. It must not move the three-era ones.
 **Done when** eras 4 and 5 pass the validator's minimum cards per cell, a mixed bot reaches
 era 5 in a share set during the phase, and every section 8 target for three-era runs is
 unchanged.
+
+</details>
 
 ---
 

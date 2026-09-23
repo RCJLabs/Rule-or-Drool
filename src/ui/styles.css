@@ -782,6 +782,9 @@ button {
 .era-jump[data-beat="2"] .era-rule {
   opacity: 0;
 }
+/* The long reign's direction is set here (BACKLOG-5 phase 39): said first, and the era's own
+   rule follows under it as one block. */
+.era-locked + .era-rule,
 /* A crisis bending the era reads as part of the era's rule, not a second one (BACKLOG-5
    phase 35). */
 .era-rule + .era-bend {
@@ -1275,7 +1278,8 @@ button {
 .shared-result b {
   font-size: 15.5px;
 }
-.shared-daily {
+.shared-daily,
+.shared-reign {
   margin: 0;
   font-size: 13px;
   line-height: 1.4;

@@ -1,14 +1,15 @@
 import { useMemo, useState } from "react";
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
-import { rollSetup } from "../engine/state";
+import { isLongReign, rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
-import { codexProgress, dailyNumber, dailySeed, encodeRunCode, historyTitle, streakOf, todayKey, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
+import { codexProgress, dailyNumber, dailySeed, encodeRunCode, historyTitle, longReignOpen, streakOf, todayKey, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
 import { MandatePicker } from "./MandatePicker";
+import { ReignPicker } from "./ReignPicker";
 import { SetupSummary } from "./SetupSummary";
 import { dailyCode, randomSeed } from "./flow";
 import { dailyName } from "./DailyMonth";
@@ -21,7 +22,7 @@ interface Props {
   /** The saved run's daily, when it is one. */
   savedDaily?: DailyMark | null;
   meta: MetaState;
-  onStart: (seed: number, align: PlayerAlign, mandate: string | null) => void;
+  onStart: (seed: number, align: PlayerAlign, mandate: string | null, eraCount?: number) => void;
   onDaily: (align: PlayerAlign, mandate: string | null) => void;
   /** A run someone sent, decoded from the link that opened the game, if one did. */
   shared?: Decoded | null;
@@ -40,6 +41,9 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const [mandate, setMandate] = useState<string | null>(null);
+  // Five eras rather than three, once a finale has opened them (BACKLOG-5 phase 39).
+  const [eraCount, setEraCount] = useState<number | undefined>(undefined);
+  const longOpen = longReignOpen(meta);
   const setup = useMemo(() => rollSetup(lib, seed, align, meta.unlocks), [lib, seed, align, meta.unlocks]);
   const progress = codexProgress(lib, meta);
   const dailyPlayed = meta.dailies.some((d) => d.day === today);
@@ -66,6 +70,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
                   {shared.code.mandate && ` · ${MANDATES_BY_ID.get(shared.code.mandate)?.title ?? ""}`}
                 </p>
                 <SetupSummary lib={lib} modifiers={shared.code.modifiers} />
+                {shared.code.eraCount !== undefined && <p className="shared-reign">{STRINGS.reign.offer}</p>}
                 {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
                 {sharedIsDaily && n && (
                   <p className="shared-daily">{(dailyPlayed ? STRINGS.share.offerDailyPlayed : STRINGS.share.offerDaily).replace("{n}", String(n))}</p>
@@ -95,6 +100,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
         {saved && (
           <button type="button" className="primary" onClick={onContinue}>
             {STRINGS.ui.continueRun} · era {saved.era}, {STRINGS.parties[saved.align]}
+            {isLongReign(lib, saved) && ` · ${STRINGS.reign.short}`}
             {savedDaily && ` · ${dailyName(savedDaily.day)}`}
           </button>
         )}
@@ -109,6 +115,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
         </fieldset>
         <SetupSummary lib={lib} modifiers={setup.modifiers ?? []} />
         <MandatePicker value={mandate} onChange={setMandate} />
+        {longOpen && <ReignPicker value={eraCount} longEraCount={lib.config.longEraCount} onChange={setEraCount} />}
         <label className="seed">
           {STRINGS.ui.seed}
           <input type="number" inputMode="numeric" value={seed} onChange={(e) => setSeed(Math.max(0, Math.floor(Number(e.target.value)) || 0))} />
@@ -116,7 +123,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             {STRINGS.ui.shuffle}
           </button>
         </label>
-        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandate)}>
+        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandate, longOpen ? eraCount : undefined)}>
           {STRINGS.ui.start}
         </button>
         <div className="meta-row">

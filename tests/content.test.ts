@@ -131,11 +131,12 @@ describe("content: the shape of a run", () => {
 
   it("gives every era past the first a rule of its own, and says so", () => {
     const rules = library.config.eraRules;
-    expect(rules.length).toBe(library.config.eraCount);
+    // Every era a run can reach, a long reign's two included (BACKLOG-5 phase 39).
+    expect(rules.length).toBe(library.config.longEraCount);
     expect(rules[0]).toEqual({});
-    for (let era = 2; era <= library.config.eraCount; era++) {
+    for (let era = 2; era <= library.config.longEraCount; era++) {
       const rule = rules[era - 1]!;
-      const changesSomething = !!rule.passive || rule.volatility !== undefined || rule.queueScale !== undefined;
+      const changesSomething = !!rule.passive || rule.volatility !== undefined || rule.queueScale !== undefined || !!rule.bandVolatility;
       expect(changesSomething, `era ${era} changes a rule`).toBe(true);
       // A rule the player is never told about is just an unexplained difficulty spike.
       expect(STRINGS.eraRules[era - 1], `era ${era} is announced`).toBeTruthy();
@@ -398,7 +399,7 @@ describe("content: the shape of a run", () => {
     expect(content.epilogues.some((e) => e.align === "any")).toBe(false);
     for (const band of BANDS) {
       for (const align of ["left", "right"] as const) {
-        for (const era of [1, 2, 3]) {
+        for (const era of [1, 2, 3, 4, 5]) {
           const found = content.epilogues.find((e) => e.band === band && e.align === align && e.era === era);
           expect(found, `${band} / ${align} / era ${era}`).toBeTruthy();
         }
@@ -408,7 +409,7 @@ describe("content: the shape of a run", () => {
 
   it("gives the two sides different words for the same band and era", () => {
     for (const band of BANDS) {
-      for (const era of [1, 2, 3]) {
+      for (const era of [1, 2, 3, 4, 5]) {
         const texts = content.epilogues.filter((e) => e.band === band && e.era === era).map((e) => e.text);
         expect(new Set(texts).size, `${band} / era ${era}`).toBe(texts.length);
       }
@@ -606,8 +607,10 @@ describe("content: every card can be drawn", () => {
   it("keeps the cooldown well under the smallest cell it has to draw from", () => {
     // A cooldown longer than a cell forces the relax ladder, which is the draw quietly
     // widening the game rather than the deck being deep enough.
+    // Every era a run can reach, a long reign's two included (BACKLOG-5 phase 39).
+    const eras = Array.from({ length: library.config.longEraCount }, (_, i) => i + 1);
     const smallest = Math.min(
-      ...[1, 2, 3].flatMap((era) =>
+      ...eras.flatMap((era) =>
         BANDS.flatMap((band) =>
           (["left", "right"] as const).map(
             (align) =>

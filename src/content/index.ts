@@ -33,6 +33,14 @@ import era3Legacy from "./cards/era3/legacy.json";
 import era3Any3 from "./cards/era3/any3.json";
 import era3Left3 from "./cards/era3/left3.json";
 import era3Right3 from "./cards/era3/right3.json";
+import era4Any from "./cards/era4/any.json";
+import era4Bands from "./cards/era4/bands.json";
+import era4Sides from "./cards/era4/sides.json";
+import era4Legacy from "./cards/era4/legacy.json";
+import era5Any from "./cards/era5/any.json";
+import era5Bands from "./cards/era5/bands.json";
+import era5Sides from "./cards/era5/sides.json";
+import era5Legacy from "./cards/era5/legacy.json";
 import arcTermLimits from "./cards/arcs/term_limits.json";
 import arcCabinetPlot from "./cards/arcs/cabinet_plot.json";
 import arcMoonshot from "./cards/arcs/moonshot.json";
@@ -126,6 +134,15 @@ export const content: Content = {
     ...asCards(era3Any3, "era3/any3.json"),
     ...asCards(era3Left3, "era3/left3.json"),
     ...asCards(era3Right3, "era3/right3.json"),
+    // The long reign's two eras (BACKLOG-5 phase 39): drawn only in a run that reaches them.
+    ...asCards(era4Any, "era4/any.json"),
+    ...asCards(era4Bands, "era4/bands.json"),
+    ...asCards(era4Sides, "era4/sides.json"),
+    ...asCards(era4Legacy, "era4/legacy.json"),
+    ...asCards(era5Any, "era5/any.json"),
+    ...asCards(era5Bands, "era5/bands.json"),
+    ...asCards(era5Sides, "era5/sides.json"),
+    ...asCards(era5Legacy, "era5/legacy.json"),
     ...asCards(arcTermLimits, "arcs/term_limits.json"),
     ...asCards(arcCabinetPlot, "arcs/cabinet_plot.json"),
     ...asCards(arcMoonshot, "arcs/moonshot.json"),

@@ -65,6 +65,21 @@
     "text": "The first ship left on time. The people who built it remembered who let them."
   },
   {
+    "id": "finale_long_decay",
+    "title": "The Long Way Down",
+    "text": "Five centuries on, the capital is a ruin with a gift shop. The guide says the fall took everyone. The tourists still ask who started it."
+  },
+  {
+    "id": "finale_long_muddle",
+    "title": "The Oldest Argument",
+    "text": "Five centuries on, the parliament still sits, the deficit is still open and the trains are still late. Nobody alive has seen it end, or wants to."
+  },
+  {
+    "id": "finale_long_ascent",
+    "title": "The Far Shore",
+    "text": "Five centuries on, ships leave for other stars as routinely as trains once left for the coast. Nobody remembers who first let them go."
+  },
+  {
     "id": "blackmailed",
     "title": "A Quiet Arrangement",
     "text": "You were not removed. You were kept, like a signature on a file, by people who had the file."

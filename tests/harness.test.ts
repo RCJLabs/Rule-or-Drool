@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
 import { rollSetup } from "../src/engine/state";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateTargets, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateLongTargets, evaluateTargets, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -54,6 +54,30 @@ describe("section 8 targets", () => {
     const misses = evaluateTargets(s).filter((t) => !t.info && !t.pass);
     expect(misses.map((m) => `${m.bot} ${m.name}: ${m.actual} (want ${m.target})`)).toEqual([]);
   }, 60000);
+});
+
+// BACKLOG-5 phase 39: the long reign has targets of its own, measured on runs of five eras.
+// The bots offset any steady pressure an era applies, so these hold its shape rather than its
+// difficulty for a person: a competent run usually sees it through, where the country ends up
+// is what the first three eras made it, and Decay is the hardest place to spend it.
+describe("the long reign's targets", () => {
+  it("meets every target", () => {
+    const eraCount = library.config.longEraCount;
+    const bots: BotName[] = ["random", "greedy", "mixed"];
+    const results = simulate(library, { runs: 1500, seed: 1, bots, align: "alternate", danger: 25, maxCards: 1000, eraCount });
+    const s = new Map<BotName, BotSummary>();
+    for (const bot of bots) s.set(bot, summarize(bot, results.get(bot)!));
+    const misses = evaluateLongTargets(s, eraCount).filter((t) => !t.info && !t.pass);
+    expect(misses.map((m) => `${m.bot} ${m.name}: ${m.actual} (want ${m.target})`)).toEqual([]);
+    // Every run ends inside five eras, and a long finale only on the last card of the fifth.
+    for (const bot of bots) {
+      for (const r of results.get(bot)!) {
+        expect(r.cards).toBeLessThanOrEqual(eraCount * library.config.eraLength);
+        if (r.finale) expect([r.cards, r.endingId.startsWith(library.config.longFinalePrefix)]).toEqual([eraCount * library.config.eraLength, true]);
+        expect(r.relaxed.band + r.relaxed.era).toBe(0);
+      }
+    }
+  }, 120000);
 });
 
 // BACKLOG-5 phase 36: by their tenth run, 89% of a player's cards were ones they had played

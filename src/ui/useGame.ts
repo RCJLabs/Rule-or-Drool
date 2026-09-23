@@ -172,16 +172,17 @@ export function useGame(lib: Library) {
     dailyRef.current = null;
   }, []);
 
+  /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39). */
   const start = useCallback(
-    (seed: number, align: PlayerAlign, mandate: string | null = null, daily?: DailyMark) => {
+    (seed: number, align: PlayerAlign, mandate: string | null = null, eraCount?: number) => {
       setSaved(null);
       setSavedDaily(null);
       setSavedChallenge(null);
       setChallenge(null);
       setTransition(null);
       setLastFold(null);
-      dailyRef.current = daily ?? null;
-      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandate);
+      dailyRef.current = null;
+      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandate, eraCount);
       setState(s);
       beginRecording(s, "own");
     },

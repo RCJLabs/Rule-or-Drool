@@ -49,6 +49,11 @@
           "right": "The Voyage Century"
         }
       },
+      "long": {
+        "decay": "The Ones Who Left",
+        "muddle": "The Ship Still Sailing",
+        "ascent": "The Far Colonies"
+      },
       "after": {
         "decay": "The long ship made it out. Most of what it left behind did not.",
         "muddle": "The long ship is still out there, sending home the kind of news nobody reads.",
@@ -69,6 +74,11 @@
           "left": "The Open Sky",
           "right": "The Orbital Age"
         }
+      },
+      "long": {
+        "decay": "The Dark Satellites",
+        "muddle": "The Station Centuries",
+        "ascent": "The Starward Age"
       },
       "after": {
         "decay": "Something you put in orbit is still up there. Nobody down here can reach it any more.",
@@ -91,6 +101,11 @@
           "right": "The Enlightened Decree"
         }
       },
+      "long": {
+        "decay": "The Age Without Ballots",
+        "muddle": "The Emergency That Stayed",
+        "ascent": "The Kindly Autocracy"
+      },
       "after": {
         "decay": "Nobody has voted in living memory. The ballot boxes are in a museum, labelled as pottery.",
         "muddle": "Elections were suspended and never quite resumed. Every year, someone promises next year.",
@@ -111,6 +126,11 @@
           "left": "The Purge Apologised For",
           "right": "The Pardons"
         }
+      },
+      "long": {
+        "decay": "The Lists Without End",
+        "muddle": "The Forgotten Lists",
+        "ascent": "The Rehabilitations"
       },
       "after": {
         "decay": "The purge never formally ended. It ran out of people anyone was sure about.",
@@ -133,6 +153,11 @@
           "right": "The Disciplined Republic"
         }
       },
+      "long": {
+        "decay": "The Checkpoint Centuries",
+        "muddle": "The Garrison Tradition",
+        "ascent": "The Demobilised Age"
+      },
       "after": {
         "decay": "The general's people still run the checkpoints. They have forgotten what they were checking for.",
         "muddle": "The army went back to barracks, eventually, and kept the barracks.",
@@ -153,6 +178,11 @@
           "left": "The Reluctant Heir",
           "right": "The Good Inheritance"
         }
+      },
+      "long": {
+        "decay": "The Dynasty Unending",
+        "muddle": "The Old Family",
+        "ascent": "The Heirs Who Declined"
       },
       "after": {
         "decay": "Your heir named an heir. The family still holds the office and none of them want it.",
@@ -175,6 +205,11 @@
           "right": "The Calculated Age"
         }
       },
+      "long": {
+        "decay": "The Oracle's Dominion",
+        "muddle": "The Machine Still Asked",
+        "ascent": "The Age of Good Answers"
+      },
       "after": {
         "decay": "The oracle is still running. Nobody remembers the question.",
         "muddle": "The oracle is still consulted, and ignored, in that order.",
@@ -195,6 +230,11 @@
           "left": "The Ring Complete",
           "right": "The Age of the Ring"
         }
+      },
+      "long": {
+        "decay": "The Broken Ring",
+        "muddle": "The Ring Still Building",
+        "ascent": "The Ringed World"
       },
       "after": {
         "decay": "Half a ring hangs over the equator. On clear nights you can see where the money ran out.",
@@ -217,6 +257,11 @@
           "right": "The Settled Question"
         }
       },
+      "long": {
+        "decay": "The Sealed Answer",
+        "muddle": "The Question Asked Again",
+        "ascent": "The Asking Republic"
+      },
       "after": {
         "decay": "The country was asked once. The answer is kept in a drawer, still sealed.",
         "muddle": "The referendum settled the question for about a generation, which is all they ever do.",
@@ -237,6 +282,11 @@
           "left": "The Dry Coast",
           "right": "The Harbour Boom"
         }
+      },
+      "long": {
+        "decay": "The Drowned Estate",
+        "muddle": "The Wall Everyone Forgot",
+        "ascent": "The Held Coast"
       },
       "after": {
         "decay": "The seawall still stands. Nothing behind it is worth keeping dry.",
@@ -259,6 +309,11 @@
           "right": "The Careful Decades"
         }
       },
+      "long": {
+        "decay": "The Thirst Centuries",
+        "muddle": "The Rationed Age",
+        "ascent": "The Water Commons"
+      },
       "after": {
         "decay": "The rationing never lifted. Water is a currency now, and a volatile one.",
         "muddle": "The rationing ended in the cities and never quite ended anywhere else.",
@@ -279,6 +334,11 @@
           "left": "The Bridge Rebuilt",
           "right": "The Toll Bridge Era"
         }
+      },
+      "long": {
+        "decay": "The Two Cities",
+        "muddle": "The Ferry Centuries",
+        "ascent": "The City Rejoined"
       },
       "after": {
         "decay": "The bridge fell. The two halves of the city stopped speaking, then stopped trading.",
@@ -301,6 +361,11 @@
           "right": "The Bold Decades"
         }
       },
+      "long": {
+        "decay": "The Rocket Never Flown",
+        "muddle": "The Department of the Moon",
+        "ascent": "The Lunar Centuries"
+      },
       "after": {
         "decay": "The moonshot budget was spent. The rocket was not.",
         "muddle": "The moonshot programme still exists, as a department, with a canteen.",
@@ -321,6 +386,11 @@
           "left": "The Feed Set Free",
           "right": "The Quiet Feed"
         }
+      },
+      "long": {
+        "decay": "The Endless Broadcast",
+        "muddle": "The Managed Feed",
+        "ascent": "The Recipe Channel"
       },
       "after": {
         "decay": "The feed is still run from the office. It has not reported bad news in two hundred years.",
@@ -343,6 +413,11 @@
           "right": "The Homeowners' Republic"
         }
       },
+      "long": {
+        "decay": "The Last Good Blocks",
+        "muddle": "The Estates Still Standing",
+        "ascent": "The Housed Nation"
+      },
       "after": {
         "decay": "The housing still stands. It is the best-built thing in the country, and it is full.",
         "muddle": "The housing was built and is still lived in, which is more than most promises manage.",
@@ -363,6 +438,11 @@
           "left": "The Commission That Reported",
           "right": "The Findings"
         }
+      },
+      "long": {
+        "decay": "The Hereditary Commission",
+        "muddle": "The Interim Centuries",
+        "ascent": "The Final Report"
       },
       "after": {
         "decay": "The commission is still sitting. Its members are the grandchildren of its members.",
@@ -385,6 +465,11 @@
           "right": "The Honest Recount"
         }
       },
+      "long": {
+        "decay": "The After-Hours Republic",
+        "muddle": "The Disputed Tradition",
+        "ascent": "The Count in Public"
+      },
       "after": {
         "decay": "The late boxes were never explained. Counting after the close became the way it is done.",
         "muddle": "The late boxes are still argued about, in the way that settles nothing and changes nothing.",
@@ -405,6 +490,11 @@
           "left": "The Audit Unearthed",
           "right": "The Books Opened"
         }
+      },
+      "long": {
+        "decay": "The Unaudited Centuries",
+        "muddle": "The Rediscovered Ledger",
+        "ascent": "The Open Treasury"
       },
       "after": {
         "decay": "The audit is still buried, and so is everything it would have found.",
@@ -427,6 +517,11 @@
           "right": "The Word Redeemed"
         }
       },
+      "long": {
+        "decay": "The Faithless Age",
+        "muddle": "The Proverbial Promise",
+        "ascent": "The Promises Kept After"
+      },
       "after": {
         "decay": "You broke the promise you took the job on. Nobody has believed one since.",
         "muddle": "The promise you broke is a proverb now, used about weather and landlords.",
@@ -447,6 +542,11 @@
           "left": "The Pensions Repaid",
           "right": "The Restored Fund"
         }
+      },
+      "long": {
+        "decay": "The Age Without Rest",
+        "muddle": "The Slow Refund",
+        "ascent": "The Debt Honoured"
       },
       "after": {
         "decay": "The pensions were spent and never replaced. Nobody here retires; they just stop.",
@@ -469,6 +569,11 @@
           "right": "The Schools Rebuilt"
         }
       },
+      "long": {
+        "decay": "The Forgetting",
+        "muddle": "The Lost Generation Remembered",
+        "ascent": "The Learned Republic"
+      },
       "after": {
         "decay": "The schools were never fed. The country forgot how to fix things, then how to want to.",
         "muddle": "The schools recovered, eventually. One generation did not, and it shows in the statistics.",
@@ -489,6 +594,11 @@
           "left": "The Press Set Loose",
           "right": "The Free Presses"
         }
+      },
+      "long": {
+        "decay": "The Silent Press",
+        "muddle": "The Polite Papers",
+        "ascent": "The Unruly Press"
       },
       "after": {
         "decay": "The press still answers to the office. It has never once been surprised.",
@@ -511,6 +621,11 @@
           "right": "The Clean Accounts"
         }
       },
+      "long": {
+        "decay": "The Rumoured Budget",
+        "muddle": "The Known Percentage",
+        "ascent": "The Skim Paid Back"
+      },
       "after": {
         "decay": "The skim became the budget, and the budget became a rumour.",
         "muddle": "The skim is still taken, at a rate everybody knows and nobody says.",
@@ -531,6 +646,11 @@
           "left": "The Inquiry Reopened",
           "right": "The Answers, Eventually"
         }
+      },
+      "long": {
+        "decay": "The Unasked Centuries",
+        "muddle": "The Inquiry Held Too Late",
+        "ascent": "The Required Reading"
       },
       "after": {
         "decay": "The inquiry you promised was never held, and the questions stopped being asked.",
@@ -553,6 +673,11 @@
           "right": "The Books Balanced, Finally"
         }
       },
+      "long": {
+        "decay": "The Debt Without End",
+        "muddle": "The Eternal Deficit",
+        "ascent": "The Outgrown Debt"
+      },
       "after": {
         "decay": "The deficit you promised to close grew until it was the economy.",
         "muddle": "The deficit is still there, and so is the promise to close it, and so is the laughter.",
@@ -573,6 +698,11 @@
           "left": "The Homes, Late",
           "right": "The Late Building Boom"
         }
+      },
+      "long": {
+        "decay": "The Car Park Centuries",
+        "muddle": "The List Still Waiting",
+        "ascent": "Someone Else's Homes"
       },
       "after": {
         "decay": "The homes you promised were never built. The lots became car parks, then nothing.",
@@ -595,6 +725,11 @@
           "right": "The Tax Promise Kept Late"
         }
       },
+      "long": {
+        "decay": "The Tax Without Return",
+        "muddle": "The Rate Nobody Remembers",
+        "ascent": "The Levy That Built Things"
+      },
       "after": {
         "decay": "The taxes you swore not to raise went up, and kept going, and paid for less every year.",
         "muddle": "The new rate became the old rate, and nobody remembers the one before that.",
@@ -615,6 +750,11 @@
           "left": "The Cleaner Politics",
           "right": "The Rules Written Down"
         }
+      },
+      "long": {
+        "decay": "The Gutter Tradition",
+        "muddle": "The Methods Handed Down",
+        "ascent": "The Rulebook Example"
       },
       "after": {
         "decay": "The cheap win became the only win. Every campaign since has been worse than yours.",
@@ -637,6 +777,11 @@
           "right": "The Clean Count After"
         }
       },
+      "long": {
+        "decay": "The Formality Centuries",
+        "muddle": "The Normal Irregularities",
+        "ascent": "The Watched Elections"
+      },
       "after": {
         "decay": "An election was counted twice, and after that every election was a formality.",
         "muddle": "The election you counted twice is remembered, and it is remembered as normal.",
@@ -657,6 +802,11 @@
           "left": "The Clamp Loosened",
           "right": "The Measured Hand"
         }
+      },
+      "long": {
+        "decay": "The Clenched Centuries",
+        "muddle": "The Reflex",
+        "ascent": "The Open Hand"
       },
       "after": {
         "decay": "The answer was always the same one, and the question stopped being asked.",
@@ -679,6 +829,11 @@
           "right": "The Level Field"
         }
       },
+      "long": {
+        "decay": "The Families' Republic",
+        "muddle": "The Understood Exceptions",
+        "ascent": "The Straight Rule"
+      },
       "after": {
         "decay": "The rules bent for the same people until the rules were the people.",
         "muddle": "The rule still bends for the same families, which everyone knows and the forms do not.",
@@ -700,6 +855,11 @@
           "right": "The Honest Treasury"
         }
       },
+      "long": {
+        "decay": "The Taking Age",
+        "muddle": "The Small Fees Forever",
+        "ascent": "The Salaried Honesty"
+      },
       "after": {
         "decay": "Money was taken by habit, then by right, then by everyone.",
         "muddle": "Money is still taken by habit, in amounts too small to prosecute and too large to ignore.",
@@ -720,6 +880,11 @@
           "left": "The Unnoticed Rise",
           "right": "The Steady Climb"
         }
+      },
+      "long": {
+        "decay": "The Unexplained Fall",
+        "muddle": "Five Centuries of Not Much",
+        "ascent": "The Rise Without a Founder"
       },
       "after": {
         "decay": "You left nothing a historian could point at. The country fell anyway, just without a reason.",

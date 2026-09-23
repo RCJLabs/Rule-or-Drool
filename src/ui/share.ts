@@ -1,4 +1,5 @@
 import { STRINGS } from "../content/strings";
+import { DEFAULT_CONFIG } from "../engine/config";
 import type { GameState } from "../engine/types";
 import { dailyNumber, encodeRunCode, encodeRunResult, runCodeOf, type History, type RunResult } from "../meta";
 
@@ -44,9 +45,13 @@ export function shareText(state: GameState, history: History, endingTitle: strin
 const lowerFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/** "The Commons · 105 cards · Orbit": a party name starts a line here, so it is capitalised. */
+/**
+ * "The Commons · 105 cards · Orbit": a party name starts a line here, so it is capitalised. A
+ * long reign says so, since its card count is not the ordinary game's (BACKLOG-5 phase 39).
+ */
 export function runFacts(state: GameState, endingTitle: string): string {
-  return `${upperFirst(STRINGS.parties[state.align])} · ${STRINGS.share.cards.replace("{n}", String(state.cardCount))} · ${endingTitle}`;
+  const long = (state.eraCount ?? DEFAULT_CONFIG.eraCount) > DEFAULT_CONFIG.eraCount ? ` · ${STRINGS.reign.short}` : "";
+  return `${upperFirst(STRINGS.parties[state.align])}${long} · ${STRINGS.share.cards.replace("{n}", String(state.cardCount))} · ${endingTitle}`;
 }
 
 export interface CardText {

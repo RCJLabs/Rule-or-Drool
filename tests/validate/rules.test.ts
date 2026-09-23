@@ -32,8 +32,10 @@ describe("rules: baseline", () => {
 
   it("resolves era scope", () => {
     const c = makeValid();
-    expect(resolveEras(c, { eras: "all", config: DEFAULT_CONFIG })).toEqual({ eras: [1, 2, 3], empty: [2, 3] });
-    expect(resolveEras(c, { eras: "auto", config: DEFAULT_CONFIG })).toEqual({ eras: [1], empty: [2, 3] });
+    // Five: a long reign's two eras are eras a run can reach (BACKLOG-5 phase 39).
+    expect(resolveEras(c, { eras: "all", config: DEFAULT_CONFIG })).toEqual({ eras: [1, 2, 3, 4, 5], empty: [2, 3, 4, 5] });
+    expect(resolveEras(c, { eras: "auto", config: DEFAULT_CONFIG })).toEqual({ eras: [1], empty: [2, 3, 4, 5] });
+    expect(resolveEras(c, { eras: "all", config: { ...DEFAULT_CONFIG, longEraCount: 3 } }).eras).toEqual([1, 2, 3]);
     expect(resolveEras(c, { eras: [3, 1], config: DEFAULT_CONFIG }).eras).toEqual([1, 3]);
     expect(codes(c, { eras: "auto" })).toEqual(["warn:era-empty"]);
   });
@@ -326,7 +328,7 @@ describe("rules: coverage", () => {
     const issues = run(makeValid(), { minCell: 3 }).filter((i) => i.code === "cell-thin");
     expect(issues).toHaveLength(6);
     expect(issues[0]!.message).toMatch(/2 eligible event cards, minimum 3/);
-    expect(run(makeValid(), { minCell: 3, eras: "all" }).filter((i) => i.code === "cell-thin")).toHaveLength(18);
+    expect(run(makeValid(), { minCell: 3, eras: "all" }).filter((i) => i.code === "cell-thin")).toHaveLength(30);
   });
 
   it("requires an unconditional election card per cell", () => {
@@ -369,7 +371,7 @@ describe("rules: per-card", () => {
     card(c, "ev_b").text = "x".repeat(161);
     card(c, "ev_b").left.label = "y".repeat(25);
     card(c, "ev_c").left.fx = { order: 0, money: 1 };
-    card(c, "ev_c").eras = [1, 4];
+    card(c, "ev_c").eras = [1, 6];
     c.advisors[0]!.traits = ["sparkly"];
     expect(codes(c)).toEqual([
       "error:speaker-unknown",

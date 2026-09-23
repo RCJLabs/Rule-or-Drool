@@ -92,6 +92,14 @@ describe("reading a record back", () => {
     refuse((f) => (f.v = 2), /^v: must be <= 1/m);
   });
 
+  it("reads a long reign's code, which carries its era count (BACKLOG-5 phase 39)", () => {
+    const f = good();
+    f.runs[0].code = f.runs[0].code.replace(/^1\./, "2.") + ".5";
+    expect(parseRecord(JSON.stringify(f)).ok).toBe(true);
+    refuse((g) => (g.runs[0].code = g.runs[0].code + ".5"), /runs\[0\]\.code: a run code/);
+    refuse((g) => (g.runs[0].code = g.runs[0].code.replace(/^1\./, "2.")), /runs\[0\]\.code: a run code/);
+  });
+
   it("says what is wrong with a file that is not JSON", () => {
     const parsed = parseRecord("notes from the playtest");
     expect(parsed.ok).toBe(false);

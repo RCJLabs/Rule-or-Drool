@@ -12,7 +12,7 @@ import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
 import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
-import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playToBoundary, SEED, startRun, target, toLook } from "./harness";
+import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -140,6 +140,48 @@ describe.skipIf(!target)("in a browser", () => {
         if (!(await page.isVisible(".versus-table"))) failures.push(`${band}: no comparison`);
         failures.push(...(await contrast(page, `their run and yours, ending ${band}`)));
         failures.push(...(await misfits(page, `their run and yours, ending ${band}`, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+  });
+
+  /**
+   * The long reign (BACKLOG-5 phase 39): offered on the menu once a finale has opened it, told
+   * at its fourth era that the direction is set, and ended five centuries on, in each direction.
+   */
+  describe("the long reign", () => {
+    it("is chosen on the menu, locks at its fourth era and ends five centuries on, readable at 360px in each direction", async () => {
+      const { eraLength, eraCount, longEraCount, longFinalePrefix } = library.config;
+      const meta = { ...emptyMeta(), runs: 1, endings: { finale_muddle: 1 }, objectives: { obj_first_run: 1, obj_finale: 1 } };
+      const failures: string[] = [];
+      for (const band of ["ascent", "decay", "muddle"] as const) {
+        const page = await open(browser, { width: 360, height: 640 });
+        await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+        await page.reload();
+        await page.getByRole("button", { name: new RegExp(`^${STRINGS.reign.long}`) }).click();
+        if (band === "ascent") {
+          failures.push(...(await contrast(page, "the menu with the long reign chosen")));
+          failures.push(...(await misfits(page, "the menu with the long reign chosen", { mayScroll: true })));
+        }
+        await page.getByLabel(STRINGS.ui.seed).fill(String(SEED));
+        await page.getByRole("button", { name: STRINGS.ui.start, exact: true }).click();
+        await page.waitForSelector(".card");
+        // The last card of the third era, then the jump into the fourth, where the band locks.
+        await playFrom(page, LATE[band], { cardCount: eraLength * eraCount - 1, era: eraCount });
+        await page.waitForSelector(".era-jump");
+        if (!(await page.isVisible(".era-locked"))) failures.push(`${band}: the fourth era does not say the direction is set`);
+        failures.push(...(await contrast(page, `the jump to two centuries on, in ${band}`)));
+        failures.push(...(await misfits(page, `the jump to two centuries on, in ${band}`, { mayScroll: true })));
+        await page.getByRole("button", { name: STRINGS.ui.continueEra }).click();
+        await page.waitForSelector(".card");
+        // Then the last card of the fifth, and its finale.
+        await playFrom(page, LATE[band], { cardCount: eraLength * longEraCount - 1, era: longEraCount, band });
+        await page.waitForSelector(".history-title");
+        const finale = library.endings.get(`${longFinalePrefix}${band}`)!.title;
+        if (!(await page.getByText(finale).first().isVisible())) failures.push(`${band}: did not end in ${finale}`);
+        failures.push(...(await contrast(page, `the long reign's end in ${band}`)));
+        failures.push(...(await misfits(page, `the long reign's end in ${band}`, { mayScroll: true })));
         await close(page);
       }
       expect(failures).toEqual([]);

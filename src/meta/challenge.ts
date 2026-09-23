@@ -54,7 +54,9 @@ export function decodeRunResult(lib: Library, raw: string): RunResult | null {
   if (parts.length !== 5 || parts[0] !== VERSION) return null;
   const [, h, e, n36, s] = parts as [string, string, string, string, string];
   const cards = /^[0-9a-z]{1,3}$/.test(n36) ? parseInt(n36, 36) : NaN;
-  if (!Number.isInteger(cards) || cards < 1 || cards > lib.config.eraCount * lib.config.eraLength) return null;
+  // As long as the longest run there is: a long reign's result is up to five eras of cards.
+  const most = Math.max(lib.config.eraCount, lib.config.longEraCount) * lib.config.eraLength;
+  if (!Number.isInteger(cards) || cards < 1 || cards > most) return null;
   const key = h === NONE ? null : h.replaceAll("~", ":");
   const sides = s === NONE ? null : unpackSides(s, cards);
   if (s !== NONE && !sides) return null;

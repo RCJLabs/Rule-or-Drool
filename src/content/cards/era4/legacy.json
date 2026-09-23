@@ -1,0 +1,452 @@
+[
+  {
+    "id": "fx1_reconstructed_count",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Historians have reconstructed the election your century counted twice. The reconstruction has a winner, and it was not you.",
+    "cond": {
+      "flags": [
+        "cheated_election"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Publish the result",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Seal the study",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "fx2_oldest_fortunes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An economist has traced the oldest fortunes to your century's habit of taking a little. The families have hired another economist.",
+    "cond": {
+      "flags": [
+        "habit_skim"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Tax the old fortunes",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "base": -2,
+        "backers": -5,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Fund their economist",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fx3_asking_lessons",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The press has answered to the office for two centuries. The papers have forgotten how to ask a question, and have asked for lessons.",
+    "cond": {
+      "flags": [
+        "media_captured"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Fund the lessons",
+      "fx": {
+        "money": -5,
+        "order": -2,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Send them our questions",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "fx4_surgeon_plumbers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The schools your century starved taught two centuries of children to fix nothing. The last plumbers are paid like surgeons.",
+    "cond": {
+      "flags": [
+        "schools_starved"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Reopen the trade schools",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Import the plumbers",
+      "fx": {
+        "money": -1,
+        "order": 2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "fx5_ten_thousandth_span",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The ring your century began is still being built. A ceremony marks the laying of the ten thousandth span, again.",
+    "cond": {
+      "flags": [
+        "ring_started"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Audit the ring",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold the ceremony",
+      "fx": {
+        "money": -2,
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fx6_customary_line",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The skim your century took is a line in the budget now, labelled 'customary'. Nobody can say what it is customary for.",
+    "cond": {
+      "flags": [
+        "took_the_skim"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Strike the line",
+      "fx": {
+        "money": 3,
+        "inst": 3,
+        "base": -2,
+        "backers": -5,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the custom",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 2,
+        "backers": 4,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "fx7_party_school",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Every campaign since yours has used your tricks. The party school teaches them from a textbook, with your name taken off.",
+    "cond": {
+      "flags": [
+        "dirty_politics"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Close the party school",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Update the textbook",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fx8_spare_parts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The long ship your century launched has sent its first message home in two hundred years. It asks for spare parts, and complains.",
+    "cond": {
+      "flags": [
+        "long_ship"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Send the parts",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Say it never arrived",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fx9_students_ballot",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Nobody has voted in two centuries. Students have found the old ballot boxes in a museum, and have worked out what they are for.",
+    "cond": {
+      "flags": [
+        "elections_abolished"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Let them hold a vote",
+      "fx": {
+        "order": -4,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Confiscate the boxes",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "fx10_proverb",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The promise your century broke is a proverb, said of landlords and the weather. A school would like to teach where it came from.",
+    "cond": {
+      "flags": [
+        "broke_mandate"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Let them teach it",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Teach the weather",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  }
+]

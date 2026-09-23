@@ -33,12 +33,15 @@ export interface RunOptions extends BotOptions {
   maxCards: number;
   /** Meta unlock tokens in force; default none, i.e. a first-time player (5.10). */
   unlocked?: string[];
+  /** Eras per run: the ordinary game's by default, or a long reign's (BACKLOG-5 phase 39). */
+  eraCount?: number;
 }
 
 export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
 
 export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerAlign, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
-  return playRunFrom(lib, bot, seed, rollSetup(lib, seed, align, opts.unlocked ?? []), opts);
+  const setup = rollSetup(lib, seed, align, opts.unlocked ?? []);
+  return playRunFrom(lib, bot, seed, opts.eraCount === undefined ? setup : { ...setup, eraCount: opts.eraCount }, opts);
 }
 
 /**

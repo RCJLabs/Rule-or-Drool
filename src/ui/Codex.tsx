@@ -235,6 +235,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey() }: Pro
                   </b>
                   <span>{o.hint}</span>
                   {o.unlocks && <em>{done ? `${STRINGS.ui.unlocked}: ` : "Unlocks "}{STRINGS.unlockNames[o.unlocks]}</em>}
+                  {o.opens && <em>{done ? `${STRINGS.ui.unlocked}: ${STRINGS.reign.opened}` : STRINGS.reign.opens}</em>}
                 </li>
               );
             })}

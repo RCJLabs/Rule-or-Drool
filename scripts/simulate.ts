@@ -4,15 +4,16 @@
  *
  *   npm run simulate -- [--runs 10000] [--seed 1] [--bot all|random|greedy|saint|mixed]
  *                        [--align alternate|left|right] [--danger 25]
- *                        [--unlocked] [--set eraMeterPull=0 ...] [--strict]
+ *                        [--unlocked] [--long] [--set eraMeterPull=0 ...] [--strict]
  *
+ * --long plays long reigns, five eras, against their own targets (BACKLOG-5 phase 39).
  * --set overrides any numeric EngineConfig key for the whole batch (quick tuning sweeps).
  * --strict exits 1 when any target misses (for CI once phase 4 tunes content).
  */
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateTargets, formatContentStats, formatSummary, formatTargets, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 interface Args {
   runs: number;
@@ -22,11 +23,12 @@ interface Args {
   danger: number;
   strict: boolean;
   unlocked: boolean;
+  long: boolean;
   overrides: Partial<EngineConfig>;
 }
 
 function parseArgs(argv: string[]): Args {
-  const args: Args = { runs: 10000, seed: 1, bots: [...BOT_NAMES], align: "alternate", danger: 25, strict: false, unlocked: false, overrides: {} };
+  const args: Args = { runs: 10000, seed: 1, bots: [...BOT_NAMES], align: "alternate", danger: 25, strict: false, unlocked: false, long: false, overrides: {} };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]!;
     const next = () => {
@@ -62,6 +64,9 @@ function parseArgs(argv: string[]): Args {
       case "--unlocked":
         args.unlocked = true;
         break;
+      case "--long":
+        args.long = true;
+        break;
       case "--set": {
         const [k, v] = next().split("=");
         if (!k || v === undefined || !(k in DEFAULT_CONFIG) || typeof DEFAULT_CONFIG[k as keyof EngineConfig] !== "number") {
@@ -87,7 +92,7 @@ function main(): void {
   const lib = buildLibrary(content, args.overrides);
 
   console.log(
-    `rule-or-drool balance harness: ${args.runs} runs per bot, seed ${args.seed}, align ${args.align}, danger ${args.danger}, unlocks ${args.unlocked ? "all" : "none"}`,
+    `rule-or-drool balance harness: ${args.runs} runs per bot, seed ${args.seed}, align ${args.align}, danger ${args.danger}, unlocks ${args.unlocked ? "all" : "none"}${args.long ? `, long reigns (${lib.config.longEraCount} eras)` : ""}`,
   );
   if (Object.keys(args.overrides).length) console.log(`config overrides: ${JSON.stringify(args.overrides)}`);
   console.log(
@@ -98,7 +103,8 @@ function main(): void {
 
   const t0 = performance.now();
   const unlocked = args.unlocked ? allUnlockTokens() : [];
-  const results = simulate(lib, { runs: args.runs, seed: args.seed, bots: args.bots, align: args.align, danger: args.danger, maxCards: 1000, unlocked });
+  const eraCount = args.long ? lib.config.longEraCount : undefined;
+  const results = simulate(lib, { runs: args.runs, seed: args.seed, bots: args.bots, align: args.align, danger: args.danger, maxCards: 1000, unlocked, eraCount });
   const elapsed = (performance.now() - t0) / 1000;
 
   const summaries = new Map<BotName, BotSummary>();
@@ -109,8 +115,8 @@ function main(): void {
     console.log();
   }
 
-  const targets = evaluateTargets(summaries);
-  console.log(formatTargets(targets));
+  const targets = args.long ? evaluateLongTargets(summaries, lib.config.longEraCount) : evaluateTargets(summaries);
+  console.log(formatTargets(targets, args.long ? "long reign targets (BACKLOG-5 phase 39)" : undefined));
   const misses = targets.filter((t) => !t.info && !t.pass);
   console.log();
   console.log(`${targets.filter((t) => !t.info).length - misses.length} pass, ${misses.length} miss. ${(args.runs * args.bots.length).toLocaleString()} runs in ${elapsed.toFixed(1)}s.`);

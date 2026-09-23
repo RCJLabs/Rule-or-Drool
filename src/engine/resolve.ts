@@ -2,7 +2,7 @@ import { endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
-import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
+import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
 
@@ -36,9 +36,12 @@ export function eraBends(lib: Library, modifiers: readonly string[], era: number
   return modifiers.flatMap((id) => (lib.modifiers.get(id)?.bends ?? []).filter((b) => b.era === era));
 }
 
-/** A multiplier the era's rules stack: every rule in force multiplies it. */
+/**
+ * A multiplier the era's rules stack: every rule in force multiplies it. Volatility also takes
+ * whatever a rule sets for the band the run is in (BACKLOG-5 phase 39).
+ */
 function eraProduct(lib: Library, state: GameState, key: "volatility" | "queueScale"): number {
-  return eraRules(lib, state).reduce((m, r) => m * (r[key] ?? 1), 1);
+  return eraRules(lib, state).reduce((m, r) => m * (r[key] ?? 1) * (key === "volatility" ? (r.bandVolatility?.[state.band] ?? 1) : 1), 1);
 }
 
 /**
@@ -181,16 +184,18 @@ export function checkElection(lib: Library, state: GameState): GameState {
 }
 
 /**
- * Era boundary: after the last era the run ends in a finale by band; otherwise a
+ * Era boundary: after the run's last era it ends in a finale by band; otherwise a
  * successor takes office, the band is recomputed (and locked past bandLockAfterEra),
- * meters are pulled toward 50 and the election clock restarts (5.3).
+ * meters are pulled toward 50 and the election clock restarts (5.3). A long reign has two
+ * eras more and finales of its own (BACKLOG-5 phase 39).
  */
 export function advanceEra(lib: Library, state: GameState): GameState {
   if (state.over) return state;
   const cfg = lib.config;
   if (state.cardCount < state.era * cfg.eraLength) return state;
-  if (state.era >= cfg.eraCount) {
-    return endRun(lib, state, `${cfg.finalePrefix}${exitBand(lib, state)}`);
+  if (state.era >= (state.eraCount ?? cfg.eraCount)) {
+    const prefix = isLongReign(lib, state) ? cfg.longFinalePrefix : cfg.finalePrefix;
+    return endRun(lib, state, `${prefix}${exitBand(lib, state)}`);
   }
   const era = state.era + 1;
   const band = state.bandLocked ? state.band : bandOf(lib, state.drift);
@@ -213,10 +218,14 @@ export function applyEraPassive(lib: Library, state: GameState): GameState {
   let meters: Meters | null = null;
   for (const rule of eraRules(lib, state)) {
     const every = rule.passiveEvery ?? 0;
-    if (!rule.passive || every <= 0 || state.cardCount % every !== 0) continue;
-    meters ??= { ...state.meters };
-    for (const [k, v] of Object.entries(fxDeltas(rule.passive))) {
-      meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + v);
+    if (every <= 0 || state.cardCount % every !== 0) continue;
+    // The era's pressure, then whatever it presses on a country in this band (BACKLOG-5 phase 39).
+    for (const fx of [rule.passive, rule.bandPassive?.[state.band]]) {
+      if (!fx) continue;
+      meters ??= { ...state.meters };
+      for (const [k, v] of Object.entries(fxDeltas(fx))) {
+        meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + v);
+      }
     }
   }
   return meters ? { ...state, meters } : state;

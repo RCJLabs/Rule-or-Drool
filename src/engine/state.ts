@@ -39,6 +39,14 @@ export function bandOf(lib: Library, drift: number): Band {
 }
 
 /**
+ * Whether a run is a long reign: more eras than the ordinary game (BACKLOG-5 phase 39). A
+ * state saved before runs had a count of their own is an ordinary one.
+ */
+export function isLongReign(lib: Library, state: Pick<GameState, "eraCount">): boolean {
+  return (state.eraCount ?? lib.config.eraCount) > lib.config.eraCount;
+}
+
+/**
  * The band a run "exits" in: the locked band if locked, otherwise the band implied by
  * drift right now. Used for epilogues and finales so short runs still reveal the futures.
  */
@@ -183,6 +191,8 @@ export function replaceAdvisor(lib: Library, state: GameState, role: string): Ga
 export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
   const cfg = lib.config;
   let rng = seedToState(seed);
+  const eraCount = setup.eraCount ?? cfg.eraCount;
+  if (!Number.isInteger(eraCount) || eraCount < 1) throw new Error(`bad era count: ${eraCount}`);
 
   const meters = Object.fromEntries(METER_KEYS.map((k) => [k, cfg.meterStart])) as Meters;
   const flags: string[] = [];
@@ -235,6 +245,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     rngState: rng,
     align: setup.align,
     era: 1,
+    eraCount,
     cardCount: 0,
     meters,
     drift: 0,

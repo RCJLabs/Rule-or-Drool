@@ -54,6 +54,30 @@ describe("a v2 link", () => {
   });
 });
 
+describe("a long reign's link (BACKLOG-5 phase 39)", () => {
+  it("carries its five eras in the code and deals the whole reign again from the result", () => {
+    let long = 0;
+    for (let seed = 1; seed <= 40; seed++) {
+      const rng = makeRng(seed ^ 0x5bd1e995);
+      const setup = { ...rollSetup(library, seed, seed % 2 ? "left" : "right", []), eraCount: library.config.longEraCount };
+      let s = draw(library, newRun(library, seed, setup));
+      while (!s.over) {
+        const card = getCard(library, s.current!);
+        s = draw(library, resolve(library, s, card.id, BOTS.mixed(makeContext(library, s, card, rng, { danger: 25 }))));
+      }
+      if (s.cardCount <= library.config.eraCount * library.config.eraLength) continue;
+      long++;
+      const link = new URL(shareLink(s, "https://rcjlabs.github.io/Rule-or-Drool/", resultOf(library, s)));
+      const code = decodeRunCode(library, link.searchParams.get("run")!);
+      expect(code).toEqual({ ok: true, code: runCodeOf(s) });
+      const back = decodeRunResult(library, link.searchParams.get("vs")!)!;
+      expect(back.cards).toBe(s.cardCount);
+      expect(theirRun(library, runCodeOf(s), back)).toEqual(s);
+    }
+    expect(long).toBeGreaterThan(20);
+  });
+});
+
 describe("the result's format", () => {
   it("is fixed: links already sent must keep meaning what they meant", () => {
     // Three cards: right, left, right is 101 in the top bits of one byte, 0xA0, "oA" in base64url.
@@ -81,7 +105,7 @@ describe("a result that is not quite one", () => {
   const swap = (i: number, v: string) => parts.map((p, j) => (j === i ? v : p)).join(".");
 
   it("is refused when it is not the format", () => {
-    for (const bad of ["", "2" + text.slice(1), text + ".x", swap(3, "zzzz"), swap(3, "0"), swap(3, (106).toString(36)), "1.-.riots.2y.-", swap(4, "!!"), swap(4, "AAAA")]) {
+    for (const bad of ["", "2" + text.slice(1), text + ".x", swap(3, "zzzz"), swap(3, "0"), swap(3, (176).toString(36)), "1.-.riots.4w.-", swap(4, "!!"), swap(4, "AAAA")]) {
       expect(decodeRunResult(library, bad), bad).toBeNull();
     }
   });

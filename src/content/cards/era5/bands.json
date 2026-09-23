@@ -1,0 +1,936 @@
+[
+  {
+    "id": "kd1_health_militia",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The ministries are run by the militias that guard them. The health militia is the most feared, and has excellent dental care.",
+    "oneShot": true,
+    "left": {
+      "label": "Disband the militias",
+      "fx": {
+        "money": -2,
+        "order": -4,
+        "inst": 3,
+        "base": 2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Hire the health militia",
+      "fx": {
+        "money": 2,
+        "order": 4,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "kd2_ruin_franchise",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Tourists pay to see the ruins of the country, which are mostly the country. A firm would like the franchise for the whole thing.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the ruins public",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "base": 2,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the franchise",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "kd3_dry_river_war",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The eastern towns and the western towns are at war over the river, which has not had water in it since spring.",
+    "oneShot": true,
+    "left": {
+      "label": "Mediate between them",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the riverbed",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "kd4_archive_fire",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The last archive is on fire. It holds the only copy of the constitution and the only copy of the lottery results, and there is one crew.",
+    "oneShot": true,
+    "left": {
+      "label": "Save the constitution",
+      "fx": {
+        "money": -2,
+        "order": -2,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Save the lottery",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -4,
+        "base": 3,
+        "public": 5
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "kd5_sponsored_air",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "The air filters are sponsored. Every breath in the capital comes with a short advertisement, which you can skip for a fee.",
+    "oneShot": true,
+    "left": {
+      "label": "Make the air free",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Take a share of fees",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_invoice",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "kd6_counting_temple",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A cult worships the room where your century's votes were counted. Its priests count everything twice, and are very popular.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the temple",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it official",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "kd7_inherited_power",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "Electricity is inherited now, like land. A child born without it can marry into it, which is the only reason anyone marries.",
+    "oneShot": true,
+    "left": {
+      "label": "Wire everyone",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the inheritance",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 2,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "kd8_last_doctor",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "The last trained doctor in the capital is booked for eleven years. The militias have offered to arrange a quicker appointment.",
+    "oneShot": true,
+    "left": {
+      "label": "Train more, slowly",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the militias book",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "ka1_star_colony",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A colony round another star wrote eleven years ago, asking to be independent. The letter is very polite and already out of date.",
+    "oneShot": true,
+    "left": {
+      "label": "Grant it",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Reply in eleven years",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "ka2_wanted_problem",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Every problem your century had is solved. A movement demands a problem, and has started one, as a public service.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them a real one",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "base": -1,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Ban the movement",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "ka3_state_motion",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The state is so well run it may no longer be needed. A motion to dissolve it has been tabled, politely, by the state.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the country decide",
+      "fx": {
+        "money": -2,
+        "order": -4,
+        "inst": 2,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Table a counter-motion",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "ka4_forecast_vote",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The forecasting engine can predict an election to the vote. A proposal would skip the elections, to spare everyone the suspense.",
+    "oneShot": true,
+    "left": {
+      "label": "Hold them anyway",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Skip the suspense",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -3,
+        "public": -1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "ka5_ship_came_back",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A ship launched from the ring three centuries ago has come home, having found nothing out there. The crew would like their jobs back.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them their jobs",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "base": -1,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep it quiet",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "ka6_land_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Everything is abundant except land, which the old families hold. The treasurer proposes the first new tax in a century.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax the land",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "base": -1,
+        "backers": -6,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Tax abundance instead",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "ka7_museum_of_you",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The museum of your century is the most visited in the country. Children go there to see what the problem used to be.",
+    "oneShot": true,
+    "left": {
+      "label": "Let it show everything",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Close the bad wing",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "ka8_one_dissenter",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Every vote is unanimous now. The organizer is worried, and has found one man who disagrees. He is very tired.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the dissenter",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Thank him and retire him",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "km1_natural_deficit",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "treasurer",
+    "text": "The deficit is five hundred years old. Economists describe it as a natural feature, like the river, and about as likely to close.",
+    "oneShot": true,
+    "left": {
+      "label": "Close it this century",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "base": -3,
+        "backers": -2,
+        "public": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Borrow to celebrate",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "base": 2,
+        "public": 3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "km2_boxed_government",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "chief",
+    "text": "The temporary government your century set up for a crisis is still temporary. Its offices are the oldest in the world, and still in boxes.",
+    "oneShot": true,
+    "left": {
+      "label": "Make it permanent",
+      "fx": {
+        "money": -2,
+        "order": -2,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave the boxes",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -2,
+        "base": 2,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "km3_sunset_clauses",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "judge",
+    "text": "Every law has a sunset clause and an extension clause. Nobody can say which laws are in force, including the judge.",
+    "oneShot": true,
+    "left": {
+      "label": "Count them all",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Assume they all are",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "km4_thursday_committee",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "chief",
+    "text": "The oldest committee in the world meets here, on Thursdays. It was formed to decide the date of the next meeting, and has.",
+    "oneShot": true,
+    "left": {
+      "label": "Dissolve it",
+      "fx": {
+        "money": -2,
+        "order": -2,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give it a jubilee",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "km5_rated_adequate",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "scientist",
+    "text": "Every survey for five hundred years has rated the country adequate. A consultant says one bold move could make it good.",
+    "oneShot": true,
+    "left": {
+      "label": "Make the bold move",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Stay adequate",
+      "fx": {
+        "money": 4,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "km6_bored_students",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "spin",
+    "text": "This is the only country on earth that neither rose nor fell. Others send students to study how, and the students are bored.",
+    "oneShot": true,
+    "left": {
+      "label": "Admit how we did it",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them a course",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "km7_umbrella_laws",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "judge",
+    "text": "It has rained every day for a century. One law requires umbrellas, a second taxes them, and a third exempts anyone with a cold.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal all three",
+      "fx": {
+        "money": -4,
+        "order": -2,
+        "inst": 3,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a fourth",
+      "fx": {
+        "money": 5,
+        "order": 1,
+        "inst": -3,
+        "base": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  }
+]

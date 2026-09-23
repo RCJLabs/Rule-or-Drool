@@ -19,6 +19,7 @@ import {
   daysOfMonth,
   emptyMeta,
   foldRun,
+  longReignOpen,
   migrateMeta,
   shiftMonth,
   streakOf,
@@ -188,6 +189,33 @@ describe("objectives and unlocks", () => {
   });
 });
 
+describe("the long reign (BACKLOG-5 phase 39)", () => {
+  const long = (endingId: string, era = 5) =>
+    finished({ endingId, epilogueKey: `muddle:left:${era}` }, { eraCount: library.config.longEraCount, era, cardCount: era * library.config.eraLength });
+
+  it("is opened by the first finale, and by nothing short of one", () => {
+    expect(longReignOpen(emptyMeta())).toBe(false);
+    const ousted = foldRun(library, emptyMeta(), finished({ endingId: "riots", epilogueKey: "decay:left:2" }));
+    expect(longReignOpen(ousted.meta)).toBe(false);
+    const finale = foldRun(library, ousted.meta, finished({ endingId: "finale_muddle", epilogueKey: "muddle:left:3" }));
+    expect(finale.newObjectives).toContain("obj_finale");
+    expect(longReignOpen(finale.meta)).toBe(true);
+    // It is a way to play, not content: it is no unlock token, so no run's code carries it.
+    expect(finale.newUnlocks).toEqual([]);
+    expect(finale.meta.unlocks).toEqual([]);
+  });
+
+  it("counts a long finale as a finale, and the long view as its own", () => {
+    const fold = foldRun(library, emptyMeta(), long("finale_long_decay"));
+    expect(fold.newObjectives).toEqual(expect.arrayContaining(["obj_finale", "obj_decay_finale", "obj_long_reign"]));
+    const clean = foldRun(library, emptyMeta(), long("finale_long_ascent"));
+    expect(clean.newObjectives).toContain("obj_orbit_clean");
+    // An ordinary finale is not the end of a long reign, and a long reign ousted is not either.
+    expect(foldRun(library, emptyMeta(), finished({ endingId: "finale_decay", epilogueKey: "decay:left:3" })).newObjectives).not.toContain("obj_long_reign");
+    expect(foldRun(library, emptyMeta(), long("riots", 4)).newObjectives).not.toContain("obj_long_reign");
+  });
+});
+
 describe("meta save", () => {
   beforeEach(() => emptyMeta());
 
@@ -255,7 +283,8 @@ describe("meta save", () => {
     const reachable = new Set<string>();
     for (const band of ["decay", "muddle", "ascent"] as const) {
       for (const align of ["left", "right"] as const) {
-        for (let era = 1; era <= library.config.eraCount; era++) {
+        // A long reign's two eras too (BACKLOG-5 phase 39).
+        for (let era = 1; era <= library.config.longEraCount; era++) {
           const e = findEpilogue(library, band, align, era);
           if (e) reachable.add(epilogueKey(e));
         }

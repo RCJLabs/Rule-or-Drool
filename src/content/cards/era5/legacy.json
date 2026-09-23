@@ -1,0 +1,613 @@
+[
+  {
+    "id": "kx1_ship_home",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The long ship has come home after four centuries, with twelve thousand people who have never seen a sky. They would like to vote.",
+    "cond": {
+      "flags": [
+        "long_ship"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Welcome them as citizens",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Quarantine them",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "kx2_recount_done",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The machine has finally recounted the election your century counted twice. It took five hundred years and found you lost by nine.",
+    "cond": {
+      "flags": [
+        "cheated_election"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Accept the result",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Appeal the machine",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "kx3_wall_for_nobody",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The seawall your century built is the last thing from then still standing. It holds back the sea from a city that moved away.",
+    "cond": {
+      "flags": [
+        "seawall"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Let the sea have it",
+      "fx": {
+        "money": 3,
+        "inst": 2,
+        "base": -3,
+        "backers": -3,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Maintain it forever",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "kx4_same_people",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Five centuries of rules bending for the same people have produced the same people. They are very polite, and own the rules.",
+    "cond": {
+      "flags": [
+        "habit_bend"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Straighten the rules",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Consult them first",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 5,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "kx5_one_answer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The answer has been force for five centuries. The police no longer know another, and have asked for training in asking.",
+    "cond": {
+      "flags": [
+        "habit_clamp"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Teach them to ask",
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 3,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the answer",
+      "fx": {
+        "order": 4,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "kx6_birthday_signal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The first satellite your century put up has been found, still sending a message nobody could decode. It is a birthday greeting.",
+    "cond": {
+      "flags": [
+        "orbit_reached"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Send one back",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell it to a museum",
+      "fx": {
+        "money": 6,
+        "inst": -1,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "kx7_ring_naming",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The ring your century began is finished, after five hundred years, by a firm that would like its name on it instead of yours.",
+    "cond": {
+      "flags": [
+        "ring_started"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Name it for the builders",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the name",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "kx8_bright_minister",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Five centuries after the schools were starved, the country has a saying: as bright as a minister. It is not a compliment.",
+    "cond": {
+      "flags": [
+        "schools_starved"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Fund the schools, again",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Ban the saying",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "kx9_imported_news",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The feed has been run from here for five centuries. It has run out of good news, and has started reporting other countries' good news.",
+    "cond": {
+      "flags": [
+        "feed_captured"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Let it report ours",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Import more good news",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "kx10_what_was_an_election",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Five centuries without a vote. A child asked on television what an election was, and the minister of memory must answer.",
+    "cond": {
+      "flags": [
+        "elections_abolished"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Hold one to show them",
+      "fx": {
+        "order": -4,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Answer with a song",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "kc1_failing_mirror",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The mirror your successors hung in orbit three centuries ago is failing. The north has never known a full day, and is not sure it wants one.",
+    "cond": {
+      "flags": [
+        "mirror_up"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Bring it down",
+      "fx": {
+        "money": -6,
+        "order": -2,
+        "inst": 3,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 4,
+      "clearFlags": [
+        "mirror_up"
+      ]
+    },
+    "right": {
+      "label": "Patch it again",
+      "fx": {
+        "money": -2,
+        "order": 2,
+        "inst": -2,
+        "base": 2,
+        "public": 2
+      },
+      "drift": -3,
+      "clearFlags": [
+        "mirror_up"
+      ]
+    }
+  },
+  {
+    "id": "kc2_retiring_machines",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The machines' union is the oldest union on earth. Its founding members would like to retire, and have asked who will do the work.",
+    "cond": {
+      "flags": [
+        "machines_organised"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Honour their pensions",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4,
+      "clearFlags": [
+        "machines_organised"
+      ]
+    },
+    "right": {
+      "label": "Rewrite the contract",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -3,
+        "base": 1,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ],
+      "clearFlags": [
+        "machines_organised"
+      ]
+    }
+  },
+  {
+    "id": "kc3_capital_upward",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The moon has held a seat in parliament for three centuries. Its members now outnumber the ground's, and want the capital moved up.",
+    "cond": {
+      "flags": [
+        "moon_seat"
+      ]
+    },
+    "oneShot": true,
+    "left": {
+      "label": "Put it to the vote",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5,
+      "clearFlags": [
+        "moon_seat"
+      ]
+    },
+    "right": {
+      "label": "Redraw the districts",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ],
+      "clearFlags": [
+        "moon_seat"
+      ]
+    }
+  }
+]

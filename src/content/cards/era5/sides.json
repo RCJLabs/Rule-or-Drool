@@ -1,0 +1,581 @@
+[
+  {
+    "id": "kl1_strike_hymns",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement is a religion now. Its hymns are your century's strike songs, and its schism is about which strike.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the state out",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the hymnbook",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "kl2_southern_machine",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The universal income is as old as the machines that pay for it. One has stopped, and it was the one that paid the south.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund it from wealth",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Cut the south's share",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "kl3_new_measure",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An audit finds perfect equality on every measure the movement ever set. It also finds a new measure nobody set, and it is bad.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the new measure",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the old measures",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "kl4_union_strikes_itself",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The last union is so large it employs everyone, employers included. Its next strike would be against itself, and it has voted for one.",
+    "oneShot": true,
+    "left": {
+      "label": "Let them strike",
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 2,
+        "backers": 2,
+        "public": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Mediate it away",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -2,
+        "base": 1,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "kl5_founding_council",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's founding texts are a canon, with a council that decides what they mean. It has decided that they mean the council.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish them unedited",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Endorse the council",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "kl6_spare_parts",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Everything has been free for three centuries except the one thing that makes everything else: the machines' spare parts.",
+    "oneShot": true,
+    "left": {
+      "label": "Make the parts free too",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": 1,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Charge the cities",
+      "fx": {
+        "money": 6,
+        "inst": -1,
+        "base": 1,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "kl7_quiet_day",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Every day of the year marks the anniversary of a strike. The organizer proposes one day a year that marks nothing, for rest.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep a quiet day",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Add another strike day",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "kr1_ledger_church",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The Ledger is a church now. Its sacrament is the balanced budget, its heresy is a deficit, and the treasury has one.",
+    "oneShot": true,
+    "left": {
+      "label": "Admit the deficit",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hide it from the church",
+      "fx": {
+        "money": 3,
+        "inst": -3,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "kr2_one_estate",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "One family owns every estate in the country, after five centuries of marrying carefully. They would like to be called the country.",
+    "oneShot": true,
+    "left": {
+      "label": "Break up the estate",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Grant them the name",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "kr3_guarded_space",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The regiment has guarded the palace for five centuries. The palace fell down in the third, and they guard the space very well.",
+    "oneShot": true,
+    "left": {
+      "label": "Stand them down",
+      "fx": {
+        "money": 2,
+        "order": -3,
+        "inst": 2,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Rebuild the palace",
+      "fx": {
+        "money": -4,
+        "order": 2,
+        "inst": -1,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "kr4_tradition_machine",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A machine decides what counts as tradition. It has ruled that anything over a century old is tradition, including the machine.",
+    "oneShot": true,
+    "left": {
+      "label": "Switch it off",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Consult it daily",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "kr5_senate_auction",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Senate seats are auctioned every decade. The donors have outbid each other so long that the seats cost more than the country.",
+    "oneShot": true,
+    "left": {
+      "label": "Abolish the auction",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Hold the auction",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "kr6_nine_descendants",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Only descendants of your century's donors may hold office, under a law the donors wrote. Nine are left, and they are tired.",
+    "oneShot": true,
+    "left": {
+      "label": "Open the offices",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -6,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Adopt more descendants",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "kr7_church_state",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The church has asked to be the state, to save on paperwork. It already runs the schools, the courts and the weather forecast.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep them separate",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Merge the paperwork",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  }
+]

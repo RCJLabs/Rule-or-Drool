@@ -1,0 +1,511 @@
+[
+  {
+    "id": "fl1_slogans_for_cars",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's old slogans sell cars now. The firm pays the party royalties, and the party has come to depend on them.",
+    "oneShot": true,
+    "left": {
+      "label": "Refuse the royalties",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": 3,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew the licence",
+      "fx": {
+        "money": 6,
+        "inst": -1,
+        "base": -3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "fl2_cooperative_of_cooperatives",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Every firm is a cooperative now. The cooperatives have formed a cooperative, which behaves very much like a firm.",
+    "oneShot": true,
+    "left": {
+      "label": "Break it up",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let it run things",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fl3_wage_formula",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A machine sets every wage in the country by a formula your century wrote. The formula has never been wrong, or read.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the formula",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the machine",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 2,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fl4_eleven_surnames",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Seats in the citizens' assemblies are drawn by lot. The same eleven surnames have come up for sixty years, and the lot is being audited.",
+    "oneShot": true,
+    "left": {
+      "label": "Audit it in public",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the lot",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fl5_halo",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The first organisers are painted on the union halls now, with haloes. The painter would like to add you, and has the gold leaf ready.",
+    "oneShot": true,
+    "left": {
+      "label": "Decline the halo",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sit for the portrait",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 1,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fl6_waiting_list_home",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The constitution guarantees everyone a home. Two centuries on, a court has found that a place on a waiting list counts as one.",
+    "oneShot": true,
+    "left": {
+      "label": "Overturn the ruling",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Accept the ruling",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -1,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fr1_sermon_model",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The church's sermons are written by a model now. Attendance is up, and three bishops have asked what the model believes.",
+    "oneShot": true,
+    "left": {
+      "label": "Stay out of it",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Borrow its sermons",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fr2_patented_dish",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A firm has patented the national dish and is suing grandmothers. It has a good case: it also bought the grandmothers' recipes.",
+    "oneShot": true,
+    "left": {
+      "label": "Void the patent",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Uphold the patent",
+      "fx": {
+        "money": 6,
+        "inst": -1,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_lawyer_letter",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fr3_charity_decides",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Charity does now what the state did in your century. It is generous and efficient, and it decides who deserves it.",
+    "oneShot": true,
+    "left": {
+      "label": "Take it back",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Give them a tax break",
+      "fx": {
+        "money": 4,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fr4_six_year_colonel",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The same regiment has guarded the palace for two centuries. Its colonel is chosen by the last colonel, who chose his nephew, who is six.",
+    "oneShot": true,
+    "left": {
+      "label": "Open the commissions",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Salute the colonel",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fr5_votes_for_sale",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A court has ruled that a vote is property and may be sold. The donors would like to know the market rate.",
+    "oneShot": true,
+    "left": {
+      "label": "Amend the constitution",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let the market set it",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "backers": 5,
+        "public": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "fr6_churchyard_haven",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The churchyard where your party's founders lie has declared itself a tax haven. It has eleven thousand residents, all companies.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the churchyard",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "base": -2,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Respect the dead",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 3,
+        "backers": 4,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  }
+]

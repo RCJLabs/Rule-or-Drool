@@ -1,6 +1,16 @@
+import { DEFAULT_CONFIG } from "../engine/config";
 import { MANDATES } from "../engine/mandates";
-import { BLOC_KEYS } from "../engine/types";
-import type { MetaState, Objective } from "./types";
+import { BLOC_KEYS, type Band, type GameState } from "../engine/types";
+import { LONG_REIGN, type MetaState, type Objective } from "./types";
+
+/**
+ * Whether a run ended in the finale for this band, of either length: five centuries down is
+ * still all the way down (BACKLOG-5 phase 39).
+ */
+function finaleIn(run: GameState | null, band: Band): boolean {
+  const id = run?.over?.endingId;
+  return id === `${DEFAULT_CONFIG.finalePrefix}${band}` || id === `${DEFAULT_CONFIG.longFinalePrefix}${band}`;
+}
 
 /** Bands a finished run has exited in, read back off the epilogue keys it collected. */
 function bandsSeen(meta: MetaState): Set<string> {
@@ -48,7 +58,10 @@ export const OBJECTIVES: readonly Objective[] = [
     id: "obj_finale",
     title: "Outlast yourself",
     hint: "Survive every era to the finale.",
-    check: ({ run }) => !!run?.over?.endingId.startsWith("finale_"),
+    // The game ends just as a player has learned it: measured, 96% of a competent player's
+    // runs reach a finale. The long reign is there for whoever has seen one (BACKLOG-5 phase 39).
+    opens: LONG_REIGN,
+    check: ({ run }) => !!run?.over?.endingId.startsWith(DEFAULT_CONFIG.finalePrefix),
   },
   {
     id: "obj_honest_election",
@@ -89,7 +102,7 @@ export const OBJECTIVES: readonly Objective[] = [
     id: "obj_decay_finale",
     title: "Under its own weight",
     hint: "Ride it all the way down to the Decay finale.",
-    check: ({ run }) => run?.over?.endingId === "finale_decay",
+    check: ({ run }) => finaleIn(run, "decay"),
   },
   {
     id: "obj_all_bands",
@@ -113,7 +126,7 @@ export const OBJECTIVES: readonly Objective[] = [
     title: "Orbit, honestly",
     hint: "Reach the Ascent finale without cheating a single election.",
     unlocks: "u_engineer",
-    check: ({ run }) => run?.over?.endingId === "finale_ascent" && run.stats.electionsCheated === 0,
+    check: ({ run }) => finaleIn(run, "ascent") && run!.stats.electionsCheated === 0,
   },
   {
     id: "obj_ten_runs",
@@ -161,6 +174,13 @@ export const OBJECTIVES: readonly Objective[] = [
     hint: "Finish a run of twenty cards or more without taking a single self-serving choice.",
     check: ({ run }) => !!run?.over && run.stats.tempting === 0 && run.cardCount >= 20,
   },
+  // Chosen, like the mandates below: nobody reaches the end of a long reign by accident.
+  {
+    id: "obj_long_reign",
+    title: "The long view",
+    hint: "See a long reign through to its finale, five centuries on.",
+    check: ({ run }) => !!run?.over?.endingId.startsWith(DEFAULT_CONFIG.longFinalePrefix),
+  },
   // Mandates sit at the end because they are the only objectives the player chooses to
   // attempt rather than happens into. None of them grants an unlock: a mandate is opt-in,
   // so content behind one would be content a player who never takes a promise can never
@@ -191,6 +211,11 @@ export const OBJECTIVES: readonly Objective[] = [
 ];
 
 export const OBJECTIVES_BY_ID: ReadonlyMap<string, Objective> = new Map(OBJECTIVES.map((o) => [o.id, o]));
+
+/** Whether this profile may take a long reign: it has reached a finale (BACKLOG-5 phase 39). */
+export function longReignOpen(meta: Pick<MetaState, "objectives">): boolean {
+  return OBJECTIVES.some((o) => o.opens === LONG_REIGN && meta.objectives[o.id] !== undefined);
+}
 
 /** Every unlock token any objective can grant. */
 export function allUnlockTokens(): string[] {

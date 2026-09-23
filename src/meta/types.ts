@@ -100,5 +100,14 @@ export interface Objective {
   hint: string;
   /** Unlock token granted the first time this is completed. */
   unlocks?: string;
+  /**
+   * A way to play that completing this opens, as distinct from content it unlocks (BACKLOG-5
+   * phase 39). An unlock token rides in every run's code; this changes no run it is not
+   * chosen for, so it stays out of them.
+   */
+  opens?: typeof LONG_REIGN;
   check: (ctx: ObjectiveContext) => boolean;
 }
+
+/** What the first finale opens: a run of five eras rather than three (BACKLOG-5 phase 39). */
+export const LONG_REIGN = "long_reign";

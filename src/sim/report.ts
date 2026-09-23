@@ -1,3 +1,4 @@
+import { DEFAULT_CONFIG } from "../engine/config";
 import type { Library } from "../engine/library";
 import type { Band } from "../engine/types";
 import { BANDS, METER_KEYS } from "../engine/types";
@@ -24,6 +25,13 @@ export interface BotSummary {
   finale: number;
   /** Fraction of runs ending in each era. */
   byEra: Record<number, number>;
+  /** Fraction of runs that reached each era, whatever became of them there (BACKLOG-5 phase 39). */
+  reachedEra: Record<number, number>;
+  /**
+   * Of the runs that reached a long reign's fourth era, the share that saw its finale, by the
+   * band the first three eras locked in; null for a band no such run was in (BACKLOG-5 phase 39).
+   */
+  longFinishByBand: Record<Band, number | null>;
   /** Ending id -> fraction of runs, sorted descending. */
   endings: [string, number][];
   /** Exit band -> fraction of runs. */
@@ -82,6 +90,16 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
   }
   const byEra: Record<number, number> = {};
   for (const [era, c] of [...byEraCounts.entries()].sort((a, b) => a[0] - b[0])) byEra[era] = c / n;
+  const reachedEra: Record<number, number> = {};
+  const lastEra = Math.max(0, ...results.map((r) => r.era));
+  for (let era = 1; era <= lastEra; era++) reachedEra[era] = results.filter((r) => r.era >= era).length / n;
+  const long = results.filter((r) => r.era >= LONG_VIEW_ERA);
+  const longFinishByBand = Object.fromEntries(
+    BANDS.map((b) => {
+      const inBand = long.filter((r) => r.exitBand === b);
+      return [b, inBand.length ? inBand.filter((r) => r.finale).length / inBand.length : null];
+    }),
+  ) as Record<Band, number | null>;
   return {
     bot,
     runs: n,
@@ -90,6 +108,8 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     endedBeforeEra2: results.filter((r) => r.era === 1).length / n,
     finale: results.filter((r) => r.finale).length / n,
     byEra,
+    reachedEra,
+    longFinishByBand,
     endings: [...endingCounts.entries()].map(([id, c]) => [id, c / n] as [string, number]).sort((a, b) => b[1] - a[1]),
     exitBands: bandShares(results),
     finaleBands: bandShares(results.filter((r) => r.finale)),
@@ -101,6 +121,9 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     crises: [...crises.entries()].map(([id, c]) => [id, c / n] as [string, number]).sort((a, b) => b[1] - a[1]),
   };
 }
+
+/** The first era only a long reign reaches. */
+const LONG_VIEW_ERA = DEFAULT_CONFIG.eraCount + 1;
 
 export const pct = (x: number): string => `${(x * 100).toFixed(1)}%`;
 const f1 = (x: number): string => x.toFixed(1);
@@ -118,6 +141,11 @@ export function formatSummary(s: BotSummary): string {
       .join(", ")}`,
   );
   lines.push(`exit band   decay ${pct(s.exitBands.decay)}  muddle ${pct(s.exitBands.muddle)}  ascent ${pct(s.exitBands.ascent)}`);
+  if ((s.reachedEra[LONG_VIEW_ERA] ?? 0) > 0) {
+    const eras = Object.entries(s.reachedEra).map(([e, v]) => `e${e} ${pct(v)}`).join(", ");
+    const fin = BANDS.map((b) => `${b} ${s.longFinishByBand[b] === null ? "-" : pct(s.longFinishByBand[b]!)}`).join("  ");
+    lines.push(`long reign  reached ${eras}   finished from era ${LONG_VIEW_ERA}: ${fin}`);
+  }
   if (s.finale > 0) {
     lines.push(
       `finale band decay ${pct(s.finaleBands.decay)}  muddle ${pct(s.finaleBands.muddle)}  ascent ${pct(s.finaleBands.ascent)}`,

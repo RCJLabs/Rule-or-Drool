@@ -64,7 +64,14 @@ describe("sharing a run", () => {
 
   it("refuses a code it cannot reproduce rather than starting a different run", () => {
     expect(decodeRunCode(library, "nonsense")).toEqual({ ok: false, reason: "format" });
-    expect(decodeRunCode(library, "2.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    expect(decodeRunCode(library, "3.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    // Format 2 is a long reign's, with the era count as a seventh part (BACKLOG-5 phase 39).
+    expect(decodeRunCode(library, "2.abc.L.-.-.-")).toEqual({ ok: false, reason: "format" });
+    // Only this game's long reign is written in format 2, and an era count is a number.
+    expect(decodeRunCode(library, "2.abc.L.-.-.-.4")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "2.abc.L.-.-.-.3")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "2.abc.L.-.-.-.x")).toEqual({ ok: false, reason: "format" });
+    expect(decodeRunCode(library, "2.abc.L.-.-.-.5")).toMatchObject({ ok: true, code: { eraCount: 5 } });
     expect(decodeRunCode(library, "1.abc.X.-.-.-")).toEqual({ ok: false, reason: "format" });
     expect(decodeRunCode(library, "1.abc.L.crisis_meteor.-.-")).toEqual({ ok: false, reason: "content" });
     expect(decodeRunCode(library, "1.abc.L.-.u_nothing.-")).toEqual({ ok: false, reason: "content" });

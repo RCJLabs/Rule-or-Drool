@@ -201,9 +201,11 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
   const kinds = Object.fromEntries(RUN_KINDS.map((k) => [k, runs.filter((r) => r.kind === k).length])) as Record<RunKind, number>;
 
   // Every decision, with the era it was made in. Cards are recorded from a run's first, so
-  // the n-th card of a run was played in era floor(n / eraLength) + 1.
+  // the n-th card of a run was played in era floor(n / eraLength) + 1, up to a long reign's
+  // fifth (BACKLOG-5 phase 39); an ordinary run has no card past its third.
+  const lastEra = Math.max(lib.config.eraCount, lib.config.longEraCount);
   const decisions: Decision[] = g.players.flatMap((p, player) =>
-    p.runs.flatMap((run) => run.cards.map((card, i) => ({ player, run, era: Math.min(lib.config.eraCount, Math.floor(i / lib.config.eraLength) + 1), card }))),
+    p.runs.flatMap((run) => run.cards.map((card, i) => ({ player, run, era: Math.min(lastEra, Math.floor(i / lib.config.eraLength) + 1), card }))),
   );
   const timed = decisions.filter((d) => !d.card.resumed);
   const typeOf = (id: string) => lib.cards.get(id)?.type ?? "gone";

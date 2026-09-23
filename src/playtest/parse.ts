@@ -41,8 +41,13 @@ const RUN: Spec = {
   fields: {
     game: { kind: "string", pattern: /^\d{1,3}\.\d{1,3}\.\d{1,3}$/, hint: "a version like 0.43.0" },
     // Whether the game can replay a code depends on its content, which the report checks;
-    // here it only has to be one: version, base-36 seed, side, then three lists of ids.
-    code: { kind: "string", pattern: /^1\.[0-9a-z]{1,8}\.[LR]\.[a-z0-9_~-]+\.[a-z0-9_~-]+\.[a-z0-9_-]+$/, hint: "a run code" },
+    // here it only has to be one: version, base-36 seed, side, then three lists of ids, and
+    // for a long reign (format 2) its era count as well (BACKLOG-5 phase 39).
+    code: {
+      kind: "string",
+      pattern: /^(?:1\.[0-9a-z]{1,8}\.[LR]\.[a-z0-9_~-]+\.[a-z0-9_~-]+\.[a-z0-9_-]+|2\.[0-9a-z]{1,8}\.[LR]\.[a-z0-9_~-]+\.[a-z0-9_~-]+\.[a-z0-9_-]+\.[1-9][0-9]?)$/,
+      hint: "a run code",
+    },
     kind: { kind: "enum", values: RUN_KINDS },
     run: INT(1, 1_000_000),
     end: { kind: "nullable", spec: END },

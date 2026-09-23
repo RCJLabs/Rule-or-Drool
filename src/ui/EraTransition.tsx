@@ -41,8 +41,13 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
     .filter((id) => lib.modifiers.get(id)?.bends?.some((b) => b.era === era))
     .map((id) => STRINGS.bends[`${id}:${era}`])
     .filter((text): text is string => !!text);
+  // A long reign's direction is set as it enters the era after the lock (BACKLOG-5 phase 39),
+  // which changes what every choice from here can do, so it is said first among the rules.
+  const locked = state.bandLocked && era === lib.config.bandLockAfterEra + 1;
   // Only what is on the panel: an era with nothing owed or no new rule has no such line.
-  const described = ["era-lead", owed > 0 ? "era-owed" : "", rule ? "era-rule" : "", ...bends.map((_, i) => `era-bend-${i}`)].filter(Boolean).join(" ");
+  const described = ["era-lead", owed > 0 ? "era-owed" : "", locked ? "era-locked" : "", rule ? "era-rule" : "", ...bends.map((_, i) => `era-bend-${i}`)]
+    .filter(Boolean)
+    .join(" ");
 
   // Three beats rather than one page: the years, then what they were left with, then the
   // rule that is different now. Time passing is the point, so it is not instant.
@@ -82,6 +87,11 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
           </p>
         )}
 
+        {locked && (
+          <p className="era-rule era-locked" id="era-locked">
+            {STRINGS.reign.locked}
+          </p>
+        )}
         {rule ? (
           <p className="era-rule" id="era-rule">
             {rule}

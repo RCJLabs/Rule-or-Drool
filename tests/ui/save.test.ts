@@ -39,6 +39,21 @@ describe("save", () => {
     expect("mood" in loaded!.meters).toBe(false);
   });
 
+  it("brings a v10 run forward as an ordinary one, and the first road a second road holds", () => {
+    const { eraCount: _drop, ...v10 } = newRun(library, 3, { align: "left" });
+    const first = { ...v10, cardCount: 105 };
+    const s = migrateRun(10, { ...v10, road: { first, at: 12 } } as never)!;
+    expect(s.eraCount).toBe(DEFAULT_CONFIG.eraCount);
+    expect(s.road!.first.eraCount).toBe(DEFAULT_CONFIG.eraCount);
+    expect(migrateRun(10, v10 as never)!.eraCount).toBe(DEFAULT_CONFIG.eraCount);
+  });
+
+  it("keeps a long reign long across a save", () => {
+    const s = newRun(library, 42, { align: "right", eraCount: DEFAULT_CONFIG.longEraCount });
+    saveRun(s);
+    expect(loadRun()!.eraCount).toBe(DEFAULT_CONFIG.longEraCount);
+  });
+
   it("brings a v8 run forward with its flags undated rather than dated wrongly", () => {
     // Dating every flag a run already had to card 0 would put them at the start of a
     // timeline they did not happen at the start of.

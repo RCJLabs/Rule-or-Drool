@@ -1,3 +1,4 @@
+import { DEFAULT_CONFIG } from "../engine/config";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import type { PlayerAlign, RunSetup } from "../engine/types";
@@ -19,6 +20,12 @@ import { allUnlockTokens } from "./objectives";
  * position, so adding a modifier or an unlock later does not change what an old code means.
  * The leading `1` is the format version; a new format gets a new number and this one keeps
  * decoding.
+ *
+ * Format 2 adds the number of eras, for a long reign (BACKLOG-5 phase 39):
+ * `2.gh2k7p.L.crisis_war~trait_orator~flaw_vain.-.m_broad.5`. A code is written in the
+ * oldest format that can say it, so an ordinary run's code is the same as it always was and
+ * opens on every version since phase 11. A long reign's does not open on a version from
+ * before this one, which could not play it; that version says it cannot reproduce the run.
  */
 export interface RunCode {
   seed: number;
@@ -26,14 +33,21 @@ export interface RunCode {
   modifiers: string[];
   unlocked: string[];
   mandate: string | null;
+  /** Eras, for a long reign only; an ordinary run's code has none (BACKLOG-5 phase 39). */
+  eraCount?: number;
 }
 
+/** The ordinary game's era count, which a code leaves unsaid. */
+const ORDINARY_ERAS = DEFAULT_CONFIG.eraCount;
 const VERSION = "1";
+const LONG_VERSION = "2";
 const NONE = "-";
 
 export function encodeRunCode(code: RunCode): string {
   const list = (xs: readonly string[]) => (xs.length ? [...xs].join("~") : NONE);
-  return [VERSION, code.seed.toString(36), code.align === "left" ? "L" : "R", list(code.modifiers), list([...code.unlocked].sort()), code.mandate ?? NONE].join(".");
+  const parts = [code.seed.toString(36), code.align === "left" ? "L" : "R", list(code.modifiers), list([...code.unlocked].sort()), code.mandate ?? NONE];
+  const ordinary = code.eraCount === undefined || code.eraCount === ORDINARY_ERAS;
+  return ordinary ? [VERSION, ...parts].join(".") : [LONG_VERSION, ...parts, String(code.eraCount)].join(".");
 }
 
 export type Decoded = { ok: true; code: RunCode } | { ok: false; reason: "format" | "version" | "content" };
@@ -45,10 +59,15 @@ export type Decoded = { ok: true; code: RunCode } | { ok: false; reason: "format
  */
 export function decodeRunCode(lib: Library, raw: string): Decoded {
   const parts = raw.trim().split(".");
-  if (parts.length !== 6) return { ok: false, reason: "format" };
-  const [v, seed36, side, mods, unlocks, mandate] = parts as [string, string, string, string, string, string];
-  if (v !== VERSION) return { ok: false, reason: "version" };
+  const v = parts[0];
+  if (v !== VERSION && v !== LONG_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
+  if (parts.length !== (v === VERSION ? 6 : 7)) return { ok: false, reason: "format" };
+  const [, seed36, side, mods, unlocks, mandate, eras] = parts as [string, string, string, string, string, string, string?];
   if (!/^[0-9a-z]{1,8}$/.test(seed36) || (side !== "L" && side !== "R")) return { ok: false, reason: "format" };
+  if (eras !== undefined && !/^[1-9][0-9]?$/.test(eras)) return { ok: false, reason: "format" };
+  // Only a long reign is written in format 2, and only one as long as this game's.
+  const eraCount = eras === undefined ? undefined : Number(eras);
+  if (eraCount !== undefined && eraCount !== lib.config.longEraCount) return { ok: false, reason: "content" };
   const seed = parseInt(seed36, 36);
   if (!Number.isSafeInteger(seed)) return { ok: false, reason: "format" };
   const list = (s: string) => (s === NONE ? [] : s.split("~"));
@@ -59,15 +78,28 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   if (!modifiers.every((m) => known.has(m))) return { ok: false, reason: "content" };
   if (!unlocked.every((u) => tokens.has(u))) return { ok: false, reason: "content" };
   if (mandate !== NONE && !MANDATES_BY_ID.has(mandate)) return { ok: false, reason: "content" };
-  return { ok: true, code: { seed, align: side === "L" ? "left" : "right", modifiers, unlocked, mandate: mandate === NONE ? null : mandate } };
+  const code: RunCode = { seed, align: side === "L" ? "left" : "right", modifiers, unlocked, mandate: mandate === NONE ? null : mandate };
+  return { ok: true, code: eraCount === undefined ? code : { ...code, eraCount } };
 }
 
 /** The setup a code describes, ready for `newRun`. */
 export function setupOf(code: RunCode): RunSetup {
-  return { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandate: code.mandate };
+  const setup: RunSetup = { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandate: code.mandate };
+  return code.eraCount === undefined ? setup : { ...setup, eraCount: code.eraCount };
 }
 
-/** The code for a run in progress or finished: what it started from, not what it became. */
-export function runCodeOf(state: { seed: number; align: PlayerAlign; modifiers: readonly string[]; unlocked: readonly string[]; mandate: string | null }): RunCode {
-  return { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandate: state.mandate };
+/**
+ * The code for a run in progress or finished: what it started from, not what it became. An
+ * ordinary run's code names no era count, which is what makes it the code it always was.
+ */
+export function runCodeOf(state: {
+  seed: number;
+  align: PlayerAlign;
+  modifiers: readonly string[];
+  unlocked: readonly string[];
+  mandate: string | null;
+  eraCount?: number;
+}): RunCode {
+  const code: RunCode = { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandate: state.mandate };
+  return state.eraCount === undefined || state.eraCount === ORDINARY_ERAS ? code : { ...code, eraCount: state.eraCount };
 }

@@ -68,8 +68,19 @@ function eligible(lib: Library, card: Card, state: GameState, relax: Relax, past
   return condMet(lib, card.cond, state, card.speaker, past.flags);
 }
 
+/**
+ * The eras a draw may widen to when it relaxes the era filter: those of the ordinary game, and
+ * a long reign's later ones once the run has reached them (BACKLOG-5 phase 39). A long reign
+ * therefore deals exactly what an ordinary run on its setup deals until its fourth era, and
+ * an ordinary run never meets a card written for two centuries on.
+ */
+function widenedEras(lib: Library, state: GameState): number {
+  return Math.max(lib.config.eraCount, state.era);
+}
+
 function poolCandidates(lib: Library, state: GameState, relax: Relax, past: Past): Card[] {
-  const eras = relax.era ? lib.eras : [state.era];
+  const upTo = widenedEras(lib, state);
+  const eras = relax.era ? lib.eras.filter((e) => e <= upTo) : [state.era];
   const bands: readonly Band[] = relax.band ? BANDS : [state.band];
   const out: Card[] = [];
   // One cell holds a card once, and the two sides' cells hold different cards, so only a
@@ -113,11 +124,12 @@ function pickFrom(lib: Library, state: GameState, cards: Card[]): [Card | null, 
 
 function drawElection(lib: Library, state: GameState): [Card | null, GameState] {
   const past = pastOf(state);
+  const upTo = widenedEras(lib, state);
   for (const relax of LADDER) {
     const cands = lib.electionCards.filter(
       (c) =>
         alignOk(c, state) &&
-        (relax.era || c.eras.includes(state.era)) &&
+        (relax.era ? c.eras.some((e) => e <= upTo) : c.eras.includes(state.era)) &&
         (relax.band || c.bands.includes(state.band)) &&
         eligible(lib, c, state, { ...relax, cooldown: true }, past),
     );

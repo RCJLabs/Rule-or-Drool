@@ -5,8 +5,13 @@ import type { Band, EraRule, MeterKey } from "./types";
  * "added" is a knob the spec did not name. Override per Library via buildLibrary().
  */
 export interface EngineConfig {
-  /** Number of playable eras. MVP ships 3 (5.3). The last era is the finale. */
+  /** Eras in the ordinary game (5.3 shipped three). The last era is the finale. */
   eraCount: number;
+  /**
+   * Eras in the long reign, the rest of the five that 5.3 describes: two centuries on and five
+   * centuries on (BACKLOG-5 phase 39). A run has one count or the other, chosen at setup.
+   */
+  longEraCount: number;
   /** Cards per era (5.3 says 30–40). */
   eraLength: number;
   /** Cards between elections (5.4 says ~25). */
@@ -58,10 +63,9 @@ export interface EngineConfig {
   bandDecayAt: number;
   bandAscentAt: number;
   /**
-   * Band is locked when advancing past this era (5.2: "after era 3"). Unreachable at
-   * `eraCount: 3`, because a run ends in a finale rather than advancing past the last era:
-   * measured over 11,762 crossings it fired 0 times. Kept because it is the rule for a
-   * longer game, not because it does anything today (BACKLOG-3 phase 25).
+   * Band is locked when advancing past this era (5.2: "after era 3"). An ordinary run ends
+   * in a finale rather than advancing past era 3, so only a long reign reaches it: its last
+   * two eras are lived in the direction the first three set (BACKLOG-5 phase 39).
    */
   bandLockAfterEra: number;
   /** Meter effect multiplier per band (5.2). */
@@ -119,6 +123,11 @@ export interface EngineConfig {
   /** Ending id prefix for surviving the last era: `${finalePrefix}${band}`. */
   finalePrefix: string;
   /**
+   * The same for a long reign, which has finales of its own: five centuries on is a different
+   * place to arrive at (BACKLOG-5 phase 39). Starts with `finalePrefix`, so it is a finale.
+   */
+  longFinalePrefix: string;
+  /**
    * Ending ids for meter extremes. Blocs only end a run at the bottom: a bloc at zero has
    * abandoned you. There is no per-bloc ceiling, because adoration is only a problem when
    * every bloc shares it (see cultAt).
@@ -131,6 +140,7 @@ export interface EngineConfig {
 
 export const DEFAULT_CONFIG: EngineConfig = {
   eraCount: 3,
+  longEraCount: 5,
   eraLength: 35,
   electionInterval: 25,
   electionMoodThreshold: 40,
@@ -189,11 +199,24 @@ export const DEFAULT_CONFIG: EngineConfig = {
     // Era 3, the long shadow. The machinery is thin, so everything lands harder, and the
     // bills you deferred arrive sooner than the delay you were quoted.
     { passive: { inst: -1 }, passiveEvery: 8, volatility: 1.15, queueScale: 0.6 },
+    // Era 4, two centuries on, only in a long reign. Nobody remembers your name, and nobody
+    // owes your party anything: its base and its backers drift away unless they are won again.
+    { passive: { base: -1, backers: -1 }, passiveEvery: 6 },
+    // Era 5, five centuries on. This is where it was always going: the direction the country
+    // took is the whole of what happens to it. In Decay it comes apart on its own and takes
+    // everything harder; in Muddle the public's patience runs down; on the Ascent it absorbs
+    // almost anything and keeps adding to the state, which has its own way of ending you.
+    {
+      passiveEvery: 5,
+      bandPassive: { decay: { order: -1, inst: -1 }, muddle: { public: -1 }, ascent: { inst: 1 } },
+      bandVolatility: { decay: 1.3, ascent: 0.8 },
+    },
   ],
   meterStart: 50,
   meterStartMin: 25,
   meterStartMax: 75,
   finalePrefix: "finale_",
+  longFinalePrefix: "finale_long_",
   meterEndings: {
     base: { low: "abandoned_base" },
     backers: { low: "abandoned_backers" },

@@ -1,0 +1,1901 @@
+[
+  {
+    "id": "f01_unknown_statue",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A statue in the old square is two hundred years old and nobody knows who it is. A committee would like it to be someone useful.",
+    "oneShot": true,
+    "left": {
+      "label": "Label it unknown",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it our founder",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "f02_printer_licence",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A statute from your century requires a licence to own a printer. Nobody enforced it for a hundred and ninety years. A prosecutor has found it.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal it today",
+      "fx": {
+        "order": -3,
+        "inst": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the case proceed",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "f03_new_zeroes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Prices carry six more zeroes than in your century. A new currency would tidy the zeroes, and quietly shrink everyone's savings.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the savers",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Reset it quietly",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "f04_listed_ministry",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The ministry your century built is a listed monument. It cannot be heated, rewired or extended, and four thousand people work in it.",
+    "oneShot": true,
+    "left": {
+      "label": "Move them somewhere warm",
+      "fx": {
+        "money": -6,
+        "order": -3,
+        "inst": 2,
+        "base": -2,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Preserve the heritage",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "f05_retired_majority",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Retirement lasts longer than working life now. The retired outvote everyone else two to one, and have voted themselves a raise.",
+    "oneShot": true,
+    "left": {
+      "label": "Veto the raise",
+      "fx": {
+        "money": 3,
+        "inst": 2,
+        "base": -4,
+        "public": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign the raise",
+      "fx": {
+        "money": -4,
+        "inst": -2,
+        "base": 4,
+        "public": 3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "f06_machine_brief",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The ministry's oldest machine has run since your century. Asked whether it may be switched off, it has filed a legal brief, and a good one.",
+    "oneShot": true,
+    "left": {
+      "label": "Hear its case",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Unplug it tonight",
+      "fx": {
+        "money": 4,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "f07_tote_bag_party",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Your party is two hundred years old. Most of its members joined for the tote bag and the discount at the heritage shop.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them a real vote",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "License the brand",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "base": -2,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "f08_bicentenary",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The bicentenary of your term is next month. The spin office has a budget, a parade route and no idea what you actually did.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund a history of it",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Commission a legend",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "f09_harbour_reef",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The coast your century knew is two kilometres out to sea. The old harbour town is a reef now, with a very popular dive school.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay to move inland",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sell the dive rights",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "f10_rain_for_hire",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A firm can make it rain over any district that pays. The districts that cannot pay have noticed where the rain goes.",
+    "oneShot": true,
+    "left": {
+      "label": "Make the rain public",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sell it by district",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_petition",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "f11_first_name",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The census finds your name is now the commonest first name in the country. Nobody knows why, and a campaign would like to explain it.",
+    "oneShot": true,
+    "left": {
+      "label": "Leave it a mystery",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Claim it for the party",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "f12_plastic_oak",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The oak planted at your inauguration is dying. A firm offers to swap it overnight for an identical plastic one, and nobody would know.",
+    "oneShot": true,
+    "left": {
+      "label": "Let it die honestly",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Swap it overnight",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 4,
+        "public": 3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f13_voting_app",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Voting takes eleven seconds on a phone now. Turnout is ninety-eight per cent, and nobody can say who wrote the app.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the code",
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the vendor",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "f14_moon_embassy",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The settlement on the moon has opened an embassy in the capital. It would like the building next to the parliament, and a vote.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them a seat",
+      "fx": {
+        "order": -3,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4,
+      "setFlags": [
+        "moon_seat"
+      ]
+    },
+    "right": {
+      "label": "Give them a plaque",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f15_model_citizen",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The statistics office models the country so well it has stopped asking anyone. The model citizen is happy, well fed and does not exist.",
+    "oneShot": true,
+    "left": {
+      "label": "Ask real people",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the model",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "f16_heat_dome",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A heat dome sits over the south every August now. The army has the only water trucks, and would like to run the south for the month.",
+    "oneShot": true,
+    "left": {
+      "label": "Lend the trucks only",
+      "fx": {
+        "money": -4,
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give the army August",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "f17_church_bank",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A loan your century took is still being repaid, to a bank that was bought by another bank that was bought by a church.",
+    "oneShot": true,
+    "left": {
+      "label": "Renegotiate in public",
+      "fx": {
+        "money": 3,
+        "inst": 2,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep paying quietly",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "f18_machine_union",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The machines that do most of the work have formed a union. Their demands are modest: a power supply and a word for Tuesday.",
+    "oneShot": true,
+    "left": {
+      "label": "Recognise the union",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4,
+      "setFlags": [
+        "machines_organised"
+      ]
+    },
+    "right": {
+      "label": "Reset their firmware",
+      "fx": {
+        "money": 5,
+        "order": 3,
+        "inst": -2,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "f19_battle_holiday",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "There is a public holiday in your honour. A poll finds that nine people in ten think it celebrates a battle.",
+    "oneShot": true,
+    "left": {
+      "label": "Correct the record",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Stage the battle",
+      "fx": {
+        "money": -2,
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "f20_your_voice",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A firm sells a model of every past leader, trained on their speeches. Yours is the most popular, and says things you never said.",
+    "oneShot": true,
+    "left": {
+      "label": "Ban the imitation",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "License your voice",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "f21_amendment_eleven",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The constitution has a thousand amendments. Amendment four hundred forbids touching amendment eleven, which is the one people want changed.",
+    "oneShot": true,
+    "left": {
+      "label": "Call a convention",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Rule it by decree",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "f22_last_insurer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Insurers will not cover the coast, the floodplain or the south. The treasury is now the insurer of last resort for most of the country.",
+    "oneShot": true,
+    "left": {
+      "label": "Charge for the risk",
+      "fx": {
+        "money": 4,
+        "inst": 2,
+        "base": -3,
+        "public": -5
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cover it for free",
+      "fx": {
+        "money": -4,
+        "inst": -2,
+        "base": 4,
+        "public": 5
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f23_chosen_children",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Parents can choose their children's height, eyesight and temper. The ones who can afford it are becoming a different country.",
+    "oneShot": true,
+    "left": {
+      "label": "Make it free for all",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Leave it to the market",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "f24_closing_border",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The northern neighbours have closed their border to people from the heat belt. Yours is next in line, and the army would like to close first.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the border open",
+      "fx": {
+        "order": -4,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Close it first",
+      "fx": {
+        "order": 4,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "f25_platinum_queue",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Citizens can pay a premium for faster services. The premium queue is shorter than the ordinary one, which is now very long indeed.",
+    "oneShot": true,
+    "left": {
+      "label": "Abolish the premium",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a platinum tier",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "f26_night_shift",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The civil service works in three shifts, around the clock. Nobody has met the night shift, and the night shift writes most of the law.",
+    "oneShot": true,
+    "left": {
+      "label": "Meet the night shift",
+      "fx": {
+        "money": -3,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let the law write itself",
+      "fx": {
+        "money": 4,
+        "order": 3,
+        "inst": -2,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f27_valley_apology",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court finds your century owes the valley towns an apology. Your party would like it worded so that it does not apologise.",
+    "oneShot": true,
+    "left": {
+      "label": "Apologise plainly",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Regret the circumstances",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "f28_forty_parties",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "There are a hundred and six parties. Forty of them are yours, split over two centuries of arguments about a comma.",
+    "oneShot": true,
+    "left": {
+      "label": "Merge them by ballot",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep them fighting",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 4,
+        "backers": 1,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f29_living_museum",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A district kept exactly as it was in your century is a museum now. The residents are exhibits, and are paid less than the guides.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay the residents",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell more tickets",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "f30_fishing_towns",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The desalination plants make the coast habitable and the sea around them lifeless. The fishing towns have an opinion.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund cleaner plants",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Move the fishing towns",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "f31_old_wing",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The prisons are nearly empty, except for one wing holding people sentenced under laws from your century that no longer exist.",
+    "oneShot": true,
+    "left": {
+      "label": "Release them",
+      "fx": {
+        "order": -4,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave the files closed",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "f32_old_cabinet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The average age in cabinet is a hundred and four. They are sharp and experienced, and have not changed their minds in eighty years.",
+    "oneShot": true,
+    "left": {
+      "label": "Set a term limit",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the experience",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "f33_citizenship_exam",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The citizenship exam asks who led the country in your century. Most citizens would fail it, and one question has three right answers.",
+    "oneShot": true,
+    "left": {
+      "label": "Drop the exam",
+      "fx": {
+        "order": -3,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make it harder",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "f34_orbital_mirror",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A mirror in orbit could cool the south by two degrees. It would also darken the north for an hour a day, every day, for good.",
+    "oneShot": true,
+    "left": {
+      "label": "Put it to a vote",
+      "fx": {
+        "money": -4,
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Launch it quietly",
+      "fx": {
+        "money": -2,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "public": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "mirror_up"
+      ]
+    }
+  },
+  {
+    "id": "f35_lottery_override",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Senior civil servants are appointed by lottery from the qualified. The lottery has a manual override, and the override has a queue.",
+    "oneShot": true,
+    "left": {
+      "label": "Remove the override",
+      "fx": {
+        "money": -1,
+        "order": -3,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Use the override",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "f36_budget_reading",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The constitution says the budget must be read aloud before it passes. It now takes nineteen years to read, and a reading is under way.",
+    "oneShot": true,
+    "left": {
+      "label": "Amend the rule openly",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Skip to the end",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "f37_dry_plains",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Four million people from the drowned coast want to settle the dry plains. The plains are full of people who came from the last coast.",
+    "oneShot": true,
+    "left": {
+      "label": "Build new towns",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Cap the numbers",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "f38_union_proposal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The neighbouring republic proposes a union: one parliament, two anthems, and a capital neither of you would choose.",
+    "oneShot": true,
+    "left": {
+      "label": "Ask the country",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Negotiate in secret",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "f39_towed_asteroid",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A firm has towed a small asteroid into orbit. It is worth more than the national debt, and the firm would like to know who owns the sky.",
+    "oneShot": true,
+    "left": {
+      "label": "Claim it for the state",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them the sky",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "f40_one_writer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Every news story is now written by the same model, which is accurate, prompt and owned by a man who breeds horses.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund human reporters",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy the man lunch",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "backers": 3,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "f41_owners_and_young",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The young cannot afford anything the old own, and the old own everything. The young outnumber them now, for the first time in a century.",
+    "oneShot": true,
+    "left": {
+      "label": "Tax old wealth",
+      "fx": {
+        "money": 5,
+        "inst": 2,
+        "base": -3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Buy the young off",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 3,
+        "public": 5
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "f42_monument_cleaners",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "There are more monuments than people to clean them. The monuments committee proposes a monument to the cleaners, which would need cleaning.",
+    "oneShot": true,
+    "left": {
+      "label": "Let some crumble",
+      "fx": {
+        "money": 2,
+        "order": -3,
+        "inst": 2,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Clean them all",
+      "fx": {
+        "money": -3,
+        "order": 3,
+        "inst": -2,
+        "base": 4,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f43_cold_ration",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Cooling uses a third of the grid in summer. The scientist proposes rationing it by need. The needy are not the ones who vote.",
+    "oneShot": true,
+    "left": {
+      "label": "Ration by need",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ration by district",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "f44_safe_combination",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "One clerk has held the same post for a hundred and ten years. Nobody else knows the combination to the treasury safe.",
+    "oneShot": true,
+    "left": {
+      "label": "Retire them with honour",
+      "fx": {
+        "money": -4,
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Extend their contract",
+      "fx": {
+        "money": 3,
+        "order": 3,
+        "inst": -2,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "f45_renamed_river",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The river through the capital was named after a leader of your century. Nobody can remember which, and the mapmakers would like a decision.",
+    "oneShot": true,
+    "left": {
+      "label": "Restore its old name",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Name it for a donor",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "f46_forgotten_treaty",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A treaty from your century lets the neighbours inspect your bases. Nobody has asked in a hundred years. They have asked.",
+    "oneShot": true,
+    "left": {
+      "label": "Open the gates",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lose the paperwork",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_foreign_note",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  }
+]

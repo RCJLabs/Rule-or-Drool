@@ -1,0 +1,907 @@
+[
+  {
+    "id": "fd1_lapsing_citizens",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "In the company towns, citizenship is a benefit of employment. It lapses when you are fired, along with the right to appeal the firing.",
+    "oneShot": true,
+    "left": {
+      "label": "Restore citizenship",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Honour the contracts",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fd2_toll_stairs",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Every road, bridge and stair in the capital has a toll, each collected by a different family. The walk to work costs a day's pay.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy back the tolls",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Take a cut of them",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "fd3_voted_verdicts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Trials are streamed live and the verdict is decided by viewer vote. The conviction rate is excellent, and the ratings are better.",
+    "oneShot": true,
+    "left": {
+      "label": "End the voting",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 3,
+        "base": -3,
+        "public": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Add a second vote",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "base": 3,
+        "public": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "fd4_militia_brands",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The militias are franchises now. A town can buy protection from any of four brands, and most towns have bought two.",
+    "oneShot": true,
+    "left": {
+      "label": "Disarm the franchises",
+      "fx": {
+        "money": -2,
+        "order": -4,
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Charge a licence fee",
+      "fx": {
+        "money": 6,
+        "order": 2,
+        "inst": -3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "fd5_blackout_rota",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "The grid can power half the country at a time. The blackout rota is published weekly, and the rich districts are never on it.",
+    "oneShot": true,
+    "left": {
+      "label": "Share the dark fairly",
+      "fx": {
+        "money": -2,
+        "order": -3,
+        "inst": 2,
+        "backers": -5,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the rota",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fd6_sold_health",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "The health ministry was sold to a firm that sells health. It has improved the figures by redefining healthy.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it back",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Adopt the definition",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fd7_price_of_rain",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "The heir to the water barony has come of age. Her first act would be to raise the price of rain, which her family owns, by deed.",
+    "oneShot": true,
+    "left": {
+      "label": "Void the deed",
+      "fx": {
+        "money": -5,
+        "order": -3,
+        "inst": 3,
+        "backers": -5,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Toast the heir",
+      "fx": {
+        "money": 4,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fd8_subscriber_goal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The loyalty broadcast has a subscriber goal. If it is not met by Friday, the presenters say something will happen, and look at the camera.",
+    "oneShot": true,
+    "left": {
+      "label": "Switch it off",
+      "fx": {
+        "money": -2,
+        "order": -4,
+        "inst": 2,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make it compulsory",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "fa1_bought_mountain",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasury has run a surplus for sixty years. It has started buying things to have somewhere to put the money, including a mountain.",
+    "oneShot": true,
+    "left": {
+      "label": "Give it back to people",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invest it with friends",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fa2_patient_colonies",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The orbital colonies hold more people than the three largest cities. They pay tax, cannot vote, and have been very patient.",
+    "oneShot": true,
+    "left": {
+      "label": "Give them the vote",
+      "fx": {
+        "money": -2,
+        "order": -2,
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Give them a flag",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fa3_no_patient_lost",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The hospitals are the best in the world and have not lost a patient in eleven months. Someone has asked where the difficult ones go.",
+    "oneShot": true,
+    "left": {
+      "label": "Open the records",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the figures",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fa4_hobby_parties",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Nobody needs to work more than ten hours a week. There is an epidemic of hobbies, and three new political parties made of them.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund the hobbies",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Invent more work",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "fa5_elevator_fare",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The space elevator is finished. A ticket costs a year's wages, which the firm points out is less than a funeral.",
+    "oneShot": true,
+    "left": {
+      "label": "Subsidise the fare",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Leave it to the firm",
+      "fx": {
+        "money": 5,
+        "inst": -1,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "fa6_agreeing_candidates",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The election is next month and both candidates agree on everything. A consultant proposes inventing a disagreement.",
+    "oneShot": true,
+    "left": {
+      "label": "Let it be boring",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invent a disagreement",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fa7_shade_controls",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The solar shade has cooled the planet a degree. The neighbours would like a say in where it points, and one of them has a missile.",
+    "oneShot": true,
+    "left": {
+      "label": "Share the controls",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the controls",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "fa8_contrast_district",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "There is one poor district left. The tourism board would like to keep it, for contrast.",
+    "oneShot": true,
+    "left": {
+      "label": "End it this year",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "List it as heritage",
+      "fx": {
+        "money": 5,
+        "inst": -1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "fm1_temporary_bridge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "chief",
+    "text": "The bridge that fell in your century was replaced by a temporary one. It is now the oldest bridge in the country, and still temporary.",
+    "oneShot": true,
+    "left": {
+      "label": "Build a real one",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew the temporary",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "fm2_grandchild_chair",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "judge",
+    "text": "An inquiry opened in your century has issued an interim report. Its chair, grandchild of the first chair, would like another decade.",
+    "oneShot": true,
+    "left": {
+      "label": "Close it with findings",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Grant the decade",
+      "fx": {
+        "money": -1,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "fm3_train_debate",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "organizer",
+    "text": "Parliament is debating the trains. It has debated the trains every year since your century, and the trains are late for the debate.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund the trains",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hold another debate",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "fm4_deficit_birthday",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "treasurer",
+    "text": "The deficit is two hundred years old this week. The treasury would like to mark it quietly. The opposition has made a cake.",
+    "oneShot": true,
+    "left": {
+      "label": "Close it, finally",
+      "fx": {
+        "money": 5,
+        "inst": 2,
+        "base": -3,
+        "public": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Roll it over again",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "fm5_adequate_schools",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "scientist",
+    "text": "Every school is adequate. Inspectors cannot find one that is good or one that is bad, and have asked to be allowed to look harder.",
+    "oneShot": true,
+    "left": {
+      "label": "Let them look",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it a success",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "fm6_reformed_reform",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "chief",
+    "text": "The reform of the civil service reform has been reformed. It is now the same as the original civil service, with more forms.",
+    "oneShot": true,
+    "left": {
+      "label": "Scrap the forms",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Add a reform board",
+      "fx": {
+        "money": -1,
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "fm7_queue_to_be_arrested",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      4
+    ],
+    "bands": [
+      "muddle"
+    ],
+    "speaker": "general",
+    "text": "There has been a riot in the capital, the first in eighty years. It was very orderly, and the rioters queued to be arrested.",
+    "oneShot": true,
+    "left": {
+      "label": "Meet their demands",
+      "fx": {
+        "money": -6,
+        "inst": 2,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Arrest the queue",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -1,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  }
+]
