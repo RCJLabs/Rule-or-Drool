@@ -26,6 +26,9 @@ function played(seed: number, bot: BotName): GameState {
 }
 
 describe("a v2 link", () => {
+  // 800 whole runs, each played and then dealt again: 3.2-3.3s here, and on CI it ran past
+  // vitest's 5s default, the way the harness's simulations did before they were given a
+  // budget (BACKLOG-5 phase 35). It fails on what it checks, not on how fast the runner is.
   it("round-trips, and deals the sender's whole run again, across 400 runs by every bot", () => {
     let longest = 0;
     for (let seed = 1; seed <= 400; seed++) {
@@ -40,7 +43,7 @@ describe("a v2 link", () => {
     }
     // A side a bit: a full run's result is short enough to ride in a link.
     expect(longest).toBeLessThanOrEqual(80);
-  });
+  }, 30000);
 
   it("keeps the run code as it was, so a version of the game from before still opens the link", () => {
     const run = played(7, "mixed");

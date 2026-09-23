@@ -122,6 +122,8 @@ describe("validate-content CLI", () => {
   const tsx = join(process.cwd(), "node_modules", ".bin", "tsx");
   const cli = (...args: string[]) => spawnSync(tsx, ["scripts/validate-content.ts", ...args], { encoding: "utf8", timeout: 60000 });
 
+  // Five runs of the CLI, each starting tsx and loading the whole deck: 2.5s here, and a CI
+  // runner is slower. Each spawn has its own 60s limit; the test needs one to match.
   it.skipIf(!existsSync(tsx))("exits 0 on the shipped content and 1 on the broken fixture or the MVP gate", () => {
     const ok = cli();
     expect(ok.status, ok.stdout + ok.stderr).toBe(0);
@@ -140,5 +142,5 @@ describe("validate-content CLI", () => {
     expect(gate.stdout).toContain("cell-thin");
 
     expect(cli("--bogus").status).toBe(2);
-  });
+  }, 60000);
 });
