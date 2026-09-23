@@ -1,0 +1,378 @@
+[
+  {
+    "id": "q_pensions_l_q",
+    "type": "arc",
+    "arc": "q_pensions_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasury wants the pension age raised two years. The Unions will strike first. The Movement's young say they will never see a pension anyway.",
+    "left": {
+      "label": "Raise the pension age",
+      "fx": {
+        "backers": -4,
+        "base": 2,
+        "public": 1
+      },
+      "setFlags": [
+        "pension_age_raised"
+      ],
+      "next": "q_pensions_l_a"
+    },
+    "right": {
+      "label": "Keep it where it is",
+      "fx": {
+        "backers": 4,
+        "base": -2,
+        "public": -1
+      },
+      "setFlags": [
+        "pension_age_kept"
+      ],
+      "next": "q_pensions_l_b"
+    }
+  },
+  {
+    "id": "q_pensions_l_a",
+    "type": "arc",
+    "arc": "q_pensions_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The rise can be phased in over twenty years, or start in January, which balances this year's books.",
+    "left": {
+      "label": "Phase it in slowly",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Start in January",
+      "fx": {
+        "money": 4,
+        "inst": -2
+      },
+      "next": "q_pensions_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_l_b",
+    "type": "arc",
+    "arc": "q_pensions_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Keeping the age costs money nobody has budgeted. The pension fund has a surplus that could quietly be borrowed from.",
+    "left": {
+      "label": "Raise contributions",
+      "fx": {
+        "backers": -2,
+        "public": -2,
+        "money": 1,
+        "inst": 1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Borrow from the fund",
+      "fx": {
+        "money": 4,
+        "backers": 1,
+        "inst": -3
+      },
+      "next": "q_pensions_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_l_a3",
+    "type": "arc",
+    "arc": "q_pensions_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The January start caught a million people a month from retirement. The Unions have called a strike for the first of the month.",
+    "left": {
+      "label": "Phase it in after all",
+      "fx": {
+        "money": -3,
+        "backers": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Wait them out",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_l_b3",
+    "type": "arc",
+    "arc": "q_pensions_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The fund you borrowed from cannot pay next month's pensions in full. The pensioners have not been told, yet.",
+    "left": {
+      "label": "Tell them, repay it",
+      "fx": {
+        "money": -4,
+        "base": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Cut them quietly",
+      "ending": "grey_march",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_r_q",
+    "type": "arc",
+    "arc": "q_pensions_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors want the pension age raised two years. The Country has done the sum on its fingers, and wants it kept.",
+    "left": {
+      "label": "Raise the pension age",
+      "fx": {
+        "backers": 4,
+        "public": -3,
+        "base": -1
+      },
+      "setFlags": [
+        "pension_age_raised"
+      ],
+      "next": "q_pensions_r_a"
+    },
+    "right": {
+      "label": "Keep it where it is",
+      "fx": {
+        "backers": -4,
+        "public": 3,
+        "base": 1
+      },
+      "setFlags": [
+        "pension_age_kept"
+      ],
+      "next": "q_pensions_r_b"
+    }
+  },
+  {
+    "id": "q_pensions_r_a",
+    "type": "arc",
+    "arc": "q_pensions_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The later age saves a fortune by the next decade. The Donors would like it spent this year, on a tax cut.",
+    "left": {
+      "label": "Keep it for the fund",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Cut the tax now",
+      "fx": {
+        "backers": 4,
+        "public": 1,
+        "money": -1,
+        "inst": -2
+      },
+      "next": "q_pensions_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_r_b",
+    "type": "arc",
+    "arc": "q_pensions_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Keeping the age needs money. The Donors suggest selling the pension fund's buildings, to the Donors.",
+    "left": {
+      "label": "Raise contributions",
+      "fx": {
+        "public": -3,
+        "money": 2,
+        "inst": 1,
+        "backers": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Sell to the Donors",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "next": "q_pensions_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_r_a3",
+    "type": "arc",
+    "arc": "q_pensions_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The age went up, the savings went on the tax cut, and the fund is short anyway. The Country's pensioners are gathering in the square.",
+    "left": {
+      "label": "Restore the fund",
+      "fx": {
+        "backers": -4,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Clear the square",
+      "ending": "grey_march",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_pensions_r_b3",
+    "type": "arc",
+    "arc": "q_pensions_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The buildings were sold at half their value. The fund now pays the Donors rent on its own offices.",
+    "left": {
+      "label": "Buy them back",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Call it efficiency",
+      "fx": {
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

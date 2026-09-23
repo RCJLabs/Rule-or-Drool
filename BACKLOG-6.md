@@ -345,7 +345,192 @@ against 2.4% on the right.
 
 </details>
 
-## Phase 41. Twelve more questions — *queued*
+## Phase 41. Twelve more questions — *done*
+
+**Shipped.** The default twelve, each asked of both sides in phase 40's shape:
+- **The minimum wage.** Raise it by law, or leave it to employers.
+- **Somewhere to live.** Clear the zoning rules and build, or control the rents.
+- **What we burn.** Put a price on carbon, or drill what is there.
+- **The last factories.** Put up tariffs, or open trade.
+- **The pension age.** Raise it, or keep it where it is.
+- **Student debt.** Cancel it, or leave it to be repaid.
+- **The drug laws.** Crack down, or legalise and tax them.
+- **Crime and punishment.** More police and longer sentences, or reform and oversight.
+- **The cameras.** Face scanners on every street, or ban them.
+- **What counts as true.** A law against misinformation, or no such law.
+- **The highest court.** Add four seats, or leave it be.
+- **The failing banks.** Bail them out, or let them fail.
+
+Abortion, guns, the death penalty and religion in schools are still held back (decision 4).
+
+**What it adds:**
+- **126 cards**, drafts for your edit, in each side's own voice: the Movement, the Unions and
+  the Cities on one side, the Faithful, the Donors and the Country on the other, each
+  reacting as that side's coalition would.
+- **12 endings.** Nine are failures, each on the road of the side's own coalition's policy, so
+  each side fails on a different answer:
+  - *The General Strike*: a raise decreed over the Unions' heads, or farm workers paid in
+    vouchers.
+  - *Condemned*: a block nobody repaired under a rent freeze, or a tower its builders
+    inspected themselves.
+  - *The Long Blackout*: coal plants shut before the wind farms opened, or the gas sold
+    abroad.
+  - *The Grey March*: a pension fund borrowed from, or savings spent on a tax cut.
+  - *Under New Management*: the gangs licensed to sell, or police selling what they seized.
+  - *The Breakout*: prisons emptied too fast, or a private prison nobody paid to guard.
+  - *The Emergency*: police cameras nobody banned, or a firm that kept every face.
+  - *The Crowded Bench*: a court packed in a race to pack it. The right fails on the same
+    question by ignoring the court it left alone, which is phase 40's *Contempt of Court*.
+  - *The Run*: savers never told, or a rescue paid out as dividends.
+
+  Three are honest endings, not failures. Each comes at step 4, after the fast road:
+  - *The Last Shift*: you go to the last factory's gate and tell them.
+  - *In Those Words*: you say it was a mistake, and that you knew.
+  - *The Correction*: you say the story was true, or the fake was yours.
+- **24 legacies**, one per answer, with 216 history names and 72 "after" lines. The game now
+  has 42 endings and 585 history names.
+- **Three a run, in the first two eras.** The budget is 3 (it was 2). A question can be
+  asked in era 2 as well as era 1, and its steps can run into era 3.
+
+**How it was balanced:**
+- **Asked in the first era only, three a run did not reach every question.** Measured with
+  the four questions standing in for sixteen, a run met 2.5 of them and the least asked
+  question was met in 14% of runs. Across the first two eras the figures are 2.9 and 17%.
+- **Sixteen questions cost the competent bot its Ascent.** At phase 40's drift, mixed play
+  reached Ascent 15.1% of the time (the target is 15–30%, and it was 19.9%). It carries out
+  63% of question steps honestly. The other 37% it takes the fast way, near a meter's edge,
+  which cost it 6.9 drift a run. The honest step is now +7 (was +5) and the honest way out
+  +8 (was +6). The fast way stays −12, and phase 40's four are included. Mixed Ascent is
+  back to 20.1%, and greedy play still ends in Decay 81.1% of the time.
+- **The honest road on the left's papers was too dear.** It reached Ascent only 9–10 points
+  more often than the fast road. Its honest steps cost less now, and its fast steps pay less
+  (+11.1 to +12.6 on three seed sets).
+- **The treaty's war was harder on the right than staying out.** The last step before the
+  peace, which a player who will not end the run always takes, cost money 4 and the Country
+  3. It costs 2 and 2 now.
+- **Taxing the very rich left the right's Donors exposed.** The answer took 5 from them and
+  closing the loopholes 5 more, so Decay was 5.0–5.3 points likelier than after the cut. Both
+  answers now move the Donors 4.
+- **Histories rank the questions in three tiers.** With three a run, nearly every run carries
+  several question legacies, and a single block would have named most histories after a
+  question. The largest answers (deportation, the war, care for everyone, papers, staying
+  out, the court, the cameras, the banks, legal drugs, the truth law, the carbon price, the
+  debt cancelled, the gas) rank under the captured feed. The middling ones rank under the
+  skim. The status quo (the court left alone, no truth law, the debt kept, the pension age
+  kept, wages left to employers) ranks under the broken promises.
+
+**Measured.** The mixed bot on paired seeds, as in phase 40: each seed played with the answer
+forced each way, then with the method taken the honest way at every step and the fast way at
+every step that does not end the run.
+
+| Question | Side | Answer moves Ascent | Answer moves Decay | Honest road | Fast road | Gap |
+|---|---|---|---|---|---|---|
+| The treaty | left | 1.2 points | 3.4 points | 23.6% | 7.4% | +16.1 |
+| The treaty | right | 0.3 points | 5.0 points | 23.5% | 6.5% | +16.9 |
+| Without papers | left | 0.6 points | 1.8 points | 23.4% | 11.3% | +12.1 |
+| Without papers | right | 0.4 points | 0.3 points | 24.0% | 11.4% | +12.6 |
+| The top rate | left | 0.1 points | 4.1 points | 27.0% | 10.4% | +16.6 |
+| The top rate | right | 2.2 points | 1.3 points | 27.3% | 10.0% | +17.3 |
+| Everyone covered | left | 0.3 points | 1.8 points | 23.6% | 5.2% | +18.4 |
+| Everyone covered | right | 4.4 points | 3.0 points | 27.2% | 5.0% | +22.2 |
+| The minimum wage | left | 0.1 points | 0.1 points | 23.5% | 8.7% | +14.7 |
+| The minimum wage | right | 1.1 points | 1.0 points | 23.9% | 10.0% | +13.8 |
+| Somewhere to live | left | 1.3 points | 1.8 points | 23.8% | 10.0% | +13.8 |
+| Somewhere to live | right | 1.6 points | 0.1 points | 24.2% | 10.6% | +13.6 |
+| What we burn | left | 0.4 points | 0.7 points | 23.7% | 9.5% | +14.1 |
+| What we burn | right | 0.5 points | 0.7 points | 26.1% | 10.7% | +15.3 |
+| The last factories | left | 0.5 points | 4.6 points | 22.7% | 6.4% | +16.3 |
+| The last factories | right | 0.2 points | 2.0 points | 25.2% | 5.8% | +19.4 |
+| The pension age | left | 0.6 points | 1.1 points | 23.8% | 9.3% | +14.4 |
+| The pension age | right | 1.7 points | 1.6 points | 27.2% | 9.0% | +18.2 |
+| Student debt | left | 0.0 points | 3.1 points | 23.1% | 7.4% | +15.7 |
+| Student debt | right | 0.1 points | 0.9 points | 25.3% | 6.9% | +18.4 |
+| The drug laws | left | 1.4 points | 0.5 points | 22.6% | 8.9% | +13.6 |
+| The drug laws | right | 1.8 points | 0.7 points | 26.3% | 9.4% | +16.9 |
+| Crime and punishment | left | 1.9 points | 2.7 points | 22.4% | 9.0% | +13.5 |
+| Crime and punishment | right | 2.0 points | 1.8 points | 26.7% | 9.5% | +17.2 |
+| The cameras | left | 1.6 points | 0.1 points | 25.7% | 9.9% | +15.8 |
+| The cameras | right | 2.4 points | 1.2 points | 22.4% | 9.2% | +13.2 |
+| What counts as true | left | 0.7 points | 2.3 points | 23.4% | 5.8% | +17.5 |
+| What counts as true | right | 1.8 points | 1.7 points | 25.5% | 5.3% | +20.2 |
+| The highest court | left | 2.6 points | 4.7 points | 25.2% | 10.6% | +14.6 |
+| The highest court | right | 0.6 points | 1.6 points | 23.5% | 9.8% | +13.7 |
+| The failing banks | left | 0.3 points | 0.8 points | 21.7% | 8.9% | +12.9 |
+| The failing banks | right | 0.8 points | 1.0 points | 25.0% | 9.6% | +15.4 |
+
+The largest answer effect, the treaty's 5.0 points of Decay on the right, is on the limit on
+this seed set and 0.6 on the second. On the second set every row passes: the answer moves
+Ascent or Decay by at most 3.9 points, and the gap is at least +11.3.
+
+Over a whole run, with every question it meets carried out the same way, the honest road
+reaches Ascent 33.7% of the time against 0.8% for the fast road on the left, and 36.2%
+against 0.6% on the right.
+
+**Everything else still holds**, at 20,000 runs a bot:
+
+| Target | Wanted | v0.52.0 | Now |
+|---|---|---|---|
+| Random: median run length | 40–60 cards | 53 | 49 |
+| Random: most common ouster | ≤ 35% | bankruptcy 21.2% | bankruptcy 19.4% |
+| Greedy: ends in Decay | ≥ 70% | 80.6% | 81.1% |
+| Saint: ousted before era 2 | ≥ 60% | 100% | 100% |
+| Mixed: reaches Ascent | 15–30% | 19.9% | 20.1% |
+| A player's tenth run: cards seen before | under 75% | 72.4% | 68.6% |
+| Long reign: all six targets | as phase 39 | pass | pass |
+
+- **Questions per run:** three (median), 2.9 on average. Each question is met in 17.0–19.4% of
+  runs. A player has met all sixteen by their 15th run (median, over 80 players), and by
+  their 20th three times in four.
+- **Stories are unhurt.** Every story is met in at least 84.7% as many runs as with no
+  questions (the target is 80%; the moonshot is the lowest). A competent run enters 5.9 of
+  them (6.3 with no questions).
+- **History names:** the most any decision names is 8.8% (the ring, an old legacy). The most
+  any one title names is 2.8%, and 6,000 runs met 245 different titles. Questions name about
+  60% of histories.
+- **Random play ends early more often.** 37.7% of random runs end in the first era (33.4% at
+  v0.52.0, 25.4% before the questions). Question endings end 24.2% of random runs, none more
+  than 2.5%. The competent bots take none.
+
+**Done when, checked:**
+- Everything phase 40 measures, for every question: the answer moves Ascent and Decay by at
+  most 5.0 points on this seed set (the target is 5), and the honest road reaches Ascent
+  at least +12.1 points more often. Stories are at 84.7% or more; histories at 8.8%; every
+  harness target passes, for three eras and for the long reign.
+- A run meets at least three questions (median): three.
+- Every question met in at least 15% of runs: 17.0–19.4%.
+- A player has met every question by their 20th run (median): by their 15th.
+
+**Also checked:**
+- The unit suite is 563 tests and the browser suite 41. New tests hold the three coverage
+  targets, the count of failures that fall on each side's own policy, and all sixteen
+  titles.
+- **The progress code grew.** A forty-run profile is 9.6 KB now (8.0 KB before). The extra is
+  mostly question outcomes and legacies. Its code is 3.1 KB (2.5 KB before), which was past
+  the test's 3,000-character bound, so the bound is now 4,000. It is still short enough to
+  paste, and a link with it in works in current browsers.
+- **The guardrail test** passes on all 126 cards. The cards name real policies and nothing
+  else real.
+- **The download** grew by 16.4 KB gzipped: the content file went from 130.8 KB to 146.8 KB.
+
+**Yours:**
+- **The cards and names are drafts.** 126 cards, 12 endings, 216 history names, 72 "after"
+  lines and 24 legacy names, written to the deck's rules and measured, but not edited by you.
+- **The content rating now includes drugs.** The drug-laws question refers to illegal drugs
+  as policy: dealers, seizures resold by the police, a cartel, packets in playgrounds. No
+  drug is named or shown being taken, but the IARC questionnaire asks about references
+  (`twa/STORE.md` has the notes). The violence notes add a police officer breaking a boy's
+  arm, a prison breakout and a building that falls down empty.
+- **Phase 40's numbers changed.** Its four questions now use the new drift and the
+  first-two-eras rule, and the papers, treaty and top rate tweaks above. Its entry is kept as
+  it shipped.
+- **Honest is still on the left** for every method card, as in the rest of the deck (phase
+  40's note).
+- **Old links and replays:** as with any change to the deck, a run code from before this
+  version deals differently, and a run finished before it cannot take the other road.
+- **Phase 44 sizes era 1.** Questions now start in era 2 as well, so its top-up should be
+  measured again when it starts.
+
+<details><summary>Original entry</summary>
 
 **Why.** Four questions, met two or three per run, are all seen within a few runs. The
 questions people vote on are almost absent: minimum wage, rent control, guns, abortion and
@@ -376,6 +561,8 @@ schools.
 - A player has met every question at least once by their 20th run (median).
 
 **Cost.** About 100 cards, their endings and history titles, for your edit.
+
+</details>
 
 ## Phase 42. The answers come back — *queued*
 

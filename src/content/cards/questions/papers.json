@@ -6,7 +6,8 @@
     "step": 1,
     "align": "left",
     "eras": [
-      1
+      1,
+      2
     ],
     "bands": [
       "decay",
@@ -48,7 +49,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -60,19 +62,17 @@
     "left": {
       "label": "Fund the courts",
       "fx": {
-        "money": -3,
+        "money": -2,
         "inst": 3,
-        "public": -1,
-        "base": -1
+        "public": -1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Use the quick process",
       "fx": {
         "public": 3,
-        "order": 2,
-        "money": 1,
+        "order": 1,
         "inst": -4
       },
       "drift": -12,
@@ -87,7 +87,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -99,17 +100,16 @@
     "left": {
       "label": "Win the vote first",
       "fx": {
-        "base": -3,
+        "base": -2,
         "inst": 3,
-        "money": -2
+        "money": -1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Stop checking",
       "fx": {
-        "base": 5,
-        "backers": 1,
+        "base": 4,
         "inst": -4
       },
       "drift": -12,
@@ -124,7 +124,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -136,11 +137,11 @@
     "left": {
       "label": "Obey the court",
       "fx": {
-        "public": -3,
-        "order": -2,
+        "public": -2,
+        "order": -1,
         "inst": 3
       },
-      "drift": 6
+      "drift": 8
     },
     "right": {
       "label": "Appeal, and carry on",
@@ -160,7 +161,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -190,7 +192,8 @@
     "step": 1,
     "align": "right",
     "eras": [
-      1
+      1,
+      2
     ],
     "bands": [
       "decay",
@@ -232,7 +235,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -248,7 +252,7 @@
         "inst": 3,
         "base": -2
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Skip the hearings",
@@ -269,7 +273,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -286,7 +291,7 @@
         "backers": -1,
         "money": -1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Stop the inspections",
@@ -307,7 +312,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -338,7 +344,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -354,7 +361,7 @@
         "money": -2,
         "inst": 3
       },
-      "drift": 6
+      "drift": 8
     },
     "right": {
       "label": "Appeal, and carry on",

@@ -1,0 +1,376 @@
+[
+  {
+    "id": "q_courts_l_q",
+    "type": "arc",
+    "arc": "q_courts_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The highest court has struck down three of your laws this year. The Movement wants four new seats on it, filled by Friday.",
+    "left": {
+      "label": "Add four seats",
+      "fx": {
+        "base": 4,
+        "public": -3,
+        "backers": -1
+      },
+      "setFlags": [
+        "court_packed"
+      ],
+      "next": "q_courts_l_a"
+    },
+    "right": {
+      "label": "Leave the court be",
+      "fx": {
+        "base": -4,
+        "public": 3,
+        "backers": 1
+      },
+      "setFlags": [
+        "court_left"
+      ],
+      "next": "q_courts_l_b"
+    }
+  },
+  {
+    "id": "q_courts_l_a",
+    "type": "arc",
+    "arc": "q_courts_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Four new seats need four judges. The bar has a list of the best. The Movement has a list of the loudest.",
+    "left": {
+      "label": "Take the bar's list",
+      "fx": {
+        "base": -3,
+        "backers": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Take the Movement's",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_courts_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_l_b",
+    "type": "arc",
+    "arc": "q_courts_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The court will keep striking laws down. We could write the next ones so vaguely that there is nothing in them to strike.",
+    "left": {
+      "label": "Write them properly",
+      "fx": {
+        "base": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Write them vaguely",
+      "fx": {
+        "base": 3,
+        "public": 1,
+        "inst": -2
+      },
+      "next": "q_courts_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_l_a3",
+    "type": "arc",
+    "arc": "q_courts_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The other side has promised eight more seats when it wins. The court is starting to look like a parliament that never faces an election.",
+    "left": {
+      "label": "Cap the court in law",
+      "fx": {
+        "base": -4,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Add eight more first",
+      "ending": "crowded_bench",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_l_b3",
+    "type": "arc",
+    "arc": "q_courts_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The vague laws are being read by the police, each station its own way. The court has asked you what they mean.",
+    "left": {
+      "label": "Rewrite them clearly",
+      "fx": {
+        "base": -2,
+        "order": -1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Let the police decide",
+      "fx": {
+        "order": 3,
+        "base": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_r_q",
+    "type": "arc",
+    "arc": "q_courts_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The highest court has struck down the Faithful's school law. They want four new seats on it. The Donors like the court as it is.",
+    "left": {
+      "label": "Add four seats",
+      "fx": {
+        "base": 4,
+        "backers": -3,
+        "public": -1
+      },
+      "setFlags": [
+        "court_packed"
+      ],
+      "next": "q_courts_r_a"
+    },
+    "right": {
+      "label": "Leave the court be",
+      "fx": {
+        "base": -4,
+        "backers": 3,
+        "public": 1
+      },
+      "setFlags": [
+        "court_left"
+      ],
+      "next": "q_courts_r_b"
+    }
+  },
+  {
+    "id": "q_courts_r_a",
+    "type": "arc",
+    "arc": "q_courts_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The Faithful want four judges from the seminary. The bar points out that none of them has ever heard a case.",
+    "left": {
+      "label": "Judges who have judged",
+      "fx": {
+        "base": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "The seminary's four",
+      "fx": {
+        "base": 4,
+        "order": 1,
+        "inst": -3
+      },
+      "next": "q_courts_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_r_b",
+    "type": "arc",
+    "arc": "q_courts_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Left alone, the court has struck down the Faithful's second law as well. They want to know why a court outranks a congregation.",
+    "left": {
+      "label": "Rewrite the law",
+      "fx": {
+        "base": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Pass it again, unchanged",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_courts_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_r_a3",
+    "type": "arc",
+    "arc": "q_courts_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The new court has ruled the school law lawful all along, and anything else the Faithful ask as well. The Donors are frightened.",
+    "left": {
+      "label": "Cap the court in law",
+      "fx": {
+        "base": -4,
+        "backers": 1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Ask it for more",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_courts_r_b3",
+    "type": "arc",
+    "arc": "q_courts_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The court has struck the same law down twice and ordered the schools to stop. The Faithful's schools have not stopped.",
+    "left": {
+      "label": "Order them to stop",
+      "fx": {
+        "base": -4,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Let them carry on",
+      "ending": "contempt",
+      "drift": -12
+    }
+  }
+]

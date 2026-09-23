@@ -6,7 +6,8 @@
     "step": 1,
     "align": "left",
     "eras": [
-      1
+      1,
+      2
     ],
     "bands": [
       "decay",
@@ -50,7 +51,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -67,7 +69,7 @@
         "money": 2,
         "inst": 1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Borrow it quietly",
@@ -88,7 +90,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -105,7 +108,7 @@
         "inst": 2,
         "money": 1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Spend it anyway",
@@ -127,7 +130,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -144,7 +148,7 @@
         "backers": -2,
         "inst": 1
       },
-      "drift": 6
+      "drift": 8
     },
     "right": {
       "label": "Borrow a little more",
@@ -164,7 +168,8 @@
     "align": "left",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -195,7 +200,8 @@
     "step": 1,
     "align": "right",
     "eras": [
-      1
+      1,
+      2
     ],
     "bands": [
       "decay",
@@ -207,9 +213,9 @@
     "left": {
       "label": "Cut the top rate",
       "fx": {
-        "backers": 5,
+        "backers": 4,
         "base": -1,
-        "public": -3,
+        "public": -2,
         "money": -1
       },
       "setFlags": [
@@ -220,9 +226,9 @@
     "right": {
       "label": "Tax the very rich",
       "fx": {
-        "backers": -5,
+        "backers": -4,
         "base": 1,
-        "public": 3,
+        "public": 2,
         "money": 1
       },
       "setFlags": [
@@ -239,7 +245,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -256,7 +263,7 @@
         "money": 2,
         "inst": 1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Borrow until spring",
@@ -277,7 +284,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -293,7 +301,7 @@
         "money": 2,
         "inst": 1
       },
-      "drift": 5
+      "drift": 7
     },
     "right": {
       "label": "Spend it anyway",
@@ -315,7 +323,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -347,7 +356,8 @@
     "align": "right",
     "eras": [
       1,
-      2
+      2,
+      3
     ],
     "bands": [
       "decay",
@@ -364,7 +374,7 @@
         "money": 3,
         "inst": 1
       },
-      "drift": 6
+      "drift": 8
     },
     "right": {
       "label": "Borrow to cover it",

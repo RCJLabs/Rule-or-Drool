@@ -11,9 +11,9 @@ that follow from it.
 | App name | Rule or Drool | 13 / 30 |
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
-**Full description** (2,104 / 4,000 characters). Every number in it was checked
-against the content when written: 1,097 cards, 22 stories and 4 questions, 30 advisors, 30
-endings, 369 history names. Re-check them if the content changes.
+**Full description** (2,162 / 4,000 characters). Every number in it was checked
+against the content when written: 1,223 cards, 22 stories and 16 questions, 30 advisors, 42
+endings, 585 history names. Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -23,12 +23,12 @@ The catch: the easy choice now is the ruinous choice later. The bridge you did n
 HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
-• The questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, cover everyone's care. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes.
-• 1,097 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
+• Sixteen questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, raise the minimum wage, control the rents, price carbon, bail out the banks. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes.
+• 1,223 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
-• 30 ways for a rule to end, and 369 names history can give it, from what you did and where it took the country.
+• 42 ways for a rule to end, and 585 names history can give it, from what you did and where it took the country.
 • At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Mandates: promises you make at the start, at a price.
@@ -120,7 +120,7 @@ and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
 
 ## Content rating questionnaire (IARC)
 
-These are notes to answer from, not answers. The 1,097 cards were searched for each theme the
+These are notes to answer from, not answers. The 1,223 cards were searched for each theme the
 questionnaire asks about:
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people
@@ -133,14 +133,21 @@ questionnaire asks about:
   towns that "have buried their dead", and our shells photographed on both sides of a trench.
   They also add deportation raids that take citizens by mistake, a patient who dies on a
   waiting list and a child who dies waiting for a transfer, all told in a sentence and none
-  shown. The pictures are flat silhouettes (tanks, a searchlight), with no blood and no injury.
+  shown. The twelve questions of v0.53.0 add a police officer who breaks a boy's arm over a
+  bus fare, a prison breakout, police sent to break strikes and clear a square of pensioners,
+  and a building that collapses, empty. All are told in a sentence and none shown. The
+  pictures are flat silhouettes (tanks, a searchlight), with no blood and no injury.
 - **Language:** no profanity found.
 - **Sexual content:** none found.
 - **Drugs, alcohol, tobacco:** medicine, several times: drug pricing, a drug made in orbit,
   a drug that adds ten years, antibiotics that stop working, a flu vaccine in short supply,
   and a treatment that keeps one official alive for centuries. One tobacco mention: cigarettes
   are one of three currencies in a lawless south. No drinking; one card says the warmer north
-  has become a vineyard.
+  has become a vineyard. **Illegal drugs are referred to** since v0.53.0, as policy: a question
+  asks whether to legalise and tax drugs or crack down on them, and its cards mention dealers,
+  seized drugs resold by police, a cartel, and tobacco firms' packets turning up in school
+  playgrounds. No drug is named and no one is shown or described taking one. The
+  questionnaire asks about references to illegal drugs; answer it from this.
 - **Gambling:** a national lottery appears as policy satire (its surplus, an evening draw,
   its results read out on a loyalty broadcast), and a casino asks for a licence. There is no
   simulated gambling and nothing to buy.
@@ -154,7 +161,10 @@ questionnaire asks about:
 - **Politics:** throughout, and all fictional. The country, the parties (the Commons and the
   Ledger) and every person are invented. Since v0.52.0 some cards name real policies plainly:
   going to war for an ally, deporting everyone without papers, the top tax rate, universal
-  health care. Each is asked of both parties, and the game does not score the answer, only
+  health care, and since v0.53.0 the minimum wage, rent control, a carbon price, tariffs, the
+  pension age, student debt, the drug laws, police and prisons, face recognition, a law against
+  misinformation, adding seats to the highest court, and bailing out banks. Each is asked of
+  both parties, and the game does not score the answer, only
   how it is carried out. No real country, party, person, faith or slogan appears; a test
   (`tests/guardrails.test.ts`) searches everything the game can show for them.
 

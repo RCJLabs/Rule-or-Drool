@@ -148,5 +148,65 @@
     "id": "took_responsibility",
     "title": "Taking Responsibility",
     "text": "You read the name in the chamber and resigned before anyone could call a vote. It is the only resignation speech the country still quotes."
+  },
+  {
+    "id": "general_strike",
+    "title": "The General Strike",
+    "text": "Everything stopped at once: the trains, the ports, the presses that would have printed your side of it. When it all started again, it started without you."
+  },
+  {
+    "id": "condemned",
+    "title": "Condemned",
+    "text": "The block came down on a Sunday, empty by luck and nothing else. The report that condemned it was found in the rubble, unopened. The inquiry named you on page one."
+  },
+  {
+    "id": "blackout",
+    "title": "The Long Blackout",
+    "text": "The lights went out in January and stayed out for eleven days. The country read about the end of your government by candlelight."
+  },
+  {
+    "id": "last_shift",
+    "title": "The Last Shift",
+    "text": "You went to the gate on the last shift and told them nothing you had done would have saved it. They let you finish. You resigned in the morning."
+  },
+  {
+    "id": "grey_march",
+    "title": "The Grey March",
+    "text": "The pensioners marched on the capital at walking pace. It took them a week. It took you an afternoon to go."
+  },
+  {
+    "id": "in_those_words",
+    "title": "In Those Words",
+    "text": "You said it on camera, in those words: that it had been a mistake, and that you had known. No government had said both before. It was your last day in office."
+  },
+  {
+    "id": "new_management",
+    "title": "Under New Management",
+    "text": "The cartel never took the palace. It never needed to: it had the licences, the police and the paperwork, and in the end it had you."
+  },
+  {
+    "id": "breakout",
+    "title": "The Breakout",
+    "text": "Four thousand prisoners walked out of a prison nobody was paid to guard. Most of them were back by Christmas. You were not."
+  },
+  {
+    "id": "emergency",
+    "title": "The Emergency",
+    "text": "The emergency powers were renewed every month, until the general who held them renewed them without asking you. The cameras recorded it."
+  },
+  {
+    "id": "the_correction",
+    "title": "The Correction",
+    "text": "Your last act in office was a correction, printed on the front page in the same size as the lie. Nobody had seen one before. People kept it."
+  },
+  {
+    "id": "crowded_bench",
+    "title": "The Crowded Bench",
+    "text": "By the end the highest court had more seats than the parliament, and sat more often. It ruled your government unlawful, a hundred and four to three."
+  },
+  {
+    "id": "bank_run",
+    "title": "The Run",
+    "text": "Everyone wanted their money on the same morning. By noon the banks had shut their doors, and by evening so had your government."
   }
 ]

@@ -1,0 +1,379 @@
+[
+  {
+    "id": "q_crime_l_q",
+    "type": "arc",
+    "arc": "q_crime_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Cities want more police and longer sentences. The Movement wants the prisons emptied of people who should never have been in them.",
+    "left": {
+      "label": "More police, more years",
+      "fx": {
+        "public": 3,
+        "backers": 1,
+        "base": -4
+      },
+      "setFlags": [
+        "tough_sentences"
+      ],
+      "next": "q_crime_l_a"
+    },
+    "right": {
+      "label": "Reform, and oversight",
+      "fx": {
+        "public": -3,
+        "backers": -1,
+        "base": 4
+      },
+      "setFlags": [
+        "justice_reformed"
+      ],
+      "next": "q_crime_l_b"
+    }
+  },
+  {
+    "id": "q_crime_l_a",
+    "type": "arc",
+    "arc": "q_crime_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "More police means training them for two years, or putting them on the street next month in a borrowed uniform.",
+    "left": {
+      "label": "Train them properly",
+      "fx": {
+        "money": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "On the street next month",
+      "fx": {
+        "public": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "next": "q_crime_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_l_b",
+    "type": "arc",
+    "arc": "q_crime_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Reform means halfway houses before the releases. Or the prisons can be emptied by summer, which is what the Movement asked for.",
+    "left": {
+      "label": "Houses first",
+      "fx": {
+        "base": -3,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Empty them by summer",
+      "fx": {
+        "base": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "next": "q_crime_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_l_a3",
+    "type": "arc",
+    "arc": "q_crime_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An officer three weeks out of training broke a boy's arm over a bus fare. The Cities are divided. The Movement is not.",
+    "left": {
+      "label": "Charge the officer",
+      "fx": {
+        "order": -3,
+        "public": -1,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Stand by the officer",
+      "fx": {
+        "order": 3,
+        "public": 2,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_l_b3",
+    "type": "arc",
+    "arc": "q_crime_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The prisons you closed sent their inmates to the ones you kept. The guards at the old fort have stopped coming in.",
+    "left": {
+      "label": "Slow down, pay guards",
+      "fx": {
+        "money": -3,
+        "base": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Lock the gates, wait",
+      "ending": "breakout",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_r_q",
+    "type": "arc",
+    "arc": "q_crime_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful want more police and longer sentences. The Donors have seen the bill for the prisons, and want reform, quietly.",
+    "left": {
+      "label": "More police, more years",
+      "fx": {
+        "base": 3,
+        "public": 1,
+        "backers": -4
+      },
+      "setFlags": [
+        "tough_sentences"
+      ],
+      "next": "q_crime_r_a"
+    },
+    "right": {
+      "label": "Reform, and oversight",
+      "fx": {
+        "base": -3,
+        "public": -1,
+        "backers": 4
+      },
+      "setFlags": [
+        "justice_reformed"
+      ],
+      "next": "q_crime_r_b"
+    }
+  },
+  {
+    "id": "q_crime_r_a",
+    "type": "arc",
+    "arc": "q_crime_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors will build the new prisons themselves, and charge by the prisoner. Every empty bed would still be paid for.",
+    "left": {
+      "label": "Build them publicly",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Pay by the bed",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_crime_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_r_b",
+    "type": "arc",
+    "arc": "q_crime_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Reform could mean oversight of the police. The Faithful would accept it if the oversight were done by the police.",
+    "left": {
+      "label": "Independent oversight",
+      "fx": {
+        "base": -3,
+        "order": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let them oversee it",
+      "fx": {
+        "base": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "next": "q_crime_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_r_a3",
+    "type": "arc",
+    "arc": "q_crime_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Donors' prison is at twice its capacity, and its guards have not been paid since spring. The Country can hear it from the road.",
+    "left": {
+      "label": "Take it back",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Leave it to the company",
+      "ending": "breakout",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_crime_r_b3",
+    "type": "arc",
+    "arc": "q_crime_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The police oversaw themselves and found nothing, twice. A video found something the third time.",
+    "left": {
+      "label": "Bring in outsiders",
+      "fx": {
+        "order": -2,
+        "base": -2,
+        "inst": 3
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Seize the video",
+      "fx": {
+        "order": 3,
+        "base": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  }
+]

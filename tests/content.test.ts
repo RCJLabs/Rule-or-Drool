@@ -642,8 +642,8 @@ describe("content: the questions", () => {
   const card = (id: string) => library.cards.get(id)!;
   const arcFor = (q: string, align: "left" | "right") => questions.find((a) => a.question === q && (a.align === align || a.align === "any"))!;
 
-  it("asks four questions, each of both sides in that side's own words", () => {
-    expect(ids.length).toBeGreaterThanOrEqual(4);
+  it("asks sixteen questions, each of both sides in that side's own words", () => {
+    expect(ids.length).toBeGreaterThanOrEqual(16);
     for (const q of ids) {
       const l = arcFor(q, "left");
       const r = arcFor(q, "right");
@@ -720,7 +720,9 @@ describe("content: the questions", () => {
         expect(failsOn[0], q).not.toBe(failsOn[1]);
       }
     }
-    // Not vacuous: the deportation court and the lenders are failures on both sides.
-    expect(failures).toBeGreaterThanOrEqual(2);
+    // Not vacuous: eleven questions can fail both sides, each on its own coalition's policy
+    // (the court on papers, the lenders, the strike, the condemned block, the blackout, the
+    // pensioners' march, the cartel, the breakout, the emergency, the court, the run).
+    expect(failures).toBeGreaterThanOrEqual(11);
   });
 });

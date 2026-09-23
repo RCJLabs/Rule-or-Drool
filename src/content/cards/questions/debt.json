@@ -1,0 +1,449 @@
+[
+  {
+    "id": "q_debt_l_q",
+    "type": "arc",
+    "arc": "q_debt_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants student debt cancelled. The Unions' bus drivers would like to know who is cancelling theirs.",
+    "left": {
+      "label": "Cancel the debt",
+      "fx": {
+        "base": 4,
+        "backers": -3,
+        "public": -1
+      },
+      "setFlags": [
+        "debt_cancelled"
+      ],
+      "next": "q_debt_l_a"
+    },
+    "right": {
+      "label": "Leave it to be repaid",
+      "fx": {
+        "base": -4,
+        "backers": 3,
+        "public": 1
+      },
+      "setFlags": [
+        "debt_kept"
+      ],
+      "next": "q_debt_l_b"
+    }
+  },
+  {
+    "id": "q_debt_l_a",
+    "type": "arc",
+    "arc": "q_debt_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Cancelling it needs a law, and a tax to pay for it. A decree would do it tonight, and leave the courts to worry.",
+    "left": {
+      "label": "Pass a law and a tax",
+      "fx": {
+        "base": -2,
+        "public": -2,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Cancel it by decree",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_debt_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_l_b",
+    "type": "arc",
+    "arc": "q_debt_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The loans are the state's. A collection agency would buy them tomorrow, for cash, and collect them its own way.",
+    "left": {
+      "label": "Keep them public",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "backers": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Sell them for cash",
+      "fx": {
+        "money": 4,
+        "backers": 1,
+        "inst": -3
+      },
+      "next": "q_debt_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_l_a3",
+    "type": "arc",
+    "arc": "q_debt_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The court struck the decree down. The graduates who stopped paying now owe the interest as well, and the lenders want it.",
+    "left": {
+      "label": "Pass it as a law",
+      "fx": {
+        "base": -2,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Decree it again",
+      "fx": {
+        "base": 3,
+        "public": 1,
+        "inst": -4
+      },
+      "next": "q_debt_l_a4",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_l_b3",
+    "type": "arc",
+    "arc": "q_debt_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The agency takes a third of every young nurse's wages. The hospitals are losing a nurse a day to abroad.",
+    "left": {
+      "label": "Buy the loans back",
+      "fx": {
+        "money": -3,
+        "base": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "They signed for it",
+      "fx": {
+        "backers": 2,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_l_a4",
+    "type": "arc",
+    "arc": "q_debt_l",
+    "step": 4,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A graduate asks you, on camera, whether you knew the decree would be struck down. She owes twice what she did.",
+    "left": {
+      "label": "Say that you knew",
+      "ending": "in_those_words",
+      "drift": 8
+    },
+    "right": {
+      "label": "Blame the judges",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_r_q",
+    "type": "arc",
+    "arc": "q_debt_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful's colleges want their graduates' debts forgiven. The Donors lent the money, and would like it back.",
+    "left": {
+      "label": "Cancel the debt",
+      "fx": {
+        "base": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "setFlags": [
+        "debt_cancelled"
+      ],
+      "next": "q_debt_r_a"
+    },
+    "right": {
+      "label": "Leave it to be repaid",
+      "fx": {
+        "base": -3,
+        "backers": 4,
+        "public": -1
+      },
+      "setFlags": [
+        "debt_kept"
+      ],
+      "next": "q_debt_r_b"
+    }
+  },
+  {
+    "id": "q_debt_r_a",
+    "type": "arc",
+    "arc": "q_debt_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors will accept a cancellation if the state buys their loans at face value, which is twice what they are worth.",
+    "left": {
+      "label": "Pay what they're worth",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Pay face value",
+      "fx": {
+        "backers": 5,
+        "money": -1,
+        "inst": -2
+      },
+      "next": "q_debt_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_r_b",
+    "type": "arc",
+    "arc": "q_debt_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The loans are the Donors'. Their collectors would like permission to take the repayments straight from wages.",
+    "left": {
+      "label": "Cap what they can take",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let them take wages",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_debt_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_r_a3",
+    "type": "arc",
+    "arc": "q_debt_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The state paid the Donors twice what the loans were worth. The Country is paying for it, and has found out.",
+    "left": {
+      "label": "Claw it back",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Call it a rescue",
+      "fx": {
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_r_b3",
+    "type": "arc",
+    "arc": "q_debt_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The collectors take a third of every young nurse's wages. The Faithful's hospital is losing a nurse a day to abroad.",
+    "left": {
+      "label": "Cap the collectors",
+      "fx": {
+        "backers": -4,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Stop them leaving",
+      "fx": {
+        "order": 2,
+        "backers": 2,
+        "inst": -4
+      },
+      "next": "q_debt_r_b4",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_debt_r_b4",
+    "type": "arc",
+    "arc": "q_debt_r",
+    "step": 4,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful's hospital has closed for want of nurses. The pastor asks, from its steps, what the debt was for.",
+    "left": {
+      "label": "Say it was a mistake",
+      "ending": "in_those_words",
+      "drift": 8
+    },
+    "right": {
+      "label": "Blame the nurses",
+      "fx": {
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

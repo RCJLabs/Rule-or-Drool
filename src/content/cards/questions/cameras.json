@@ -1,0 +1,381 @@
+[
+  {
+    "id": "q_cameras_l_q",
+    "type": "arc",
+    "arc": "q_cameras_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Cities want face scanners on every street after a summer of muggings. The Movement wants them banned, and has covered its faces to say so.",
+    "left": {
+      "label": "Face scans everywhere",
+      "fx": {
+        "public": 3,
+        "base": -4,
+        "backers": 1
+      },
+      "setFlags": [
+        "cameras_everywhere"
+      ],
+      "next": "q_cameras_l_a"
+    },
+    "right": {
+      "label": "Ban them outright",
+      "fx": {
+        "public": -3,
+        "base": 4,
+        "backers": -1
+      },
+      "setFlags": [
+        "cameras_banned"
+      ],
+      "next": "q_cameras_l_b"
+    }
+  },
+  {
+    "id": "q_cameras_l_a",
+    "type": "arc",
+    "arc": "q_cameras_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The scanners could search only with a warrant, or search everyone, always, which is what they were bought for.",
+    "left": {
+      "label": "Warrants only",
+      "fx": {
+        "public": -2,
+        "order": -1,
+        "inst": 2,
+        "money": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Search everyone",
+      "fx": {
+        "order": 3,
+        "public": 2,
+        "inst": -3
+      },
+      "next": "q_cameras_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_l_b",
+    "type": "arc",
+    "arc": "q_cameras_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The ban can cover the police's own cameras, or quietly leave them alone, which the police would prefer.",
+    "left": {
+      "label": "Ban theirs too",
+      "fx": {
+        "order": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Leave theirs alone",
+      "fx": {
+        "order": 3,
+        "public": 2,
+        "inst": -3
+      },
+      "next": "q_cameras_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_l_a3",
+    "type": "arc",
+    "arc": "q_cameras_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The scanners have been matching the Movement's marchers to their names. The lists are in the police canteen.",
+    "left": {
+      "label": "Destroy the lists",
+      "fx": {
+        "order": -3,
+        "public": -1,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Keep the lists",
+      "fx": {
+        "order": 3,
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_l_b3",
+    "type": "arc",
+    "arc": "q_cameras_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The police cameras the ban left alone have grown into a network nobody voted for. The general wants it made legal, under emergency powers.",
+    "left": {
+      "label": "Switch it off",
+      "fx": {
+        "order": -3,
+        "public": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Declare the emergency",
+      "ending": "emergency",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_r_q",
+    "type": "arc",
+    "arc": "q_cameras_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors' camera firm will put a face scanner on every street, at cost. The Country would rather nobody counted its faces.",
+    "left": {
+      "label": "Face scans everywhere",
+      "fx": {
+        "backers": 3,
+        "base": 1,
+        "public": -4
+      },
+      "setFlags": [
+        "cameras_everywhere"
+      ],
+      "next": "q_cameras_r_a"
+    },
+    "right": {
+      "label": "Ban them outright",
+      "fx": {
+        "backers": -3,
+        "base": -1,
+        "public": 4
+      },
+      "setFlags": [
+        "cameras_banned"
+      ],
+      "next": "q_cameras_r_b"
+    }
+  },
+  {
+    "id": "q_cameras_r_a",
+    "type": "arc",
+    "arc": "q_cameras_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors' firm would like to keep every face it scans. It says the data is perfectly safe, and it is: nobody else can see it.",
+    "left": {
+      "label": "Delete them after a day",
+      "fx": {
+        "backers": -3,
+        "order": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let the firm keep them",
+      "fx": {
+        "backers": 4,
+        "order": 1,
+        "inst": -3
+      },
+      "next": "q_cameras_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_r_b",
+    "type": "arc",
+    "arc": "q_cameras_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The ban leaves the border without scanners. The general would like to keep a few there, where nobody will ask.",
+    "left": {
+      "label": "The ban is the ban",
+      "fx": {
+        "order": -3,
+        "backers": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Keep the border ones",
+      "fx": {
+        "order": 3,
+        "backers": 1,
+        "inst": -3
+      },
+      "next": "q_cameras_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_r_a3",
+    "type": "arc",
+    "arc": "q_cameras_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The firm's faces found the Faithful's own pastor at a meeting of the opposition. The general wants emergency powers to use the rest.",
+    "left": {
+      "label": "Shut the firm down",
+      "fx": {
+        "backers": -4,
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Declare the emergency",
+      "ending": "emergency",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_cameras_r_b3",
+    "type": "arc",
+    "arc": "q_cameras_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The border scanners have been moved inland, a town at a time. The Country noticed when they reached the market square.",
+    "left": {
+      "label": "Take them all down",
+      "fx": {
+        "order": -3,
+        "backers": -1,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Say they keep us safe",
+      "fx": {
+        "order": 3,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

@@ -19,9 +19,15 @@
     "universal_care",
     "papers_granted",
     "stayed_out",
-    "care_market",
-    "top_rate_cut",
-    "top_rate_raised",
+    "court_packed",
+    "cameras_everywhere",
+    "banks_failed",
+    "drugs_legalised",
+    "truth_law",
+    "carbon_priced",
+    "banks_bailed",
+    "debt_cancelled",
+    "gas_drilled",
     "housing_built",
     "commission_open",
     "counted_late_boxes",
@@ -31,10 +37,28 @@
     "schools_starved",
     "media_captured",
     "took_the_skim",
+    "care_market",
+    "top_rate_cut",
+    "top_rate_raised",
+    "rents_controlled",
+    "zoning_cleared",
+    "tough_sentences",
+    "justice_reformed",
+    "tariffs_raised",
+    "trade_opened",
+    "pension_age_raised",
+    "cameras_banned",
+    "drugs_crackdown",
+    "wage_raised",
     "broke_inquiry",
     "broke_balance",
     "broke_homes",
     "broke_taxes",
+    "court_left",
+    "no_truth_law",
+    "debt_kept",
+    "pension_age_kept",
+    "wage_left",
     "dirty_politics",
     "cheated_election",
     "habit_clamp",
@@ -1106,6 +1130,630 @@
         "decay": "Care was left to the insurers, who wrote the rules and left out the expensive towns. The towns are still out.",
         "muddle": "Care was left to a market with vouchers. It works well for the people it works for.",
         "ascent": "Care was left to a market with rules that had teeth. It is the one market nobody complains about."
+      }
+    },
+    "wage_raised": {
+      "titles": {
+        "decay": {
+          "left": "The Decreed Wage",
+          "right": "The Exempted Wage"
+        },
+        "muddle": {
+          "left": "The Wage Board Years",
+          "right": "The Family Wage"
+        },
+        "ascent": {
+          "left": "The Wage That Held",
+          "right": "The Wage Without Exemptions"
+        }
+      },
+      "long": {
+        "decay": "The Wage Nobody Paid",
+        "muddle": "The Old Minimum",
+        "ascent": "The Floor Under Everyone"
+      },
+      "after": {
+        "decay": "The minimum wage was raised by decree and never enforced. The cafés still pay the old one, in cash.",
+        "muddle": "The minimum wage went up and stayed up, a little behind the prices, as it always is.",
+        "ascent": "The minimum wage was raised and enforced, café by café. Nobody here works for less, and the cafés are still open."
+      }
+    },
+    "wage_left": {
+      "titles": {
+        "decay": {
+          "left": "The Sweetheart Deals",
+          "right": "The Voucher Wages"
+        },
+        "muddle": {
+          "left": "The Bargained Wage",
+          "right": "The Employers' Wage"
+        },
+        "ascent": {
+          "left": "The Organised Cafés",
+          "right": "The Wage Paid in Money"
+        }
+      },
+      "long": {
+        "decay": "The Company Scrip",
+        "muddle": "The Long Bargain",
+        "ascent": "The Wage Won at the Table"
+      },
+      "after": {
+        "decay": "Wages were left to employers and to deals signed over the workers' heads. Some are still paid in vouchers.",
+        "muddle": "Wages were left to the bargaining table, which worked wherever there was a table.",
+        "ascent": "Wages were left to the table, and everyone got a seat at it. The cafés have a union now, and so do the farms."
+      }
+    },
+    "zoning_cleared": {
+      "titles": {
+        "decay": {
+          "left": "The Empty Towers",
+          "right": "The Cracked Towers"
+        },
+        "muddle": {
+          "left": "The Building Boom",
+          "right": "The Developers' Towns"
+        },
+        "ascent": {
+          "left": "The Homes First",
+          "right": "The Inspected City"
+        }
+      },
+      "long": {
+        "decay": "The Towers Nobody Lived In",
+        "muddle": "The Great Building",
+        "ascent": "The Built Country"
+      },
+      "after": {
+        "decay": "The zoning rules were cleared and the towers went up, empty or cracked. The rents never came down.",
+        "muddle": "The rules were cleared and a great deal was built, some of it for the people who needed it.",
+        "ascent": "The rules were cleared, homes were built first, and every one was inspected. Rents fell, and stayed down."
+      }
+    },
+    "rents_controlled": {
+      "titles": {
+        "decay": {
+          "left": "The Freeze",
+          "right": "The Renovated Rents"
+        },
+        "muddle": {
+          "left": "The Controlled Years",
+          "right": "The Rent Board"
+        },
+        "ascent": {
+          "left": "The Repaired Blocks",
+          "right": "The Fair Rents"
+        }
+      },
+      "long": {
+        "decay": "The Crumbling Blocks",
+        "muddle": "The Old Rent Book",
+        "ascent": "The Rent That Held"
+      },
+      "after": {
+        "decay": "The rents were frozen and the buildings were left to fall. The ones still standing are the ones nobody inspected.",
+        "muddle": "The rents were controlled, the landlords complained, and both are still here.",
+        "ascent": "The rents were controlled and the repairs were paid for. The blocks from that time are still the ones people want."
+      }
+    },
+    "carbon_priced": {
+      "titles": {
+        "decay": {
+          "left": "The Cold Winter",
+          "right": "The Unbuilt Wind Farms"
+        },
+        "muddle": {
+          "left": "The Carbon Levy",
+          "right": "The Priced Air"
+        },
+        "ascent": {
+          "left": "The Clean Switch",
+          "right": "The Returned Levy"
+        }
+      },
+      "long": {
+        "decay": "The Dark Winters",
+        "muddle": "The Long Transition",
+        "ascent": "The Clean Centuries"
+      },
+      "after": {
+        "decay": "Carbon was priced and the plants shut before anything replaced them. The old still date things from the dark winter.",
+        "muddle": "Carbon was given a price. It went up slowly and the smoke came down slowly, and both are still going.",
+        "ascent": "Carbon was priced and the money went back to the people paying it. The last coal plant is a museum with a café."
+      }
+    },
+    "gas_drilled": {
+      "titles": {
+        "decay": {
+          "left": "The Brown Taps",
+          "right": "The Gas Sold Abroad"
+        },
+        "muddle": {
+          "left": "The Refinery Years",
+          "right": "The Gas Boom"
+        },
+        "ascent": {
+          "left": "The Reviewed Valley",
+          "right": "The Gas Kept at Home"
+        }
+      },
+      "long": {
+        "decay": "The Poisoned Valley",
+        "muddle": "The Gasfield Towns",
+        "ascent": "The Careful Valley"
+      },
+      "after": {
+        "decay": "The valley was drilled without a review. The taps ran brown for a generation, and the gas went to whoever paid most.",
+        "muddle": "The gas under the valley was drilled and burned. The valley is quieter now, and so is the refinery.",
+        "ascent": "The gas was drilled with care and kept for the country's own winters. The valley's water is still clean."
+      }
+    },
+    "tariffs_raised": {
+      "titles": {
+        "decay": {
+          "left": "The Dividend Tariffs",
+          "right": "The Exempted Imports"
+        },
+        "muddle": {
+          "left": "The Protected Years",
+          "right": "The Tariff Wall"
+        },
+        "ascent": {
+          "left": "The Retooled Factories",
+          "right": "The Tariffs Without Favours"
+        }
+      },
+      "long": {
+        "decay": "The Closed Factories",
+        "muddle": "The Long Protection",
+        "ascent": "The Works That Lasted"
+      },
+      "after": {
+        "decay": "Tariffs went up, the owners paid themselves, and the factories closed anyway. The tariffs still protect nothing.",
+        "muddle": "The tariffs saved some factories for a while, and raised the price of everything for longer.",
+        "ascent": "The tariffs were tied to new machines, and the machines came. Some of the factories they saved are still running."
+      }
+    },
+    "trade_opened": {
+      "titles": {
+        "decay": {
+          "left": "The Tribunal Years",
+          "right": "The Moved Plants"
+        },
+        "muddle": {
+          "left": "The Open Border",
+          "right": "The Free Trade Years"
+        },
+        "ascent": {
+          "left": "The Deal Without a Tribunal",
+          "right": "The Retrained Towns"
+        }
+      },
+      "long": {
+        "decay": "The Sued Country",
+        "muddle": "The Open Market",
+        "ascent": "The Trading Nation"
+      },
+      "after": {
+        "decay": "Trade was opened on terms written elsewhere. The country was sued for its own laws until it stopped writing them.",
+        "muddle": "Trade was opened. The shoes got cheaper and the factory towns got quieter, and people still argue which mattered more.",
+        "ascent": "Trade was opened with the towns retrained first. The old factory towns make things nobody had heard of then."
+      }
+    },
+    "pension_age_raised": {
+      "titles": {
+        "decay": {
+          "left": "The January Pensions",
+          "right": "The Tax-Cut Pensions"
+        },
+        "muddle": {
+          "left": "The Later Retirement",
+          "right": "The Working Seventies"
+        },
+        "ascent": {
+          "left": "The Phased Retirement",
+          "right": "The Saved Fund"
+        }
+      },
+      "long": {
+        "decay": "The Retirement Nobody Reached",
+        "muddle": "The Long Working Life",
+        "ascent": "The Fund That Lasted"
+      },
+      "after": {
+        "decay": "The pension age was raised overnight and the savings spent the same year. People here retire at whatever age they stop.",
+        "muddle": "The pension age went up two years and stayed there. Everyone grumbled, and then everyone worked them.",
+        "ascent": "The pension age went up slowly and the savings stayed in the fund. It is the only fund of its time still paying."
+      }
+    },
+    "pension_age_kept": {
+      "titles": {
+        "decay": {
+          "left": "The Borrowed Pensions",
+          "right": "The Fund That Pays Rent"
+        },
+        "muddle": {
+          "left": "The Kept Promise",
+          "right": "The Old Age"
+        },
+        "ascent": {
+          "left": "The Paid-For Pensions",
+          "right": "The Contribution Years"
+        }
+      },
+      "long": {
+        "decay": "The Empty Fund",
+        "muddle": "The Unchanged Age",
+        "ascent": "The Honoured Retirement"
+      },
+      "after": {
+        "decay": "The pension age was kept and paid for by borrowing from the fund. The fund is a building now, and rented.",
+        "muddle": "The pension age was kept, and every government since has promised to change it.",
+        "ascent": "The pension age was kept and paid for in the open, a little more from everyone. It is still where it was."
+      }
+    },
+    "debt_cancelled": {
+      "titles": {
+        "decay": {
+          "left": "The Struck-Down Decree",
+          "right": "The Face-Value Rescue"
+        },
+        "muddle": {
+          "left": "The Cancellation",
+          "right": "The Forgiven Graduates"
+        },
+        "ascent": {
+          "left": "The Lawful Cancellation",
+          "right": "The Fair Buyback"
+        }
+      },
+      "long": {
+        "decay": "The Debt That Doubled",
+        "muddle": "The Graduates' Jubilee",
+        "ascent": "The Free Degree"
+      },
+      "after": {
+        "decay": "Student debt was cancelled by decree, struck down, and owed twice. That year's graduates say \"decree\" like a curse.",
+        "muddle": "Student debt was cancelled once, and the next year's students borrowed it all again.",
+        "ascent": "Student debt was cancelled by a law that paid for it. The universities have been free ever since."
+      }
+    },
+    "debt_kept": {
+      "titles": {
+        "decay": {
+          "left": "The Collectors' Years",
+          "right": "The Garnished Wages"
+        },
+        "muddle": {
+          "left": "The Long Repayment",
+          "right": "The Debt Kept"
+        },
+        "ascent": {
+          "left": "The Public Loans",
+          "right": "The Capped Collections"
+        }
+      },
+      "long": {
+        "decay": "The Emigrant Generation",
+        "muddle": "The Repaid Degrees",
+        "ascent": "The Fair Loan"
+      },
+      "after": {
+        "decay": "Student debt was sold to collectors, who took it from wages. A generation of nurses paid theirs off abroad.",
+        "muddle": "Student debt was left to be repaid, and it was, slowly, by people who remember every payment.",
+        "ascent": "Student debt stayed with the state and was collected fairly. It is the only loan anyone here speaks of kindly."
+      }
+    },
+    "drugs_crackdown": {
+      "titles": {
+        "decay": {
+          "left": "The Full Cells",
+          "right": "The Seized and Resold"
+        },
+        "muddle": {
+          "left": "The Crackdown",
+          "right": "The Narcotics Years"
+        },
+        "ascent": {
+          "left": "The Courts' Crackdown",
+          "right": "The Clean Squads"
+        }
+      },
+      "long": {
+        "decay": "The Cartel Police",
+        "muddle": "The Endless Crackdown",
+        "ascent": "The Lawful Streets"
+      },
+      "after": {
+        "decay": "Drugs were cracked down on until the police sold what they seized. The corner by the school has a dealer in uniform.",
+        "muddle": "The crackdown filled the prisons and emptied some corners. The rest moved two streets over.",
+        "ascent": "The crackdown went through the courts, warrant by warrant. It took years, and the corners stayed clear."
+      }
+    },
+    "drugs_legalised": {
+      "titles": {
+        "decay": {
+          "left": "The Licensed Gangs",
+          "right": "The Cartoon Packets"
+        },
+        "muddle": {
+          "left": "The Legal Market",
+          "right": "The Taxed Vice"
+        },
+        "ascent": {
+          "left": "The Licensed Growers",
+          "right": "The Plain Packets"
+        }
+      },
+      "long": {
+        "decay": "The Cartel Century",
+        "muddle": "The Taxed Habit",
+        "ascent": "The Quiet Pharmacies"
+      },
+      "after": {
+        "decay": "Drugs were legalised and the gangs were licensed to sell them. The gangs are still licensed, and own the ports.",
+        "muddle": "Drugs were legalised and taxed. Fewer went to prison, more went to the doctor, and the argument never ended.",
+        "ascent": "Drugs were legalised, taxed and sold plainly, by people who had never been dealers. The prisons have spare rooms."
+      }
+    },
+    "tough_sentences": {
+      "titles": {
+        "decay": {
+          "left": "The Borrowed Uniforms",
+          "right": "The Private Prisons"
+        },
+        "muddle": {
+          "left": "The Long Sentences",
+          "right": "The Policed Years"
+        },
+        "ascent": {
+          "left": "The Trained Police",
+          "right": "The Public Prisons"
+        }
+      },
+      "long": {
+        "decay": "The Prison Economy",
+        "muddle": "The Crowded Cells",
+        "ascent": "The Safe Streets"
+      },
+      "after": {
+        "decay": "More police went out untrained, and the prisons were paid by the bed. The beds are still full.",
+        "muddle": "There were more police and longer sentences. The streets got a little safer and the prisons a lot fuller.",
+        "ascent": "The new police were trained for two years, and it showed. The prisons were built by the state, and are half empty."
+      }
+    },
+    "justice_reformed": {
+      "titles": {
+        "decay": {
+          "left": "The Summer Releases",
+          "right": "The Self-Policed"
+        },
+        "muddle": {
+          "left": "The Reform Years",
+          "right": "The Oversight"
+        },
+        "ascent": {
+          "left": "The Halfway Houses",
+          "right": "The Watched Watchmen"
+        }
+      },
+      "long": {
+        "decay": "The Empty Forts",
+        "muddle": "The Long Reform",
+        "ascent": "The Second Chances"
+      },
+      "after": {
+        "decay": "The prisons were emptied too fast and the police were left to watch themselves. Neither was ever quite fixed.",
+        "muddle": "The prisons were reformed, slowly, and the police were watched, sometimes.",
+        "ascent": "The prisons were reformed with somewhere to go afterwards. Most who left never came back, which was the point."
+      }
+    },
+    "cameras_everywhere": {
+      "titles": {
+        "decay": {
+          "left": "The Canteen Lists",
+          "right": "The Firm's Faces"
+        },
+        "muddle": {
+          "left": "The Watched Streets",
+          "right": "The Camera Years"
+        },
+        "ascent": {
+          "left": "The Warranted Cameras",
+          "right": "The Forgetting Cameras"
+        }
+      },
+      "long": {
+        "decay": "The Watched Centuries",
+        "muddle": "The Counted Faces",
+        "ascent": "The Accountable Lens"
+      },
+      "after": {
+        "decay": "Every face on every street was scanned and kept. The lists are still kept, by people nobody elected.",
+        "muddle": "The scanners went up and stayed. People stopped noticing them, which was what the scanners wanted.",
+        "ascent": "The scanners searched only with a warrant and forgot every face after a day. The muggings stopped anyway."
+      }
+    },
+    "cameras_banned": {
+      "titles": {
+        "decay": {
+          "left": "The Secret Network",
+          "right": "The Creeping Scanners"
+        },
+        "muddle": {
+          "left": "The Faceless Streets",
+          "right": "The Private Faces"
+        },
+        "ascent": {
+          "left": "The Uncounted",
+          "right": "The Ban That Held"
+        }
+      },
+      "long": {
+        "decay": "The Hidden Cameras",
+        "muddle": "The Open Faces",
+        "ascent": "The Unwatched Republic"
+      },
+      "after": {
+        "decay": "Face scanners were banned, except the ones nobody banned. Those are still running, and still unofficial.",
+        "muddle": "The scanners were banned. The muggings went on, and so did the argument.",
+        "ascent": "The scanners were banned, all of them, the police's included. Nobody here has had their face counted since."
+      }
+    },
+    "truth_law": {
+      "titles": {
+        "decay": {
+          "left": "The Ministry's Truth",
+          "right": "The Blasphemy Years"
+        },
+        "muddle": {
+          "left": "The Fact Law",
+          "right": "The Truth Panels"
+        },
+        "ascent": {
+          "left": "The Independent Panel",
+          "right": "The Law Against Lies"
+        }
+      },
+      "long": {
+        "decay": "The Official Truth",
+        "muddle": "The Checked Age",
+        "ascent": "The Honest Record"
+      },
+      "after": {
+        "decay": "A law decided what was true, and the ministry decided the law. Nobody believes anything official now, even the weather.",
+        "muddle": "A law against misinformation was passed. It caught some lies and some jokes, and was argued about forever.",
+        "ascent": "An independent panel decided what was false, and was usually right. Lying in public is still rare here, and expensive."
+      }
+    },
+    "no_truth_law": {
+      "titles": {
+        "decay": {
+          "left": "The Hologram Years",
+          "right": "The Fake Videos"
+        },
+        "muddle": {
+          "left": "The Loud Years",
+          "right": "The Unchecked Screens"
+        },
+        "ascent": {
+          "left": "The Answered Lies",
+          "right": "The Named Liars"
+        }
+      },
+      "long": {
+        "decay": "The Age of Fakes",
+        "muddle": "The Great Noise",
+        "ascent": "The Plain-Speaking Age"
+      },
+      "after": {
+        "decay": "No law decided what was true, so nothing was. Half the country still believes something made up in an afternoon.",
+        "muddle": "There was no law against lies, and there were a great many lies. The truth did about as well as usual.",
+        "ascent": "No law was passed. The lies were answered with facts, every time, until answering became a habit."
+      }
+    },
+    "court_packed": {
+      "titles": {
+        "decay": {
+          "left": "The Loud Court",
+          "right": "The Seminary Court"
+        },
+        "muddle": {
+          "left": "The Bigger Bench",
+          "right": "The Enlarged Court"
+        },
+        "ascent": {
+          "left": "The Bar's Court",
+          "right": "The Court of Real Judges"
+        }
+      },
+      "long": {
+        "decay": "The Court of Hundreds",
+        "muddle": "The Long Bench",
+        "ascent": "The Trusted Court"
+      },
+      "after": {
+        "decay": "Seats were added to the highest court, then more, then more. It is bigger than the parliament, and meets more often.",
+        "muddle": "Four seats were added to the highest court. The next government added four more, and there it stopped, for now.",
+        "ascent": "Four seats were added and filled from the bar's own list. Both sides trust the court, which neither side admits."
+      }
+    },
+    "court_left": {
+      "titles": {
+        "decay": {
+          "left": "The Vague Laws",
+          "right": "The Defied Court"
+        },
+        "muddle": {
+          "left": "The Old Bench",
+          "right": "The Untouched Court"
+        },
+        "ascent": {
+          "left": "The Rewritten Laws",
+          "right": "The Obeyed Court"
+        }
+      },
+      "long": {
+        "decay": "The Court Nobody Obeyed",
+        "muddle": "The Nine Old Seats",
+        "ascent": "The Rule of the Court"
+      },
+      "after": {
+        "decay": "The court was left alone, and then ignored. Its rulings are still printed, and still not read.",
+        "muddle": "The highest court was left alone. It struck some things down and kept others, as courts do.",
+        "ascent": "The court was left alone and obeyed, even when it ruled against the government. Especially then."
+      }
+    },
+    "banks_bailed": {
+      "titles": {
+        "decay": {
+          "left": "The Bonus Rescue",
+          "right": "The Dividend Rescue"
+        },
+        "muddle": {
+          "left": "The Bailout",
+          "right": "The Rescued Banks"
+        },
+        "ascent": {
+          "left": "The Conditional Rescue",
+          "right": "The Rescue With Strings"
+        }
+      },
+      "long": {
+        "decay": "The Bankers' Century",
+        "muddle": "The Rescue Years",
+        "ascent": "The Banks That Paid Back"
+      },
+      "after": {
+        "decay": "The banks were rescued, and the rescue went on bonuses and dividends. They have been rescued twice since.",
+        "muddle": "The banks were rescued. They are still there, a little smaller, and still asking.",
+        "ascent": "The banks were rescued on conditions and paid back every coin. The public seat on each board is still filled."
+      }
+    },
+    "banks_failed": {
+      "titles": {
+        "decay": {
+          "left": "The Shut Doors",
+          "right": "The Tractors at the Bank"
+        },
+        "muddle": {
+          "left": "The Bank Failures",
+          "right": "The Crash"
+        },
+        "ascent": {
+          "left": "The Guaranteed Savers",
+          "right": "The Savers First"
+        }
+      },
+      "long": {
+        "decay": "The Great Run",
+        "muddle": "The Collapse Remembered",
+        "ascent": "The Clean Failure"
+      },
+      "after": {
+        "decay": "The banks were allowed to fail with the savers inside. People here keep their money under the floor, and say why.",
+        "muddle": "The banks failed. The bankers lost everything, and so did some people who were not bankers.",
+        "ascent": "The banks were allowed to fail, and every small saver was paid. It is the only crash anyone remembers fondly."
       }
     }
   }

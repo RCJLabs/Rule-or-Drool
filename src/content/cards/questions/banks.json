@@ -1,0 +1,375 @@
+[
+  {
+    "id": "q_banks_l_q",
+    "type": "arc",
+    "arc": "q_banks_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Two banks are failing, and the Unions' pension fund is in both. The Movement wants the bankers to lose everything, and to watch.",
+    "left": {
+      "label": "Bail them out",
+      "fx": {
+        "backers": 3,
+        "base": -4,
+        "public": 1
+      },
+      "setFlags": [
+        "banks_bailed"
+      ],
+      "next": "q_banks_l_a"
+    },
+    "right": {
+      "label": "Let them fail",
+      "fx": {
+        "backers": -3,
+        "base": 4,
+        "public": -1
+      },
+      "setFlags": [
+        "banks_failed"
+      ],
+      "next": "q_banks_l_b"
+    }
+  },
+  {
+    "id": "q_banks_l_a",
+    "type": "arc",
+    "arc": "q_banks_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The rescue can come with conditions: no bonuses, and a public seat on each board. Or it can come tonight, before the markets open.",
+    "left": {
+      "label": "With conditions",
+      "fx": {
+        "backers": -2,
+        "money": -2,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Tonight, no strings",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "next": "q_banks_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_l_b",
+    "type": "arc",
+    "arc": "q_banks_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Letting them fail means guaranteeing the small savers first. Or the doors can be shut tonight and the savers sorted out later.",
+    "left": {
+      "label": "Guarantee the savers",
+      "fx": {
+        "money": -3,
+        "backers": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Shut them tonight",
+      "fx": {
+        "base": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_banks_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_l_a3",
+    "type": "arc",
+    "arc": "q_banks_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The rescued bankers have paid themselves bonuses out of the rescue. The Movement is outside the bank with a list of names.",
+    "left": {
+      "label": "Claw the bonuses back",
+      "fx": {
+        "backers": -3,
+        "base": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "It is in their contracts",
+      "fx": {
+        "backers": 3,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_l_b3",
+    "type": "arc",
+    "arc": "q_banks_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The savers were never told. There are queues outside every other bank in the Cities, and the queues are getting longer.",
+    "left": {
+      "label": "Guarantee every saver",
+      "fx": {
+        "money": -4,
+        "base": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Close the other banks",
+      "ending": "bank_run",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_r_q",
+    "type": "arc",
+    "arc": "q_banks_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Two banks are failing. The Donors want them rescued with public money. The Country would like to know who rescued its farms.",
+    "left": {
+      "label": "Bail them out",
+      "fx": {
+        "backers": 4,
+        "public": -3,
+        "base": -1
+      },
+      "setFlags": [
+        "banks_bailed"
+      ],
+      "next": "q_banks_r_a"
+    },
+    "right": {
+      "label": "Let them fail",
+      "fx": {
+        "backers": -4,
+        "public": 3,
+        "base": 1
+      },
+      "setFlags": [
+        "banks_failed"
+      ],
+      "next": "q_banks_r_b"
+    }
+  },
+  {
+    "id": "q_banks_r_a",
+    "type": "arc",
+    "arc": "q_banks_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors would like the rescue without conditions, since conditions would upset the markets, which are the Donors.",
+    "left": {
+      "label": "With conditions",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "No conditions",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_banks_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_r_b",
+    "type": "arc",
+    "arc": "q_banks_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The failing banks hold the Donors' own deposits. They would like theirs repaid first, before the Country's.",
+    "left": {
+      "label": "Savers first",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Donors first",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_banks_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_r_a3",
+    "type": "arc",
+    "arc": "q_banks_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The rescued banks paid the rescue out as dividends, to the Donors. The Country is taking its savings out, one farm at a time.",
+    "left": {
+      "label": "Take the dividends back",
+      "fx": {
+        "backers": -4,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Rescue them again",
+      "ending": "bank_run",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_banks_r_b3",
+    "type": "arc",
+    "arc": "q_banks_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Donors were repaid and the Country's savers were not. The farmers are at the bank's doors with their tractors.",
+    "left": {
+      "label": "Repay the savers",
+      "fx": {
+        "money": -3,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Send the police",
+      "fx": {
+        "order": 3,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

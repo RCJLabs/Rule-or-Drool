@@ -1,0 +1,379 @@
+[
+  {
+    "id": "q_housing_l_q",
+    "type": "arc",
+    "arc": "q_housing_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants the rents controlled. The Unions' builders want the zoning rules cleared, and something to build.",
+    "left": {
+      "label": "Clear the rules, build",
+      "fx": {
+        "base": -4,
+        "backers": 3,
+        "public": 1
+      },
+      "setFlags": [
+        "zoning_cleared"
+      ],
+      "next": "q_housing_l_a"
+    },
+    "right": {
+      "label": "Control the rents",
+      "fx": {
+        "base": 4,
+        "backers": -3,
+        "public": -1
+      },
+      "setFlags": [
+        "rents_controlled"
+      ],
+      "next": "q_housing_l_b"
+    }
+  },
+  {
+    "id": "q_housing_l_a",
+    "type": "arc",
+    "arc": "q_housing_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The rules are gone. The developers want to build luxury flats first, which pay, and the homes people need later, which do not.",
+    "left": {
+      "label": "Homes first, by law",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "public": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Luxury first",
+      "fx": {
+        "money": 3,
+        "backers": 1,
+        "inst": -2
+      },
+      "next": "q_housing_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_l_b",
+    "type": "arc",
+    "arc": "q_housing_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A rent control that works needs money for repairs, or the landlords stop doing them. A freeze costs nothing, today.",
+    "left": {
+      "label": "Control it, fund repairs",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Freeze every rent",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_housing_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_l_a3",
+    "type": "arc",
+    "arc": "q_housing_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The luxury towers are finished and empty, bought by people who live somewhere else. The Cities' rents went up to match.",
+    "left": {
+      "label": "Tax the empty flats",
+      "fx": {
+        "base": 2,
+        "public": -3,
+        "inst": 2,
+        "money": -2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Build more luxury",
+      "fx": {
+        "money": 3,
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_l_b3",
+    "type": "arc",
+    "arc": "q_housing_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Under the freeze the landlords stopped repairing anything. An inspector has condemned a block in the Cities with families still in it.",
+    "left": {
+      "label": "Move them, pay for it",
+      "fx": {
+        "money": -3,
+        "base": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Keep it off the list",
+      "ending": "condemned",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_r_q",
+    "type": "arc",
+    "arc": "q_housing_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors will build if the zoning rules go. The Faithful would rather the rents were controlled, and the towns left the height they are.",
+    "left": {
+      "label": "Clear the rules, build",
+      "fx": {
+        "backers": 4,
+        "base": -2,
+        "public": -2
+      },
+      "setFlags": [
+        "zoning_cleared"
+      ],
+      "next": "q_housing_r_a"
+    },
+    "right": {
+      "label": "Control the rents",
+      "fx": {
+        "backers": -4,
+        "base": 2,
+        "public": 2
+      },
+      "setFlags": [
+        "rents_controlled"
+      ],
+      "next": "q_housing_r_b"
+    }
+  },
+  {
+    "id": "q_housing_r_a",
+    "type": "arc",
+    "arc": "q_housing_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "With the rules gone, the Donors' builders would like to inspect their own buildings. It would save a year, and the inspectors' wages.",
+    "left": {
+      "label": "Keep the inspectors",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let them self-certify",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_housing_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_r_b",
+    "type": "arc",
+    "arc": "q_housing_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A rent control with an exemption for renovated flats would please the landlords. Every flat in the Country would be renovated by Monday.",
+    "left": {
+      "label": "No exemptions",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Allow the exemption",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_housing_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_r_a3",
+    "type": "arc",
+    "arc": "q_housing_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A tower the builders inspected themselves has a crack from the roof to the lobby. Two hundred families live either side of it.",
+    "left": {
+      "label": "Empty it, charge them",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Call it cosmetic",
+      "ending": "condemned",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_housing_r_b3",
+    "type": "arc",
+    "arc": "q_housing_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every flat has been renovated with a coat of paint and a new rent. The Faithful's families are sleeping in the church hall.",
+    "left": {
+      "label": "Close the loophole",
+      "fx": {
+        "backers": -4,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Open more church halls",
+      "fx": {
+        "base": 2,
+        "backers": 2,
+        "money": -1,
+        "inst": -2
+      },
+      "drift": -12
+    }
+  }
+]

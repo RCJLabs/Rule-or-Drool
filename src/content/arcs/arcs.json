@@ -582,7 +582,8 @@
     "align": "left",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -606,7 +607,8 @@
     "align": "right",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -630,7 +632,8 @@
     "align": "left",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -653,7 +656,8 @@
     "align": "right",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -676,7 +680,8 @@
     "align": "left",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -699,7 +704,8 @@
     "align": "right",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -722,7 +728,8 @@
     "align": "left",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -746,7 +753,8 @@
     "align": "right",
     "entry": {
       "eras": [
-        1
+        1,
+        2
       ],
       "bands": [
         "decay",
@@ -764,5 +772,587 @@
       "q_care_r_b4"
     ],
     "question": "care"
+  },
+  {
+    "id": "q_wage_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_wage_l_q",
+      "q_wage_l_a",
+      "q_wage_l_b",
+      "q_wage_l_a3",
+      "q_wage_l_b3"
+    ],
+    "question": "wage"
+  },
+  {
+    "id": "q_wage_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_wage_r_q",
+      "q_wage_r_a",
+      "q_wage_r_b",
+      "q_wage_r_a3",
+      "q_wage_r_b3"
+    ],
+    "question": "wage"
+  },
+  {
+    "id": "q_housing_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_housing_l_q",
+      "q_housing_l_a",
+      "q_housing_l_b",
+      "q_housing_l_a3",
+      "q_housing_l_b3"
+    ],
+    "question": "housing"
+  },
+  {
+    "id": "q_housing_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_housing_r_q",
+      "q_housing_r_a",
+      "q_housing_r_b",
+      "q_housing_r_a3",
+      "q_housing_r_b3"
+    ],
+    "question": "housing"
+  },
+  {
+    "id": "q_carbon_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_carbon_l_q",
+      "q_carbon_l_a",
+      "q_carbon_l_b",
+      "q_carbon_l_a3",
+      "q_carbon_l_b3"
+    ],
+    "question": "carbon"
+  },
+  {
+    "id": "q_carbon_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_carbon_r_q",
+      "q_carbon_r_a",
+      "q_carbon_r_b",
+      "q_carbon_r_a3",
+      "q_carbon_r_b3"
+    ],
+    "question": "carbon"
+  },
+  {
+    "id": "q_trade_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_trade_l_q",
+      "q_trade_l_a",
+      "q_trade_l_b",
+      "q_trade_l_a3",
+      "q_trade_l_b3",
+      "q_trade_l_a4"
+    ],
+    "question": "trade"
+  },
+  {
+    "id": "q_trade_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_trade_r_q",
+      "q_trade_r_a",
+      "q_trade_r_b",
+      "q_trade_r_a3",
+      "q_trade_r_b3",
+      "q_trade_r_b4"
+    ],
+    "question": "trade"
+  },
+  {
+    "id": "q_pensions_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_pensions_l_q",
+      "q_pensions_l_a",
+      "q_pensions_l_b",
+      "q_pensions_l_a3",
+      "q_pensions_l_b3"
+    ],
+    "question": "pensions"
+  },
+  {
+    "id": "q_pensions_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_pensions_r_q",
+      "q_pensions_r_a",
+      "q_pensions_r_b",
+      "q_pensions_r_a3",
+      "q_pensions_r_b3"
+    ],
+    "question": "pensions"
+  },
+  {
+    "id": "q_debt_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_debt_l_q",
+      "q_debt_l_a",
+      "q_debt_l_b",
+      "q_debt_l_a3",
+      "q_debt_l_b3",
+      "q_debt_l_a4"
+    ],
+    "question": "debt"
+  },
+  {
+    "id": "q_debt_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_debt_r_q",
+      "q_debt_r_a",
+      "q_debt_r_b",
+      "q_debt_r_a3",
+      "q_debt_r_b3",
+      "q_debt_r_b4"
+    ],
+    "question": "debt"
+  },
+  {
+    "id": "q_drugs_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_drugs_l_q",
+      "q_drugs_l_a",
+      "q_drugs_l_b",
+      "q_drugs_l_a3",
+      "q_drugs_l_b3"
+    ],
+    "question": "drugs"
+  },
+  {
+    "id": "q_drugs_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_drugs_r_q",
+      "q_drugs_r_a",
+      "q_drugs_r_b",
+      "q_drugs_r_a3",
+      "q_drugs_r_b3"
+    ],
+    "question": "drugs"
+  },
+  {
+    "id": "q_crime_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_crime_l_q",
+      "q_crime_l_a",
+      "q_crime_l_b",
+      "q_crime_l_a3",
+      "q_crime_l_b3"
+    ],
+    "question": "crime"
+  },
+  {
+    "id": "q_crime_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_crime_r_q",
+      "q_crime_r_a",
+      "q_crime_r_b",
+      "q_crime_r_a3",
+      "q_crime_r_b3"
+    ],
+    "question": "crime"
+  },
+  {
+    "id": "q_cameras_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_cameras_l_q",
+      "q_cameras_l_a",
+      "q_cameras_l_b",
+      "q_cameras_l_a3",
+      "q_cameras_l_b3"
+    ],
+    "question": "cameras"
+  },
+  {
+    "id": "q_cameras_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_cameras_r_q",
+      "q_cameras_r_a",
+      "q_cameras_r_b",
+      "q_cameras_r_a3",
+      "q_cameras_r_b3"
+    ],
+    "question": "cameras"
+  },
+  {
+    "id": "q_speech_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_speech_l_q",
+      "q_speech_l_a",
+      "q_speech_l_b",
+      "q_speech_l_a3",
+      "q_speech_l_b3",
+      "q_speech_l_a4"
+    ],
+    "question": "speech"
+  },
+  {
+    "id": "q_speech_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_speech_r_q",
+      "q_speech_r_a",
+      "q_speech_r_b",
+      "q_speech_r_a3",
+      "q_speech_r_b3",
+      "q_speech_r_b4"
+    ],
+    "question": "speech"
+  },
+  {
+    "id": "q_courts_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_courts_l_q",
+      "q_courts_l_a",
+      "q_courts_l_b",
+      "q_courts_l_a3",
+      "q_courts_l_b3"
+    ],
+    "question": "courts"
+  },
+  {
+    "id": "q_courts_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_courts_r_q",
+      "q_courts_r_a",
+      "q_courts_r_b",
+      "q_courts_r_a3",
+      "q_courts_r_b3"
+    ],
+    "question": "courts"
+  },
+  {
+    "id": "q_banks_l",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_banks_l_q",
+      "q_banks_l_a",
+      "q_banks_l_b",
+      "q_banks_l_a3",
+      "q_banks_l_b3"
+    ],
+    "question": "banks"
+  },
+  {
+    "id": "q_banks_r",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 1,
+    "cards": [
+      "q_banks_r_q",
+      "q_banks_r_a",
+      "q_banks_r_b",
+      "q_banks_r_a3",
+      "q_banks_r_b3"
+    ],
+    "question": "banks"
   }
 ]

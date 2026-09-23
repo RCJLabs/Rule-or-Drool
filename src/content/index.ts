@@ -66,6 +66,18 @@ import questionTreaty from "./cards/questions/treaty.json";
 import questionPapers from "./cards/questions/papers.json";
 import questionTopRate from "./cards/questions/top_rate.json";
 import questionCare from "./cards/questions/care.json";
+import questionWage from "./cards/questions/wage.json";
+import questionHousing from "./cards/questions/housing.json";
+import questionCarbon from "./cards/questions/carbon.json";
+import questionTrade from "./cards/questions/trade.json";
+import questionPensions from "./cards/questions/pensions.json";
+import questionDebt from "./cards/questions/debt.json";
+import questionDrugs from "./cards/questions/drugs.json";
+import questionCrime from "./cards/questions/crime.json";
+import questionCameras from "./cards/questions/cameras.json";
+import questionSpeech from "./cards/questions/speech.json";
+import questionCourts from "./cards/questions/courts.json";
+import questionBanks from "./cards/questions/banks.json";
 import consequences from "./cards/consequences.json";
 import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
@@ -173,6 +185,19 @@ export const content: Content = {
     ...asCards(questionPapers, "questions/papers.json"),
     ...asCards(questionTopRate, "questions/top_rate.json"),
     ...asCards(questionCare, "questions/care.json"),
+    // Twelve more (phase 41), in the same shape.
+    ...asCards(questionWage, "questions/wage.json"),
+    ...asCards(questionHousing, "questions/housing.json"),
+    ...asCards(questionCarbon, "questions/carbon.json"),
+    ...asCards(questionTrade, "questions/trade.json"),
+    ...asCards(questionPensions, "questions/pensions.json"),
+    ...asCards(questionDebt, "questions/debt.json"),
+    ...asCards(questionDrugs, "questions/drugs.json"),
+    ...asCards(questionCrime, "questions/crime.json"),
+    ...asCards(questionCameras, "questions/cameras.json"),
+    ...asCards(questionSpeech, "questions/speech.json"),
+    ...asCards(questionCourts, "questions/courts.json"),
+    ...asCards(questionBanks, "questions/banks.json"),
     ...asCards(consequences, "consequences.json"),
     ...asCards(chains, "chains.json"),
     ...asCards(promises, "promises.json"),

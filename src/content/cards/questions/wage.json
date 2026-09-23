@@ -1,0 +1,378 @@
+[
+  {
+    "id": "q_wage_l_q",
+    "type": "arc",
+    "arc": "q_wage_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants the minimum wage raised by law. The Unions would rather win it at the table, where the members can see who won it.",
+    "left": {
+      "label": "Raise it by law",
+      "fx": {
+        "base": 4,
+        "backers": -2,
+        "public": -2
+      },
+      "setFlags": [
+        "wage_raised"
+      ],
+      "next": "q_wage_l_a"
+    },
+    "right": {
+      "label": "Leave it to employers",
+      "fx": {
+        "base": -4,
+        "backers": 2,
+        "public": 2
+      },
+      "setFlags": [
+        "wage_left"
+      ],
+      "next": "q_wage_l_b"
+    }
+  },
+  {
+    "id": "q_wage_l_a",
+    "type": "arc",
+    "arc": "q_wage_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The raise can go through the wage board, with the Unions at the table. Or it can go through tonight, by decree, before they object.",
+    "left": {
+      "label": "Go through the board",
+      "fx": {
+        "base": -3,
+        "inst": 2,
+        "money": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Decree it tonight",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_wage_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_l_b",
+    "type": "arc",
+    "arc": "q_wage_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Unions' leaders offer to sign a low wage deal for the cafés, where nobody is in a union, in return for a seat on every board.",
+    "left": {
+      "label": "Help the cafés organise",
+      "fx": {
+        "public": -3,
+        "backers": 1,
+        "inst": 2,
+        "money": -2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let them sign it",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_wage_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_l_a3",
+    "type": "arc",
+    "arc": "q_wage_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Unions were not asked. The dock workers have walked out to remind you who sets wages, and the port is closed.",
+    "left": {
+      "label": "Bring them to the table",
+      "fx": {
+        "base": -3,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Break the strike",
+      "ending": "general_strike",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_l_b3",
+    "type": "arc",
+    "arc": "q_wage_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The café workers found out who signed away their raise. They have started a union of their own, against the Unions.",
+    "left": {
+      "label": "Recognise their union",
+      "fx": {
+        "backers": -4,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Refuse to recognise it",
+      "fx": {
+        "backers": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_r_q",
+    "type": "arc",
+    "arc": "q_wage_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful want a wage a family can live on. The Donors' supermarkets say they would put a machine at every till instead.",
+    "left": {
+      "label": "Raise it by law",
+      "fx": {
+        "base": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "setFlags": [
+        "wage_raised"
+      ],
+      "next": "q_wage_r_a"
+    },
+    "right": {
+      "label": "Leave it to employers",
+      "fx": {
+        "base": -3,
+        "backers": 4,
+        "public": -1
+      },
+      "setFlags": [
+        "wage_left"
+      ],
+      "next": "q_wage_r_b"
+    }
+  },
+  {
+    "id": "q_wage_r_a",
+    "type": "arc",
+    "arc": "q_wage_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors will accept the raise if the farms and the supermarkets are exempted, which covers most of the people it was for.",
+    "left": {
+      "label": "No exemptions",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Exempt them quietly",
+      "fx": {
+        "backers": 4,
+        "base": 1,
+        "inst": -3
+      },
+      "next": "q_wage_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_r_b",
+    "type": "arc",
+    "arc": "q_wage_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Left to employers, the Donors' farms have started paying in shop vouchers, good at the Donors' shops.",
+    "left": {
+      "label": "Money, not vouchers",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let the vouchers stand",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_wage_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_r_a3",
+    "type": "arc",
+    "arc": "q_wage_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The raise covers almost nobody. The Faithful's pastors have been reading the exemptions aloud, slowly.",
+    "left": {
+      "label": "Close the exemptions",
+      "fx": {
+        "backers": -4,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Call it a first step",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_wage_r_b3",
+    "type": "arc",
+    "arc": "q_wage_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The farm workers paid in vouchers have stopped work, and the harvest has stopped with them. The Country is watching the fields.",
+    "left": {
+      "label": "Pay them in money",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Send police to the farms",
+      "ending": "general_strike",
+      "drift": -12
+    }
+  }
+]

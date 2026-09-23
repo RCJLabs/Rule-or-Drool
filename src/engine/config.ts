@@ -196,11 +196,14 @@ export const DEFAULT_CONFIG: EngineConfig = {
   /**
    * Questions have a budget of their own because the stories' is full: a run enters about
    * six stories against a budget of 4-6, so a question entered through it would take a
-   * story's place (BACKLOG-6 phase 40). Two a run while there are four questions: at three,
-   * nearly every run met three of the same four, and a war for the ally named up to a quarter
-   * of all histories.
+   * story's place (BACKLOG-6 phase 40). Three a run of sixteen, asked in the first two eras
+   * (phase 41): a run meets 2.9 on average, each question is met in 17-19% of runs, and a
+   * player has met all sixteen by their 15th run (median). Asked in the first era only (measured
+   * with the four standing in for sixteen), a run met 2.5 and the least asked question 14% of
+   * runs. While there were four, three a run met the same three of four in nearly every run,
+   * so the budget was two.
    */
-  questionBudget: 2,
+  questionBudget: 3,
   questionEntryProb: 0.12,
   eraMeterPull: 0.22,
   eraRules: [

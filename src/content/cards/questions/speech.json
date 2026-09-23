@@ -1,0 +1,452 @@
+[
+  {
+    "id": "q_speech_l_q",
+    "type": "arc",
+    "arc": "q_speech_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants a law against misinformation. The Cities' papers point out that it would be enforced by whoever wins next.",
+    "left": {
+      "label": "Pass the law",
+      "fx": {
+        "base": 4,
+        "public": -3,
+        "backers": -1
+      },
+      "setFlags": [
+        "truth_law"
+      ],
+      "next": "q_speech_l_a"
+    },
+    "right": {
+      "label": "No such law",
+      "fx": {
+        "base": -4,
+        "public": 3,
+        "backers": 1
+      },
+      "setFlags": [
+        "no_truth_law"
+      ],
+      "next": "q_speech_l_b"
+    }
+  },
+  {
+    "id": "q_speech_l_a",
+    "type": "arc",
+    "arc": "q_speech_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The law needs someone to decide what is false. An independent panel would take a year. The ministry could start on Monday.",
+    "left": {
+      "label": "An independent panel",
+      "fx": {
+        "base": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "The ministry decides",
+      "fx": {
+        "base": 4,
+        "order": 1,
+        "inst": -3
+      },
+      "next": "q_speech_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_l_b",
+    "type": "arc",
+    "arc": "q_speech_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "With no law, the lies about the Cities' mayor are on every screen. We could answer with lies of our own, which work better.",
+    "left": {
+      "label": "Answer with facts",
+      "fx": {
+        "base": -2,
+        "public": -1,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Answer in kind",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_speech_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_l_a3",
+    "type": "arc",
+    "arc": "q_speech_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The ministry has flagged a true story about the ministry as misinformation. The Cities' papers ran it anyway, with the flag.",
+    "left": {
+      "label": "Withdraw the flag",
+      "fx": {
+        "base": -3,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Fine the papers",
+      "fx": {
+        "base": 2,
+        "order": 2,
+        "inst": -4
+      },
+      "next": "q_speech_l_a4",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_l_b3",
+    "type": "arc",
+    "arc": "q_speech_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Our lies have outrun theirs. Half the country believes the other side's leader is a hologram, including some of the other side.",
+    "left": {
+      "label": "Retract ours",
+      "fx": {
+        "base": -3,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Keep it going",
+      "fx": {
+        "base": 3,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_l_a4",
+    "type": "arc",
+    "arc": "q_speech_l",
+    "step": 4,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The story the ministry called false was true, and it was about you. The papers would like to know which you will say.",
+    "left": {
+      "label": "That it was true",
+      "ending": "the_correction",
+      "drift": 8
+    },
+    "right": {
+      "label": "That it was false",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_r_q",
+    "type": "arc",
+    "arc": "q_speech_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful want a law against the lies on the Donors' platforms. The Donors own the platforms, and the lies are very popular.",
+    "left": {
+      "label": "Pass the law",
+      "fx": {
+        "base": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "setFlags": [
+        "truth_law"
+      ],
+      "next": "q_speech_r_a"
+    },
+    "right": {
+      "label": "No such law",
+      "fx": {
+        "base": -3,
+        "backers": 4,
+        "public": -1
+      },
+      "setFlags": [
+        "no_truth_law"
+      ],
+      "next": "q_speech_r_b"
+    }
+  },
+  {
+    "id": "q_speech_r_a",
+    "type": "arc",
+    "arc": "q_speech_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The Faithful would like the law to cover lies about the faith as well, which would take in most of the newspapers.",
+    "left": {
+      "label": "Lies, not opinions",
+      "fx": {
+        "base": -3,
+        "backers": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Cover the faith too",
+      "fx": {
+        "base": 4,
+        "order": 1,
+        "inst": -3
+      },
+      "next": "q_speech_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_r_b",
+    "type": "arc",
+    "arc": "q_speech_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "With no law, the Donors' platforms are carrying a video of the opposition leader that nobody has checked. It is doing very well.",
+    "left": {
+      "label": "Say it is fake",
+      "fx": {
+        "base": -3,
+        "backers": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Say nothing",
+      "fx": {
+        "base": 3,
+        "backers": 2,
+        "inst": -3
+      },
+      "next": "q_speech_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_r_a3",
+    "type": "arc",
+    "arc": "q_speech_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Under the law a comedian has been fined for a joke about a bishop. It is now the best-known joke in the country.",
+    "left": {
+      "label": "Repeal that part",
+      "fx": {
+        "base": -3,
+        "public": 1,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Fine everyone laughing",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -4
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_r_b3",
+    "type": "arc",
+    "arc": "q_speech_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The video was fake, and everyone knows it now, including who paid for it. The Donors say it was the platform's decision.",
+    "left": {
+      "label": "Name who paid",
+      "fx": {
+        "backers": -4,
+        "base": 1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Make another one",
+      "fx": {
+        "backers": 3,
+        "base": 1,
+        "inst": -4
+      },
+      "next": "q_speech_r_b4",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_speech_r_b4",
+    "type": "arc",
+    "arc": "q_speech_r",
+    "step": 4,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The second video was fake as well, and it was traced to your office. The papers would like to know which you will say.",
+    "left": {
+      "label": "That it was ours",
+      "ending": "the_correction",
+      "drift": 8
+    },
+    "right": {
+      "label": "That it was theirs",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

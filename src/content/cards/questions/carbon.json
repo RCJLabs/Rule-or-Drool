@@ -1,0 +1,380 @@
+[
+  {
+    "id": "q_carbon_l_q",
+    "type": "arc",
+    "arc": "q_carbon_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The Movement wants a price on carbon. The Unions' refinery wants the gas under the valley drilled, and the jobs that come with it.",
+    "left": {
+      "label": "Put a price on carbon",
+      "fx": {
+        "base": 4,
+        "backers": -3,
+        "public": -1
+      },
+      "setFlags": [
+        "carbon_priced"
+      ],
+      "next": "q_carbon_l_a"
+    },
+    "right": {
+      "label": "Drill what is there",
+      "fx": {
+        "base": -4,
+        "backers": 3,
+        "public": 1
+      },
+      "setFlags": [
+        "gas_drilled"
+      ],
+      "next": "q_carbon_l_b"
+    }
+  },
+  {
+    "id": "q_carbon_l_a",
+    "type": "arc",
+    "arc": "q_carbon_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The price will close the coal plants within ten years. The Movement wants them closed by spring, before the wind farms are built.",
+    "left": {
+      "label": "Close them as we build",
+      "fx": {
+        "base": -3,
+        "inst": 2,
+        "money": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Close them by spring",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_carbon_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_l_b",
+    "type": "arc",
+    "arc": "q_carbon_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The valley can be drilled after a review of its water, which takes two years, or without one, which takes a signature.",
+    "left": {
+      "label": "Review the water",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Sign it today",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_carbon_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_l_a3",
+    "type": "arc",
+    "arc": "q_carbon_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The plants closed before the wind farms opened. The grid says the margin this winter is one cold week.",
+    "left": {
+      "label": "Reopen one, say why",
+      "fx": {
+        "base": -4,
+        "money": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Trust the weather",
+      "ending": "blackout",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_l_b3",
+    "type": "arc",
+    "arc": "q_carbon_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The drilling has reached the valley's water. The Cities' taps run brown on Tuesdays and Thursdays.",
+    "left": {
+      "label": "Stop the drilling",
+      "fx": {
+        "backers": -4,
+        "money": -1,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Blame the old pipes",
+      "fx": {
+        "backers": 3,
+        "money": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_r_q",
+    "type": "arc",
+    "arc": "q_carbon_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors want the gas under the valley drilled. The Faithful have started calling the valley a gift, which is not a word the Donors like.",
+    "left": {
+      "label": "Put a price on carbon",
+      "fx": {
+        "base": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "setFlags": [
+        "carbon_priced"
+      ],
+      "next": "q_carbon_r_a"
+    },
+    "right": {
+      "label": "Drill what is there",
+      "fx": {
+        "base": -3,
+        "backers": 4,
+        "public": -1
+      },
+      "setFlags": [
+        "gas_drilled"
+      ],
+      "next": "q_carbon_r_b"
+    }
+  },
+  {
+    "id": "q_carbon_r_a",
+    "type": "arc",
+    "arc": "q_carbon_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The price falls hardest on the Country, which drives furthest. The money could go back to the Country, or to the Donors' wind farms.",
+    "left": {
+      "label": "Back to the Country",
+      "fx": {
+        "money": -3,
+        "public": 1,
+        "inst": 1,
+        "backers": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "To the Donors' farms",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_carbon_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_r_b",
+    "type": "arc",
+    "arc": "q_carbon_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors can sell the valley's gas at home, or abroad at the winter price. Abroad pays three times as much.",
+    "left": {
+      "label": "Supply the country first",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let them sell abroad",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -3
+      },
+      "next": "q_carbon_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_r_a3",
+    "type": "arc",
+    "arc": "q_carbon_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Donors' wind farms were paid for and never built. The Country is paying the price on carbon with nothing to show for it.",
+    "left": {
+      "label": "Claw the money back",
+      "fx": {
+        "backers": -4,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Blame the weather",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_carbon_r_b3",
+    "type": "arc",
+    "arc": "q_carbon_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The gas went abroad at the winter price. The grid says the margin this winter is one cold week.",
+    "left": {
+      "label": "Keep the gas at home",
+      "fx": {
+        "backers": -4,
+        "money": -2,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Keep the contracts",
+      "ending": "blackout",
+      "drift": -12
+    }
+  }
+]

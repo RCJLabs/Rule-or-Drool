@@ -1,0 +1,377 @@
+[
+  {
+    "id": "q_drugs_l_q",
+    "type": "arc",
+    "arc": "q_drugs_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants drugs legalised and taxed. The Cities want the dealers off the corner by the school, and do not mind how.",
+    "left": {
+      "label": "Crack down",
+      "fx": {
+        "public": 3,
+        "base": -4,
+        "backers": 1
+      },
+      "setFlags": [
+        "drugs_crackdown"
+      ],
+      "next": "q_drugs_l_a"
+    },
+    "right": {
+      "label": "Legalise and tax them",
+      "fx": {
+        "public": -3,
+        "base": 4,
+        "backers": -1
+      },
+      "setFlags": [
+        "drugs_legalised"
+      ],
+      "next": "q_drugs_l_b"
+    }
+  },
+  {
+    "id": "q_drugs_l_a",
+    "type": "arc",
+    "arc": "q_drugs_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A crackdown needs the courts. Or the police can skip the courts and fill the cells tonight.",
+    "left": {
+      "label": "Through the courts",
+      "fx": {
+        "money": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Fill the cells tonight",
+      "fx": {
+        "public": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "next": "q_drugs_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_l_b",
+    "type": "arc",
+    "arc": "q_drugs_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The only suppliers with any stock are the gangs. The ministry could license them for the first year, just to get started.",
+    "left": {
+      "label": "License new growers",
+      "fx": {
+        "money": -3,
+        "public": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "License who has stock",
+      "fx": {
+        "money": 3,
+        "base": 1,
+        "inst": -2
+      },
+      "next": "q_drugs_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_l_a3",
+    "type": "arc",
+    "arc": "q_drugs_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The cells are full of boys from the Cities' estates, and the dealers are still on the corner. The judges have noticed.",
+    "left": {
+      "label": "Release the boys",
+      "fx": {
+        "public": -2,
+        "order": -1,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Build more cells",
+      "fx": {
+        "order": 3,
+        "public": 1,
+        "money": -1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_l_b3",
+    "type": "arc",
+    "arc": "q_drugs_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The licensed dealers are the same men, with a logo now. They would like the licences for the ports next.",
+    "left": {
+      "label": "Revoke the licences",
+      "fx": {
+        "money": -3,
+        "base": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Sign the ports over",
+      "ending": "new_management",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_r_q",
+    "type": "arc",
+    "arc": "q_drugs_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Faithful want a crackdown. The Donors' tobacco firms have a plan to legalise and tax drugs, and have designed the packets.",
+    "left": {
+      "label": "Crack down",
+      "fx": {
+        "base": 4,
+        "backers": -3,
+        "public": -1
+      },
+      "setFlags": [
+        "drugs_crackdown"
+      ],
+      "next": "q_drugs_r_a"
+    },
+    "right": {
+      "label": "Legalise and tax them",
+      "fx": {
+        "base": -4,
+        "backers": 3,
+        "public": 1
+      },
+      "setFlags": [
+        "drugs_legalised"
+      ],
+      "next": "q_drugs_r_b"
+    }
+  },
+  {
+    "id": "q_drugs_r_a",
+    "type": "arc",
+    "arc": "q_drugs_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The crackdown needs warrants. The police would like to skip them, for speed, and the Faithful would like the speed.",
+    "left": {
+      "label": "Warrants first",
+      "fx": {
+        "base": -3,
+        "inst": 2,
+        "money": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Skip the warrants",
+      "fx": {
+        "base": 3,
+        "order": 2,
+        "inst": -3
+      },
+      "next": "q_drugs_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_r_b",
+    "type": "arc",
+    "arc": "q_drugs_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The tobacco firms would like to advertise the new product the way they used to advertise the old one.",
+    "left": {
+      "label": "No advertising",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Let them advertise",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_drugs_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_r_a3",
+    "type": "arc",
+    "arc": "q_drugs_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The seized drugs are being sold again, by the police who seized them. The cartel pays better than the ministry.",
+    "left": {
+      "label": "Clean out the squad",
+      "fx": {
+        "order": -3,
+        "base": -1,
+        "inst": 3
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Keep the numbers up",
+      "ending": "new_management",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_drugs_r_b3",
+    "type": "arc",
+    "arc": "q_drugs_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Donors' packets are in the Country's school playgrounds, with a cartoon on them. The Faithful have the photographs.",
+    "left": {
+      "label": "Ban it, and fine them",
+      "fx": {
+        "backers": -4,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Blame the parents",
+      "fx": {
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

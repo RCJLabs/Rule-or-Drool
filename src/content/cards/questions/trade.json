@@ -1,0 +1,453 @@
+[
+  {
+    "id": "q_trade_l_q",
+    "type": "arc",
+    "arc": "q_trade_l",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Unions want tariffs to save the last factories. The Cities want cheap shoes, and say so at every till.",
+    "left": {
+      "label": "Put up tariffs",
+      "fx": {
+        "backers": 4,
+        "public": -3,
+        "base": -1
+      },
+      "setFlags": [
+        "tariffs_raised"
+      ],
+      "next": "q_trade_l_a"
+    },
+    "right": {
+      "label": "Open trade",
+      "fx": {
+        "backers": -4,
+        "public": 3,
+        "base": 1
+      },
+      "setFlags": [
+        "trade_opened"
+      ],
+      "next": "q_trade_l_b"
+    }
+  },
+  {
+    "id": "q_trade_l_a",
+    "type": "arc",
+    "arc": "q_trade_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Tariffs buy the factories time to modernise. The owners would rather spend the time on dividends, and keep the old machines.",
+    "left": {
+      "label": "Tie them to investment",
+      "fx": {
+        "backers": -2,
+        "money": -1,
+        "inst": 2,
+        "public": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "No strings attached",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_trade_l_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_l_b",
+    "type": "arc",
+    "arc": "q_trade_l",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The trade deal is ready. Nobody in the Cities read the part that lets foreign firms sue the country over its own laws.",
+    "left": {
+      "label": "Strike out the tribunal",
+      "fx": {
+        "money": -2,
+        "public": -1,
+        "inst": 2,
+        "backers": -1
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Sign it as written",
+      "fx": {
+        "public": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "next": "q_trade_l_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_l_a3",
+    "type": "arc",
+    "arc": "q_trade_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The protected factories paid dividends and bought nothing. They are closing anyway, and blaming whoever opposed the tariffs.",
+    "left": {
+      "label": "Lift the tariffs",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Raise them again",
+      "fx": {
+        "backers": 3,
+        "money": 2,
+        "public": -1,
+        "inst": -3
+      },
+      "next": "q_trade_l_a4",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_l_b3",
+    "type": "arc",
+    "arc": "q_trade_l",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A firm has used the tribunal to sue the country over the Cities' clean air law. The fine is larger than the school budget.",
+    "left": {
+      "label": "Fight it in public",
+      "fx": {
+        "money": -3,
+        "inst": 2
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Repeal the law",
+      "fx": {
+        "money": 3,
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_l_a4",
+    "type": "arc",
+    "arc": "q_trade_l",
+    "step": 4,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The last factory closes on Friday, tariffs and all. The workers have asked you to come to the gate on the last shift.",
+    "left": {
+      "label": "Go, and tell them",
+      "ending": "last_shift",
+      "drift": 8
+    },
+    "right": {
+      "label": "Send a minister",
+      "fx": {
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_r_q",
+    "type": "arc",
+    "arc": "q_trade_r",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Country wants tariffs to save the last factory towns. The Donors import everything the towns used to make.",
+    "left": {
+      "label": "Put up tariffs",
+      "fx": {
+        "public": 3,
+        "backers": -4,
+        "base": 1
+      },
+      "setFlags": [
+        "tariffs_raised"
+      ],
+      "next": "q_trade_r_a"
+    },
+    "right": {
+      "label": "Open trade",
+      "fx": {
+        "public": -3,
+        "backers": 4,
+        "base": -1
+      },
+      "setFlags": [
+        "trade_opened"
+      ],
+      "next": "q_trade_r_b"
+    }
+  },
+  {
+    "id": "q_trade_r_a",
+    "type": "arc",
+    "arc": "q_trade_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors will accept tariffs if their own imports are exempted. It would be a very short list, with very long entries.",
+    "left": {
+      "label": "No exemptions",
+      "fx": {
+        "backers": -4,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Exempt their imports",
+      "fx": {
+        "backers": 4,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_trade_r_a3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_r_b",
+    "type": "arc",
+    "arc": "q_trade_r",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Trade is open. The Donors would like the factory towns' retraining money spent on a campaign explaining that it was good for them.",
+    "left": {
+      "label": "Spend it on retraining",
+      "fx": {
+        "backers": -3,
+        "money": -1,
+        "inst": 2
+      },
+      "drift": 7
+    },
+    "right": {
+      "label": "Fund the campaign",
+      "fx": {
+        "backers": 4,
+        "public": 1,
+        "inst": -3
+      },
+      "next": "q_trade_r_b3",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_r_a3",
+    "type": "arc",
+    "arc": "q_trade_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The exempted imports are undercutting the factory towns the tariffs were for. The Country has read the list.",
+    "left": {
+      "label": "Strike out the list",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Blame the neighbours",
+      "fx": {
+        "public": 2,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_r_b3",
+    "type": "arc",
+    "arc": "q_trade_r",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The factory towns were explained to, not retrained. The last plant is moving across the border, with the Donors' blessing.",
+    "left": {
+      "label": "Make them pay to go",
+      "fx": {
+        "backers": -4,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 8
+    },
+    "right": {
+      "label": "Wish them well",
+      "fx": {
+        "backers": 3,
+        "money": 1,
+        "inst": -3
+      },
+      "next": "q_trade_r_b4",
+      "drift": -12
+    }
+  },
+  {
+    "id": "q_trade_r_b4",
+    "type": "arc",
+    "arc": "q_trade_r",
+    "step": 4,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The last factory closes on Friday. The workers have asked you to come to the gate on the last shift, and the Faithful are going with them.",
+    "left": {
+      "label": "Go, and tell them",
+      "ending": "last_shift",
+      "drift": 8
+    },
+    "right": {
+      "label": "Send a minister",
+      "fx": {
+        "backers": 2,
+        "inst": -3
+      },
+      "drift": -12
+    }
+  }
+]

@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { content, library } from "../src/content";
 import { draw } from "../src/engine/draw";
-import { getCard } from "../src/engine/library";
+import { getCard, questionOf } from "../src/engine/library";
 import { resolve } from "../src/engine/resolve";
 import { makeRng } from "../src/engine/rng";
 import { exitBand, newRun, rollSetup } from "../src/engine/state";
+import type { GameState, PlayerAlign } from "../src/engine/types";
 import { historyOf } from "../src/meta/histories";
 import { allUnlockTokens } from "../src/meta/objectives";
+import { emptyMeta, foldRun } from "../src/meta/state";
 import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, makeContext, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
@@ -133,8 +135,10 @@ describe("who a run inherits", () => {
 // how much history it makes. Three legacies are carried by 95-99% of runs, and the rule the
 // ranking was built to keep is that no decision names more than 15% of them. The questions
 // (BACKLOG-6 phase 40) are answered in nearly every run, so this is where they would break it:
-// ranked first among them just under the moonshot, a war for the ally named 15.0-15.5% of them
-// on fresh samples, and they rank under the captured feed, deportation first, for that reason.
+// with four, ranked first among them just under the moonshot, a war for the ally named
+// 15.0-15.5% of them on fresh samples. With sixteen (phase 41) each answer is rarer, and they
+// rank in three tiers: the largest answers under the captured feed, the middling ones under
+// the skim, and the status quo under the broken promises. The most any decision names is 9%.
 describe("what history calls a run", () => {
   it("names no more than 15% of competent runs for any one decision", () => {
     const n = 6000;
@@ -152,5 +156,57 @@ describe("what history calls a run", () => {
     }
     const most = [...named.entries()].sort((a, b) => b[1] - a[1])[0]!;
     expect(most[1] / n, most[0]).toBeLessThanOrEqual(0.15);
+  }, 120000);
+});
+
+// BACKLOG-6 phase 41: sixteen questions, three a run, asked in the first two eras. A run meets
+// three, each question is met in 17-19% of runs, and a player has met all sixteen by their
+// fifteenth run (median; measured on 4,000 runs and 80 players).
+describe("the questions", () => {
+  const questions = [...new Set(content.arcs.filter((a) => a.question !== undefined).map((a) => a.question!))];
+  const asked = (seed: number, align: PlayerAlign, unlocks: string[] = []) => {
+    const rng = makeRng(seed ^ 0x5bd1e995);
+    let s: GameState = newRun(library, seed, rollSetup(library, seed, align, unlocks));
+    const met: string[] = [];
+    while (!s.over) {
+      s = draw(library, s);
+      const card = getCard(library, s.current!);
+      const q = questionOf(library, card);
+      if (q && card.step === 1) met.push(q);
+      s = resolve(library, s, card.id, BOTS.mixed(makeContext(library, s, card, rng, { danger: 25 })));
+    }
+    return { s, met };
+  };
+
+  it("asks a run three, and every question in at least 15% of runs", () => {
+    const n = 3000;
+    const per: number[] = [];
+    const met = new Map<string, number>();
+    for (let i = 0; i < n; i++) {
+      const run = asked(500_000 + i, i % 2 ? "left" : "right").met;
+      per.push(run.length);
+      for (const q of run) met.set(q, (met.get(q) ?? 0) + 1);
+    }
+    expect(questions.length).toBeGreaterThanOrEqual(16);
+    expect(quantiles(per).median).toBeGreaterThanOrEqual(3);
+    for (const q of questions) expect((met.get(q) ?? 0) / n, q).toBeGreaterThanOrEqual(0.15);
+  }, 120000);
+
+  it("has asked a player every question by their twentieth run (median)", () => {
+    const players = 40;
+    const by: number[] = [];
+    for (let p = 0; p < players; p++) {
+      let meta = emptyMeta();
+      const seen = new Set<string>();
+      let run = 0;
+      while (seen.size < questions.length && run < 40) {
+        run++;
+        const { s, met } = asked(100_000 + p * 1000 + run, (p + run) % 2 ? "left" : "right", meta.unlocks);
+        for (const q of met) seen.add(q);
+        meta = foldRun(library, meta, s).meta;
+      }
+      by.push(seen.size === questions.length ? run : Infinity);
+    }
+    expect(quantiles(by).median).toBeLessThanOrEqual(20);
   }, 120000);
 });
