@@ -54,13 +54,15 @@ interface Props {
   onExitToMenu?: () => void;
   onEraseProgress: () => void;
   onHowItWorks: () => void;
+  /** Settings › Move my progress (BACKLOG-5 phase 33). */
+  onMoveProgress?: () => void;
   /** The playtest record (BACKLOG-5 phase 31): how many runs it holds, and whether it is full. */
   record?: { runs: number; full: boolean };
   onSendRecord?: () => Promise<SendOutcome>;
   onDeleteRecord?: () => void;
 }
 
-export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEraseProgress, onHowItWorks, record, onSendRecord, onDeleteRecord }: Props) {
+export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEraseProgress, onHowItWorks, onMoveProgress, record, onSendRecord, onDeleteRecord }: Props) {
   const [confirmErase, setConfirmErase] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [sending, setSending] = useState<SendOutcome | "working" | null>(null);
@@ -140,6 +142,11 @@ export function SettingsMenu({ settings, onChange, onClose, onExitToMenu, onEras
           <button type="button" onClick={onHowItWorks}>
             {STRINGS.ui.howItWorks}
           </button>
+          {onMoveProgress && (
+            <button type="button" onClick={onMoveProgress}>
+              {STRINGS.move.open}
+            </button>
+          )}
           {onExitToMenu && (
             <button type="button" onClick={onExitToMenu}>
               {STRINGS.ui.exitToMenu}

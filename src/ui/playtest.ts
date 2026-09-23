@@ -1,6 +1,9 @@
 import { STRINGS } from "../content/strings";
 import { serialize, toFile, type RecordedRun } from "../playtest/record";
 import { APP_VERSION } from "../version";
+import { handFile, type SendOutcome } from "./share";
+
+export type { SendOutcome };
 
 /**
  * Where the playtest record lives on the device (BACKLOG-5 phase 31). Two keys of its own,
@@ -76,34 +79,14 @@ export function clearRecorded(): void {
   }
 }
 
-export type SendOutcome = "shared" | "saved" | "cancelled" | "failed";
-
 /**
  * Hand the record to the share sheet, where the player picks where it goes; where there is
- * no share sheet, save it as a download. The game sends nothing itself. Plain text,
- * because the file types a browser will share include text/plain and not JSON.
+ * no share sheet, save it as a download. The game sends nothing itself. Plain text, because
+ * the file types a browser will share include text/plain and not JSON.
  */
 export async function sendRecord(runs: readonly RecordedRun[]): Promise<SendOutcome> {
   const file = new File([serialize(toFile(runs))], RECORD_FILE_NAME, { type: "text/plain" });
   const n = String(runs.length);
   const text = (runs.length === 1 ? STRINGS.playtest.shareTextOne : STRINGS.playtest.shareText).replace("{n}", n).replace("{version}", APP_VERSION);
-  try {
-    if (typeof navigator.share === "function" && navigator.canShare?.({ files: [file] })) {
-      await navigator.share({ files: [file], title: STRINGS.playtest.shareTitle, text });
-      return "shared";
-    }
-  } catch (e) {
-    if ((e as Error).name === "AbortError") return "cancelled";
-    // A share sheet that refused the file still leaves the download below.
-  }
-  try {
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(file);
-    a.download = RECORD_FILE_NAME;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    return "saved";
-  } catch {
-    return "failed";
-  }
+  return handFile(file, { title: STRINGS.playtest.shareTitle, text });
 }

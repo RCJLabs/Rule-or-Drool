@@ -89,6 +89,9 @@ and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
   the player presses it, to whoever they choose. Check the console's wording when you fill
   in the form; my understanding is that a transfer the user starts, and expects, is not
   "sharing" in its terms.
+- **"Move my progress"** (v0.45.0) hands the player's own codex and settings to the share
+  sheet as a file, or puts them on the clipboard as a code, only when pressed. It is the
+  same kind of transfer as sharing a run: the player starts it and chooses where it goes.
 - **"Send my record"** (BACKLOG-5 phase 31) is the one that needs a decision. It exists
   only once a player turns on *Keep a record of my runs*, which is off by default. Pressing
   it hands a plain-text file to the system share sheet, and the player picks where it
@@ -149,9 +152,14 @@ Without the check passing, the app runs with a browser address bar across the to
     `twa/twa-manifest.json` to the new origin;
   - after the first deploy, check with `curl` that Pages serves the dot-folder.
 
-  **The cost:** saves are stored per origin, so anyone playing on the web today starts
-  again with an empty codex on the new domain, unless the old origin is kept serving the
-  game.
+  **The cost:** saves are stored per origin, so a web player's codex does not follow the
+  game to a new domain by itself. Since v0.45.0 a player can take it with Settings › *Move
+  my progress*, as a file, a code, or a link with the code in it. That only works while the
+  old address still serves the game. Once Pages redirects the old address to the domain,
+  whatever was stored there can no longer be reached. So before switching, ship a release
+  that tells web players to move their progress, or keep the old address serving the game
+  for a while. A link to the new domain with `#progress=` and the code opens there as an
+  offer to bring the progress in, and it asks before replacing anything.
 - **The user site.** Add the file to the `RCJLabs/rcjlabs.github.io` repository at
   `.well-known/assetlinks.json`. It works, but this game's release then depends on another
   repository.

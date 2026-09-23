@@ -704,6 +704,12 @@ button {
 }
 .overlay-card {
   width: min(92vw, 420px);
+  /* Never taller than the screen: the overlay is fixed, so a card that ran past the bottom
+     could not be scrolled to, and on a 360×640 phone Settings did, by 218px, taking Close
+     with it (found in BACKLOG-5 phase 33). A long card scrolls inside itself instead. */
+  max-height: calc(100dvh - var(--space) * 2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: calc(var(--space) * 2);
   background: var(--paper);
   border: var(--border) solid var(--ink);
@@ -1802,6 +1808,56 @@ button {
 }
 .overlay-card.how h2 {
   text-align: center;
+}
+/* ---- moving progress (BACKLOG-5 phase 33) ---------------------------------------- */
+.overlay-card.move {
+  width: min(94vw, 460px);
+  max-height: 86vh;
+  overflow-y: auto;
+  text-align: left;
+}
+.overlay-card.move h2 {
+  text-align: center;
+}
+.overlay-card.move h3 {
+  margin: 14px 0 8px;
+  font-size: 14px;
+}
+.move-lead {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.move-code {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 6px 8px;
+  font: 11px/1.35 ui-monospace, Menlo, monospace;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--muted);
+  border-radius: 6px;
+  resize: vertical;
+  word-break: break-all;
+}
+.move-compare table {
+  width: 100%;
+  margin: 4px 0 8px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.move-compare th,
+.move-compare td {
+  padding: 3px 4px;
+  text-align: right;
+}
+.move-compare th[scope="row"] {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
 }
 .how-list {
   list-style: none;

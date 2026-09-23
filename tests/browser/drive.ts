@@ -270,8 +270,22 @@ export async function clipped(page: Page): Promise<Clip[]> {
  * What stops a screen fitting: the page scrolls when it should not, or a box cuts off its
  * own content. A screen that is a page to read, like the end of a run, may scroll down.
  */
+/**
+ * Dialogs that run past the screen. An overlay is fixed, so the page never scrolls and no
+ * box clips: a card taller than the screen simply went on below it, out of reach, and the
+ * fit checks above could not see it.
+ */
+export async function stranded(page: Page): Promise<string[]> {
+  return (await page.evaluate(`[...document.querySelectorAll(".overlay-card")].map((c) => {
+    const r = c.getBoundingClientRect();
+    const past = Math.max(-r.top, r.bottom - innerHeight);
+    return past > 1 ? c.className + " runs " + Math.round(past) + "px past the screen" : null;
+  }).filter(Boolean)`)) as string[];
+}
+
 export async function misfits(page: Page, label: string, opts: { mayScroll?: boolean } = {}): Promise<string[]> {
   const out: string[] = [];
+  for (const s of await stranded(page)) out.push(`${label}: .${s}`);
   const { x, y } = await overflow(page);
   if (y > 0 && !opts.mayScroll) out.push(`${label}: the page scrolls by ${y}px`);
   if (x > 0) out.push(`${label}: the page scrolls sideways by ${x}px`);

@@ -169,3 +169,32 @@ export async function shareRun(text: string, card: Blob | null, fileName: string
     return "failed";
   }
 }
+
+export type SendOutcome = "shared" | "saved" | "cancelled" | "failed";
+
+/**
+ * Hand a file to the share sheet, where the player picks where it goes; where there is no
+ * share sheet, or it will not take the file, save it as a download. The game sends nothing
+ * itself. Used for the playtest record and for moving progress (BACKLOG-5 phases 31, 33).
+ */
+export async function handFile(file: File, words: { title: string; text: string }): Promise<SendOutcome> {
+  try {
+    if (typeof navigator.share === "function" && navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], ...words });
+      return "shared";
+    }
+  } catch (e) {
+    if ((e as Error).name === "AbortError") return "cancelled";
+    // A share sheet that refused the file still leaves the download below.
+  }
+  try {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(file);
+    a.download = file.name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    return "saved";
+  } catch {
+    return "failed";
+  }
+}

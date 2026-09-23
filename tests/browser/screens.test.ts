@@ -294,6 +294,28 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
+    it("every dialog stays on a small phone's screen and scrolls within itself", async () => {
+      // Settings outgrew a 360×640 phone by 218px and could not be scrolled, so Close and
+      // Erase were out of reach; nothing here could see it until BACKLOG-5 phase 33.
+      const failures: string[] = [];
+      const page = await startRun(browser, "left", { width: 360, height: 640, settings: { keepRecord: true } });
+      await page.getByRole("button", { name: STRINGS.ui.settings, exact: true }).click();
+      failures.push(...(await misfits(page, "settings")));
+      await page.getByRole("button", { name: STRINGS.ui.close }).click();
+      await page.getByRole("button", { name: new RegExp(`^${STRINGS.cabinet.title}`) }).click();
+      failures.push(...(await misfits(page, "cabinet")));
+      await page.getByRole("button", { name: STRINGS.ui.close }).click();
+      await page.getByRole("button", { name: STRINGS.ui.settings, exact: true }).click();
+      await page.getByRole("button", { name: STRINGS.ui.howItWorks }).click();
+      failures.push(...(await misfits(page, "how it works")));
+      await page.getByRole("button", { name: STRINGS.ui.close }).click();
+      await page.getByRole("button", { name: STRINGS.ui.settings, exact: true }).click();
+      await page.getByRole("button", { name: STRINGS.move.open }).click();
+      failures.push(...(await misfits(page, "moving progress")));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
     it("at an era boundary on the short phones", async () => {
       const failures: string[] = [];
       for (const [width, height] of [[360, 640], [412, 732]] as const) {

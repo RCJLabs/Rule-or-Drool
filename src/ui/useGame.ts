@@ -49,6 +49,7 @@ export function useGame(lib: Library) {
   const [showSettings, setShowSettings] = useState(false);
   const [showCabinet, setShowCabinet] = useState(false);
   const [showHow, setShowHow] = useState(false);
+  const [showMove, setShowMove] = useState(false);
   const [settings, setSettingsState] = useState<Settings>(() => loadSettings());
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -246,6 +247,19 @@ export function useGame(lib: Library) {
     setState((s) => (s && !s.over ? { ...s, drift: clampDrift(s.drift + delta) } : s));
   }, []);
 
+  /**
+   * Put a profile brought from elsewhere in place of this one (BACKLOG-5 phase 33), after the
+   * player has seen both and said so. A run in progress is left alone: it carries its own
+   * unlocks and plays the same under either profile.
+   */
+  const replaceProgress = useCallback((next: MetaState, nextSettings: Settings) => {
+    saveMeta(next);
+    metaRef.current = next;
+    setMeta(next);
+    setLastFold(null);
+    setSettings(nextSettings);
+  }, [setSettings]);
+
   /** Hand the record to the share sheet; the player picks where it goes. */
   const sendPlaytest = useCallback(() => sendRecord(loadRecorded()), []);
 
@@ -300,6 +314,13 @@ export function useGame(lib: Library) {
       setShowHow(true);
     },
     closeHowItWorks: () => setShowHow(false),
+    showMove,
+    openMoveProgress: () => {
+      setShowSettings(false);
+      setShowMove(true);
+    },
+    closeMoveProgress: () => setShowMove(false),
+    replaceProgress,
     exitToMenu,
     eraseProgress,
     markTaught,

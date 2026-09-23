@@ -333,7 +333,58 @@ list of meter names allowed to be cut short is empty.
 
 </details>
 
-## Phase 33. Carry your progress — *queued*
+## Phase 33. Carry your progress — *done*
+
+**Shipped.** Settings › *Move my progress* takes a profile from one address to another:
+another browser, the Play app when it is not the same browser, or the game at a new domain.
+- **What moves:** the codex, the unlocks, the history and the settings, lessons already given
+  included. A run in progress stays where it is, and so does a playtest record, which has
+  its own way out. The dialog says both.
+- **Taking it away:**
+  - a file of plain JSON, handed to the share sheet or saved where there is none;
+  - a code to copy. It is compressed: a forty-run profile is 7.1 KB of JSON and about
+    2.2 KB of code. A browser that cannot compress still makes a longer code that reads back.
+- **Bringing it here:** paste the code, open the file, or open a link with `#progress=` and
+  the code. The link also works in a tab that already has the game open, where only the
+  fragment changes.
+  - Nothing is replaced until the player has seen what is here beside what is coming in
+    (runs, endings found, unlocks) and pressed *Replace what is here*.
+  - Bringing in fewer runs than are already here gets its own warning.
+  - Progress from a newer version is refused, with the version named. An older profile is
+    brought forward by the same migration a saved one goes through.
+  - A code that would unpack to more than 1 MB is refused. Forty runs are 7 KB, and a link
+    is something anyone can send.
+
+**A bug this found.** The move test could not press *Move my progress*, because Settings ran
+off the bottom of the screen:
+- on a 360×640 phone, the dialog was 846px tall, with 218px out of reach;
+- on a 412×732 Samsung, 57–77px were out of reach.
+
+The overlay is fixed, so nothing could be scrolled, and *Close* and *Erase all progress*
+were below the edge. Every row the last phases added made it worse. The audits missed it:
+a fixed overlay does not scroll the page and no box clips it, so neither fit check fired.
+Every dialog card is now capped at the screen's height and scrolls inside itself. A new
+check fails any dialog that runs past the screen, and a test opens Settings, the cabinet,
+*How this works* and *Move my progress* on the smallest phone. With the cap taken away, that
+test fails.
+
+**Done when, checked:**
+- **A 40-run profile survives export and import exactly.** Unit tests check the compressed
+  code, the uncompressed one, the file and the link. In the browser, two profiles that share
+  nothing stand in for two addresses: the code copied out of one and brought into the other
+  matches exactly after a reload. The link route passes too.
+- **A newer version is refused with a message.** This is covered by the unit and dialog
+  tests. Both fail with the check taken out.
+
+**Also checked:** 15 new unit and dialog tests, and 3 new browser tests. The dialog passes
+contrast and fits a 360×640 phone. The bundle grew by 2.4 KB gzipped.
+
+**Yours, if you move to a custom domain:** GitHub Pages redirects the old address once a
+domain is set, and what was stored there can no longer be reached. So the move has to happen
+before the switch: ship a release that tells web players to move their progress, or keep the
+old address serving the game for a while. twa/STORE.md says the same.
+
+<details><summary>Original entry</summary>
 
 **Evidence.** A profile lives in one browser's storage for one address. A 40-run profile is
 6.8 KB. Moving to a custom domain, the recommended fix for Play's asset links, would start
@@ -349,6 +400,8 @@ Ship it before any change of address.
 
 **Done when** a 40-run profile survives export and import exactly, and a newer version is
 refused with a message.
+
+</details>
 
 ## Phase 34. Take the other road — *queued*
 
