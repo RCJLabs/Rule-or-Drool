@@ -4,6 +4,9 @@ import { rollSetup } from "../src/engine/state";
 import { allUnlockTokens } from "../src/meta/objectives";
 import { BOT_NAMES, evaluateTargets, playRun, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
+// Simulations, so their time grows with the deck: the draw weighs every eligible card. On CI
+// these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default, so they
+// carry a budget like the file's other simulations (BACKLOG-5 phase 35).
 describe("harness", () => {
   it("terminates every run with a known ending inside the card budget", () => {
     const maxCards = library.config.eraCount * library.config.eraLength;
@@ -19,7 +22,7 @@ describe("harness", () => {
         expect(r.relaxed.band).toBe(0);
       }
     }
-  });
+  }, 60000);
 
   it("is reproducible for a seed and bot", () => {
     for (const bot of BOT_NAMES) {
@@ -38,7 +41,7 @@ describe("harness", () => {
     expect(s.get("greedy")!.cards.median).toBeGreaterThan(s.get("saint")!.cards.median);
     expect(s.get("saint")!.cheatsPerElection).toBe(0);
     expect(evaluateTargets(s).length).toBeGreaterThan(0);
-  });
+  }, 60000);
 });
 
 // Section 8 acceptance targets, met in phase 4. Content changes that break these are
