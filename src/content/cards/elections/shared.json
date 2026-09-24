@@ -26,7 +26,7 @@
         "inst": 3,
         "public": 2
       },
-      "drift": 3
+      "drift": 1
     },
     "right": {
       "label": "Round up",
@@ -87,7 +87,7 @@
         "inst": 2,
         "public": 2
       },
-      "drift": 3
+      "drift": 1
     }
   },
   {
@@ -117,7 +117,7 @@
         "inst": 4,
         "public": 2
       },
-      "drift": 3
+      "drift": 1
     },
     "right": {
       "label": "Declare an emergency",
@@ -169,7 +169,7 @@
         "public": 3,
         "base": -2
       },
-      "drift": 5
+      "drift": 3
     },
     "right": {
       "label": "Abolish elections",

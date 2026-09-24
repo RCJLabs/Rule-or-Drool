@@ -12,7 +12,8 @@ import type { Card, GameState } from "../engine/types";
  * In words, as the rival is (`rival.ts`): won or lost, and roughly by how much. Won or lost is
  * exact, because the vote is decided by the same `honestCount`; how much is a band. Over 2,000
  * runs of the mixed bot at v0.62.0 the margin at a vote had a median of 8 points, and about one
- * vote in five would have been lost honestly, most of those by less than 5.
+ * vote in five would have been lost honestly, most of those by less than 5. The higher bar of
+ * BACKLOG-9 phase 54 makes that about one in three.
  */
 export type CountBand = "easy" | "win" | "narrowWin" | "narrowLoss" | "loss";
 

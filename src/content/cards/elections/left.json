@@ -29,7 +29,7 @@
         "backers": -4,
         "public": -3
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Promise them anything",
@@ -74,7 +74,7 @@
         "base": -6,
         "public": 3
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Deselect the four",
@@ -123,7 +123,7 @@
         "base": 2,
         "public": 2
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Let the machine work",
@@ -173,7 +173,7 @@
         "base": -2,
         "public": -3
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Pay it on Thursday",
@@ -224,7 +224,7 @@
         "base": -3,
         "public": 2
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Brief against them",

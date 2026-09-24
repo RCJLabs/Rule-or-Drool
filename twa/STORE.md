@@ -253,6 +253,8 @@ bots (BACKLOG-5 phase 31):
   Of the votes an honest count would win, the mixed bot cheats 55% and a player who takes
   the card at its word cheats none, so that column says which kind of player people are.
   Runs played before v0.63.0 are set beside runs played after it when a report has both.
+- Since v0.64.0 the Ascent is balanced for that player, the informed bot in the report
+  (BACKLOG-9 phase 54). Every table has a row for it, beside the mixed bot's.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

@@ -17,7 +17,9 @@ are decided by their average. The election card says whether an honest count wou
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
 20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and
-an installable offline PWA. All section 8 balance targets met.
+an installable offline PWA. All section 8 balance targets met. Since BACKLOG-9 the Ascent is
+balanced for a player who never cheats a vote they can win honestly, which the election card
+now shows them.
 
 Playable at https://rcjlabs.github.io/Rule-or-Drool/ — it installs to a home screen and runs
 with no network. Add `?debug=1` to see the hidden numbers; `[` and `]` shift drift to preview

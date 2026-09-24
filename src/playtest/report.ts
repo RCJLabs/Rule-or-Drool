@@ -204,10 +204,11 @@ export interface BandRow {
 }
 
 /**
- * How the votes went. The mixed bot cheats two in three of its votes, and two in three of
- * those it would have won honestly, because a meter was near its edge and the cheat is easier
- * on the meters. A bot that never cheats a vote it can win reaches the Ascent twice as often
- * (BACKLOG-7's audit), so this is the row that says which of the two people are.
+ * How the votes went. The mixed bot cheats more than half the votes it could win honestly,
+ * because a meter was near its edge and the cheat is easier on the meters. A bot that never
+ * cheats a vote it can win reached the Ascent twice as often (BACKLOG-7's audit), and since
+ * BACKLOG-9 phase 54 it is the player the Ascent is balanced for, so this is the row that says
+ * which of the two people are.
  *
  * Since BACKLOG-9 phase 53 the election card says whether an honest count wins, so a person
  * can play the second way. The row reads from the votes the count would have won, and people

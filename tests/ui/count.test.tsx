@@ -68,13 +68,15 @@ describe("the line on an election card", () => {
 
   it("puts the bar itself on the winning side, as the vote does, and a fraction under it on the losing", () => {
     // Nobody pulling on the bar: it is the threshold, and a coalition exactly on it wins.
-    const level = at(40, library.config.rivalStart);
-    expect(electionBar(library, level)).toBe(40);
+    const bar = library.config.electionMoodThreshold;
+    const level = at(bar, library.config.rivalStart);
+    expect(electionBar(library, level)).toBe(bar);
     expect(countLine(library, level, rig)).toMatchObject({ band: "narrowWin", wins: true });
     expect(lost(level, rig)).toBe(false);
-    // A rival five points over where they start lifts it by a fraction, and 40 no longer does.
-    const pulled = at(40, library.config.rivalStart + 5);
-    expect(electionBar(library, pulled)).toBeCloseTo(40.3);
+    // A rival five points over where they start lifts it by a fraction, and the same coalition
+    // no longer clears it.
+    const pulled = at(bar, library.config.rivalStart + 5);
+    expect(electionBar(library, pulled)).toBeCloseTo(bar + 5 * library.config.rivalElectionPull);
     expect(countLine(library, pulled, rig)).toMatchObject({ band: "narrowLoss", wins: false });
     expect(lost(pulled, rig)).toBe(true);
   });
@@ -111,7 +113,7 @@ describe("the line on an election card", () => {
 
 describe("an election on the table", () => {
   it("says how an honest count goes under its text, and out loud after it", () => {
-    const { container } = show(at(38, library.config.rivalStart));
+    const { container } = show(at(library.config.electionMoodThreshold - 2, library.config.rivalStart));
     const line = container.querySelector(".card .count-line")!;
     expect(line.textContent).toBe(STRINGS.count.narrowLoss);
     expect(line.getAttribute("data-band")).toBe("narrowLoss");
@@ -126,7 +128,7 @@ describe("an election on the table", () => {
 
   it("says nothing of a count on a card that is not a vote", () => {
     const ordinary = library.content.cards.find((c) => c.type === "event" && !c.cond && c.eras.includes(1) && c.align !== "right")!;
-    show({ ...at(38, library.config.rivalStart), current: ordinary.id, currentFrom: "deck" });
+    show({ ...at(library.config.electionMoodThreshold - 2, library.config.rivalStart), current: ordinary.id, currentFrom: "deck" });
     expect(document.querySelector(".count-line")).toBeNull();
     for (const text of Object.values(STRINGS.count)) expect(document.querySelector("[aria-live='polite']")!.textContent).not.toContain(text);
   });

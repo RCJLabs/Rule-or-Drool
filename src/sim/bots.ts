@@ -9,8 +9,8 @@ import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "../engine/types";
  * a human never does. That is the point: they tune survival and band distribution,
  * not whether temptation feels tempting.
  */
-export type BotName = "random" | "greedy" | "saint" | "mixed";
-export const BOT_NAMES: readonly BotName[] = ["random", "greedy", "saint", "mixed"];
+export type BotName = "random" | "greedy" | "saint" | "mixed" | "informed";
+export const BOT_NAMES: readonly BotName[] = ["random", "greedy", "saint", "mixed", "informed"];
 
 export interface BotOptions {
   /** Mixed bot: a meter below this or above 100 - this counts as "in danger". */
@@ -95,7 +95,22 @@ const mixed: Bot = (ctx) => {
   return side;
 };
 
-export const BOTS: Record<BotName, Bot> = { random, greedy, saint, mixed };
+/**
+ * The mixed bot with the election card read (BACKLOG-9 phase 54). Since phase 53 the card says
+ * whether an honest count wins, so this player never cheats a vote they can win honestly: they
+ * take the honest side unless it ends the run on the spot, and otherwise play as the mixed bot.
+ * It is the player the balance is for; the mixed bot, which cheats to spare a meter near its
+ * edge, is the floor.
+ */
+const informed: Bot = (ctx) => {
+  if (ctx.card.type === "election") {
+    const honest = (["left", "right"] as const).find((s) => ctx.card[s].honest);
+    if (honest && !ctx[honest].endingId) return honest;
+  }
+  return mixed(ctx);
+};
+
+export const BOTS: Record<BotName, Bot> = { random, greedy, saint, mixed, informed };
 
 export function makeContext(lib: Library, state: GameState, card: Card, rng: () => number, opts: BotOptions): BotContext {
   return {

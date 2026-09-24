@@ -16,7 +16,11 @@ export interface EngineConfig {
   eraLength: number;
   /** Cards between elections (5.4 says ~25). */
   electionInterval: number;
-  /** An honest election is lost when the average of the three blocs falls below this (5.4). */
+  /**
+   * An honest election is lost when the average of the three blocs falls below this (5.4).
+   * 40 until BACKLOG-9 phase 54 raised it to 44: once the card said how the count stood, a
+   * player who never cheats a vote they can win reached the Ascent in 39% of runs.
+   */
   electionMoodThreshold: number;
   /** Role whose advisor is the rival, drawn from the side the player did not pick. */
   rivalRole: string;
@@ -158,7 +162,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   longEraCount: 5,
   eraLength: 35,
   electionInterval: 25,
-  electionMoodThreshold: 40,
+  electionMoodThreshold: 44,
   rivalRole: "rival",
   rivalStart: 30,
   rivalCheatGain: 9,

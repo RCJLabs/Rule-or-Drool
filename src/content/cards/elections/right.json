@@ -27,7 +27,7 @@
         "backers": -5,
         "public": 3
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Take the money quietly",
@@ -72,7 +72,7 @@
         "base": -6,
         "public": 3
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Add the plank",
@@ -123,7 +123,7 @@
         "public": 3,
         "base": -3
       },
-      "drift": 5
+      "drift": 3
     },
     "right": {
       "label": "Tighten the rules",
@@ -173,7 +173,7 @@
         "backers": -4,
         "public": 2
       },
-      "drift": 5
+      "drift": 3
     },
     "right": {
       "label": "Accept the offer",
@@ -218,7 +218,7 @@
         "base": -4,
         "public": 2
       },
-      "drift": 4
+      "drift": 2
     },
     "right": {
       "label": "Run the footage",

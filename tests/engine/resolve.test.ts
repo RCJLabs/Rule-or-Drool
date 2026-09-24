@@ -200,18 +200,19 @@ describe("resolve: endings", () => {
 describe("resolve: elections", () => {
   it("loses an honest election below the mood threshold", () => {
     const l = lib();
-    const s = start(l, { nextElectionAt: 0, meters: meters({ mood: 39 }) });
+    const s = start(l, { nextElectionAt: 0, meters: meters({ mood: l.config.electionMoodThreshold - 1 }) });
     const r = resolve(l, table(s, "el_basic"), "el_basic", "left");
     expect(r.over?.endingId).toBe("election_loss");
   });
 
   it("wins an honest election at the threshold and reschedules", () => {
     const l = lib({ electionInterval: 25 });
-    const s = start(l, { cardCount: 30, nextElectionAt: 30, meters: meters({ mood: 40 }) });
+    const bar = l.config.electionMoodThreshold;
+    const s = start(l, { cardCount: 30, nextElectionAt: 30, meters: meters({ mood: bar }) });
     const r = resolve(l, table(s, "el_basic"), "el_basic", "left");
     expect(r.over).toBeNull();
     // The election's mood bonus lands on every bloc, so the average moves with them.
-    expect(moodOf(r.meters)).toBe(41);
+    expect(moodOf(r.meters)).toBe(bar + 1);
     expect(r.drift).toBe(2);
     expect(r.nextElectionAt).toBe(55);
   });

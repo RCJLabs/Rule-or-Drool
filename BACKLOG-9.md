@@ -1,7 +1,7 @@
 # Backlog, round nine
 
 Round eight (BACKLOG-8.md) is phases 49–51, all done, with the promise drop-down and the codex
-index since. This round's phases 52 and 53 are done, in v0.62.0 and v0.63.0; 54 is queued. BACKLOG-2's phase 17, getting the game onto Play, still waits on decisions only
+index since. This round's three phases, 52 to 54, are done: v0.62.0 to v0.64.0. BACKLOG-2's phase 17, getting the game onto Play, still waits on decisions only
 the owner can make.
 
 You asked for more cards and a retune, then for the election card to show how the vote
@@ -45,9 +45,9 @@ changed the order.
 
 ## Decisions for you
 
-1. **The order above.** Default: 52, 53, 54.
-2. **Which player the balance is for once the card shows the vote.** Default: the informed
-   voter, who never cheats a vote they can win. The mixed bot stays a floor.
+1. **The order above.** Taken at its default: 52, 53, 54.
+2. **Which player the balance is for once the card shows the vote.** Taken at its default: the
+   informed voter, who never cheats a vote they can win. The mixed bot stays a floor (phase 54).
 3. **Cards for the long reign.** Not proposed until people are seen to play it often (below).
 
 ---
@@ -177,26 +177,91 @@ for the voter who does.
 
 ---
 
-## Phase 54. Retune for the voter the card makes — *queued*
+## Phase 54. Retune for the voter the card makes — *done*
 
-**Why.** With the vote on the card, the informed voter is the player to balance for, and today
-that player reaches Ascent in 40.7%, against a target of 15–30%.
+**Shipped in v0.64.0.** The second decision above was taken at its default: the Ascent is
+balanced for the informed voter, and the mixed bot is the floor.
 
-**What.**
-- **Move the harness's Ascent target** to the informed voter, and keep the mixed bot as a
-  floor.
-- **Find the change that brings the informed voter inside the target:** the honest vote's
-  drift, the election bar, or the rival's pressure. Measure each first.
-  - BACKLOG-7 measured the first. Taking 2, 4 or 6 drift off every honest vote gave the
-    informed voter 32.9%, 26.8% or 20.8%, and the mixed bot 16.6%, 14.3% or 12.2%.
-  - To be measured again after 52 and 53.
+**The player it is for.**
+- **The harness has a fifth bot, the informed voter.** It is the mixed bot that reads the
+  election card: it never cheats a vote it can win honestly, and otherwise plays as the mixed
+  bot (`src/sim/bots.ts`).
+- **It takes the 15–30% Ascent target.** The mixed bot, which cheats to spare a meter near its
+  edge, is the floor, at 10% or more. The long reign's Ascent targets moved the same way.
 
-**Targets.**
-- The informed voter reaches Ascent in 15–30%.
-- The mixed bot, as a floor, in at least 10% (proposed).
-- Every other harness target holds.
+**Measured first.** Each lever at several strengths, 2,000 runs a bot from the harness's seed.
+Before any change the informed voter reached the Ascent in 38.6% and the mixed bot in 18.9%.
 
-**Cost.** Small in code, one or two numbers. Most of it is measuring, and choosing the lever.
+| Lever | Setting | Informed | Mixed | What else moved |
+|---|---|---|---|---|
+| The honest vote's drift | 2 less | 32.9% | 16.3% | |
+| | 4 less | 27.6% | 14.2% | most honest votes drift 0, some toward Decay |
+| The bar | 44 | 31.3% | 15.6% | |
+| | 46 | 26.8% | 13.3% | random's median run is 40 cards, its floor |
+| | 48 | 23.4% | 12.3% | random's median falls to 37, a miss |
+| The rival's pull on the bar | 0.3 (from 0.06) | 32.4% | 15.4% | |
+| | 0.4, and drift pull 0.6 | 24.9% | 13.2% | the rival wins a few more runs |
+| The bar and the honest drift | 44, and 2 less | 26.1% | 13.7% | |
+
+- **The honest vote's drift cannot do it alone.** An honest vote drifts +3 to +5, and a cheat
+  −18 to −25. The informed voter's lead is the cheats it no longer pays for, not the honest
+  votes it gains, so reaching the target took 4 or more off every honest vote. That made most
+  of them drift nowhere, and some toward Decay, which breaks the rule that drift tracks the
+  honest against the self-serving.
+- **Every lever that works makes the informed voter cheat more.** The count is lost more often,
+  so the card says "a loss" more often, and the choice it leaves comes more often.
+
+**Four settings passed every target at 10,000 runs a bot:**
+
+| Setting | Informed | Mixed | Informed cheats | Random's median |
+|---|---|---|---|---|
+| The bar at 44, honest votes 2 less | 26.8% | 14.2% | 34.0% of votes | 42 cards |
+| The rival's pull 0.4, drift pull 0.6 | 25.6% | 13.3% | 42.8% | 42 |
+| The bar at 46 | 28.1% | 14.6% | 41.2% | 41 |
+| The bar at 45, honest votes 1 less | 27.5% | 14.3% | 37.6% | 42 |
+
+**What changed: the first.** Two numbers:
+- **The bar an honest count must clear,** `electionMoodThreshold`, is 44, from 40.
+- **Each election's honest side drifts 2 less:** +1 to +3, from +3 to +5. It still drifts toward
+  the Ascent. An honest vote is the least a government owes, not the most it can do.
+
+**Why that one.**
+- **It forces the fewest cheats:** 34.0% of the informed voter's votes, from 19.4%. The others
+  force 37.6% to 42.8%.
+- **The honest vote keeps a drift toward the Ascent,** which the drift lever alone could not.
+- **The rival is left as it was:** its pull, its rungs in the cabinet, and how often it wins.
+- **Every target keeps a margin of 2 points or more.** The bar alone at 46 cleared random's
+  median by one card.
+
+**Measured after, at 10,000 runs a bot.**
+- **The informed voter:** Ascent 26.8% (was 38.6%). Finale 97.0%. It cheats 34.0% of votes.
+- **The mixed bot:** Ascent 14.2% (was 18.9%). Finale 96.9%. It cheats 71.0%.
+- **Every other target holds:**
+  - random's median run is 42 cards, and no ouster cause takes over 12.7%;
+  - greedy ends in Decay 78.4%;
+  - saint is ousted before era 2 in every run;
+  - the card told 101,252 of 101,252 votes true.
+- **The long reign,** 4,000 reigns each for the mixed and informed voters and 1,500 for random
+  and greedy:
+  - informed Ascent 26.8% (was 39.6%), mixed 13.9%;
+  - era 5 reached in 95.5%, the long finale seen in 92.9%;
+  - Decay is still the hard place.
+- **Cards already seen,** 10th and 20th run: 61.0% and 81.9%, inside their limits.
+
+**What a player meets.**
+- **About one vote in three can no longer be won honestly,** where it was one in five: 64–65% of
+  votes are winnable for the mixed and informed voters, from 79–80%.
+- **A player who never cheats loses a vote in 55% of runs,** from 35%.
+- **Of the votes an honest count would win,** the mixed bot still cheats 55%, and the informed
+  voter almost none.
+
+**The deck moved,** from `gw5s4s8l` to `5l1dae79`. Codes, links and dailies from before deal
+differently, and the game says so (phase 49). The playtest report keeps records from the old
+deck apart.
+
+**What it does not settle.** The informed voter is a bot. Whether people play that way is what
+the closed test's records show. The playtest report sets them beside it: every table has an
+informed row.
 
 ---
 

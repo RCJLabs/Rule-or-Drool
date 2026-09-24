@@ -64,25 +64,41 @@ export function evaluateTargets(summaries: ReadonlyMap<BotName, BotSummary>): Ta
       pass: saint.endedBeforeEra2 >= 0.6,
     });
   }
-  const mixed = summaries.get("mixed");
-  if (mixed) {
+  out.push(...ascentTargets(summaries));
+  const informed = summaries.get("informed");
+  if (informed) {
     out.push({
-      bot: "mixed",
-      name: "reaches Ascent (exit band)",
-      target: "15–30%",
-      actual: pct(mixed.exitBands.ascent),
-      pass: mixed.exitBands.ascent >= 0.15 && mixed.exitBands.ascent <= 0.3,
-    });
-    out.push({
-      bot: "mixed",
+      bot: "informed",
       name: "finale in Ascent (strict)",
       target: "(stricter reading)",
-      actual: pct(mixed.finale * mixed.finaleBands.ascent),
+      actual: pct(informed.finale * informed.finaleBands.ascent),
       pass: true,
       info: true,
     });
   }
   out.push(voteLine(summaries));
+  return out;
+}
+
+/**
+ * Who the Ascent is balanced for (BACKLOG-9 phase 54). Section 8 set it on the mixed bot. Since
+ * the election card says how an honest count goes (phase 53), a player can see which votes they
+ * need to cheat, and the informed bot, which never cheats one it can win, is the player the card
+ * makes: it takes the 15–30%. The mixed bot, which cheats to spare a meter near its edge, is the
+ * floor: a player who plays that way still reaches the Ascent now and then.
+ */
+function ascentTargets(summaries: ReadonlyMap<BotName, BotSummary>): TargetResult[] {
+  const out: TargetResult[] = [];
+  const informed = summaries.get("informed");
+  if (informed) {
+    const a = informed.exitBands.ascent;
+    out.push({ bot: "informed", name: "reaches Ascent (exit band)", target: "15–30%", actual: pct(a), pass: a >= 0.15 && a <= 0.3 });
+  }
+  const mixed = summaries.get("mixed");
+  if (mixed) {
+    const a = mixed.exitBands.ascent;
+    out.push({ bot: "mixed", name: "reaches Ascent, the floor", target: "≥ 10%", actual: pct(a), pass: a >= 0.1 });
+  }
   return out;
 }
 
@@ -120,15 +136,9 @@ export function evaluateLongTargets(summaries: ReadonlyMap<BotName, BotSummary>,
     const reached = mixed.reachedEra[lastEra] ?? 0;
     out.push({ bot: "mixed", name: `reaches era ${lastEra}`, target: "85–97%", actual: pct(reached), pass: reached >= 0.85 && reached <= 0.97 });
     out.push({ bot: "mixed", name: "sees the long finale", target: "80–95%", actual: pct(mixed.finale), pass: mixed.finale >= 0.8 && mixed.finale <= 0.95 });
-    out.push({
-      bot: "mixed",
-      name: "reaches Ascent (exit band)",
-      target: "15–30%",
-      actual: pct(mixed.exitBands.ascent),
-      pass: mixed.exitBands.ascent >= 0.15 && mixed.exitBands.ascent <= 0.3,
-    });
     out.push(harderInDecay("mixed", mixed, 0.03));
   }
+  out.push(...ascentTargets(summaries));
   // Careless play is where the band tells: a random run that gets this far is as good as over
   // in Decay and has a fair chance on the Ascent.
   const random = summaries.get("random");
@@ -158,7 +168,7 @@ export function formatTargets(results: TargetResult[], title = "section 8 target
   const lines = [`== ${title} ==`];
   for (const r of results) {
     const mark = r.info ? "INFO" : r.pass ? "PASS" : "MISS";
-    lines.push(`${mark}  ${r.bot.padEnd(7)} ${r.name.padEnd(28)} target ${r.target.padEnd(18)} actual ${r.actual}`);
+    lines.push(`${mark}  ${r.bot.padEnd(8)} ${r.name.padEnd(28)} target ${r.target.padEnd(18)} actual ${r.actual}`);
   }
   return lines.join("\n");
 }

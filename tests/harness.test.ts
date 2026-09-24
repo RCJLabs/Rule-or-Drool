@@ -72,7 +72,8 @@ describe("section 8 targets", () => {
     for (const bot of BOT_NAMES) s.set(bot, summarize(bot, results.get(bot)!));
     const misses = evaluateTargets(s).filter((t) => !t.info && !t.pass);
     expect(misses.map((m) => `${m.bot} ${m.name}: ${m.actual} (want ${m.target})`)).toEqual([]);
-  }, 60000);
+    // Five bots since BACKLOG-9 phase 54 brought the informed voter, the one the Ascent is for.
+  }, 120000);
 });
 
 // BACKLOG-5 phase 39: the long reign has targets of its own, measured on runs of five eras.
@@ -82,13 +83,14 @@ describe("section 8 targets", () => {
 describe("the long reign's targets", () => {
   it("meets every target", () => {
     const eraCount = library.config.longEraCount;
-    const bots: BotName[] = ["random", "greedy", "mixed"];
+    const bots: BotName[] = ["random", "greedy", "mixed", "informed"];
     // The mixed bot plays more of them: Decay is the hard place by about 5 points, measured
     // on the Decay-locked quarter of its reigns, and at 1,500 runs that quarter is small enough
     // that one sample put it at 1.9 and another of the same content at 5 (BACKLOG-6 phase 42).
+    // The informed voter plays as many, for the Ascent it is held to (BACKLOG-9 phase 54).
     const results = new Map([
       ...simulate(library, { runs: 1500, seed: 1, bots: ["random", "greedy"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
-      ...simulate(library, { runs: 4000, seed: 1, bots: ["mixed"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
+      ...simulate(library, { runs: 4000, seed: 1, bots: ["mixed", "informed"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
     ]);
     const s = new Map<BotName, BotSummary>();
     for (const bot of bots) s.set(bot, summarize(bot, results.get(bot)!));
@@ -102,7 +104,7 @@ describe("the long reign's targets", () => {
         expect(r.relaxed.band + r.relaxed.era).toBe(0);
       }
     }
-  }, 180000);
+  }, 300000);
 });
 
 // BACKLOG-7 phase 45: the frame's look followed drift card by card, and over the mixed bot's
