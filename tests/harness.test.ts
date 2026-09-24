@@ -132,8 +132,9 @@ describe("the deck by run ten and run twenty", () => {
 // BACKLOG-7 phase 48: stories repeated faster than anything else in the game. By a player's
 // tenth run 82% of the story cards they met were ones they had met before, and by the twentieth
 // all of them. Twenty-two more stories were sized to bring that to the ordinary deck's ceilings.
-// Measured on 200 players: a run meets 15-20 story cards, so a smaller panel's median moves in
-// steps of two or three points and says little at the twentieth run.
+// Measured on 200 players: a run meets about ten story cards, so each player's share is a coarse
+// fraction and the median is one player's share. The first 40 of these players read 87.5% at the
+// twentieth run, where all 200 read 83.3%.
 describe("the stories by run ten and run twenty", () => {
   it("keeps a player's story cards at most 65% already met by their tenth run, and 85% by their twentieth", () => {
     const med = (xs: number[]) => quantiles(xs).median;
