@@ -1,0 +1,396 @@
+[
+  {
+    "id": "cl49_marched",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The pension for those who marched with the founders goes to anyone who can prove they marched. The number who marched has tripled.",
+    "oneShot": true,
+    "left": {
+      "label": "Check the proof",
+      "fx": {
+        "money": 3,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay them all",
+      "fx": {
+        "money": -4,
+        "inst": -2,
+        "base": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cl50_militia_leave",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The people's militia elects its officers every month. The officers campaign more than they drill, and keep promising longer leave.",
+    "left": {
+      "label": "Train them properly",
+      "fx": {
+        "order": 3,
+        "inst": 1,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Grant the extra leave",
+      "fx": {
+        "money": -2,
+        "order": -2,
+        "base": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cl51_dull_diaries",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Officials must publish their diaries, by a law from your day. The published ones are very dull now, and the real ones are sold abroad.",
+    "oneShot": true,
+    "left": {
+      "label": "Audit the diaries",
+      "fx": {
+        "money": -1,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Repeal it quietly",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cl52_cooperative_shares",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The founders' cooperative is the country's largest firm now. It pays its members in shares that only it may buy back, at its own price.",
+    "oneShot": true,
+    "left": {
+      "label": "Open its books",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "It is our cooperative",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "cl53_watchers_fee",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The anti-corruption office is larger than the ministries it watches now. It has started charging them a fee to be watched less.",
+    "oneShot": true,
+    "left": {
+      "label": "Break it up",
+      "fx": {
+        "money": -1,
+        "order": -1,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pay the fee",
+      "fx": {
+        "money": -2,
+        "order": 1,
+        "inst": -3,
+        "base": 2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "cl54_speech_trees",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The environment ministry plants a tree for every speech the minister gives. The minister now gives forty very short speeches a day.",
+    "oneShot": true,
+    "left": {
+      "label": "Plant real forests",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Count the trees proudly",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 3,
+        "public": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cl55_letters_page",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The people's paper writes its own letters page now, to save the people the trouble. The letters agree with the paper.",
+    "oneShot": true,
+    "left": {
+      "label": "Print real letters",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the page tidy",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "cl56_arts_line",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The arts council funds only work that reflects the movement. The best artists live abroad now, and are very popular at home.",
+    "oneShot": true,
+    "left": {
+      "label": "Judge the work only",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it on message",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "cl57_empty_planes",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The people's airline flies empty planes to keep its routes open. The routes all end in towns that sit on the transport committee.",
+    "left": {
+      "label": "Cut the empty routes",
+      "fx": {
+        "money": 4,
+        "base": -4,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep them flying",
+      "fx": {
+        "money": -4,
+        "inst": -1,
+        "base": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cl58_branch_loans",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The people's bank lends to anyone a branch secretary vouches for. The branch secretaries have very large families.",
+    "oneShot": true,
+    "left": {
+      "label": "Lend on the merits",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the secretaries",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_rate_rise",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  }
+]

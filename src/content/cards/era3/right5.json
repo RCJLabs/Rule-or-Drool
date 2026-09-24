@@ -1,0 +1,407 @@
+[
+  {
+    "id": "cr49_full_cells",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The prison contracts from your term promise the operators full cells. Crime has fallen since, and the cells are still full.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay for empty cells",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "backers": -1,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the cells full",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -3,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "cr50_parade_route",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The founding day parade grows longer every year. This year it passes the palace twice, so the leader can see it again.",
+    "left": {
+      "label": "Shorten the route",
+      "fx": {
+        "money": 3,
+        "base": -2,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Add a third pass",
+      "fx": {
+        "money": -3,
+        "order": 1,
+        "inst": -1,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "cr51_long_oath",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The loyalty oath has grown a clause every decade. It takes forty minutes to swear now, and firefighters must swear it before every fire.",
+    "oneShot": true,
+    "left": {
+      "label": "Exempt emergencies",
+      "fx": {
+        "order": 2,
+        "inst": 2,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the oath whole",
+      "fx": {
+        "order": -2,
+        "inst": -2,
+        "base": 3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_same_mistake",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "cr52_dish_list",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The culture ministry has published a list of national dishes. It leaves out all the food of the south, which votes the other way.",
+    "oneShot": true,
+    "left": {
+      "label": "Withdraw the list",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Stand by the list",
+      "fx": {
+        "order": 1,
+        "inst": -1,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cr53_salt_grant",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A trading house was granted the salt trade for twenty years, in your day. It is year seventy-five, and the grant has never quite ended.",
+    "oneShot": true,
+    "left": {
+      "label": "End the grant",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "backers": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Extend it formally",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cr54_fading_portraits",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The leader's portrait must hang in every home. The portraits are made by a cousin's firm, and fade within the year.",
+    "left": {
+      "label": "Make them optional",
+      "fx": {
+        "money": 2,
+        "inst": 2,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Order the new batch",
+      "fx": {
+        "money": -3,
+        "inst": -1,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "cr55_gratitude_day",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "The leader has declared a national day of gratitude to the leader. Attendance is voluntary, and taken.",
+    "oneShot": true,
+    "left": {
+      "label": "Cancel the day",
+      "fx": {
+        "order": -1,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the register",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "cr56_leased_navy",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The navy has been leased from a shipping family since your day. The lease forbids sailing in bad weather, or against its other customers.",
+    "oneShot": true,
+    "left": {
+      "label": "Build our own ships",
+      "fx": {
+        "money": -6,
+        "order": 2,
+        "inst": 1,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Renew the lease",
+      "fx": {
+        "money": 2,
+        "order": -1,
+        "inst": -1,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "cr57_birthday_test",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The civil service interview has one question now: the leader's birthday. The tax office is run by people who know it very well.",
+    "oneShot": true,
+    "left": {
+      "label": "Test for the job",
+      "fx": {
+        "money": 1,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "It is a fair question",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_resignations",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cr58_dance_campaign",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "A campaign against a foreign dance has filled the news for a year. The water bill passed in the meantime, unread, and it is long.",
+    "oneShot": true,
+    "left": {
+      "label": "Read the water bill",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the dance story",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  }
+]

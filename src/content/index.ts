@@ -44,6 +44,9 @@ import era3Right3 from "./cards/era3/right3.json";
 import era3Any4 from "./cards/era3/any4.json";
 import era3Left4 from "./cards/era3/left4.json";
 import era3Right4 from "./cards/era3/right4.json";
+import era3Any5 from "./cards/era3/any5.json";
+import era3Left5 from "./cards/era3/left5.json";
+import era3Right5 from "./cards/era3/right5.json";
 import era4Any from "./cards/era4/any.json";
 import era4Bands from "./cards/era4/bands.json";
 import era4Sides from "./cards/era4/sides.json";
@@ -193,6 +196,9 @@ export const content: Content = {
     ...asCards(era3Any4, "era3/any4.json"),
     ...asCards(era3Left4, "era3/left4.json"),
     ...asCards(era3Right4, "era3/right4.json"),
+    ...asCards(era3Any5, "era3/any5.json"),
+    ...asCards(era3Left5, "era3/left5.json"),
+    ...asCards(era3Right5, "era3/right5.json"),
     // The long reign's two eras (BACKLOG-5 phase 39): drawn only in a run that reaches them.
     ...asCards(era4Any, "era4/any.json"),
     ...asCards(era4Bands, "era4/bands.json"),

@@ -1,0 +1,818 @@
+[
+  {
+    "id": "c90_rain_order",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The rain machines seed the clouds over the capital first, as they have since your day. The farms get whatever rain is left.",
+    "left": {
+      "label": "Seed the farms first",
+      "fx": {
+        "money": -1,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the capital green",
+      "fx": {
+        "order": 1,
+        "inst": -1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c91_full_cemeteries",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The cemeteries are full of the founding generation. Graves are leased by the decade now. The founding families keep theirs for ever.",
+    "left": {
+      "label": "One lease for everyone",
+      "fx": {
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep their plots",
+      "fx": {
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c92_moved_river",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The border river has moved a kilometre east since your day. The maps have not, and the town on the far bank still votes in your safest seat.",
+    "oneShot": true,
+    "left": {
+      "label": "Redraw the maps honestly",
+      "fx": {
+        "order": -1,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the old maps",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c93_sunny_forecast",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "The state forecast has been sunny by law since your day, to keep spirits up. The farmers use a foreign forecast, and it is usually right.",
+    "oneShot": true,
+    "left": {
+      "label": "Repeal the sunny law",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Ban the foreign one",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "public": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "c94_stockpile",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The plague stockpile is renewed every year at full price by the firm that keeps it. Most of it expires before it is delivered.",
+    "left": {
+      "label": "Audit the stockpile",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew as usual",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "c95_seabed_leases",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The seabed leases you granted for fifty years are ending. The mining houses offer a generous fee for ninety-nine more, payable to your party.",
+    "oneShot": true,
+    "left": {
+      "label": "Auction them openly",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "base": -2,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Take the party's fee",
+      "fx": {
+        "money": -1,
+        "inst": -3,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "c96_named_after_you",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A third of the children born in your term were named after you. The registry can no longer tell them apart, and proposes numbers instead.",
+    "oneShot": true,
+    "left": {
+      "label": "Fix the registry",
+      "fx": {
+        "money": -4,
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Number them",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "c97_flood_policies",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The state insures the flood plain now, since no firm will. The policies are cheapest for the holiday homes of ministers.",
+    "oneShot": true,
+    "left": {
+      "label": "Price them honestly",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the discount",
+      "fx": {
+        "money": -3,
+        "inst": -3,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_insurance",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "c98_twenty_years",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A treatment adds twenty healthy years, and the state has bought the patent. The cabinet has asked, discreetly, to be first in the queue.",
+    "oneShot": true,
+    "left": {
+      "label": "Everyone by lottery",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cabinet first",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 10
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c99_bees",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Orchards are pollinated by leased drones now. A village wants to try bees again, and the drone firm has found a regulation against bees.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the village try",
+      "fx": {
+        "money": -1,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Enforce the regulation",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c100_bridge_board",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Every bridge from your era was built by one firm, with one flaw. The firm's heirs now sit on the board that inspects bridges.",
+    "oneShot": true,
+    "left": {
+      "label": "Replace the board",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Trust the board",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_maintenance",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c101_shirt_team",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The national team is picked by its sponsor's shareholders now. It loses most weeks, and the shirts sell better than ever.",
+    "left": {
+      "label": "Coaches pick the team",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell a second shirt",
+      "fx": {
+        "money": 3,
+        "inst": -1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "c102_own_targets",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "Ministries set their own targets now, and are paid for meeting them. Every ministry met its targets this year, one of them before the year began.",
+    "left": {
+      "label": "Audit the results",
+      "fx": {
+        "money": 1,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pay the bonuses",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "c103_uniform_mill",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Every school uniform has come from one family's mill since your day. The contract renews itself unless a minister objects in writing.",
+    "oneShot": true,
+    "left": {
+      "label": "Object in writing",
+      "fx": {
+        "money": 2,
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let it renew",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "c104_lending_records",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The national library sells its lending records now, to pay for longer opening hours. The advertisers know what everyone has read.",
+    "oneShot": true,
+    "left": {
+      "label": "Stop the sales",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell, and open Sundays",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "c105_veterans_land",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The veterans of your peacekeeping mission were promised land. It was sold in the meantime, to a general who served with them.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it back for them",
+      "fx": {
+        "money": -5,
+        "order": 1,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Dispute the paperwork",
+      "fx": {
+        "money": 2,
+        "order": -1,
+        "inst": -3,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_lawyer_letter",
+          "delay": 12
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c106_time_capsule",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The time capsule from your inauguration opens this spring. An aide remembers what went into it, and has gone pale.",
+    "oneShot": true,
+    "left": {
+      "label": "Open it in public",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Open it privately",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_recording",
+          "delay": 14
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c107_hunger_dinners",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The foundation set up in your name to end hunger spends most of its money on dinners about hunger. The dinners are excellent.",
+    "oneShot": true,
+    "left": {
+      "label": "Audit the foundation",
+      "fx": {
+        "inst": 3,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Attend the gala",
+      "fx": {
+        "inst": -2,
+        "base": 1,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "c108_same_agreement",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Unions and employers have signed the same agreement every year for three generations. Both sides now propose a raise, for the negotiators.",
+    "left": {
+      "label": "Open the talks up",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign it again",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 2,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c109_plaques",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every public building carries a plaque naming the minister who opened it. The plaques cost more to polish now than the buildings do to heat.",
+    "oneShot": true,
+    "left": {
+      "label": "Take the plaques down",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Add your name too",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  }
+]
