@@ -14,7 +14,7 @@ what a screen says that is not true.
   run a shared code deals, and the screens still promise the same run.
 - **Progress is lost silently when storage fails.**
 
-These are phases 49–51.
+These are phases 49–51. **All three are done:** v0.59.2 to v0.61.0, and phase 51 in the tests.
 
 Same rule as every round: each evidence line is measured against the shipped game, at v0.59.1,
 not estimated. Where a number comes from a bot, the bot is named. Where it comes from reading
@@ -461,7 +461,64 @@ problem report, the error screen's last line is the thing to quote.
 
 ---
 
-## Phase 51. The fit check sees every kind of card — *queued*
+## Phase 51. The fit check sees every kind of card — *done*
+
+**No new version.** It changes the tests only, and nothing a player sees.
+
+**What changed.** `tests/fit.ts` now picks what the small-phone fit check puts on the table.
+- **For each side:** the 4 longest events, and the longest story card, question card,
+  election card and card with a name.
+- **Each is measured as the table shows it.** A name is filled in from the seat it names,
+  held by the longest name that can hold it on that side. That is the side's pool for the
+  role, narrowed to the person a card is written for and to the traits it asks of its
+  speaker.
+- **The check puts each on the table with those people in the seats,** and confirms the card
+  shows that text before it measures.
+- **Events now include those dealt only through a link,** such as a broken promise's card.
+  They reach the table too.
+- **As before, every placement is measured in all seven looks** at 360×640 with the buttons
+  drawn: 16 placements and 112 measurements.
+
+**The unit checks,** in `tests/fit.test.ts`, run without a browser.
+- **Every card is of a kind the fit check places.** A new kind fails until `tests/fit.ts`
+  places it.
+- **The placements include each side's longest card as shown,** and no card shows longer
+  than the validator's ceiling of 160 characters. The validator counts `{rival}` as nine
+  characters; the table can show seventeen.
+- **A card written for one person** is filled with that person's name.
+
+**Measured.** On the table now, in characters as shown:
+
+| | Left | Right |
+|---|---|---|
+| Events | 160, 149, 147, 147 | 160, 149, 148, 147 |
+| Story | `arc_cu3`, 148 | `arc_cu3`, 148 |
+| Question | `q_cameras_l_b3`, 145 | `q_carbon_r_q`, 139 |
+| Election | `el_l_split`, 128 | `el_r_register`, 133 |
+| With a name | `v35_orde`, 145 | `v35_orde`, 145 |
+
+- **All fit, in all seven looks.**
+- **The check can fail.** On a 320×560 screen the same placements cut cards off by 5 to
+  93px. That screen is only the control; the game does not claim to fit it.
+- **A correction to the audit.** It put the longest card with a name at 150 characters,
+  filling every name with "Perpetua Mordaunt". She can only fill `{rival}`. The longest is
+  `v35_orde`, written for Casimir Orde, at 145.
+- **Full check:** 643 unit tests and 45 browser tests pass.
+
+**The limits.**
+- **Characters stand in for lines.** A card with fewer characters but longer words could wrap
+  to one more line than the card placed, and the check would not see it (speculation: whether
+  any does).
+- **Only the seats a card names are filled at their longest.** The rest of the cabinet is the
+  seed's, which changes only the Cabinet screen, not the card.
+- **The ceiling is the validator's 160.** A card over it with names filled fails `npm test`.
+  The way on is to shorten it, or to raise the ceiling once the browser check passes with it
+  on the table.
+
+**Yours.** Nothing. A card written too long now fails `npm test` with its names filled in,
+before any browser runs.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - **The small-phone fit check places event cards only.** It places each side's 4 longest
@@ -484,6 +541,8 @@ problem report, the error screen's last line is the thing to quote.
 **Targets.** Every kind of card has its longest on the table at 360×640, in all seven looks.
 
 **Cost.** Small: two selections in one test, and a unit check.
+
+</details>
 
 ---
 

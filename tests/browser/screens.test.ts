@@ -13,6 +13,7 @@ import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
 import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
+import { fitPlacements } from "../fit";
 import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, SEED, startRun, target, toLook } from "./harness";
 
 /**
@@ -587,35 +588,35 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
-    it("with the longest cards on the table, at 360×640 with the buttons drawn, in all seven looks", async () => {
+    it("with the longest card of every kind on the table, at 360×640 with the buttons drawn, in all seven looks", async () => {
       // The audit reads the cards its seed deals, and the seed never dealt a long one on a
       // short phone: the deck's forty longest cards all ran 2-10px past the card there, with
       // the buttons, a promise and the first lesson drawn (BACKLOG-6 phase 44). So each side's
-      // longest cards are put on the table, and its longest question, which carries a title.
+      // longest cards are put on the table. Since BACKLOG-8 phase 51 that is the longest of
+      // every kind, not only events: a question draws a title line, an election a double
+      // border, and a card with a name is as long as the name in the seat, so the seats hold
+      // the longest names they can (tests/fit.ts).
       const failures: string[] = [];
       for (const party of ["left", "right"] as const) {
-        const theirs = [...library.cards.values()].filter((c) => (c.align === "any" || c.align === party) && !c.text.includes("{"));
-        const byLength = (a: { text: string }, b: { text: string }) => b.text.length - a.text.length;
-        const longest = theirs.filter((c) => c.type === "event" && (c.weight ?? 1) > 0).sort(byLength).slice(0, 4);
-        const question = library.content.arcs
-          .filter((a) => a.question && (a.align === party || a.align === "any"))
-          .flatMap((a) => a.cards.map((id) => ({ arc: a.id, card: library.cards.get(id)! })))
-          .sort((x, y) => byLength(x.card, y.card))[0]!;
         const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
-        for (const { card, arc } of [...longest.map((card) => ({ card, arc: undefined as string | undefined })), question]) {
+        for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
           await page.evaluate(`(() => {
             const raw = JSON.parse(localStorage.getItem("rod.run"));
             raw.state.current = ${JSON.stringify(card.id)};
-            raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : "deck")};
-            ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs, { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
+            raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" ? "election" : "deck")};
+            ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
+            Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});
             localStorage.setItem("rod.run", JSON.stringify(raw));
           })()`);
           await page.reload();
           await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
           await page.waitForSelector(`.card[data-card="${card.id}"]`);
+          // The card as the table shows it, the names in the seats filled in.
+          const shown = await page.locator(`.card[data-card="${card.id}"] .card-text`).first().textContent();
+          if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);
           for (const look of LOOKS) {
             await toLook(page, look);
-            failures.push(...(await misfits(page, `${party}, ${card.id} in ${look}`)));
+            failures.push(...(await misfits(page, `${party}, ${kind} ${card.id} in ${look}`)));
           }
         }
         await close(page);
