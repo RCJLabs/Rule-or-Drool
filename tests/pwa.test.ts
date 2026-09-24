@@ -1,10 +1,37 @@
 import { readFileSync } from "node:fs";
+import { runInNewContext } from "node:vm";
 import { describe, expect, it } from "vitest";
 import { APP_VERSION } from "../src/version";
 
 const sw = readFileSync("public/sw.js", "utf8");
 const manifest = JSON.parse(readFileSync("public/manifest.webmanifest", "utf8"));
 const html = readFileSync("index.html", "utf8");
+
+/**
+ * Run the worker's script against stand-ins for the browser, fire its activate event with
+ * these caches on the origin, and report what it deleted and whether it claimed its pages.
+ */
+async function activateAmong(keys: string[]): Promise<{ deleted: string[]; claimed: boolean }> {
+  const handlers = new Map<string, (event: unknown) => void>();
+  const deleted: string[] = [];
+  let claimed = false;
+  const self = {
+    addEventListener: (type: string, handler: (event: unknown) => void) => handlers.set(type, handler),
+    clients: { claim: async () => void (claimed = true) },
+    location: { origin: "https://rcjlabs.github.io" },
+    skipWaiting: () => undefined,
+  };
+  const caches = {
+    keys: async () => [...keys],
+    delete: async (key: string) => (deleted.push(key), true),
+    open: async () => ({ add: async () => undefined, match: async () => undefined, put: async () => undefined }),
+  };
+  runInNewContext(sw, { self, caches });
+  let done: unknown;
+  handlers.get("activate")!({ waitUntil: (work: unknown) => void (done = work) });
+  await done;
+  return { deleted, claimed };
+}
 
 /** PNG dimensions live in the IHDR chunk, bytes 16-24. */
 function pngSize(path: string): { width: number; height: number } {
@@ -26,9 +53,14 @@ describe("service worker", () => {
     expect(sw).toContain('if (event.data === "SKIP_WAITING") self.skipWaiting();');
   });
 
-  it("clears old caches and claims clients on activate", () => {
-    expect(sw).toContain("caches.delete(key)");
-    expect(sw).toContain("self.clients.claim()");
+  // BACKLOG-8 phase 50: the game shares its origin, rcjlabs.github.io, with every Pages site
+  // on the account, and it used to delete every cache there but its own on activating.
+  it("clears only its own old caches on activate, never another site's, and claims its pages", async () => {
+    const current = /const CACHE_NAME = "([^"]+)";/.exec(sw)![1]!;
+    const others = ["other-game-v3", "workbox-precache-v2-https://rcjlabs.github.io/elsewhere/", "rod"];
+    const { deleted, claimed } = await activateAmong([current, "rod-v0.58.0", "rod-v0.10.0", ...others]);
+    expect(deleted.sort()).toEqual(["rod-v0.10.0", "rod-v0.58.0"]);
+    expect(claimed).toBe(true);
   });
 
   it("serves navigations from the cached shell, which is what makes offline play work", () => {

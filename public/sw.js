@@ -7,7 +7,13 @@
  * the section 12 convention ("bump APP_VERSION and CACHE_NAME together") automatic rather
  * than a thing to remember; `tests/pwa.test.ts` checks the literal below still matches.
  */
-const CACHE_NAME = "rod-v0.59.1";
+const CACHE_NAME = "rod-v0.59.2";
+/**
+ * Every cache this game has made is named rod-v<version>. The origin is not the game's own:
+ * rcjlabs.github.io serves every Pages site on the account, and caches belong to the origin.
+ * So only caches with this prefix are ever cleared (BACKLOG-8 phase 50).
+ */
+const CACHE_PREFIX = "rod-v";
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest"];
 const INDEX = "./index.html";
 
@@ -26,7 +32,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
       for (const key of await caches.keys()) {
-        if (key !== CACHE_NAME) await caches.delete(key);
+        if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) await caches.delete(key);
       }
       await self.clients.claim();
     })(),

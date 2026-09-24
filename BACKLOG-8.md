@@ -198,7 +198,19 @@ and tests. About the size of phase 37.
 
 ---
 
-## Phase 50. Nothing lost without a word — *queued*
+## Phase 50. Nothing lost without a word — *doing*
+
+**Shipped in v0.59.2: the service worker clears only its own caches.** On activating, it now
+deletes only caches named `rod-v…`, as all 57 this game made from v0.7.0 to v0.59.1 are.
+Another site's cache on rcjlabs.github.io is left alone.
+- **A test runs the worker** against stand-in caches: two old versions of this game's, the
+  current one, and three that are not its own. Only the two old ones go. Against the old
+  worker the same test fails, because it deletes all five that are not current.
+- **The rest of the phase is still to do,** below.
+- **Yours, if it applies.** A site of yours on the same origin that clears every cache but
+  its own still deletes this game's. The same one-line change fixes it there (speculation:
+  whether any does).
+
 
 **Why.**
 - **Every storage write fails silently.** Each save is a `try` with an empty `catch`: the
