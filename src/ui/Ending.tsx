@@ -1,5 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
+import { deckStamp } from "../engine/deck";
 import { epilogueByKey, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
@@ -70,7 +71,12 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // from their sides, so their world is drawn from their own run. A second road does not
   // compare; its end already shows two.
   const vs = challenge && !state.road ? challenge : null;
-  const theirs = useMemo(() => (vs ? theirRun(lib, runCodeOf(state), vs) : null), [lib, state, vs]);
+  // Whether their link named this deck: true, false, or null when it named none (BACKLOG-8
+  // phase 49). A run from another deck is not dealt again here, even where it would end the
+  // same way: the cards on the way would not be the ones they saw.
+  const deck = deckStamp(lib);
+  const sameDeck = vs?.deck ? vs.deck === deck : null;
+  const theirs = useMemo(() => (vs && sameDeck !== false ? theirRun(lib, runCodeOf(state), vs) : null), [lib, state, vs, sameDeck]);
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -95,6 +101,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // (BACKLOG-5 phase 34). A second road shows both instead, and does not branch again.
   const road = state.road;
   const retrace = retraceable && onTakeOtherRoad ? onTakeOtherRoad : null;
+  // A run that cannot be retraced here was dealt, in part at least, from another deck: say
+  // so, rather than leave the way back missing without a word (BACKLOG-8 phase 49).
+  const roadGone = !!onTakeOtherRoad && !road && !retraceable && state.deck !== deck;
   const other = (at: number | null) => {
     const made = at && at > 0 ? state.choices?.[at - 1] : undefined;
     const card = made && lib.cards.get(made[0]);
@@ -194,6 +203,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
             lib={lib}
             vs={vs}
             replayed={!!theirs}
+            sameDeck={sameDeck}
             theirBand={theirBand}
             theirTitle={theirHistory?.title ?? (vs.history ? historyTitle(vs.history) : null)}
             mine={{ key: history.key, title: history.title, ending: endingTitle, cards: state.cardCount, band }}
@@ -203,6 +213,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
 
         <section className="became">
           <h2>{STRINGS.after.became}</h2>
+          {roadGone && <p className="became-note">{STRINGS.road.updated}</p>}
           <ul>
             {history.consequences.map((c) => {
               const back = retrace ? other(c.at) : null;
@@ -333,12 +344,17 @@ interface Mine {
  * each lasted and which way each went, and a line on the difference. When their run cannot be
  * dealt again here, it is what their link says it was, and the screen says so.
  */
-function Versus({ lib, vs, replayed, theirBand, theirTitle, mine }: { lib: Library; vs: RunResult; replayed: boolean; theirBand: Band | null; theirTitle: string | null; mine: Mine }) {
+function Versus({ lib, vs, replayed, sameDeck, theirBand, theirTitle, mine }: { lib: Library; vs: RunResult; replayed: boolean; sameDeck: boolean | null; theirBand: Band | null; theirTitle: string | null; mine: Mine }) {
   const heading = useId();
   const v = STRINGS.vs;
   const theirEnding = vs.ending ? (lib.endings.get(vs.ending)?.title ?? null) : null;
-  const verdict =
-    vs.history && vs.history === mine.key
+  // A verdict only for two runs of the same deal: theirs dealt again here, from this deck or
+  // from a link that named none (BACKLOG-8 phase 49). Otherwise the two are set side by side.
+  const compared = replayed && sameDeck !== false;
+  const note = sameDeck === false ? v.otherDeck : replayed ? null : v.unreplayed;
+  const verdict = !compared
+    ? null
+    : vs.history && vs.history === mine.key
       ? v.bothLeft.replace("{history}", mine.title)
       : theirBand && theirBand === mine.band
         ? v.sameWay.replace("{band}", STRINGS.bands[mine.band])
@@ -355,7 +371,7 @@ function Versus({ lib, vs, replayed, theirBand, theirTitle, mine }: { lib: Libra
     <section className="versus" aria-labelledby={heading}>
       <h2 id={heading}>{v.title}</h2>
       {verdict && <p className="versus-verdict">{verdict}</p>}
-      {!replayed && <p className="versus-note">{v.unreplayed}</p>}
+      {note && <p className="versus-note">{note}</p>}
       <table className="versus-table">
         <thead>
           <tr>

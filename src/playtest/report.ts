@@ -37,6 +37,49 @@ export interface Gathered {
   repeats: number;
 }
 
+/**
+ * What a playtest's runs were dealt from, beside the deck this report runs on (BACKLOG-8
+ * phase 49).
+ */
+export interface DeckCount {
+  /** The deck this version of the game deals from. */
+  stamp: string;
+  /** Runs dealt from it: stamped with it, or from before stamps and dealt again card for card. */
+  kept: number;
+  /** Runs stamped with another deck, by deck, most first. */
+  other: [deck: string, runs: number][];
+  /** Runs from before stamps that this deck does not deal again, or that stopped too soon to tell. */
+  unverified: number;
+}
+
+/**
+ * Only the runs dealt from this deck. A run from another is a different run by the 13th card,
+ * the median over 2,000 seeds when phase 48's stories came, so set beside the bots here it
+ * would be set beside runs nobody played. A stamped run is kept on its stamp. A run from
+ * before stamps is kept when this version deals it again card for card, which only a
+ * finished run can show. Every run left out is counted, and none reaches a table.
+ */
+export function onThisDeck(g: Gathered, stamp: string, rebuilds: (run: RecordedRun) => boolean): { gathered: Gathered; decks: DeckCount } {
+  const other = new Map<string, number>();
+  let unverified = 0;
+  const keep = (run: RecordedRun): boolean => {
+    if (run.deck) {
+      if (run.deck === stamp) return true;
+      other.set(run.deck, (other.get(run.deck) ?? 0) + 1);
+      return false;
+    }
+    if (run.end && rebuilds(run)) return true;
+    unverified++;
+    return false;
+  };
+  const players = g.players.map((p) => ({ files: p.files, runs: p.runs.filter(keep) })).filter((p) => p.runs.length > 0);
+  const kept = players.reduce((n, p) => n + p.runs.length, 0);
+  return {
+    gathered: { players, runs: kept, repeats: g.repeats },
+    decks: { stamp, kept, other: [...other].sort((a, b) => b[1] - a[1]), unverified },
+  };
+}
+
 const fingerprint = (r: RecordedRun): string => `${r.code}|${r.kind}|${r.run}|${r.cards.map((c) => `${c.card}.${c.side}.${c.ms}`).join(",")}`;
 
 export function gather(sources: readonly Source[]): Gathered {
@@ -205,6 +248,7 @@ export interface Report {
   unfinished: number;
   repeats: number;
   versions: string[];
+  decks: DeckCount | null;
   kinds: Record<RunKind, number>;
   humans: Outcomes;
   /** Each bot on the finished runs whose code this version of the game can still start. */
@@ -231,6 +275,8 @@ export interface ReportOptions {
   lookMs: number;
   /** Fewest decisions on a card before it can be called one people hesitate on. */
   minDecisions: number;
+  /** Which decks the runs came from, when they were sorted by deck first (BACKLOG-8 phase 49). */
+  decks?: DeckCount;
 }
 
 const median = (xs: readonly number[]): number => quantiles([...xs]).median;
@@ -345,6 +391,7 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     unfinished: runs.length - finished.length,
     repeats: g.repeats,
     versions: [...new Set(runs.map((r) => r.game))].sort(),
+    decks: opts.decks ?? null,
     kinds,
     humans: outcomes(lib, finished.map((r) => r.end!)),
     bots: [...bots.entries()].map(([bot, results]) => ({ bot, out: outcomes(lib, results.map((r) => ({ ending: r.endingId, era: r.era, cards: r.cards }))) })),
@@ -397,6 +444,13 @@ export function formatReport(r: Report, top = 10): string {
   const n = (count: number, one: string) => `${count} ${one}${count === 1 ? "" : "s"}`;
   out.push(`rule-or-drool playtests: ${n(r.files, "file")}, ${n(r.players, "player")}, ${n(r.runs, "run")} (${kinds})`);
   out.push(`${r.finished} finished, ${r.unfinished} left for another run, ${r.repeats} repeated across files and counted once. Game ${r.versions.join(", ")}.`);
+  if (r.decks) {
+    const d = r.decks;
+    const gone = d.other.reduce((s, [, k]) => s + k, 0);
+    out.push(`Dealt from this version's deck, ${d.stamp}: ${n(d.kept, "run")}, the only ones below.`);
+    if (gone) out.push(`Left out, dealt from other decks: ${d.other.map(([deck, k]) => `${deck} ${k}`).join(", ")}. Run the report on the version that dealt them.`);
+    if (d.unverified) out.push(`Left out, from before decks were stamped: ${n(d.unverified, "run")} this deck does not deal again card for card, or that stopped too soon to tell.`);
+  }
   out.push("");
 
   out.push(`== survival: people, and each bot playing the same ${r.replayed} runs ==`);

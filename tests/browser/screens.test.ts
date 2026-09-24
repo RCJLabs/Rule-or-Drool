@@ -3,6 +3,7 @@ import type { Browser } from "playwright-core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
+import { deckStamp } from "../../src/engine/deck";
 import { MANDATES } from "../../src/engine/mandates";
 import { rollSetup } from "../../src/engine/state";
 import { encodeRunResult, resultOf } from "../../src/meta/challenge";
@@ -39,6 +40,8 @@ describe.skipIf(!target)("in a browser", () => {
   describe("every text is readable", () => {
     it("on the menus of a new profile", async () => {
       const page = await open(browser);
+      // The footer names the deck, the one src/content/deck.json holds (BACKLOG-8 phase 49).
+      expect(await page.locator("footer.version").textContent()).toContain(STRINGS.ui.deck.replace("{stamp}", deckStamp(library)));
       const failures = await contrast(page, "setup");
       await page.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
       await page.waitForSelector(".codex");
@@ -92,10 +95,33 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
+    it("on the menu, with a saved run from another deck and with one this version cannot go on with", async () => {
+      const page = await startRun(browser, "left", { width: 360, height: 640 });
+      const failures: string[] = [];
+      for (const [label, change] of [
+        ["another deck", `raw.state.deck = "zzzzzzzz";`],
+        ["a card this version lacks", `raw.state.current = "card_from_a_later_version";`],
+      ] as const) {
+        await page.evaluate(`(() => {
+          const raw = JSON.parse(localStorage.getItem("rod.run"));
+          ${change}
+          localStorage.setItem("rod.run", JSON.stringify(raw));
+        })()`);
+        await page.reload();
+        await page.waitForSelector(".saved-note");
+        failures.push(...(await contrast(page, label)));
+        failures.push(...(await misfits(page, label, { mayScroll: true })));
+      }
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
     it("on the offer of a run someone sent, and on a link that is broken", async () => {
       const failures: string[] = [];
       const links = [
         ["a good link", codeFor(SEED, "left", LONGEST_MANDATE.id)],
+        // The longest of the offer's three sentences (BACKLOG-8 phase 49).
+        ["a link from another deck", `${codeFor(SEED, "left", LONGEST_MANDATE.id)}&deck=zzzzzzzz`],
         ["a broken link", "1.4svgv.L.crisis_meteor.-.-"],
       ] as const;
       for (const [label, code] of links) {

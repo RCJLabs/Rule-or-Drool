@@ -153,7 +153,8 @@ describe("foldRun", () => {
     // A run dealt from another seed is not that day's daily, whatever it was started as.
     expect(foldRun(library, emptyMeta(), run, { day: "2026-09-21", seed: run.seed + 1 }).daily).toBeNull();
     const one = foldRun(library, emptyMeta(), run, { day: "2026-09-21", seed: run.seed });
-    expect(one.daily).toEqual({ day: "2026-09-21", history: one.history!.key, ending: "riots", cards: 40 });
+    // It keeps the deck the day's run was dealt from (BACKLOG-8 phase 49).
+    expect(one.daily).toEqual({ day: "2026-09-21", history: one.history!.key, ending: "riots", cards: 40, deck: run.deck });
     expect(one.meta.dailies).toEqual([one.daily]);
     const again = foldRun(library, one.meta, { ...run, cardCount: 90 }, { day: "2026-09-21", seed: run.seed });
     expect(again.daily).toBeNull();

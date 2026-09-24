@@ -9,6 +9,7 @@ export * from "./draw";
 export * from "./resolve";
 export * from "./preview";
 export * from "./replay";
+export * from "./deck";
 
 import { draw } from "./draw";
 import type { Library } from "./library";

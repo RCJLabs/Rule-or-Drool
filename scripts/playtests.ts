@@ -16,10 +16,10 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { content } from "../src/content";
-import { buildLibrary } from "../src/engine";
+import { buildLibrary, deckStamp } from "../src/engine";
 import { decodeRunCode, setupOf } from "../src/meta/runcode";
 import { parseRecord } from "../src/playtest/parse";
-import { buildReport, formatReport, gather, type Source } from "../src/playtest/report";
+import { buildReport, formatReport, gather, onThisDeck, type Source } from "../src/playtest/report";
 import { traceBot, traceRecorded, type Trace } from "../src/playtest/trace";
 import { BOT_NAMES, DEFAULT_RUN_OPTIONS, playRunFrom, type BotName, type RunResult } from "../src/sim";
 
@@ -70,7 +70,8 @@ function main(): void {
   }
 
   const lib = buildLibrary(content);
-  const gathered = gather(sources);
+  // Only runs dealt from this version's deck are compared with anything (BACKLOG-8 phase 49).
+  const { gathered, decks } = onThisDeck(gather(sources), deckStamp(lib), (run) => traceRecorded(lib, run) !== null);
   // Each bot plays every finished run a person played, from the same code. A code naming
   // content this version no longer has cannot be replayed, and is left out of the bots' side.
   // The person's run is rebuilt from its code and their sides, for the looks and the votes,
@@ -93,7 +94,7 @@ function main(): void {
     if (rebuilt) people.push(rebuilt);
   }
 
-  const report = buildReport(lib, gathered, bots, { files: sources.length, replayed, lookMs: args.look, minDecisions: args.min }, { people, bots: walked });
+  const report = buildReport(lib, gathered, bots, { files: sources.length, replayed, lookMs: args.look, minDecisions: args.min, decks }, { people, bots: walked });
   console.log(formatReport(report, args.top));
 }
 

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
 import { clearMeta, dailySeedFor, emptyMeta, encodeRunCode, foldRun, loadMeta, runCodeOf, saveMeta, type MetaState, type RunFold, type RunResult } from "../meta";
@@ -238,18 +239,24 @@ export function useGame(lib: Library) {
   );
 
   const continueSaved = useCallback(() => {
-    if (!saved) return;
+    if (!saved || missingContent(lib, saved).length) return;
+    // A run dealt from another deck plays on under this one, so no one deck dealt it: it
+    // keeps no stamp, and its links and records claim none (BACKLOG-8 phase 49).
+    const moved = !!saved.deck && saved.deck !== deckStamp(lib);
+    const { deck: _deck, ...unstamped } = saved;
+    const run: GameState = moved ? unstamped : saved;
     setSaved(null);
     setLastFold(null);
     dailyRef.current = savedDaily?.seed === saved.seed ? savedDaily : null;
     setSavedDaily(null);
     setChallenge(savedChallenge);
     setSavedChallenge(null);
-    setState(ensureCard(lib, saved));
-    // The recording carries on only if it is this run's, card for card; a record that lost
-    // a card, or belongs to another run, is kept as far as it got.
+    setState(ensureCard(lib, run));
+    // The recording carries on only if it is this run's, card for card, on the deck it began
+    // on; a record that lost a card, belongs to another run, or would go on under another
+    // deck is kept as far as it got.
     const open = openRef.current;
-    if (open && (open.code !== encodeRunCode(runCodeOf(saved)) || open.cards.length !== saved.cardCount)) shelveOpen();
+    if (open && (moved || open.code !== encodeRunCode(runCodeOf(saved)) || open.cards.length !== saved.cardCount)) shelveOpen();
     else if (open) resumedRef.current = true;
   }, [lib, saved, savedDaily, savedChallenge, shelveOpen]);
 

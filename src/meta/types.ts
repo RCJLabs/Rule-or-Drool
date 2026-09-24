@@ -83,6 +83,8 @@ export interface DailyEntry {
   history: string | null;
   ending: string;
   cards: number;
+  /** The deck the day's run was dealt from (BACKLOG-8 phase 49); absent before stamps. */
+  deck?: string;
 }
 
 export interface ObjectiveContext {

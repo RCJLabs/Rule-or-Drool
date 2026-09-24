@@ -359,6 +359,11 @@ export interface GameState {
   choices: ChoiceMade[] | null;
   /** Set on a second road: the run it branched from, finished, and the card it went back to. */
   road: Road | null;
+  /**
+   * The stamp of the deck the run was dealt from (BACKLOG-8 phase 49). Unset for a run saved
+   * before stamps, and for one continued on another deck, since no one deck dealt it.
+   */
+  deck?: string;
 }
 
 /** One choice made: the card, and the side taken on it. */

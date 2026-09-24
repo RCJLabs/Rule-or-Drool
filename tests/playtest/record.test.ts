@@ -52,11 +52,12 @@ describe("the record of a run", () => {
     const file = JSON.parse(serialize(toFile([{ ...run, cards: run.cards.map((c, i) => (i === 0 ? { ...c, resumed: true as const } : c)) }])));
     expect(Object.keys(file)).toEqual(["format", "v", "meters", "runs"]);
     expect(file.meters).toEqual([...METER_KEYS]);
-    expect(Object.keys(file.runs[0])).toEqual(["game", "code", "kind", "run", "end", "cards"]);
+    // The deck it was dealt from rides beside the version (BACKLOG-8 phase 49).
+    expect(Object.keys(file.runs[0])).toEqual(["game", "deck", "code", "kind", "run", "end", "cards"]);
     expect(Object.keys(file.runs[0].end)).toEqual(["ending", "era", "cards", "band"]);
     const cardKeys = new Set(file.runs[0].cards.flatMap((c: object) => Object.keys(c)));
     expect([...cardKeys].sort()).toEqual(["after", "before", "card", "drift", "looked", "ms", "resumed", "side"]);
-    // No date, no clock time: durations only. The only strings are ids, the code and the version.
+    // No date, no clock time: durations only. The only strings are ids, the code, the version and the deck.
     expect(serialize(toFile([run]))).not.toMatch(/\d{4}-\d{2}-\d{2}|T\d{2}:\d{2}/);
   });
 });

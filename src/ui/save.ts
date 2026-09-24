@@ -1,4 +1,5 @@
 import { DEFAULT_CONFIG } from "../engine/config";
+import { DECK_PATTERN } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { stageOf } from "../engine/look";
 import { decodeRunResult, encodeRunResult, type RunResult } from "../meta/challenge";
@@ -31,12 +32,14 @@ interface RunSave {
    * 37), so the end still compares the two after a reload. Kept in the link's own words.
    */
   vs?: string | null;
+  /** The deck their run was dealt from, when the link said (BACKLOG-8 phase 49). */
+  vsDeck?: string | null;
 }
 
 /** Run state is saved after every step. Meta progression gets its own key in phase 6. */
 export function saveRun(state: GameState, daily: DailyMark | null = null, vs: RunResult | null = null): void {
   try {
-    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null } satisfies RunSave));
+    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null, vsDeck: vs?.deck ?? null } satisfies RunSave));
   } catch {
     // Storage unavailable (private mode, quota). The run just is not resumable.
   }
@@ -132,8 +135,9 @@ export function loadRunChallenge(lib: Library): RunResult | null {
   try {
     const raw = localStorage.getItem(RUN_KEY);
     if (!raw) return null;
-    const { vs } = JSON.parse(raw) as Partial<RunSave>;
-    return typeof vs === "string" ? decodeRunResult(lib, vs) : null;
+    const { vs, vsDeck } = JSON.parse(raw) as Partial<RunSave>;
+    const result = typeof vs === "string" ? decodeRunResult(lib, vs) : null;
+    return result && typeof vsDeck === "string" && DECK_PATTERN.test(vsDeck) ? { ...result, deck: vsDeck } : result;
   } catch {
     return null;
   }

@@ -8,7 +8,8 @@ This round comes from a fresh audit of the shipped game, which you asked for bef
 test. Tuning on bots alone risks tuning for the wrong player, so the audit looked first for
 what holds whichever player the game is for: what breaks, what is lost without a word, and
 what a screen says that is not true.
-- **It found no crash.**
+- **It found no crash in play.** The only way it found to a blank page follows an update
+  (phase 49).
 - **The game cannot tell which deck anything was made on.** An update changes almost every
   run a shared code deals, and the screens still promise the same run.
 - **Progress is lost silently when storage fails.**
@@ -116,7 +117,102 @@ phase stands on its own, so the round can stop after any of them.
 
 ---
 
-## Phase 49. A run knows its deck — *queued*
+## Phase 49. A run knows its deck — *done*
+
+**Shipped in v0.60.0.** Every run carries the stamp of the deck that dealt it, and so does
+everything that leaves the run: links, saves, the daily log and playtest records. The game
+says "the same deck" only when it is.
+
+**The stamp.** Eight letters and digits, today `nqne4r3b`. It is a hash of everything that
+decides what is dealt and how a choice lands:
+- the cards, stories, questions, crises, advisors, endings, epilogues and promises;
+- the engine's config;
+- `DEAL_VERSION`, for the engine's own code.
+
+The wording is left out, so a pass over the text keeps every code, as the voice pass of
+v0.58.0 kept all 2,000 runs. The look's two settings are left out too: the look never deals
+a card.
+
+**How it is kept honest.**
+- **`npm run deck`** writes the stamp, and a fingerprint of what the deck deals, to
+  `src/content/deck.json`. The game reads the stamp from there, so no phone works it out at
+  startup. Worked out, it takes 7-8 ms here.
+- **Every deck change shows in a diff.** A test fails until `deck.json` matches the content.
+- **A deal that moves without the stamp is refused.** If the engine's own code deals
+  differently, `npm run deck` refuses to write, and the test fails, until `DEAL_VERSION` is
+  bumped.
+  - Checked: a one-point change to how drift adds up, planted in the engine, failed the test
+    with that instruction.
+  - The fingerprint is 96 runs of the mixed bot, on both sides, under every promise and none,
+    three eras and five, with nothing and everything unlocked.
+- **Every string in the content is sorted.** A test lists each one as wording or as
+  something that decides. A new field fails until it is sorted.
+
+**What carries it.**
+- **Links:** `&deck=` beside the run code, as the result rides beside it. The code itself is
+  unchanged, so an older version still opens the link.
+- **The run save:** as a field of the run. The deck of a run someone sent is kept beside
+  their result.
+- **Daily log entries and playtest records:** as a field of each. Older ones without it
+  still load.
+- **Two departures from the plan.**
+  - It planned a new format digit for codes and links. Links carry the stamp beside the code
+    instead, so an older version still opens them. A new digit would have made them broken
+    links there, the reason phase 37 put the result beside the code too.
+  - It planned new formats, with migrations, for four things. The stamp is an optional field
+    in each, so no save version moved and nothing needed a migration.
+
+**What the player is told.**
+- **The offer of a shared run** takes one of three wordings:
+  - "the same deck" when the link names this deck;
+  - that the cards will not be the ones they saw, when it names another;
+  - that they may not be, when it names none.
+- **The end of a run someone sent** gives a verdict only when both runs came from one deal.
+  A run from another deck is set beside yours with a sentence saying why it is not compared.
+  So is one that cannot be dealt again here, even when its link named no deck.
+- **A saved run from another deck** says so under Continue. It then plays on with no stamp,
+  since no one deck dealt it, and its recording stops where the deck changed.
+- **The end of a run the game was updated during** says why the other road is not offered.
+- **A save naming a card, story, crisis, advisor or promise this version lacks** gets a
+  sentence instead of a Continue button. It no longer blanks the page.
+- **The menu's footer** reads "v0.60.0 · deck nqne4r3b", for a tester to quote.
+
+**The playtest report** keeps only the runs dealt from its own deck. A stamped run is kept on
+its stamp. One from before stamps is kept if this deck deals it again card for card. The rest
+are counted by deck, named in the report's first lines, and left out of every table.
+
+**Measured.**
+- **Nothing is dealt differently.** The same 2,000 seeds give identical runs on v0.59.2 and
+  v0.60.0, card for card, with the same endings.
+- **The engine fuzz still holds** with the new field: 9,600 runs across every bot, unlock set
+  and reign length, no problems. Of them, 1,382 were saved as JSON at a random card and
+  resumed with the same sides. Each ended identically, stamp and all.
+- **The four targets hold.**
+  - Wording keeps the stamp, and anything dealt or scored moves it. Both are tested.
+  - No screen says "the same deck" unless the stamps match.
+  - Every older code decodes and deals what it dealt, from the 2,000 seeds above.
+  - No save or link leaves a blank page. The one way found, the run save, is gated. Links were
+    already checked: a code naming a modifier, unlock or promise this version lacks is
+    refused, and a result's unknown ending or history is kept as unknown. A search of the
+    screens and the meta code found one lookup that throws on an unknown id, `getCard` on
+    the run's own screen, and it is reached only past the gate.
+- **Tests.** New ones cover the stamp, links, the offer's three wordings, saved runs, the end
+  screen, the daily log and the report's sort. The browser suite checks the footer's deck and
+  reads the longest offer and both saved-run sentences at 360×640.
+
+**The limits.**
+- **Old links** carry no stamp, so they get the careful wording, not the certain one.
+- **The daily's number** says nothing of the deck. On update day, two friends on different
+  versions play different runs under the same "#n". The link in a share carries the deck, so
+  a friend who opens it is told. One who only reads the number is not.
+- **A daily started before an update and finished after** still counts as that day's. Its log
+  entry has no stamp.
+
+**Yours.** When you change what the game deals, run `npm run deck` and commit
+`src/content/deck.json` with the change. Its diff is the deck changing. While the closed test
+runs, that is the file to keep still (the second decision above).
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - **An update changes almost every run, and nothing says so.** The same 2,000 seeds were dealt
@@ -195,6 +291,8 @@ gets the careful wording, not the certain one.
 
 **Cost.** Medium: a hash, new formats for four things with their migrations, four sentences,
 and tests. About the size of phase 37.
+
+</details>
 
 ---
 

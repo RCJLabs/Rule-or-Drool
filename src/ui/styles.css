@@ -1350,6 +1350,13 @@ button {
   line-height: 1.4;
   color: var(--muted);
 }
+/* Why a run that crossed an update offers no other road (BACKLOG-8 phase 49). */
+.became-note {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
 .versus-table {
   width: 100%;
   table-layout: fixed;
@@ -1979,6 +1986,14 @@ button {
 .menu-streak {
   margin: 0;
   font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+/* A saved run from another deck, or one this version cannot go on with (BACKLOG-8 phase 49). */
+.saved-note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
   text-align: center;
   color: var(--muted);
 }

@@ -1,4 +1,6 @@
 import type { Advisor, Arc, Card, Content, Ending, Epilogue, Modifier } from "../engine/types";
+import { rememberStamp } from "../engine/deck";
+import deck from "./deck.json";
 import { buildLibrary } from "../engine/library";
 
 import era1Any from "./cards/era1/any.json";
@@ -288,3 +290,6 @@ export const content: Content = {
 
 /** The default library: real content, default config. */
 export const library = buildLibrary(content);
+
+// The deck's stamp, worked out ahead by `npm run deck` (BACKLOG-8 phase 49).
+rememberStamp(library, deck.stamp);

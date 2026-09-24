@@ -83,6 +83,9 @@ export function loadRoot(rootArg: string): Loaded {
     // Read by the meta layer rather than the engine, and checked as a whole by the
     // `history-*` rules, so it is recognised here and not loaded into the engine's content.
     else if (file === "histories.json") continue;
+    // The deck's stamp, written by `npm run deck` and held to the content by
+    // tests/engine/deck.test.ts (BACKLOG-8 phase 49): about the content, not part of it.
+    else if (file === "deck.json") continue;
     else issues.error("file-unclassified", `not a content file: expected cards/**, arcs/** or one of ${REQUIRED_FILES.join(", ")}`, { kind: "file", id: file, file });
   }
   for (const required of REQUIRED_FILES) {

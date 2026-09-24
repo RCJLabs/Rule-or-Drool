@@ -1,3 +1,4 @@
+import { deckStamp } from "./deck";
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
 import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX } from "./mandates";
@@ -273,5 +274,6 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     flagSince: Object.fromEntries(flags.map((f) => [f, 0])),
     choices: [],
     road: null,
+    deck: deckStamp(lib),
   };
 }

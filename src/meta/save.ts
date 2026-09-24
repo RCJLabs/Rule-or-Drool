@@ -1,3 +1,4 @@
+import { DECK_PATTERN } from "../engine/deck";
 import { META_SAVE_VERSION } from "../version";
 import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
@@ -69,10 +70,12 @@ function dailiesOf(log: unknown, kept: unknown): DailyEntry[] {
   const byDay = new Map<string, DailyEntry>();
   for (const e of entries) {
     if (!e || typeof e !== "object") continue;
-    const { day, history, ending, cards } = e as Record<string, unknown>;
+    const { day, history, ending, cards, deck } = e as Record<string, unknown>;
     if (typeof day !== "string" || !Number.isFinite(dayIndex(day)) || byDay.has(day)) continue;
     if (typeof ending !== "string" || typeof cards !== "number" || !Number.isFinite(cards)) continue;
-    byDay.set(day, { day, history: typeof history === "string" ? history : null, ending, cards });
+    const entry: DailyEntry = { day, history: typeof history === "string" ? history : null, ending, cards };
+    if (typeof deck === "string" && DECK_PATTERN.test(deck)) entry.deck = deck;
+    byDay.set(day, entry);
   }
   return [...byDay.values()].sort((a, b) => a.day.localeCompare(b.day));
 }

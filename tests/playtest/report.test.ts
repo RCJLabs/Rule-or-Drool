@@ -6,7 +6,8 @@ import { describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { decodeRunCode, setupOf } from "../../src/meta/runcode";
 import { serialize, toFile, type RecordedRun, type TakenCard } from "../../src/playtest/record";
-import { buildReport, formatReport, gather, type Source } from "../../src/playtest/report";
+import { deckStamp } from "../../src/engine/deck";
+import { buildReport, formatReport, gather, onThisDeck, type Source } from "../../src/playtest/report";
 import { traceBot, traceRecorded, type Trace } from "../../src/playtest/trace";
 import { playRunFrom, type BotName, type RunResult } from "../../src/sim";
 import { recordBotRun, recordRun } from "./helpers";
@@ -26,6 +27,28 @@ function made(run: number, cards: [string, number, Partial<TakenCard>?][], endin
     cards: cards.map(([card, ms, rest]) => ({ card, side: "left", ms, looked: [0, 0], drift: 0, before: m, after: m, ...rest })),
   };
 }
+
+// BACKLOG-8 phase 49: a run from another deck is a different run by its 13th card, the median
+// over 2,000 seeds when phase 48's stories came. Set beside the bots, it would be set beside
+// runs nobody played.
+describe("sorting the runs by deck", () => {
+  it("keeps only the runs this deck dealt, and counts the rest", () => {
+    let n = 0;
+    const at = (deck: string | undefined, end = true): RecordedRun => ({ ...made(++n, [["x", 1000]]), ...(deck ? { deck } : {}), ...(end ? {} : { end: null }) });
+    const rebuilt = at(undefined);
+    const g = gather([source("a", [at("aaaaaaaa"), at("bbbbbbbb"), rebuilt, at(undefined, false), at(undefined)]), source("b", [at("bbbbbbbb")])]);
+    // Only the unstamped run the test says rebuilds does; the other finished one does not.
+    const { gathered, decks } = onThisDeck(g, "aaaaaaaa", (run) => run === rebuilt);
+    expect(decks).toEqual({ stamp: "aaaaaaaa", kept: 2, other: [["bbbbbbbb", 2]], unverified: 2 });
+    expect(gathered.runs).toBe(2);
+    // A player with no run from this deck is not one of this report's players.
+    expect(gathered.players.map((p) => p.files)).toEqual([["a"]]);
+    const text = formatReport(buildReport(library, gathered, new Map(), { ...OPTS, decks }));
+    expect(text).toContain("Dealt from this version's deck, aaaaaaaa: 2 runs, the only ones below.");
+    expect(text).toContain("Left out, dealt from other decks: bbbbbbbb 2.");
+    expect(text).toContain("Left out, from before decks were stamped: 2 runs this deck does not deal again card for card, or that stopped too soon to tell.");
+  });
+});
 
 describe("gathering the files", () => {
   it("counts a run sent twice once, and takes files that share a run to be one player's", () => {
@@ -155,6 +178,20 @@ describe("npm run playtests", () => {
       expect(out.stdout).toContain("== where the country ends up ==");
       expect(out.stdout).toContain("== elections: people's 3 of 3 finished runs, rebuilt on this version ==");
       expect(out.stdout).toContain("== the look each card was read in ==");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  }, 30_000);
+
+  it("leaves out a run from another deck, and says so", () => {
+    const dir = mkdtempSync(join(tmpdir(), "playtests-"));
+    try {
+      writeFileSync(join(dir, "sam.txt"), serialize(toFile([recordRun(64).run, { ...recordRun(65).run, deck: "zzzzzzzz" }])));
+      const out = spawnSync(process.execPath, ["--import", "tsx", "scripts/playtests.ts", dir], { encoding: "utf8" });
+      expect(out.status).toBe(0);
+      expect(out.stdout).toContain(`Dealt from this version's deck, ${deckStamp(library)}: 1 run, the only ones below.`);
+      expect(out.stdout).toContain("Left out, dealt from other decks: zzzzzzzz 1.");
+      expect(out.stdout).toMatch(/^people\s+1\s/m);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

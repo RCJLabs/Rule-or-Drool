@@ -29,6 +29,11 @@ export interface RunResult {
   cards: number;
   /** The side taken on each card, in order; null when the run kept no record of them. */
   sides: Side[] | null;
+  /**
+   * The deck their run was dealt from, when the link said (BACKLOG-8 phase 49). It rides in
+   * the link beside the result, `&deck=…`, not in it, so the result's format is unchanged.
+   */
+  deck?: string;
 }
 
 const VERSION = "1";

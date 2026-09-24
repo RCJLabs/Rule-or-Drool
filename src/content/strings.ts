@@ -264,6 +264,9 @@ export const STRINGS = {
     play: "Play the same run:",
     offerTitle: "A run someone sent you",
     offerBody: "Their side, their crisis, their promise, and the same deck. Whatever you have unlocked, this is the run they played.",
+    // When the link names another deck, or none (BACKLOG-8 phase 49).
+    offerOtherDeck: "Their side, their crisis and their promise. They played it on another version of the game, so the cards will not be the ones they saw.",
+    offerMaybe: "Their side, their crisis and their promise. If they played an older version of the game, the cards may not be the ones they saw.",
     offerPlay: "Play their run",
     offerDismiss: "Not now",
     offerBroken: "That link is for a run this version of the game cannot reproduce.",
@@ -286,7 +289,8 @@ export const STRINGS = {
     bothLeft: "You both left {history}.",
     sameWay: "You both went to {band}, and history called you different things.",
     otherWays: "They went to {theirs}. You went to {yours}.",
-    unreplayed: "Their run was played on another version of the game, so it cannot be drawn here.",
+    unreplayed: "Their run cannot be dealt again on this version of the game, so it is set beside yours, not compared.",
+    otherDeck: "They played on another version of the game, so the two runs are set side by side, not compared.",
     unknown: "not known here",
   },
   /**
@@ -379,6 +383,7 @@ export const STRINGS = {
     first: "The first road",
     second: "The other road",
     parted: "The roads parted at card {n}: “{a}” the first time, “{b}” the second.",
+    updated: "The game was updated during this run, so it cannot be replayed to take the other road.",
   },
   move: {
     open: "Move my progress",
@@ -543,6 +548,10 @@ export const STRINGS = {
   ui: {
     start: "Take office",
     continueRun: "Continue saved run",
+    // A saved run and the deck it was dealt from (BACKLOG-8 phase 49).
+    savedUpdated: "The game has been updated since this run began. It carries on with this version's cards.",
+    savedGone: "Your saved run cannot go on in this version of the game. A new run replaces it.",
+    deck: "deck {stamp}",
     newRun: "New run",
     playAgain: "Play again",
     continueEra: "Continue",

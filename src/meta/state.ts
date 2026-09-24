@@ -130,7 +130,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   // finish keeps the day (BACKLOG-5 phase 38).
   let entry: DailyEntry | null = null;
   if (daily && daily.seed === run.seed && !meta.dailies.some((d) => d.day === daily.day)) {
-    entry = { day: daily.day, history: history.key, ending: endingId, cards: run.cardCount };
+    entry = { day: daily.day, history: history.key, ending: endingId, cards: run.cardCount, ...(run.deck ? { deck: run.deck } : {}) };
     next.dailies = [...meta.dailies, entry].sort((a, b) => a.day.localeCompare(b.day));
   }
 

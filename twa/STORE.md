@@ -247,8 +247,14 @@ bots (BACKLOG-5 phase 31):
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a
-  version that deals the same cards. If cards change during the test, run the report on the
-  commit of the version the records name. It says how many runs it could rebuild.
+  version that deals the same cards. Every record since v0.60.0 names the deck it was dealt
+  from, and the report uses only the runs dealt from its own deck, saying how many it left
+  out and from which decks (BACKLOG-8 phase 49). If the deck changes during the test, run the
+  report once on each version the testers played.
+- Better: hold the deck still for the 14 days (BACKLOG-8's second decision). A deploy that
+  changes the deck changes `src/content/deck.json`, so it shows in the diff before it ships.
+- The menu's footer shows the version and the deck, as in "v0.60.0 · deck nqne4r3b". A tester
+  reporting a problem can quote it.
 
 ### 4. Build and upload
 

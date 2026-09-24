@@ -55,6 +55,11 @@ export interface RunEnd {
 export interface RecordedRun {
   /** The version of the game it was played on. */
   game: string;
+  /**
+   * The deck it was dealt from (BACKLOG-8 phase 49). The report rebuilds a run only on the deck
+   * it names. Absent from records made before stamps, and for a run no one deck dealt.
+   */
+  deck?: string;
   /** The run code: seed and setup, enough for the report to replay the run with bots. */
   code: string;
   kind: RunKind;
@@ -77,7 +82,7 @@ export interface RecordFile {
 export const meterList = (m: Meters): number[] => METER_KEYS.map((k) => Math.round(m[k]));
 
 export function openRun(state: GameState, opts: { kind: RunKind; run: number; game: string }): RecordedRun {
-  return { game: opts.game, code: encodeRunCode(runCodeOf(state)), kind: opts.kind, run: opts.run, end: null, cards: [] };
+  return { game: opts.game, ...(state.deck ? { deck: state.deck } : {}), code: encodeRunCode(runCodeOf(state)), kind: opts.kind, run: opts.run, end: null, cards: [] };
 }
 
 /** One choice, from the state it was made in and the state it left. */

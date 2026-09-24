@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { library } from "../content";
+import { DECK_PATTERN } from "../engine/deck";
 import { decodeRunCode, decodeRunResult, type Decoded, type RunResult } from "../meta";
 import { STRINGS } from "../content/strings";
 import { Codex } from "./Codex";
@@ -29,12 +30,20 @@ export function App() {
     const raw = new URLSearchParams(window.location.search).get("run");
     return raw ? decodeRunCode(library, raw) : null;
   });
+  // The deck their run was dealt from, when the link says (BACKLOG-8 phase 49): the offer tells
+  // the player whether this version deals the same run, and the end whether to compare.
+  const [sharedDeck, setSharedDeck] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    const raw = new URLSearchParams(window.location.search).get("deck");
+    return raw && DECK_PATTERN.test(raw) ? raw : null;
+  });
   // How it went for them, when the link says (BACKLOG-5 phase 37): beside the run code, not in
   // it, so a version of the game from before this still opens the link.
   const [sharedResult, setSharedResult] = useState<RunResult | null>(() => {
     if (typeof window === "undefined") return null;
     const raw = new URLSearchParams(window.location.search).get("vs");
-    return raw ? decodeRunResult(library, raw) : null;
+    const result = raw ? decodeRunResult(library, raw) : null;
+    return result && sharedDeck ? { ...result, deck: sharedDeck } : result;
   });
   // Progress brought in a link (BACKLOG-5 phase 33): read, shown against what is here, and
   // put in place only if the player says so. The fragment never reaches a server.
@@ -60,9 +69,11 @@ export function App() {
   const answerShared = () => {
     setShared(null);
     setSharedResult(null);
+    setSharedDeck(null);
     const url = new URL(window.location.href);
     url.searchParams.delete("run");
     url.searchParams.delete("vs");
+    url.searchParams.delete("deck");
     window.history.replaceState(null, "", url.pathname + (url.search || ""));
   };
 
@@ -129,6 +140,7 @@ export function App() {
           onDaily={game.startDaily}
           shared={shared}
           sharedResult={sharedResult}
+          sharedDeck={sharedDeck}
           onPlayShared={(code) => {
             answerShared();
             game.playShared(code, sharedResult);

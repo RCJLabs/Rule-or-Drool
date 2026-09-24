@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { STRINGS } from "../content/strings";
+import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { isLongReign, rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
@@ -28,6 +29,8 @@ interface Props {
   shared?: Decoded | null;
   /** How it went for them, when the link said (BACKLOG-5 phase 37). */
   sharedResult?: RunResult | null;
+  /** The deck their run was dealt from, when the link said (BACKLOG-8 phase 49). */
+  sharedDeck?: string | null;
   onPlayShared?: (code: RunCode) => void;
   onDismissShared?: () => void;
   onContinue: () => void;
@@ -37,7 +40,7 @@ interface Props {
   today?: string;
 }
 
-export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, sharedResult, onPlayShared, onDismissShared, today = todayKey() }: Props) {
+export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, sharedResult, sharedDeck, onPlayShared, onDismissShared, today = todayKey() }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const [mandate, setMandate] = useState<string | null>(null);
@@ -55,6 +58,11 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
     !!shared?.ok &&
     shared.code.seed === dailySeed(today) &&
     encodeRunCode(shared.code) === encodeRunCode(dailyCode(lib, shared.code.seed, shared.code.align, shared.code.mandate));
+  // "The same deck" only when the link says so and it is this one (BACKLOG-8 phase 49).
+  const deck = deckStamp(lib);
+  const offerBody = !sharedDeck ? STRINGS.share.offerMaybe : sharedDeck === deck ? STRINGS.share.offerBody : STRINGS.share.offerOtherDeck;
+  const savedGone = saved ? missingContent(lib, saved).length > 0 : false;
+  const savedUpdated = !!saved?.deck && saved.deck !== deck;
   return (
     <Frame theme={themeFor(0)} align={align} seed={0} n={0}>
       <div className="setup">
@@ -75,7 +83,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
                 {sharedIsDaily && n && (
                   <p className="shared-daily">{(dailyPlayed ? STRINGS.share.offerDailyPlayed : STRINGS.share.offerDaily).replace("{n}", String(n))}</p>
                 )}
-                <p className="shared-body">{STRINGS.share.offerBody}</p>
+                <p className="shared-body">{offerBody}</p>
                 {/* Not .meta-row: its button rule repaints the background, and the primary
                     button's white text sat on paper at 1.02:1 until the audit caught it. */}
                 <div className="shared-actions">
@@ -97,13 +105,15 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             )}
           </section>
         )}
-        {saved && (
+        {saved && savedGone && <p className="saved-note">{STRINGS.ui.savedGone}</p>}
+        {saved && !savedGone && (
           <button type="button" className="primary" onClick={onContinue}>
             {STRINGS.ui.continueRun} · era {saved.era}, {STRINGS.parties[saved.align]}
             {isLongReign(lib, saved) && ` · ${STRINGS.reign.short}`}
             {savedDaily && ` · ${dailyName(savedDaily.day)}`}
           </button>
         )}
+        {saved && !savedGone && savedUpdated && <p className="saved-note">{STRINGS.ui.savedUpdated}</p>}
         <fieldset className="align">
           <legend>Your side</legend>
           {PLAYER_ALIGNS.map((a) => (
@@ -139,7 +149,9 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
         </div>
         {streak > 0 && <p className="menu-streak">{STRINGS.daily.menuStreak.replace("{n}", String(streak))}</p>}
         <p className="hint">{STRINGS.ui.hint}</p>
-        <footer className="version">v{APP_VERSION}</footer>
+        <footer className="version">
+          v{APP_VERSION} · {STRINGS.ui.deck.replace("{stamp}", deck)}
+        </footer>
       </div>
     </Frame>
   );

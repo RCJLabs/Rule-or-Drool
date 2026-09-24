@@ -49,7 +49,15 @@ npm run playtests      # report on the playtest records players sent, from playt
 npm run playtests -- some/folder --min 3 --look 300
 npm run voice          # phrases the cards lean on, against their ceilings (src/content/voice.ts)
 npm run voice -- "a phrase"      # the cards carrying a phrase, by file
+npm run deck           # after changing what is dealt: rewrite src/content/deck.json
 ```
+
+`npm run deck` writes the deck's stamp: a hash of everything that decides what is dealt and
+how a choice lands, with the wording left out (BACKLOG-8 phase 49). Links, saves, the daily
+log and playtest records carry it, so the game can say when a shared run was dealt from
+another deck. A change to cards, stories, crises, advisors, endings, promises or the engine's
+config needs it run, and the tests fail until it is; a change to wording does not. If the
+engine's own code starts dealing differently, bump `DEAL_VERSION` in `src/version.ts` first.
 
 The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without
 one they skip with a banner saying so; CI sets `REQUIRE_BROWSER=1`, which makes that a

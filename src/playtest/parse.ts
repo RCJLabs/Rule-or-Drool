@@ -1,3 +1,4 @@
+import { DECK_PATTERN } from "../engine/deck";
 import { BANDS, METER_KEYS } from "../engine/types";
 import { checkSpec, ID_PATTERN, type Spec } from "../validate/schema";
 import { RECORD_FORMAT, RECORD_VERSION, RUN_KINDS, type RecordFile } from "./record";
@@ -40,6 +41,7 @@ const RUN: Spec = {
   kind: "object",
   fields: {
     game: { kind: "string", pattern: /^\d{1,3}\.\d{1,3}\.\d{1,3}$/, hint: "a version like 0.43.0" },
+    deck: { kind: "string", pattern: DECK_PATTERN, hint: "a deck stamp: eight letters and digits" },
     // Whether the game can replay a code depends on its content, which the report checks;
     // here it only has to be one: version, base-36 seed, side, then three lists of ids, and
     // for a long reign (format 2) its era count as well (BACKLOG-5 phase 39).
