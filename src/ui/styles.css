@@ -2589,6 +2589,37 @@ button {
   margin: 2px 0 0;
   font-size: 12px;
 }
+/* The promise as an inline drop-down: the one chosen, with a chevron, and the others below it
+   only when it is opened. */
+.mandate-current {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.mandate-words {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mandate-chevron {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mandate-current[aria-expanded="true"] .mandate-chevron {
+  rotate: 180deg;
+}
+.mandate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .mandate-badge {
   display: flex;
   align-items: baseline;

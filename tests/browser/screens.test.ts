@@ -44,6 +44,10 @@ describe.skipIf(!target)("in a browser", () => {
       // The footer names the deck, the one src/content/deck.json holds (BACKLOG-8 phase 49).
       expect(await page.locator("footer.version").textContent()).toContain(STRINGS.ui.deck.replace("{stamp}", deckStamp(library)));
       const failures = await contrast(page, "setup");
+      // Your promise is a drop-down: the other promises, and what they cost, only once opened.
+      await page.locator(".mandate-current").click();
+      await page.waitForSelector(".mandate-list");
+      failures.push(...(await contrast(page, "setup, with the promises open")));
       await page.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
       await page.waitForSelector(".codex");
       failures.push(...(await contrast(page, "codex")));
@@ -113,6 +117,16 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await contrast(page, label)));
         failures.push(...(await misfits(page, label, { mayScroll: true })));
       }
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    it("on the promise drop-down, open, on the smallest phone", async () => {
+      const page = await open(browser, { width: 360, height: 640 });
+      await page.locator(".mandate-current").click();
+      await page.waitForSelector(".mandate-list");
+      // The menu scrolls on a phone this small, open or shut; nothing may run off the side.
+      const failures = [...(await contrast(page, "promises open, 360×640")), ...(await misfits(page, "promises open, 360×640", { mayScroll: true }))];
       await close(page);
       expect(failures).toEqual([]);
     });
