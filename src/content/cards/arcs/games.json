@@ -1,0 +1,148 @@
+[
+  {
+    "id": "arc_ga1",
+    "type": "arc",
+    "arc": "arc_games",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The international games need a host. A bid would cost a fortune, and the firms hoping for the building contracts have offered to write it for you.",
+    "left": {
+      "label": "Let it pass",
+      "fx": {
+        "money": 3,
+        "backers": -4,
+        "public": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them write it",
+      "fx": {
+        "backers": 5,
+        "public": 3,
+        "money": -4,
+        "inst": -2
+      },
+      "drift": -4,
+      "next": "arc_ga2",
+      "setFlags": [
+        "games_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_ga2",
+    "type": "arc",
+    "arc": "arc_games",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "We won. The stadium's budget has tripled since the bid, and the builders say doubling it again would finish it on time. An audit would not.",
+    "cond": {
+      "flags": [
+        "games_on"
+      ]
+    },
+    "left": {
+      "label": "Order the audit",
+      "fx": {
+        "inst": 4,
+        "money": -2,
+        "backers": -4,
+        "public": -2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "games_on"
+      ]
+    },
+    "right": {
+      "label": "Double the budget",
+      "fx": {
+        "money": -6,
+        "backers": 5,
+        "public": 2
+      },
+      "drift": -5,
+      "next": "arc_ga3"
+    }
+  },
+  {
+    "id": "arc_ga3",
+    "type": "arc",
+    "arc": "arc_games",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The games were a triumph for two weeks. The stadium costs more to keep than the hospitals. A firm will run it if the state guarantees its profits.",
+    "cond": {
+      "flags": [
+        "games_on"
+      ]
+    },
+    "left": {
+      "label": "Open it to the public",
+      "fx": {
+        "money": -3,
+        "public": 4,
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 3,
+      "setFlags": [
+        "stadium_built"
+      ],
+      "clearFlags": [
+        "games_on"
+      ]
+    },
+    "right": {
+      "label": "Guarantee the profits",
+      "fx": {
+        "backers": 5,
+        "money": -5,
+        "inst": -4
+      },
+      "drift": -6,
+      "setFlags": [
+        "stadium_built"
+      ],
+      "clearFlags": [
+        "games_on"
+      ],
+      "ending": "the_games"
+    }
+  }
+]

@@ -129,6 +129,13 @@ function main(): void {
     `cards already seen (median of 40 players, mixed bot): tenth run ${pct(quantiles(tenth.all).median)} (want at most 65%), ` +
       `its first era ${pct(quantiles(tenth.byEra.get(1)!).median)} (at most 60%); twentieth run ${pct(quantiles(twentieth.all).median)} (at most 85%)`,
   );
+  // BACKLOG-7 phase 48: the stories on their own, which repeated fastest, on 200 players.
+  const storyTenth = repeatProfile(lib, { players: 200, run: 10, seedBase: 300_000, cards: "stories" });
+  const storyTwentieth = repeatProfile(lib, { players: 200, run: 20, seedBase: 300_000, cards: "stories" });
+  console.log(
+    `story cards already met (median of 200 players): tenth run ${pct(quantiles(storyTenth.all).median)} (want at most 65%), ` +
+      `twentieth run ${pct(quantiles(storyTwentieth.all).median)} (at most 85%)`,
+  );
   // BACKLOG-7 phase 45: how the frame's look behaves over the mixed bot's first runs.
   const look = lookProfile(lib, { runs: 2000 });
   console.log(

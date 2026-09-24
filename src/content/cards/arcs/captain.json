@@ -1,0 +1,138 @@
+[
+  {
+    "id": "arc_cb1",
+    "type": "arc",
+    "arc": "arc_captain",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The national football captain has retired and wants to stand for your party. He has never voted, and he is loved in every town you lose.",
+    "left": {
+      "label": "Through the selection",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give him a safe seat",
+      "fx": {
+        "public": 5,
+        "base": -2,
+        "inst": -3
+      },
+      "drift": -4,
+      "next": "arc_cb2",
+      "setFlags": [
+        "captain_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_cb2",
+    "type": "arc",
+    "arc": "arc_captain",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The captain won his seat by a landslide and has not spoken in the chamber since. He wants to be a minister, and the polls say he should be.",
+    "cond": {
+      "flags": [
+        "captain_on"
+      ]
+    },
+    "left": {
+      "label": "Say he must wait",
+      "fx": {
+        "inst": 3,
+        "public": -4,
+        "base": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "captain_on"
+      ]
+    },
+    "right": {
+      "label": "Make him a minister",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "inst": -5
+      },
+      "drift": -5,
+      "next": "arc_cb3"
+    }
+  },
+  {
+    "id": "arc_cb3",
+    "type": "arc",
+    "arc": "arc_captain",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The captain's ministry has done nothing, beautifully. His supporters want him leader, and he has started calling the cabinet the squad.",
+    "cond": {
+      "flags": [
+        "captain_on"
+      ]
+    },
+    "left": {
+      "label": "Hold a proper contest",
+      "fx": {
+        "inst": 5,
+        "base": -3,
+        "public": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "captain_on"
+      ]
+    },
+    "right": {
+      "label": "Name him your heir",
+      "fx": {
+        "public": 5,
+        "base": 3,
+        "inst": -6
+      },
+      "drift": -6,
+      "clearFlags": [
+        "captain_on"
+      ],
+      "ending": "the_captain"
+    }
+  }
+]

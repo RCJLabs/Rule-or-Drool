@@ -1354,5 +1354,548 @@
       "q_banks_r_b3"
     ],
     "question": "banks"
+  },
+  {
+    "id": "arc_census",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_ce1",
+      "arc_ce2",
+      "arc_ce3"
+    ]
+  },
+  {
+    "id": "arc_flood",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_fl1",
+      "arc_fl2",
+      "arc_fl3"
+    ]
+  },
+  {
+    "id": "arc_agent",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "order": {
+          "gt": 40
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_ag1",
+      "arc_ag2",
+      "arc_ag3"
+    ]
+  },
+  {
+    "id": "arc_games",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "money": {
+          "gt": 40
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_ga1",
+      "arc_ga2",
+      "arc_ga3"
+    ]
+  },
+  {
+    "id": "arc_currency",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "money": {
+          "lt": 40
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_cu1",
+      "arc_cu2",
+      "arc_cu3"
+    ]
+  },
+  {
+    "id": "arc_harvest",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "public": {
+          "lt": 55
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_hv1",
+      "arc_hv2",
+      "arc_hv3"
+    ]
+  },
+  {
+    "id": "arc_quake",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_qk1",
+      "arc_qk2",
+      "arc_qk3"
+    ]
+  },
+  {
+    "id": "arc_lottery",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_lo1",
+      "arc_lo2",
+      "arc_lo3"
+    ]
+  },
+  {
+    "id": "arc_crown",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "mood": {
+          "lt": 55
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_cn1",
+      "arc_cn2",
+      "arc_cn3"
+    ]
+  },
+  {
+    "id": "arc_lender",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "money": {
+          "lt": 45
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_ln1",
+      "arc_ln2",
+      "arc_ln3"
+    ]
+  },
+  {
+    "id": "arc_captain",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "base": {
+          "lt": 55
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_cb1",
+      "arc_cb2",
+      "arc_cb3"
+    ]
+  },
+  {
+    "id": "arc_debate",
+    "align": "any",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "rival": {
+          "gt": 35
+        }
+      }
+    },
+    "weight": 2,
+    "cards": [
+      "arc_db1",
+      "arc_db2",
+      "arc_db3"
+    ]
+  },
+  {
+    "id": "arc_blackout",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_bo1",
+      "arc_bo2",
+      "arc_bo3"
+    ]
+  },
+  {
+    "id": "arc_jubilee",
+    "align": "any",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 2,
+    "cards": [
+      "arc_jb1",
+      "arc_jb2",
+      "arc_jb3"
+    ]
+  },
+  {
+    "id": "arc_coop",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "backers": {
+          "gt": 50
+        }
+      }
+    },
+    "weight": 5,
+    "cards": [
+      "arc_ck1",
+      "arc_ck2",
+      "arc_ck3"
+    ]
+  },
+  {
+    "id": "arc_youth",
+    "align": "left",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "base": {
+          "lt": 60
+        }
+      }
+    },
+    "weight": 5,
+    "cards": [
+      "arc_yw1",
+      "arc_yw2",
+      "arc_yw3"
+    ]
+  },
+  {
+    "id": "arc_play",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 5,
+    "cards": [
+      "arc_pw1",
+      "arc_pw2",
+      "arc_pw3"
+    ]
+  },
+  {
+    "id": "arc_railway",
+    "align": "left",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "order": {
+          "lt": 55
+        }
+      }
+    },
+    "weight": 5,
+    "cards": [
+      "arc_rl1",
+      "arc_rl2",
+      "arc_rl3"
+    ]
+  },
+  {
+    "id": "arc_foundation",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "backers": {
+          "gt": 45
+        }
+      }
+    },
+    "weight": 5,
+    "cards": [
+      "arc_fd1",
+      "arc_fd2",
+      "arc_fd3"
+    ]
+  },
+  {
+    "id": "arc_honours",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ]
+    },
+    "weight": 5,
+    "cards": [
+      "arc_hn1",
+      "arc_hn2",
+      "arc_hn3"
+    ]
+  },
+  {
+    "id": "arc_port",
+    "align": "right",
+    "entry": {
+      "eras": [
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "money": {
+          "lt": 55
+        }
+      }
+    },
+    "weight": 5,
+    "cards": [
+      "arc_pt1",
+      "arc_pt2",
+      "arc_pt3"
+    ]
+  },
+  {
+    "id": "arc_veterans",
+    "align": "right",
+    "entry": {
+      "eras": [
+        1,
+        2,
+        3
+      ],
+      "bands": [
+        "decay",
+        "muddle",
+        "ascent"
+      ],
+      "meters": {
+        "order": {
+          "gt": 45
+        }
+      }
+    },
+    "weight": 5,
+    "cards": [
+      "arc_vt1",
+      "arc_vt2",
+      "arc_vt3"
+    ]
   }
 ]

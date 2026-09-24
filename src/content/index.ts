@@ -71,6 +71,28 @@ import arcDynasty from "./cards/arcs/dynasty.json";
 import arcConcordat from "./cards/arcs/concordat.json";
 import arcEstates from "./cards/arcs/estates.json";
 import arcRival from "./cards/arcs/rival.json";
+import arcCensus from "./cards/arcs/census.json";
+import arcFlood from "./cards/arcs/flood.json";
+import arcAgent from "./cards/arcs/agent.json";
+import arcGames from "./cards/arcs/games.json";
+import arcCurrency from "./cards/arcs/currency.json";
+import arcHarvest from "./cards/arcs/harvest.json";
+import arcQuake from "./cards/arcs/quake.json";
+import arcLottery from "./cards/arcs/lottery.json";
+import arcCrown from "./cards/arcs/crown.json";
+import arcLender from "./cards/arcs/lender.json";
+import arcCaptain from "./cards/arcs/captain.json";
+import arcDebate from "./cards/arcs/debate.json";
+import arcBlackout from "./cards/arcs/blackout.json";
+import arcJubilee from "./cards/arcs/jubilee.json";
+import arcCoop from "./cards/arcs/coop.json";
+import arcYouth from "./cards/arcs/youth.json";
+import arcPlay from "./cards/arcs/play.json";
+import arcRailway from "./cards/arcs/railway.json";
+import arcFoundation from "./cards/arcs/foundation.json";
+import arcHonours from "./cards/arcs/honours.json";
+import arcPort from "./cards/arcs/port.json";
+import arcVeterans from "./cards/arcs/veterans.json";
 import questionTreaty from "./cards/questions/treaty.json";
 import questionPapers from "./cards/questions/papers.json";
 import questionTopRate from "./cards/questions/top_rate.json";
@@ -199,6 +221,28 @@ export const content: Content = {
     ...asCards(arcConcordat, "arcs/concordat.json"),
     ...asCards(arcEstates, "arcs/estates.json"),
     ...asCards(arcRival, "arcs/rival.json"),
+    ...asCards(arcCensus, "arcs/census.json"),
+    ...asCards(arcFlood, "arcs/flood.json"),
+    ...asCards(arcAgent, "arcs/agent.json"),
+    ...asCards(arcGames, "arcs/games.json"),
+    ...asCards(arcCurrency, "arcs/currency.json"),
+    ...asCards(arcHarvest, "arcs/harvest.json"),
+    ...asCards(arcQuake, "arcs/quake.json"),
+    ...asCards(arcLottery, "arcs/lottery.json"),
+    ...asCards(arcCrown, "arcs/crown.json"),
+    ...asCards(arcLender, "arcs/lender.json"),
+    ...asCards(arcCaptain, "arcs/captain.json"),
+    ...asCards(arcDebate, "arcs/debate.json"),
+    ...asCards(arcBlackout, "arcs/blackout.json"),
+    ...asCards(arcJubilee, "arcs/jubilee.json"),
+    ...asCards(arcCoop, "arcs/coop.json"),
+    ...asCards(arcYouth, "arcs/youth.json"),
+    ...asCards(arcPlay, "arcs/play.json"),
+    ...asCards(arcRailway, "arcs/railway.json"),
+    ...asCards(arcFoundation, "arcs/foundation.json"),
+    ...asCards(arcHonours, "arcs/honours.json"),
+    ...asCards(arcPort, "arcs/port.json"),
+    ...asCards(arcVeterans, "arcs/veterans.json"),
     // The questions (BACKLOG-6 phase 40): policies asked plainly, one arc per side each.
     ...asCards(questionTreaty, "questions/treaty.json"),
     ...asCards(questionPapers, "questions/papers.json"),

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_ck1",
+    "type": "arc",
+    "arc": "arc_coop",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The Unions' cooperative bank holds two million members' savings. Its board offers to lend the campaign whatever it needs, interest-free, on trust.",
+    "left": {
+      "label": "Borrow at market rate",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take it on trust",
+      "fx": {
+        "money": 5,
+        "backers": 3,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_ck2",
+      "setFlags": [
+        "coop_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_ck2",
+    "type": "arc",
+    "arc": "arc_coop",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The bank has not asked for the campaign loan back. Its auditors have, and they cannot find the loan on any page of the accounts.",
+    "cond": {
+      "flags": [
+        "coop_on"
+      ]
+    },
+    "left": {
+      "label": "Repay it publicly",
+      "fx": {
+        "money": -5,
+        "inst": 4,
+        "base": -2,
+        "public": 3
+      },
+      "drift": 5,
+      "clearFlags": [
+        "coop_on"
+      ]
+    },
+    "right": {
+      "label": "Replace the auditors",
+      "fx": {
+        "backers": 4,
+        "inst": -5,
+        "public": -2
+      },
+      "drift": -5,
+      "next": "arc_ck3"
+    }
+  },
+  {
+    "id": "arc_ck3",
+    "type": "arc",
+    "arc": "arc_coop",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The bank is short by exactly the campaign loan. There is a run on the branches, and the members are asking whose savings the loan was made from.",
+    "cond": {
+      "flags": [
+        "coop_on"
+      ]
+    },
+    "left": {
+      "label": "Guarantee the savings",
+      "fx": {
+        "money": -6,
+        "inst": 4,
+        "backers": 2,
+        "public": 2
+      },
+      "drift": 3,
+      "clearFlags": [
+        "coop_on"
+      ]
+    },
+    "right": {
+      "label": "Close the branches",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "backers": -4,
+        "inst": -5
+      },
+      "drift": -6,
+      "clearFlags": [
+        "coop_on"
+      ],
+      "ending": "peoples_bank"
+    }
+  }
+]

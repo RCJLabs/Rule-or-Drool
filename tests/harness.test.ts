@@ -129,6 +129,21 @@ describe("the deck by run ten and run twenty", () => {
 // BACKLOG-5 phase 35: ten crises and a third face in every role. The first thing a run says
 // is the crisis it inherits, and a player had met all four by their seventh run and all
 // sixteen advisors by their fifth.
+// BACKLOG-7 phase 48: stories repeated faster than anything else in the game. By a player's
+// tenth run 82% of the story cards they met were ones they had met before, and by the twentieth
+// all of them. Twenty-two more stories were sized to bring that to the ordinary deck's ceilings.
+// Measured on 200 players: a run meets 15-20 story cards, so a smaller panel's median moves in
+// steps of two or three points and says little at the twentieth run.
+describe("the stories by run ten and run twenty", () => {
+  it("keeps a player's story cards at most 65% already met by their tenth run, and 85% by their twentieth", () => {
+    const med = (xs: number[]) => quantiles(xs).median;
+    const tenth = repeatProfile(library, { players: 200, run: 10, seedBase: 300_000, cards: "stories" });
+    const twentieth = repeatProfile(library, { players: 200, run: 20, seedBase: 300_000, cards: "stories" });
+    expect(med(tenth.all)).toBeLessThanOrEqual(0.65);
+    expect(med(twentieth.all)).toBeLessThanOrEqual(0.85);
+  }, 240000);
+});
+
 describe("who a run inherits", () => {
   it("deals no crisis to more than 15% of runs, for a new player or a fully unlocked one", () => {
     for (const unlocked of [[], allUnlockTokens()]) {

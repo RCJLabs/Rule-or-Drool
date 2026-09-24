@@ -1,0 +1,139 @@
+[
+  {
+    "id": "arc_jb1",
+    "type": "arc",
+    "arc": "arc_jubilee",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The republic turns a hundred next spring. The committee wants a modest day of speeches. Your press office wants a year, and your face on stamps.",
+    "left": {
+      "label": "A modest day",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "A year, with stamps",
+      "fx": {
+        "base": 4,
+        "public": 2,
+        "money": -4,
+        "inst": -2
+      },
+      "drift": -4,
+      "next": "arc_jb2",
+      "setFlags": [
+        "jubilee_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_jb2",
+    "type": "arc",
+    "arc": "arc_jubilee",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The jubilee year is half over. The stamps sold out, a statue is planned, and a choir has written an anthem that mentions you in every verse.",
+    "cond": {
+      "flags": [
+        "jubilee_on"
+      ]
+    },
+    "left": {
+      "label": "Cut the verses",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 2
+      },
+      "drift": 5,
+      "next": "arc_jb3"
+    },
+    "right": {
+      "label": "Unveil the statue",
+      "fx": {
+        "base": 5,
+        "money": -3,
+        "inst": -4
+      },
+      "drift": -5,
+      "clearFlags": [
+        "jubilee_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_jb3",
+    "type": "arc",
+    "arc": "arc_jubilee",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The whole country will watch the closing ceremony. Your speech has a paragraph on the next hundred years, and a gap where your own plans go.",
+    "cond": {
+      "flags": [
+        "jubilee_on"
+      ]
+    },
+    "left": {
+      "label": "Say you will go",
+      "fx": {
+        "inst": 6,
+        "base": -4,
+        "public": 3
+      },
+      "drift": 6,
+      "clearFlags": [
+        "jubilee_on"
+      ],
+      "ending": "the_centenary"
+    },
+    "right": {
+      "label": "Announce ten more years",
+      "fx": {
+        "base": 4,
+        "order": 2,
+        "inst": -5
+      },
+      "drift": -5,
+      "clearFlags": [
+        "jubilee_on"
+      ]
+    }
+  }
+]

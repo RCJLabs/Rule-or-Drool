@@ -422,7 +422,139 @@ ceilings take out, less the cards that carry two of the phrases.
 
 ---
 
-## Phase 48. Twenty-two more stories — *queued*
+## Phase 48. Twenty-two more stories — *done*
+
+**Shipped.** 22 new stories, drafts for your edit: 66 cards, 22 endings and 8 legacies, each
+legacy with its history names. The deck has 1,577 cards, 44 stories and 77 endings.
+
+| Story | Side | Turning point | Ending |
+|---|---|---|---|
+| The census and its new method | shared | Recount, then vote | *The Recount*, in good order |
+| The flood and the new levee | shared | Cut the ribbon | *The Ribbon* |
+| A foreign agent in your office | shared | Pay in policy | *The Asset* |
+| The games, and their stadium | shared | Guarantee the profits | *The Games* |
+| The currency, printed | shared | Pay the army in bread | *The Wheelbarrows* |
+| The failed harvest and the grain reserve | shared | Put your name on it | *The Grain Barons* |
+| The earthquake and its inspectors | shared | Resign over it | *The Inspectors*, in good order |
+| The rigged lottery | shared | Draw her numbers | *The Numbers* |
+| The heir to the abolished throne | shared | Sign it | *First Minister* |
+| The international lender's terms | shared | Hand over to her | *The Published Terms*, in good order |
+| The football captain | shared | Name him your heir | *The Captain* |
+| The televised debate | shared | Send an empty chair | *The Empty Chair* |
+| The blackout | shared | Declare the emergency | *The Saboteurs* |
+| The republic's centenary | shared | Say you will go | *The Centenary*, in good order |
+| The Unions' cooperative bank | Commons | Close the branches | *The People's Bank* |
+| The youth wing's motion | Commons | Let the count stand | *The Next Generation*, in good order |
+| The comedy at the national theatre | Commons | Say that it does | *The Last Act* |
+| The crash at the junction | Commons | Resign, and mean it | *The Signal Report*, in good order |
+| A Donor family's schools | Ledger | Let it write them | *The Foundation* |
+| Honours for sale | Ledger | Sue the newspaper | *The Honours List* |
+| The port on a 99-year lease | Ledger | Lease the airport | *The Leased Coast* |
+| The veterans' forest | Ledger | Take the logs | *The Clear-Cut* |
+
+- **Three cards each,** 66 in all, where the entry planned three or four and about 75. Each
+  ending is on its story's last card, as phase 43 set. Six are ways to leave in good order,
+  on the honest side. Across all 44 stories, 19 of 46 endings are on the honest side.
+- **Eight stories leave a legacy,** as half of today's do:
+  - the census was adjusted;
+  - the stadium stands;
+  - the money was printed;
+  - the building code was enforced;
+  - the crown came back;
+  - the new levee held;
+  - honours were sold;
+  - the port was leased.
+
+  Each has six titles, three long-view titles and three "after" lines, so the codex counts
+  657 history names now, up from 585.
+- **No card scores a policy.** Each choice turns on how something is done: who is told, who
+  is paid, and who carries the blame. Two drafts came close, and were reframed:
+  - After the blackout, taking the grid back into public hands became making the firm pay for
+    its neglect.
+  - The lender's last card became handing over to the minister it trusts, or signing and
+    blaming the lender.
+
+  The country stays fictional, and the four topics you left off stay off.
+- **The shared stories speak of institutions, not blocs.** Each side's stories name its own:
+  the Movement and the Unions, or the Faithful and the Donors.
+
+**Measured** as the new test measures it: 200 players from seed 300,000, each playing their
+runs in order with the mixed bot and their unlocks carried, the median at the run named.
+
+| Story cards already met | Wanted | v0.58.0 | Now |
+|---|---|---|---|
+| A player's 10th run | ≤ 65% | 83.3% | **62.5%** |
+| A player's 20th run | ≤ 85% | 100% | **83.3%** |
+
+- **Another set of seeds agrees.** From 500,000 it reads 61.9% and 83.3%, where v0.58.0 read
+  85.7% and 100%.
+- **Why 200 players, not the audit's 40.** A run meets about ten story cards (the middle
+  half meet 7 to 13). So each player's share is a coarse fraction such as 5/6 or 7/8, and
+  the median is one player's share.
+  - **The 40-player reading.** The audit's measure reads 62.5% at the tenth run, the same
+    as 200 players. At the twentieth it reads 87.5%, over the line. Those 40 players are the
+    first 40 of the 200, and their mean is 85.7%.
+  - **The 200-player reading.** All 200 read 83.3% at the twentieth run, with a mean of
+    82.6%. The 500,000 seeds give 83.3% and 82.3%.
+  - **So the 40 were a high draw, not a miss,** as far as two larger samples can say. The
+    margin is 1.7 points.
+- **The copies predicted it.** The original entry's 22 copies gave 62.5% and 84.6% on the
+  40-player measure.
+
+**Two things were fixed before shipping.**
+- **Eight new stories rarely started.** Their entry conditions were too narrow for the way a
+  competent player keeps the meters. The blackout and the lottery started in 1.2% and 1.6% of
+  runs, and the heir, the games, the lender, the foundation, the youth wing and the captain in
+  3.6–8.2%.
+  Their conditions were loosened. On 4,000 mixed-bot runs with nothing unlocked, the new
+  stories now start in 6–22% of runs and the old ones in 3.5–24%. That leaves aside the
+  referendum and the truth commission, which need an unlock.
+- **Greedy play drifted less than before.** Greedy's ends in Decay fell from 77.4% to 72.5%,
+  against a floor of 70%. Greedy never takes a choice that ends the run. On the 16 last
+  cards whose ending is on the tempting side, it was handed the honest side and +4 to +6
+  drift every time. Those honest sides now carry +3. Most honest choices in the deck carry +3
+  to +5, and 94 carry less. Greedy is back to 73.8%.
+
+**Everything else still holds,** as `npm run simulate` measures it: 10,000 runs a bot, the
+repeats as the median of 40 players, and the look over 2,000 first runs.
+
+| Target | Wanted | v0.58.0 | Now |
+|---|---|---|---|
+| Random: median run length | 40–60 cards | 44 | 44 |
+| Random: most common ouster | ≤ 35% | bankruptcy 13.6% | bankruptcy 13.4% |
+| Greedy: ends in Decay | ≥ 70% | 77.4% | 73.8% |
+| Saint: ousted before era 2 | ≥ 60% | 100% | 100% |
+| Mixed: reaches Ascent | 15–30% | 19.5% | 19.5% |
+| A player's 10th run, all cards | ≤ 65% | 63.8% | 61.0% |
+| ... its first era | ≤ 60% | 54.3% | 57.1% |
+| A player's 20th run, all cards | ≤ 85% | 81.9% | 82.3% |
+| The look: changes undone within three cards | ≤ 25% | 24.0% | 24.4% |
+
+The long reign's targets, the questions' roads, the answers that come back, the endings
+offered by choice and the history names all still pass their tests.
+
+**Also checked:**
+- The unit suite is 604 tests and the browser suite 42. `validate:mvp` is clean at 1,577
+  cards, and the voice ceilings hold, since no new card uses a watched phrase.
+- **Length.** No new card is longer than 148 characters, the longest story card before this
+  phase. Drafts that ran longer were cut to fit.
+- **Store listing.** It counts the new cards, stories, endings and history names, and its
+  content-rating notes cover what the stories add. Among them are a train crash in which
+  eleven people die, an earthquake that flattens three schools, and a rigged national lottery.
+- The test holds the story repeats, and `npm run simulate` prints them.
+
+**Yours:**
+- **The 22 stories are drafts, in your voice, to edit.** Each is one file in
+  `src/content/cards/arcs/`, named after it. Their endings are at the end of
+  `src/content/endings.json`, and their history names are in `src/content/histories.json`.
+- **Three numbers have little room.** The look's undone share is 0.6 points under its
+  ceiling, and era 1's tenth run is 2.9 points under its. Greedy's Decay is 3.8 points
+  above its floor. If you change a story's effects or drift, run `npm run simulate`.
+- **Old run codes and today's daily.** New stories change what a seed deals. A code sent
+  before this update opens a different run after it, and on the day the update lands,
+  players on the two versions get different dailies.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - **Stories repeat faster than anything else in the game.** By a player's 10th run, 82.4% of
@@ -467,6 +599,8 @@ against 17.6% today.
 entry conditions would be met less and so repeat less, but fewer players would see them.
 
 **Cost.** About 75 cards and 22 endings with their names and lines, about the size of phase 41.
+
+</details>
 
 ---
 

@@ -1,0 +1,141 @@
+[
+  {
+    "id": "arc_ag1",
+    "type": "arc",
+    "arc": "arc_agent",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A foreign agent has been found in your private office. Arresting her tells her side what you know. Leaving her there tells you what they want.",
+    "left": {
+      "label": "Arrest her",
+      "fx": {
+        "order": 2,
+        "inst": 4,
+        "public": 2,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Leave her in place",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "public": -2
+      },
+      "drift": -4,
+      "next": "arc_ag2",
+      "setFlags": [
+        "agent_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_ag2",
+    "type": "arc",
+    "arc": "arc_agent",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The agent is still reporting home. Your press chief suggests feeding her something about the rival, since her side leaks everything in the end.",
+    "cond": {
+      "flags": [
+        "agent_on"
+      ]
+    },
+    "left": {
+      "label": "Give her nothing",
+      "fx": {
+        "inst": 3,
+        "order": -2,
+        "base": -3
+      },
+      "drift": 5,
+      "clearFlags": [
+        "agent_on"
+      ]
+    },
+    "right": {
+      "label": "Give her the rival",
+      "fx": {
+        "base": 5,
+        "public": -2,
+        "inst": -4
+      },
+      "drift": -6,
+      "rival": -5,
+      "next": "arc_ag3"
+    }
+  },
+  {
+    "id": "arc_ag3",
+    "type": "arc",
+    "arc": "arc_agent",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Her service has used everything you passed it. It knows how you work now, and it wants to be paid in policy rather than gossip.",
+    "cond": {
+      "flags": [
+        "agent_on"
+      ]
+    },
+    "left": {
+      "label": "Confess the operation",
+      "fx": {
+        "inst": 5,
+        "order": -4,
+        "base": -4,
+        "public": 3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "agent_on"
+      ]
+    },
+    "right": {
+      "label": "Pay in policy",
+      "fx": {
+        "order": 3,
+        "backers": 3,
+        "inst": -5
+      },
+      "drift": -6,
+      "clearFlags": [
+        "agent_on"
+      ],
+      "ending": "the_asset"
+    }
+  }
+]

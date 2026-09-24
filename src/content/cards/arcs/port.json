@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_pt1",
+    "type": "arc",
+    "arc": "arc_port",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A Donor's shipping line offers to lease the national port for ninety-nine years, paid up front. It would balance this year's budget, and no other.",
+    "left": {
+      "label": "Put it to tender",
+      "fx": {
+        "inst": 4,
+        "backers": -3,
+        "money": -2,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Take the offer",
+      "fx": {
+        "money": 6,
+        "backers": 3,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_pt2",
+      "setFlags": [
+        "port_on",
+        "port_leased"
+      ]
+    }
+  },
+  {
+    "id": "arc_pt2",
+    "type": "arc",
+    "arc": "arc_port",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The shipping line has put its own guards on the docks and changed the customs forms to its own. The customs officers are asking who they work for.",
+    "cond": {
+      "flags": [
+        "port_on"
+      ]
+    },
+    "left": {
+      "label": "Enforce customs law",
+      "fx": {
+        "inst": 4,
+        "order": 2,
+        "backers": -5
+      },
+      "drift": 5,
+      "clearFlags": [
+        "port_on"
+      ]
+    },
+    "right": {
+      "label": "Say: the line",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -5,
+        "order": -2
+      },
+      "drift": -5,
+      "next": "arc_pt3"
+    }
+  },
+  {
+    "id": "arc_pt3",
+    "type": "arc",
+    "arc": "arc_port",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The line has raised its fees on everything the country imports, and offers to lower them in exchange for the airport, on the same terms.",
+    "cond": {
+      "flags": [
+        "port_on"
+      ]
+    },
+    "left": {
+      "label": "Break the lease",
+      "fx": {
+        "money": -6,
+        "inst": 5,
+        "public": 3,
+        "backers": -4
+      },
+      "drift": 3,
+      "clearFlags": [
+        "port_on"
+      ]
+    },
+    "right": {
+      "label": "Lease the airport",
+      "fx": {
+        "money": 5,
+        "backers": 4,
+        "inst": -6
+      },
+      "drift": -6,
+      "clearFlags": [
+        "port_on"
+      ],
+      "ending": "leased_coast"
+    }
+  }
+]

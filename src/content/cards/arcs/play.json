@@ -1,0 +1,141 @@
+[
+  {
+    "id": "arc_pw1",
+    "type": "arc",
+    "arc": "arc_play",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The national theatre has a comedy about a leader very like you. It is the Movement's favourite play, and the theatre's grant is up for renewal.",
+    "left": {
+      "label": "Renew the grant",
+      "fx": {
+        "inst": 3,
+        "money": -2,
+        "base": -2,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Review the grant",
+      "fx": {
+        "base": 3,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -4,
+      "next": "arc_pw2",
+      "setFlags": [
+        "play_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_pw2",
+    "type": "arc",
+    "arc": "arc_play",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The grant review has become the story. The playwright has added a scene about the review, and the second run sold out in an hour.",
+    "cond": {
+      "flags": [
+        "play_on"
+      ]
+    },
+    "left": {
+      "label": "Restore the grant",
+      "fx": {
+        "inst": 3,
+        "public": 3,
+        "base": -3
+      },
+      "drift": 5,
+      "clearFlags": [
+        "play_on"
+      ]
+    },
+    "right": {
+      "label": "Close the theatre",
+      "fx": {
+        "order": 3,
+        "base": 2,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "next": "arc_pw3"
+    }
+  },
+  {
+    "id": "arc_pw3",
+    "type": "arc",
+    "arc": "arc_play",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The play has moved to a basement and the queues go round the block. The police ask whether a comedy counts as an illegal gathering.",
+    "cond": {
+      "flags": [
+        "play_on"
+      ]
+    },
+    "left": {
+      "label": "Reopen the theatre",
+      "fx": {
+        "inst": 5,
+        "public": 4,
+        "order": -3,
+        "base": -2
+      },
+      "drift": 3,
+      "clearFlags": [
+        "play_on"
+      ]
+    },
+    "right": {
+      "label": "Say that it does",
+      "fx": {
+        "order": 4,
+        "inst": -6,
+        "public": -3
+      },
+      "drift": -7,
+      "clearFlags": [
+        "play_on"
+      ],
+      "ending": "the_last_act"
+    }
+  }
+]

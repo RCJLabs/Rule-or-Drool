@@ -1,0 +1,141 @@
+[
+  {
+    "id": "arc_bo1",
+    "type": "arc",
+    "arc": "arc_blackout",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The grid went dark for nine hours last night. The firm that runs it skipped its maintenance for six years, and paid a dividend in every one.",
+    "left": {
+      "label": "Order an inquiry",
+      "fx": {
+        "inst": 4,
+        "backers": -3,
+        "money": -2,
+        "public": 2
+      },
+      "drift": 5,
+      "next": "arc_bo2",
+      "setFlags": [
+        "blackout_on"
+      ]
+    },
+    "right": {
+      "label": "Blame the weather",
+      "fx": {
+        "backers": 4,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "arc_bo2",
+    "type": "arc",
+    "arc": "arc_blackout",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The inquiry is damning. The firm offers to fix the grid if the state pays for the repairs, and to carry on as it is if the state does not.",
+    "cond": {
+      "flags": [
+        "blackout_on"
+      ]
+    },
+    "left": {
+      "label": "Make the firm pay",
+      "fx": {
+        "money": 2,
+        "backers": -5,
+        "inst": 4,
+        "public": 2
+      },
+      "drift": 5,
+      "next": "arc_bo3"
+    },
+    "right": {
+      "label": "Pay for the repairs",
+      "fx": {
+        "money": -4,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "clearFlags": [
+        "blackout_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_bo3",
+    "type": "arc",
+    "arc": "arc_blackout",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The lights still flicker every evening. The general suggests declaring an emergency and blaming saboteurs, which would make flickering treason.",
+    "cond": {
+      "flags": [
+        "blackout_on"
+      ]
+    },
+    "left": {
+      "label": "Fix it in the open",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "public": 3,
+        "order": -2
+      },
+      "drift": 3,
+      "clearFlags": [
+        "blackout_on"
+      ]
+    },
+    "right": {
+      "label": "Declare the emergency",
+      "fx": {
+        "order": 5,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "clearFlags": [
+        "blackout_on"
+      ],
+      "ending": "the_saboteurs"
+    }
+  }
+]

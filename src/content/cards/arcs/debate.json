@@ -1,0 +1,141 @@
+[
+  {
+    "id": "arc_db1",
+    "type": "arc",
+    "arc": "arc_debate",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The broadcaster proposes a live debate with the rival. Your advisers can agree a fair format, or one where the rival stands on a lower step.",
+    "left": {
+      "label": "A fair format",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "public": 2
+      },
+      "drift": 4,
+      "rival": 2
+    },
+    "right": {
+      "label": "Negotiate the step",
+      "fx": {
+        "base": 3,
+        "public": -2,
+        "inst": -3
+      },
+      "drift": -4,
+      "next": "arc_db2",
+      "setFlags": [
+        "debate_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_db2",
+    "type": "arc",
+    "arc": "arc_debate",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The broadcaster agreed to the step, and the rival has asked for a box. Your people suggest choosing the audience as well, from the membership.",
+    "cond": {
+      "flags": [
+        "debate_on"
+      ]
+    },
+    "left": {
+      "label": "Leave the audience",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "debate_on"
+      ]
+    },
+    "right": {
+      "label": "Choose the audience",
+      "fx": {
+        "base": 5,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -5,
+      "rival": -3,
+      "next": "arc_db3"
+    }
+  },
+  {
+    "id": "arc_db3",
+    "type": "arc",
+    "arc": "arc_debate",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "On the day, the rival has prepared and you have not. The audience is friendly, the step is low, and you could still not turn up.",
+    "cond": {
+      "flags": [
+        "debate_on"
+      ]
+    },
+    "left": {
+      "label": "Turn up anyway",
+      "fx": {
+        "public": 4,
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "debate_on"
+      ]
+    },
+    "right": {
+      "label": "Send an empty chair",
+      "fx": {
+        "base": 3,
+        "public": -5,
+        "inst": -3
+      },
+      "drift": -6,
+      "rival": 6,
+      "clearFlags": [
+        "debate_on"
+      ],
+      "ending": "empty_chair"
+    }
+  }
+]

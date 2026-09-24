@@ -1,0 +1,145 @@
+[
+  {
+    "id": "arc_ce1",
+    "type": "arc",
+    "arc": "arc_census",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The census is due. An honest count moves four seats from your heartland to the suburbs. The statistician asks if it should be early or late.",
+    "left": {
+      "label": "Count it on time",
+      "fx": {
+        "inst": 4,
+        "base": -5,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let it run late",
+      "fx": {
+        "base": 4,
+        "inst": -3,
+        "public": -3
+      },
+      "drift": -4,
+      "next": "arc_ce2",
+      "setFlags": [
+        "census_late"
+      ]
+    }
+  },
+  {
+    "id": "arc_ce2",
+    "type": "arc",
+    "arc": "arc_census",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The late census still shows the suburbs growing. It can be published, or they can be counted by a new method that finds fewer of them.",
+    "cond": {
+      "flags": [
+        "census_late"
+      ]
+    },
+    "left": {
+      "label": "Publish it",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "census_late"
+      ]
+    },
+    "right": {
+      "label": "Try the new method",
+      "fx": {
+        "base": 5,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -5,
+      "next": "arc_ce3"
+    }
+  },
+  {
+    "id": "arc_ce3",
+    "type": "arc",
+    "arc": "arc_census",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A court has asked to see the new method. It is two pages long, and one of them is blank. The suburbs have hired a mathematician.",
+    "cond": {
+      "flags": [
+        "census_late"
+      ]
+    },
+    "left": {
+      "label": "Recount, then vote",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 4,
+        "order": -2
+      },
+      "drift": 6,
+      "clearFlags": [
+        "census_late"
+      ],
+      "ending": "the_recount"
+    },
+    "right": {
+      "label": "Defend the method",
+      "fx": {
+        "base": 5,
+        "order": 2,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "setFlags": [
+        "count_adjusted"
+      ],
+      "clearFlags": [
+        "census_late"
+      ]
+    }
+  }
+]

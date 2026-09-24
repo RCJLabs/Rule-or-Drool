@@ -1,0 +1,143 @@
+[
+  {
+    "id": "arc_cn1",
+    "type": "arc",
+    "arc": "arc_crown",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The heir to the abolished throne has come home to open a bakery. He is charming, modest, and eleven points more popular than your government.",
+    "left": {
+      "label": "Leave him to bake",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Invite him to dinner",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "next": "arc_cn2",
+      "setFlags": [
+        "crown_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_cn2",
+    "type": "arc",
+    "arc": "arc_crown",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The dinner photographs were a success. Your advisers suggest a ceremonial role for him, with a small budget and a large hat.",
+    "cond": {
+      "flags": [
+        "crown_on"
+      ]
+    },
+    "left": {
+      "label": "Keep it to dinner",
+      "fx": {
+        "inst": 3,
+        "public": -3,
+        "base": -2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "crown_on"
+      ]
+    },
+    "right": {
+      "label": "Give him the hat",
+      "fx": {
+        "public": 5,
+        "backers": 2,
+        "inst": -5,
+        "money": -2
+      },
+      "drift": -5,
+      "next": "arc_cn3"
+    }
+  },
+  {
+    "id": "arc_cn3",
+    "type": "arc",
+    "arc": "arc_crown",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The heir's supporters have drafted a law restoring the crown, as a symbol only. It makes you his first minister, and lets him appoint the next.",
+    "cond": {
+      "flags": [
+        "crown_on"
+      ]
+    },
+    "left": {
+      "label": "Put it to a vote",
+      "fx": {
+        "inst": 5,
+        "order": -3,
+        "public": 2,
+        "base": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "crown_on"
+      ]
+    },
+    "right": {
+      "label": "Sign it",
+      "fx": {
+        "order": 4,
+        "backers": 3,
+        "inst": -6
+      },
+      "drift": -7,
+      "setFlags": [
+        "crown_restored"
+      ],
+      "clearFlags": [
+        "crown_on"
+      ],
+      "ending": "first_minister"
+    }
+  }
+]

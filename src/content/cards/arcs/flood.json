@@ -1,0 +1,146 @@
+[
+  {
+    "id": "arc_fl1",
+    "type": "arc",
+    "arc": "arc_flood",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The river is two metres over the flood line and the levee will not hold. Moving the valley costs a fortune, and looks like panic if the rain stops.",
+    "left": {
+      "label": "Move the valley",
+      "fx": {
+        "money": -5,
+        "order": -2,
+        "public": 4,
+        "inst": 3
+      },
+      "drift": 5,
+      "next": "arc_fl2",
+      "setFlags": [
+        "flood_on"
+      ]
+    },
+    "right": {
+      "label": "Wait for the rain",
+      "fx": {
+        "money": 3,
+        "base": 2,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "arc_fl2",
+    "type": "arc",
+    "arc": "arc_flood",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The valley flooded and everyone got out. The new levee can go to open tender, which takes a year, or to a donor whose firm has a crew there today.",
+    "cond": {
+      "flags": [
+        "flood_on"
+      ]
+    },
+    "left": {
+      "label": "Open tender",
+      "fx": {
+        "money": -3,
+        "inst": 4,
+        "public": -3,
+        "backers": -2
+      },
+      "drift": 5,
+      "next": "arc_fl3"
+    },
+    "right": {
+      "label": "Hire the crew",
+      "fx": {
+        "money": -2,
+        "backers": 5,
+        "public": 2,
+        "inst": -4
+      },
+      "drift": -5,
+      "clearFlags": [
+        "flood_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_fl3",
+    "type": "arc",
+    "arc": "arc_flood",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The new levee is finished, late and on budget. The press office wants you on top of it for the cameras. The engineers want one more week of tests.",
+    "cond": {
+      "flags": [
+        "flood_on"
+      ]
+    },
+    "left": {
+      "label": "Wait for the tests",
+      "fx": {
+        "inst": 3,
+        "order": 2,
+        "base": -2,
+        "public": -2
+      },
+      "drift": 3,
+      "setFlags": [
+        "levee_built"
+      ],
+      "clearFlags": [
+        "flood_on"
+      ]
+    },
+    "right": {
+      "label": "Cut the ribbon",
+      "fx": {
+        "public": 5,
+        "base": 3,
+        "inst": -4
+      },
+      "drift": -5,
+      "clearFlags": [
+        "flood_on"
+      ],
+      "ending": "the_ribbon"
+    }
+  }
+]

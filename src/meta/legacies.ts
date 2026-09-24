@@ -73,6 +73,15 @@ export const LEGACIES: Record<string, string> = {
   court_left: "The highest court was left alone",
   banks_bailed: "The banks were rescued",
   banks_failed: "The banks were allowed to fail",
+  // Left by the stories BACKLOG-7 phase 48 added.
+  count_adjusted: "The census was adjusted",
+  stadium_built: "The stadium stands",
+  money_printed: "The money was printed",
+  codes_enforced: "The building code was enforced",
+  crown_restored: "The crown came back",
+  levee_built: "The new levee held",
+  honours_sold: "Honours were sold",
+  port_leased: "The port was leased",
 };
 
 export const LEGACY_FLAGS: ReadonlySet<string> = new Set(Object.keys(LEGACIES));

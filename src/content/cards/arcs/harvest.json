@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_hv1",
+    "type": "arc",
+    "arc": "arc_harvest",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The southern harvest has failed. A trading firm offers a fine price for the state's winter reserve, if it can buy before the shortage is official.",
+    "left": {
+      "label": "Keep the reserve",
+      "fx": {
+        "money": -3,
+        "public": 3,
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Sell to the firm",
+      "fx": {
+        "money": 5,
+        "backers": 3,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -5,
+      "next": "arc_hv2",
+      "setFlags": [
+        "harvest_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_hv2",
+    "type": "arc",
+    "arc": "arc_harvest",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The shortage is official. The firm that bought the reserve is selling it back to the state at three times the price, in instalments.",
+    "cond": {
+      "flags": [
+        "harvest_on"
+      ]
+    },
+    "left": {
+      "label": "Cancel the sale",
+      "fx": {
+        "public": 4,
+        "order": -2,
+        "backers": -5,
+        "inst": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "harvest_on"
+      ]
+    },
+    "right": {
+      "label": "Pay the instalments",
+      "fx": {
+        "money": -5,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "next": "arc_hv3"
+    }
+  },
+  {
+    "id": "arc_hv3",
+    "type": "arc",
+    "arc": "arc_harvest",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "There are queues at every bakery and a march on the capital tomorrow. The firm offers to pay for a relief campaign, with your name on the sacks.",
+    "cond": {
+      "flags": [
+        "harvest_on"
+      ]
+    },
+    "left": {
+      "label": "Open the books",
+      "fx": {
+        "inst": 5,
+        "public": 3,
+        "backers": -4,
+        "base": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "harvest_on"
+      ]
+    },
+    "right": {
+      "label": "Put your name on it",
+      "fx": {
+        "base": 4,
+        "public": 2,
+        "inst": -5
+      },
+      "drift": -6,
+      "clearFlags": [
+        "harvest_on"
+      ],
+      "ending": "the_grain_barons"
+    }
+  }
+]

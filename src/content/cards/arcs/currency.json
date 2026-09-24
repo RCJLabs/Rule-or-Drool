@@ -1,0 +1,145 @@
+[
+  {
+    "id": "arc_cu1",
+    "type": "arc",
+    "arc": "arc_currency",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The currency has lost a fifth of its value since spring. Raising rates hurts now. The mint could print more instead, which hurts later.",
+    "left": {
+      "label": "Raise the rates",
+      "fx": {
+        "money": 3,
+        "public": -4,
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Print the money",
+      "fx": {
+        "money": 5,
+        "public": 2,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_cu2",
+      "setFlags": [
+        "printing_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_cu2",
+    "type": "arc",
+    "arc": "arc_currency",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Prices are rising weekly. Your economist wants to stop printing and take the pain. The mint has a new plate ready, with more zeroes on it.",
+    "cond": {
+      "flags": [
+        "printing_on"
+      ]
+    },
+    "left": {
+      "label": "Stop the presses",
+      "fx": {
+        "money": -4,
+        "public": -3,
+        "inst": 4,
+        "order": -2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "printing_on"
+      ]
+    },
+    "right": {
+      "label": "Add the zeroes",
+      "fx": {
+        "money": 5,
+        "base": 2,
+        "inst": -5
+      },
+      "drift": -6,
+      "next": "arc_cu3",
+      "setFlags": [
+        "money_printed"
+      ]
+    }
+  },
+  {
+    "id": "arc_cu3",
+    "type": "arc",
+    "arc": "arc_currency",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Wages are paid twice a day so they can be spent before lunch. The army wants its pay in bread. A neighbour offers to lend you its currency outright.",
+    "cond": {
+      "flags": [
+        "printing_on"
+      ]
+    },
+    "left": {
+      "label": "Take the neighbour's",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": 2,
+        "base": -5
+      },
+      "drift": 3,
+      "clearFlags": [
+        "printing_on"
+      ]
+    },
+    "right": {
+      "label": "Pay the army in bread",
+      "fx": {
+        "order": 3,
+        "money": 2,
+        "public": -4,
+        "inst": -4
+      },
+      "drift": -6,
+      "clearFlags": [
+        "printing_on"
+      ],
+      "ending": "the_wheelbarrows"
+    }
+  }
+]

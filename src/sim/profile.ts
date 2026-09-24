@@ -1,5 +1,5 @@
 import { draw } from "../engine/draw";
-import { getCard, type Library } from "../engine/library";
+import { getCard, questionOf, type Library } from "../engine/library";
 import { stageOf } from "../engine/look";
 import { resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
@@ -18,6 +18,11 @@ export interface RepeatOptions {
    * targets phase 44 was set against with forty players from 300,000.
    */
   seedBase?: number;
+  /**
+   * Which cards count: every card (the default), or only the stories' own, which repeat
+   * fastest of all (BACKLOG-7 phase 48). A question's cards are not a story's.
+   */
+  cards?: "all" | "stories";
 }
 
 /**
@@ -26,7 +31,12 @@ export interface RepeatOptions {
  * with the mixed bot, on alternating sides, keeping what each run unlocks: the audit behind
  * BACKLOG-5 phase 36, which found 89% at run ten when the deck held 554 cards.
  */
-export function repeatProfile(lib: Library, { players, run, seedBase = 100_000 }: RepeatOptions): { all: number[]; byEra: Map<number, number[]> } {
+export function repeatProfile(lib: Library, { players, run, seedBase = 100_000, cards = "all" }: RepeatOptions): { all: number[]; byEra: Map<number, number[]> } {
+  const counts = (id: string) => {
+    if (cards === "all") return true;
+    const card = getCard(lib, id);
+    return card.arc !== undefined && questionOf(lib, card) === undefined;
+  };
   const all: number[] = [];
   const byEra = new Map<number, number[]>();
   for (let p = 0; p < players; p++) {
@@ -42,10 +52,10 @@ export function repeatProfile(lib: Library, { players, run, seedBase = 100_000 }
         if (state.cardCount >= 1000) throw new Error(`run exceeded 1000 cards (seed ${seed})`);
         state = draw(lib, state);
         const id = state.current!;
-        drawn.push({ id, era: state.era });
+        if (counts(id)) drawn.push({ id, era: state.era });
         state = resolve(lib, state, id, BOTS.mixed(makeContext(lib, state, getCard(lib, id), rng, { danger: 25 })));
       }
-      if (r === run) {
+      if (r === run && drawn.length) {
         const share = (ds: typeof drawn) => ds.filter((d) => seen.has(d.id)).length / ds.length;
         all.push(share(drawn));
         for (const era of new Set(drawn.map((d) => d.era))) {

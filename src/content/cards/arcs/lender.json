@@ -1,0 +1,141 @@
+[
+  {
+    "id": "arc_ln1",
+    "type": "arc",
+    "arc": "arc_lender",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasury cannot pay next month's salaries. An international lender will, on conditions it would rather not publish, and so would you.",
+    "left": {
+      "label": "Publish the talks",
+      "fx": {
+        "inst": 4,
+        "public": -3,
+        "money": -2,
+        "backers": -2
+      },
+      "drift": 5,
+      "next": "arc_ln2",
+      "setFlags": [
+        "lender_on"
+      ]
+    },
+    "right": {
+      "label": "Sign in private",
+      "fx": {
+        "money": 6,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "arc_ln2",
+    "type": "arc",
+    "arc": "arc_lender",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The published conditions are worse than anyone guessed. The lender wants a seat in the cabinet, and the right to sell the railways to anyone.",
+    "cond": {
+      "flags": [
+        "lender_on"
+      ]
+    },
+    "left": {
+      "label": "Bargain in public",
+      "fx": {
+        "inst": 3,
+        "money": -3,
+        "public": 3,
+        "backers": -3
+      },
+      "drift": 5,
+      "next": "arc_ln3"
+    },
+    "right": {
+      "label": "Accept quietly now",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "inst": -5
+      },
+      "drift": -5,
+      "clearFlags": [
+        "lender_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_ln3",
+    "type": "arc",
+    "arc": "arc_lender",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The lender will soften the terms for a government it trusts. It has named the one minister it trusts, and it is not you.",
+    "cond": {
+      "flags": [
+        "lender_on"
+      ]
+    },
+    "left": {
+      "label": "Hand over to her",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "money": 3
+      },
+      "drift": 6,
+      "clearFlags": [
+        "lender_on"
+      ],
+      "ending": "published_terms"
+    },
+    "right": {
+      "label": "Sign, and blame them",
+      "fx": {
+        "money": 4,
+        "base": 3,
+        "inst": -5,
+        "public": -2
+      },
+      "drift": -6,
+      "clearFlags": [
+        "lender_on"
+      ]
+    }
+  }
+]

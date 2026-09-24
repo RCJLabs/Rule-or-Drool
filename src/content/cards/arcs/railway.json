@@ -1,0 +1,139 @@
+[
+  {
+    "id": "arc_rl1",
+    "type": "arc",
+    "arc": "arc_railway",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A train came off the rails at the junction and eleven people died. The Unions run the railway, and the signal crew had worked a triple shift.",
+    "left": {
+      "label": "Order an inquiry",
+      "fx": {
+        "inst": 4,
+        "backers": -4,
+        "public": 3,
+        "order": -2
+      },
+      "drift": 5,
+      "next": "arc_rl2",
+      "setFlags": [
+        "rail_on"
+      ]
+    },
+    "right": {
+      "label": "Blame the signal maker",
+      "fx": {
+        "backers": 4,
+        "public": -2,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "arc_rl2",
+    "type": "arc",
+    "arc": "arc_railway",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The inquiry has found the rosters. The union set them to keep overtime high, and the railway board, which you chair, approved them every month.",
+    "cond": {
+      "flags": [
+        "rail_on"
+      ]
+    },
+    "left": {
+      "label": "Publish the rosters",
+      "fx": {
+        "inst": 4,
+        "backers": -5,
+        "public": 3
+      },
+      "drift": 5,
+      "next": "arc_rl3"
+    },
+    "right": {
+      "label": "Seal the rosters",
+      "fx": {
+        "backers": 4,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -5,
+      "clearFlags": [
+        "rail_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_rl3",
+    "type": "arc",
+    "arc": "arc_railway",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The report is ready. It names the board as well as the union, and the families want to know whether the chair of the board is staying.",
+    "cond": {
+      "flags": [
+        "rail_on"
+      ]
+    },
+    "left": {
+      "label": "Resign, and mean it",
+      "fx": {
+        "inst": 6,
+        "backers": -4,
+        "base": -2
+      },
+      "drift": 6,
+      "clearFlags": [
+        "rail_on"
+      ],
+      "ending": "the_signal_report"
+    },
+    "right": {
+      "label": "Stay and reform it",
+      "fx": {
+        "order": 3,
+        "backers": 3,
+        "inst": -5
+      },
+      "drift": -5,
+      "clearFlags": [
+        "rail_on"
+      ]
+    }
+  }
+]

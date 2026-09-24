@@ -1,0 +1,143 @@
+[
+  {
+    "id": "arc_qk1",
+    "type": "arc",
+    "arc": "arc_quake",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An earthquake has flattened three schools and left the town hall standing. Your ministry appointed the inspectors who signed off the schools.",
+    "left": {
+      "label": "Open an inquiry",
+      "fx": {
+        "inst": 4,
+        "base": -4,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 5,
+      "next": "arc_qk2",
+      "setFlags": [
+        "quake_on"
+      ]
+    },
+    "right": {
+      "label": "Blame the builder",
+      "fx": {
+        "base": 3,
+        "public": -3,
+        "inst": -4
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "arc_qk2",
+    "type": "arc",
+    "arc": "arc_quake",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The inquiry has found that half the country's schools would fall the same way. Enforcing the building code would close them until spring.",
+    "cond": {
+      "flags": [
+        "quake_on"
+      ]
+    },
+    "left": {
+      "label": "Enforce the code",
+      "fx": {
+        "public": -4,
+        "money": -4,
+        "inst": 4,
+        "order": 2
+      },
+      "drift": 5,
+      "next": "arc_qk3",
+      "setFlags": [
+        "codes_enforced"
+      ]
+    },
+    "right": {
+      "label": "Inspect them slowly",
+      "fx": {
+        "public": 3,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "clearFlags": [
+        "quake_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_qk3",
+    "type": "arc",
+    "arc": "arc_quake",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The inquiry's last chapter names the minister who appointed the inspectors. The minister was you, before you had this job.",
+    "cond": {
+      "flags": [
+        "quake_on"
+      ]
+    },
+    "left": {
+      "label": "Resign over it",
+      "fx": {
+        "inst": 6,
+        "base": -4,
+        "order": -2
+      },
+      "drift": 6,
+      "clearFlags": [
+        "quake_on"
+      ],
+      "ending": "the_inspectors"
+    },
+    "right": {
+      "label": "Rewrite the chapter",
+      "fx": {
+        "base": 4,
+        "order": 2,
+        "inst": -6
+      },
+      "drift": -6,
+      "clearFlags": [
+        "quake_on"
+      ]
+    }
+  }
+]

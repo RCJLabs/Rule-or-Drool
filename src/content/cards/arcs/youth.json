@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_yw1",
+    "type": "arc",
+    "arc": "arc_youth",
+    "step": 1,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The youth wing has passed a motion of no confidence in the Movement's leader: you. It is not binding, and it drew their biggest crowd in years.",
+    "left": {
+      "label": "Meet them",
+      "fx": {
+        "inst": 3,
+        "base": 2,
+        "backers": -3
+      },
+      "drift": 4,
+      "next": "arc_yw2",
+      "setFlags": [
+        "youth_on"
+      ]
+    },
+    "right": {
+      "label": "Suspend the wing",
+      "fx": {
+        "order": 3,
+        "backers": 2,
+        "base": -4,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "arc_yw2",
+    "type": "arc",
+    "arc": "arc_youth",
+    "step": 2,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The meeting went well. They want the leadership put to a vote of the whole membership, which the rules allow and the founders were the last to use.",
+    "cond": {
+      "flags": [
+        "youth_on"
+      ]
+    },
+    "left": {
+      "label": "Agree to the vote",
+      "fx": {
+        "inst": 4,
+        "base": 3,
+        "order": -3,
+        "backers": -2
+      },
+      "drift": 5,
+      "next": "arc_yw3"
+    },
+    "right": {
+      "label": "Refer it to committee",
+      "fx": {
+        "order": 2,
+        "backers": 3,
+        "base": -4,
+        "inst": -2
+      },
+      "drift": -4,
+      "clearFlags": [
+        "youth_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_yw3",
+    "type": "arc",
+    "arc": "arc_youth",
+    "step": 3,
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The ballot closes tonight. The count is close, and the youth wing's candidate leads among members under sixty, which is most of them.",
+    "cond": {
+      "flags": [
+        "youth_on"
+      ]
+    },
+    "left": {
+      "label": "Let the count stand",
+      "fx": {
+        "inst": 6,
+        "base": 3,
+        "order": -3
+      },
+      "drift": 6,
+      "clearFlags": [
+        "youth_on"
+      ],
+      "ending": "next_generation"
+    },
+    "right": {
+      "label": "Disqualify her",
+      "fx": {
+        "order": 3,
+        "backers": 2,
+        "base": -5,
+        "inst": -5
+      },
+      "drift": -6,
+      "clearFlags": [
+        "youth_on"
+      ]
+    }
+  }
+]

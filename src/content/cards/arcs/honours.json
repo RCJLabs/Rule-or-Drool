@@ -1,0 +1,144 @@
+[
+  {
+    "id": "arc_hn1",
+    "type": "arc",
+    "arc": "arc_honours",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The honours list is due. Three of the names put forward gave the party a great deal of money this year, and none of them has done anything else.",
+    "left": {
+      "label": "Strike the three",
+      "fx": {
+        "inst": 4,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Honour them",
+      "fx": {
+        "backers": 5,
+        "money": 2,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_hn2",
+      "setFlags": [
+        "honours_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_hn2",
+    "type": "arc",
+    "arc": "arc_honours",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Word has got round. Twenty more Donors have asked what an honour costs, and the treasurer has drawn up a price list, discreetly, in pencil.",
+    "cond": {
+      "flags": [
+        "honours_on"
+      ]
+    },
+    "left": {
+      "label": "Rub it out",
+      "fx": {
+        "inst": 3,
+        "backers": -4,
+        "money": -2,
+        "public": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "honours_on"
+      ]
+    },
+    "right": {
+      "label": "Ink it in",
+      "fx": {
+        "money": 5,
+        "backers": 3,
+        "inst": -5
+      },
+      "drift": -6,
+      "next": "arc_hn3",
+      "setFlags": [
+        "honours_sold"
+      ]
+    }
+  },
+  {
+    "id": "arc_hn3",
+    "type": "arc",
+    "arc": "arc_honours",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A newspaper has bought a knighthood for its cat, through a broker, and printed the receipt. The cat is on the front page, in robes.",
+    "cond": {
+      "flags": [
+        "honours_on"
+      ]
+    },
+    "left": {
+      "label": "Scrap the honours",
+      "fx": {
+        "inst": 5,
+        "backers": -5,
+        "public": 3,
+        "money": -2
+      },
+      "drift": 3,
+      "clearFlags": [
+        "honours_on"
+      ]
+    },
+    "right": {
+      "label": "Sue the newspaper",
+      "fx": {
+        "backers": 3,
+        "order": 2,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "clearFlags": [
+        "honours_on"
+      ],
+      "ending": "honours_list"
+    }
+  }
+]

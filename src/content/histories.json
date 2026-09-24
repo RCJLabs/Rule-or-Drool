@@ -6,14 +6,18 @@
     "purge_begun",
     "general_unleashed",
     "heir_named",
+    "crown_restored",
     "oracle_running",
     "ring_started",
     "referendum_called",
     "seawall",
+    "levee_built",
     "water_rationed",
     "bridge_ignored",
     "moonshot_funded",
+    "stadium_built",
     "feed_captured",
+    "port_leased",
     "mass_deportation",
     "went_to_war",
     "universal_care",
@@ -29,14 +33,18 @@
     "debt_cancelled",
     "gas_drilled",
     "housing_built",
+    "codes_enforced",
     "commission_open",
     "counted_late_boxes",
+    "count_adjusted",
     "buried_the_audit",
     "broke_mandate",
     "pension_raided",
+    "money_printed",
     "schools_starved",
     "media_captured",
     "took_the_skim",
+    "honours_sold",
     "care_market",
     "top_rate_cut",
     "top_rate_raised",
@@ -1754,6 +1762,214 @@
         "decay": "The banks were allowed to fail with the savers inside. People here keep their money under the floor, and say why.",
         "muddle": "The banks failed. The bankers lost everything, and so did some people who were not bankers.",
         "ascent": "The banks were allowed to fail, and every small saver was paid. It is the only crash anyone remembers fondly."
+      }
+    },
+    "count_adjusted": {
+      "titles": {
+        "decay": {
+          "left": "The Uncounted Years",
+          "right": "The Arithmetic Republic"
+        },
+        "muddle": {
+          "left": "The Late Census",
+          "right": "The Adjusted Decades"
+        },
+        "ascent": {
+          "left": "The Great Recount",
+          "right": "The Correct Count"
+        }
+      },
+      "long": {
+        "decay": "The Uncounted Centuries",
+        "muddle": "The Estimated Age",
+        "ascent": "The Counted Commons"
+      },
+      "after": {
+        "decay": "The census was never honest again. The country knows its own size to within a few million, depending on who asks.",
+        "muddle": "The adjusted count stood for a generation, and the suburbs were under-represented, politely, for the whole of it.",
+        "ascent": "The next census found the adjustment and counted everyone, and every census since has counted twice to be sure."
+      }
+    },
+    "stadium_built": {
+      "titles": {
+        "decay": {
+          "left": "The Stadium Debt",
+          "right": "The Bread and Circus Years"
+        },
+        "muddle": {
+          "left": "The Games Years",
+          "right": "The Stadium Decades"
+        },
+        "ascent": {
+          "left": "The People's Stadium",
+          "right": "The Games That Paid"
+        }
+      },
+      "long": {
+        "decay": "The Age of the Empty Stands",
+        "muddle": "The Stadium Centuries",
+        "ascent": "The Long Games"
+      },
+      "after": {
+        "decay": "The stadium was still being paid for when it fell down. Its ruins host a market on Sundays.",
+        "muddle": "The stadium cost too much and was used too little, and it became the place the country went to argue about both.",
+        "ascent": "The stadium was opened to everyone and filled every weekend for a century. The debt was paid off in its fortieth year."
+      }
+    },
+    "money_printed": {
+      "titles": {
+        "decay": {
+          "left": "The Wheelbarrow Years",
+          "right": "The Paper Fortune"
+        },
+        "muddle": {
+          "left": "The Printed Decade",
+          "right": "The Zeroes"
+        },
+        "ascent": {
+          "left": "The Lesson of the Mint",
+          "right": "The Hard Money Century"
+        }
+      },
+      "long": {
+        "decay": "The Worthless Centuries",
+        "muddle": "The Age of Zeroes",
+        "ascent": "The Sound Money Age"
+      },
+      "after": {
+        "decay": "The currency never recovered. People keep their savings in tinned food, and trade the labels.",
+        "muddle": "The money was replaced twice and trusted once, and the old notes paper a museum of bad decisions.",
+        "ascent": "The printing was stopped in time, and the country has distrusted a printing press ever since, usefully."
+      }
+    },
+    "codes_enforced": {
+      "titles": {
+        "decay": {
+          "left": "The Inspected Ruins",
+          "right": "The Code and the Collapse"
+        },
+        "muddle": {
+          "left": "The Inspection Years",
+          "right": "The Careful Builders"
+        },
+        "ascent": {
+          "left": "The Standing Schools",
+          "right": "The Solid Century"
+        }
+      },
+      "long": {
+        "decay": "The Centuries of Paperwork",
+        "muddle": "The Inspected Age",
+        "ascent": "The Age of Standing Walls"
+      },
+      "after": {
+        "decay": "The code was enforced on paper long after the inspectors stopped visiting. The buildings know the difference.",
+        "muddle": "The code outlasted the scandal that brought it in, and the schools stayed up through two earthquakes.",
+        "ascent": "The code became a point of pride. The next great earthquake knocked down a museum of old ones, and nothing else."
+      }
+    },
+    "crown_restored": {
+      "titles": {
+        "decay": {
+          "left": "The Borrowed Crown",
+          "right": "The Restoration"
+        },
+        "muddle": {
+          "left": "The Ceremonial Years",
+          "right": "The Hat and the Republic"
+        },
+        "ascent": {
+          "left": "The Harmless Crown",
+          "right": "The Crowned Republic"
+        }
+      },
+      "long": {
+        "decay": "The Second Monarchy",
+        "muddle": "The Age of the Large Hat",
+        "ascent": "The Bakery Dynasty"
+      },
+      "after": {
+        "decay": "The crown came back as a symbol and stayed as a government. The republic is a chapter in its history books.",
+        "muddle": "The crown stayed ceremonial, mostly. Every few years it tries to appoint someone, and every few years it is told no.",
+        "ascent": "The crown settled into opening bakeries and cutting ribbons, and the republic ran happily around it."
+      }
+    },
+    "levee_built": {
+      "titles": {
+        "decay": {
+          "left": "The Dry Valley",
+          "right": "The Walled River"
+        },
+        "muddle": {
+          "left": "The Tested Levee",
+          "right": "The Patient Engineers"
+        },
+        "ascent": {
+          "left": "The River Years",
+          "right": "The Held Line"
+        }
+      },
+      "long": {
+        "decay": "The Age of Walls",
+        "muddle": "The Tested Centuries",
+        "ascent": "The River Commons"
+      },
+      "after": {
+        "decay": "The levee held while everything around it failed. The valley is the one dry place in a country that forgot to maintain the rest.",
+        "muddle": "The levee held every spring, and the engineers who tested it are the only officials the valley still trusts.",
+        "ascent": "The levee held for a century, and the week of tests before the ribbon became the country's idea of doing things properly."
+      }
+    },
+    "honours_sold": {
+      "titles": {
+        "decay": {
+          "left": "The Price List",
+          "right": "The Purchased Peerage"
+        },
+        "muddle": {
+          "left": "The Knighted Cat",
+          "right": "The Pencil Years"
+        },
+        "ascent": {
+          "left": "The Honourless Republic",
+          "right": "The Scrapped List"
+        }
+      },
+      "long": {
+        "decay": "The Bought Centuries",
+        "muddle": "The Age of the Price List",
+        "ascent": "The Honest Titles"
+      },
+      "after": {
+        "decay": "Every title in the country has a price and most have been paid. The country's highest honour belongs to a cat food firm.",
+        "muddle": "The price list was banned and kept, and honours are still bought, though now through a very discreet broker.",
+        "ascent": "The sale of honours ended the list for good. The country honours people now by naming bus shelters after them, for free."
+      }
+    },
+    "port_leased": {
+      "titles": {
+        "decay": {
+          "left": "The Leased Shore",
+          "right": "The Shipping Office State"
+        },
+        "muddle": {
+          "left": "The Ninety-Nine Years",
+          "right": "The Balanced Year"
+        },
+        "ascent": {
+          "left": "The Broken Lease",
+          "right": "The Harbour Returned"
+        }
+      },
+      "long": {
+        "decay": "The Rented Centuries",
+        "muddle": "The Age of the Lease",
+        "ascent": "The Open Harbour"
+      },
+      "after": {
+        "decay": "The lease on the port ran out and was renewed by the line, which by then owned the government that renewed it.",
+        "muddle": "The port stayed leased for its ninety-nine years, and the country paid its fees for all of them.",
+        "ascent": "The lease was broken in court, and the harbour was run in the open from then on. The line keeps one berth."
       }
     }
   }

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "arc_vt1",
+    "type": "arc",
+    "arc": "arc_veterans",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The veterans' league wants plots of the national forest. The Faithful approve, and three timber firms have offered to help with the paperwork.",
+    "left": {
+      "label": "Grant it, not to sell",
+      "fx": {
+        "inst": 4,
+        "backers": -3,
+        "base": 2,
+        "money": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Grant it outright",
+      "fx": {
+        "base": 4,
+        "backers": 4,
+        "inst": -4
+      },
+      "drift": -5,
+      "next": "arc_vt2",
+      "setFlags": [
+        "veterans_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_vt2",
+    "type": "arc",
+    "arc": "arc_veterans",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Most veterans have sold their plots to the timber firms, at a tenth of the timber's value. The firms want permits to fell the lot this winter.",
+    "cond": {
+      "flags": [
+        "veterans_on"
+      ]
+    },
+    "left": {
+      "label": "Refuse the permits",
+      "fx": {
+        "inst": 4,
+        "backers": -5,
+        "public": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "veterans_on"
+      ]
+    },
+    "right": {
+      "label": "Issue the permits",
+      "fx": {
+        "money": 3,
+        "backers": 5,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -5,
+      "next": "arc_vt3"
+    }
+  },
+  {
+    "id": "arc_vt3",
+    "type": "arc",
+    "arc": "arc_veterans",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The hills above the capital are bare, and the spring rain has nowhere to go. The firms will pay for flood defences, built from the logs.",
+    "cond": {
+      "flags": [
+        "veterans_on"
+      ]
+    },
+    "left": {
+      "label": "Replant the hills",
+      "fx": {
+        "money": -6,
+        "inst": 4,
+        "public": 3,
+        "backers": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "veterans_on"
+      ]
+    },
+    "right": {
+      "label": "Take the logs",
+      "fx": {
+        "backers": 4,
+        "money": 2,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6,
+      "clearFlags": [
+        "veterans_on"
+      ],
+      "ending": "clear_cut"
+    }
+  }
+]

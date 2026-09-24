@@ -1,0 +1,140 @@
+[
+  {
+    "id": "arc_lo1",
+    "type": "arc",
+    "arc": "arc_lottery",
+    "step": 1,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "A mathematician has shown that the national lottery pays out less than its rules promise. Its operator is an old and generous friend of the party.",
+    "left": {
+      "label": "Order an audit",
+      "fx": {
+        "inst": 4,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Thank the mathematician",
+      "fx": {
+        "backers": 4,
+        "inst": -3,
+        "public": -2
+      },
+      "drift": -4,
+      "next": "arc_lo2",
+      "setFlags": [
+        "lottery_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_lo2",
+    "type": "arc",
+    "arc": "arc_lottery",
+    "step": 2,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The operator is grateful. It offers the party a share of the unclaimed prizes, which it says are never missed.",
+    "cond": {
+      "flags": [
+        "lottery_on"
+      ]
+    },
+    "left": {
+      "label": "Refuse the share",
+      "fx": {
+        "inst": 3,
+        "backers": -4,
+        "money": -2,
+        "base": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "lottery_on"
+      ]
+    },
+    "right": {
+      "label": "Take the share",
+      "fx": {
+        "money": 4,
+        "backers": 3,
+        "inst": -5
+      },
+      "drift": -6,
+      "next": "arc_lo3"
+    }
+  },
+  {
+    "id": "arc_lo3",
+    "type": "arc",
+    "arc": "arc_lottery",
+    "step": 3,
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A winner has noticed that the jackpot was drawn before the tickets went on sale. She is on the radio, holding the ticket and the date.",
+    "cond": {
+      "flags": [
+        "lottery_on"
+      ]
+    },
+    "left": {
+      "label": "Close the lottery",
+      "fx": {
+        "inst": 5,
+        "money": -4,
+        "public": 3,
+        "backers": -3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "lottery_on"
+      ]
+    },
+    "right": {
+      "label": "Draw her numbers",
+      "fx": {
+        "public": 3,
+        "money": -2,
+        "inst": -5
+      },
+      "drift": -6,
+      "clearFlags": [
+        "lottery_on"
+      ],
+      "ending": "the_numbers"
+    }
+  }
+]

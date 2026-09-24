@@ -1,0 +1,140 @@
+[
+  {
+    "id": "arc_fd1",
+    "type": "arc",
+    "arc": "arc_foundation",
+    "step": 1,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The largest Donor family's foundation runs forty schools. It wants them exempt from inspection, since the family inspects them itself, at dinner.",
+    "left": {
+      "label": "Inspect them anyway",
+      "fx": {
+        "inst": 4,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Grant the exemption",
+      "fx": {
+        "backers": 5,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -5,
+      "next": "arc_fd2",
+      "setFlags": [
+        "foundation_on"
+      ]
+    }
+  },
+  {
+    "id": "arc_fd2",
+    "type": "arc",
+    "arc": "arc_foundation",
+    "step": 2,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The uninspected schools are thriving, and the foundation now offers to certify the state schools as well, for a fee, as a public service.",
+    "cond": {
+      "flags": [
+        "foundation_on"
+      ]
+    },
+    "left": {
+      "label": "Refuse the contract",
+      "fx": {
+        "inst": 3,
+        "backers": -4,
+        "money": -2,
+        "public": 2
+      },
+      "drift": 5,
+      "clearFlags": [
+        "foundation_on"
+      ]
+    },
+    "right": {
+      "label": "Award the contract",
+      "fx": {
+        "money": 3,
+        "backers": 4,
+        "inst": -5
+      },
+      "drift": -5,
+      "next": "arc_fd3"
+    }
+  },
+  {
+    "id": "arc_fd3",
+    "type": "arc",
+    "arc": "arc_foundation",
+    "step": 3,
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The foundation certifies every school in the country now. It has asked to write the exams as well, since it already marks them.",
+    "cond": {
+      "flags": [
+        "foundation_on"
+      ]
+    },
+    "left": {
+      "label": "Bring back inspectors",
+      "fx": {
+        "inst": 5,
+        "backers": -5,
+        "money": -2,
+        "public": 3
+      },
+      "drift": 3,
+      "clearFlags": [
+        "foundation_on"
+      ]
+    },
+    "right": {
+      "label": "Let it write them",
+      "fx": {
+        "backers": 5,
+        "inst": -6,
+        "public": -2
+      },
+      "drift": -6,
+      "clearFlags": [
+        "foundation_on"
+      ],
+      "ending": "the_foundation"
+    }
+  }
+]

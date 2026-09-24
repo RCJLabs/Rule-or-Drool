@@ -12,8 +12,8 @@ that follow from it.
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
 **Full description** (2,237 / 4,000 characters). Every number in it was checked
-against the content when written: 1,511 cards, 22 stories and 16 questions, 30 advisors, 55
-endings, 585 history names. Re-check them if the content changes.
+against the content when written: 1,577 cards, 44 stories and 16 questions, 30 advisors, 77
+endings, 657 history names. Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -24,7 +24,7 @@ HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
 • Sixteen questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, raise the minimum wage, control the rents, price carbon, bail out the banks. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes, and the answer comes back in the eras after.
-• 1,511 cards, 22 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
+• 1,577 cards, 44 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
@@ -120,7 +120,7 @@ and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
 
 ## Content rating questionnaire (IARC)
 
-These are notes to answer from, not answers. The 1,511 cards were searched for each theme the
+These are notes to answer from, not answers. The 1,577 cards were searched for each theme the
 questionnaire asks about:
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people
@@ -138,8 +138,11 @@ questionnaire asks about:
   and a building that collapses, empty. All are told in a sentence and none shown. The
   ordinary cards of v0.56.0 add a protection racket, debt bondage in company towns, police
   software that predicts crime by street, and an heir who cannot be tried after driving "at
-  speed", told the same way. The pictures are flat silhouettes (tanks, a searchlight), with no
-  blood and no injury.
+  speed", told the same way. The stories of v0.59.0 add a train crash in which eleven people
+  die, an earthquake that flattens three schools, a foreign agent in the leader's office, a
+  flood the valley is moved out of, and an army paid in bread that takes the bakeries, told
+  the same way. The pictures are flat silhouettes (tanks, a searchlight), with no blood and no
+  injury.
 - **Language:** no profanity found.
 - **Sexual content:** none found.
 - **Drugs, alcohol, tobacco:** medicine, several times: drug pricing, a drug made in orbit,
@@ -158,8 +161,9 @@ questionnaire asks about:
   schools. The questionnaire asks about references to illegal drugs; answer it from this.
 - **Gambling:** a national lottery appears as policy satire (its surplus, an evening draw,
   its results read out on a loyalty broadcast), and a casino asks for a licence. Since v0.56.0
-  a party lottery's treasurer keeps winning it, and bookmakers go untaxed on a state race day. There is no
-  simulated gambling and nothing to buy.
+  a party lottery's treasurer keeps winning it, and bookmakers go untaxed on a state race day.
+  Since v0.59.0 a story has the national lottery rigged, its jackpot drawn before the tickets
+  went on sale. There is no simulated gambling and nothing to buy.
 - **User interaction:** none. The chat in the Decay look is scripted decoration.
 - **Religion** is not a questionnaire theme, but in case a reviewer asks: a church appears
   as a landowner, a lobby and a school provider (tax exemptions, congregations turned out for
