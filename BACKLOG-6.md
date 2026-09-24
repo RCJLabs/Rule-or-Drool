@@ -947,6 +947,8 @@ step of the measure worse (83.8% against 82.9%), the rest the same.
 **Also checked:**
 - The unit suite is 577 tests and the browser suite 41. `validate:mvp` is clean at 1,511
   cards.
+- **One label was shortened for the browser audit.** "One country, one sign" became "One
+  language", because the audit's run was dealt that card and its buttons ran 2px past it.
 - The first repeat test (under 75% at the tenth run, BACKLOG-5 phase 36) became the three
   above, since they are stricter.
 - **The download** grew by 15.2 KB gzipped, all of it in the content chunk (154.7 to 169.9
@@ -966,6 +968,13 @@ step of the measure worse (83.8% against 82.9%), the rest the same.
   after it, and a run begun before it almost certainly cannot take the other road. The
   daily is dealt from the date, so on the day the update lands, players on the two versions
   get different dailies.
+- **Long cards clip on the smallest phone, and did before this phase.** The conditions are a
+  360×640 screen, the choice buttons drawn, and the longest mandate's badge. In the three
+  roomiest looks (decay2, decay3, ascent3), all 40 of the longest old cards run 2–10px past
+  the card. So do 58 of the 160 new ones, by 2–5px. The browser audit never saw it, because
+  it reads only the cards its seed deals. A fix is a layout change: less spacing or line
+  height in those looks when the buttons are drawn on a short screen, and an audit that reads
+  the longest cards. It is not part of this phase.
 - **Late runs still repeat:** four cards in five are familiar by the twentieth run. More
   cards buy little there. The lever left is a draw that avoids what a profile has seen,
   which breaks codes, replay, challenges and the daily ("Considered, and not proposed").
