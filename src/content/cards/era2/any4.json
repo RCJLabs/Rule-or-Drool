@@ -1,0 +1,772 @@
+[
+  {
+    "id": "b78_machine_accent",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The state's voice assistant was trained in the capital. It understands the provinces about half the time, and says so politely.",
+    "left": {
+      "label": "Teach it the provinces",
+      "fx": {
+        "money": -4,
+        "backers": -1,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Speak like the capital",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b79_printed_meals",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A firm can print a school meal from powder for a tenth of the price of food. The school kitchens would like to know what the powder is.",
+    "left": {
+      "label": "Test the powder first",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Print the school meals",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "b80_face_payments",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Shops take payment by face now. A firm has offered to buy the faces.",
+    "oneShot": true,
+    "left": {
+      "label": "Ban the sale",
+      "fx": {
+        "money": -1,
+        "inst": 3,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax the sale",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "b81_machine_poet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A machine has won the national poetry prize. The judges did not know, and the machine's owner would like the prize money.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay the owner",
+      "fx": {
+        "money": 1,
+        "inst": -2,
+        "base": 1,
+        "backers": 3
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Rerun the prize",
+      "fx": {
+        "inst": 1,
+        "base": -1,
+        "backers": -2,
+        "public": 1
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "b82_bus_lamppost",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A driverless bus has hit a lamppost. The maker says the lamppost was in the wrong place, and has the data to prove it.",
+    "oneShot": true,
+    "left": {
+      "label": "Seize the data",
+      "fx": {
+        "order": 1,
+        "inst": 3,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Move the lamppost",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 1,
+        "backers": 3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_same_mistake",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "b83_machine_halls",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The feed companies want to build their machine halls in the empty towns. The halls would drink the towns' water and employ nine people.",
+    "left": {
+      "label": "Water before machines",
+      "fx": {
+        "money": -1,
+        "inst": 1,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them the water",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "base": 1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "b84_predictive_patrols",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The police software predicts crime by street. The streets it predicts are the ones it was trained on, which are the poor ones.",
+    "left": {
+      "label": "Switch it off",
+      "fx": {
+        "order": -3,
+        "inst": 2,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the software",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "b85_data_dividend",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The feeds make their money from what people do. A dividend on it would pay every citizen a little, and cost the feeds a great deal.",
+    "left": {
+      "label": "Pay the dividend",
+      "fx": {
+        "base": -1,
+        "backers": -4,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take a cut instead",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "b86_rival_fake",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A convincing fake of your rival confessing to a crime is everywhere. Your people did not make it, and would rather not say so yet.",
+    "oneShot": true,
+    "left": {
+      "label": "Denounce the fake",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Say nothing yet",
+      "fx": {
+        "inst": -3,
+        "base": 4,
+        "backers": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "b87_machine_petitions",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Half the petitions to the chamber are written by machines, for people who never read them. One has passed, and is on Friday's agenda.",
+    "oneShot": true,
+    "left": {
+      "label": "Verify the signers",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Democracy is democracy",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "base": 3,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "b88_one_man_feed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Nine thousand feed accounts praising your policies turn out to be one man in a flat. He is on your payroll, as a consultant.",
+    "oneShot": true,
+    "left": {
+      "label": "Sack him, and say so",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1,
+        "public": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Quietly renew him",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 1,
+        "public": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "b89_smart_city",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A firm would run the capital's lights, traffic and water from a single screen. The screen would be in the firm's building.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the screen public",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign the contract",
+      "fx": {
+        "money": 5,
+        "order": 1,
+        "inst": -3,
+        "backers": 3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "b90_mood_adverts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Adverts on the feeds change with the viewer's mood now. Sad people are shown loans.",
+    "left": {
+      "label": "Let them sell",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Ban mood targeting",
+      "fx": {
+        "money": -1,
+        "inst": 1,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "b91_task_service",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Civil servants can now be hired by the task, through an app. The app rates your treasury at two stars.",
+    "left": {
+      "label": "Keep a real service",
+      "fx": {
+        "money": -4,
+        "inst": 5,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hire by the task",
+      "fx": {
+        "money": 5,
+        "order": 1,
+        "inst": -3,
+        "backers": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "b92_ascent_hourly_reasons",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Every decision of the state is now published within the hour, with its reasons. Your own reasons are due at four.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish yours too",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Exempt the cabinet",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "b93_ascent_machine_budget",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasury's machine has drafted a better budget than the treasury. The treasurer asks, sincerely, whether a treasurer is still needed.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep her and the machine",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let the machine sign",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "base": 1,
+        "backers": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "b94_ascent_seventy_percent",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Satisfaction with the government stands at seventy per cent, a record. The pollsters would like to stop asking while it lasts.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep asking",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Stop the polling",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "b95_decay_bucket_water",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "The water mains in the east have failed. Tankers sell water by the bucket, and the tankers belong to a minister's cousin.",
+    "left": {
+      "label": "Fix the mains",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "backers": -2,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "License the tankers",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "base": 1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "b96_decay_rumour_run",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "A rumour on the feeds has emptied the banks in two towns. The rumour was false until it was true.",
+    "oneShot": true,
+    "left": {
+      "label": "Guarantee the deposits",
+      "fx": {
+        "money": -6,
+        "order": 1,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Shut the feeds a day",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "b97_decay_station_medicine",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "scientist",
+    "text": "Medicine is cheaper at the market behind the station than at the pharmacy. It is also, sometimes, medicine.",
+    "left": {
+      "label": "Fund the pharmacies",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Tax the market",
+      "fx": {
+        "money": 4,
+        "order": -1,
+        "inst": -3,
+        "base": 1,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  }
+]

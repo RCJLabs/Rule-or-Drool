@@ -1,0 +1,369 @@
+[
+  {
+    "id": "cl39_hundred_year_plan",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The hundred-year plan has one year left to run, and a third of it is unbuilt. The planners propose a second hundred years.",
+    "oneShot": true,
+    "left": {
+      "label": "Admit the shortfall",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Extend the plan",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cl40_honour_for_all",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement's highest honour has been given to every member over seventy. The members under seventy have formed a committee.",
+    "oneShot": true,
+    "left": {
+      "label": "Make it earned",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Honour everyone",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl41_union_family",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The dockers' union has had the same family at its head for five generations. They were elected every time, unopposed.",
+    "oneShot": true,
+    "left": {
+      "label": "Require contested votes",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Respect the members",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cl42_state_bands",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The state owns the bakeries, the barbers and the brass bands now. The bands lose money, and play at every party rally.",
+    "left": {
+      "label": "Keep the bands playing",
+      "fx": {
+        "money": -3,
+        "inst": -1,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Stop the band subsidy",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "cl43_carved_slogan",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement's slogans are carved on every public building. A new generation would like to revise one, which is now a crime.",
+    "left": {
+      "label": "Allow the revision",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it a crime",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "cl44_mistakes_room",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The museum of the movement has a room about its mistakes. It has been closed for refurbishment for twenty years.",
+    "oneShot": true,
+    "left": {
+      "label": "Reopen the room",
+      "fx": {
+        "inst": 1,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Refurbish it slowly",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cl45_ascent_secret_targets",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The plan has hit every target for a decade. The planners would like the targets kept secret, so that they can go on hitting them.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the targets",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep them secret",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cl46_ascent_old_landlords",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The last landlords of the old order are ninety. A pardon would cost nothing, except a verse of the movement's anthem.",
+    "oneShot": true,
+    "left": {
+      "label": "Pardon them",
+      "fx": {
+        "inst": 1,
+        "base": -4,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let the verse stand",
+      "fx": {
+        "inst": -1,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cl47_decay_block_flats",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "chief",
+    "text": "Flats are allocated by the block committee now. The block committee lives in the good flats.",
+    "left": {
+      "label": "Take back allocation",
+      "fx": {
+        "order": -1,
+        "inst": 3,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Trust the committees",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "base": 4
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "cl48_decay_deviation_box",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "spin",
+    "text": "Members can report one another for deviation now, anonymously, in a box at every branch. The box has more reports than members.",
+    "oneShot": true,
+    "left": {
+      "label": "Take the boxes away",
+      "fx": {
+        "order": -2,
+        "inst": 4,
+        "base": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Read the reports",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "base": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  }
+]

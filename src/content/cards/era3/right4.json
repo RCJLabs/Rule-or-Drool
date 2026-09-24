@@ -1,0 +1,380 @@
+[
+  {
+    "id": "cr39_family_seat",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The upper chamber keeps thirty seats for the founding families. One family has died out, and a firm has bought its seat.",
+    "oneShot": true,
+    "left": {
+      "label": "Abolish the seats",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Approve the sale",
+      "fx": {
+        "money": 3,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cr40_family_files",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The old families have offered to buy the national archive. Only the part about them, and at a very good price.",
+    "left": {
+      "label": "Keep it public",
+      "fx": {
+        "inst": 4,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell them their files",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "cr41_town_bylaws",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The company towns make their own by-laws under licence from you. One has passed a by-law exempting itself from your laws.",
+    "left": {
+      "label": "Revoke its licence",
+      "fx": {
+        "order": -1,
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renegotiate the fee",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "backers": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "cr42_old_register",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Families on the old register pay a lower rate of tax. The register closed a century ago, and places on it are now for sale.",
+    "left": {
+      "label": "Close the loophole",
+      "fx": {
+        "money": 4,
+        "inst": 3,
+        "backers": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Tax the sales",
+      "fx": {
+        "money": 5,
+        "inst": -3,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "cr43_heir_police",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The security firm that polices the north has passed to its founder's grandson. He is fifteen, and would like a parade.",
+    "oneShot": true,
+    "left": {
+      "label": "Take policing back",
+      "fx": {
+        "money": -4,
+        "order": -1,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Give him the parade",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 1,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "cr44_inherited_honours",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Honours can now be inherited, like titles. The families would like the medals for bravery included.",
+    "oneShot": true,
+    "left": {
+      "label": "Honours die with them",
+      "fx": {
+        "inst": 2,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them inherit",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cr45_ascent_stability",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Most firms are now younger than their founders. The old families call this instability, and would like a subsidy for stability.",
+    "left": {
+      "label": "Decline the subsidy",
+      "fx": {
+        "inst": 1,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fund stability",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cr46_ascent_patron_prize",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The great families give a prize each year to the best civil servant. The winners have begun to favour the families, gratefully.",
+    "oneShot": true,
+    "left": {
+      "label": "Let them give it",
+      "fx": {
+        "money": 1,
+        "inst": -2,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Refuse the prize",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "cr47_decay_company_debt",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Workers in the company towns owe the company for rent and food, and may not leave until they pay. Nobody ever has.",
+    "left": {
+      "label": "Cancel the debts",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "backers": -5,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Enforce the contracts",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "backers": 4,
+        "public": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "cr48_decay_heir_courts",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "The heirs of the founding families cannot be tried in the ordinary courts. One of them has tested this, at speed.",
+    "oneShot": true,
+    "left": {
+      "label": "Try him like anyone",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4,
+        "public": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "The family court, then",
+      "fx": {
+        "order": 2,
+        "inst": -3,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_empty_square",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  }
+]

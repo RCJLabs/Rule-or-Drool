@@ -18,7 +18,7 @@
         "went_to_war"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay them in full",
@@ -58,7 +58,7 @@
         "went_to_war"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay it down",
@@ -97,7 +97,7 @@
         "went_to_war"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Say what it cost",
@@ -136,7 +136,7 @@
         "went_to_war"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep the real ending",
@@ -175,7 +175,7 @@
         "stayed_out"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Send aid, openly",
@@ -214,7 +214,7 @@
         "stayed_out"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Teach both",
@@ -254,7 +254,7 @@
         "stayed_out"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Hear them out",
@@ -292,7 +292,7 @@
         "stayed_out"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Ask them why, publicly",
@@ -331,7 +331,7 @@
         "mass_deportation"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "A lawful work visa",
@@ -371,7 +371,7 @@
         "mass_deportation"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Restore them",
@@ -411,7 +411,7 @@
         "mass_deportation"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Build a memorial",
@@ -449,7 +449,7 @@
         "mass_deportation"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Open it for free",
@@ -488,7 +488,7 @@
         "papers_granted"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Court them honestly",
@@ -528,7 +528,7 @@
         "papers_granted"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Refuse the test",
@@ -567,7 +567,7 @@
         "papers_granted"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Open the records",
@@ -604,7 +604,7 @@
         "papers_granted"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Shut the ministry press",
@@ -643,7 +643,7 @@
         "top_rate_cut"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Close the hole",
@@ -682,7 +682,7 @@
         "top_rate_cut"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Raise the rate back",
@@ -722,7 +722,7 @@
         "top_rate_cut"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Tell the child",
@@ -759,7 +759,7 @@
         "top_rate_cut"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Tax the family",
@@ -799,7 +799,7 @@
         "top_rate_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Tax them on leaving",
@@ -839,7 +839,7 @@
         "top_rate_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Close it again",
@@ -877,7 +877,7 @@
         "top_rate_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let the tax stand",
@@ -915,7 +915,7 @@
         "top_rate_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Take it back in-house",
@@ -955,7 +955,7 @@
         "universal_care"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay the nurses",
@@ -995,7 +995,7 @@
         "universal_care"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Cut the paperwork",
@@ -1035,7 +1035,7 @@
         "universal_care"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep it public",
@@ -1075,7 +1075,7 @@
         "universal_care"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Cancel the show",
@@ -1114,7 +1114,7 @@
         "care_market"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Reopen one, publicly",
@@ -1154,7 +1154,7 @@
         "care_market"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Ban the pricing",
@@ -1193,7 +1193,7 @@
         "care_market"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Make the cure public",
@@ -1232,7 +1232,7 @@
         "care_market"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Cover illness for all",
@@ -1272,7 +1272,7 @@
         "wage_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Tie it to prices",
@@ -1311,7 +1311,7 @@
         "wage_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Retrain the rest",
@@ -1351,7 +1351,7 @@
         "wage_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Set it by formula",
@@ -1389,7 +1389,7 @@
         "wage_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay it in money",
@@ -1428,7 +1428,7 @@
         "wage_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay them by the hour",
@@ -1468,7 +1468,7 @@
         "wage_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Set a floor, finally",
@@ -1507,7 +1507,7 @@
         "wage_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Rule that they may not",
@@ -1545,7 +1545,7 @@
         "wage_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Set a floor, at last",
@@ -1584,7 +1584,7 @@
         "zoning_cleared"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Inspect them all",
@@ -1624,7 +1624,7 @@
         "zoning_cleared"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Break the four up",
@@ -1663,7 +1663,7 @@
         "zoning_cleared"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let them be rebuilt",
@@ -1702,7 +1702,7 @@
         "zoning_cleared"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Empty the worst of them",
@@ -1741,7 +1741,7 @@
         "rents_controlled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let the cap travel",
@@ -1782,7 +1782,7 @@
         "rents_controlled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Build more like them",
@@ -1822,7 +1822,7 @@
         "rents_controlled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep the rent",
@@ -1860,7 +1860,7 @@
         "rents_controlled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Give them to the tenants",
@@ -1899,7 +1899,7 @@
         "carbon_priced"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Build there first",
@@ -1939,7 +1939,7 @@
         "carbon_priced"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Tax what crosses",
@@ -1979,7 +1979,7 @@
         "carbon_priced"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep it anyway",
@@ -2017,7 +2017,7 @@
         "carbon_priced"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Audit the credits",
@@ -2056,7 +2056,7 @@
         "gas_drilled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Publish every test",
@@ -2095,7 +2095,7 @@
         "gas_drilled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay for them anyway",
@@ -2136,7 +2136,7 @@
         "gas_drilled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Say how it formed",
@@ -2173,7 +2173,7 @@
         "gas_drilled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Put the fires out",
@@ -2212,7 +2212,7 @@
         "tariffs_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Tie them to new machines",
@@ -2252,7 +2252,7 @@
         "tariffs_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Take ours down first",
@@ -2292,7 +2292,7 @@
         "tariffs_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let the trade through",
@@ -2331,7 +2331,7 @@
         "tariffs_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Scrap the forms",
@@ -2370,7 +2370,7 @@
         "trade_opened"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Invest in the towns",
@@ -2410,7 +2410,7 @@
         "trade_opened"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Leave the tribunal",
@@ -2449,7 +2449,7 @@
         "trade_opened"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund the one thing",
@@ -2488,7 +2488,7 @@
         "trade_opened"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Take the chamber back",
@@ -2528,7 +2528,7 @@
         "pension_age_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let them go part-time",
@@ -2568,7 +2568,7 @@
         "pension_age_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep them in the fund",
@@ -2607,7 +2607,7 @@
         "pension_age_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Set it by the evidence",
@@ -2644,7 +2644,7 @@
         "pension_age_raised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Pay them in money",
@@ -2683,7 +2683,7 @@
         "pension_age_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Share the bill openly",
@@ -2723,7 +2723,7 @@
         "pension_age_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Promise the truth",
@@ -2762,7 +2762,7 @@
         "pension_age_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Change it, with notice",
@@ -2800,7 +2800,7 @@
         "pension_age_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund them properly",
@@ -2839,7 +2839,7 @@
         "debt_cancelled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Make the degrees free",
@@ -2878,7 +2878,7 @@
         "debt_cancelled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund their training too",
@@ -2917,7 +2917,7 @@
         "debt_cancelled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Teach what it cost",
@@ -2955,7 +2955,7 @@
         "debt_cancelled"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund real teaching",
@@ -2994,7 +2994,7 @@
         "debt_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Cap the repayments",
@@ -3034,7 +3034,7 @@
         "debt_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Forgive the oldest",
@@ -3074,7 +3074,7 @@
         "debt_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Rule that it cannot",
@@ -3112,7 +3112,7 @@
         "debt_kept"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Cancel inherited debts",
@@ -3152,7 +3152,7 @@
         "drugs_crackdown"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Go after the growers",
@@ -3192,7 +3192,7 @@
         "drugs_crackdown"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Disarm the squads",
@@ -3231,7 +3231,7 @@
         "drugs_crackdown"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let it grow again",
@@ -3270,7 +3270,7 @@
         "drugs_crackdown"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Disband the dynasty",
@@ -3309,7 +3309,7 @@
         "drugs_legalised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund the clinics first",
@@ -3348,7 +3348,7 @@
         "drugs_legalised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Plainer packets",
@@ -3387,7 +3387,7 @@
         "drugs_legalised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Refuse the title",
@@ -3425,7 +3425,7 @@
         "drugs_legalised"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "End the sponsorships",
@@ -3465,7 +3465,7 @@
         "tough_sentences"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Build them somewhere",
@@ -3504,7 +3504,7 @@
         "tough_sentences"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Close one anyway",
@@ -3544,7 +3544,7 @@
         "tough_sentences"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Stand half of them down",
@@ -3582,7 +3582,7 @@
         "tough_sentences"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Open the gates",
@@ -3621,7 +3621,7 @@
         "justice_reformed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep them where they are",
@@ -3660,7 +3660,7 @@
         "justice_reformed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Answer with the numbers",
@@ -3699,7 +3699,7 @@
         "justice_reformed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Teach what it was",
@@ -3737,7 +3737,7 @@
         "justice_reformed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Take them public",
@@ -3776,7 +3776,7 @@
         "cameras_everywhere"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Publish the rules",
@@ -3815,7 +3815,7 @@
         "cameras_everywhere"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let people delete theirs",
@@ -3853,7 +3853,7 @@
         "cameras_everywhere"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Switch them off",
@@ -3892,7 +3892,7 @@
         "cameras_everywhere"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Switch them off",
@@ -3931,7 +3931,7 @@
         "cameras_banned"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep asking",
@@ -3970,7 +3970,7 @@
         "cameras_banned"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let people film",
@@ -4008,7 +4008,7 @@
         "cameras_banned"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep it that way",
@@ -4046,7 +4046,7 @@
         "cameras_banned"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Enforce it by hand",
@@ -4086,7 +4086,7 @@
         "truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Review it in public",
@@ -4125,7 +4125,7 @@
         "truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Correct all eleven",
@@ -4163,7 +4163,7 @@
         "truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Hear the appeal",
@@ -4200,7 +4200,7 @@
         "truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Dissolve the panel",
@@ -4239,7 +4239,7 @@
         "no_truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund real reporters",
@@ -4278,7 +4278,7 @@
         "no_truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Say it was a fake",
@@ -4317,7 +4317,7 @@
         "no_truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Build a public record",
@@ -4355,7 +4355,7 @@
         "no_truth_law"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Fund one true archive",
@@ -4394,7 +4394,7 @@
         "court_packed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let the bar nominate",
@@ -4433,7 +4433,7 @@
         "court_packed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Shrink it by law",
@@ -4471,7 +4471,7 @@
         "court_packed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Cut it to nine",
@@ -4509,7 +4509,7 @@
         "court_packed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Abolish the auction",
@@ -4548,7 +4548,7 @@
         "court_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Rewrite the law",
@@ -4587,7 +4587,7 @@
         "court_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Take the lesson",
@@ -4625,7 +4625,7 @@
         "court_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Add courts below it",
@@ -4662,7 +4662,7 @@
         "court_left"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Obey the rulings",
@@ -4701,7 +4701,7 @@
         "banks_bailed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Keep the public's seat",
@@ -4740,7 +4740,7 @@
         "banks_bailed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Break them up",
@@ -4780,7 +4780,7 @@
         "banks_bailed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Buy it back",
@@ -4819,7 +4819,7 @@
         "banks_bailed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Let the next one fail",
@@ -4859,7 +4859,7 @@
         "banks_failed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Start a public bank",
@@ -4899,7 +4899,7 @@
         "banks_failed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Guarantee every deposit",
@@ -4938,7 +4938,7 @@
         "banks_failed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Refuse the sponsor",
@@ -4976,7 +4976,7 @@
         "banks_failed"
       ]
     },
-    "weight": 5,
+    "weight": 6,
     "oneShot": true,
     "left": {
       "label": "Found a public bank",

@@ -12,6 +12,9 @@ import era1Queued from "./cards/era1/queued.json";
 import era1Any3 from "./cards/era1/any3.json";
 import era1Left3 from "./cards/era1/left3.json";
 import era1Right3 from "./cards/era1/right3.json";
+import era1Any4 from "./cards/era1/any4.json";
+import era1Left4 from "./cards/era1/left4.json";
+import era1Right4 from "./cards/era1/right4.json";
 import electionsShared from "./cards/elections/shared.json";
 import electionsLeft from "./cards/elections/left.json";
 import electionsRight from "./cards/elections/right.json";
@@ -24,6 +27,9 @@ import era2Queued from "./cards/era2/queued.json";
 import era2Any3 from "./cards/era2/any3.json";
 import era2Left3 from "./cards/era2/left3.json";
 import era2Right3 from "./cards/era2/right3.json";
+import era2Any4 from "./cards/era2/any4.json";
+import era2Left4 from "./cards/era2/left4.json";
+import era2Right4 from "./cards/era2/right4.json";
 import era3Any from "./cards/era3/any.json";
 import era3Any2 from "./cards/era3/any2.json";
 import era3Sides from "./cards/era3/sides.json";
@@ -33,6 +39,9 @@ import era3Legacy from "./cards/era3/legacy.json";
 import era3Any3 from "./cards/era3/any3.json";
 import era3Left3 from "./cards/era3/left3.json";
 import era3Right3 from "./cards/era3/right3.json";
+import era3Any4 from "./cards/era3/any4.json";
+import era3Left4 from "./cards/era3/left4.json";
+import era3Right4 from "./cards/era3/right4.json";
 import era4Any from "./cards/era4/any.json";
 import era4Bands from "./cards/era4/bands.json";
 import era4Sides from "./cards/era4/sides.json";
@@ -130,6 +139,9 @@ export const content: Content = {
     ...asCards(era1Any3, "era1/any3.json"),
     ...asCards(era1Left3, "era1/left3.json"),
     ...asCards(era1Right3, "era1/right3.json"),
+    ...asCards(era1Any4, "era1/any4.json"),
+    ...asCards(era1Left4, "era1/left4.json"),
+    ...asCards(era1Right4, "era1/right4.json"),
     ...asCards(electionsShared, "elections/shared.json"),
     ...asCards(electionsLeft, "elections/left.json"),
     ...asCards(electionsRight, "elections/right.json"),
@@ -142,6 +154,9 @@ export const content: Content = {
     ...asCards(era2Any3, "era2/any3.json"),
     ...asCards(era2Left3, "era2/left3.json"),
     ...asCards(era2Right3, "era2/right3.json"),
+    ...asCards(era2Any4, "era2/any4.json"),
+    ...asCards(era2Left4, "era2/left4.json"),
+    ...asCards(era2Right4, "era2/right4.json"),
     ...asCards(era3Any, "era3/any.json"),
     ...asCards(era3Any2, "era3/any2.json"),
     ...asCards(era3Sides, "era3/sides.json"),
@@ -151,6 +166,9 @@ export const content: Content = {
     ...asCards(era3Any3, "era3/any3.json"),
     ...asCards(era3Left3, "era3/left3.json"),
     ...asCards(era3Right3, "era3/right3.json"),
+    ...asCards(era3Any4, "era3/any4.json"),
+    ...asCards(era3Left4, "era3/left4.json"),
+    ...asCards(era3Right4, "era3/right4.json"),
     // The long reign's two eras (BACKLOG-5 phase 39): drawn only in a run that reaches them.
     ...asCards(era4Any, "era4/any.json"),
     ...asCards(era4Bands, "era4/bands.json"),

@@ -1,0 +1,1386 @@
+[
+  {
+    "id": "a105_night_flights",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The airport wants to lift the ban on night flights. The fourteen villages under the flight path would like to go on sleeping.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep the night ban",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Sell the night",
+      "fx": {
+        "money": 4,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a106_new_map",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The boundary commission has redrawn the constituencies fairly. Fairly drawn, you lose eleven seats.",
+    "oneShot": true,
+    "left": {
+      "label": "Accept the new map",
+      "fx": {
+        "inst": 5,
+        "base": -4,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Send it back",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a107_village_fibre",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Fibre to every village would cost a fortune. The villages that have it are filling with people from the capital, who complain about the cows.",
+    "left": {
+      "label": "Wire every village",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Wire the towns only",
+      "fx": {
+        "money": 3,
+        "inst": -1,
+        "base": 1,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a108_library_days",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The libraries open two days a week now. The busiest is the day the heating is on.",
+    "oneShot": true,
+    "left": {
+      "label": "Sell the buildings",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "backers": 3,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    },
+    "right": {
+      "label": "Open them every day",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "public": 3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "a109_speed_cameras",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The ring road's speed cameras raise more than the traffic police cost. Moved to the downhill stretches, they would raise more again.",
+    "left": {
+      "label": "Leave them where needed",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "backers": -1,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Move them downhill",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -2,
+        "public": -3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_petition",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "a110_bus_pass",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Pensioners ride the buses free. The bus company proposes to honour the pass only on the routes nobody uses.",
+    "left": {
+      "label": "Honour it everywhere",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "base": 2,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let them pick routes",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a111_driving_test",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The wait for a driving test is fourteen months. A private firm will test you tomorrow, for a fee, and has never failed anyone.",
+    "oneShot": true,
+    "left": {
+      "label": "Hire more examiners",
+      "fx": {
+        "money": -4,
+        "order": 1,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "License the firm",
+      "fx": {
+        "money": 3,
+        "order": -2,
+        "inst": -2,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_insurance",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "a112_fire_engines",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Half the fire engines are older than the crews who drive them. Replacing them costs exactly what the jubilee parade costs.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy the engines",
+      "fx": {
+        "money": -4,
+        "order": 2,
+        "inst": 2,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Hold the parade",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a113_summer_pools",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Nine public pools are shut for repairs nobody has paid for. Summer is six weeks away, and the river is no place to swim.",
+    "left": {
+      "label": "Repair the pools",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Put up warning signs",
+      "fx": {
+        "money": 3,
+        "inst": -1,
+        "base": 1,
+        "backers": 1,
+        "public": -2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a114_old_elephant",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The zoo's elephant is forty and alone. A sanctuary abroad would take him, and the zoo says he is its only reason to visit.",
+    "oneShot": true,
+    "left": {
+      "label": "Send him somewhere kind",
+      "fx": {
+        "base": -1,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Keep him for the crowds",
+      "fx": {
+        "money": 3,
+        "inst": -1,
+        "base": 2,
+        "backers": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a115_salt_reserve",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The winter salt reserve was sold in a warm year to balance the books. It has started snowing.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy salt at any price",
+      "fx": {
+        "money": -6,
+        "order": 2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the forecast",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_resignations",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a116_second_homes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "In the coast villages four houses in five are second homes, three of them your ministers'. The fifth is the last teacher's, and it is for sale.",
+    "left": {
+      "label": "Tax the second homes",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -2,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave them be",
+      "fx": {
+        "inst": -1,
+        "base": 2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a117_second_jobs",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Forty members of the chamber have second jobs. Eleven of the jobs are advising firms on laws those members vote on.",
+    "left": {
+      "label": "Ban second jobs",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "A register will do",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "a118_night_buses",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The night buses carry cleaners, nurses and drunks. The operator wants to keep only the routes with drunks, which pay.",
+    "left": {
+      "label": "Fund every route",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let the operator choose",
+      "fx": {
+        "money": 3,
+        "inst": -1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a119_last_toilet",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The capital has closed its last public toilet to save money. The saving can be seen on most corners.",
+    "oneShot": true,
+    "left": {
+      "label": "Reopen them",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "public": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Fine the offenders",
+      "fx": {
+        "money": 3,
+        "order": 3,
+        "inst": -2,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "a120_market_pitches",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Market pitches are handed out by a committee that has not met in nine years. The same families hold every pitch.",
+    "left": {
+      "label": "Draw pitches by lot",
+      "fx": {
+        "inst": 2,
+        "base": -3,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Renew the families",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a121_taxi_plates",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A taxi licence in the capital costs more than a house, because none has been issued in twenty years. The ministry's pension fund owns four hundred.",
+    "left": {
+      "label": "Freeze the number",
+      "fx": {
+        "inst": -1,
+        "base": 2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Issue more licences",
+      "fx": {
+        "base": -2,
+        "backers": -3,
+        "public": 3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "a122_cycle_lane",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A cycle lane on the main avenue would save lives and cost every shop a parking space. The shopkeepers have hired a brass band.",
+    "oneShot": true,
+    "left": {
+      "label": "Paint the lane",
+      "fx": {
+        "order": 1,
+        "inst": 1,
+        "base": -2,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Next year, perhaps",
+      "fx": {
+        "inst": -1,
+        "base": 2,
+        "backers": 3,
+        "public": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a123_marsh_fever",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The marsh mosquitoes carry a fever now. Nets for every house would stop it; draining the marsh would stop it and sell well.",
+    "oneShot": true,
+    "left": {
+      "label": "Nets for every house",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Drain it and sell it",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "base": 1,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "a124_parking_wardens",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The parking wardens are paid by the ticket. They have started ticketing hearses.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay them a salary",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -1,
+        "public": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Raise the quota",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -2,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "a125_river_smell",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The capital's river smells every August. The sewers were built for a quarter of the city, and the fix is ten years of digging.",
+    "left": {
+      "label": "Start digging",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "base": -1,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Plant lavender",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 1,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a126_polling_steps",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Two polling stations in three have steps at the door. The election is in four months, and a ramp takes nine.",
+    "oneShot": true,
+    "left": {
+      "label": "Move the stations",
+      "fx": {
+        "money": -3,
+        "inst": 2,
+        "base": -1,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Postal votes will do",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a127_school_nurses",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Measles is back in the hill towns. The school nurses who used to catch it early were cut two budgets ago, by you.",
+    "oneShot": true,
+    "left": {
+      "label": "Rehire the nurses",
+      "fx": {
+        "money": -4,
+        "inst": 2,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the parents",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a128_harvest_fines",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Parents are fined when children miss school. The fines peak in the weeks the harvest needs every pair of hands.",
+    "left": {
+      "label": "Excuse the harvest",
+      "fx": {
+        "money": -2,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Collect every fine",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "inst": -2,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "a129_valley_cheese",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The valley cheese has a protected name. A factory in the capital makes it too, in a building with a painting of the valley.",
+    "oneShot": true,
+    "left": {
+      "label": "Let the factory sell",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": -1,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    },
+    "right": {
+      "label": "Enforce the name",
+      "fx": {
+        "money": -1,
+        "inst": 1,
+        "base": 2,
+        "backers": -3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "a130_registry_fax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The land registry still runs on fax. The firm that supplies the paper belongs to the registrar's brother-in-law.",
+    "left": {
+      "label": "Digitise the registry",
+      "fx": {
+        "money": -4,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Renew the paper deal",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 1,
+        "backers": 3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "a131_plum_brandy",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The duty on plum brandy has not changed in sixty years. Raising it would pay for the rural clinics, and the orchards vote as one.",
+    "left": {
+      "label": "Raise the duty",
+      "fx": {
+        "money": 4,
+        "inst": 1,
+        "base": -3,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leave the orchards be",
+      "fx": {
+        "money": -1,
+        "inst": -1,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a132_street_lights",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The street lights go off at midnight to save money. The burglars have adjusted their hours accordingly.",
+    "oneShot": true,
+    "left": {
+      "label": "Turn them back on",
+      "fx": {
+        "money": -4,
+        "order": 2,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Off at ten instead",
+      "fx": {
+        "money": 4,
+        "order": -2,
+        "inst": -1,
+        "base": 1,
+        "backers": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "a133_early_count",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Your party's counters can see the early results an hour before anyone else. The rules say nothing about telephones.",
+    "oneShot": true,
+    "left": {
+      "label": "Seal the count room",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep a phone handy",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "a134_road_signs",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The eastern province wants its road signs in its own language as well. The signs cost little; the argument will cost a year.",
+    "left": {
+      "label": "Put up both",
+      "fx": {
+        "money": -1,
+        "inst": 2,
+        "base": -3,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "One language",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "base": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "a135_cabinet_memoir",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A minister is writing a memoir of your cabinet while still in it. The chapters about you are the long ones.",
+    "oneShot": true,
+    "left": {
+      "label": "Let it be published",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "backers": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Buy the rights",
+      "fx": {
+        "money": -2,
+        "order": 1,
+        "inst": -2,
+        "base": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "a136_ministers_pay",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Ministers' pay has been frozen for twelve years, which polls well. Nobody who needs a salary applies for the job any more.",
+    "left": {
+      "label": "Raise it, openly",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "public": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Freeze it again",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "public": 3
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "a137_eleven_stamps",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A building permit needs eleven stamps from four ministries. A firm will collect them for you, and has a very good relationship with the stamps.",
+    "left": {
+      "label": "Cut it to one stamp",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let the firm run it",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "a138_state_vineyard",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The state owns a vineyard nobody remembers buying. Its wine is served at every official dinner, and its accounts at none.",
+    "left": {
+      "label": "Sell it to a donor",
+      "fx": {
+        "money": 3,
+        "inst": -1,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Publish the accounts",
+      "fx": {
+        "money": -1,
+        "inst": 1,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "a139_capital_mayor",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The capital's mayor is in your party and loathes you. The capital's budget is due, and you are the one who writes it.",
+    "oneShot": true,
+    "left": {
+      "label": "Fund it fairly",
+      "fx": {
+        "money": -3,
+        "inst": 1,
+        "base": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Starve the mayor",
+      "fx": {
+        "money": 4,
+        "inst": -2,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "a140_court_interpreter",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The courts have one interpreter for the northern dialect. She is booked until spring, and nine trials are waiting.",
+    "left": {
+      "label": "Train interpreters",
+      "fx": {
+        "money": -3,
+        "order": -1,
+        "inst": 4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Proceed without her",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -3,
+        "base": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_lawyer_letter",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  }
+]

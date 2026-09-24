@@ -1,0 +1,765 @@
+[
+  {
+    "id": "c70_castle_hotel",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The oldest castle is falling down. Restoring it takes ten years; a hotel group would do it by summer, and admit only its guests.",
+    "oneShot": true,
+    "left": {
+      "label": "Restore it ourselves",
+      "fx": {
+        "money": -6,
+        "inst": 1,
+        "base": -1,
+        "public": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let the hotel have it",
+      "fx": {
+        "money": 3,
+        "order": 1,
+        "inst": -2,
+        "base": 1,
+        "public": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_maintenance",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c71_road_contract",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A road contract signed generations ago pays the builder's family a fee for every car. The road is now the busiest in the country.",
+    "left": {
+      "label": "Raise the fee",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    },
+    "right": {
+      "label": "Buy out the contract",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "c72_old_banknotes",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Banknotes from your first era are still legal tender, and one family kept a warehouse of them. It would like them changed at the old rate.",
+    "oneShot": true,
+    "left": {
+      "label": "Change at today's rate",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Honour the old rate",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "c73_limitations",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The limit on prosecuting your predecessor's crimes has expired. The limit on yours has nearly expired too.",
+    "oneShot": true,
+    "left": {
+      "label": "Extend it for all",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let it lapse",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c74_sea_wall",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The sea wall money will protect one town of three. The other two are asking which, and the answer is the one with the minister.",
+    "left": {
+      "label": "Wall the poorest first",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Wall the minister's",
+      "fx": {
+        "inst": -3,
+        "base": 3,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "c75_glacier_ice",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The last glacier will be gone in nine years. A firm would sell its ice by the cube, to people who want to taste it.",
+    "oneShot": true,
+    "left": {
+      "label": "Protect the ice",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell the ice",
+      "fx": {
+        "money": 6,
+        "inst": -2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "c76_century_loan",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A loan taken for the first orbital launch is still being repaid. The lender's heirs would like the rest now, in one payment.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay it off",
+      "fx": {
+        "money": -7,
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Default, quietly",
+      "fx": {
+        "money": 5,
+        "order": 1,
+        "inst": -3,
+        "base": 1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_ratings",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c77_war_tax",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A tax raised for one year to pay for a war is in its two hundredth year. Nobody can name the war, or the enemy.",
+    "left": {
+      "label": "Abolish it",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rename it",
+      "fx": {
+        "money": 4,
+        "order": 1,
+        "inst": -2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c78_last_coal",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The last coal plant is kept open for a town of eleven thousand that makes nothing else. The town is your deputy's seat.",
+    "left": {
+      "label": "Close it and pay them",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it burning",
+      "fx": {
+        "money": 1,
+        "inst": -2,
+        "base": 3,
+        "backers": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "c79_drowned_seat",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An island in the delta has been under the sea for a year. Its seat in the chamber is still held, by your man, who swims.",
+    "oneShot": true,
+    "left": {
+      "label": "Abolish the seat",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "He swims for us",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "c80_orbital_return",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A failed orbital colony wants to come home. Nine thousand people who have never felt weather are asking for your airport.",
+    "oneShot": true,
+    "left": {
+      "label": "Charge them passage",
+      "fx": {
+        "money": 5,
+        "inst": -2,
+        "base": 1,
+        "public": -1
+      },
+      "drift": -4
+    },
+    "right": {
+      "label": "Bring them home",
+      "fx": {
+        "money": -5,
+        "inst": 1,
+        "base": -2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "c81_twelve_law",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A law from the fever years still bans gatherings of more than twelve. The police enforce it on the gatherings they dislike.",
+    "left": {
+      "label": "Repeal it",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -1,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep it handy",
+      "fx": {
+        "order": 4,
+        "inst": -3,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "c82_ascent_corruption_museum",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Corruption is so rare now that the museum of corruption has run out of exhibits. It has asked your office for a loan.",
+    "oneShot": true,
+    "left": {
+      "label": "Lend them our files",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "It is only a museum",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "base": 2,
+        "backers": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "c83_ascent_spare_members",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The opposition has too few members to fill its committee seats. Your party has offered to lend it some.",
+    "oneShot": true,
+    "left": {
+      "label": "Let them recruit",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lend them members",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 4,
+        "backers": 1
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "c84_ascent_honest_adverts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Adverts must be true now, by law. The advertising industry has shrunk to four people and a dog, and would like a rescue.",
+    "left": {
+      "label": "No rescue",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "A small rescue",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "c85_ascent_idle_police",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Crime is so low that the police have begun enforcing the rules nobody reads: jaywalking, humming and uneven hedges.",
+    "left": {
+      "label": "Cut the police",
+      "fx": {
+        "order": -3,
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let them enforce",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 1,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "c86_decay_ministers_for_hire",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "Ministers take private clients in office hours now, openly, with their rates on the door. The treasury's rate is the lowest.",
+    "left": {
+      "label": "Ban private clients",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Tax the rates",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "backers": 3
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "c87_decay_well_price",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "tycoon",
+    "text": "Three families own the southern wells and set the price each morning. This morning the price is a vote.",
+    "left": {
+      "label": "Seize the wells",
+      "fx": {
+        "order": -2,
+        "inst": 1,
+        "backers": -5,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pay the price",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "c88_decay_drone_census",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The state counts its people by drone now, since nobody opens the door. The drones count anyone who waves as loyal.",
+    "oneShot": true,
+    "left": {
+      "label": "Ground the drones",
+      "fx": {
+        "money": -1,
+        "order": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Count the wavers",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "c89_decay_quick_verdicts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "judge",
+    "text": "Judges are paid by the verdict now, and the courts charge by the hour. The verdicts have become very quick.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay judges a salary",
+      "fx": {
+        "money": -5,
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Tax the verdicts",
+      "fx": {
+        "money": 5,
+        "order": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  }
+]

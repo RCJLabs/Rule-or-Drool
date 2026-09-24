@@ -1,0 +1,392 @@
+[
+  {
+    "id": "bl46_union_list",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The unions want a say in which jobs the machines take. Their list is long, and none of the jobs on it are union jobs.",
+    "oneShot": true,
+    "left": {
+      "label": "One list for all",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Accept their list",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "bl47_planning_machine",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The planning office's machine wrote a five-year plan in an afternoon. It recommends closing the planning office.",
+    "oneShot": true,
+    "left": {
+      "label": "Plan by hand",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 3,
+        "backers": 3
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Follow the plan",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "bl48_dividend_card",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The machine dividend is paid on a card that works only in state shops. The state shops sell what the state shops have.",
+    "left": {
+      "label": "Pay it in cash",
+      "fx": {
+        "money": -3,
+        "inst": 1,
+        "base": -1,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep the card",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -2,
+        "base": 2,
+        "public": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "bl49_comrade_ratings",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The party app lets members rate one another. The highest-rated members are the ones who run the app.",
+    "oneShot": true,
+    "left": {
+      "label": "Switch off the ratings",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promote the top ten",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "bl50_public_feed",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A public feed, owned by the state and run by the movement, would reach everyone. Its first editor would be your choice.",
+    "oneShot": true,
+    "left": {
+      "label": "Make it independent",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appoint a friend",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 4,
+        "backers": 2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_resignations",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "bl51_worker_data",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Workers own their own data now, by your law. The union has offered to keep it for them, on the union's machines.",
+    "left": {
+      "label": "Hold it in trust",
+      "fx": {
+        "money": -1,
+        "inst": 6,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give it to the union",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "bl52_ascent_one_union",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "With nothing left to strike about, the unions want to merge into one union, with one leader, for life.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep them many",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "One great union",
+      "fx": {
+        "order": 1,
+        "inst": -3,
+        "base": 2,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "bl53_ascent_surplus_goods",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The worker-owned factories make more than anyone can buy. The members have voted to keep making it, and for the state to buy it.",
+    "left": {
+      "label": "Cut the hours",
+      "fx": {
+        "inst": 2,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Buy the surplus",
+      "fx": {
+        "money": -4,
+        "inst": -2,
+        "base": 2,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "bl54_decay_queue_committees",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "organizer",
+    "text": "Every shop queue has a committee now. Every committee has a chair who does not queue.",
+    "oneShot": true,
+    "left": {
+      "label": "Abolish the committees",
+      "fx": {
+        "order": -1,
+        "inst": 3,
+        "base": -4,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Chair them ourselves",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "bl55_decay_ration_books",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The ration books are printed by the party press. Some of them are printed twice.",
+    "left": {
+      "label": "Change the printer",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Print a few more",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  }
+]

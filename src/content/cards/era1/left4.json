@@ -1,0 +1,860 @@
+[
+  {
+    "id": "l66_union_dues",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The public-sector unions want their dues taken straight from every state payslip. It is how the unions pay for your campaigns.",
+    "left": {
+      "label": "Let workers opt in",
+      "fx": {
+        "inst": 2,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Deduct them all",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "l67_coop_bread",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The cooperative bakeries want the state bread contract. Their bread is better, and a third dearer.",
+    "oneShot": true,
+    "left": {
+      "label": "Tender it openly",
+      "fx": {
+        "money": 1,
+        "inst": 2,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Give it to the co-ops",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 3,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l68_rent_register",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A public register of every rent would take a year to build. Naming the ten worst landlords would take an afternoon.",
+    "oneShot": true,
+    "left": {
+      "label": "Build the register",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Name the ten",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l69_youth_guarantee",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A job for every school leaver, guaranteed. About a third of the jobs would be real.",
+    "oneShot": true,
+    "left": {
+      "label": "Only the real ones",
+      "fx": {
+        "money": 1,
+        "inst": 1,
+        "base": -3,
+        "public": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Guarantee them all",
+      "fx": {
+        "money": -3,
+        "inst": -2,
+        "base": 3,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l70_arts_council",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The arts council funds four hundred painters. Three hundred of them have painted you.",
+    "oneShot": true,
+    "left": {
+      "label": "Judge them unsigned",
+      "fx": {
+        "inst": 1,
+        "base": -2,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Hang them all",
+      "fx": {
+        "inst": -1,
+        "base": 2,
+        "backers": 1,
+        "public": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l71_state_pharmacy",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A state pharmacy would sell common medicines at cost. The pharmacists and the drug firm have written you a joint letter, their first.",
+    "left": {
+      "label": "Settle quietly",
+      "fx": {
+        "money": 2,
+        "inst": -1,
+        "base": 1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Open the pharmacy",
+      "fx": {
+        "money": -4,
+        "inst": 1,
+        "backers": -2,
+        "public": 3
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "l72_housing_points",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The council housing list runs on points nobody understands. Party members seem to understand them very well.",
+    "left": {
+      "label": "Publish the points",
+      "fx": {
+        "inst": 3,
+        "base": -4,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Look after our own",
+      "fx": {
+        "inst": -2,
+        "base": 4,
+        "backers": 1,
+        "public": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "l73_rail_board_cars",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The worker directors on the rail board have voted themselves company cars. The rail board runs trains.",
+    "oneShot": true,
+    "left": {
+      "label": "Make them repay",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "It's only cars",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "l74_forty_nine",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "A new law makes every firm with fifty staff publish its pay. Two thousand firms now have forty-nine.",
+    "oneShot": true,
+    "left": {
+      "label": "Close the loophole",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -1,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Declare it a success",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "l75_old_comrade",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "An old comrade from the movement has been taking a cut of the housing contracts. He taught you everything, it turns out.",
+    "oneShot": true,
+    "left": {
+      "label": "Hand him over",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Retire him quietly",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l76_public_bank",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A public bank would lend to the firms the banks refuse. Its first chief would be whoever you appoint, which is the worry.",
+    "oneShot": true,
+    "left": {
+      "label": "Appoint by open contest",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -2,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Appoint a loyalist",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l77_rally_airtime",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The party rally will cost what the party raises in a year. The state broadcaster would cover it as news, if asked.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay for the airtime",
+      "fx": {
+        "money": -3,
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Ask the broadcaster",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 3,
+        "public": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "l78_unpaid_interns",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The party runs on unpaid interns, mostly the children of members who can afford it.",
+    "left": {
+      "label": "Pay the interns",
+      "fx": {
+        "money": -3,
+        "base": -2,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it volunteering",
+      "fx": {
+        "money": 2,
+        "inst": -1,
+        "base": 2,
+        "backers": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l79_glassworks",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Workers have occupied the closed glassworks and lit the furnaces again. The owner wants it back; the glass is excellent.",
+    "oneShot": true,
+    "left": {
+      "label": "Buy it, lawfully",
+      "fx": {
+        "money": -5,
+        "inst": 2,
+        "base": 1,
+        "backers": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let them keep it",
+      "fx": {
+        "order": -2,
+        "inst": -2,
+        "base": 3,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l80_manifesto_costing",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The manifesto was never costed. The treasury has costed it now, and would like to know which half you meant.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish the costing",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Bury the costing",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1,
+        "public": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_second_set",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l81_acclaimed_chairman",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The southern farm collective elects its chairman by acclamation. He has been acclaimed nineteen times, unopposed.",
+    "oneShot": true,
+    "left": {
+      "label": "Hold a secret ballot",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Acclaim him again",
+      "fx": {
+        "order": 1,
+        "inst": -2,
+        "base": 2,
+        "backers": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "l82_exam_abolition",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The teachers' union wants the national exams abolished. The exams are the only thing the universities still trust.",
+    "oneShot": true,
+    "left": {
+      "label": "Reform the exams",
+      "fx": {
+        "inst": 1,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Abolish them",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 4,
+        "public": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "l83_decorative_balconies",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The new public flats were built fast and cheap, as promised. Some of the balconies turn out to be decorative, which was not.",
+    "left": {
+      "label": "Rebuild them properly",
+      "fx": {
+        "money": -5,
+        "inst": 3,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the contractor",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_maintenance",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "l84_party_lottery",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The party lottery pays for the campaigns. Its biggest winner, three years running, is the party treasurer.",
+    "oneShot": true,
+    "left": {
+      "label": "Call the auditors",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Luck is luck",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 2,
+        "backers": 2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "l85_movement_archive",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The movement's archive shows the founders took money from a shipping magnate. The archivist asks whether to catalogue it.",
+    "oneShot": true,
+    "left": {
+      "label": "Catalogue it",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lose the box",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "backers": 1
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "l86_equal_pay_audit",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "An audit of the party's own staff finds the men paid a fifth more. It is due out on the day of your equal pay speech.",
+    "oneShot": true,
+    "left": {
+      "label": "Publish and fix it",
+      "fx": {
+        "money": -3,
+        "inst": 1,
+        "base": -1,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Move the speech",
+      "fx": {
+        "inst": -1,
+        "base": 2,
+        "public": 1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "l87_holiday_camps",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The union holiday camps on the coast are half empty and fully subsidised. The members who use them run the union.",
+    "left": {
+      "label": "Leave the camps be",
+      "fx": {
+        "money": -2,
+        "inst": -1,
+        "base": 1,
+        "backers": 3
+      },
+      "drift": -2
+    },
+    "right": {
+      "label": "Open them to all",
+      "fx": {
+        "money": 1,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 3
+    }
+  }
+]

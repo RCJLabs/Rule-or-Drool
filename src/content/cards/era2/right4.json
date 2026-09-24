@@ -1,0 +1,390 @@
+[
+  {
+    "id": "br46_machine_votes",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The machine owners propose that a machine should count as a taxpayer, and that every taxpayer should have a vote.",
+    "oneShot": true,
+    "left": {
+      "label": "One person, one vote",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Study the idea",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "br47_patriot_feed",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A patriotic feed is now the most watched in the country. It would like all of the state's advertising.",
+    "left": {
+      "label": "Spread the adverts",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give it everything",
+      "fx": {
+        "money": -1,
+        "inst": -3,
+        "base": 4,
+        "backers": 2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "br48_robot_guards",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The gated estates are guarded by robots. The robots have begun stopping people on the public road outside.",
+    "oneShot": true,
+    "left": {
+      "label": "Keep them behind gates",
+      "fx": {
+        "order": -1,
+        "inst": 2,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Deputise the robots",
+      "fx": {
+        "order": 3,
+        "inst": -2,
+        "base": 1,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "br49_platform_minister",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The founder of the largest platform wants to be a minister. He would work for one coin a year, and keep the platform.",
+    "oneShot": true,
+    "left": {
+      "label": "Choose someone else",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Welcome him aboard",
+      "fx": {
+        "money": 2,
+        "inst": -3,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_audit_note",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "br50_heirs_academy",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An academy would train the heirs of the great firms to run the country. The fees would be paid by the country.",
+    "oneShot": true,
+    "left": {
+      "label": "Scholarships by exam",
+      "fx": {
+        "money": -1,
+        "inst": 3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Fund the academy",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "br51_loyalty_scores",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Firms have begun scoring their staff for loyalty and sharing the scores. A low one follows you from job to job.",
+    "left": {
+      "label": "Let business manage",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    },
+    "right": {
+      "label": "Ban the scores",
+      "fx": {
+        "money": -1,
+        "inst": 1,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    }
+  },
+  {
+    "id": "br52_ascent_school_names",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The richest family offers to fund every school, under the family name. The schools are already fully funded.",
+    "oneShot": true,
+    "left": {
+      "label": "Thank them, and decline",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rename the schools",
+      "fx": {
+        "money": 3,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "br53_ascent_competition",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Small firms are thriving, and the large ones complain of the competition. They would like a regulator to protect them from it.",
+    "oneShot": true,
+    "left": {
+      "label": "Leave the market open",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Appoint the regulator",
+      "fx": {
+        "money": 2,
+        "order": 1,
+        "inst": -3,
+        "backers": 4
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "br54_decay_port_pledge",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "treasurer",
+    "text": "The bondholders want the ports as collateral. They have already sent a man to count the cranes.",
+    "left": {
+      "label": "Raise the taxes instead",
+      "fx": {
+        "money": 4,
+        "inst": 1,
+        "base": -3,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Pledge the ports",
+      "fx": {
+        "money": 6,
+        "inst": -3,
+        "backers": 2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "b_contract_clause",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "br55_decay_protection_fee",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      2
+    ],
+    "bands": [
+      "decay"
+    ],
+    "speaker": "general",
+    "text": "The security firms charge every shop for protection now. The shops that decline are not protected, and not shops for long.",
+    "left": {
+      "label": "Outlaw the fee",
+      "fx": {
+        "order": -2,
+        "inst": 3,
+        "backers": -4,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take a share",
+      "fx": {
+        "money": 4,
+        "order": 2,
+        "inst": -3,
+        "backers": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  }
+]

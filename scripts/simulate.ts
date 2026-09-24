@@ -13,7 +13,7 @@
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 interface Args {
   runs: number;
@@ -120,9 +120,15 @@ function main(): void {
   const misses = targets.filter((t) => !t.info && !t.pass);
   console.log();
   console.log(`${targets.filter((t) => !t.info).length - misses.length} pass, ${misses.length} miss. ${(args.runs * args.bots.length).toLocaleString()} runs in ${elapsed.toFixed(1)}s.`);
-  // Fixed players rather than --runs and --seed, so the number compares across decks.
-  const repeats = quantiles(repeatShares(lib, { players: 20, run: 10 })).median;
-  console.log(`a player's tenth run: ${(100 * repeats).toFixed(1)}% cards already seen (median of 20 players, mixed bot; BACKLOG-5 phase 36 wants under 75%)`);
+  // Fixed players rather than --runs and --seed, so the numbers compare across decks: forty
+  // players from seed 300,000, the way BACKLOG-6 measured what phase 44 set out to bring down.
+  const pct = (x: number) => `${(100 * x).toFixed(1)}%`;
+  const tenth = repeatProfile(lib, { players: 40, run: 10, seedBase: 300_000 });
+  const twentieth = repeatProfile(lib, { players: 40, run: 20, seedBase: 300_000 });
+  console.log(
+    `cards already seen (median of 40 players, mixed bot): tenth run ${pct(quantiles(tenth.all).median)} (want at most 65%), ` +
+      `its first era ${pct(quantiles(tenth.byEra.get(1)!).median)} (at most 60%); twentieth run ${pct(quantiles(twentieth.all).median)} (at most 85%)`,
+  );
   if (args.strict && misses.length > 0) process.exit(1);
 }
 

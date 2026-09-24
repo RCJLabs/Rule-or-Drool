@@ -866,7 +866,111 @@ takes half gets it by the 13th (median). A player who never takes one finds four
 
 </details>
 
-## Phase 44. Fewer repeats — *queued*
+## Phase 44. Fewer repeats — *done*
+
+**Shipped.** 160 new ordinary cards, drafts for your edit: 80 in era 1, 40 in era 2 and 40 in
+era 3. 76 are shared and 84 belong to one side, and 30 are written for one band. The deck is
+1,511 cards.
+
+**Measured** the way this round's audit set the targets: forty players from seed 300,000,
+each playing their runs in order with the mixed bot and their unlocks carried forward, the
+median at the run named.
+
+| Target | Wanted | The audit (v0.51.0) | v0.55.0 | Now |
+|---|---|---|---|---|
+| A player's 10th run: cards seen before | ≤ 65% | 74% | 65.7% | **63.8%** |
+| ... in its first era | ≤ 60% | 74% | 62.9% | **54.3%** |
+| A player's 20th run | ≤ 85% | 91% | 86.7% | **81.9%** |
+
+On two other sets of seeds, 200 players each from 100,000 and from 500,000, both give 61.0%,
+54.3% and 83.8%. The harness's own twenty players give 60.0%, 57.1% and 84.8%. The twentieth
+run is the tightest, 0.2 points inside its ceiling on the smallest measure. A test holds the
+three as measured here, and `npm run simulate` prints them.
+
+**Why 160, the low end of the guess.** Phases 40–43 took the tenth run from 74% to 65.7%
+before a card of this phase was written: questions, comebacks and endings spread a run's
+draws over more cards. What was left was sized with copies of existing ordinary cards, the
+phase 36 method. On two sets of seeds, 120 copies cleared the three targets with no room to
+spare, and 160 with some. The real cards landed close to the copies: the twentieth run one
+step of the measure worse (83.8% against 82.9%), the rest the same.
+
+**How the drafts were fitted.**
+- Written by era and side, gated by `validate:mvp`, and checked for near-duplicates against
+  every card in the deck. Seven drafts that were too close to an existing card were
+  rewritten with their numbers kept, and a fingerprint of 8,000 seeded runs did not change.
+  They were the post-office bank, the tin mine, the family-firm tax, the gold standard, the
+  sailing exam, the old bridge and a second party app.
+- **The first draft took mixed Ascent to 15.6%**, against a floor of 15%. The new honest
+  choices raised Institutions on every card, and by more than the old deck's do. A player
+  keeping the meters calm reached Institutions' ceiling sooner, turned greedy, and took the
+  temptations.
+- So the honest side's Institutions effect was put on the old deck's distribution, by rank,
+  the phase 36 method applied to one meter. That moved 74 values, 63 of them by one point.
+  Eleven honest choices lost their Institutions gain. One cost the match gave was taken back
+  out, because opening the union holiday camps to everyone does not harm institutions.
+  Mixed Ascent is 19.3%. Matching drift, Public or Order as well changed nothing measurable.
+- **The comebacks (phase 42) came up less in a bigger deck:** 67.9% of answers met one,
+  down from 73.7%. Their weight went from 5 to 6, in proportion to the pools they are drawn
+  from, and it is 74.0% again.
+- The deck's conventions still hold:
+  - 117 of the 160 temptations name their habit (bend 53, skim 42, clamp 22);
+  - 29 send a bill, 18% of temptations against the deck's 21%;
+  - a consequence rides on 34.1% of ordinary choices, over the one-third floor;
+  - the everyday deck is 57.1% neutral, inside 40–60%;
+  - 24.5% of events are written for one band, over the one-fifth floor.
+- **No card scores a policy.** Drafts that turned on a position the questions keep
+  drift-free were replaced before measuring: pensions against the young, closing the
+  border, strike ballots, an insurance mandate, the right to repair. Every choice turns on
+  how something is done: who it is for, what is hidden, and what is taken.
+
+**Everything else still holds**, at 20,000 runs a bot:
+
+| Target | Wanted | v0.55.0 | Now |
+|---|---|---|---|
+| Random: median run length | 40–60 cards | 43 | 44 |
+| Random: most common ouster | ≤ 35% | bankruptcy 15.4% | bankruptcy 13.9% |
+| Greedy: ends in Decay | ≥ 70% | 80.3% | 77.1% |
+| Saint: ousted before era 2 | ≥ 60% | 100% | 100% |
+| Mixed: reaches Ascent | 15–30% | 19.9% | 19.3% |
+| Long reign: all six targets | as phase 39 | pass | pass |
+
+- **The questions:** every answer moves Ascent and Decay by at most 3.8 points, and every
+  honest road beats the fast one by at least 10.5. That is on 12,000 seeds a side, all 32
+  rows. The honest roads have less room than at v0.55.0 (11.7): the left side's courts and
+  crime roads lost 2–3 points each. A run still meets three questions, and a player has met
+  all sixteen by their 17th run (median, was the 16th).
+- **The comebacks:** 74.0% of the answers in runs that reach era 2 meet one.
+- **Endings you choose:** 85.4% of competent runs offer one, and a player's first twenty
+  runs offer 22 different ones (median).
+- **History names:** the most any decision names is 6.9%.
+
+**Also checked:**
+- The unit suite is 577 tests and the browser suite 41. `validate:mvp` is clean at 1,511
+  cards.
+- The first repeat test (under 75% at the tenth run, BACKLOG-5 phase 36) became the three
+  above, since they are stricter.
+- **The download** grew by 15.2 KB gzipped, all of it in the content chunk (154.7 to 169.9
+  KB). A simulated card takes about 56µs.
+- The store listing's card count and its content-rating notes cover the new cards: alcohol
+  referred to (a brandy duty, wine at official dinners, drunks on the night bus), a party
+  lottery, untaxed bookmakers, a protection racket and debt bondage.
+
+**Yours:**
+- **The 160 cards are drafts, in your voice, to edit.** They are in `any4.json`,
+  `left4.json` and `right4.json` in each of `era1/`, `era2/` and `era3/`.
+- **Their Institutions numbers were fitted after they were written.** If you change a
+  card's effects or drift, run `npm run simulate`. The tightest margins are the twentieth
+  run and the question roads, above.
+- **Which habit a temptation names** is my reading of 117 cards.
+- **Old run codes and today's daily.** A code sent before this update opens a different run
+  after it, and a run begun before it almost certainly cannot take the other road. The
+  daily is dealt from the date, so on the day the update lands, players on the two versions
+  get different dailies.
+- **Late runs still repeat:** four cards in five are familiar by the twentieth run. More
+  cards buy little there. The lever left is a draw that avoids what a profile has seen,
+  which breaks codes, replay, challenges and the daily ("Considered, and not proposed").
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - A player's 10th run: 74% of its cards were seen before. Their 20th: 91%.
@@ -896,6 +1000,8 @@ takes half gets it by the 13th (median). A player who never takes one finds four
 from 89% to 80%. Late runs will repeat whatever this phase does.
 
 **Cost.** Not known until 40–43 land. If the copies hold, 150–300 cards.
+
+</details>
 
 ---
 

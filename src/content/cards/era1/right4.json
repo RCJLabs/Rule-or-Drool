@@ -1,0 +1,860 @@
+[
+  {
+    "id": "r66_race_day",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The spring races are a state occasion. The cabinet attends, the donors pay, and the bookmakers are tax-free for the day.",
+    "left": {
+      "label": "Tax the bookmakers",
+      "fx": {
+        "money": 2,
+        "inst": 1,
+        "backers": -4
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "A day is a day",
+      "fx": {
+        "money": -2,
+        "inst": -2,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "r67_night_courts",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The magistrates could sit through the night and clear the backlog in a month. Justice at four in the morning is very quick.",
+    "oneShot": true,
+    "left": {
+      "label": "Hire more magistrates",
+      "fx": {
+        "money": -4,
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Open the night courts",
+      "fx": {
+        "money": 1,
+        "order": 3,
+        "inst": -3,
+        "base": 2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_precedent",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "r68_flag_law",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A law to fly the flag from every public building has been drafted. The ministry of flags has asked for a budget, and a ministry.",
+    "oneShot": true,
+    "left": {
+      "label": "Leave it to the towns",
+      "fx": {
+        "base": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Pass the flag law",
+      "fx": {
+        "money": -2,
+        "order": 1,
+        "inst": -1,
+        "base": 3
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "r69_farm_diesel",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Farm diesel is tax-free. Some of the farms are very small, and have very large lorries.",
+    "left": {
+      "label": "Check the farms",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -3,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Trust the farmers",
+      "fx": {
+        "money": -2,
+        "inst": -1,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "r70_club_dinner",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The oldest club in the capital is a registered charity. Its charitable work is a dinner, held once a year, for its members.",
+    "oneShot": true,
+    "left": {
+      "label": "Revoke the status",
+      "fx": {
+        "money": 2,
+        "inst": 1,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "It is a good dinner",
+      "fx": {
+        "inst": -1,
+        "base": 1,
+        "backers": 3
+      },
+      "drift": -2,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "r71_family_values",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The party wants an advert about family values. The minister picked to front it has two families.",
+    "oneShot": true,
+    "left": {
+      "label": "Choose another face",
+      "fx": {
+        "inst": 2,
+        "base": -2,
+        "public": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "He polls well",
+      "fx": {
+        "inst": -2,
+        "base": 3,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r72_regulator_lunch",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The banking regulator lunches with the banks every Thursday. The banks pay, as a courtesy, and choose the restaurant.",
+    "left": {
+      "label": "End the lunches",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Lunch is lunch",
+      "fx": {
+        "money": 1,
+        "inst": -2,
+        "backers": 4
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_quiet_word",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "r73_motorway_limit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The motoring lobby wants the motorway speed limit raised. The lobby is funded by the tyre firms.",
+    "left": {
+      "label": "Keep the limit",
+      "fx": {
+        "order": 1,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Raise the limit",
+      "fx": {
+        "order": -1,
+        "inst": -1,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "r74_fenced_beach",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A hotel group has fenced off the best beach on the coast, with a permit from your ministry. Nobody there recognises the signature.",
+    "oneShot": true,
+    "left": {
+      "label": "Honour the permit",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Tear down the fence",
+      "fx": {
+        "inst": 1,
+        "base": -2,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "r75_estate_open_day",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Country estates pay no property tax if they open to the public one day a year. The estates choose the day, usually in a blizzard.",
+    "left": {
+      "label": "Every weekend or tax",
+      "fx": {
+        "money": 2,
+        "inst": 1,
+        "backers": -3,
+        "public": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Tradition is tradition",
+      "fx": {
+        "money": -1,
+        "inst": -1,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "r76_leak_hunt",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The budget leaked a day early. The general offers to find the leaker by reading every message the ministry has sent this year.",
+    "left": {
+      "label": "Find it the slow way",
+      "fx": {
+        "order": -1,
+        "inst": 5,
+        "base": -2,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Read the messages",
+      "fx": {
+        "order": 3,
+        "inst": -3,
+        "base": 2,
+        "public": -1
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "r77_island_hamper",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The island dependency has become a place where money goes to be quiet. Its governor sends you a hamper every year.",
+    "oneShot": true,
+    "left": {
+      "label": "Open its registers",
+      "fx": {
+        "money": 2,
+        "inst": 4,
+        "backers": -4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Enjoy the hamper",
+      "fx": {
+        "money": 1,
+        "inst": -3,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "b_whistle",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "r78_park_patrols",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A security firm offers to patrol the parks for free, if it may sell advertising on its uniforms.",
+    "oneShot": true,
+    "left": {
+      "label": "Pay park wardens",
+      "fx": {
+        "money": -3,
+        "order": 1,
+        "inst": 3,
+        "backers": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the free patrol",
+      "fx": {
+        "money": 2,
+        "order": 3,
+        "inst": -2,
+        "backers": 2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "r79_integrity_award",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The business awards have asked you to present the prize for integrity. The winner is under investigation.",
+    "oneShot": true,
+    "left": {
+      "label": "Decline politely",
+      "fx": {
+        "backers": -3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Present it anyway",
+      "fx": {
+        "inst": -1,
+        "base": 1,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -2
+    }
+  },
+  {
+    "id": "r80_fast_evictions",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The landlords want evictions heard in a week rather than a year. A week is about as long as it takes to read the file.",
+    "left": {
+      "label": "Keep the hearings",
+      "fx": {
+        "order": -1,
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Speed them up",
+      "fx": {
+        "order": 2,
+        "inst": -2,
+        "backers": 4,
+        "public": -2
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_wrong_door",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "r81_trade_mission",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The trade mission abroad has thirty places. Twenty-nine went to exporters, and one to your brother-in-law.",
+    "oneShot": true,
+    "left": {
+      "label": "Pick by merit",
+      "fx": {
+        "inst": 1,
+        "base": -2,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Family is business",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_queue_jump",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "r82_opera_seats",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The opera costs more per seat than a hospital bed. Your donors sit in most of the seats.",
+    "left": {
+      "label": "Cheap seats for all",
+      "fx": {
+        "money": -2,
+        "inst": 1,
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Raise the subsidy",
+      "fx": {
+        "money": -2,
+        "inst": -1,
+        "base": 1,
+        "backers": 4
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "r83_minister_shares",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The trade minister owns shares in the firms he regulates. He says he never looks at them, and they have done very well.",
+    "oneShot": true,
+    "left": {
+      "label": "Make him sell",
+      "fx": {
+        "inst": 3,
+        "base": -1,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "A blind trust, later",
+      "fx": {
+        "money": 1,
+        "inst": -2,
+        "base": 1,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "r84_golf_lease",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The capital's golf club leases public land for one coin a year. The lease is up, and most of the members are in the cabinet.",
+    "left": {
+      "label": "Charge market rent",
+      "fx": {
+        "money": 3,
+        "inst": 1,
+        "base": -2,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Renew at one coin",
+      "fx": {
+        "money": -1,
+        "inst": -2,
+        "base": 2,
+        "backers": 3
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "r85_bakery_forms",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A small bakery files nineteen forms a year with the state. Scrapping twelve of them would also scrap the hygiene inspection.",
+    "oneShot": true,
+    "left": {
+      "label": "Scrap only the seven",
+      "fx": {
+        "inst": 2,
+        "base": -1,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Scrap all twelve",
+      "fx": {
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3,
+      "enqueue": [
+        {
+          "id": "b_inspection",
+          "delay": 16
+        }
+      ],
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "r86_ship_registry",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Shipowners register abroad to dodge your safety rules. They offer to come home if the rules stay abroad.",
+    "left": {
+      "label": "Keep the rules",
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "backers": -3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Bring them home",
+      "fx": {
+        "money": 3,
+        "inst": -2,
+        "backers": 3
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "r87_water_meadow",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A business park on the water meadow would bring six hundred jobs. The meadow floods every spring, which the brochure calls a water feature.",
+    "oneShot": true,
+    "left": {
+      "label": "Build on the old depot",
+      "fx": {
+        "money": -2,
+        "inst": 1,
+        "base": -1,
+        "backers": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Approve the meadow",
+      "fx": {
+        "money": 2,
+        "inst": -2,
+        "base": 2,
+        "backers": 3,
+        "public": -1
+      },
+      "drift": -3
+    }
+  }
+]

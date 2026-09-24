@@ -9,7 +9,7 @@ import type { GameState, PlayerAlign } from "../src/engine/types";
 import { historyOf } from "../src/meta/histories";
 import { allUnlockTokens } from "../src/meta/objectives";
 import { emptyMeta, foldRun } from "../src/meta/state";
-import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, makeContext, playRun, quantiles, repeatShares, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, makeContext, playRun, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -95,12 +95,21 @@ describe("the long reign's targets", () => {
 
 // BACKLOG-5 phase 36: by their tenth run, 89% of a player's cards were ones they had played
 // before, because a run draws about 100 cards and the deck held 554. Measured as the audit
-// measured it: twenty players, each playing their runs in order, the median at run ten.
-describe("the deck by run ten", () => {
-  it("keeps a player's tenth run under 75% cards already seen", () => {
-    const { median } = quantiles(repeatShares(library, { players: 20, run: 10 }));
-    expect(median).toBeLessThan(0.75);
+// measured it: players each playing their runs in order, the median at the run in question.
+// BACKLOG-6 measured it with forty players, from seed 300,000: 74% at run ten (era 1 74%) and
+// 91% at run twenty, and phase 44 added 160 ordinary cards to bring those down.
+describe("the deck by run ten and run twenty", () => {
+  it("keeps a player's tenth run at most 65% cards already seen, and its first era at most 60%", () => {
+    const { all, byEra } = repeatProfile(library, { players: 40, run: 10, seedBase: 300_000 });
+    expect(quantiles(all).median).toBeLessThanOrEqual(0.65);
+    // Every run starts in era 1, so it is the era a player has seen most of.
+    expect(quantiles(byEra.get(1)!).median).toBeLessThanOrEqual(0.6);
   }, 60000);
+
+  it("keeps a player's twentieth run at most 85% cards already seen", () => {
+    const { all } = repeatProfile(library, { players: 40, run: 20, seedBase: 300_000 });
+    expect(quantiles(all).median).toBeLessThanOrEqual(0.85);
+  }, 120000);
 });
 
 // BACKLOG-5 phase 35: ten crises and a third face in every role. The first thing a run says
