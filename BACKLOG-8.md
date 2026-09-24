@@ -207,6 +207,11 @@ are counted by deck, named in the report's first lines, and left out of every ta
   a friend who opens it is told. One who only reads the number is not.
 - **A daily started before an update and finished after** still counts as that day's. Its log
   entry has no stamp.
+- **The guard on the engine's own code is a sample.** A change to the content always moves the
+  stamp, since the stamp is a hash of it. A change to the engine's code is caught only if it
+  moves one of the fingerprint's 96 runs. One that changes only a path none of them takes
+  gets through, so bump `DEAL_VERSION` by hand whenever engine code changes what is dealt or
+  how a choice lands.
 
 **Yours.** When you change what the game deals, run `npm run deck` and commit
 `src/content/deck.json` with the change. Its diff is the deck changing. While the closed test

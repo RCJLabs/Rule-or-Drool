@@ -58,6 +58,8 @@ log and playtest records carry it, so the game can say when a shared run was dea
 another deck. A change to cards, stories, crises, advisors, endings, promises or the engine's
 config needs it run, and the tests fail until it is; a change to wording does not. If the
 engine's own code starts dealing differently, bump `DEAL_VERSION` in `src/version.ts` first.
+The tests catch a change there only if it moves one of 96 bot runs, so bump it by hand
+whenever engine code changes what is dealt or how a choice lands.
 
 The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without
 one they skip with a banner saying so; CI sets `REQUIRE_BROWSER=1`, which makes that a
