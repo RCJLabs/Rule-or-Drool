@@ -7,8 +7,9 @@ import { library } from "../../src/content";
 import { decodeRunCode, setupOf } from "../../src/meta/runcode";
 import { serialize, toFile, type RecordedRun, type TakenCard } from "../../src/playtest/record";
 import { buildReport, formatReport, gather, type Source } from "../../src/playtest/report";
-import { playRunFrom } from "../../src/sim";
-import { recordRun } from "./helpers";
+import { traceBot, traceRecorded, type Trace } from "../../src/playtest/trace";
+import { playRunFrom, type BotName, type RunResult } from "../../src/sim";
+import { recordBotRun, recordRun } from "./helpers";
 
 const source = (name: string, runs: RecordedRun[]): Source => ({ name, file: toFile(runs) });
 const OPTS = { files: 0, replayed: 0, lookMs: 300, minDecisions: 2 };
@@ -94,6 +95,50 @@ describe("the report", () => {
   });
 });
 
+// BACKLOG-7 phase 46: where the country ended up, how the votes went and the look each card
+// was read in, for people and for each bot on the same runs.
+describe("bands, votes and looks", () => {
+  it("reads a bot's runs, sent as records, exactly as that bot's own", () => {
+    for (const bot of ["mixed", "greedy"] as BotName[]) {
+      const runs = [901, 902, 903, 904, 905, 906].map((seed) => recordBotRun(seed, bot).run);
+      const results: RunResult[] = [];
+      const walked: Trace[] = [];
+      const people: Trace[] = [];
+      for (const run of runs) {
+        const d = decodeRunCode(library, run.code);
+        if (!d.ok) throw new Error("a recorded code should decode");
+        results.push(playRunFrom(library, bot, d.code.seed, setupOf(d.code)));
+        walked.push(traceBot(library, bot, d.code.seed, setupOf(d.code)));
+        people.push(traceRecorded(library, run)!);
+      }
+      const r = buildReport(library, gather([source("b", runs)]), new Map([[bot, results]]), { ...OPTS, files: 1, replayed: 6 }, { people, bots: new Map([[bot, walked]]) });
+      expect(r.rebuilt).toBe(6);
+      for (const rows of [r.bands, r.votes, r.looks] as { label: string }[][]) {
+        const [person, them] = rows.map(({ label: _, ...rest }) => rest);
+        expect(person).toEqual(them);
+      }
+      expect(r.votes[0]!.votes).toBeGreaterThan(0);
+    }
+  }, 60_000);
+
+  it("splits the votes cheated by whether an honest one would have won, and by the meters", () => {
+    const v = (honest: boolean, winnable: boolean, near: boolean) => ({ honest, winnable, near });
+    const people: Trace[] = [
+      { looks: [0, 1, 1, 0], votes: [v(true, true, false), v(false, true, true), v(false, true, false)] },
+      { looks: [0, -1, -1, -2, -2, -2], votes: [v(false, false, true)] },
+    ];
+    const r = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people, bots: new Map() });
+    expect(r.votes).toEqual([{ label: "people", runs: 2, votes: 4, cheated: 0.75, winnable: 2 / 3, near: 0.5 }]);
+    // Two changes in each run: into a look and out again, and down two steps.
+    expect(r.looks[0]).toMatchObject({ runs: 2, cards: 10, changes: 2 });
+    expect(r.looks[0]!.share).toEqual([0, 0.3, 0.2, 0.3, 0.2, 0, 0]);
+    // Nothing cheated reads as nothing, not as a share of nothing.
+    const clean = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people: [{ looks: [0], votes: [v(true, true, false)] }], bots: new Map() });
+    expect(clean.votes[0]!.cheated).toBe(0);
+    expect(formatReport(clean)).toMatch(/^people\s+1\s+1\s+0\.0%\s+–\s+–$/m);
+  });
+});
+
 describe("npm run playtests", () => {
   it("reads a folder, names and skips a file that is not a record, and reports the rest", () => {
     const dir = mkdtempSync(join(tmpdir(), "playtests-"));
@@ -107,6 +152,9 @@ describe("npm run playtests", () => {
       expect(out.stdout).toContain("2 files, 2 players, 3 runs");
       expect(out.stdout).toMatch(/^people\s+3\s/m);
       expect(out.stdout).toMatch(/^mixed bot\s+3\s/m);
+      expect(out.stdout).toContain("== where the country ends up ==");
+      expect(out.stdout).toContain("== elections: people's 3 of 3 finished runs, rebuilt on this version ==");
+      expect(out.stdout).toContain("== the look each card was read in ==");
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

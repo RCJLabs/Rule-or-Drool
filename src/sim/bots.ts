@@ -73,18 +73,22 @@ const greedy: Bot = (ctx) => pickBy(ctx, greedyScore);
 const saint: Bot = (ctx) => pickBy(ctx, (p) => p.drift);
 
 /**
+ * Whether a meter is within `d` of the edge that ends a run: the line the mixed bot turns
+ * greedy at. A bloc only ends a run at the bottom, so a high bloc is not near an edge; the
+ * state meters still fail at both ends. The playtest report splits votes by it too, to set
+ * a person beside the bot on the bot's own terms (BACKLOG-7 phase 46).
+ */
+export function nearAnEdge(meters: Meters, d: number): boolean {
+  return BLOC_KEYS.some((b) => meters[b] < d) || CORE_KEYS.some((k) => meters[k] < d || meters[k] > 100 - d);
+}
+
+/**
  * Saint unless a meter is in danger, in which case greedy. A saint choice that ends the
  * run on the spot (a lost election, a meter hitting an edge) also counts as danger when
  * the other side survives.
  */
 const mixed: Bot = (ctx) => {
-  const d = ctx.opts.danger;
-  // A bloc only ends a run at the bottom, so a high bloc is not danger. The state meters
-  // still fail at both ends.
-  const inDanger =
-    BLOC_KEYS.some((b) => ctx.state.meters[b] < d) ||
-    CORE_KEYS.some((k) => ctx.state.meters[k] < d || ctx.state.meters[k] > 100 - d);
-  if (inDanger) return greedy(ctx);
+  if (nearAnEdge(ctx.state.meters, ctx.opts.danger)) return greedy(ctx);
   const side = saint(ctx);
   const other: Side = side === "left" ? "right" : "left";
   if (ctx[side].endingId && !ctx[other].endingId) return other;

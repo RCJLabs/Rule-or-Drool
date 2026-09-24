@@ -219,7 +219,66 @@ as each card is shown, over the same 2,000 runs.
 
 ---
 
-## Phase 46. What the first testers can answer — *queued*
+## Phase 46. What the first testers can answer — *done*
+
+**Shipped.** `npm run playtests` now answers the question this round turns on. Beside each bot
+playing the same runs, it says:
+- **where the country ended up:** Ascent, Muddle or Decay;
+- **how people voted:** the share of votes cheated, how many of those an honest vote would
+  have won, and how many of those were cast with a meter within 25 of its edge (where the
+  mixed bot turns greedy);
+- **the look each card was read in,** and how often it changed in a run.
+
+The game does not change. Its build is byte for byte the one v0.57.0 deployed.
+
+**How a person's run is read.** The record already held each run's code and every side taken,
+so nothing the game records changed.
+- The report rebuilds each finished run from those and walks it card by card.
+- Every card dealt has to be the card the record says was shown. The meters and drift in
+  front of it have to match, and the run has to end where the record ends.
+- A run this version would deal differently is left out of the people's rows. The heading
+  says how many runs were rebuilt, out of those finished.
+- A bot's replay of the same code goes through the same walk, so both are read the same way.
+
+**Checked against runs whose answers are known.** These are bot runs, recorded the way the game
+records a person's. What was true at each card was worked out while they were played, not by
+rebuilding.
+- **Rebuilt,** every look and every vote comes back exactly as played. This was checked on
+  mixed, greedy, random and saint runs.
+- **Sent through the report as records,** a bot's runs give that bot's own rows: band for
+  band, vote for vote and look for look (mixed and greedy).
+- **A record that was changed is left out.** The cases tested are one card, one meter or the
+  drift changed, another ending, a card missing, no ending, or a code that cannot be read.
+
+A trial report on 30 of the mixed bot's runs, sent in as a person's, shows what the new table
+separates:
+
+| | Votes | Cheated | Of those, winnable | And a meter near its edge |
+|---|---|---|---|---|
+| "people" (the mixed bot's records) | 90 | 64.4% | 72.4% | 100% |
+| mixed bot | 90 | 64.4% | 72.4% | 100% |
+| greedy bot | 90 | 55.6% | 96.0% | 2.1% |
+| random bot | 33 | 48.5% | 81.3% | 30.8% |
+
+**The last column is the tell.** The mixed bot cheats a vote it would have won only with a
+meter near its edge; the greedy bot does it with the meters calm. People who rarely cheat a
+winnable vote are the audit's other bot, the one that never does. For them the game is easier
+than the harness says (decision 3).
+
+**Also checked:**
+- The unit suite is 597 tests and the browser suite 42.
+- The mixed bot's line is one function now (`nearAnEdge`), shared with the report. The bots'
+  fingerprint is unchanged: `e2749e06faa8f4f1`.
+- **STORE.md's closed-test section says three new things:** what the report answers, not to
+  coach testers on elections, and to run the report on the version the records name.
+
+**Yours:**
+- **The closed test** (decision 1). The report is ready for its records.
+- **Say nothing to testers about elections** beyond what the game says.
+- **A record played before v0.57.0 still rebuilds,** since that update changed no deal. Its
+  looks, though, are read as v0.57.0 shows them, settled. No such records exist.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - No person has played a recorded run. The recorder (BACKLOG-5 phase 31) and
@@ -250,6 +309,8 @@ fed back through the report as records. The game does not change.
 
 **The limit.** A record from an older version of the game may not rebuild exactly, since
 its cards may have changed. The report says how many it could not rebuild.
+
+</details>
 
 ---
 

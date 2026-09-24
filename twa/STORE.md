@@ -236,6 +236,15 @@ bots (BACKLOG-5 phase 31):
 - At the end of the test, ask them to press *Send my record* and send you the file. It
   is plain text, so a tester can open it and see what it holds first.
 - Put the files in `playtests/` and run `npm run playtests`. Git ignores that folder.
+- The report sets people beside each bot playing the same runs. It also shows where the
+  country ended up, how people voted, and the look each card was read in (BACKLOG-7 phase
+  46). For votes it gives how many cheats an honest vote would have won, and whether a meter
+  was near its edge at the time. That is the question BACKLOG-7's third decision waits on.
+- Do not tell testers how elections work beyond what the game tells them. The report is
+  measuring how people vote on their own.
+- The votes and looks are rebuilt from each run's code and sides, which works only on a
+  version that deals the same cards. If cards change during the test, run the report on the
+  commit of the version the records name. It says how many runs it could rebuild.
 
 ### 4. Build and upload
 

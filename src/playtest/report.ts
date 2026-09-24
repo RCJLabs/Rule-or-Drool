@@ -3,6 +3,7 @@ import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
 import type { RunResult } from "../sim/run";
 import { RUN_KINDS, type RecordedRun, type RecordFile, type RunKind, type TakenCard } from "./record";
+import type { Trace } from "./trace";
 
 /**
  * What the people in a playtest did, beside what the bots did with the same runs
@@ -147,6 +148,55 @@ export interface Hesitation {
   text: string;
 }
 
+/**
+ * Where the country ended up, one row per player kind: people's finished runs by the band the
+ * record says they ended in, each bot's by the runs it replayed (BACKLOG-7 phase 46).
+ */
+export interface BandRow {
+  label: string;
+  runs: number;
+  ascent: number;
+  muddle: number;
+  decay: number;
+}
+
+/**
+ * How the votes went. The mixed bot cheats two in three of its votes, and two in three of
+ * those it would have won honestly, because a meter was near its edge and the cheat is easier
+ * on the meters. A bot that never cheats a vote it can win reaches the Ascent twice as often
+ * (BACKLOG-7's audit), so this is the row that says which of the two people are.
+ */
+export interface VoteRow {
+  label: string;
+  runs: number;
+  votes: number;
+  /** Share of votes cheated. */
+  cheated: number;
+  /** Of the cheated votes, the share an honest vote would have won. NaN with none cheated. */
+  winnable: number;
+  /** Of those, the share cast with a meter near its edge. NaN with none. */
+  near: number;
+}
+
+/** The look each card was read in, -3 to 3, and how often it changed in a run. */
+export interface LookRow {
+  label: string;
+  runs: number;
+  cards: number;
+  /** Share of cards in each look, deepest Decay first. */
+  share: number[];
+  /** Changes of look in a run, the median. */
+  changes: number;
+}
+
+/** Runs walked card by card (`src/playtest/trace.ts`): what the votes and looks are read from. */
+export interface Traces {
+  /** People's finished runs that this version rebuilt card for card. */
+  people: readonly Trace[];
+  /** Each bot's walk of the runs it replayed. */
+  bots: ReadonlyMap<BotName, readonly Trace[]>;
+}
+
 export interface Report {
   files: number;
   players: number;
@@ -165,6 +215,11 @@ export interface Report {
   hesitation: Hesitation[];
   /** The cards runs ended on, for runs that did not reach a finale. */
   lastCards: { card: string; ending: string; n: number }[];
+  bands: BandRow[];
+  /** People's finished runs this version rebuilt card for card, out of `finished`. */
+  rebuilt: number;
+  votes: VoteRow[];
+  looks: LookRow[];
   lookMs: number;
   minDecisions: number;
 }
@@ -195,7 +250,40 @@ const STAGES: [string, (n: number) => boolean][] = [
   ["11th on", (n) => n >= 11],
 ];
 
-export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName, readonly RunResult[]>, opts: ReportOptions): Report {
+const share = (n: number, of: number): number => (of > 0 ? n / of : Number.NaN);
+
+function bandRow(label: string, bands: readonly string[]): BandRow {
+  const n = (b: string) => share(bands.filter((x) => x === b).length, bands.length);
+  return { label, runs: bands.length, ascent: n("ascent"), muddle: n("muddle"), decay: n("decay") };
+}
+
+function voteRow(label: string, traces: readonly Trace[]): VoteRow {
+  const votes = traces.flatMap((t) => t.votes);
+  const cheats = votes.filter((v) => !v.honest);
+  const winnable = cheats.filter((v) => v.winnable);
+  return {
+    label,
+    runs: traces.length,
+    votes: votes.length,
+    cheated: share(cheats.length, votes.length),
+    winnable: share(winnable.length, cheats.length),
+    near: share(winnable.filter((v) => v.near).length, winnable.length),
+  };
+}
+
+function lookRow(label: string, traces: readonly Trace[]): LookRow {
+  const looks = traces.flatMap((t) => t.looks);
+  const changes = traces.map((t) => t.looks.filter((l, i) => i > 0 && l !== t.looks[i - 1]).length);
+  return {
+    label,
+    runs: traces.length,
+    cards: looks.length,
+    share: [-3, -2, -1, 0, 1, 2, 3].map((stage) => share(looks.filter((l) => l === stage).length, looks.length)),
+    changes: traces.length ? median(changes) : Number.NaN,
+  };
+}
+
+export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName, readonly RunResult[]>, opts: ReportOptions, traces: Traces = { people: [], bots: new Map() }): Report {
   const runs = g.players.flatMap((p) => p.runs);
   const finished = runs.filter((r) => r.end !== null);
   const kinds = Object.fromEntries(RUN_KINDS.map((k) => [k, runs.filter((r) => r.kind === k).length])) as Record<RunKind, number>;
@@ -289,12 +377,17 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     },
     hesitation,
     lastCards: [...lastCounts.values()].sort((a, b) => b.n - a.n),
+    bands: [bandRow("people", finished.map((r) => r.end!.band)), ...[...bots.entries()].map(([bot, results]) => bandRow(`${bot} bot`, results.map((r) => r.exitBand)))],
+    rebuilt: traces.people.length,
+    votes: [voteRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => voteRow(`${bot} bot`, ts))],
+    looks: [lookRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => lookRow(`${bot} bot`, ts))],
     lookMs: opts.lookMs,
     minDecisions: opts.minDecisions,
   };
 }
 
 const secs = (ms: number): string => `${(ms / 1000).toFixed(1)}s`;
+const LOOK_NAMES = ["decay3", "decay2", "decay1", "muddle", "ascent1", "ascent2", "ascent3"] as const;
 const pad = (s: string | number, n: number): string => String(s).padStart(n);
 const cut = (s: string, n: number): string => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
 
@@ -315,6 +408,21 @@ export function formatReport(r: Report, top = 10): string {
   out.push("(median, p10 and p90 are cards played)");
   out.push("");
 
+  const or = (x: number) => (Number.isFinite(x) ? pct(x) : "–");
+  out.push("== where the country ends up ==");
+  out.push(`${"".padEnd(10)} ${pad("runs", 5)} ${pad("Ascent", 7)} ${pad("Muddle", 7)} ${pad("Decay", 7)}`);
+  for (const b of r.bands) out.push(`${b.label.padEnd(10)} ${pad(b.runs, 5)} ${pad(or(b.ascent), 7)} ${pad(or(b.muddle), 7)} ${pad(or(b.decay), 7)}`);
+  out.push("");
+
+  out.push(`== elections: people's ${r.rebuilt} of ${r.finished} finished runs, rebuilt on this version ==`);
+  out.push(`${"".padEnd(10)} ${pad("runs", 5)} ${pad("votes", 6)} ${pad("cheated", 8)} ${pad("of those, winnable", 19)} ${pad("and a meter near its edge", 26)}`);
+  for (const v of r.votes) {
+    out.push(`${v.label.padEnd(10)} ${pad(v.runs, 5)} ${pad(v.votes, 6)} ${pad(or(v.cheated), 8)} ${pad(or(v.winnable), 19)} ${pad(or(v.near), 26)}`);
+  }
+  out.push("(winnable: an honest vote would have won that day. Near its edge: a meter within 25 of the edge that ends a run,");
+  out.push(" where the mixed bot turns greedy. A run this version deals differently is left out of the people's row.)");
+  out.push("");
+
   if (r.learning.length) {
     out.push("== over a player's runs ==");
     for (const s of r.learning) {
@@ -333,6 +441,13 @@ export function formatReport(r: Report, top = 10): string {
   if (r.lastCards.length) {
     out.push("the cards they ended on:");
     for (const c of r.lastCards.slice(0, top)) out.push(`  ${pad(c.n, 3)}  ${c.card.padEnd(34)} ${c.ending}`);
+  }
+  out.push("");
+
+  out.push("== the look each card was read in ==");
+  out.push(`${"".padEnd(10)} ${pad("cards", 6)} ${LOOK_NAMES.map((l) => pad(l, 8)).join(" ")} ${pad("changes a run", 14)}`);
+  for (const l of r.looks) {
+    out.push(`${l.label.padEnd(10)} ${pad(l.cards, 6)} ${l.share.map((x) => pad(or(x), 8)).join(" ")} ${pad(Number.isFinite(l.changes) ? l.changes : "–", 14)}`);
   }
   out.push("");
 

@@ -20,6 +20,7 @@ import { buildLibrary } from "../src/engine";
 import { decodeRunCode, setupOf } from "../src/meta/runcode";
 import { parseRecord } from "../src/playtest/parse";
 import { buildReport, formatReport, gather, type Source } from "../src/playtest/report";
+import { traceBot, traceRecorded, type Trace } from "../src/playtest/trace";
 import { BOT_NAMES, DEFAULT_RUN_OPTIONS, playRunFrom, type BotName, type RunResult } from "../src/sim";
 
 interface Args {
@@ -72,17 +73,27 @@ function main(): void {
   const gathered = gather(sources);
   // Each bot plays every finished run a person played, from the same code. A code naming
   // content this version no longer has cannot be replayed, and is left out of the bots' side.
+  // The person's run is rebuilt from its code and their sides, for the looks and the votes,
+  // when this version still deals it card for card (BACKLOG-7 phase 46).
   const bots = new Map<BotName, RunResult[]>(BOT_NAMES.map((b) => [b, []]));
+  const walked = new Map<BotName, Trace[]>(BOT_NAMES.map((b) => [b, []]));
+  const people: Trace[] = [];
   let replayed = 0;
   for (const run of gathered.players.flatMap((p) => p.runs)) {
     if (!run.end) continue;
     const decoded = decodeRunCode(lib, run.code);
     if (!decoded.ok) continue;
     replayed++;
-    for (const bot of BOT_NAMES) bots.get(bot)!.push(playRunFrom(lib, bot, decoded.code.seed, setupOf(decoded.code), DEFAULT_RUN_OPTIONS));
+    const setup = setupOf(decoded.code);
+    for (const bot of BOT_NAMES) {
+      bots.get(bot)!.push(playRunFrom(lib, bot, decoded.code.seed, setup, DEFAULT_RUN_OPTIONS));
+      walked.get(bot)!.push(traceBot(lib, bot, decoded.code.seed, setup, DEFAULT_RUN_OPTIONS));
+    }
+    const rebuilt = traceRecorded(lib, run);
+    if (rebuilt) people.push(rebuilt);
   }
 
-  const report = buildReport(lib, gathered, bots, { files: sources.length, replayed, lookMs: args.look, minDecisions: args.min });
+  const report = buildReport(lib, gathered, bots, { files: sources.length, replayed, lookMs: args.look, minDecisions: args.min }, { people, bots: walked });
   console.log(formatReport(report, args.top));
 }
 
