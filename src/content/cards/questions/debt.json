@@ -15,7 +15,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The Movement wants student debt cancelled. The Unions' bus drivers would like to know who is cancelling theirs.",
+    "text": "The Movement wants student debt cancelled. The Unions' bus drivers wonder who is cancelling theirs.",
     "left": {
       "label": "Cancel the debt",
       "fx": {
@@ -240,7 +240,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The Faithful's colleges want their graduates' debts forgiven. The Donors lent the money, and would like it back.",
+    "text": "The Faithful's colleges want their graduates' debts forgiven. The Donors lent the money, and expect it back.",
     "left": {
       "label": "Cancel the debt",
       "fx": {
@@ -320,7 +320,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The loans are the Donors'. Their collectors would like permission to take the repayments straight from wages.",
+    "text": "The loans are the Donors'. Their collectors ask permission to take the repayments straight from wages.",
     "left": {
       "label": "Cap what they can take",
       "fx": {

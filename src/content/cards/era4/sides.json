@@ -93,7 +93,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "A machine sets every wage in the country by a formula your century wrote. The formula has never been wrong, or read.",
+    "text": "A machine sets every wage in the country by a formula you wrote. The formula has never been wrong, or read.",
     "oneShot": true,
     "left": {
       "label": "Publish the formula",
@@ -183,7 +183,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The first organisers are painted on the union halls now, with haloes. The painter would like to add you, and has the gold leaf ready.",
+    "text": "The first organisers are painted on the union halls now, with haloes. The painter offers to add you, and has the gold leaf ready.",
     "oneShot": true,
     "left": {
       "label": "Decline the halo",
@@ -351,7 +351,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Charity does now what the state did in your century. It is generous and efficient, and it decides who deserves it.",
+    "text": "Charity does now what the state did in your day. It is generous and efficient, and it decides who deserves it.",
     "oneShot": true,
     "left": {
       "label": "Take it back",
@@ -433,7 +433,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "A court has ruled that a vote is property and may be sold. The donors would like to know the market rate.",
+    "text": "A court has ruled that a vote is property and may be sold. The donors are keen to know the market rate.",
     "oneShot": true,
     "left": {
       "label": "Amend the constitution",

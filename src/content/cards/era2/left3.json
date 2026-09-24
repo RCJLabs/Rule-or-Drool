@@ -332,7 +332,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The health model can predict who will be ill next year. The movement would like to use it, and to promise not to.",
+    "text": "The health model can predict who will be ill next year. The movement is eager to use it, and to promise not to.",
     "oneShot": true,
     "left": {
       "label": "Use it in the open",
@@ -416,7 +416,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Through their funds, the unions own a third of the country's machines. They would like to be consulted before the machines are taxed.",
+    "text": "Through their funds, the unions own a third of the country's machines. They expect to be consulted before the machines are taxed.",
     "left": {
       "label": "Tax them like anyone",
       "fx": {
@@ -657,7 +657,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The movement's founder is ninety and would like to address congress for three hours. Last year's address ran to four.",
+    "text": "The movement's founder is ninety and has asked to address congress for three hours. Last year's address ran to four.",
     "oneShot": true,
     "left": {
       "label": "Offer fifteen minutes",

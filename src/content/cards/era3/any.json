@@ -12,7 +12,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The water system runs on code nobody alive can read. It has worked for sixty years, which is the worrying part.",
+    "text": "The water system runs on code no living programmer can read. It has worked for sixty years, which is the worrying part.",
     "oneShot": true,
     "left": {
       "label": "Rewrite it properly",
@@ -242,7 +242,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Historians want the sealed files from your century opened. Some of them are about you personally.",
+    "text": "Historians want the sealed files from your term opened. Some of them are about you personally.",
     "left": {
       "label": "Open them",
       "fx": {

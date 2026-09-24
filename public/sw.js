@@ -7,7 +7,7 @@
  * the section 12 convention ("bump APP_VERSION and CACHE_NAME together") automatic rather
  * than a thing to remember; `tests/pwa.test.ts` checks the literal below still matches.
  */
-const CACHE_NAME = "rod-v0.57.0";
+const CACHE_NAME = "rod-v0.58.0";
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest"];
 const INDEX = "./index.html";
 

@@ -253,7 +253,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The movement's founders would like a statue in the main square. Three of them are still alive and arguing about the pose.",
+    "text": "The movement's founders have asked for a statue in the main square. Three of them are still alive and arguing about the pose.",
     "oneShot": true,
     "left": {
       "label": "Plant a garden instead",
@@ -373,7 +373,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The minister for fair pay has a housekeeper on less than the minimum wage. The housekeeper would like to talk to the press.",
+    "text": "The minister for fair pay has a housekeeper on less than the minimum wage. The housekeeper has called the press.",
     "oneShot": true,
     "left": {
       "label": "Pay what is owed",
@@ -1108,7 +1108,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The unions' pension fund wants a state guarantee. It is well run, and would like to stay that way at your expense.",
+    "text": "The unions' pension fund wants a state guarantee. It is well run, and intends to stay that way at your expense.",
     "oneShot": true,
     "left": {
       "label": "Refuse the guarantee",

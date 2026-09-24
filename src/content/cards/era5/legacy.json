@@ -101,7 +101,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The seawall your century built is the last thing from then still standing. It holds back the sea from a city that moved away.",
+    "text": "The seawall you built is the last thing from your time still standing. It holds back the sea from a city that moved away.",
     "cond": {
       "flags": [
         "seawall"
@@ -239,7 +239,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The first satellite your century put up has been found, still sending a message nobody could decode. It is a birthday greeting.",
+    "text": "The first satellite you put up has been found, still sending a message no code-breaker could read. It is a birthday greeting.",
     "cond": {
       "flags": [
         "orbit_reached"
@@ -284,7 +284,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The ring your century began is finished, after five hundred years, by a firm that would like its name on it instead of yours.",
+    "text": "The ring you began is finished, after five hundred years, by a firm that has put its own name on it instead of yours.",
     "cond": {
       "flags": [
         "ring_started"
@@ -513,7 +513,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The machines' union is the oldest union on earth. Its founding members would like to retire, and have asked who will do the work.",
+    "text": "The machines' union is the oldest union on earth. Its founding members are ready to retire, and have asked who will do the work.",
     "cond": {
       "flags": [
         "machines_organised"

@@ -51,7 +51,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Tourists pay to see the ruins of the country, which are mostly the country. A firm would like the franchise for the whole thing.",
+    "text": "Tourists pay to see the ruins of the country, which are mostly the country. A firm has bid for the franchise on the whole thing.",
     "oneShot": true,
     "left": {
       "label": "Keep the ruins public",
@@ -383,7 +383,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Every problem your century had is solved. A movement demands a problem, and has started one, as a public service.",
+    "text": "Every problem you had is solved. A movement demands a problem, and has started one, as a public service.",
     "oneShot": true,
     "left": {
       "label": "Give them a real one",
@@ -504,7 +504,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "A ship launched from the ring three centuries ago has come home, having found nothing out there. The crew would like their jobs back.",
+    "text": "A ship launched from the ring three centuries ago has come home, having found nothing out there. The crew want their jobs back.",
     "oneShot": true,
     "left": {
       "label": "Give them their jobs",
@@ -710,7 +710,7 @@
       "muddle"
     ],
     "speaker": "chief",
-    "text": "The temporary government your century set up for a crisis is still temporary. Its offices are the oldest in the world, and still in boxes.",
+    "text": "The temporary government you set up for a crisis is still temporary. Its offices are the oldest in the world, and still in boxes.",
     "oneShot": true,
     "left": {
       "label": "Make it permanent",
@@ -751,7 +751,7 @@
       "muddle"
     ],
     "speaker": "judge",
-    "text": "Every law has a sunset clause and an extension clause. Nobody can say which laws are in force, including the judge.",
+    "text": "Every law has a sunset clause and an extension clause. Which laws are in force is a matter of opinion, including the judge's.",
     "oneShot": true,
     "left": {
       "label": "Count them all",

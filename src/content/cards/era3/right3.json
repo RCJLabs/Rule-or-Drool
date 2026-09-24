@@ -210,7 +210,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The common land your century protected has been sold, plot by plot, under a law nobody read. The villagers have a petition, and a very old map.",
+    "text": "The common land you protected has been sold, plot by plot, under a law no one read. The villagers have a petition, and a very old map.",
     "oneShot": true,
     "left": {
       "label": "Honour the old map",
@@ -298,7 +298,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Juries are drawn from landowners, under a law nobody repealed. Most defendants do not own land, and have noticed.",
+    "text": "Juries are drawn from landowners, under a law never repealed. Most defendants do not own land, and have noticed.",
     "oneShot": true,
     "left": {
       "label": "Repeal the land rule",
@@ -339,7 +339,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The border fence from your century is still maintained, at great cost. There is nothing on the other side of it now but more of us.",
+    "text": "The border fence you built is still maintained, at great cost. There is nothing on the other side of it now but more of us.",
     "oneShot": true,
     "left": {
       "label": "Take it down",
@@ -416,7 +416,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The official history has one hero per decade. The committee has run out of heroes and would like to appoint some.",
+    "text": "The official history has one hero per decade. The committee has run out of heroes and has decided to appoint some.",
     "oneShot": true,
     "left": {
       "label": "Let history be messy",
@@ -484,7 +484,7 @@
       "decay"
     ],
     "speaker": "chief",
-    "text": "Nobody may criticise the founding family in print. The family would like the law extended to paintings, songs and weather forecasts.",
+    "text": "The founding family may not be criticised in print. It wants the law extended to paintings, songs and weather forecasts.",
     "oneShot": true,
     "left": {
       "label": "Repeal the law",
@@ -561,7 +561,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A law of your century guarantees a trial by one's peers. The richest citizen's peers are four people, all related.",
+    "text": "A law from your term guarantees a trial by one's peers. The richest citizen's peers are four people, all related.",
     "oneShot": true,
     "left": {
       "label": "Widen the peers",
@@ -672,7 +672,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The courts are admired, the laws are clear, and nobody has amended the constitution in a century. One clause no longer makes sense.",
+    "text": "The courts are admired, the laws are clear, and the constitution has not been amended in a century. One clause no longer makes sense.",
     "oneShot": true,
     "left": {
       "label": "Amend the clause",

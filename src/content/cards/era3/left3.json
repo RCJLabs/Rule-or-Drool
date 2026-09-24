@@ -12,7 +12,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The movement's songs are sung at every meeting. Nobody knows what half the words mean, and one verse is about a factory that is now a park.",
+    "text": "The movement's songs are sung at every meeting. Half the words have lost their meaning, and one verse is about a factory that is now a park.",
     "oneShot": true,
     "left": {
       "label": "Write new songs",
@@ -285,7 +285,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The unions' pension funds own most of the country now. They would like it run for pensioners, and the pensioners agree.",
+    "text": "The unions' pension funds own most of the country now. They would run it for pensioners, and the pensioners agree.",
     "left": {
       "label": "Govern for everyone",
       "fx": {
@@ -331,7 +331,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The general assembly meets online now, forever, in a room nobody can close. It has passed nine thousand motions, most of them about itself.",
+    "text": "The general assembly meets online now, forever, in a room that cannot be closed. It has passed nine thousand motions, most of them about itself.",
     "oneShot": true,
     "left": {
       "label": "Close the room",
@@ -367,7 +367,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A law of your century lets any hundred citizens recall any official. Most officials now serve for about a month.",
+    "text": "Your recall law lets any hundred citizens remove any official. Most officials now serve for about a month.",
     "left": {
       "label": "Raise the threshold",
       "fx": {
@@ -613,7 +613,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The movement's work is done, a historian writes. Every goal it set in your century has been met, and it is still setting goals.",
+    "text": "The movement's work is done, a historian writes. Every goal it set in your day has been met, and it is still setting goals.",
     "oneShot": true,
     "left": {
       "label": "Let it wind down",
@@ -744,7 +744,7 @@
       "decay"
     ],
     "speaker": "organizer",
-    "text": "The purity committee has declared the movement's founding documents impure, and would like to redraft the founding, retroactively.",
+    "text": "The purity committee has declared the movement's founding documents impure, and proposes to redraft the founding, retroactively.",
     "oneShot": true,
     "left": {
       "label": "Dissolve the committee",

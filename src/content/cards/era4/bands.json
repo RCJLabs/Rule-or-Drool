@@ -452,7 +452,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Nobody needs to work more than ten hours a week. There is an epidemic of hobbies, and three new political parties made of them.",
+    "text": "No job needs more than ten hours a week. There is an epidemic of hobbies, and three new political parties made of them.",
     "oneShot": true,
     "left": {
       "label": "Fund the hobbies",
@@ -570,7 +570,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The solar shade has cooled the planet a degree. The neighbours would like a say in where it points, and one of them has a missile.",
+    "text": "The solar shade has cooled the planet a degree. The neighbours demand a say in where it points, and one of them has a missile.",
     "oneShot": true,
     "left": {
       "label": "Share the controls",
@@ -647,7 +647,7 @@
       "muddle"
     ],
     "speaker": "chief",
-    "text": "The bridge that fell in your century was replaced by a temporary one. It is now the oldest bridge in the country, and still temporary.",
+    "text": "The bridge that fell on your watch was replaced by a temporary one. It is now the oldest bridge in the country, and still temporary.",
     "oneShot": true,
     "left": {
       "label": "Build a real one",
@@ -682,7 +682,7 @@
       "muddle"
     ],
     "speaker": "judge",
-    "text": "An inquiry opened in your century has issued an interim report. Its chair, grandchild of the first chair, would like another decade.",
+    "text": "An inquiry you opened has issued an interim report. Its chair, grandchild of the first chair, has asked for another decade.",
     "oneShot": true,
     "left": {
       "label": "Close it with findings",
@@ -721,7 +721,7 @@
       "muddle"
     ],
     "speaker": "organizer",
-    "text": "Parliament is debating the trains. It has debated the trains every year since your century, and the trains are late for the debate.",
+    "text": "Parliament is debating the trains. It has debated the trains every year since your term, and the trains are late for the debate.",
     "oneShot": true,
     "left": {
       "label": "Fund the trains",
@@ -756,7 +756,7 @@
       "muddle"
     ],
     "speaker": "treasurer",
-    "text": "The deficit is two hundred years old this week. The treasury would like to mark it quietly. The opposition has made a cake.",
+    "text": "The deficit is two hundred years old this week. The treasury hopes to mark it quietly. The opposition has made a cake.",
     "oneShot": true,
     "left": {
       "label": "Close it, finally",

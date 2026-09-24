@@ -171,7 +171,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The climate has settled five degrees warmer than your century. The south is desert, the north is a vineyard, and the vineyard votes.",
+    "text": "The climate has settled five degrees warmer than in your day. The south is desert, the north is a vineyard, and the vineyard votes.",
     "oneShot": true,
     "left": {
       "label": "Share the north",
@@ -337,7 +337,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The seed vault your century sealed is open. Its seeds are for crops that stopped growing here three centuries ago, and a firm wants them.",
+    "text": "The seed vault you sealed is open. Its seeds are for crops that stopped growing here three centuries ago, and a firm wants them.",
     "oneShot": true,
     "left": {
       "label": "Plant them in public",
@@ -377,7 +377,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The last paper document in the country is a form your century printed. The head of state must fill it in by hand, once a year.",
+    "text": "The last paper document in the country is a form you had printed. The head of state must fill it in by hand, once a year.",
     "oneShot": true,
     "left": {
       "label": "Retire the form",
@@ -418,7 +418,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A model trained on five centuries of rulings interprets the constitution now. It has found a right nobody wrote down, and a good one.",
+    "text": "A model trained on five centuries of rulings interprets the constitution now. It has found a right that was never written down, and a good one.",
     "oneShot": true,
     "left": {
       "label": "Adopt the right",
@@ -619,7 +619,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "Historians have found a war your century began that nobody remembers. It never formally ended, and the other side has just remembered.",
+    "text": "Historians have found a war you began and everyone forgot. It never formally ended, and the other side has just remembered.",
     "oneShot": true,
     "left": {
       "label": "Sign a peace",
@@ -661,7 +661,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The oldest machine in the country gives advice nobody asked for. It is usually right, and it has started signing its name.",
+    "text": "The oldest machine in the country gives unasked-for advice. It is usually right, and it has started signing its name.",
     "oneShot": true,
     "left": {
       "label": "Give it a vote",
@@ -702,7 +702,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Most people work four hours a week and are paid in time off. The treasury would like to tax the time off.",
+    "text": "Most people work four hours a week and are paid in time off. The treasury proposes to tax the time off.",
     "oneShot": true,
     "left": {
       "label": "Tax the idle rich",
@@ -1070,7 +1070,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "A new bird has evolved in the capital. It eats the old wiring, and it is protected by a law your century wrote.",
+    "text": "A new bird has evolved in the capital. It eats the old wiring, and it is protected by a law you wrote.",
     "oneShot": true,
     "left": {
       "label": "Protect the bird",
@@ -1159,7 +1159,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Food is grown in towers now. The last farmer in the open air is a hundred and ten, a tourist attraction, and would like a pension.",
+    "text": "Food is grown in towers now. The last farmer in the open air is a hundred and ten, a tourist attraction, and wants a pension.",
     "oneShot": true,
     "left": {
       "label": "Pay the pension",
@@ -1199,7 +1199,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A court hears cases five centuries old. Today: the valley towns against the dam your century built, which is still there, and still wrong.",
+    "text": "A court hears cases five centuries old. Today: the valley towns against the dam you built, which is still there, and still wrong.",
     "oneShot": true,
     "left": {
       "label": "Take the dam down",
@@ -1408,7 +1408,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The wind that crosses the plains has been sold. Its owners would like the villages to stop using it to dry their laundry.",
+    "text": "The wind that crosses the plains has been sold. Its owners have told the villages to stop using it to dry their laundry.",
     "oneShot": true,
     "left": {
       "label": "Declare the wind free",
@@ -1735,7 +1735,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Letters your grandchildren wrote have been found in an attic. They say a great deal about you, and a publisher would like to print them.",
+    "text": "Letters your grandchildren wrote have been found in an attic. They say a great deal about you, and a publisher means to print them.",
     "oneShot": true,
     "left": {
       "label": "Publish it whole",
@@ -1820,7 +1820,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "A time capsule from your century has been opened. It holds a letter from you to the future, and the future would like to reply.",
+    "text": "A time capsule from your century has been opened. It holds a letter from you to the future, and the future means to reply.",
     "oneShot": true,
     "left": {
       "label": "Reply honestly",

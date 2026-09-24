@@ -91,7 +91,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the ally's war has a museum. Nobody can agree what the last room should say.",
+    "text": "The ally's war has a museum. Its curators still cannot agree what the last room should say.",
     "cond": {
       "flags": [
         "went_to_war"
@@ -130,7 +130,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the ally's war is a streaming drama. Its sponsor wants a different ending, and has offered to pay for it.",
+    "text": "The ally's war is a streaming drama these days. Its sponsor wants a different ending, and has offered to pay for it.",
     "cond": {
       "flags": [
         "went_to_war"
@@ -248,7 +248,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Two centuries after we stayed out, the ally's descendants want their version of it in our history lessons.",
+    "text": "Centuries after we stayed out, the ally's descendants want their version of it in our history lessons.",
     "cond": {
       "flags": [
         "stayed_out"
@@ -286,7 +286,7 @@
       "decay"
     ],
     "speaker": "treasurer",
-    "text": "Two centuries on, the ally's heirs run the lottery that pays our pensions. They draw our numbers last, every week.",
+    "text": "The ally's heirs run the lottery that pays our pensions. They have drawn our numbers last every week for generations.",
     "cond": {
       "flags": [
         "stayed_out"
@@ -405,7 +405,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the deportation lists are public. Half the country has found a grandparent on one.",
+    "text": "The deportation lists were opened long ago. Half the country has found an ancestor on one.",
     "cond": {
       "flags": [
         "mass_deportation"
@@ -443,7 +443,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the deportation lists are a subscription service. For a fee it will tell you whether your grandparents counted.",
+    "text": "The old deportation lists are a subscription service. For a fee it will tell you whether your ancestors counted.",
     "cond": {
       "flags": [
         "mass_deportation"
@@ -561,7 +561,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, every family has a story of how it got its papers. Several of the stories involve the same great-grandmother.",
+    "text": "Every family tells a story of how it got its papers. A suspicious number of the stories involve the same ancestor.",
     "cond": {
       "flags": [
         "papers_granted"
@@ -598,7 +598,7 @@
       "decay"
     ],
     "speaker": "chief",
-    "text": "Two centuries on, citizenship papers trade like coins, and the oldest fetch the most. Most of ours are forged in the ministry.",
+    "text": "Citizenship papers trade like antique coins, and the oldest fetch the most. Most of ours are forged in the ministry.",
     "cond": {
       "flags": [
         "papers_granted"
@@ -716,7 +716,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Two centuries on, the treasury still pays interest on the tax cut. A child has asked the minister what it bought.",
+    "text": "The treasury is still paying interest on the old tax cut. A child has asked the minister what it bought.",
     "cond": {
       "flags": [
         "top_rate_cut"
@@ -753,7 +753,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, the richest family pays less tax than its gardener. The gardener has started a channel about it, with a sponsor.",
+    "text": "The richest family still pays less tax than its gardener. The gardener has started a channel about it, with a sponsor.",
     "cond": {
       "flags": [
         "top_rate_cut"
@@ -871,7 +871,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the tax on the very rich is older than any fortune in the country. One family means to outlast it.",
+    "text": "The tax on the very rich has outlived every fortune in the country. One family means to be the first to outlast it.",
     "cond": {
       "flags": [
         "top_rate_raised"
@@ -909,7 +909,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, the tax on the very rich is collected by a firm the very rich own. It reports record compliance.",
+    "text": "The very rich pay their tax to a collection firm the very rich own. It reports record compliance.",
     "cond": {
       "flags": [
         "top_rate_raised"
@@ -1029,7 +1029,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the health service is the oldest thing in the country that still works. Someone wants to sell it, for its own good.",
+    "text": "The health service is the oldest thing in the country that still works. Someone wants to sell it, for its own good.",
     "cond": {
       "flags": [
         "universal_care"
@@ -1069,7 +1069,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, care is still free, and the queue for it is a reality show. The winners are seen first.",
+    "text": "Care is still free after all these centuries, and the queue for it is a reality show. The winners are seen first.",
     "cond": {
       "flags": [
         "universal_care"
@@ -1187,7 +1187,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the richest live to a hundred and forty. Everyone else has the old average, and a good view of the difference.",
+    "text": "The richest live to a hundred and forty. Everyone else has the old average, and a good view of the difference.",
     "cond": {
       "flags": [
         "care_market"
@@ -1226,7 +1226,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, care is sold by subscription tier. The cheapest tier covers everything except illness.",
+    "text": "Care has long been sold by subscription tier. The cheapest tier covers everything except illness.",
     "cond": {
       "flags": [
         "care_market"
@@ -1345,7 +1345,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, nobody earns the minimum wage, and it is still the most argued-about number in the country.",
+    "text": "No one has earned the minimum wage in living memory. It is still the most argued-about number in the country.",
     "cond": {
       "flags": [
         "wage_raised"
@@ -1383,7 +1383,7 @@
       "decay"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the minimum wage is paid in a currency only the company shop accepts. The law was never repealed, only redeemed.",
+    "text": "The minimum wage is paid in a currency only the company shop accepts. The law was never repealed, only redeemed.",
     "cond": {
       "flags": [
         "wage_raised"
@@ -1501,7 +1501,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, wages are set at an auction every morning. The court is asked whether a person may bid below nothing.",
+    "text": "Wages are set at an auction every morning. The court has been asked whether a person may bid below nothing.",
     "cond": {
       "flags": [
         "wage_left"
@@ -1539,7 +1539,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, jobs are auctioned by the hour to whoever works cheapest. The cheapest bidder this year was a machine, bidding for its owner.",
+    "text": "Jobs are auctioned by the hour to whoever works cheapest. The cheapest bidder this year was a machine, bidding for its owner.",
     "cond": {
       "flags": [
         "wage_left"
@@ -1657,7 +1657,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the towers of the building boom are listed monuments. Nobody may fix them, and nobody will move out.",
+    "text": "The towers of the old building boom are listed monuments. They may not be fixed, and their tenants will not move out.",
     "cond": {
       "flags": [
         "zoning_cleared"
@@ -1696,7 +1696,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, the boom-years towers house a million people and no inspectors. The top floors are sold as views of the collapse.",
+    "text": "The boom-years towers house a million people and no inspectors. The top floors are sold as views of the collapse.",
     "cond": {
       "flags": [
         "zoning_cleared"
@@ -1816,7 +1816,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, one family has paid the same controlled rent since the day it was set. Its flat is the smallest museum in the country.",
+    "text": "One family has paid the same controlled rent since the day it was set. Its flat is the smallest museum in the country.",
     "cond": {
       "flags": [
         "rents_controlled"
@@ -1854,7 +1854,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, the controlled flats trade on an exchange. The rent is the only thing about them that never changes.",
+    "text": "The controlled flats trade on an exchange. The rent is the only thing about them that has never changed.",
     "cond": {
       "flags": [
         "rents_controlled"
@@ -1973,7 +1973,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the price on carbon is so old nobody remembers the smoke. A party promises to abolish it as unnecessary.",
+    "text": "The price on carbon is so old that the smoke is out of living memory. A party promises to abolish it as unnecessary.",
     "cond": {
       "flags": [
         "carbon_priced"
@@ -2011,7 +2011,7 @@
       "decay"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the carbon price is paid in credits the credit firm prints itself. The air has not noticed either way.",
+    "text": "The carbon price is paid in credits the credit firm prints itself. The air has not noticed either way.",
     "cond": {
       "flags": [
         "carbon_priced"
@@ -2130,7 +2130,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the drilled valley has sunk three metres. The lake that filled it is the most popular in the country.",
+    "text": "The drilled valley sank three metres long ago. The lake that filled it is the most popular in the country.",
     "cond": {
       "flags": [
         "gas_drilled"
@@ -2167,7 +2167,7 @@
       "decay"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the drilled valley still burns in places. The fires are a tourist attraction, with a gift shop.",
+    "text": "The drilled valley still burns in places. The fires are a tourist attraction, with a gift shop.",
     "cond": {
       "flags": [
         "gas_drilled"
@@ -2246,7 +2246,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The neighbours have kept their tariffs on us since we raised ours. Nobody remembers who started it, only who pays.",
+    "text": "The neighbours have kept their tariffs on us since we raised ours. Who started it is forgotten; who pays is not.",
     "cond": {
       "flags": [
         "tariffs_raised"
@@ -2286,7 +2286,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the tariff wall is a real wall, and a tourist attraction. The factory behind it makes souvenirs of the wall.",
+    "text": "The tariff wall became a real wall, and then a tourist attraction. The factory behind it makes souvenirs of the wall.",
     "cond": {
       "flags": [
         "tariffs_raised"
@@ -2325,7 +2325,7 @@
       "decay"
     ],
     "speaker": "treasurer",
-    "text": "Two centuries on, the tariffs protect one factory, which makes the forms for the tariffs.",
+    "text": "The tariffs protect a single factory these days. It makes the forms for the tariffs.",
     "cond": {
       "flags": [
         "tariffs_raised"
@@ -2443,7 +2443,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "Two centuries on, nothing sold here is made here. A campaign to make one thing, anything, has a waiting list of volunteers.",
+    "text": "Nothing sold here has been made here for generations. A campaign to make one thing, anything, has a waiting list of volunteers.",
     "cond": {
       "flags": [
         "trade_opened"
@@ -2482,7 +2482,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, the trade tribunal sits in the old chamber of our parliament, and rents it back to us on the days it is free.",
+    "text": "The trade tribunal sits in the old chamber of our parliament, and rents it back to us on the days it is free.",
     "cond": {
       "flags": [
         "trade_opened"
@@ -2562,7 +2562,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The later pension age saved what it promised. The treasury has found the savings, and would like to spend them on something else.",
+    "text": "The later pension age saved what it promised. The treasury has found the savings, and has plans for them that are not pensions.",
     "cond": {
       "flags": [
         "pension_age_raised"
@@ -2601,7 +2601,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, people live to a hundred and twenty and retire at a hundred. Nobody remembers what the argument was about.",
+    "text": "People live to a hundred and twenty and retire at a hundred. What the argument was about has passed out of memory.",
     "cond": {
       "flags": [
         "pension_age_raised"
@@ -2638,7 +2638,7 @@
       "decay"
     ],
     "speaker": "treasurer",
-    "text": "Two centuries on, the pension age is a hundred and ten, and the few who reach it are paid in commemorative coins.",
+    "text": "The pension age is a hundred and ten, and the few who reach it are paid in commemorative coins.",
     "cond": {
       "flags": [
         "pension_age_raised"
@@ -2756,7 +2756,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "Two centuries on, the pension age has never moved and people live twice as long. Pensioners are the largest employer of pensioners.",
+    "text": "The pension age has never moved, and people live twice as long. Pensioners are the largest employer of pensioners.",
     "cond": {
       "flags": [
         "pension_age_kept"
@@ -2794,7 +2794,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the pensions are paid out by a lottery, and the pensioners are its only players.",
+    "text": "Pensions are paid out by lottery, and the pensioners are its only players.",
     "cond": {
       "flags": [
         "pension_age_kept"
@@ -2911,7 +2911,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the day student debt was cancelled is a holiday. Nobody works, and nobody can say what a student loan was.",
+    "text": "The day student debt was cancelled is a public holiday. The shops close, and the young cannot say what a student loan was.",
     "cond": {
       "flags": [
         "debt_cancelled"
@@ -2949,7 +2949,7 @@
       "decay"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, degrees are free and worth exactly that. The one university left sells certificates by the metre.",
+    "text": "Degrees are free and worth exactly that. The one university left sells certificates by the metre.",
     "cond": {
       "flags": [
         "debt_cancelled"
@@ -3068,7 +3068,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, a student loan has passed down five generations. A court is asked whether a debt can be inherited from so far back.",
+    "text": "A student loan has passed down the generations. A court is asked whether a debt can be inherited from so far back.",
     "cond": {
       "flags": [
         "debt_kept"
@@ -3106,7 +3106,7 @@
       "decay"
     ],
     "speaker": "treasurer",
-    "text": "Two centuries on, debts are inherited like surnames. A newborn owes a great-great-grandmother's tuition, with interest.",
+    "text": "Debts are inherited like surnames. A newborn owes an ancestor's tuition, with centuries of interest.",
     "cond": {
       "flags": [
         "debt_kept"
@@ -3225,7 +3225,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the plant the crackdown was about is extinct in the wild. It survives in one botanical garden, under guard.",
+    "text": "The plant the crackdown was about is extinct in the wild. It survives in one botanical garden, under guard.",
     "cond": {
       "flags": [
         "drugs_crackdown"
@@ -3264,7 +3264,7 @@
       "decay"
     ],
     "speaker": "general",
-    "text": "Two centuries on, the drug squads are a dynasty. The commander's great-grandfather seized the first crop, and the family still sells it.",
+    "text": "The drug squads are a dynasty. The commander's ancestor seized the first crop, and the family still sells it.",
     "cond": {
       "flags": [
         "drugs_crackdown"
@@ -3303,7 +3303,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The tax on legal drugs pays for the clinics now. The firms that sell them would like to advertise again, for the tax's sake.",
+    "text": "The tax on legal drugs pays for the clinics now. The firms that sell them ask to advertise again, for the tax's sake.",
     "cond": {
       "flags": [
         "drugs_legalised"
@@ -3381,7 +3381,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, a family firm has sold legal drugs for nine generations. It has applied to be a national treasure.",
+    "text": "A family firm has sold legal drugs since the law changed. It has applied to be a national treasure.",
     "cond": {
       "flags": [
         "drugs_legalised"
@@ -3419,7 +3419,7 @@
       "decay"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, the legal drug firms sponsor the schools, the courts and the weather report.",
+    "text": "The legal drug firms sponsor the schools, the courts and the weather report.",
     "cond": {
       "flags": [
         "drugs_legalised"
@@ -3538,7 +3538,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "Two centuries on, the police outnumber the crimes. They patrol in pairs, looking for one.",
+    "text": "The police have long outnumbered the crimes. They patrol in pairs, looking for one.",
     "cond": {
       "flags": [
         "tough_sentences"
@@ -3576,7 +3576,7 @@
       "decay"
     ],
     "speaker": "general",
-    "text": "Two centuries on, a third of the country guards the other two thirds. Nobody remembers which third started it.",
+    "text": "A third of the country guards the other two thirds. The records of which third started it were lost long ago.",
     "cond": {
       "flags": [
         "tough_sentences"
@@ -3693,7 +3693,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the last prison is a hotel. Guests pay extra for the cells, and complain about the beds.",
+    "text": "The last prison is a hotel. Guests pay extra for the cells, and complain about the beds.",
     "cond": {
       "flags": [
         "justice_reformed"
@@ -3731,7 +3731,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, the halfway houses are run by the grandchildren of the men who once filled the prisons. They are very well run, and very dear.",
+    "text": "The halfway houses are run by the descendants of the men who once filled the prisons. They are very well run, and very dear.",
     "cond": {
       "flags": [
         "justice_reformed"
@@ -3847,7 +3847,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the scanners still run on every street, and nobody has looked at the footage in a hundred years.",
+    "text": "The scanners still run on every street. The footage has not been looked at in a hundred years.",
     "cond": {
       "flags": [
         "cameras_everywhere"
@@ -3886,7 +3886,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the scanners sell every face they see to whoever bids. Children are taught to walk with their heads down.",
+    "text": "The scanners sell every face they see to whoever bids. Children are taught to walk with their heads down.",
     "cond": {
       "flags": [
         "cameras_everywhere"
@@ -4002,7 +4002,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, ours is the last country where nobody's face is on file. Tourists come to walk down a street unrecorded.",
+    "text": "Ours is the last country with no faces on file. Tourists come to walk down a street unrecorded.",
     "cond": {
       "flags": [
         "cameras_banned"
@@ -4040,7 +4040,7 @@
       "decay"
     ],
     "speaker": "general",
-    "text": "Two centuries on, the ban on scanners is enforced by scanners, which check that nobody is carrying one.",
+    "text": "The ban on scanners is enforced by scanners, which check that no one is carrying one.",
     "cond": {
       "flags": [
         "cameras_banned"
@@ -4157,7 +4157,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Two centuries on, the truth panel still meets. Its oldest ruling, that the moon is not a lamp, is under appeal.",
+    "text": "The truth panel still meets. Its oldest ruling, that the moon is not a lamp, is under appeal.",
     "cond": {
       "flags": [
         "truth_law"
@@ -4194,7 +4194,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, the truth panel rules on the weather, the scores and the past. Its rulings go out before the events.",
+    "text": "The truth panel rules on the weather, the scores and the past. Its rulings go out before the events.",
     "cond": {
       "flags": [
         "truth_law"
@@ -4311,7 +4311,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, nobody trusts any picture. Disputes are settled by asking the oldest person present.",
+    "text": "No picture has been trusted for generations. Disputes are settled by asking the oldest person present.",
     "cond": {
       "flags": [
         "no_truth_law"
@@ -4349,7 +4349,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, every event has six versions and a sponsor for each. Viewers at home vote for the one that happened.",
+    "text": "Every event has six versions and a sponsor for each. Viewers at home vote for the one that happened.",
     "cond": {
       "flags": [
         "no_truth_law"
@@ -4465,7 +4465,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Two centuries on, the highest court has a thousand seats and meets in a stadium. Its rulings take a season.",
+    "text": "The highest court has a thousand seats and meets in a stadium. Its rulings take a season.",
     "cond": {
       "flags": [
         "court_packed"
@@ -4503,7 +4503,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, a seat on the highest court is auctioned every spring. The court has ruled the auction lawful, unanimously.",
+    "text": "A seat on the highest court is auctioned every spring. The court has ruled the auction lawful, unanimously.",
     "cond": {
       "flags": [
         "court_packed"
@@ -4619,7 +4619,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, the highest court has nine seats, as it always had, and a waiting list of a hundred years for a case.",
+    "text": "The highest court has nine seats, as it always had, and a waiting list of a hundred years for a case.",
     "cond": {
       "flags": [
         "court_left"
@@ -4656,7 +4656,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "Two centuries on, the highest court still sits, in a building nobody else uses. Its rulings are read aloud to an empty square.",
+    "text": "The highest court still sits, alone in its building. Its rulings are read aloud to an empty square.",
     "cond": {
       "flags": [
         "court_left"
@@ -4695,7 +4695,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The banks rescued with public money are profitable again. Their boards would like the public's seat on each board removed.",
+    "text": "The banks rescued with public money are profitable again. Their boards propose to remove the public's seat on each.",
     "cond": {
       "flags": [
         "banks_bailed"
@@ -4774,7 +4774,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Two centuries on, the rescued banks own the treasury's building and rent it back. The rent has never once been late.",
+    "text": "The rescued banks own the treasury's building and rent it back. The rent has never once been late.",
     "cond": {
       "flags": [
         "banks_bailed"
@@ -4813,7 +4813,7 @@
       "decay"
     ],
     "speaker": "treasurer",
-    "text": "Two centuries on, the banks have been rescued nine times. The rescue has a ministry of its own, and a bank.",
+    "text": "The banks have been rescued nine times. The rescue has a ministry of its own, and a bank.",
     "cond": {
       "flags": [
         "banks_bailed"
@@ -4932,7 +4932,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Two centuries on, the failed bank is a museum where savers' letters are read aloud. A bank has offered to sponsor it.",
+    "text": "The failed bank is a museum where savers' letters are read aloud. A bank has offered to sponsor it.",
     "cond": {
       "flags": [
         "banks_failed"
@@ -4970,7 +4970,7 @@
       "decay"
     ],
     "speaker": "general",
-    "text": "Two centuries on, nobody trusts a bank, so the militias hold the savings. The interest is paid in protection.",
+    "text": "Banks lost the country's trust long ago, so the militias hold the savings. The interest is paid in protection.",
     "cond": {
       "flags": [
         "banks_failed"

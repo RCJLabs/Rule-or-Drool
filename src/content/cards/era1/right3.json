@@ -257,7 +257,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "A donor's son would like to run the national museum. He has visited a museum, and has opinions about the lighting.",
+    "text": "A donor's son has applied to run the national museum. He has visited a museum, and has opinions about the lighting.",
     "oneShot": true,
     "left": {
       "label": "Appoint a curator",
@@ -376,7 +376,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The police would like water cannon for the capital. There has not been a riot, which the police say proves the need.",
+    "text": "The police have requested water cannon for the capital. There has not been a riot, which the police say proves the need.",
     "oneShot": true,
     "left": {
       "label": "Refuse the cannon",
@@ -667,7 +667,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The chamber of commerce has written a bill for you. It is very well drafted, and the chamber would like it back if you change a word.",
+    "text": "The chamber of commerce has written a bill for you. It is very well drafted, and the chamber will take it back if you change a word.",
     "left": {
       "label": "Draft our own",
       "fx": {
@@ -704,7 +704,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Hunting on the old royal estate was banned a century ago. The families would like it back, for tradition and for the pheasants.",
+    "text": "Hunting on the old royal estate was banned a century ago. The families want it back, for tradition and for the pheasants.",
     "oneShot": true,
     "left": {
       "label": "Keep the ban",
@@ -984,7 +984,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "A foreign actor mocked the national dish on a talk show. The ministry would like to summon the ambassador.",
+    "text": "A foreign actor mocked the national dish on a talk show. The ministry is itching to summon the ambassador.",
     "oneShot": true,
     "left": {
       "label": "Laugh it off",
@@ -1400,7 +1400,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "A society would like the Republic to have a king. Nobody has proposed a particular king, and several families have one ready.",
+    "text": "A society is campaigning for the Republic to have a king. No particular king has been proposed, and several families have one ready.",
     "oneShot": true,
     "left": {
       "label": "Thank them politely",

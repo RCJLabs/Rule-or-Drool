@@ -13,6 +13,7 @@ import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
 /** Conditions can read the rival's pressure too; effects cannot (BACKLOG item 7). */
 const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
+import { VOICE, carrying, type VoicePhrase } from "../content/voice";
 import { HISTORIES, HISTORY_ORDER, NO_LEGACY } from "../meta/histories";
 import { LEGACY_FLAGS } from "../meta/legacies";
 import { allUnlockTokens } from "../meta/objectives";
@@ -36,6 +37,8 @@ export interface RuleOptions {
    * a token nothing requires is a warning. Pass [] for a content set with no meta layer.
    */
   unlockTokens: readonly string[];
+  /** Phrases with a ceiling on the cards that may carry them (BACKLOG-7 phase 47); warnings. */
+  voice: readonly VoicePhrase[];
 }
 
 export const DEFAULT_RULE_OPTIONS: RuleOptions = {
@@ -49,7 +52,20 @@ export const DEFAULT_RULE_OPTIONS: RuleOptions = {
   maxLabel: 24,
   knownTraits: ["loyal", "corrupt", "competent", "zealot"],
   unlockTokens: allUnlockTokens(),
+  voice: VOICE,
 };
+
+/**
+ * The time a long reign's eras are set at, as a card says it. A card drawn in both of the
+ * long reign's eras cannot say which it is in: 64 comebacks drawn in eras 4 and 5 opened "Two
+ * centuries on" or "Two centuries after", and read that way in the era headed "Five centuries
+ * on" too (BACKLOG-7 phase 47). How long something has lasted ("in two centuries") is not
+ * the era's span and is not checked.
+ */
+const ERA_SPANS: { phrase: string; match: RegExp; era: number }[] = [
+  { phrase: "two centuries on", match: /\btwo centuries (on|later|after)\b/i, era: 4 },
+  { phrase: "five centuries on", match: /\bfive centuries (on|later|after)\b/i, era: 5 },
+];
 
 /** Ending ids the engine can reach without any card naming them. */
 export function engineEndings(config: EngineConfig): string[] {
@@ -240,6 +256,10 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     }
     if (!roles.has(card.speaker)) issues.error("speaker-unknown", `no advisor has the role "${card.speaker}"`, { ...where, path: "speaker" });
     if (card.text.length > opts.maxText) issues.warn("text-length", `text is ${card.text.length} characters; the plan says under ${opts.maxText}`, { ...where, path: "text" });
+    for (const span of ERA_SPANS) {
+      const other = card.eras.filter((e) => e !== span.era);
+      if (span.match.test(card.text) && other.length) issues.error("era-span", `says "${span.phrase}" and is drawn in era ${other.join(", ")} too`, { ...where, path: "text" });
+    }
     checkCond(card.cond, where, "cond");
     // Read against whoever holds the speaking role, so a role with nobody like that makes
     // the card undrawable (BACKLOG-5 phase 35).
@@ -578,6 +598,13 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   }
 
   checkHistories(issues);
+  // ---- voice ----------------------------------------------------------------------------
+  // The deck as a whole, since a phrase is only a habit across many cards (BACKLOG-7 phase 47).
+  for (const p of opts.voice) {
+    const n = carrying(content.cards, p).length;
+    if (n > p.ceiling) issues.warn("voice-ceiling", `"${p.phrase}" is in ${n} cards; its ceiling is ${p.ceiling} (npm run voice lists them)`);
+  }
+
   return issues.items;
 }
 

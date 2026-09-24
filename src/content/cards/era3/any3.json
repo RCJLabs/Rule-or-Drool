@@ -12,7 +12,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The reactor that powers the north was built to last fifty years. It is ninety, and its manual is in a language nobody reads.",
+    "text": "The reactor that powers the north was built to last fifty years. It is ninety, and its manual is in a dead language.",
     "oneShot": true,
     "left": {
       "label": "Decommission it",
@@ -56,7 +56,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The interior ministry runs on software written before anyone now alive was hired. It works, and nobody is allowed to touch it.",
+    "text": "The interior ministry runs on software written before anyone now alive was hired. It works, and touching it is forbidden.",
     "oneShot": true,
     "left": {
       "label": "Rewrite it slowly",
@@ -92,7 +92,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A law of your century says every citizen must carry a card. The cards stopped being issued forty years ago.",
+    "text": "A law you signed says every citizen must carry a card. The cards stopped being issued forty years ago.",
     "oneShot": true,
     "left": {
       "label": "Repeal the law",
@@ -170,7 +170,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Nobody under forty has read a newspaper. The last one would like a state subsidy, and would like to keep criticising the state.",
+    "text": "No one under forty has read a newspaper. The last one wants a state subsidy, and to keep criticising the state.",
     "oneShot": true,
     "left": {
       "label": "Fund it at arm's length",
@@ -211,7 +211,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The pension promises of your century are coming due. There are two workers for every pensioner, and both are tired.",
+    "text": "The pension promises you made are coming due. There are two workers for every pensioner, and both are tired.",
     "left": {
       "label": "Share the cost fairly",
       "fx": {
@@ -478,7 +478,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The heat belt has moved another hundred kilometres north. The towns in its way would like a date, and a direction.",
+    "text": "The heat belt has moved another hundred kilometres north. The towns in its way are owed a date, and a direction.",
     "oneShot": true,
     "left": {
       "label": "Plan the move now",
@@ -647,7 +647,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The old antibiotics stopped working, slowly, over thirty years. A new class is ready, and its maker would like thirty years' profit.",
+    "text": "The old antibiotics stopped working, slowly, over thirty years. A new class is ready, and its maker expects thirty years' profit.",
     "oneShot": true,
     "left": {
       "label": "Buy it for the state",
@@ -687,7 +687,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The old bases are empty, and full of munitions nobody catalogued. Children have started collecting them.",
+    "text": "The old bases are empty, and full of uncatalogued munitions. Children have started collecting them.",
     "oneShot": true,
     "left": {
       "label": "Clear the bases",
@@ -733,7 +733,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The state still pays rent on the finance ministry building to a family who bought the lease in your century.",
+    "text": "The state still pays rent on the finance ministry building to a family who bought the lease in your day.",
     "oneShot": true,
     "left": {
       "label": "Buy the building",
@@ -768,7 +768,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "An anniversary of your time in office is coming. The committee would like to know whether it is being celebrated or examined.",
+    "text": "An anniversary of your time in office is coming. The committee needs to know whether it is being celebrated or examined.",
     "oneShot": true,
     "left": {
       "label": "Examine it",
@@ -801,7 +801,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Half the laws are enforced by machines nobody switched off. One is still fining people for a crime that was abolished.",
+    "text": "Half the laws are enforced by machines left switched on. One is still fining people for a crime that was abolished.",
     "left": {
       "label": "Audit the machines",
       "fx": {
@@ -875,7 +875,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The water mains your century laid are failing a street at a time. The repair crews are one crew, and it is old.",
+    "text": "The water mains you laid are failing a street at a time. The repair crews are one crew, and it is old.",
     "left": {
       "label": "Train new crews",
       "fx": {
@@ -952,7 +952,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "A border dispute from your century has flared again, over a line on a map nobody can find the original of.",
+    "text": "A border dispute from your term has flared again, over a line on a map whose original has been lost.",
     "oneShot": true,
     "left": {
       "label": "Ask the other side",
@@ -1093,7 +1093,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The endowment your century built pays for most of the state now. A generation has grown up never having paid for anything.",
+    "text": "The endowment you built pays for most of the state now. A generation has grown up never having paid for anything.",
     "left": {
       "label": "Bring in a small tax",
       "fx": {
@@ -1130,7 +1130,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Public debate is so polite now that nobody can tell the parties apart. Turnout has fallen to a third, courteously.",
+    "text": "Public debate is so polite now that the parties cannot be told apart. Turnout has fallen to a third, courteously.",
     "oneShot": true,
     "left": {
       "label": "Fund sharper debates",
@@ -1164,7 +1164,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The courts have not been overruled in fifty years. A young judge would like to overrule one, and has written it beautifully.",
+    "text": "The courts have not been overruled in fifty years. A young judge means to overrule one, and has written it beautifully.",
     "oneShot": true,
     "left": {
       "label": "Let the judgment stand",
@@ -1238,7 +1238,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "The anthem is sung before every broadcast, advert and funeral. A campaign would like it sung before weddings too.",
+    "text": "The anthem is sung before every broadcast, advert and funeral. A campaign is pressing for it to be sung before weddings too.",
     "oneShot": true,
     "left": {
       "label": "Keep it for occasions",
@@ -1306,7 +1306,7 @@
       "decay"
     ],
     "speaker": "treasurer",
-    "text": "The state sells naming rights to the months. March is a bank, and a soft drink would like April.",
+    "text": "The state sells naming rights to the months. March is a bank, and a soft drink has bid for April.",
     "oneShot": true,
     "left": {
       "label": "Keep April",

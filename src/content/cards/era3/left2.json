@@ -12,7 +12,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "A decision now requires forty signatures. Nobody can name a decision that was improved by the last thirty.",
+    "text": "A decision now requires forty signatures. There is no known decision the last thirty improved.",
     "oneShot": true,
     "left": {
       "label": "Cut it to five",
@@ -126,7 +126,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Nine universal programmes. Four work. Nobody has been able to say which four out loud since the 2090s.",
+    "text": "Nine universal programmes. Four work. Which four has not been said out loud since the 2090s.",
     "oneShot": true,
     "left": {
       "label": "Evaluate all nine",
@@ -282,7 +282,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "With most work automated, the state assigns the rest. The assignments are fair and nobody chose any of them.",
+    "text": "With most work automated, the state assigns the rest. The assignments are fair, and not one of them was chosen.",
     "left": {
       "label": "Let people choose",
       "fx": {
@@ -396,7 +396,7 @@
       "decay"
     ],
     "speaker": "spin",
-    "text": "Citizens are rated on community contribution. The rating decides housing. Nobody remembers agreeing to it.",
+    "text": "Citizens are rated on community contribution. The rating decides housing. When it was agreed is unclear.",
     "left": {
       "label": "Abolish the rating",
       "fx": {

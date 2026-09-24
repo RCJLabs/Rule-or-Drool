@@ -95,7 +95,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Keeping the age costs money nobody has budgeted. The pension fund has a surplus that could quietly be borrowed from.",
+    "text": "Keeping the age costs money that is not in the budget. The pension fund has a surplus that could quietly be borrowed from.",
     "left": {
       "label": "Raise contributions",
       "fx": {
@@ -246,7 +246,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The later age saves a fortune by the next decade. The Donors would like it spent this year, on a tax cut.",
+    "text": "The later age saves a fortune by the next decade. The Donors want it spent this year, on a tax cut.",
     "left": {
       "label": "Keep it for the fund",
       "fx": {

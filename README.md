@@ -47,6 +47,8 @@ npm run simulate -- --unlocked     # simulate an experienced player with every u
 npm run store:assets   # Play screenshots, feature graphic and icon from dist/ (twa/STORE.md)
 npm run playtests      # report on the playtest records players sent, from playtests/
 npm run playtests -- some/folder --min 3 --look 300
+npm run voice          # phrases the cards lean on, against their ceilings (src/content/voice.ts)
+npm run voice -- "a phrase"      # the cards carrying a phrase, by file
 ```
 
 The browser audits look for Chromium at `CHROME_PATH`, then in the usual places. Without

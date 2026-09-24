@@ -309,7 +309,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The lottery's good-causes fund has a surplus. The good causes would like it, and so would a marginal constituency.",
+    "text": "The lottery's good-causes fund has a surplus. The good causes have claimed it, and so has a marginal constituency.",
     "left": {
       "label": "Give it to the causes",
       "fx": {
@@ -1101,7 +1101,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The weather service wants a new supercomputer. The old one predicted last month's storm, and nobody read the forecast.",
+    "text": "The weather service wants a new supercomputer. The old one predicted last month's storm, and the forecast went unread.",
     "oneShot": true,
     "left": {
       "label": "Buy the computer",
@@ -2318,7 +2318,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "An old law makes it a crime to insult the head of state. Nobody has used it in sixty years, and your minister would like to.",
+    "text": "An old law makes it a crime to insult the head of state. It has not been used in sixty years, and your minister is keen to.",
     "oneShot": true,
     "left": {
       "label": "Repeal the law",

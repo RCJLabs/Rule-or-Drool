@@ -99,7 +99,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "Your successor is ready, and the elders would like to confirm them by acclamation, in your presence, using your microphone.",
+    "text": "Your successor is ready, and the elders plan to confirm them by acclamation, in your presence, using your microphone.",
     "cond": {
       "flags": [
         "heir_named"

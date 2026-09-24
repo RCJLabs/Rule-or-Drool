@@ -112,7 +112,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The paper needs an editor. The friend who bought it would like to seat his own board. Its own journalists would settle for a charter.",
+    "text": "The paper needs an editor. The friend who bought it means to seat his own board. Its own journalists would settle for a charter.",
     "cond": {
       "flags": [
         "paper_bought"

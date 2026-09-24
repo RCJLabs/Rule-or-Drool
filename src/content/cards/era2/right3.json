@@ -100,7 +100,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "Private security guards the rich districts and the state guards the rest. The rest would like to know which one is cheaper.",
+    "text": "Private security guards the rich districts and the state guards the rest. The rest are wondering which one is cheaper.",
     "left": {
       "label": "Fund the police",
       "fx": {
@@ -256,7 +256,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "A firm owns every road toll in the south. It would like to own the roads, since it already maintains them, in theory.",
+    "text": "A firm owns every road toll in the south. It proposes to own the roads, since it already maintains them, in theory.",
     "oneShot": true,
     "left": {
       "label": "Take the roads back",
@@ -589,7 +589,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The border towns have formed volunteer patrols. They wear the flag and a very old uniform, and would like to be paid.",
+    "text": "The border towns have formed volunteer patrols. They wear the flag and a very old uniform, and expect to be paid.",
     "left": {
       "label": "Disband the patrols",
       "fx": {
@@ -813,7 +813,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Philanthropy funds every museum, park and orchestra now, beautifully. Nobody can remember what the state used to fund.",
+    "text": "Philanthropy funds every museum, park and orchestra now, beautifully. What the state used to fund has been forgotten.",
     "left": {
       "label": "Fund one ourselves",
       "fx": {
@@ -847,7 +847,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The rule of law here is admired abroad. A foreign leader would like to learn how it is done, and to borrow a judge.",
+    "text": "The rule of law here is admired abroad. A foreign leader has asked to learn how it is done, and to borrow a judge.",
     "oneShot": true,
     "left": {
       "label": "Send a lecture",
@@ -917,7 +917,7 @@
       "decay"
     ],
     "speaker": "general",
-    "text": "A law requires your portrait in every office. The painter's studio would like the exclusive contract, and larger frames.",
+    "text": "A law requires your portrait in every office. The painter's studio is angling for the exclusive contract, and larger frames.",
     "oneShot": true,
     "left": {
       "label": "Repeal the law",

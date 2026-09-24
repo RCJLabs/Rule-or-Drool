@@ -14,7 +14,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Nobody will lend to you at a price you want to say out loud. The one bank that will has conditions, and a flag.",
+    "text": "No lender will offer a price you want to say out loud. The one bank that will has conditions, and a flag.",
     "weight": 0,
     "left": {
       "label": "Take the conditions",
@@ -179,7 +179,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The inspectors you blamed have kept their emails. A committee would like to read them aloud.",
+    "text": "The inspectors you blamed have kept their emails. A committee plans to read them aloud.",
     "weight": 0,
     "left": {
       "label": "Testify yourself",

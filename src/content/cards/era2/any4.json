@@ -46,7 +46,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "A firm can print a school meal from powder for a tenth of the price of food. The school kitchens would like to know what the powder is.",
+    "text": "A firm can print a school meal from powder for a tenth of the price of food. The school kitchens have one question: what is the powder?",
     "left": {
       "label": "Test the powder first",
       "fx": {
@@ -124,7 +124,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "A machine has won the national poetry prize. The judges did not know, and the machine's owner would like the prize money.",
+    "text": "A machine has won the national poetry prize. The judges did not know, and the machine's owner has claimed the prize money.",
     "oneShot": true,
     "left": {
       "label": "Pay the owner",
@@ -628,7 +628,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Satisfaction with the government stands at seventy per cent, a record. The pollsters would like to stop asking while it lasts.",
+    "text": "Satisfaction with the government stands at seventy per cent, a record. The pollsters suggest they stop asking while it lasts.",
     "oneShot": true,
     "left": {
       "label": "Keep asking",

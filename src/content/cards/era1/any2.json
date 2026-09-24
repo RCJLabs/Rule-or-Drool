@@ -86,7 +86,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A clerk has documents showing the procurement fraud. She would like protection. The fraud is in your ministry.",
+    "text": "A clerk has documents showing the procurement fraud. She needs protection. The fraud is in your ministry.",
     "oneShot": true,
     "left": {
       "label": "Protect her",
@@ -127,7 +127,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "A larger country would like a base on your coast. It offers money, protection and an opinion on your elections.",
+    "text": "A larger country is after a base on your coast. It offers money, protection and an opinion on your elections.",
     "oneShot": true,
     "left": {
       "label": "Refuse the base",
@@ -538,7 +538,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Nobody can prove who owns the old quarter. Everyone there has been paying rent to someone for a century.",
+    "text": "The deeds to the old quarter are lost. Everyone there has been paying rent to someone for a century.",
     "left": {
       "label": "Settle it in court",
       "fx": {
@@ -796,7 +796,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "There is a decree power from a war nobody remembers. It has never been repealed, and it would save you a vote.",
+    "text": "There is a decree power from a forgotten war. It has never been repealed, and it would save you a vote.",
     "left": {
       "label": "Repeal it",
       "fx": {

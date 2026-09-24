@@ -14,7 +14,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The footage of you promising it is being played before the footage of the count. They run it twice, so nobody has to remember what you said.",
+    "text": "The footage of you promising it is being played before the footage of the count. They run it twice, so the country need not remember what you said.",
     "weight": 0,
     "left": {
       "label": "Say you broke it",
@@ -51,7 +51,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "One of the three has stopped being asked to things. Nobody decided it, and the room has quietly stopped setting out a chair.",
+    "text": "One of the three has stopped being asked to things. It was never decided, and the room has quietly stopped setting out a chair.",
     "weight": 0,
     "left": {
       "label": "Set the chair back out",

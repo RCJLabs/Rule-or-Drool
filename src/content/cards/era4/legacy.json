@@ -149,7 +149,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The schools your century starved taught two centuries of children to fix nothing. The last plumbers are paid like surgeons.",
+    "text": "The schools you starved taught two centuries of children to fix nothing. The last plumbers are paid like surgeons.",
     "cond": {
       "flags": [
         "schools_starved"
@@ -190,7 +190,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The ring your century began is still being built. A ceremony marks the laying of the ten thousandth span, again.",
+    "text": "The ring you began is still being built. A ceremony marks the laying of the ten thousandth span, again.",
     "cond": {
       "flags": [
         "ring_started"
@@ -236,7 +236,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The skim your century took is a line in the budget now, labelled 'customary'. Nobody can say what it is customary for.",
+    "text": "The skim you took is a line in the budget now, labelled 'customary'. The treasury cannot say what it is customary for.",
     "cond": {
       "flags": [
         "took_the_skim"
@@ -327,7 +327,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The long ship your century launched has sent its first message home in two hundred years. It asks for spare parts, and complains.",
+    "text": "The long ship you launched has sent its first message home in two hundred years. It asks for spare parts, and complains.",
     "cond": {
       "flags": [
         "long_ship"
@@ -418,7 +418,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The promise your century broke is a proverb, said of landlords and the weather. A school would like to teach where it came from.",
+    "text": "The promise you broke is a proverb, said of landlords and the weather. A school has offered to teach where it came from.",
     "cond": {
       "flags": [
         "broke_mandate"

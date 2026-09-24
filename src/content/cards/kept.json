@@ -117,7 +117,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "{advisor} has held the garrison together for years, would like the parade, and has earned the parade.",
+    "text": "{advisor} has held the garrison together for years, wants the parade, and has earned the parade.",
     "cond": {
       "flags": [
         "owed_general"
@@ -429,7 +429,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "{advisor} has upheld every one of your laws, and would like one struck down where it deserves it.",
+    "text": "{advisor} has upheld every one of your laws, and asks to strike one down where it deserves it.",
     "cond": {
       "flags": [
         "owed_judge"
@@ -648,7 +648,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "{advisor} has paid for a great deal and would like the thing you both know is coming.",
+    "text": "{advisor} has paid for a great deal and expects the thing you both know is coming.",
     "cond": {
       "flags": [
         "owed_tycoon"
@@ -753,7 +753,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "{advisor} has turned out the vote for you for years and would like the programme to say one true thing.",
+    "text": "{advisor} has turned out the vote for you for years and asks that the programme say one true thing.",
     "cond": {
       "flags": [
         "owed_organizer"

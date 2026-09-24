@@ -18,6 +18,7 @@
     "check": "npm run typecheck && npm test && npm run validate:mvp && npm run check:browser",
     "simulate": "tsx scripts/simulate.ts",
     "playtests": "tsx scripts/playtests.ts",
+    "voice": "tsx scripts/voice.ts",
     "store:assets": "tsx scripts/store-assets.ts"
   },
   "devDependencies": {

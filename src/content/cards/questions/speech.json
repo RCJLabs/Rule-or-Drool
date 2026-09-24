@@ -209,7 +209,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The story the ministry called false was true, and it was about you. The papers would like to know which you will say.",
+    "text": "The story the ministry called false was true, and it was about you. The papers are waiting to hear which you will say.",
     "left": {
       "label": "That it was true",
       "ending": "the_correction",
@@ -283,7 +283,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The Faithful would like the law to cover lies about the faith as well, which would take in most of the newspapers.",
+    "text": "The Faithful are pressing for the law to cover lies about the faith as well, which would take in most of the newspapers.",
     "left": {
       "label": "Lies, not opinions",
       "fx": {
@@ -321,7 +321,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "With no law, the Donors' platforms are carrying a video of the opposition leader that nobody has checked. It is doing very well.",
+    "text": "With no law, the Donors' platforms are carrying an unchecked video of the opposition leader. It is doing very well.",
     "left": {
       "label": "Say it is fake",
       "fx": {
@@ -434,7 +434,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The second video was fake as well, and it was traced to your office. The papers would like to know which you will say.",
+    "text": "The second video was fake as well, and it was traced to your office. The papers are waiting to hear which you will say.",
     "left": {
       "label": "That it was ours",
       "ending": "the_correction",

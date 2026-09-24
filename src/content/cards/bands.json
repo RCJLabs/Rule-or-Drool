@@ -276,7 +276,7 @@
       "decay"
     ],
     "speaker": "judge",
-    "text": "The land archive has been wet since spring. Nobody can now prove who owns the eastern valleys, including you.",
+    "text": "The land archive has been wet since spring. The eastern valleys now belong to whoever says so, including you.",
     "left": {
       "label": "Dry it and copy it",
       "fx": {
@@ -470,7 +470,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "There is a surplus. This has not happened in living memory and nobody has a procedure for it.",
+    "text": "There is a surplus. This has not happened in living memory, and the treasury has no procedure for it.",
     "left": {
       "label": "Put it in the fund",
       "fx": {

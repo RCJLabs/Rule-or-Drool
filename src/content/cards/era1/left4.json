@@ -236,7 +236,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The council housing list runs on points nobody understands. Party members seem to understand them very well.",
+    "text": "The council housing list runs on points no tenant understands. Party members seem to understand them very well.",
     "left": {
       "label": "Publish the points",
       "fx": {
@@ -554,7 +554,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The manifesto was never costed. The treasury has costed it now, and would like to know which half you meant.",
+    "text": "The manifesto was never costed. The treasury has costed it now, and needs to know which half you meant.",
     "oneShot": true,
     "left": {
       "label": "Publish the costing",

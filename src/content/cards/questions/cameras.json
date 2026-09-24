@@ -173,7 +173,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The police cameras the ban left alone have grown into a network nobody voted for. The general wants it made legal, under emergency powers.",
+    "text": "The police cameras the ban left alone have grown into a network that was never voted on. The general wants it made legal, under emergency powers.",
     "left": {
       "label": "Switch it off",
       "fx": {
@@ -205,7 +205,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The Donors' camera firm will put a face scanner on every street, at cost. The Country would rather nobody counted its faces.",
+    "text": "The Donors' camera firm will put a face scanner on every street, at cost. The Country would rather its faces went uncounted.",
     "left": {
       "label": "Face scans everywhere",
       "fx": {
@@ -248,7 +248,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The Donors' firm would like to keep every face it scans. It says the data is perfectly safe, and it is: nobody else can see it.",
+    "text": "The Donors' firm means to keep every face it scans. It says the data is perfectly safe, and it is: nobody else can see it.",
     "left": {
       "label": "Delete them after a day",
       "fx": {
@@ -286,7 +286,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The ban leaves the border without scanners. The general would like to keep a few there, where nobody will ask.",
+    "text": "The ban leaves the border without scanners. The general plans to keep a few there, where nobody will ask.",
     "left": {
       "label": "The ban is the ban",
       "fx": {

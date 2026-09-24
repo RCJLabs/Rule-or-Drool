@@ -97,7 +97,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Banknotes from your first era are still legal tender, and one family kept a warehouse of them. It would like them changed at the old rate.",
+    "text": "Banknotes from your first era are still legal tender, and one family kept a warehouse of them. It demands they be changed at the old rate.",
     "oneShot": true,
     "left": {
       "label": "Change at today's rate",
@@ -252,7 +252,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "A loan taken for the first orbital launch is still being repaid. The lender's heirs would like the rest now, in one payment.",
+    "text": "A loan taken for the first orbital launch is still being repaid. The lender's heirs are calling in the rest now, in one payment.",
     "oneShot": true,
     "left": {
       "label": "Pay it off",
@@ -297,7 +297,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "A tax raised for one year to pay for a war is in its two hundredth year. Nobody can name the war, or the enemy.",
+    "text": "A tax raised for one year to pay for a war is in its two hundredth year. The war is forgotten, and so is the enemy.",
     "left": {
       "label": "Abolish it",
       "fx": {
@@ -554,7 +554,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Adverts must be true now, by law. The advertising industry has shrunk to four people and a dog, and would like a rescue.",
+    "text": "Adverts must be true now, by law. The advertising industry has shrunk to four people and a dog, and is pleading for a rescue.",
     "left": {
       "label": "No rescue",
       "fx": {
@@ -590,7 +590,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "Crime is so low that the police have begun enforcing the rules nobody reads: jaywalking, humming and uneven hedges.",
+    "text": "Crime is so low that the police have begun enforcing the forgotten rules: jaywalking, humming and uneven hedges.",
     "left": {
       "label": "Cut the police",
       "fx": {
@@ -701,7 +701,7 @@
       "decay"
     ],
     "speaker": "general",
-    "text": "The state counts its people by drone now, since nobody opens the door. The drones count anyone who waves as loyal.",
+    "text": "The state counts its people by drone now, since no door opens to a census taker. The drones count anyone who waves as loyal.",
     "oneShot": true,
     "left": {
       "label": "Ground the drones",

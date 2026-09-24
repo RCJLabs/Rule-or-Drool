@@ -97,7 +97,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The trade deal is ready. Nobody in the Cities read the part that lets foreign firms sue the country over its own laws.",
+    "text": "The trade deal is ready. The Cities skipped the part that lets foreign firms sue the country over its own laws.",
     "left": {
       "label": "Strike out the tribunal",
       "fx": {
@@ -322,7 +322,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Trade is open. The Donors would like the factory towns' retraining money spent on a campaign explaining that it was good for them.",
+    "text": "Trade is open. The Donors propose spending the factory towns' retraining money on a campaign explaining that it was good for them.",
     "left": {
       "label": "Spend it on retraining",
       "fx": {

@@ -324,7 +324,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "Grown meat is cheaper than the animal now. The farmers who still raise animals would like a law saying it is not meat.",
+    "text": "Grown meat is cheaper than the animal now. The farmers who still raise animals are lobbying for a law saying it is not meat.",
     "oneShot": true,
     "left": {
       "label": "Let the shops decide",
@@ -363,7 +363,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "Police drones cover the whole capital. Crime is down, and so is attendance at protests, which nobody planned.",
+    "text": "Police drones cover the whole capital. Crime is down, and so is attendance at protests, which was not part of the plan.",
     "left": {
       "label": "Ground them at protests",
       "fx": {
@@ -408,7 +408,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A model can clear the small-claims backlog in a week. It is right nearly every time, and nobody can say which time it is not.",
+    "text": "A model can clear the small-claims backlog in a week. It is right nearly every time, and there is no telling which time it is not.",
     "left": {
       "label": "Keep human judges",
       "fx": {
@@ -659,7 +659,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The national seed vault is flooding. The seeds in it are the only copies of four hundred crops, most of which nobody eats.",
+    "text": "The national seed vault is flooding. The seeds in it are the only copies of four hundred crops, most of them long off the menu.",
     "oneShot": true,
     "left": {
       "label": "Move the vault",
@@ -1209,7 +1209,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "The budget balances, nothing is on fire, and the opposition has nothing to say. Your party would like to spend the surplus before it is noticed.",
+    "text": "The budget balances, nothing is on fire, and the opposition has nothing to say. Your party is itching to spend the surplus before it is noticed.",
     "left": {
       "label": "Save the surplus",
       "fx": {
@@ -1249,7 +1249,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "Trust in the government is the highest it has been in a century. Your press secretary is worried that nobody is checking any more.",
+    "text": "Trust in the government is the highest it has been in a century. Your press secretary is worried that the checking has stopped.",
     "oneShot": true,
     "left": {
       "label": "Fund the watchdogs",

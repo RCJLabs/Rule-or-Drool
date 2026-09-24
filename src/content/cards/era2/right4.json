@@ -50,7 +50,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "A patriotic feed is now the most watched in the country. It would like all of the state's advertising.",
+    "text": "A patriotic feed is now the most watched in the country. It is bidding for all of the state's advertising.",
     "left": {
       "label": "Spread the adverts",
       "fx": {
@@ -282,7 +282,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "Small firms are thriving, and the large ones complain of the competition. They would like a regulator to protect them from it.",
+    "text": "Small firms are thriving, and the large ones complain of the competition. They are lobbying for a regulator to protect them from it.",
     "oneShot": true,
     "left": {
       "label": "Leave the market open",

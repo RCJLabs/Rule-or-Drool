@@ -25,6 +25,29 @@ const extraCard = (over: Partial<Card>): Card => ({
   ...over,
 });
 
+// BACKLOG-7 phase 47: a phrase the deck leans on has a ceiling, and a card that names the time
+// one of the long reign's eras is set at is drawn in that era only.
+describe("rules: the deck's voice, and the time a card says it is", () => {
+  it("warns when a watched phrase is in more cards than its ceiling", () => {
+    const c = makeValid();
+    const three = [1, 2, 3].map((i) => extraCard({ id: `wl${i}`, text: "The donors would like a word." }));
+    const voice = [{ phrase: "would like", match: /\bwould like\b/i, ceiling: 2 }];
+    expect(codes({ ...c, cards: [...c.cards, ...three] }, { voice })).toContain("warn:voice-ceiling");
+    expect(codes({ ...c, cards: [...c.cards, ...three.slice(0, 2)] }, { voice })).not.toContain("warn:voice-ceiling");
+  });
+
+  it("rejects a card that names one of the long reign's eras and is drawn in another", () => {
+    const c = makeValid();
+    const at = (text: string, eras: number[]) => codes({ ...c, cards: [...c.cards, extraCard({ id: "span", text, eras })] });
+    expect(at("Two centuries on, the lake is full.", [4, 5])).toContain("error:era-span");
+    expect(at("Two centuries after the vote, the lake is full.", [5])).toContain("error:era-span");
+    expect(at("Two centuries on, the lake is full.", [4])).not.toContain("error:era-span");
+    expect(at("Five centuries later, it is still wet.", [4])).toContain("error:era-span");
+    // How long something has lasted is not the era's span.
+    expect(at("The estates have not paid tax in two centuries.", [3])).not.toContain("error:era-span");
+  });
+});
+
 describe("rules: baseline", () => {
   it("accepts the valid fixture with no issues at all", () => {
     expect(run(makeValid())).toEqual([]);

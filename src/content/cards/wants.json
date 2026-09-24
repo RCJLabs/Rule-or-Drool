@@ -14,7 +14,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "{advisor} would like the accounts published in full, quarterly, with the embarrassing ones first.",
+    "text": "{advisor} insists on the accounts being published in full, quarterly, with the embarrassing ones first.",
     "cond": {
       "flags": [
         "advisor_adv_brenn"
@@ -210,7 +210,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "{advisor} would like the friendly paper given the interview first, always, as a standing rule.",
+    "text": "{advisor} has made it a standing rule: the friendly paper gets the interview first, always.",
     "cond": {
       "flags": [
         "advisor_adv_larkwood"
@@ -355,7 +355,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "{advisor} would like to keep the staff he trained, all of them, including the two who briefed against you.",
+    "text": "{advisor} means to keep the staff he trained, all of them, including the two who briefed against you.",
     "cond": {
       "flags": [
         "advisor_adv_ferris"
@@ -1153,7 +1153,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "{advisor} can deliver the river wards, every vote, every time. She would like the paving contracts, which is how the river wards are delivered.",
+    "text": "{advisor} can deliver the river wards, every vote, every time. She wants the paving contracts, which is how the river wards are delivered.",
     "cond": {
       "flags": [
         "advisor_adv_pike"

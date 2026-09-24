@@ -12,7 +12,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "A statue in the old square is two hundred years old and nobody knows who it is. A committee would like it to be someone useful.",
+    "text": "A statue in the old square is two hundred years old and its subject is unknown. A committee has proposed that it be someone useful.",
     "oneShot": true,
     "left": {
       "label": "Label it unknown",
@@ -52,7 +52,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A statute from your century requires a licence to own a printer. Nobody enforced it for a hundred and ninety years. A prosecutor has found it.",
+    "text": "One of your statutes requires a licence to own a printer. It went unenforced for a hundred and ninety years. A prosecutor has found it.",
     "oneShot": true,
     "left": {
       "label": "Repeal it today",
@@ -92,7 +92,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Prices carry six more zeroes than in your century. A new currency would tidy the zeroes, and quietly shrink everyone's savings.",
+    "text": "Prices carry six more zeroes than they did in your day. A new currency would tidy the zeroes, and quietly shrink everyone's savings.",
     "oneShot": true,
     "left": {
       "label": "Protect the savers",
@@ -138,7 +138,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The ministry your century built is a listed monument. It cannot be heated, rewired or extended, and four thousand people work in it.",
+    "text": "The ministry you built is a listed monument. It cannot be heated, rewired or extended, and four thousand people work in it.",
     "oneShot": true,
     "left": {
       "label": "Move them somewhere warm",
@@ -216,7 +216,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The ministry's oldest machine has run since your century. Asked whether it may be switched off, it has filed a legal brief, and a good one.",
+    "text": "The ministry's oldest machine has run since your term. Asked whether it may be switched off, it has filed a legal brief, and a good one.",
     "oneShot": true,
     "left": {
       "label": "Hear its case",
@@ -338,7 +338,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The coast your century knew is two kilometres out to sea. The old harbour town is a reef now, with a very popular dive school.",
+    "text": "The coast you knew is two kilometres out to sea. The old harbour town is a reef now, with a very popular dive school.",
     "oneShot": true,
     "left": {
       "label": "Pay to move inland",
@@ -424,7 +424,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The census finds your name is now the commonest first name in the country. Nobody knows why, and a campaign would like to explain it.",
+    "text": "The census finds your name is now the commonest first name in the country. The reason is a mystery, and a campaign has set out to explain it.",
     "oneShot": true,
     "left": {
       "label": "Leave it a mystery",
@@ -499,7 +499,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Voting takes eleven seconds on a phone now. Turnout is ninety-eight per cent, and nobody can say who wrote the app.",
+    "text": "Voting takes eleven seconds on a phone now. Turnout is ninety-eight per cent, and the app's author is unknown.",
     "oneShot": true,
     "left": {
       "label": "Publish the code",
@@ -547,7 +547,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The settlement on the moon has opened an embassy in the capital. It would like the building next to the parliament, and a vote.",
+    "text": "The settlement on the moon has opened an embassy in the capital. It has requested the building next to the parliament, and a vote.",
     "oneShot": true,
     "left": {
       "label": "Give them a seat",
@@ -627,7 +627,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "A heat dome sits over the south every August now. The army has the only water trucks, and would like to run the south for the month.",
+    "text": "A heat dome sits over the south every August now. The army has the only water trucks, and offers to run the south for the month.",
     "oneShot": true,
     "left": {
       "label": "Lend the trucks only",
@@ -668,7 +668,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "A loan your century took is still being repaid, to a bank that was bought by another bank that was bought by a church.",
+    "text": "A loan you took out is still being repaid, to a bank that was bought by another bank that was bought by a church.",
     "oneShot": true,
     "left": {
       "label": "Renegotiate in public",
@@ -950,7 +950,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The northern neighbours have closed their border to people from the heat belt. Yours is next in line, and the army would like to close first.",
+    "text": "The northern neighbours have closed their border to people from the heat belt. Yours is next in line, and the army is ready to close first.",
     "oneShot": true,
     "left": {
       "label": "Keep the border open",
@@ -1074,7 +1074,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "A court finds your century owes the valley towns an apology. Your party would like it worded so that it does not apologise.",
+    "text": "A court finds that you owe the valley towns an apology. Your party is drafting it so that it does not apologise.",
     "oneShot": true,
     "left": {
       "label": "Apologise plainly",
@@ -1233,7 +1233,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "The prisons are nearly empty, except for one wing holding people sentenced under laws from your century that no longer exist.",
+    "text": "The prisons are nearly empty, except for one wing holding people sentenced under your laws, which no longer exist.",
     "oneShot": true,
     "left": {
       "label": "Release them",
@@ -1572,7 +1572,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "A firm has towed a small asteroid into orbit. It is worth more than the national debt, and the firm would like to know who owns the sky.",
+    "text": "A firm has towed a small asteroid into orbit. It is worth more than the national debt, and the firm asks who owns the sky.",
     "oneShot": true,
     "left": {
       "label": "Claim it for the state",
@@ -1784,7 +1784,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "One clerk has held the same post for a hundred and ten years. Nobody else knows the combination to the treasury safe.",
+    "text": "One clerk has held the same post for a hundred and ten years. The combination to the treasury safe is in his head alone.",
     "oneShot": true,
     "left": {
       "label": "Retire them with honour",
@@ -1822,7 +1822,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The river through the capital was named after a leader of your century. Nobody can remember which, and the mapmakers would like a decision.",
+    "text": "The river through the capital was named after a leader of your day. Which one is lost, and the mapmakers need a decision.",
     "oneShot": true,
     "left": {
       "label": "Restore its old name",
@@ -1862,7 +1862,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "A treaty from your century lets the neighbours inspect your bases. Nobody has asked in a hundred years. They have asked.",
+    "text": "A treaty you signed lets the neighbours inspect your bases. They have not asked in a hundred years. They have asked.",
     "oneShot": true,
     "left": {
       "label": "Open the gates",

@@ -56,7 +56,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The feed you took the dial of now has a dial of its own, and nobody can find the room it is in.",
+    "text": "The feed you took the dial of now has a dial of its own, in a room that cannot be found.",
     "cond": {
       "flags": [
         "feed_captured"
@@ -100,7 +100,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The long ship needs a name and a crew list. Both attract people who would like to be remembered.",
+    "text": "The long ship needs a name and a crew list. Both attract people who hope to be remembered.",
     "cond": {
       "flags": [
         "long_ship"

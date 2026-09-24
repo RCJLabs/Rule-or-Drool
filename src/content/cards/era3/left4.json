@@ -159,7 +159,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The movement's slogans are carved on every public building. A new generation would like to revise one, which is now a crime.",
+    "text": "The movement's slogans are carved on every public building. A new generation is set on revising one, which is now a crime.",
     "left": {
       "label": "Allow the revision",
       "fx": {
@@ -232,7 +232,7 @@
       "ascent"
     ],
     "speaker": "scientist",
-    "text": "The plan has hit every target for a decade. The planners would like the targets kept secret, so that they can go on hitting them.",
+    "text": "The plan has hit every target for a decade. The planners have asked for the targets to be kept secret, so that they can go on hitting them.",
     "oneShot": true,
     "left": {
       "label": "Publish the targets",

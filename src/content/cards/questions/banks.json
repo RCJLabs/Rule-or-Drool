@@ -203,7 +203,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Two banks are failing. The Donors want them rescued with public money. The Country would like to know who rescued its farms.",
+    "text": "Two banks are failing. The Donors want them rescued with public money. The Country wonders who rescued its farms.",
     "left": {
       "label": "Bail them out",
       "fx": {
@@ -246,7 +246,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The Donors would like the rescue without conditions, since conditions would upset the markets, which are the Donors.",
+    "text": "The Donors expect the rescue without conditions, since conditions would upset the markets, which are the Donors.",
     "left": {
       "label": "With conditions",
       "fx": {
@@ -283,7 +283,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The failing banks hold the Donors' own deposits. They would like theirs repaid first, before the Country's.",
+    "text": "The failing banks hold the Donors' own deposits. They insist theirs is repaid first, before the Country's.",
     "left": {
       "label": "Savers first",
       "fx": {

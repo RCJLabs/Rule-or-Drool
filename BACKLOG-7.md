@@ -83,7 +83,8 @@ The defaults below are in force unless you change them.
 2. **The edit pass.**
    - **The choice:** (a) you edit everything; (b) I first cut the measured tics, text only,
      and you edit after; (c) the cards launch as they are.
-   - **Default:** (b), which is phase 47.
+   - **Default:** (b), which is phase 47. *Done: `VOICE-PASS.md` lists my 281 rewrites for
+     your edit.*
 3. **Which player the balance is for.**
    - **Default:** the mixed bot, as now, until the closed test shows how people vote.
    - **If people rarely cheat a vote they can win,** the game is easier for them than the
@@ -314,7 +315,71 @@ its cards may have changed. The report says how many it could not rebuild.
 
 ---
 
-## Phase 47. The voice check, and a first pass on the tics — *queued (decision 2)*
+## Phase 47. The voice check, and a first pass on the tics — *done*
+
+**Shipped.**
+- **`npm run voice`** lists the phrases the deck leans on, against their ceilings, and the
+  cards carrying any phrase, by file.
+- **A first pass by me** rewrote the text of 281 cards, text only. `VOICE-PASS.md` lists every
+  change, old text beside new, for your edit.
+
+| Phrase | Ceiling | v0.57.0 | Now |
+|---|---|---|---|
+| "would like" | 40 | 142 | **29** |
+| "nobody" | 60 | 145 | **52** |
+| "your century" | 20 | 60 | **17** |
+| "Two centuries on", opening a card | 15 | 63 | **0** |
+
+**Found on the way: 64 comebacks named the wrong century.**
+- Phase 42's comebacks for the long reign are drawn in both of its eras. 63 of them opened
+  "Two centuries on" and one "Two centuries after", which was wrong in the era headed "Five
+  centuries on".
+- All 64 now hold in either era. The heading says when it is, and the card says what came of
+  the answer. Time words that fit both eras replace the ones that did not: "long ago", "for
+  generations", "an ancestor" rather than "a great-grandmother".
+- The validator now rejects a card that names one of those eras' spans and is drawn in the
+  other (`era-span`). Run on the deck before the pass, it caught all 64. How long something
+  has lasted ("not paid tax in two centuries") is not checked.
+
+**How the rewrites were kept honest.**
+- **Text only.** Every card's other fields hash the same before and after
+  (`51a97c3a7528d1ee`), and the fingerprint of 8,000 seeded runs is unchanged
+  (`e2749e06faa8f4f1`).
+- **Every placeholder kept, and no text over 160 characters.** Two texts grew by 11
+  characters; none grew by more.
+- **No replacement became the new habit.** The first pass leaned on "want" and "ask", and a
+  second pass varied 18 of them. Across the deck, "want" went from 146 cards to 159 and "ask"
+  from 98 to 108. Against that, "would like" fell by 113 cards and "nobody" by 93. No other
+  replacement is in more than eight new cards.
+- **No rewrite brought a card closer to another.** This was checked on three-word phrases,
+  against every card in the deck, before and after.
+- **Kept where the phrase is the joke:**
+  - "would like": the Donors' "in those words", the portrait's height, the merged lobby's "a
+    word, or several";
+  - "nobody": "endorsed nobody, which in this country means everybody", "Nobody watches the
+    news";
+  - "your century": "Your century has been cut, to general relief".
+
+**The check.**
+- **The ceilings are one list,** in `src/content/voice.ts`. `validate:mvp` warns when a phrase
+  goes over its ceiling, and under --strict a warning fails the build, as every content
+  rule's does. There is room under each now: 11, 8, 3 and 15 cards.
+- **`npm run voice` also prints the 2–4-word phrases in the most cards,** so the next habit
+  shows before it has a ceiling.
+
+**Also checked:**
+- The unit suite is 603 tests and the browser suite 42. The browser suite's fit test puts each
+  side's longest cards on a small phone in every look. `validate:mvp` is clean.
+- The store listing needs nothing: still 1,511 cards, and nothing new for the content rating.
+- Run codes, saves, replays and the daily carry card ids, not text, so none of them changes.
+
+**Yours:**
+- **`VOICE-PASS.md`: 281 drafts to edit,** by file, each with the text it replaced.
+- **The ceilings are my numbers.** Raise one on purpose.
+- **"Now" has no ceiling.** It is in 191 cards, mostly as plain English, and is left to your
+  edit.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - **Git shows none of your edits.** All 49 commits that touch the content are mine, and 957
@@ -352,6 +417,8 @@ its cards may have changed. The report says how many it could not rebuild.
 
 **Cost.** The tool is small. The first pass rewrites the text of about 250 cards: what the
 ceilings take out, less the cards that carry two of the phrases.
+
+</details>
 
 ---
 

@@ -60,7 +60,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Now that you are both in it, {advisor} would like a larger share, and a nephew in the ministry of transport.",
+    "text": "Now that you are both in it, {advisor} expects a larger share, and a nephew in the ministry of transport.",
     "cond": {
       "flags": [
         "buried_the_audit"

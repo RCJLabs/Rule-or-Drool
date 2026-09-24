@@ -113,7 +113,7 @@
     ],
     "speaker": "chief",
     "weight": 2,
-    "text": "The machine in the three strongholds can deliver turnout figures nobody will audit. It has done so before, quietly.",
+    "text": "The machine in the three strongholds can deliver turnout figures no auditor will see. It has done so before, quietly.",
     "left": {
       "label": "Run a real drive",
       "honest": true,

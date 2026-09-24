@@ -162,7 +162,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "The security firm that polices the north has passed to its founder's grandson. He is fifteen, and would like a parade.",
+    "text": "The security firm that polices the north has passed to its founder's grandson. He is fifteen, and wants a parade.",
     "oneShot": true,
     "left": {
       "label": "Take policing back",
@@ -238,7 +238,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "Most firms are now younger than their founders. The old families call this instability, and would like a subsidy for stability.",
+    "text": "Most firms are now younger than their founders. The old families call this instability, and have applied for a subsidy for stability.",
     "left": {
       "label": "Decline the subsidy",
       "fx": {

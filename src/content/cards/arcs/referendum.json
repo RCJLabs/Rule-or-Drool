@@ -61,7 +61,7 @@
       "ascent"
     ],
     "speaker": "spin",
-    "text": "The campaign has turned ugly and the state broadcaster is yours. Funding both sides equally is a choice nobody would blame you for skipping.",
+    "text": "The campaign has turned ugly and the state broadcaster is yours. Funding both sides equally is a choice you would not be blamed for skipping.",
     "cond": {
       "flags": [
         "referendum_called"

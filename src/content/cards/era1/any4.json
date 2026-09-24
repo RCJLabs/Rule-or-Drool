@@ -210,7 +210,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Pensioners ride the buses free. The bus company proposes to honour the pass only on the routes nobody uses.",
+    "text": "Pensioners ride the buses free. The bus company proposes to honour the pass only on the empty routes.",
     "left": {
       "label": "Honour it everywhere",
       "fx": {
@@ -332,7 +332,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "Nine public pools are shut for repairs nobody has paid for. Summer is six weeks away, and the river is no place to swim.",
+    "text": "Nine public pools are shut for repairs no budget covers. Summer is six weeks away, and the river is no place to swim.",
     "left": {
       "label": "Repair the pools",
       "fx": {
@@ -1205,7 +1205,7 @@
       "ascent"
     ],
     "speaker": "treasurer",
-    "text": "Ministers' pay has been frozen for twelve years, which polls well. Nobody who needs a salary applies for the job any more.",
+    "text": "Ministers' pay has been frozen for twelve years, which polls well. Only people who do not need a salary apply for the job any more.",
     "left": {
       "label": "Raise it, openly",
       "fx": {
@@ -1277,7 +1277,7 @@
       "ascent"
     ],
     "speaker": "tycoon",
-    "text": "The state owns a vineyard nobody remembers buying. Its wine is served at every official dinner, and its accounts at none.",
+    "text": "The state owns a vineyard it has no record of buying. Its wine is served at every official dinner, and its accounts at none.",
     "left": {
       "label": "Sell it to a donor",
       "fx": {

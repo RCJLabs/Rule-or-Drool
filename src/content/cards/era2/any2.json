@@ -51,7 +51,7 @@
       "ascent"
     ],
     "speaker": "chief",
-    "text": "The payroll has nine thousand names nobody can find. Removing them means admitting they were there for years.",
+    "text": "The payroll has nine thousand names that match no one alive. Removing them means admitting they were there for years.",
     "oneShot": true,
     "left": {
       "label": "Purge the payroll",
@@ -292,7 +292,7 @@
       "ascent"
     ],
     "speaker": "general",
-    "text": "A foreign firm offers a city-wide camera network free of charge. It would like to keep a copy of the footage.",
+    "text": "A foreign firm offers a city-wide camera network free of charge. Its one condition is a copy of the footage.",
     "oneShot": true,
     "left": {
       "label": "Pay for it yourself",

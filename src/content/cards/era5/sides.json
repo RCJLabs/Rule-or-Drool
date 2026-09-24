@@ -92,7 +92,7 @@
       "ascent"
     ],
     "speaker": "judge",
-    "text": "An audit finds perfect equality on every measure the movement ever set. It also finds a new measure nobody set, and it is bad.",
+    "text": "An audit finds perfect equality on every measure the movement ever set. It also finds a new measure that no committee set, and it is bad.",
     "oneShot": true,
     "left": {
       "label": "Publish the new measure",
