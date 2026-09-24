@@ -120,7 +120,7 @@
         "public": 3,
         "backers": -4
       },
-      "drift": 3,
+      "drift": 6,
       "clearFlags": [
         "port_on"
       ]

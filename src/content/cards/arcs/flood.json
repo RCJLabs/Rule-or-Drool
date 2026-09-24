@@ -121,7 +121,7 @@
         "base": -2,
         "public": -2
       },
-      "drift": 3,
+      "drift": 4,
       "setFlags": [
         "levee_built"
       ],

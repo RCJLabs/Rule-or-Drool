@@ -139,7 +139,7 @@ function main(): void {
   // BACKLOG-7 phase 45: how the frame's look behaves over the mixed bot's first runs.
   const look = lookProfile(lib, { runs: 2000 });
   console.log(
-    `the look (2,000 first runs, mixed bot): ${look.changes} changes a run, ${pct(look.undone)} undone within three cards (want at most 25%), ` +
+    `the look (2,000 first runs, mixed bot): ${look.changes} changes a run, ${pct(look.undone)} undone within three cards (want at most 27%), ` +
       `${pct(look.held)} of cards held past their drift (at most 12%), ${look.late} shown late`,
   );
   if (args.strict && misses.length > 0) process.exit(1);

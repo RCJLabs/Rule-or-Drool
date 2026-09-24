@@ -120,7 +120,7 @@
         "backers": -4,
         "base": -3
       },
-      "drift": 3,
+      "drift": 6,
       "clearFlags": [
         "harvest_on"
       ]

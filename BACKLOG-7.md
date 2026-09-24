@@ -133,6 +133,8 @@ gave.
 - **The other seed sets agree.** 2,000 runs from 100,000 give 16 changes, 24.3% undone and
   10.8% held. 2,000 from 500,000 give 16, 23.9% and 10.7%. The undone target has less than
   a point of room on every set.
+- **The undone target is 27% since v0.59.1.** With so little room, a change to the deck
+  could fail it by chance (phase 48's follow-up).
 - **The other bots:**
   - greedy: 24 changes and 62.1% undone before, 12 and 33.0% now;
   - random: 9 and 51.2% before, 6 and 24.5% now;
@@ -547,15 +549,16 @@ offered by choice and the history names all still pass their tests.
 - **The 22 stories are drafts, in your voice, to edit.** Each is one file in
   `src/content/cards/arcs/`, named after it. Their endings are at the end of
   `src/content/endings.json`, and their history names are in `src/content/histories.json`.
-- **Three numbers have little room.** The look's undone share is 0.6 points under its
-  ceiling, and era 1's tenth run is 2.9 points under its. Greedy's Decay is 3.8 points
-  above its floor. If you change a story's effects or drift, run `npm run simulate`.
+- **Two numbers have little room,** as of v0.59.1. Era 1's tenth run is 2.9 points under its
+  ceiling, and greedy's Decay is 2.4 points above its floor. If you change a story's effects
+  or drift, run `npm run simulate`.
 - **Old run codes and today's daily.** New stories change what a seed deals. A code sent
   before this update opens a different run after it, and on the day the update lands,
   players on the two versions get different dailies.
 
-**Followed up after shipping.** Three things from the list above were measured. The game
-itself is unchanged, so the version stays.
+**Followed up after shipping.** Three things from the list above were measured. Two of them
+changed the game, in v0.59.1: the drafted drift is back on 16 honest sides, and the look's
+undone limit is 27%.
 
 **The story test is a third faster.** It played each player's first ten runs twice: once for
 the tenth run, and again on the way to the twentieth. `repeatProfiles` measures several of a
@@ -566,10 +569,10 @@ shipped function on 12 players for both kinds of card, runs 10 and 20, era by er
 - `npm run simulate` uses it too, and plays 4,800 runs for its repeat lines instead of 7,200.
 
 **The look has no more room to give.** Its two ceilings pull against each other: a look that
-lets go later is undone less and held longer. Each range below is from three sets of 2,000
-first runs, from seeds 900,000, 910,000 and 920,000.
+lets go later is undone less and held longer. Each range below is v0.59.0 on three sets of
+2,000 first runs, from seeds 900,000, 910,000 and 920,000.
 
-| Margin | Undone within three cards (≤ 25%) | Held past drift (≤ 12%) |
+| Margin | Undone within three cards | Held past drift (≤ 12%) |
 |---|---|---|
 | 3 | 32.2–32.9% | 8.0–8.2% |
 | 4, as shipped | 23.9–24.7% | 10.7–11.0% |
@@ -580,24 +583,37 @@ first runs, from seeds 900,000, 910,000 and 920,000.
 - **A margin for each line only moves room from one ceiling to the other.** Raising the
   margin at one line (8, 20 or 36) by one takes about 1.5 points off undone and adds 0.7–1.1
   to held. The best of these, 4/4/5, reads 22.8% and 11.5%.
-- **The shipped 24.4% moves with the seeds, by ±0.4.** So its rise from 24.0% in this phase
-  may be noise rather than the stories. A later content change can fail this test by noise
-  alone. If it does, the choice is the ceiling, not the margin.
+- **v0.59.0's 24.4% moves with the seeds, by ±0.4.** So its rise from 24.0% in this phase
+  may be noise rather than the stories, and any change to the deck could fail the 25% limit
+  by chance. Phase 45 found under a point of room on every set from the start.
 
-**The +3 stays, as a choice rather than a patch.** It does not only touch greedy. Anyone who
-wants to keep ruling has to take the honest side on those 16 cards, because the other side
-ends the run. Greedy and the mixed bot each meet 0.45 of them a run, and 36% of their runs
-meet at least one. At 10,000 runs a bot:
+**The drafted drift is back, and the look's limit is 27%.** The +3 did not only touch greedy.
+Anyone who wants to keep ruling has to take the honest side on those 16 cards, because the
+other side ends the run. Greedy and the mixed bot each meet 0.45 of them a run, and 36% of
+their runs meet at least one. At 10,000 runs a bot:
 
-| | +3, as shipped | +4 to +6, as drafted |
+| | +3, in v0.59.0 | +4 to +6, as drafted, in v0.59.1 |
 |---|---|---|
 | Greedy: ends in Decay (≥ 70%) | 73.8% | 72.4% |
 | Mixed: reaches Ascent (15–30%) | 19.5% | 20.2% |
-| The look: undone within three cards (≤ 25%) | 24.4% | 24.8% |
+| The look: undone within three cards | 24.4% | 24.8% |
 | Drift greedy gets from those honest sides, a run on average | 1.34 | 2.53 |
 
-Both pass every target. The drafted drift would leave the look 0.2 points under its ceiling,
-inside its seed noise. So restore it only together with a higher ceiling for the look.
+- **The drafted drift is what shipped in v0.59.1.** Those honest sides give +4 to +6 again,
+  in line with the honest steps before them, which give +4 and +5.
+- **Every target passes with it:**
+  - random play's median run is 45 cards, and its most common ouster is bankruptcy at 13.5%;
+  - saint is ousted before era 2 in 100% of runs;
+  - repeats read 61.7%, 57.1% and 81.9% for all cards, and 62.5% and 83.3% for stories.
+- **The look reads 24.3–24.8%** on five sets of seeds: 900,000, 910,000, 920,000, 100,000
+  and 500,000. That is 0.2 points under 25% at worst.
+- **So the undone limit is now 27%,** 2.2 points above the highest reading. It still holds
+  the look to about half of the 53% phase 45 started from.
+- **One guard sits on its line.** The test also holds the look to at most 16 changes a run,
+  a guard rather than a target. It reads 16 on the harness's seeds and 15–16 on the others,
+  so it too can trip by chance.
+- **Old run codes.** A run that meets one of those cards plays on differently from there, so
+  its code from v0.59.0 opens a different run.
 
 <details><summary>Original entry</summary>
 

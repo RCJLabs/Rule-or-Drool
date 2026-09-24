@@ -118,7 +118,7 @@
         "money": -2,
         "public": 3
       },
-      "drift": 3,
+      "drift": 6,
       "clearFlags": [
         "foundation_on"
       ]

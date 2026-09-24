@@ -116,7 +116,7 @@
         "base": -3,
         "public": -3
       },
-      "drift": 3,
+      "drift": 5,
       "clearFlags": [
         "captain_on"
       ]

@@ -118,7 +118,7 @@
         "inst": 3,
         "base": -3
       },
-      "drift": 3,
+      "drift": 5,
       "clearFlags": [
         "debate_on"
       ]

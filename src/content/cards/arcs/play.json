@@ -119,7 +119,7 @@
         "order": -3,
         "base": -2
       },
-      "drift": 3,
+      "drift": 6,
       "clearFlags": [
         "play_on"
       ]
