@@ -25,24 +25,39 @@ export interface RepeatOptions {
   cards?: "all" | "stories";
 }
 
+/** Each player's share of cards already played, over the whole run and era by era. */
+export interface RepeatProfile {
+  all: number[];
+  byEra: Map<number, number[]>;
+}
+
 /**
  * For each player, the share of the cards in their `run`th run that they had already played
  * in an earlier one, over the whole run and era by era. A player plays their runs in order
  * with the mixed bot, on alternating sides, keeping what each run unlocks: the audit behind
  * BACKLOG-5 phase 36, which found 89% at run ten when the deck held 554 cards.
  */
-export function repeatProfile(lib: Library, { players, run, seedBase = 100_000, cards = "all" }: RepeatOptions): { all: number[]; byEra: Map<number, number[]> } {
+export function repeatProfile(lib: Library, { run, ...rest }: RepeatOptions): RepeatProfile {
+  return repeatProfiles(lib, { ...rest, runs: [run] }).get(run)!;
+}
+
+/**
+ * repeatProfile at several of each player's runs, from one pass over their runs. A player's
+ * tenth run is the same whether or not they go on to a twentieth, so this gives exactly what
+ * a call per run would, without playing the first ten twice.
+ */
+export function repeatProfiles(lib: Library, { players, runs, seedBase = 100_000, cards = "all" }: Omit<RepeatOptions, "run"> & { runs: readonly number[] }): Map<number, RepeatProfile> {
   const counts = (id: string) => {
     if (cards === "all") return true;
     const card = getCard(lib, id);
     return card.arc !== undefined && questionOf(lib, card) === undefined;
   };
-  const all: number[] = [];
-  const byEra = new Map<number, number[]>();
+  const out = new Map<number, RepeatProfile>(runs.map((r) => [r, { all: [], byEra: new Map() }]));
+  const last = Math.max(0, ...runs);
   for (let p = 0; p < players; p++) {
     let meta = emptyMeta();
     const seen = new Set<string>();
-    for (let r = 1; r <= run; r++) {
+    for (let r = 1; r <= last; r++) {
       const seed = seedBase + p * 1000 + r;
       const align: PlayerAlign = (p + r) % 2 ? "left" : "right";
       const rng = makeRng(seed ^ 0x5bd1e995);
@@ -55,18 +70,19 @@ export function repeatProfile(lib: Library, { players, run, seedBase = 100_000, 
         if (counts(id)) drawn.push({ id, era: state.era });
         state = resolve(lib, state, id, BOTS.mixed(makeContext(lib, state, getCard(lib, id), rng, { danger: 25 })));
       }
-      if (r === run && drawn.length) {
+      const at = out.get(r);
+      if (at && drawn.length) {
         const share = (ds: typeof drawn) => ds.filter((d) => seen.has(d.id)).length / ds.length;
-        all.push(share(drawn));
+        at.all.push(share(drawn));
         for (const era of new Set(drawn.map((d) => d.era))) {
-          byEra.set(era, [...(byEra.get(era) ?? []), share(drawn.filter((d) => d.era === era))]);
+          at.byEra.set(era, [...(at.byEra.get(era) ?? []), share(drawn.filter((d) => d.era === era))]);
         }
       }
       for (const d of drawn) seen.add(d.id);
       meta = foldRun(lib, meta, state).meta;
     }
   }
-  return { all, byEra };
+  return out;
 }
 
 export interface LookOptions {

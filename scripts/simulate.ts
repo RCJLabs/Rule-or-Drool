@@ -13,7 +13,7 @@
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, lookProfile, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, lookProfile, quantiles, repeatProfiles, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 interface Args {
   runs: number;
@@ -123,15 +123,15 @@ function main(): void {
   // Fixed players rather than --runs and --seed, so the numbers compare across decks: forty
   // players from seed 300,000, the way BACKLOG-6 measured what phase 44 set out to bring down.
   const pct = (x: number) => `${(100 * x).toFixed(1)}%`;
-  const tenth = repeatProfile(lib, { players: 40, run: 10, seedBase: 300_000 });
-  const twentieth = repeatProfile(lib, { players: 40, run: 20, seedBase: 300_000 });
+  const deck = repeatProfiles(lib, { players: 40, runs: [10, 20], seedBase: 300_000 });
+  const [tenth, twentieth] = [deck.get(10)!, deck.get(20)!];
   console.log(
     `cards already seen (median of 40 players, mixed bot): tenth run ${pct(quantiles(tenth.all).median)} (want at most 65%), ` +
       `its first era ${pct(quantiles(tenth.byEra.get(1)!).median)} (at most 60%); twentieth run ${pct(quantiles(twentieth.all).median)} (at most 85%)`,
   );
   // BACKLOG-7 phase 48: the stories on their own, which repeated fastest, on 200 players.
-  const storyTenth = repeatProfile(lib, { players: 200, run: 10, seedBase: 300_000, cards: "stories" });
-  const storyTwentieth = repeatProfile(lib, { players: 200, run: 20, seedBase: 300_000, cards: "stories" });
+  const stories = repeatProfiles(lib, { players: 200, runs: [10, 20], seedBase: 300_000, cards: "stories" });
+  const [storyTenth, storyTwentieth] = [stories.get(10)!, stories.get(20)!];
   console.log(
     `story cards already met (median of 200 players): tenth run ${pct(quantiles(storyTenth.all).median)} (want at most 65%), ` +
       `twentieth run ${pct(quantiles(storyTwentieth.all).median)} (at most 85%)`,

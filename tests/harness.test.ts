@@ -9,7 +9,7 @@ import type { GameState, PlayerAlign } from "../src/engine/types";
 import { historyOf } from "../src/meta/histories";
 import { allUnlockTokens } from "../src/meta/objectives";
 import { emptyMeta, foldRun } from "../src/meta/state";
-import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, lookProfile, makeContext, playRun, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, lookProfile, makeContext, playRun, quantiles, repeatProfile, repeatProfiles, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -138,11 +138,15 @@ describe("the deck by run ten and run twenty", () => {
 describe("the stories by run ten and run twenty", () => {
   it("keeps a player's story cards at most 65% already met by their tenth run, and 85% by their twentieth", () => {
     const med = (xs: number[]) => quantiles(xs).median;
-    const tenth = repeatProfile(library, { players: 200, run: 10, seedBase: 300_000, cards: "stories" });
-    const twentieth = repeatProfile(library, { players: 200, run: 20, seedBase: 300_000, cards: "stories" });
-    expect(med(tenth.all)).toBeLessThanOrEqual(0.65);
-    expect(med(twentieth.all)).toBeLessThanOrEqual(0.85);
+    const at = repeatProfiles(library, { players: 200, runs: [10, 20], seedBase: 300_000, cards: "stories" });
+    expect(med(at.get(10)!.all)).toBeLessThanOrEqual(0.65);
+    expect(med(at.get(20)!.all)).toBeLessThanOrEqual(0.85);
   }, 240000);
+
+  it("measures several of a player's runs in one pass exactly as it measures one at a time", () => {
+    const both = repeatProfiles(library, { players: 3, runs: [2, 4], seedBase: 300_000, cards: "stories" });
+    for (const run of [2, 4]) expect(both.get(run)).toEqual(repeatProfile(library, { players: 3, run, seedBase: 300_000, cards: "stories" }));
+  }, 60000);
 });
 
 describe("who a run inherits", () => {

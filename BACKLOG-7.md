@@ -554,6 +554,51 @@ offered by choice and the history names all still pass their tests.
   before this update opens a different run after it, and on the day the update lands,
   players on the two versions get different dailies.
 
+**Followed up after shipping.** Three things from the list above were measured. The game
+itself is unchanged, so the version stays.
+
+**The story test is a third faster.** It played each player's first ten runs twice: once for
+the tenth run, and again on the way to the twentieth. `repeatProfiles` measures several of a
+player's runs in one pass. Its results are identical to one pass per run, checked against the
+shipped function on 12 players for both kinds of card, runs 10 and 20, era by era.
+- The test takes 27 seconds on its own, down from 40. The whole unit suite gains less, 246
+  seconds to 238 here, because its files run side by side.
+- `npm run simulate` uses it too, and plays 4,800 runs for its repeat lines instead of 7,200.
+
+**The look has no more room to give.** Its two ceilings pull against each other: a look that
+lets go later is undone less and held longer. Each range below is from three sets of 2,000
+first runs, from seeds 900,000, 910,000 and 920,000.
+
+| Margin | Undone within three cards (≤ 25%) | Held past drift (≤ 12%) |
+|---|---|---|
+| 3 | 32.2–32.9% | 8.0–8.2% |
+| 4, as shipped | 23.9–24.7% | 10.7–11.0% |
+| 5 | 18.8–19.2% | 13.3–13.6% |
+| 6 | 15.5–16.0% | 16.0–16.5% |
+
+- **Nothing lies between 4 and 5,** since drift moves in whole steps.
+- **A margin for each line only moves room from one ceiling to the other.** Raising the
+  margin at one line (8, 20 or 36) by one takes about 1.5 points off undone and adds 0.7–1.1
+  to held. The best of these, 4/4/5, reads 22.8% and 11.5%.
+- **The shipped 24.4% moves with the seeds, by ±0.4.** So its rise from 24.0% in this phase
+  may be noise rather than the stories. A later content change can fail this test by noise
+  alone. If it does, the choice is the ceiling, not the margin.
+
+**The +3 stays, as a choice rather than a patch.** It does not only touch greedy. Anyone who
+wants to keep ruling has to take the honest side on those 16 cards, because the other side
+ends the run. Greedy and the mixed bot each meet 0.45 of them a run, and 36% of their runs
+meet at least one. At 10,000 runs a bot:
+
+| | +3, as shipped | +4 to +6, as drafted |
+|---|---|---|
+| Greedy: ends in Decay (≥ 70%) | 73.8% | 72.4% |
+| Mixed: reaches Ascent (15–30%) | 19.5% | 20.2% |
+| The look: undone within three cards (≤ 25%) | 24.4% | 24.8% |
+| Drift greedy gets from those honest sides, a run on average | 1.34 | 2.53 |
+
+Both pass every target. The drafted drift would leave the look 0.2 points under its ceiling,
+inside its seed noise. So restore it only together with a higher ceiling for the look.
+
 <details><summary>Original entry</summary>
 
 **Why.**
