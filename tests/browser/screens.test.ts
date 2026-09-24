@@ -15,7 +15,7 @@ import { BLOC_KEYS } from "../../src/engine/types";
 import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
 import { fitPlacements } from "../fit";
-import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, SEED, startRun, target, toLook } from "./harness";
+import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -124,11 +124,7 @@ describe.skipIf(!target)("in a browser", () => {
         ["another deck", `raw.state.deck = "zzzzzzzz";`],
         ["a card this version lacks", `raw.state.current = "card_from_a_later_version";`],
       ] as const) {
-        await page.evaluate(`(() => {
-          const raw = JSON.parse(localStorage.getItem("rod.run"));
-          ${change}
-          localStorage.setItem("rod.run", JSON.stringify(raw));
-        })()`);
+        await rewriteRun(page, change);
         await page.reload();
         await page.waitForSelector(".saved-note");
         failures.push(...(await contrast(page, label)));
@@ -179,11 +175,7 @@ describe.skipIf(!target)("in a browser", () => {
 
     it("on the screen a broken saved run leaves, which lets the run go", async () => {
       const page = await startRun(browser, "left", { width: 360, height: 640 });
-      await page.evaluate(`(() => {
-        const raw = JSON.parse(localStorage.getItem("rod.run"));
-        raw.state.activeArcs = null;
-        localStorage.setItem("rod.run", JSON.stringify(raw));
-      })()`);
+      await rewriteRun(page, `raw.state.activeArcs = null;`);
       await page.reload();
       await page.waitForSelector(".crash");
       const failures = [...(await contrast(page, "the error screen")), ...(await misfits(page, "the error screen"))];
@@ -308,13 +300,12 @@ describe.skipIf(!target)("in a browser", () => {
         const page = await startRun(browser, party, { width: 360, height: 640 });
         for (let i = 0; i < 3; i++) await choose(page, "right");
         // Put that card on the table, as the step of its question it is, and take the run up again.
-        await page.evaluate(`(() => {
-          const raw = JSON.parse(localStorage.getItem("rod.run"));
-          raw.state.current = ${JSON.stringify(longest.id)};
+        await rewriteRun(
+          page,
+          `raw.state.current = ${JSON.stringify(longest.id)};
           raw.state.currentFrom = "arc";
-          raw.state.activeArcs = [...raw.state.activeArcs, { id: ${JSON.stringify(longest.arc)}, nextCard: ${JSON.stringify(longest.id)} }];
-          localStorage.setItem("rod.run", JSON.stringify(raw));
-        })()`);
+          raw.state.activeArcs = [...raw.state.activeArcs, { id: ${JSON.stringify(longest.arc)}, nextCard: ${JSON.stringify(longest.id)} }];`,
+        );
         await page.reload();
         await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
         await page.waitForSelector(".question-title");
@@ -636,15 +627,14 @@ describe.skipIf(!target)("in a browser", () => {
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
-          await page.evaluate(`(() => {
-            const raw = JSON.parse(localStorage.getItem("rod.run"));
-            raw.state.current = ${JSON.stringify(card.id)};
+          await rewriteRun(
+            page,
+            `raw.state.current = ${JSON.stringify(card.id)};
             raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" ? "election" : "deck")};
             ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
             ${kind === "election" ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
-            Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});
-            localStorage.setItem("rod.run", JSON.stringify(raw));
-          })()`);
+            Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
+          );
           await page.reload();
           await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
           await page.waitForSelector(`.card[data-card="${card.id}"]`);

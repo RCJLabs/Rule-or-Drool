@@ -244,7 +244,26 @@ export const LATE: Record<"ascent" | "decay" | "muddle", Late> = {
 export async function endRun(page: Page, late: Late): Promise<void> {
   const { eraLength, eraCount } = library.config;
   await playFrom(page, late, { cardCount: eraLength * eraCount - 1, era: eraCount });
-  await page.waitForSelector(".history-title");
+  // A run that does not end says what is on the screen instead: the daily's audit once waited
+  // out its 30s here in a full check, and a bare timeout said nothing about why.
+  await page.waitForSelector(".history-title").catch(async () => {
+    throw new Error(`the run did not end. On the screen: ${await onScreen(page)}`);
+  });
+}
+
+/** What a screen is showing, for a failure to say: the card, the run's numbers, any error. */
+async function onScreen(page: Page): Promise<string> {
+  return (await page.evaluate(`(() => {
+    const text = (sel) => document.querySelector(sel)?.textContent?.replace(/\\s+/g, " ").trim().slice(0, 200);
+    return JSON.stringify({
+      card: document.querySelector(".card")?.getAttribute("data-card") ?? null,
+      debug: text(".debug") ?? null,
+      crash: text(".crash") ?? null,
+      dialog: text("[role=dialog], [role=alertdialog]") ?? null,
+      era: text(".era-jump") ?? null,
+      saved: JSON.parse(localStorage.getItem("rod.run") ?? "null")?.state?.cardCount ?? null,
+    });
+  })()`)) as string;
 }
 
 /**
@@ -252,6 +271,30 @@ export async function endRun(page: Page, late: Late): Promise<void> {
  * stand on `cardCount` in `era` carrying these decisions, and play that card. A long reign past
  * its third era also takes the band its first three set (BACKLOG-5 phase 39).
  */
+/**
+ * Rewrite the saved run, for a table no seed deals. The game saves the run in an effect, after
+ * the new card is drawn, so a rewrite made the moment a card changed could be overwritten by the
+ * save of the choice before it: the reload then took the run up where it was, and the daily's
+ * audit waited 30s for an end that never came (a full check run under load, BACKLOG-9 phase 53).
+ * So a rewrite waits until the save is the run on the table, its card and its count as the debug
+ * panel shows them. With no card on the table, as on the menu, nothing is waiting to be saved.
+ */
+export async function rewriteRun(page: Page, change: string): Promise<void> {
+  await page.waitForFunction(`(() => {
+    if (!document.querySelector(".card")) return true;
+    const raw = localStorage.getItem("rod.run");
+    const shown = document.querySelector(".debug")?.textContent?.match(/card #(\\d+) +(\\S+)/);
+    if (!raw || !shown) return false;
+    const { state } = JSON.parse(raw);
+    return state.cardCount === Number(shown[1]) && state.current === shown[2];
+  })()`);
+  await page.evaluate(`(() => {
+    const raw = JSON.parse(localStorage.getItem("rod.run"));
+    ${change}
+    localStorage.setItem("rod.run", JSON.stringify(raw));
+  })()`);
+}
+
 export async function playFrom(page: Page, late: Late, at: { cardCount: number; era: number; band?: string }): Promise<void> {
   for (let i = 0; i < 4; i++) await choose(page, "right");
   const patch = {
@@ -266,14 +309,13 @@ export async function playFrom(page: Page, late: Late, at: { cardCount: number; 
     nextElectionAt: at.cardCount + library.config.electionInterval,
     ...(at.band ? { band: at.band, bandLocked: true } : {}),
   };
-  await page.evaluate(`(() => {
-    const raw = JSON.parse(localStorage.getItem("rod.run"));
-    Object.assign(raw.state, ${JSON.stringify(patch)});
+  await rewriteRun(
+    page,
+    `Object.assign(raw.state, ${JSON.stringify(patch)});
     raw.state.flags = [...new Set([...raw.state.flags, ...${JSON.stringify(late.flags)}])];
     raw.state.flagSince = { ...raw.state.flagSince, ...${JSON.stringify(late.since)} };
-    raw.state.stats = { ...raw.state.stats, electionsHonest: 1, electionsCheated: 2 };
-    localStorage.setItem("rod.run", JSON.stringify(raw));
-  })()`);
+    raw.state.stats = { ...raw.state.stats, electionsHonest: 1, electionsCheated: 2 };`,
+  );
   await page.reload();
   await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
   await page.waitForSelector(".card");
