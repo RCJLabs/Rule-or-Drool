@@ -198,7 +198,7 @@ describe("the other road, elsewhere", () => {
     finish(g);
     act(() => g.current.takeOtherRoad(decisionCard(g.current.state!)));
     finish(g);
-    render(<Codex lib={library} meta={g.current.meta} onBack={() => {}} onSettings={() => {}} />);
+    render(<Codex lib={library} meta={g.current.meta} onBack={() => {}} onSettings={() => {}} open="runs" />);
     expect(document.querySelectorAll(".codex-road")).toHaveLength(1);
   });
 

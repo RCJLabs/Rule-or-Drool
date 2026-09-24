@@ -1745,10 +1745,73 @@ button {
   background: var(--paper);
   cursor: pointer;
 }
-.codex-progress {
+/* The codex as an index: groups of sections, each a row saying how much of it is found,
+   opened one at a time where it stands. */
+.codex-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.codex-row-h {
   margin: 0;
+  /* Room above the row when it is scrolled to the top on opening. */
+  scroll-margin-top: var(--space);
+}
+.codex-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--paper);
+  border: var(--border) solid var(--ink);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.codex-row-title {
+  flex: 1 1 auto;
+}
+.codex-row-count {
+  flex: 0 0 auto;
   font-size: 13px;
+  font-weight: 600;
   color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.codex-chevron {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.codex-row[aria-expanded="true"] {
+  border-left-width: 5px;
+  border-left-color: var(--accent);
+}
+.codex-row[aria-expanded="true"] .codex-chevron {
+  rotate: 180deg;
+}
+.codex-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+/* The month names itself in the row that opens it. */
+.codex-panel .daily-month > h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .codex h2 {
   margin: 0 0 6px;

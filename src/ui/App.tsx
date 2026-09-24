@@ -3,7 +3,7 @@ import { library } from "../content";
 import { DECK_PATTERN } from "../engine/deck";
 import { decodeRunCode, decodeRunResult, type Decoded, type RunResult } from "../meta";
 import { STRINGS } from "../content/strings";
-import { Codex } from "./Codex";
+import { Codex, type CodexSection } from "./Codex";
 import { Ending } from "./Ending";
 import { Play } from "./Play";
 import { Cabinet } from "./Cabinet";
@@ -24,6 +24,8 @@ function progressInHash(): string | null {
 export function App() {
   const game = useGame(library);
   const sw = useServiceWorker();
+  // The codex section left open, so going back to the menu and returning finds it open.
+  const [codexOpen, setCodexOpen] = useState<CodexSection | null>(null);
   const debug = useMemo(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"), []);
   // A run someone sent (BACKLOG-2 phase 11). Read once; offered, never started unasked.
   const [shared, setShared] = useState<Decoded | null>(() => {
@@ -136,7 +138,7 @@ export function App() {
     return (
       <>
         {banner}
-        <Codex lib={library} meta={game.meta} onBack={game.closeCodex} onSettings={game.openSettings} />
+        <Codex lib={library} meta={game.meta} onBack={game.closeCodex} onSettings={game.openSettings} open={codexOpen} onOpen={setCodexOpen} />
         {settingsMenu}
         {raised}
         {notice}

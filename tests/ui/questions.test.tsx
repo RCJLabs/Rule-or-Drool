@@ -73,8 +73,8 @@ describe("a question on the table", () => {
 
 describe("the questions in the codex", () => {
   const codex = (legacies: Record<string, number>) =>
-    render(<Codex lib={library} meta={{ ...emptyMeta(), legacies }} onBack={noop} onSettings={noop} today="2026-09-23" />);
-  const section = () => [...document.querySelectorAll("section")].find((s) => s.querySelector("h2")?.textContent === STRINGS.codex.questions)!;
+    render(<Codex lib={library} meta={{ ...emptyMeta(), legacies }} onBack={noop} onSettings={noop} today="2026-09-23" open="questions" />);
+  const section = () => document.querySelector("[data-section='questions'] .codex-panel")!;
 
   it("keeps a question blank until it has been asked", () => {
     codex({});
@@ -88,12 +88,13 @@ describe("the questions in the codex", () => {
 
   it("names one you have answered, and how often you gave each answer", () => {
     const { container } = codex({ went_to_war: 2, stayed_out: 1 });
+    expect(container.querySelector("[data-section='questions'] .codex-row-title")!.textContent).toBe(STRINGS.codex.questions);
     const found = section().querySelectorAll("li.found");
     expect(found).toHaveLength(1);
     expect(found[0]!.textContent).toContain(STRINGS.questions.titles.treaty);
     expect(found[0]!.textContent).toContain("Send the army 2");
     expect(found[0]!.textContent).toContain("Stay out of it 1");
-    // And the count at the top says one of the questions has been asked.
-    expect(container.querySelector(".codex-progress")!.textContent).toContain(`${STRINGS.codex.questionsShort} 1/`);
+    // And the row says one of the questions has been asked.
+    expect(container.querySelector("[data-section='questions'] .codex-row-count")!.textContent).toBe(`1/${Object.keys(STRINGS.questions.titles).length}`);
   });
 });

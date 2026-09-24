@@ -105,9 +105,10 @@ describe("App", () => {
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: /Codex 0\// }));
     expect(screen.getByRole("heading", { name: "Codex" })).toBeTruthy();
-    // Nothing discovered yet, so every ending entry is locked.
+    // Nothing discovered yet, so no ending is named, only counted.
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.codex.endings}`) }));
     expect(document.querySelectorAll(".codex-list li.found")).toHaveLength(0);
-    expect(document.querySelectorAll(".codex-list li.locked").length).toBeGreaterThan(20);
+    expect(screen.getByText(STRINGS.codex.notFound.replace("{n}", String(library.endings.size)))).toBeTruthy();
     expect(screen.queryByText("The Streets Decide")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Back" }));

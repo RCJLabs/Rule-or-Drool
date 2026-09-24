@@ -501,11 +501,9 @@ export const STRINGS = {
     stories: "Stories",
     // The questions, and how you have answered each across your runs (BACKLOG-6 phase 42).
     questions: "The questions",
-    questionsShort: "Questions",
     notAsked: "Not asked yet",
     legacies: "What the country was left with",
     histories: "What history called you",
-    historiesShort: "Histories",
     noHistories: "History has not made up its mind about you yet.",
     unwritten: "{n} more are still unwritten.",
     cabinet: "People",
@@ -515,6 +513,15 @@ export const STRINGS = {
     noHistory: "No administration has ended yet.",
     mandates: "Promises you made",
     noMandates: "You have taken the job on no terms yet.",
+    // The codex as an index of sections, opened one at a time.
+    groups: {
+      record: "Your record",
+      ending: "How it ends",
+      along: "Along the way",
+      remembered: "What is remembered",
+    },
+    notFound: "{n} not found yet.",
+    moreNotFound: "{n} more not found yet.",
   },
   /**
    * The stream the Decay path is broadcast on (BACKLOG-3 phase 18). Generic on purpose:

@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import type { Browser } from "playwright-core";
+import type { Browser, Page } from "playwright-core";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
@@ -29,6 +29,22 @@ import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf
 
 const LONGEST_MANDATE = MANDATES.reduce((a, b) => (b.title.length > a.title.length ? b : a));
 
+/**
+ * The codex read for contrast section by section. It is an index that opens one section at a
+ * time, so each is opened in turn: the index alone would leave every list unread.
+ */
+async function codexContrast(page: Page, label: string): Promise<string[]> {
+  const failures = await contrast(page, `${label}, index`);
+  const rows = page.locator(".codex-row");
+  for (let i = 0; i < (await rows.count()); i++) {
+    const name = (await rows.nth(i).locator(".codex-row-title").textContent()) ?? String(i);
+    await rows.nth(i).click();
+    await page.waitForSelector(".codex-panel");
+    failures.push(...(await contrast(page, `${label}, ${name}`)));
+  }
+  return failures;
+}
+
 describe.skipIf(!target)("in a browser", () => {
   let browser: Browser;
   beforeAll(async () => {
@@ -50,7 +66,7 @@ describe.skipIf(!target)("in a browser", () => {
       failures.push(...(await contrast(page, "setup, with the promises open")));
       await page.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
       await page.waitForSelector(".codex");
-      failures.push(...(await contrast(page, "codex")));
+      failures.push(...(await codexContrast(page, "codex")));
       await page.getByRole("button", { name: STRINGS.ui.back }).click();
       await page.getByRole("button", { name: STRINGS.ui.settings, exact: true }).click();
       failures.push(...(await contrast(page, "settings")));
@@ -364,6 +380,7 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await contrast(page, `menu, ${label}`)));
         failures.push(...(await misfits(page, `menu, ${label}`, { mayScroll: true })));
         await page.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).click();
+        await page.getByRole("button", { name: new RegExp(`^${STRINGS.daily.title}`) }).click();
         await page.waitForSelector(".codex .daily-month");
         failures.push(...(await contrast(page, `codex, ${label}`)));
         failures.push(...(await misfits(page, `codex, ${label}`, { mayScroll: true })));
@@ -465,7 +482,7 @@ describe.skipIf(!target)("in a browser", () => {
             // The codex with something in it, which a new profile's codex never has.
             await page.getByRole("button", { name: STRINGS.ui.codex, exact: true }).click();
             await page.waitForSelector(".codex");
-            failures.push(...(await contrast(page, `codex after a ${band} run`)));
+            failures.push(...(await codexContrast(page, `codex after a ${band} run`)));
           }
           await close(page);
         }

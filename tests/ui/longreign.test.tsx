@@ -140,7 +140,7 @@ describe("the end of a long reign", () => {
     render(<Ending lib={library} state={finale} fold={fold} onPlayAgain={noop} onCodex={noop} onSettings={noop} />);
     expect(screen.getByText(`${STRINGS.ui.unlocked}: ${STRINGS.reign.opened}`)).toBeTruthy();
     cleanup();
-    render(<Codex lib={library} meta={emptyMeta()} onBack={noop} onSettings={noop} />);
+    render(<Codex lib={library} meta={emptyMeta()} onBack={noop} onSettings={noop} open="objectives" />);
     expect(screen.getByText(STRINGS.reign.opens)).toBeTruthy();
     // An ordinary run's facts say nothing of a reign.
     expect(runFacts(finale, "x")).not.toContain(STRINGS.reign.short);

@@ -32,7 +32,7 @@ function finish(g: Game) {
 }
 
 function codex(meta: MetaState) {
-  render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} today={TODAY} />);
+  render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} today={TODAY} open="dailies" />);
   return screen.getByRole("region", { name: STRINGS.daily.title });
 }
 
