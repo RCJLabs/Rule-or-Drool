@@ -11,6 +11,7 @@ import type { GameState, Meters, Side } from "../engine/types";
 import { CardClock } from "../playtest/clock";
 import type { Measure } from "../playtest/record";
 import { CardView } from "./CardView";
+import { countLine } from "./count";
 import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
 import { Frame } from "./Frame";
@@ -79,6 +80,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const cardKey = card ? `${card.id}:${state.cardCount}` : null;
   const questionId = card ? questionOf(lib, card) : undefined;
   const asked = card && questionId ? { title: STRINGS.questions.titles[questionId] ?? questionId, asking: card.step === 1 } : undefined;
+  // An election says how an honest count goes, on the card and aloud (BACKLOG-9 phase 53).
+  const count = card ? countLine(lib, state, card) : null;
   const theme = themeOf(state, lib.config);
   const busy = transition !== null || leaving !== null;
 
@@ -189,6 +192,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     // A question says it is one out loud too, as its title does on the card (BACKLOG-6 phase 40).
     if (asked) parts.push(`${asked.asking ? `${STRINGS.questions.asking}: ${asked.title}` : asked.title}.`);
     parts.push(spoken);
+    if (count) parts.push(`${count.text}.`);
     if (!prev) parts.push(STRINGS.speech.choicesHint);
     setSaid(parts.join(" "));
     heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era };
@@ -243,6 +247,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             seed={state.seed}
             from={state.currentFrom}
             question={asked}
+            count={count}
             peek={peek}
             leaving={leaving}
             onDrag={setDragSide}

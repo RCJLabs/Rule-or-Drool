@@ -9,7 +9,7 @@ import type { GameState, PlayerAlign } from "../src/engine/types";
 import { historyOf } from "../src/meta/histories";
 import { allUnlockTokens } from "../src/meta/objectives";
 import { emptyMeta, foldRun } from "../src/meta/state";
-import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, lookProfile, makeContext, playRun, quantiles, repeatProfile, repeatProfiles, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, lookProfile, makeContext, playRun, quantiles, repeatProfile, repeatProfiles, simulate, summarize, type BotName, type BotSummary, type RunResult } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -49,6 +49,18 @@ describe("harness", () => {
     expect(s.get("saint")!.cheatsPerElection).toBe(0);
     expect(evaluateTargets(s).length).toBeGreaterThan(0);
   }, 60000);
+
+  it("holds the election card to the vote: one vote told wrong misses, and no vote is nothing to check", () => {
+    // BACKLOG-9 phase 53. Every run counts the votes the card would have told wrong; the
+    // target is that there are none, over every bot at once.
+    const r = playRun(library, "mixed", 5, "left");
+    expect(r.electionsSeen).toBeGreaterThan(0);
+    expect(r.mistold).toBe(0);
+    const row = (results: RunResult[]) => evaluateTargets(new Map([["mixed", summarize("mixed", results)]])).find((t) => t.bot === "all")!;
+    expect(row([r])).toMatchObject({ pass: true, actual: `${r.electionsSeen} of ${r.electionsSeen}` });
+    expect(row([{ ...r, mistold: 1 }])).toMatchObject({ pass: false, actual: `1 of ${r.electionsSeen} told wrong` });
+    expect(row([{ ...r, electionsSeen: 0, cheats: 0 }])).toMatchObject({ pass: true, info: true });
+  });
 });
 
 // Section 8 acceptance targets, met in phase 4. Content changes that break these are

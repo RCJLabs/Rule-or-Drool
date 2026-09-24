@@ -133,6 +133,19 @@ export const STRINGS = {
     costs: { behind: "As things stand you would lose one." },
   },
   /**
+   * The line an election card carries under its text (BACKLOG-9 phase 53): how an honest count
+   * goes, won or lost and roughly by how much, and never a number. Won or lost is exact, since
+   * the vote is decided by the same reading; how much is a band (`src/ui/count.ts`). A caption,
+   * short enough for one line in Decay's narrowest card on a 360px phone.
+   */
+  count: {
+    easy: "Counted honestly: an easy win",
+    win: "Counted honestly: a win",
+    narrowWin: "Counted honestly: a narrow win",
+    narrowLoss: "Counted honestly: a narrow loss",
+    loss: "Counted honestly: a loss",
+  },
+  /**
    * The record of a reign, assembled from what the run did (BACKLOG-3 phase 27). Written so
    * that every combination reads as a sentence: the counts are in the strings rather than
    * concatenated onto them, because "You won 1 votes" is how this goes wrong.

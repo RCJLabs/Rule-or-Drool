@@ -246,8 +246,13 @@ bots (BACKLOG-5 phase 31):
 - Put the files in `playtests/` and run `npm run playtests`. Git ignores that folder.
 - The report sets people beside each bot playing the same runs. It also shows where the
   country ended up, how people voted, and the look each card was read in (BACKLOG-7 phase
-  46). For votes it gives how many cheats an honest vote would have won, and whether a meter
-  was near its edge at the time. That is the question BACKLOG-7's third decision waits on.
+  46). For votes it gives how many an honest count would have won, how many of those were
+  cheated anyway, and whether a meter was near its edge at the time. That is the question
+  BACKLOG-7's third decision waits on.
+- Since v0.63.0 the election card says whether an honest count wins (BACKLOG-9 phase 53).
+  Of the votes an honest count would win, the mixed bot cheats 55% and a player who takes
+  the card at its word cheats none, so that column says which kind of player people are.
+  Runs played before v0.63.0 are set beside runs played after it when a report has both.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

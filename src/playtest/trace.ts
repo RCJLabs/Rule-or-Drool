@@ -1,8 +1,8 @@
 import { draw } from "../engine/draw";
 import { getCard, type Library } from "../engine/library";
-import { electionBar, resolve } from "../engine/resolve";
+import { honestCount, resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
-import { moodOf, newRun } from "../engine/state";
+import { newRun } from "../engine/state";
 import type { Card, GameState, RunSetup, Side } from "../engine/types";
 import { decodeRunCode, setupOf } from "../meta/runcode";
 import { BOTS, makeContext, nearAnEdge, type BotName } from "../sim/bots";
@@ -30,6 +30,23 @@ export interface Trace {
   /** The look each card was read in, -3 to 3, as this version of the game shows it. */
   looks: number[];
   votes: Vote[];
+  /**
+   * Whether the election cards said how an honest count would go when the run was played
+   * (BACKLOG-9 phase 53): a person's version decides it. Absent for a bot, which always knows.
+   */
+  line?: boolean;
+}
+
+/** The first version whose election cards say how an honest count goes (BACKLOG-9 phase 53). */
+export const LINE_SINCE = "0.63.0";
+
+/** Whether a run played on version `game` was told the count: LINE_SINCE or later. */
+export function toldTheCount(game: string): boolean {
+  const parts = (v: string) => v.split(".").map((n) => (/^\d+$/.test(n) ? Number(n) : Number.NaN));
+  const [a, b] = [parts(game), parts(LINE_SINCE)];
+  if (a.length !== 3 || a.some(Number.isNaN)) return false;
+  const at = a.findIndex((n, i) => n !== b[i]);
+  return at < 0 || a[at]! > b[at]!;
 }
 
 /** The line a vote is split at: the mixed bot's own (`DEFAULT_RUN_OPTIONS.danger`). */
@@ -47,7 +64,7 @@ function walk(lib: Library, seed: number, setup: RunSetup, choose: Chooser): { t
     if (!side) return null;
     trace.looks.push(s.look);
     if (card.type === "election") {
-      trace.votes.push({ honest: card[side].honest === true, winnable: moodOf(s.meters) >= electionBar(lib, s), near: nearAnEdge(s.meters, NEAR_EDGE) });
+      trace.votes.push({ honest: card[side].honest === true, winnable: honestCount(lib, s).wins, near: nearAnEdge(s.meters, NEAR_EDGE) });
     }
     s = draw(lib, resolve(lib, s, card.id, side));
   }
@@ -73,7 +90,7 @@ export function traceRecorded(lib: Library, run: RecordedRun): Trace | null {
     return taken.side;
   });
   if (!out || out.state.cardCount !== run.cards.length || out.state.over?.endingId !== run.end.ending) return null;
-  return out.trace;
+  return { ...out.trace, line: toldTheCount(run.game) };
 }
 
 /** A bot playing the run a person played, from its code: the same run `playRunFrom` plays. */

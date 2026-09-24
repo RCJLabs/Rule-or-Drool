@@ -6,7 +6,8 @@ import { pct, type BotSummary } from "./report";
  * tunes content until they pass.
  */
 export interface TargetResult {
-  bot: BotName;
+  /** The bot it is measured on, or every bot at once. */
+  bot: BotName | "all";
   name: string;
   target: string;
   actual: string;
@@ -81,7 +82,22 @@ export function evaluateTargets(summaries: ReadonlyMap<BotName, BotSummary>): Ta
       info: true,
     });
   }
+  out.push(voteLine(summaries));
   return out;
+}
+
+/**
+ * The election card says whether an honest count wins (BACKLOG-9 phase 53), and it has to be
+ * right every time, for every player: a line that is wrong once teaches that it can be.
+ */
+function voteLine(summaries: ReadonlyMap<BotName, BotSummary>): TargetResult {
+  const all = [...summaries.values()];
+  const held = all.reduce((n, s) => n + s.votes.held, 0);
+  const mistold = all.reduce((n, s) => n + s.votes.mistold, 0);
+  const row = { bot: "all" as const, name: "the card tells the vote true", target: "every vote" };
+  // A batch that held no vote, a few runs of the saint say, has nothing to check.
+  if (!held) return { ...row, actual: "no votes held", pass: true, info: true };
+  return { ...row, actual: mistold ? `${mistold} of ${held} told wrong` : `${held} of ${held}`, pass: mistold === 0 };
 }
 
 /**
@@ -122,6 +138,7 @@ export function evaluateLongTargets(summaries: ReadonlyMap<BotName, BotSummary>,
     out.push({ bot: "greedy", name: "ends in Decay", target: "≥ 70%", actual: pct(greedy.exitBands.decay), pass: greedy.exitBands.decay >= 0.7 });
     out.push({ bot: "greedy", name: "sees the long finale", target: "(no number given)", actual: pct(greedy.finale), pass: true, info: true });
   }
+  out.push(voteLine(summaries));
   return out;
 }
 

@@ -40,6 +40,8 @@ export interface BotSummary {
   finaleBands: Record<Band, number>;
   electionsPerRun: number;
   cheatsPerElection: number;
+  /** Every vote held, and those the card told wrong (BACKLOG-9 phase 53). */
+  votes: { held: number; mistold: number };
   arcsPerRun: number;
   questionsPerRun: number;
   relaxedPerRun: { cooldown: number; band: number; era: number };
@@ -71,6 +73,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
   const byEraCounts = new Map<number, number>();
   let elections = 0;
   let cheats = 0;
+  let mistold = 0;
   let arcs = 0;
   let questions = 0;
   const relaxed = { cooldown: 0, band: 0, era: 0 };
@@ -85,6 +88,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     byEraCounts.set(r.era, (byEraCounts.get(r.era) ?? 0) + 1);
     elections += r.electionsSeen;
     cheats += r.cheats;
+    mistold += r.mistold;
     arcs += r.arcs;
     questions += r.questions;
     relaxed.cooldown += r.relaxed.cooldown;
@@ -118,6 +122,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     finaleBands: bandShares(results.filter((r) => r.finale)),
     electionsPerRun: elections / n,
     cheatsPerElection: elections > 0 ? cheats / elections : 0,
+    votes: { held: elections, mistold },
     arcsPerRun: arcs / n,
     questionsPerRun: questions / n,
     relaxedPerRun: { cooldown: relaxed.cooldown / n, band: relaxed.band / n, era: relaxed.era / n },

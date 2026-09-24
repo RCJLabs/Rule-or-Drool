@@ -33,7 +33,8 @@ export function recordBotRun(seed: number, bot: BotName): { run: RecordedRun; se
   const rng = makeRng(seed ^ 0x5bd1e995);
   let s = newRun(library, seed, rollSetup(library, seed, seed % 2 ? "left" : "right", []));
   let run = openRun(s, { kind: "own", run: 1, game: "0.57.0" });
-  const seen: Trace = { looks: [], votes: [] };
+  // Recorded on a version from before the election card said how the count stood.
+  const seen: Trace = { looks: [], votes: [], line: false };
   while (!s.over) {
     s = draw(library, s);
     const card = getCard(library, s.current!);

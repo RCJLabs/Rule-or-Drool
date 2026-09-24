@@ -1,7 +1,7 @@
 # Backlog, round nine
 
 Round eight (BACKLOG-8.md) is phases 49–51, all done, with the promise drop-down and the codex
-index since. BACKLOG-2's phase 17, getting the game onto Play, still waits on decisions only
+index since. This round's phases 52 and 53 are done, in v0.62.0 and v0.63.0; 54 is queued. BACKLOG-2's phase 17, getting the game onto Play, still waits on decisions only
 the owner can make.
 
 You asked for more cards and a retune, then for the election card to show how the vote
@@ -116,28 +116,64 @@ change of words keeps the deck.
 
 ---
 
-## Phase 53. The election card says how the vote stands — *queued*
+## Phase 53. The election card says how the vote stands — *done*
 
-**Why.**
-- **An election card does not say whether an honest vote would win.** The cabinet does, one tap
-  away, and only when you would lose (`src/ui/rival.ts`).
-- **So a player decides to cheat without knowing whether they need to.** The bots all know;
-  their preview includes the count.
+**Shipped in v0.63.0.**
 
-**What.**
-- **Under the card's text, one line:** whether an honest count wins, and by roughly how much,
-  in the game's words rather than a number.
-- **Said aloud too,** on the screen-reader path.
-- **The playtest report** already splits votes by whether a meter was in danger (BACKLOG-7
-  phase 46). It adds whether the honest count stood to win, so the closed test shows whether
-  people use the line.
+**What the player sees.**
+- **Every election card carries one line under its text:** "Counted honestly: a narrow loss".
+  The others are an easy win, a win, a narrow win and a loss. Words, never a number.
+- **Won or lost is exact.** The engine decides the vote with the same reading,
+  `honestCount` in `src/engine/resolve.ts`. It reads the meters as the card finds them, before
+  the honest side's own effects, so the card can say it before the choice is made.
+- **How much is a band** (`src/ui/count.ts`): narrow within 5 points of the bar on either side,
+  easy at 15 or more over. At v0.62.0 the mixed bot's votes were won by a median of 8 points,
+  and about one in five would have been lost honestly, most of those by under 5.
+- **Said aloud** after the card's text, on the screen-reader path.
+- **The election lesson,** and so How this works, now says the card tells you.
+- **The cabinet** still says when you would lose, and reads the same `honestCount`.
 
-**Targets.**
-- Every election card carries the line, in every look, readable at 360×640.
-- The line agrees with what the vote then does, in every harness run.
+**Changed from the plan.**
+- **The first wording did not fit.** "Counted honestly, you lose this narrowly." wrapped onto
+  two lines in Decay's narrow card, and cut the longest election off by 16–20px at 360×640.
+  That is with the buttons, a promise and a lesson drawn.
+- **So the line is a caption:** 31 characters at most, 13px, with no rule above it. It fits on
+  one line in every look.
 
-**Cost.** Small: one line, its words, tests and an audit. It moves no number by itself.
-Players moving to the informed habit is what moves them, which is why phase 54 follows.
+**The playtest report.**
+- **The vote table now reads from the votes an honest count would have won:**
+  - how many there were;
+  - how many of those were cheated anyway.
+- **That second number says whether people use the line.** Measured over 2,000 runs each:
+  - the mixed bot cheats 55.4% of them;
+  - the informed voter 0.1% (only where winning honestly would still end the run on a meter);
+  - the voter who never cheats, none.
+- **It also gives, of the votes an honest count would have lost, how many were voted
+  honestly.** That ends the run, so it shows who would rather lose clean.
+- **Told beside not told.** People who played v0.63.0 or later are set beside those who played
+  before it, when a report has both. A record's version says which.
+- **This replaces phase 46's "of those, winnable",** which read the same votes the other way
+  round.
+
+**Checked.**
+- **The harness has a new target:** the card tells the vote true. At every election every bot
+  meets, it sets what the card says against what the honest side then does:
+  - 72,009 of 72,009 votes in the ordinary game's 40,000 runs;
+  - 3,278 of 3,278 in 1,200 long reigns.
+- **A unit test does the same through the card's words,** over 800 runs of the four bots. It
+  also checks a coalition exactly on the bar (a win, as the vote has it) and a fraction under
+  it (a narrow loss).
+- **The small-phone audit** puts each side's longest election on the table with the longest
+  line, in all seven looks, at 360×640 with the buttons drawn. It shows on one line, nothing
+  is cut off, and contrast passes.
+- **No number moves.**
+  - The mixed bot reaches Ascent in 19.5%, as at v0.62.0.
+  - The deck stamp stays `gw5s4s8l`.
+  - Records from v0.62.0 still rebuild.
+
+**What it does not do.** It moves no balance number by itself: the bots always knew. Whether
+people take up the informed habit shows only in the closed test's records. Phase 54 retunes
+for the voter who does.
 
 ---
 

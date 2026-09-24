@@ -1,7 +1,6 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
-import { electionBar, rivalPressure } from "../engine/resolve";
-import { moodOf } from "../engine/state";
+import { electionBar, honestCount, rivalPressure } from "../engine/resolve";
 import type { GameState } from "../engine/types";
 
 /**
@@ -48,9 +47,9 @@ export function rivalReport(lib: Library, state: GameState): RivalReport {
   // What the standing is actually doing: the share of the coalition an honest vote needs,
   // over and above the floor it would need against nobody.
   const lift = electionBar(lib, state) - cfg.electionMoodThreshold;
-  const margin = moodOf(state.meters) - electionBar(lib, state);
+  const behind = !honestCount(lib, state).wins;
   const cost =
     lift < 0.5 ? takingNone
-    : `${taking.replace("{n}", lift.toFixed(1))}${somebody ? ` ${wouldWin}` : ""}${margin < 0 ? ` ${costs.behind}` : ""}`;
+    : `${taking.replace("{n}", lift.toFixed(1))}${somebody ? ` ${wouldWin}` : ""}${behind ? ` ${costs.behind}` : ""}`;
   return { rung, pressure, state: states[rung]!, cost, somebody };
 }

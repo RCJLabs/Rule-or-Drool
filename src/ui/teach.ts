@@ -87,7 +87,7 @@ export const LESSONS: readonly Lesson[] = [
     id: "election",
     title: "The count reads the average",
     body: () =>
-      "An honest win needs the average of your three groups. Cheating is always cheaper today, which is the whole problem with it.",
+      "An honest win needs the average of your three groups, and the card says if you have it. Cheating is always cheaper today, which is the whole problem with it.",
     when: ({ card }) => card.type === "election",
   },
 ];

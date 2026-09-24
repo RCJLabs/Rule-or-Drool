@@ -1,9 +1,9 @@
 import { draw } from "../engine/draw";
 import { getCard, questionOfArc, type Library } from "../engine/library";
-import { resolve } from "../engine/resolve";
+import { honestCount, losingEnding, resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { exitBand, newRun, rollSetup } from "../engine/state";
-import type { Band, GameState, PlayerAlign, RunSetup } from "../engine/types";
+import type { Band, GameState, PlayerAlign, RunSetup, Side } from "../engine/types";
 import { BOTS, makeContext, type BotName, type BotOptions } from "./bots";
 
 export interface RunResult {
@@ -19,6 +19,11 @@ export interface RunResult {
   finale: boolean;
   electionsSeen: number;
   cheats: number;
+  /**
+   * Votes the card told wrong (BACKLOG-9 phase 53): it said an honest count would win and the
+   * honest side lost the vote, or the other way round. Anything but zero means the card lied.
+   */
+  mistold: number;
   /** Stories this run entered. */
   arcs: number;
   /** Questions this run was asked (BACKLOG-6 phase 40), which are arcs with a budget of their own. */
@@ -40,6 +45,8 @@ export interface RunOptions extends BotOptions {
 }
 
 export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
+
+const SIDES: readonly Side[] = ["left", "right"];
 
 export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerAlign, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
   const setup = rollSetup(lib, seed, align, opts.unlocked ?? []);
@@ -63,6 +70,7 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
   const relaxed = { cooldown: 0, band: 0, era: 0 };
   let electionsSeen = 0;
   let cheats = 0;
+  let mistold = 0;
 
   while (!state.over) {
     if (state.cardCount >= opts.maxCards) throw new Error(`run exceeded ${opts.maxCards} cards (seed ${seed}, bot ${bot})`);
@@ -84,6 +92,13 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
     if (card.type === "election") {
       electionsSeen++;
       if (!card[side].honest) cheats++;
+      // What the card says an honest count will do, against what the honest side then does,
+      // whichever side the bot takes: it loses the vote when it ends the run as a lost vote ends.
+      const honest = SIDES.find((h) => card[h].honest);
+      if (honest) {
+        const lost = ctx[honest].endingId === (card[honest].ending ?? losingEnding(lib, state));
+        if (honestCount(lib, state).wins === lost) mistold++;
+      }
     }
     state = resolve(lib, state, id, side);
     seat(state);
@@ -102,6 +117,7 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
     finale: endingId.startsWith(lib.config.finalePrefix),
     electionsSeen,
     cheats,
+    mistold,
     arcs: state.activeArcs.filter((a) => questionOfArc(lib, a.id) === undefined).length,
     questions: state.activeArcs.filter((a) => questionOfArc(lib, a.id) !== undefined).length,
     modifiers: state.modifiers,

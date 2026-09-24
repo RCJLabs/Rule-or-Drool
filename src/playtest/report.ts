@@ -3,7 +3,7 @@ import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
 import type { RunResult } from "../sim/run";
 import { RUN_KINDS, type RecordedRun, type RecordFile, type RunKind, type TakenCard } from "./record";
-import type { Trace } from "./trace";
+import { LINE_SINCE, type Trace } from "./trace";
 
 /**
  * What the people in a playtest did, beside what the bots did with the same runs
@@ -208,6 +208,10 @@ export interface BandRow {
  * those it would have won honestly, because a meter was near its edge and the cheat is easier
  * on the meters. A bot that never cheats a vote it can win reaches the Ascent twice as often
  * (BACKLOG-7's audit), so this is the row that says which of the two people are.
+ *
+ * Since BACKLOG-9 phase 53 the election card says whether an honest count wins, so a person
+ * can play the second way. The row reads from the votes the count would have won, and people
+ * who were told are set beside people who were not, which shows whether they use the line.
  */
 export interface VoteRow {
   label: string;
@@ -215,10 +219,14 @@ export interface VoteRow {
   votes: number;
   /** Share of votes cheated. */
   cheated: number;
-  /** Of the cheated votes, the share an honest vote would have won. NaN with none cheated. */
+  /** Share of votes an honest count would have won: what the card says, since phase 53. */
   winnable: number;
-  /** Of those, the share cast with a meter near its edge. NaN with none. */
+  /** Of those, the share cheated anyway. NaN with none winnable. */
+  cheatedWinnable: number;
+  /** Of the winnable votes cheated, the share cast with a meter near its edge. NaN with none. */
   near: number;
+  /** Of the votes an honest count would have lost, the share voted honestly, which ends the run. NaN with none. */
+  honestLosing: number;
 }
 
 /** The look each card was read in, -3 to 3, and how often it changed in a run. */
@@ -263,6 +271,8 @@ export interface Report {
   /** People's finished runs this version rebuilt card for card, out of `finished`. */
   rebuilt: number;
   votes: VoteRow[];
+  /** Of the rebuilt runs, those played on a version whose election cards say how the count stands. */
+  told: number;
   looks: LookRow[];
   lookMs: number;
   minDecisions: number;
@@ -305,16 +315,31 @@ function bandRow(label: string, bands: readonly string[]): BandRow {
 
 function voteRow(label: string, traces: readonly Trace[]): VoteRow {
   const votes = traces.flatMap((t) => t.votes);
-  const cheats = votes.filter((v) => !v.honest);
-  const winnable = cheats.filter((v) => v.winnable);
+  const winnable = votes.filter((v) => v.winnable);
+  const losing = votes.filter((v) => !v.winnable);
+  const cheatedWinnable = winnable.filter((v) => !v.honest);
   return {
     label,
     runs: traces.length,
     votes: votes.length,
-    cheated: share(cheats.length, votes.length),
-    winnable: share(winnable.length, cheats.length),
-    near: share(winnable.filter((v) => v.near).length, winnable.length),
+    cheated: share(votes.filter((v) => !v.honest).length, votes.length),
+    winnable: share(winnable.length, votes.length),
+    cheatedWinnable: share(cheatedWinnable.length, winnable.length),
+    near: share(cheatedWinnable.filter((v) => v.near).length, cheatedWinnable.length),
+    honestLosing: share(losing.filter((v) => v.honest).length, losing.length),
   };
+}
+
+/**
+ * People's votes, and when their runs come from both sides of the line (BACKLOG-9 phase 53),
+ * those told how the count stood beside those who were not.
+ */
+function peopleVotes(people: readonly Trace[]): VoteRow[] {
+  const told = people.filter((t) => t.line);
+  const before = people.filter((t) => !t.line);
+  const rows = [voteRow("people", people)];
+  if (told.length && before.length) rows.push(voteRow(" told", told), voteRow(" not told", before));
+  return rows;
 }
 
 function lookRow(label: string, traces: readonly Trace[]): LookRow {
@@ -426,7 +451,8 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     lastCards: [...lastCounts.values()].sort((a, b) => b.n - a.n),
     bands: [bandRow("people", finished.map((r) => r.end!.band)), ...[...bots.entries()].map(([bot, results]) => bandRow(`${bot} bot`, results.map((r) => r.exitBand)))],
     rebuilt: traces.people.length,
-    votes: [voteRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => voteRow(`${bot} bot`, ts))],
+    votes: [...peopleVotes(traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => voteRow(`${bot} bot`, ts))],
+    told: traces.people.filter((t) => t.line).length,
     looks: [lookRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => lookRow(`${bot} bot`, ts))],
     lookMs: opts.lookMs,
     minDecisions: opts.minDecisions,
@@ -469,12 +495,24 @@ export function formatReport(r: Report, top = 10): string {
   out.push("");
 
   out.push(`== elections: people's ${r.rebuilt} of ${r.finished} finished runs, rebuilt on this version ==`);
-  out.push(`${"".padEnd(10)} ${pad("runs", 5)} ${pad("votes", 6)} ${pad("cheated", 8)} ${pad("of those, winnable", 19)} ${pad("and a meter near its edge", 26)}`);
+  out.push(
+    `${"".padEnd(10)} ${pad("runs", 5)} ${pad("votes", 6)} ${pad("cheated", 8)} ${pad("winnable", 9)} ${pad("of those, cheated", 18)} ${pad("and a meter near its edge", 26)} ${pad("losing, voted honestly", 23)}`,
+  );
   for (const v of r.votes) {
-    out.push(`${v.label.padEnd(10)} ${pad(v.runs, 5)} ${pad(v.votes, 6)} ${pad(or(v.cheated), 8)} ${pad(or(v.winnable), 19)} ${pad(or(v.near), 26)}`);
+    out.push(
+      `${v.label.padEnd(10)} ${pad(v.runs, 5)} ${pad(v.votes, 6)} ${pad(or(v.cheated), 8)} ${pad(or(v.winnable), 9)} ${pad(or(v.cheatedWinnable), 18)} ${pad(or(v.near), 26)} ${pad(or(v.honestLosing), 23)}`,
+    );
   }
-  out.push("(winnable: an honest vote would have won that day. Near its edge: a meter within 25 of the edge that ends a run,");
-  out.push(" where the mixed bot turns greedy. A run this version deals differently is left out of the people's row.)");
+  out.push("(winnable: an honest count would have won it, and of those, the share cheated anyway. Near its edge: a meter");
+  out.push(" within 25 of the edge that ends a run, where the mixed bot turns greedy. Losing, voted honestly: of the votes");
+  out.push(" an honest count would have lost, the share voted honestly, which ends the run. A run this version deals");
+  out.push(" differently is left out of the people's row.)");
+  // Since v0.63.0 the election card says whether an honest count wins (BACKLOG-9 phase 53).
+  const told =
+    r.told === r.rebuilt ? "All of them were told on the card how the count stood."
+    : r.told === 0 ? `None of them was told on the card how the count stood: that came in ${LINE_SINCE}.`
+    : `Told: played on ${LINE_SINCE} or later, when the card says how an honest count goes. Not told: before it.`;
+  if (r.rebuilt) out.push(told);
   out.push("");
 
   if (r.learning.length) {

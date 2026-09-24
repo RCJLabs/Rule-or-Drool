@@ -8,8 +8,9 @@ import { decodeRunCode, setupOf } from "../../src/meta/runcode";
 import { serialize, toFile, type RecordedRun, type TakenCard } from "../../src/playtest/record";
 import { deckStamp } from "../../src/engine/deck";
 import { buildReport, formatReport, gather, onThisDeck, type Source } from "../../src/playtest/report";
-import { traceBot, traceRecorded, type Trace } from "../../src/playtest/trace";
+import { LINE_SINCE, toldTheCount, traceBot, traceRecorded, type Trace } from "../../src/playtest/trace";
 import { playRunFrom, type BotName, type RunResult } from "../../src/sim";
+import { APP_VERSION } from "../../src/version";
 import { recordBotRun, recordRun } from "./helpers";
 
 const source = (name: string, runs: RecordedRun[]): Source => ({ name, file: toFile(runs) });
@@ -144,21 +145,58 @@ describe("bands, votes and looks", () => {
     }
   }, 60_000);
 
-  it("splits the votes cheated by whether an honest one would have won, and by the meters", () => {
+  it("splits the votes by whether an honest count would have won them, and the cheated ones by the meters", () => {
     const v = (honest: boolean, winnable: boolean, near: boolean) => ({ honest, winnable, near });
     const people: Trace[] = [
       { looks: [0, 1, 1, 0], votes: [v(true, true, false), v(false, true, true), v(false, true, false)] },
-      { looks: [0, -1, -1, -2, -2, -2], votes: [v(false, false, true)] },
+      { looks: [0, -1, -1, -2, -2, -2], votes: [v(false, false, true), v(true, false, false)] },
     ];
     const r = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people, bots: new Map() });
-    expect(r.votes).toEqual([{ label: "people", runs: 2, votes: 4, cheated: 0.75, winnable: 2 / 3, near: 0.5 }]);
+    // Three of five cheated. Three could have been won honestly, and two of those were cheated
+    // anyway, one with a meter near its edge. Of the two that could not, one was taken honestly.
+    expect(r.votes).toEqual([{ label: "people", runs: 2, votes: 5, cheated: 0.6, winnable: 0.6, cheatedWinnable: 2 / 3, near: 0.5, honestLosing: 0.5 }]);
     // Two changes in each run: into a look and out again, and down two steps.
     expect(r.looks[0]).toMatchObject({ runs: 2, cards: 10, changes: 2 });
     expect(r.looks[0]!.share).toEqual([0, 0.3, 0.2, 0.3, 0.2, 0, 0]);
     // Nothing cheated reads as nothing, not as a share of nothing.
     const clean = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people: [{ looks: [0], votes: [v(true, true, false)] }], bots: new Map() });
     expect(clean.votes[0]!.cheated).toBe(0);
-    expect(formatReport(clean)).toMatch(/^people\s+1\s+1\s+0\.0%\s+–\s+–$/m);
+    expect(formatReport(clean)).toMatch(/^people\s+1\s+1\s+0\.0%\s+100\.0%\s+0\.0%\s+–\s+–$/m);
+  });
+
+  // BACKLOG-9 phase 53: whether people use the line shows as those told beside those not told.
+  it("sets people told how the count stood beside people who were not, when there are both", () => {
+    const v = (honest: boolean, winnable: boolean) => ({ honest, winnable, near: false });
+    const told: Trace = { looks: [0], votes: [v(true, true), v(true, true)], line: true };
+    const before: Trace = { looks: [0], votes: [v(false, true), v(true, true)], line: false };
+    const g = gather([source("p", [made(1, [["x", 1000]])])]);
+    const both = buildReport(library, g, new Map(), OPTS, { people: [told, before], bots: new Map() });
+    expect(both.votes.map((r) => [r.label.trim(), r.runs, r.cheatedWinnable])).toEqual([
+      ["people", 2, 0.25],
+      ["told", 1, 0],
+      ["not told", 1, 0.5],
+    ]);
+    expect(both.told).toBe(1);
+    expect(formatReport(both)).toContain("Not told: before it.");
+    // All on one side of it: the people's row alone, and a word on which side.
+    const allTold = buildReport(library, g, new Map(), OPTS, { people: [told, told], bots: new Map() });
+    expect(allTold.votes.map((r) => r.label)).toEqual(["people"]);
+    expect(formatReport(allTold)).toContain("All of them were told on the card how the count stood.");
+    const noneTold = buildReport(library, g, new Map(), OPTS, { people: [before], bots: new Map() });
+    expect(noneTold.votes.map((r) => r.label)).toEqual(["people"]);
+    expect(formatReport(noneTold)).toContain(`that came in ${LINE_SINCE}.`);
+  });
+
+  it("knows a version told the count from its number, and does not guess at one it cannot read", () => {
+    expect(["0.62.0", "0.9.9", "0.62.99"].map(toldTheCount)).toEqual([false, false, false]);
+    expect([LINE_SINCE, "0.63.1", "0.64.0", "0.100.0", "1.0.0"].map(toldTheCount)).toEqual([true, true, true, true, true]);
+    expect(["", "dev", "0.63", "0.63.0-beta", "v0.63.0"].map(toldTheCount)).toEqual([false, false, false, false, false]);
+    // A record made on this version was told.
+    expect(toldTheCount(APP_VERSION)).toBe(true);
+    // A rebuilt run carries it from the version it was played on.
+    const { run } = recordBotRun(831, "mixed");
+    expect(traceRecorded(library, run)!.line).toBe(false);
+    expect(traceRecorded(library, { ...run, game: LINE_SINCE })!.line).toBe(true);
   });
 });
 

@@ -11,6 +11,7 @@ import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
 import { draw } from "../../src/engine/draw";
 import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
+import { BLOC_KEYS } from "../../src/engine/types";
 import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
 import { fitPlacements } from "../fit";
@@ -628,6 +629,10 @@ describe.skipIf(!target)("in a browser", () => {
       // border, and a card with a name is as long as the name in the seat, so the seats hold
       // the longest names they can (tests/fit.ts).
       const failures: string[] = [];
+      // An election carries a line on how an honest count goes (BACKLOG-9 phase 53), and it is
+      // put on the table at its longest: a coalition a point or two under the bar, which is a
+      // narrow loss in every look, since a look moves the bar by under three points.
+      const longestCount = Object.values(STRINGS.count).reduce((a, b) => (b.length > a.length ? b : a));
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
@@ -636,6 +641,7 @@ describe.skipIf(!target)("in a browser", () => {
             raw.state.current = ${JSON.stringify(card.id)};
             raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" ? "election" : "deck")};
             ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
+            ${kind === "election" ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
             Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});
             localStorage.setItem("rod.run", JSON.stringify(raw));
           })()`);
@@ -647,7 +653,16 @@ describe.skipIf(!target)("in a browser", () => {
           if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);
           for (const look of LOOKS) {
             await toLook(page, look);
-            failures.push(...(await misfits(page, `${party}, ${kind} ${card.id} in ${look}`)));
+            const label = `${party}, ${kind} ${card.id} in ${look}`;
+            failures.push(...(await misfits(page, label)));
+            if (kind !== "election") continue;
+            // The longest line, on one line, and as readable as the prose above it.
+            const line = page.locator(".card .count-line");
+            const said = await line.textContent();
+            if (said !== longestCount) failures.push(`${label}: the count says "${said}", not the longest, "${longestCount}"`);
+            const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
+            if (lines !== 1) failures.push(`${label}: the count takes ${lines} lines`);
+            failures.push(...(await contrast(page, label)));
           }
         }
         await close(page);

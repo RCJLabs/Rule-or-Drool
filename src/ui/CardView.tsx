@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { STRINGS } from "../content/strings";
 import type { Card, CardSource, Side } from "../engine/types";
+import type { CountLine } from "./count";
 import { Portrait } from "./Portrait";
 
 interface Props {
@@ -29,6 +30,11 @@ interface Props {
    * whether this is the card that asks it.
    */
   question?: { title: string; asking: boolean };
+  /**
+   * How an honest count goes, on an election card (BACKLOG-9 phase 53). Under the text, since it
+   * is about the choice the text puts, and never degraded with it: it is the game talking.
+   */
+  count?: CountLine | null;
   /** Keyboard peek: shows the choice for that side without a pointer. */
   peek: Side | null;
   /** Set once a choice is committed; the card flies off that way. */
@@ -49,7 +55,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
+export function CardView({ card, text, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const nameId = `speaker${useId().replace(/\W/g, "")}`;
   useEffect(() => {
@@ -151,6 +157,11 @@ export function CardView({ card, text, spokenText, speakerName, roleLabel, trait
         </>
       ) : (
         <p className="card-text">{text}</p>
+      )}
+      {count && (
+        <p className="count-line" data-band={count.band}>
+          {count.text}
+        </p>
       )}
     </div>
   );

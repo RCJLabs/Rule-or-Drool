@@ -55,6 +55,24 @@ export function electionBar(lib: Library, state: GameState): number {
   return cfg.electionMoodThreshold + over * cfg.rivalElectionPull;
 }
 
+/**
+ * How an honest count goes if it is held on these meters (BACKLOG-9 phase 53): the coalition's
+ * average against the bar. The count reads the meters as the card finds them, before the
+ * honest side's own effects, so the card can say what it will do before it is chosen, and
+ * `applyChoice` decides the vote with this and nothing else. `margin` is the average less the
+ * bar, in points; the count is won at the bar itself.
+ */
+export interface HonestCount {
+  wins: boolean;
+  margin: number;
+}
+
+export function honestCount(lib: Library, state: GameState): HonestCount {
+  const mood = moodOf(state.meters);
+  const bar = electionBar(lib, state);
+  return { wins: mood >= bar, margin: mood - bar };
+}
+
 /** Losing a vote to a rival who has become somebody is their win, and reads as one. */
 export function losingEnding(lib: Library, state: GameState): string {
   const cfg = lib.config;
@@ -74,7 +92,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   let endingId: string | null = choice.ending ?? null;
   if (card.type === "election") {
     if (choice.honest) {
-      const lost = moodOf(s.meters) < electionBar(lib, s);
+      const lost = !honestCount(lib, s).wins;
       endingId = lost ? (choice.ending ?? losingEnding(lib, s)) : null;
     }
     const interval = choice.electionDelay ?? cfg.electionInterval;
