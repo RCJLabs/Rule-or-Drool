@@ -515,6 +515,42 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
+    it("with the longest cards on the table, at 360×640 with the buttons drawn, in all seven looks", async () => {
+      // The audit reads the cards its seed deals, and the seed never dealt a long one on a
+      // short phone: the deck's forty longest cards all ran 2-10px past the card there, with
+      // the buttons, a promise and the first lesson drawn (BACKLOG-6 phase 44). So each side's
+      // longest cards are put on the table, and its longest question, which carries a title.
+      const failures: string[] = [];
+      for (const party of ["left", "right"] as const) {
+        const theirs = [...library.cards.values()].filter((c) => (c.align === "any" || c.align === party) && !c.text.includes("{"));
+        const byLength = (a: { text: string }, b: { text: string }) => b.text.length - a.text.length;
+        const longest = theirs.filter((c) => c.type === "event" && (c.weight ?? 1) > 0).sort(byLength).slice(0, 4);
+        const question = library.content.arcs
+          .filter((a) => a.question && (a.align === party || a.align === "any"))
+          .flatMap((a) => a.cards.map((id) => ({ arc: a.id, card: library.cards.get(id)! })))
+          .sort((x, y) => byLength(x.card, y.card))[0]!;
+        const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
+        for (const { card, arc } of [...longest.map((card) => ({ card, arc: undefined as string | undefined })), question]) {
+          await page.evaluate(`(() => {
+            const raw = JSON.parse(localStorage.getItem("rod.run"));
+            raw.state.current = ${JSON.stringify(card.id)};
+            raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : "deck")};
+            ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs, { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
+            localStorage.setItem("rod.run", JSON.stringify(raw));
+          })()`);
+          await page.reload();
+          await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+          await page.waitForSelector(`.card[data-card="${card.id}"]`);
+          for (const look of LOOKS) {
+            await toLook(page, look);
+            failures.push(...(await misfits(page, `${party}, ${card.id} in ${look}`)));
+          }
+        }
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
     it("every dialog stays on a small phone's screen and scrolls within itself", async () => {
       // Settings outgrew a 360×640 phone by 218px and could not be scrolled, so Close and
       // Erase were out of reach; nothing here could see it until BACKLOG-5 phase 33.

@@ -957,6 +957,31 @@ step of the measure worse (83.8% against 82.9%), the rest the same.
   referred to (a brandy duty, wine at official dinners, drunks on the night bus), a party
   lottery, untaxed bookmakers, a protection racket and debt bondage.
 
+**Fixed after shipping, in v0.56.1: long cards on a small phone.** Auditing the new cards
+found a fault older than this phase. The conditions are a 360×640 screen, the choice buttons
+drawn, the longest promise's badge and the first lesson. There, all 40 of the deck's longest
+cards ran 2–10px past the card in decay2, decay3 and ascent3. The two longest questions ran
+up to 13px past it in five looks. It was worse than those numbers read. A card's text is
+centred, so squeezed text spilled upward as well: over the speaker's role in ascent3, and
+over a question's title in decay3. The browser audit never saw it, because it reads only
+the cards its seed deals.
+- **The text never shrinks.** On a short phone the portrait gives way, as it was meant to
+  (BACKLOG-3 phase 18). The prose used to be squeezed along with it.
+- **The speaker keeps two lines.** The name and the role always keep their room. A card that
+  still cannot fit is cut off where the audit can see it, never drawn over its speaker.
+- **Less spacing on short screens.** The Ascent's two roomiest looks set their spacing at
+  15px there, not 18–22px.
+- **The first lessons are set closer on short screens**, which leaves 12–29px more for the
+  card. They are read once, early.
+- **A question's title in Decay drops its letter spacing,** as Decay's meter labels already
+  do (BACKLOG-5 phase 32). The longest no longer wraps.
+- **A new browser test** puts each side's four longest cards, and its longest question, on the
+  table in all seven looks under those conditions. On the old stylesheet it fails in 27
+  places, and now it passes. The browser suite is 42 tests.
+- **What it costs:** in that worst case the portrait gets small. It is 11–19px for the two
+  longest questions in decay2 and decay3, and 27px for the longest card in decay3. Everywhere
+  else it is 35px or more, and on a phone taller than 700px nothing changes.
+
 **Yours:**
 - **The 160 cards are drafts, in your voice, to edit.** They are in `any4.json`,
   `left4.json` and `right4.json` in each of `era1/`, `era2/` and `era3/`.
@@ -968,13 +993,6 @@ step of the measure worse (83.8% against 82.9%), the rest the same.
   after it, and a run begun before it almost certainly cannot take the other road. The
   daily is dealt from the date, so on the day the update lands, players on the two versions
   get different dailies.
-- **Long cards clip on the smallest phone, and did before this phase.** The conditions are a
-  360×640 screen, the choice buttons drawn, and the longest mandate's badge. In the three
-  roomiest looks (decay2, decay3, ascent3), all 40 of the longest old cards run 2–10px past
-  the card. So do 58 of the 160 new ones, by 2–5px. The browser audit never saw it, because
-  it reads only the cards its seed deals. A fix is a layout change: less spacing or line
-  height in those looks when the buttons are drawn on a short screen, and an audit that reads
-  the longest cards. It is not part of this phase.
 - **Late runs still repeat:** four cards in five are familiar by the twentieth run. More
   cards buy little there. The lever left is a draw that avoids what a profile has seen,
   which breaks codes, replay, challenges and the daily ("Considered, and not proposed").

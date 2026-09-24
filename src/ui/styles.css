@@ -191,6 +191,12 @@ button {
   letter-spacing: 0;
   font-weight: 700;
 }
+/* The same for a question's title, whose spacing wrapped the longest onto a second line in
+   Decay's narrower card, a line the longest questions did not have to spare on a short phone
+   (BACKLOG-6 phase 44). */
+.frame[data-theme^="decay"] .question-title {
+  letter-spacing: 0;
+}
 /* The stream needs a strip of its own above the meters and room under the footer for the
    alerts. The chat goes over the card's prose, which is the one thing it may cover. */
 .frame[data-theme^="decay"] .meters {
@@ -437,8 +443,11 @@ button {
   gap: 2px;
   margin-top: 30px;
   /* On a short phone the card has to give somewhere, and it gives here rather than
-     clipping the prose (BACKLOG-3 phase 18). */
-  min-height: 0;
+     clipping the prose (BACKLOG-3 phase 18): the portrait shrinks, down to nothing if it
+     must. The name and the role keep their two lines (35px at the default size), so a card
+     that still cannot fit is cut off where the audit can see it, rather than its speaker
+     being drawn over its title (BACKLOG-6 phase 44). */
+  min-height: 2.25em;
   flex-shrink: 1;
 }
 .speaker .portrait {
@@ -460,8 +469,11 @@ button {
   letter-spacing: 0.08em;
 }
 .card-text {
-  flex: 1 1 auto;
-  min-height: 0;
+  /* Grows into whatever room the speaker leaves, and never shrinks below its own lines. On a
+     short phone the portrait gives way (above); the prose used to be squeezed along with it,
+     which cut the longest cards by up to 10px at 360×640 once the choice buttons were drawn
+     (BACKLOG-6 phase 44). */
+  flex: 1 0 auto;
   display: flex;
   align-items: center;
   margin: 0;
@@ -498,6 +510,12 @@ button {
      once the choice buttons, a promise and the first lesson are all drawn (BACKLOG-6 phase 40). */
   .frame[data-theme^="ascent"] {
     --line: 1.5;
+  }
+  /* And its wider spacing: 22px of it, spent eight times down the screen, left the portrait
+     nothing to give on the longest cards, and the prose was cut (BACKLOG-6 phase 44). */
+  .frame[data-theme="ascent2"],
+  .frame[data-theme="ascent3"] {
+    --space: 15px;
   }
   .frame[data-theme="decay3"] .stream-emotes,
   .frame[data-theme="decay3"] .stream-alert.second {
@@ -2001,6 +2019,18 @@ button {
   align-self: flex-end;
   padding: 3px 12px;
   font-size: 12px;
+}
+/* The first lessons are read once, early, and on a short phone set closer they leave the card
+   about 12-29px more: what the longest questions needed to keep their speaker in view with
+   the buttons and a promise drawn (BACKLOG-6 phase 44). */
+@media (max-height: 700px) {
+  .teach {
+    gap: 2px;
+    padding: 8px 10px;
+  }
+  .teach p {
+    line-height: 1.3;
+  }
 }
 /* The decay looks draw no borders, and the button's face is the note's own paper, so "Got
    it" was a word on the note with nothing to say it could be pressed. The accent outline is
