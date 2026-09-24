@@ -2200,6 +2200,56 @@ button {
   font-weight: 500;
   color: var(--muted);
 }
+/* Profiles set aside, each with its way back and its way out (BACKLOG-8 phase 50). */
+.move-asides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.move-asides p {
+  margin: 0 0 6px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+/* Told once, before anything else: a failed save, a profile set aside (BACKLOG-8 phase 50). */
+.overlay-card.notice p {
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+/* A screen that threw (BACKLOG-8 phase 50). It replaces the whole game, frame and all, so
+   it sits on the page's own colours, as the overlays do. */
+.crash {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: var(--space);
+}
+.crash-card {
+  width: min(92vw, 420px);
+  padding: calc(var(--space) * 2);
+  background: var(--paper);
+  border: var(--border) solid var(--ink);
+  border-radius: calc(var(--radius) * var(--corner));
+  box-shadow: var(--card-edge), var(--shadow);
+  text-align: center;
+}
+.crash-card h1 {
+  margin: 4px 0 10px;
+  font-size: 22px;
+}
+.crash-card p {
+  line-height: 1.45;
+}
+.crash-note {
+  font-size: 13px;
+  color: var(--muted);
+}
+.crash-detail {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
 .how-list {
   list-style: none;
   margin: 0 0 14px;

@@ -1,5 +1,5 @@
 import type { Library } from "../engine/library";
-import { codexProgress, migrateMeta, streakOf, todayKey, type MetaState } from "../meta";
+import { codexProgress, migrateMeta, streakOf, todayKey, type MetaState, type SetAside } from "../meta";
 import { APP_VERSION, META_SAVE_VERSION, SETTINGS_VERSION } from "../version";
 import { migrateSettings, type Settings } from "./settings";
 
@@ -39,6 +39,25 @@ interface Envelope {
 export function progressJson(meta: MetaState, settings: Settings): string {
   const envelope: Envelope = { format: PROGRESS_FORMAT, v: PROGRESS_VERSION, game: APP_VERSION, meta, settings: { ...settings, v: SETTINGS_VERSION } };
   return JSON.stringify(envelope);
+}
+
+/**
+ * A profile set aside (BACKLOG-8 phase 50), in the same envelope, so reading it back goes the
+ * way bringing any progress here goes: shown beside what is here, refused if it is from a
+ * newer version, and put in place only when asked. It carries the settings here, so bringing
+ * it back leaves them as they are. The envelope names no version of the game, since the
+ * profile does not say which one saved it. Null when it is not JSON at all, and only the raw
+ * text can be handed on.
+ */
+export function asideJson(aside: SetAside, settings: Settings): string | null {
+  let meta: unknown;
+  try {
+    meta = JSON.parse(aside.raw);
+  } catch {
+    return null;
+  }
+  if (!meta || typeof meta !== "object" || Array.isArray(meta)) return null;
+  return JSON.stringify({ format: PROGRESS_FORMAT, v: PROGRESS_VERSION, meta, settings: { ...settings, v: SETTINGS_VERSION } });
 }
 
 const toBase64Url = (bytes: Uint8Array): string => {

@@ -116,6 +116,52 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
+    // Nothing lost without a word (BACKLOG-8 phase 50): what the player is told when a save
+    // fails or a profile cannot be read, and the screen a broken run leaves, on the smallest
+    // phone.
+    it("on a profile set aside, in Move my progress, and on a save that fails mid-run", async () => {
+      const page = await startRun(browser, "left", { width: 360, height: 640 });
+      const failures: string[] = [];
+      await page.evaluate(`localStorage.setItem("rod.meta", "{not json")`);
+      await page.reload();
+      await page.waitForSelector(".notice");
+      failures.push(...(await contrast(page, "a profile set aside")));
+      // Over the menu, which scrolls on a phone this small whatever is over it.
+      failures.push(...(await misfits(page, "a profile set aside", { mayScroll: true })));
+      await page.getByRole("button", { name: STRINGS.move.open }).click();
+      await page.waitForSelector(".move-asides");
+      failures.push(...(await contrast(page, "Move my progress, with a profile set aside")));
+      failures.push(...(await misfits(page, "Move my progress, with a profile set aside", { mayScroll: true })));
+      await page.getByRole("button", { name: STRINGS.ui.close }).click();
+      await page.getByRole("button", { name: new RegExp(STRINGS.ui.continueRun) }).click();
+      await page.waitForSelector(".card");
+      // Storage that takes nothing more: the next card's save fails, and the run says so.
+      await page.evaluate(`Storage.prototype.setItem = () => { throw new DOMException("full", "QuotaExceededError"); }`);
+      await choose(page, "right");
+      await page.waitForSelector(".notice");
+      failures.push(...(await contrast(page, "a save that failed mid-run")));
+      failures.push(...(await misfits(page, "a save that failed mid-run")));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    it("on the screen a broken saved run leaves, which lets the run go", async () => {
+      const page = await startRun(browser, "left", { width: 360, height: 640 });
+      await page.evaluate(`(() => {
+        const raw = JSON.parse(localStorage.getItem("rod.run"));
+        raw.state.activeArcs = null;
+        localStorage.setItem("rod.run", JSON.stringify(raw));
+      })()`);
+      await page.reload();
+      await page.waitForSelector(".crash");
+      const failures = [...(await contrast(page, "the error screen")), ...(await misfits(page, "the error screen"))];
+      await page.getByRole("button", { name: STRINGS.crash.leave }).click();
+      await page.waitForSelector(".frame");
+      expect(await page.getByRole("button", { name: new RegExp(STRINGS.ui.continueRun) }).count()).toBe(0);
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
     it("on the offer of a run someone sent, and on a link that is broken", async () => {
       const failures: string[] = [];
       const links = [

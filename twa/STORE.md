@@ -79,13 +79,17 @@ Measured, not assumed: the game makes no network request except the service work
 fetching the game's own files from its own origin. There is no analytics, no advertising
 SDK and no third-party URL anywhere in the source. Everything it stores is in `localStorage`
 on the phone: `rod.run`, `rod.meta`, `rod.settings` and `rod.hintSeen`, plus `rod.playtest`
-and `rod.playtest.open` once a player turns on the playtest record (v0.43.0).
+and `rod.playtest.open` once a player turns on the playtest record (v0.43.0). Since v0.61.0,
+`rod.meta.aside` holds a profile the game could not read, kept on the phone rather than
+written over (BACKLOG-8 phase 50). The game also asks the browser to keep its storage when
+a run ends (`navigator.storage.persist()`), which sends nothing anywhere.
 
 - **Does the app collect or share any of the required user data types?** No.
 - **Is all user data encrypted in transit?** No user data is transmitted.
 - **Can users request that data be deleted?** Nothing is held off the device. In the game,
-  Settings › Erase all progress clears it, the playtest record included, as does clearing
-  the app's storage. Settings › Delete my record clears the record alone.
+  Settings › Erase all progress clears it, the playtest record and any profile set aside
+  included, as does clearing the app's storage. Settings › Delete my record clears the
+  record alone.
 - **"Share this run"** sends a picture and a link through the system share sheet, only when
   the player presses it, to whoever they choose. Check the console's wording when you fill
   in the form; my understanding is that a transfer the user starts, and expects, is not
@@ -255,6 +259,9 @@ bots (BACKLOG-5 phase 31):
   changes the deck changes `src/content/deck.json`, so it shows in the diff before it ships.
 - The menu's footer shows the version and the deck, as in "v0.60.0 · deck nqne4r3b". A tester
   reporting a problem can quote it.
+- If the game shows "Something went wrong", its last line is the version and the error, the
+  thing to quote. "Not saved" means the phone's storage refused a save: Move my progress,
+  which the notice offers, keeps the tester's profile safe (BACKLOG-8 phase 50).
 
 ### 4. Build and upload
 

@@ -5,6 +5,7 @@ import { stageOf } from "../engine/look";
 import { decodeRunResult, encodeRunResult, type RunResult } from "../meta/challenge";
 import type { GameState, Meters } from "../engine/types";
 import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
+import { removeKey, writeKey } from "../meta/storage";
 import { RUN_SAVE_VERSION } from "../version";
 
 const RUN_KEY = "rod.run";
@@ -36,13 +37,12 @@ interface RunSave {
   vsDeck?: string | null;
 }
 
-/** Run state is saved after every step. Meta progression gets its own key in phase 6. */
-export function saveRun(state: GameState, daily: DailyMark | null = null, vs: RunResult | null = null): void {
-  try {
-    localStorage.setItem(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null, vsDeck: vs?.deck ?? null } satisfies RunSave));
-  } catch {
-    // Storage unavailable (private mode, quota). The run just is not resumable.
-  }
+/**
+ * Run state is saved after every step. Meta progression gets its own key in phase 6. False
+ * when it was not kept (private mode, quota), which the storage reports (BACKLOG-8 phase 50).
+ */
+export function saveRun(state: GameState, daily: DailyMark | null = null, vs: RunResult | null = null): boolean {
+  return writeKey(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null, vsDeck: vs?.deck ?? null } satisfies RunSave));
 }
 
 /**
@@ -156,12 +156,8 @@ export function loadRunDaily(): DailyMark | null {
   }
 }
 
-export function clearRun(): void {
-  try {
-    localStorage.removeItem(RUN_KEY);
-  } catch {
-    // ignore
-  }
+export function clearRun(): boolean {
+  return removeKey(RUN_KEY);
 }
 
 export function hintSeen(): boolean {
@@ -172,10 +168,6 @@ export function hintSeen(): boolean {
   }
 }
 
-export function markHintSeen(): void {
-  try {
-    localStorage.setItem(HINT_KEY, "1");
-  } catch {
-    // ignore
-  }
+export function markHintSeen(): boolean {
+  return writeKey(HINT_KEY, "1");
 }

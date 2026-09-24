@@ -2,9 +2,12 @@ import { DECK_PATTERN } from "../engine/deck";
 import { META_SAVE_VERSION } from "../version";
 import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
+import { holdKey, releaseKey, removeKey, writeKey } from "./storage";
 import type { DailyEntry, MetaState } from "./types";
 
 const META_KEY = "rod.meta";
+/** Profiles this version could not read, kept instead of written over (BACKLOG-8 phase 50). */
+const ASIDE_KEY = "rod.meta.aside";
 
 /**
  * Meta state is stored under its own key and its own version, separate from run state
@@ -80,28 +83,142 @@ function dailiesOf(log: unknown, kept: unknown): DailyEntry[] {
   return [...byDay.values()].sort((a, b) => a.day.localeCompare(b.day));
 }
 
+/** A stored profile this version could not read, kept as it was (BACKLOG-8 phase 50). */
+export interface SetAside {
+  /** When it was set aside, in milliseconds. It names the profile too. */
+  at: number;
+  /** `newer`: saved by a later version of the game than this one. `unreadable`: not a profile. */
+  reason: "newer" | "unreadable";
+  /** The profile exactly as it was stored. */
+  raw: string;
+  /** The player has been told it was set aside. */
+  told?: boolean;
+  /** The player has been told this version can read it. */
+  offered?: boolean;
+}
+
+export interface ProfileLoad {
+  meta: MetaState;
+  /** The stored profile, set aside because this version could not read it. */
+  aside: SetAside | null;
+}
+
+const isNewer = (data: unknown): boolean => {
+  const v = data && typeof data === "object" ? (data as { v?: unknown }).v : undefined;
+  return typeof v === "number" && v > META_SAVE_VERSION;
+};
+
+/**
+ * The stored profile. One this version cannot read, because it is not JSON, not a profile, or
+ * from a newer version of the game, used to load as an empty profile, and the next finished
+ * run saved that over it. Now it is set aside first, under a key of its own, and the game
+ * starts afresh. Move my progress can hand it on, and a later version that can read it offers
+ * it back. The stored copy is left in place until a save replaces it, so loading twice sets
+ * it aside once.
+ */
+export function loadProfile(now: number = Date.now()): ProfileLoad {
+  releaseKey(META_KEY);
+  let raw: string | null;
+  try {
+    raw = localStorage.getItem(META_KEY);
+  } catch {
+    return { meta: emptyMeta(), aside: null };
+  }
+  if (!raw) return { meta: emptyMeta(), aside: null };
+  let data: unknown = null;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    // Not JSON: set aside below, as unreadable.
+  }
+  const meta = migrateMeta(data);
+  if (meta) {
+    // Set aside by an older version and never saved over, so it is back already.
+    const same = readAsides()?.find((a) => a.raw === raw);
+    if (same) dropAside(same.at);
+    return { meta, aside: null };
+  }
+  const aside = setAside(raw, isNewer(data) ? "newer" : "unreadable", now);
+  // Neither read nor set aside: nothing is written over it, and every save says it failed.
+  if (!aside) holdKey(META_KEY);
+  return { meta: emptyMeta(), aside };
+}
+
 export function loadMeta(): MetaState {
+  return loadProfile().meta;
+}
+
+/** Keep a profile aside, once. Null when it could not be kept, so nothing may replace it. */
+function setAside(raw: string, reason: SetAside["reason"], at: number): SetAside | null {
+  const kept = readAsides();
+  // A list that is there but cannot be read is not written over either.
+  if (!kept) return null;
+  const known = kept.find((a) => a.raw === raw);
+  if (known) return known;
+  const aside: SetAside = { at, reason, raw };
+  return writeKey(ASIDE_KEY, JSON.stringify([...kept, aside])) ? aside : null;
+}
+
+/** The profiles set aside, oldest first; null when the list is there but cannot be read. */
+function readAsides(): SetAside[] | null {
+  let raw: string | null;
   try {
-    const raw = localStorage.getItem(META_KEY);
-    if (!raw) return emptyMeta();
-    return migrateMeta(JSON.parse(raw)) ?? emptyMeta();
+    raw = localStorage.getItem(ASIDE_KEY);
   } catch {
-    return emptyMeta();
+    return null;
+  }
+  if (!raw) return [];
+  try {
+    const list: unknown = JSON.parse(raw);
+    if (!Array.isArray(list)) return null;
+    return list.filter(
+      (a): a is SetAside =>
+        !!a && typeof a === "object" && typeof a.at === "number" && (a.reason === "newer" || a.reason === "unreadable") && typeof a.raw === "string",
+    );
+  } catch {
+    return null;
   }
 }
 
-export function saveMeta(meta: MetaState): void {
+export function asides(): SetAside[] {
+  return readAsides() ?? [];
+}
+
+/** Whether this version can read a profile set aside, as a later version may. */
+export function canComeBack(aside: SetAside): boolean {
   try {
-    localStorage.setItem(META_KEY, JSON.stringify(meta));
+    return migrateMeta(JSON.parse(aside.raw)) !== null;
   } catch {
-    // Storage unavailable: progression simply is not kept.
+    return false;
   }
 }
 
-export function clearMeta(): void {
-  try {
-    localStorage.removeItem(META_KEY);
-  } catch {
-    // ignore
-  }
+/** Note that the player has been told about a profile set aside, so they are told once. */
+export function markAside(at: number, field: "told" | "offered"): boolean {
+  const kept = readAsides();
+  if (!kept?.some((a) => a.at === at)) return false;
+  return writeKey(ASIDE_KEY, JSON.stringify(kept.map((a) => (a.at === at ? { ...a, [field]: true } : a))));
+}
+
+/** Let a profile set aside go: it has come back, or the player erased everything. */
+export function dropAside(at: number): boolean {
+  const kept = readAsides();
+  if (!kept) return false;
+  const rest = kept.filter((a) => a.at !== at);
+  return rest.length ? writeKey(ASIDE_KEY, JSON.stringify(rest)) : removeKey(ASIDE_KEY);
+}
+
+export function clearAsides(): boolean {
+  return removeKey(ASIDE_KEY);
+}
+
+/** False when the profile was not kept, which the storage has already reported. */
+export function saveMeta(meta: MetaState): boolean {
+  return writeKey(META_KEY, JSON.stringify(meta));
+}
+
+export function clearMeta(): boolean {
+  // Erasing is asked for, so a profile that could not be set aside goes too.
+  releaseKey(META_KEY);
+  return removeKey(META_KEY);
 }

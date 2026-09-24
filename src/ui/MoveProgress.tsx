@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
-import type { MetaState } from "../meta";
+import { todayKey, type MetaState, type SetAside } from "../meta";
 import { APP_VERSION } from "../version";
-import { progressCode, progressJson, progressSummary, readProgress, type ProgressSummary, type Readout } from "./progress";
+import { asideJson, progressCode, progressJson, progressSummary, readProgress, type ProgressSummary, type Readout } from "./progress";
 import type { Settings } from "./settings";
 import { handFile, type SendOutcome } from "./share";
 
@@ -13,7 +13,10 @@ interface Props {
   settings: Settings;
   /** A code that arrived in a link, to read as soon as the dialog opens. */
   incoming?: string;
-  onReplace: (meta: MetaState, settings: Settings) => void;
+  /** Profiles this version could not read, set aside rather than written over (BACKLOG-8 phase 50). */
+  asides?: readonly SetAside[];
+  /** `fromAside` names the profile set aside that is coming back, so it stops being set aside. */
+  onReplace: (meta: MetaState, settings: Settings, fromAside?: number) => void;
   onClose: () => void;
 }
 
@@ -24,18 +27,30 @@ export const PROGRESS_FILE_NAME = "rule-or-drool-progress.txt";
  * bringing it here reads first and replaces only when asked, with what is here and what is
  * coming set side by side, because a replaced codex does not come back.
  */
-export function MoveProgress({ lib, meta, settings, incoming, onReplace, onClose }: Props) {
+export function MoveProgress({ lib, meta, settings, incoming, asides = [], onReplace, onClose }: Props) {
   const m = STRINGS.move;
   const [code, setCode] = useState<string | null>(null);
   const [sent, setSent] = useState<SendOutcome | "copied" | "byHand" | null>(null);
   const [input, setInput] = useState(incoming ?? "");
   const [readout, setReadout] = useState<Readout | null>(null);
   const [done, setDone] = useState(false);
+  /** The profile set aside that the readout is, when it is one. */
+  const [fromAside, setFromAside] = useState<number | null>(null);
   const file = useRef<HTMLInputElement>(null);
 
-  const read = async (text: string) => {
+  const read = async (text: string, aside: number | null = null) => {
     setDone(false);
+    setFromAside(aside);
     setReadout(text.trim() ? await readProgress(text) : null);
+  };
+  /** A profile set aside, read the way any progress brought here is. */
+  const readAside = (a: SetAside) => {
+    const json = asideJson(a, settings);
+    if (json) void read(json, a.at);
+  };
+  const saveAside = async (a: SetAside) => {
+    const f = new File([asideJson(a, settings) ?? a.raw], m.asideFileName, { type: "text/plain" });
+    setSent(await handFile(f, { title: m.shareTitle, text: m.shareText.replace("{version}", APP_VERSION) }));
   };
   useEffect(() => {
     if (incoming) void read(incoming);
@@ -69,6 +84,7 @@ export function MoveProgress({ lib, meta, settings, incoming, onReplace, onClose
     !readout || readout.ok ? ""
     : readout.reason === "newer" ? (readout.game ? m.newer.replace("{version}", readout.game) : m.newerUnknown)
     : readout.reason === "cannotUnpack" ? m.cannotUnpack
+    : fromAside !== null ? m.asideStill
     : m.unreadable;
   const sentLine =
     sent === "copied" ? m.copied : sent === "byHand" ? m.copyByHand : sent === "shared" ? m.shared : sent === "saved" ? m.saved : sent === "failed" ? m.failed : "";
@@ -104,6 +120,29 @@ export function MoveProgress({ lib, meta, settings, incoming, onReplace, onClose
           </button>
           <input ref={file} type="file" accept=".txt,.json,text/plain,application/json" hidden onChange={(e) => openFile(e.target.files?.[0])} />
         </div>
+
+        {asides.length > 0 && (
+          <>
+            <h3>{m.asideTitle}</h3>
+            <ul className="move-asides">
+              {[...asides].reverse().map((a) => (
+                <li key={a.at}>
+                  <p>{(a.reason === "newer" ? m.asideNewer : m.asideUnreadable).replace("{day}", todayKey(new Date(a.at)))}</p>
+                  <div className="settings-actions">
+                    {asideJson(a, settings) !== null && (
+                      <button type="button" onClick={() => readAside(a)}>
+                        {m.asideRead}
+                      </button>
+                    )}
+                    <button type="button" onClick={() => saveAside(a)}>
+                      {m.saveFile}
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
         {refusal && (
           <p className="settings-warning" role="alert">
             {refusal}
@@ -118,8 +157,9 @@ export function MoveProgress({ lib, meta, settings, incoming, onReplace, onClose
                 type="button"
                 className="danger"
                 onClick={() => {
-                  onReplace(readout.meta, readout.settings);
+                  onReplace(readout.meta, readout.settings, fromAside ?? undefined);
                   setReadout(null);
+                  setFromAside(null);
                   setInput("");
                   setDone(true);
                 }}

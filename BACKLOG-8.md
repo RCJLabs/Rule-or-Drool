@@ -301,19 +301,116 @@ and tests. About the size of phase 37.
 
 ---
 
-## Phase 50. Nothing lost without a word — *doing*
+## Phase 50. Nothing lost without a word — *done*
 
-**Shipped in v0.59.2: the service worker clears only its own caches.** On activating, it now
-deletes only caches named `rod-v…`, as all 57 this game made from v0.7.0 to v0.59.1 are.
-Another site's cache on rcjlabs.github.io is left alone.
+**Shipped in two parts, v0.59.2 and v0.61.0.** Every write the game makes now says when it
+fails, a profile this version cannot read is kept instead of written over, the game asks the
+browser to keep its storage, and nothing that throws leaves a blank page.
+
+**v0.59.2: the service worker clears only its own caches.** On activating, it now deletes
+only caches named `rod-v…`, as all 57 this game made from v0.7.0 to v0.59.1 are. Another
+site's cache on rcjlabs.github.io is left alone.
 - **A test runs the worker** against stand-in caches: two old versions of this game's, the
   current one, and three that are not its own. Only the two old ones go. Against the old
   worker the same test fails, because it deletes all five that are not current.
-- **The rest of the phase is still to do,** below.
 - **Yours, if it applies.** A site of yours on the same origin that clears every cache but
   its own still deletes this game's. The same one-line change fixes it there (speculation:
   whether any does).
 
+**v0.61.0: every write goes through one place,** `src/meta/storage.ts`. That covers the
+profile, the run, the settings, the first-run hint, the playtest record, the run being
+recorded and the profiles set aside. A write the browser refuses is counted and reported. A
+test fails if anything in `src/` writes to storage any other way.
+
+**A failed save says so, once a page.** A dialog, "Not saved", says that what happens from
+here may not be kept. It offers Move my progress, which hands on the profile the session
+holds, as a file or a code. Later failures on the same page say nothing more.
+
+**A profile this version cannot read is set aside, not written over.** That is one that is
+not JSON, not a profile, or saved by a newer version.
+- **It is kept exactly as stored,** in a list under `rod.meta.aside`. The game starts afresh
+  and says why, in one of two wordings: saved by a newer version, or not readable.
+- **The stored copy stays** until the first save replaces it. So loading twice sets it aside
+  once and tells once.
+- **Move my progress lists each one** with the day it was set aside.
+  - "Save it as a file" hands it on as it was stored.
+  - "Read it" puts it through the compare-and-replace that any profile brought in goes
+    through, carrying the settings here so they stay as they are.
+- **A later version that can read one offers it back,** once: "A profile can come back". This
+  is the rollback case. A version with a new profile format goes out and is taken back. The
+  older version sets the new profiles aside, and when the new version returns it offers them
+  back.
+- **One the version that saved it reads again,** with nothing saved over it, is let go
+  without a word. It is the profile in use.
+- **One that can be neither read nor set aside,** as when the storage is full, is not written
+  over. Every save of the profile fails and says so, for that page.
+- **Erase all progress clears them too,** and its warning now says so.
+
+**The game asks the browser to keep its storage** (`navigator.storage.persist()`) when a run
+ends. It asks at most once a page, and not when the storage is kept already. Firefox asks the
+player; Chrome decides by how the site is used. The answer is not recorded.
+
+**Nothing that throws leaves a blank page.** An error boundary around the whole game shows
+"Something went wrong" with "Back to the menu". When a run is in progress it adds "Leave this
+run". It also shows the version and the error, for a tester to quote.
+- **Game actions are caught too.** An exception in a click handler never reaches React on its
+  own. Before, a saved run that threw on Continue left a button that did nothing, every time.
+  Starting, continuing, choosing, taking the other road and leaving to the menu now carry an
+  exception to the error screen.
+- **Back to the menu** draws the game again from storage. It drops the link that opened the
+  page, in case the link is what broke.
+- **Leave this run** clears the saved run. Any record of it keeps the cards played, marked as
+  left. The plan called this "put aside"; the button says "leave", since the run is gone.
+
+**Measured.**
+- **16 new unit tests, with storage that throws** on every write, or on one key.
+  - Each of the 13 kinds of write reports its failure and throws nothing.
+  - The player is told once.
+  - An unreadable or newer profile is set aside, told once, and never written over. One that
+    cannot be set aside is left as it was.
+  - One that comes back does so beside what is here, only when asked, with the settings as
+    they were.
+  - Persistence is asked for once a page after a finished run, and not when granted already.
+  - A screen that throws and a saved run that breaks the menu reach the error screen. A game
+    action that throws, continuing a run that cannot be read, is thrown again as the game
+    draws, where the error screen catches it. A choice whose sound cue throws still stands.
+- **2 new browser audits at 360×640.** The set-aside notice over the menu, Move my progress
+  with a profile set aside, "Not saved" in the middle of a run, and the error screen all read
+  at AA contrast. The last two fit without scrolling; the first two sit over the menu, which
+  scrolls at that size anyway. Leave this run returns to a menu with no run to continue.
+- **Full check:** 640 unit tests and 45 browser tests pass.
+
+**The four targets.**
+- **No write fails without the player being told, once:** met, once a page. A reload, or Back
+  to the menu after an error, can tell again.
+- **No stored profile is written over by an empty one:** met. It is set aside first, or held.
+- **The service worker never deletes a cache it did not make:** met in v0.59.2.
+- **No exception leaves a blank page:** met, for drawing and for the game's actions. The
+  limits follow.
+
+**The limits.**
+- **A profile that breaks the menu itself** breaks it again after Back to the menu. The error
+  screen has no way to set a profile aside. It would take a bug in a new version for a
+  readable profile to do that, and the way out is a fixed version.
+- **Exceptions outside the screens and the game's actions are not caught,** as in a share or
+  the service worker's update. None of them draws the screen, so none leaves a blank page. A
+  sound or a buzz that fails inside a choice is caught where it plays: the choice stands, the
+  run's end is still counted, and no error screen shows.
+- **Two tabs still write over each other's profile.** Each keeps the profile it loaded, and
+  the last to finish a run saves its own. This is not new, and not in this phase.
+- **A storage that stays full says so on every load.** That is on purpose: each load is a
+  session whose progress may not be kept.
+- **The notice offers no way to free space.** The playtest record is the only large thing the
+  game keeps, about 1.5 MB at its cap, and Delete my record frees it. The notice does not
+  mention it.
+- **The rollback protection needs this version or later** at both ends. A version from before
+  v0.61.0 still loads a newer profile as empty and saves over it.
+
+**Yours.** Nothing to do. When you change the profile format (`META_SAVE_VERSION`), a rollback
+to v0.61.0 or later no longer costs players their progress. When you ask a tester for a
+problem report, the error screen's last line is the thing to quote.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - **Every storage write fails silently.** Each save is a `try` with an empty `catch`: the
@@ -359,6 +456,8 @@ Another site's cache on rcjlabs.github.io is left alone.
 - No exception leaves a blank page.
 
 **Cost.** Small to medium. The service-worker condition can ship on its own, today.
+
+</details>
 
 ---
 

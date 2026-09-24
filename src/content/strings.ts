@@ -421,6 +421,35 @@ export const STRINGS = {
     newer: "That came from a newer version of the game ({version}). Reload the game to update it, then try again.",
     newerUnknown: "That came from a newer version of the game. Reload the game to update it, then try again.",
     cannotUnpack: "This browser cannot open a code. Save your progress as a file where it is now, and open the file here.",
+    // A profile this version could not read, kept instead of written over (BACKLOG-8 phase 50).
+    asideTitle: "Set aside",
+    asideNewer: "A profile set aside on {day}, saved by a newer version of the game.",
+    asideUnreadable: "A profile set aside on {day}, which could not be read.",
+    asideRead: "Read it",
+    asideStill: "This version cannot read it either. Save it as a file to keep it.",
+    asideFileName: "rule-or-drool-set-aside.txt",
+  },
+  /**
+   * What the player is told before anything else, once (BACKLOG-8 phase 50): a save that
+   * failed, and a profile this version could not read.
+   */
+  notice: {
+    storageTitle: "Not saved",
+    storage: "The game could not save on this device just now, so what happens from here may not be kept. Move my progress gives you your profile as a file or a code to keep.",
+    asideTitle: "Your profile is set aside",
+    asideNewer: "It was saved by a newer version of the game, which this one cannot read. It is kept, not deleted, and this version starts afresh. Move my progress can hand it on.",
+    asideUnreadable: "It could not be read. It is kept as it was, not deleted, and the game starts afresh. Move my progress can hand it on.",
+    backTitle: "A profile can come back",
+    back: "This version of the game can read the profile set aside on {day}. Move my progress shows it beside what is here, and brings it back if you say so.",
+  },
+  /** A screen that threw (BACKLOG-8 phase 50): never a blank page. */
+  crash: {
+    title: "Something went wrong",
+    body: "The game ran into an error on this screen. What it last saved is still there.",
+    menu: "Back to the menu",
+    leave: "Leave this run",
+    leaveNote: "If it happens again with the run in progress, leave the run. Your profile keeps everything else.",
+    detail: "v{version}: {error}",
   },
   sponsors: {
     adjectives: ["Mega", "Ultra", "Freedom", "Patriot", "Happy", "Turbo", "Golden", "Blast", "Xtreme", "Family"],
@@ -580,7 +609,7 @@ export const STRINGS = {
     exitToMenu: "Leave to the main menu",
     erase: "Erase all progress",
     eraseConfirm: "Yes, erase everything",
-    eraseWarning: "This clears the codex, every unlock, the run in progress and any record of your runs. It cannot be undone.",
+    eraseWarning: "This clears the codex, every unlock, the run in progress, any record of your runs and any profile set aside. It cannot be undone.",
     savedRunKept: "Your run is saved. Continue it from the menu.",
     mandate: "Your promise",
     mandateNone: "Promise nothing",

@@ -9,6 +9,7 @@ import { Play } from "./Play";
 import { Cabinet } from "./Cabinet";
 import { HowItWorks } from "./HowItWorks";
 import { MoveProgress } from "./MoveProgress";
+import { NoticeDialog } from "./Notice";
 import { SettingsMenu } from "./SettingsMenu";
 import { Setup } from "./Setup";
 import { useGame } from "./useGame";
@@ -104,8 +105,22 @@ export function App() {
       meta={game.meta}
       settings={game.settings}
       incoming={incoming ?? undefined}
+      asides={game.asides}
       onReplace={game.replaceProgress}
       onClose={closeMove}
+    />
+  ) : null;
+
+  // Over everything else, Move my progress included: a failed save, or a profile set aside
+  // (BACKLOG-8 phase 50).
+  const notice = game.notice ? (
+    <NoticeDialog
+      notice={game.notice}
+      onMoveProgress={() => {
+        game.dismissNotice();
+        game.openMoveProgress();
+      }}
+      onDismiss={game.dismissNotice}
     />
   ) : null;
 
@@ -124,6 +139,7 @@ export function App() {
         <Codex lib={library} meta={game.meta} onBack={game.closeCodex} onSettings={game.openSettings} />
         {settingsMenu}
         {raised}
+        {notice}
       </>
     );
   }
@@ -152,6 +168,7 @@ export function App() {
         />
         {settingsMenu}
         {raised}
+        {notice}
       </>
     );
   }
@@ -171,6 +188,7 @@ export function App() {
         />
         {settingsMenu}
         {raised}
+        {notice}
       </>
     );
   }
@@ -183,7 +201,7 @@ export function App() {
         transition={game.transition}
         onChoose={game.choose}
         onDismissTransition={game.dismissTransition}
-        paused={game.showSettings || game.showHow || game.showMove || incoming !== null}
+        paused={game.showSettings || game.showHow || game.showMove || incoming !== null || game.notice !== null}
         debug={debug}
         onNudgeDrift={game.nudgeDrift}
         settings={game.settings}
@@ -193,7 +211,8 @@ export function App() {
       />
       {game.showCabinet && <Cabinet lib={library} state={game.state} onClose={game.closeCabinet} />}
       {settingsMenu}
-        {raised}
+      {raised}
+      {notice}
     </>
   );
 }

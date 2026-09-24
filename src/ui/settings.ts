@@ -1,3 +1,4 @@
+import { writeKey } from "../meta/storage";
 import { SETTINGS_VERSION } from "../version";
 import { degradeLevel, type Theme } from "./theme";
 
@@ -92,12 +93,9 @@ export function loadSettings(): Settings {
   }
 }
 
-export function saveSettings(settings: Settings): void {
-  try {
-    localStorage.setItem(KEY, JSON.stringify({ ...settings, v: SETTINGS_VERSION }));
-  } catch {
-    // Storage unavailable: the session keeps them, the next one does not.
-  }
+/** False when they were not kept: the session keeps them and the next does not. */
+export function saveSettings(settings: Settings): boolean {
+  return writeKey(KEY, JSON.stringify({ ...settings, v: SETTINGS_VERSION }));
 }
 
 /**

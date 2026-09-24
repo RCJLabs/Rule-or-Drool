@@ -1,4 +1,5 @@
 import { STRINGS } from "../content/strings";
+import { removeKey, writeKey } from "../meta/storage";
 import { serialize, toFile, type RecordedRun } from "../playtest/record";
 import { APP_VERSION } from "../version";
 import { handFile, type SendOutcome } from "./share";
@@ -38,17 +39,15 @@ export function loadRecorded(): RecordedRun[] {
   }
 }
 
-/** Add a run to the record if there is room. Returns how many runs it holds afterwards. */
+/**
+ * Add a run to the record if there is room. Returns how many runs it holds afterwards. When
+ * the storage will not take it, this run is not kept, nothing already kept is lost, and the
+ * storage reports it (BACKLOG-8 phase 50).
+ */
 export function appendRecorded(run: RecordedRun): number {
   const runs = loadRecorded();
   if (runs.length >= MAX_RECORDED_RUNS) return runs.length;
-  try {
-    localStorage.setItem(KEY, JSON.stringify(toFile([...runs, run])));
-    return runs.length + 1;
-  } catch {
-    // Storage full or unavailable: this run is not kept, and nothing already kept is lost.
-    return runs.length;
-  }
+  return writeKey(KEY, JSON.stringify(toFile([...runs, run]))) ? runs.length + 1 : runs.length;
 }
 
 export function loadOpen(): RecordedRun | null {
@@ -61,22 +60,14 @@ export function loadOpen(): RecordedRun | null {
   }
 }
 
-export function saveOpen(run: RecordedRun | null): void {
-  try {
-    if (run) localStorage.setItem(OPEN_KEY, JSON.stringify(run));
-    else localStorage.removeItem(OPEN_KEY);
-  } catch {
-    // Unavailable storage: the run in progress is not kept past this page.
-  }
+/** False when the storage would not keep it: the run in progress is not kept past this page. */
+export function saveOpen(run: RecordedRun | null): boolean {
+  return run ? writeKey(OPEN_KEY, JSON.stringify(run)) : removeKey(OPEN_KEY);
 }
 
-export function clearRecorded(): void {
-  try {
-    localStorage.removeItem(KEY);
-    localStorage.removeItem(OPEN_KEY);
-  } catch {
-    // ignore
-  }
+export function clearRecorded(): boolean {
+  const record = removeKey(KEY);
+  return removeKey(OPEN_KEY) && record;
 }
 
 /**

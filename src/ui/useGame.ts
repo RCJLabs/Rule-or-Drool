@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
-import { clearMeta, dailySeedFor, emptyMeta, encodeRunCode, foldRun, loadMeta, runCodeOf, saveMeta, type MetaState, type RunFold, type RunResult } from "../meta";
+import { asides, canComeBack, clearAsides, clearMeta, dailySeedFor, dropAside, emptyMeta, encodeRunCode, foldRun, loadProfile, markAside, runCodeOf, saveMeta, type MetaState, type RunFold, type RunResult, type SetAside } from "../meta";
+import { askToBeKept, onWriteFailed, writeFailures } from "../meta/storage";
 import { closeRun, openRun, takeCard, type Measure, type RecordedRun, type RunKind } from "../playtest/record";
 import { APP_VERSION } from "../version";
 import { canRetrace, otherSide, replayTo } from "../engine/replay";
@@ -18,6 +19,36 @@ import { clampDrift } from "../engine/state";
 import { soundLevel, themeOf } from "./theme";
 
 export type Screen = "setup" | "play" | "over" | "codex";
+
+/**
+ * Something the player has to be told before anything else (BACKLOG-8 phase 50): a save that
+ * failed, a profile this version could not read and set aside, or one set aside earlier that
+ * this version can read. Each is told once.
+ */
+export type Notice = { kind: "storage" } | { kind: "setAside"; aside: SetAside } | { kind: "canComeBack"; aside: SetAside };
+
+/** What loading the profile has to say: a profile it set aside, then any that can come back. */
+function noticesOf(aside: SetAside | null, kept: readonly SetAside[]): Notice[] {
+  const out: Notice[] = aside && !aside.told ? [{ kind: "setAside", aside }] : [];
+  for (const a of kept) if (a.at !== aside?.at && !a.offered && canComeBack(a)) out.push({ kind: "canComeBack", aside: a });
+  return out;
+}
+
+/**
+ * A game action that threw, carried into the next render so the error screen catches it
+ * (BACKLOG-8 phase 50). An exception in a click handler never reaches React on its own: the
+ * screen stays as it was and the button does nothing, every time, when a saved run is what
+ * throws.
+ */
+function guarded<A extends unknown[]>(crash: (e: unknown) => void, act: (...args: A) => void): (...args: A) => void {
+  return (...args: A) => {
+    try {
+      act(...args);
+    } catch (e) {
+      crash(e);
+    }
+  };
+}
 
 /**
  * What a choice sounds like. Ordered so the loudest thing a card did is the last thing you
@@ -56,7 +87,20 @@ export function useGame(lib: Library) {
   challengeRef.current = challenge;
   const [state, setState] = useState<GameState | null>(null);
   const [transition, setTransition] = useState<number | null>(null);
-  const [meta, setMeta] = useState<MetaState>(() => loadMeta());
+  // The profile, and any stored profile this version could not read and set aside instead
+  // of writing over it (BACKLOG-8 phase 50).
+  const [boot] = useState(() => {
+    const load = loadProfile();
+    return { ...load, kept: asides() };
+  });
+  const [meta, setMeta] = useState<MetaState>(boot.meta);
+  const [kept, setKept] = useState<SetAside[]>(boot.kept);
+  const [notices, setNotices] = useState<Notice[]>(() => noticesOf(boot.aside, boot.kept));
+  const [thrown, setThrown] = useState<Error | null>(null);
+  const crash = useCallback((e: unknown) => {
+    const error = e instanceof Error ? e : new Error(String(e));
+    setThrown(() => error);
+  }, []);
   const [lastFold, setLastFold] = useState<RunFold | null>(null);
   const [showCodex, setShowCodex] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -107,6 +151,19 @@ export function useGame(lib: Library) {
     if (state) saveRun(state, dailyRef.current, challenge);
   }, [state, challenge]);
 
+  // A write that failed, here or anywhere, is told once a page, including one that failed
+  // while the page was loading. Told a turn later, since a write can fail inside an update.
+  const toldStorage = useRef(false);
+  useEffect(() => {
+    const tell = () => {
+      if (toldStorage.current) return;
+      toldStorage.current = true;
+      queueMicrotask(() => setNotices((n) => [...n, { kind: "storage" }]));
+    };
+    if (writeFailures() > 0) tell();
+    return onWriteFailed(tell);
+  }, []);
+
   useEffect(() => {
     applySettings(settings);
   }, [settings]);
@@ -135,7 +192,7 @@ export function useGame(lib: Library) {
    * Leave a run without ending it. The run is already saved on every choice, so this only
    * has to put it back where the menu looks for it (`saved`) and clear the live state.
    */
-  const exitToMenu = useCallback(() => {
+  const exitToMenu = useCallback(guarded(crash, () => {
     const s = stateRef.current;
     setShowSettings(false);
     setShowCabinet(false);
@@ -150,13 +207,18 @@ export function useGame(lib: Library) {
     }
     setChallenge(null);
     setState(null);
-  }, []);
+  }), [crash]);
 
-  /** Wipes the codex, every unlock, the run in progress and the playtest record. Confirmed in the menu first. */
+  /**
+   * Wipes the codex, every unlock, the run in progress, the playtest record and any profile set
+   * aside. Confirmed in the menu first.
+   */
   const eraseProgress = useCallback(() => {
     clearRun();
     clearMeta();
     clearRecorded();
+    clearAsides();
+    setKept([]);
     openRef.current = null;
     setRecorded(0);
     const fresh = emptyMeta();
@@ -176,7 +238,7 @@ export function useGame(lib: Library) {
 
   /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39). */
   const start = useCallback(
-    (seed: number, align: PlayerAlign, mandate: string | null = null, eraCount?: number) => {
+    guarded(crash, (seed: number, align: PlayerAlign, mandate: string | null = null, eraCount?: number) => {
       setSaved(null);
       setSavedDaily(null);
       setSavedChallenge(null);
@@ -187,8 +249,8 @@ export function useGame(lib: Library) {
       const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandate, eraCount);
       setState(s);
       beginRecording(s, "own");
-    },
-    [lib, beginRecording],
+    }),
+    [lib, beginRecording, crash],
   );
 
   /**
@@ -196,7 +258,7 @@ export function useGame(lib: Library) {
    * said how it went for them, the end compares the two (BACKLOG-5 phase 37).
    */
   const startFromCode = useCallback(
-    (code: RunCode, daily?: DailyMark, vs?: RunResult | null) => {
+    guarded(crash, (code: RunCode, daily?: DailyMark, vs?: RunResult | null) => {
       setSaved(null);
       setSavedDaily(null);
       setSavedChallenge(null);
@@ -207,8 +269,8 @@ export function useGame(lib: Library) {
       const s = beginRunFromCode(lib, code);
       setState(s);
       beginRecording(s, daily ? "daily" : "shared");
-    },
-    [lib, beginRecording],
+    }),
+    [lib, beginRecording, crash],
   );
 
   /**
@@ -238,7 +300,7 @@ export function useGame(lib: Library) {
     [lib, startFromCode],
   );
 
-  const continueSaved = useCallback(() => {
+  const continueSaved = useCallback(guarded(crash, () => {
     if (!saved || missingContent(lib, saved).length) return;
     // A run dealt from another deck plays on under this one, so no one deck dealt it: it
     // keeps no stamp, and its links and records claim none (BACKLOG-8 phase 49).
@@ -258,7 +320,7 @@ export function useGame(lib: Library) {
     const open = openRef.current;
     if (open && (moved || open.code !== encodeRunCode(runCodeOf(saved)) || open.cards.length !== saved.cardCount)) shelveOpen();
     else if (open) resumedRef.current = true;
-  }, [lib, saved, savedDaily, savedChallenge, shelveOpen]);
+  }), [lib, saved, savedDaily, savedChallenge, shelveOpen, crash]);
 
   /** A run has ended: fold it into the profile, and into the daily only if it was that. */
   const foldFinished = useCallback(
@@ -268,13 +330,15 @@ export function useGame(lib: Library) {
       setMeta(fold.meta);
       setLastFold(fold);
       saveMeta(fold.meta);
+      // There is progress to lose now, so the browser is asked to keep it (BACKLOG-8 phase 50).
+      askToBeKept();
       dailyRef.current = null;
     },
     [lib],
   );
 
   const choose = useCallback(
-    (side: Side, measure: Measure) => {
+    guarded(crash, (side: Side, measure: Measure) => {
       const s = stateRef.current;
       if (!s) return;
       const r = commitChoice(lib, s, side);
@@ -292,11 +356,16 @@ export function useGame(lib: Library) {
           saveOpen(next);
         }
       }
-      cue(lib, settingsRef.current, s, r.state, side, r.eraChanged);
+      // A sound or a buzz that fails is not worth an error screen, nor the fold below.
+      try {
+        cue(lib, settingsRef.current, s, r.state, side, r.eraChanged);
+      } catch {
+        // The choice stands without it.
+      }
       if (r.eraChanged) setTransition(r.state.era);
       if (r.state.over && !s.over) foldFinished(r.state);
-    },
-    [lib, foldFinished],
+    }),
+    [lib, foldFinished, crash],
   );
 
   /**
@@ -306,7 +375,7 @@ export function useGame(lib: Library) {
    * end of the second can show both. A second road does not branch again.
    */
   const takeOtherRoad = useCallback(
-    (k: number) => {
+    guarded(crash, (k: number) => {
       const first = stateRef.current;
       if (!first?.over || first.road || !canRetrace(first)) return;
       const back = replayTo(lib, first, k);
@@ -319,8 +388,8 @@ export function useGame(lib: Library) {
       setTransition(r.eraChanged ? r.state.era : null);
       setState(r.state);
       if (r.state.over) foldFinished(r.state);
-    },
-    [lib, foldFinished],
+    }),
+    [lib, foldFinished, crash],
   );
 
   const dismissTransition = useCallback(() => {
@@ -347,15 +416,28 @@ export function useGame(lib: Library) {
   /**
    * Put a profile brought from elsewhere in place of this one (BACKLOG-5 phase 33), after the
    * player has seen both and said so. A run in progress is left alone: it carries its own
-   * unlocks and plays the same under either profile.
+   * unlocks and plays the same under either profile. A profile set aside that comes back is
+   * no longer set aside (BACKLOG-8 phase 50).
    */
-  const replaceProgress = useCallback((next: MetaState, nextSettings: Settings) => {
-    saveMeta(next);
+  const replaceProgress = useCallback((next: MetaState, nextSettings: Settings, fromAside?: number) => {
+    const kept = saveMeta(next);
     metaRef.current = next;
     setMeta(next);
     setLastFold(null);
     setSettings(nextSettings);
+    if (kept && fromAside !== undefined) {
+      dropAside(fromAside);
+      setKept(asides());
+    }
   }, [setSettings]);
+
+  const notice = notices[0] ?? null;
+  /** The notice has been read: one about a profile set aside is not told again. */
+  const dismissNotice = useCallback(() => {
+    if (notice?.kind === "setAside") markAside(notice.aside.at, "told");
+    if (notice?.kind === "canComeBack") markAside(notice.aside.at, "offered");
+    setNotices((n) => n.slice(1));
+  }, [notice]);
 
   /** Hand the record to the share sheet; the player picks where it goes. */
   const sendPlaytest = useCallback(() => sendRecord(loadRecorded()), []);
@@ -379,6 +461,8 @@ export function useGame(lib: Library) {
     dailyRef.current = null;
   }, []);
 
+  // An action that threw is thrown again here, where the error screen can catch it.
+  if (thrown) throw thrown;
   const screen: Screen = showCodex ? "codex" : !state ? "setup" : state.over ? "over" : "play";
   return {
     screen,
@@ -428,5 +512,9 @@ export function useGame(lib: Library) {
     exitToMenu,
     eraseProgress,
     markTaught,
+    notice,
+    dismissNotice,
+    /** Profiles this version could not read, set aside rather than written over. */
+    asides: kept,
   };
 }
