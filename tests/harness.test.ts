@@ -9,7 +9,7 @@ import type { GameState, PlayerAlign } from "../src/engine/types";
 import { historyOf } from "../src/meta/histories";
 import { allUnlockTokens } from "../src/meta/objectives";
 import { emptyMeta, foldRun } from "../src/meta/state";
-import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, makeContext, playRun, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, BOTS, evaluateLongTargets, evaluateTargets, lookProfile, makeContext, playRun, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 // Simulations, so their time grows with the deck: the draw checks every card in its pool.
 // On CI these two took 3.2–3.5s at 526 cards and 4.7–5.6s at 554, past vitest's 5s default,
@@ -91,6 +91,20 @@ describe("the long reign's targets", () => {
       }
     }
   }, 180000);
+});
+
+// BACKLOG-7 phase 45: the frame's look followed drift card by card, and over the mixed bot's
+// first runs it changed 27 times a run, 53% of the changes undone within three cards. A look
+// is now left only past a margin. Measured as the audit measured it, 2,000 runs from 900,000.
+describe("the look settles", () => {
+  it("undoes at most a quarter of its changes within three cards, and holds on at most 12% of cards", () => {
+    const p = lookProfile(library, { runs: 2000 });
+    expect(p.undone).toBeLessThanOrEqual(0.25);
+    expect(p.held).toBeLessThanOrEqual(0.12);
+    // Early signs keep their timing: no card shows a look shallower than drift alone.
+    expect(p.late).toBe(0);
+    expect(p.changes).toBeLessThanOrEqual(16);
+  }, 120000);
 });
 
 // BACKLOG-5 phase 36: by their tenth run, 89% of a player's cards were ones they had played

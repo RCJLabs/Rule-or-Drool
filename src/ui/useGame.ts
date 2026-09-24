@@ -12,8 +12,9 @@ import { clearRun, loadRun, loadRunChallenge, loadRunDaily, saveRun, type DailyM
 import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
 import { buzz, newlyDangerous, play } from "./sound";
 import { DANGER_BELOW } from "./Meters";
+import { stageOf } from "../engine/look";
 import { clampDrift } from "../engine/state";
-import { soundLevel, themeFor } from "./theme";
+import { soundLevel, themeOf } from "./theme";
 
 export type Screen = "setup" | "play" | "over" | "codex";
 
@@ -25,9 +26,9 @@ export type Screen = "setup" | "play" | "over" | "codex";
 function cue(lib: Library, settings: Settings, before: GameState, after: GameState, side: Side, eraChanged: boolean): void {
   if (settings.haptics) buzz(after.over ? [40, 60, 90] : 12);
   if (!settings.sound) return;
-  // The card landing follows the same drift the frame does, read after the choice, so the
+  // The card landing follows the same look the frame does, read after the choice, so the
   // swipe that tipped the run over is the one that sounds different (BACKLOG-3 phase 22).
-  play("commit", side, soundLevel(themeFor(after.drift, lib.config)));
+  play("commit", side, soundLevel(themeOf(after, lib.config)));
   for (const meter of newlyDangerous(before.meters, after.meters, DANGER_BELOW)) play("danger", meter);
   if (after.activeArcs.length > before.activeArcs.length) play("arc");
   if (after.stats.electionsHonest + after.stats.electionsCheated > before.stats.electionsHonest + before.stats.electionsCheated) {
@@ -320,10 +321,21 @@ export function useGame(lib: Library) {
     setState((s) => (s ? ensureCard(lib, s) : s));
   }, [lib]);
 
-  /** Debug only: shift hidden drift so the frame theming can be checked without playing 30 cards. */
-  const nudgeDrift = useCallback((delta: number) => {
-    setState((s) => (s && !s.over ? { ...s, drift: clampDrift(s.drift + delta) } : s));
-  }, []);
+  /**
+   * Debug only: shift hidden drift so the frame theming can be checked without playing 30
+   * cards. The look goes straight to the one the new drift implies: a nudge is not drift
+   * easing back, and the browser audit steps through the looks this way.
+   */
+  const nudgeDrift = useCallback(
+    (delta: number) => {
+      setState((s) => {
+        if (!s || s.over) return s;
+        const drift = clampDrift(s.drift + delta);
+        return { ...s, drift, look: stageOf(drift, lib.config) };
+      });
+    },
+    [lib],
+  );
 
   /**
    * Put a profile brought from elsewhere in place of this one (BACKLOG-5 phase 33), after the

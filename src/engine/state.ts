@@ -249,6 +249,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     cardCount: 0,
     meters,
     drift: 0,
+    look: 0,
     band: cfg.startBand,
     bandLocked: false,
     flags,

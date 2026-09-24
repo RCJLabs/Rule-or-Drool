@@ -33,7 +33,10 @@ export interface Measure {
 export interface TakenCard extends Measure {
   card: string;
   side: Side;
-  /** The hidden drift before the choice: the look the card was read in. */
+  /**
+   * The hidden drift before the choice. The look the card was read in follows from the drifts
+   * before it, since a look is left only past a margin (BACKLOG-7 phase 45).
+   */
   drift: number;
   /** The meters before and after the choice, in the file's `meters` order. */
   before: number[];

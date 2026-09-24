@@ -22,7 +22,7 @@ import { yearInEra } from "./flow";
 import { hintSeen, markHintSeen } from "./save";
 import { newlyDangerous } from "./sound";
 import { choiceSummary, lookChange, meterName, resultSummary } from "./speech";
-import { themeFor } from "./theme";
+import { themeOf } from "./theme";
 
 interface Props {
   lib: Library;
@@ -79,7 +79,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const cardKey = card ? `${card.id}:${state.cardCount}` : null;
   const questionId = card ? questionOf(lib, card) : undefined;
   const asked = card && questionId ? { title: STRINGS.questions.titles[questionId] ?? questionId, asking: card.step === 1 } : undefined;
-  const theme = themeFor(state.drift, lib.config);
+  const theme = themeOf(state, lib.config);
   const busy = transition !== null || leaving !== null;
 
   const commit = useCallback(

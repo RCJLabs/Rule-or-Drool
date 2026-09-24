@@ -3,6 +3,7 @@ export * from "./config";
 export * from "./rng";
 export * from "./library";
 export * from "./state";
+export * from "./look";
 export * from "./endings";
 export * from "./draw";
 export * from "./resolve";

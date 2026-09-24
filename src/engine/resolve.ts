@@ -1,6 +1,7 @@
 import { endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
+import { settleLook, stageOf } from "./look";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
 import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
@@ -292,6 +293,10 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   s = checkOuster(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);
+  // Once every step that can move drift has (the choice, a decree's pull), as the next card
+  // will be read in it.
+  const look = settleLook(state.look ?? stageOf(state.drift, lib.config), s.drift, lib.config);
+  if (look !== s.look) s = { ...s, look };
   return stampFlags(state, s);
 }
 

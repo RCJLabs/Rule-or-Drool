@@ -26,7 +26,7 @@ import { Frame } from "./Frame";
 import { runRecord, timeline } from "./record";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
-import { themeFor } from "./theme";
+import { themeOf } from "./theme";
 import { composeWorld } from "./world";
 import { WorldAfter } from "./WorldAfter";
 
@@ -132,7 +132,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   };
 
   return (
-    <Frame theme={themeFor(state.drift, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
+    <Frame theme={themeOf(state, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
         {pair ? (
           <div className="roads">

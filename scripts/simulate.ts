@@ -13,7 +13,7 @@
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
+import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, lookProfile, quantiles, repeatProfile, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
 interface Args {
   runs: number;
@@ -128,6 +128,12 @@ function main(): void {
   console.log(
     `cards already seen (median of 40 players, mixed bot): tenth run ${pct(quantiles(tenth.all).median)} (want at most 65%), ` +
       `its first era ${pct(quantiles(tenth.byEra.get(1)!).median)} (at most 60%); twentieth run ${pct(quantiles(twentieth.all).median)} (at most 85%)`,
+  );
+  // BACKLOG-7 phase 45: how the frame's look behaves over the mixed bot's first runs.
+  const look = lookProfile(lib, { runs: 2000 });
+  console.log(
+    `the look (2,000 first runs, mixed bot): ${look.changes} changes a run, ${pct(look.undone)} undone within three cards (want at most 25%), ` +
+      `${pct(look.held)} of cards held past their drift (at most 12%), ${look.late} shown late`,
   );
   if (args.strict && misses.length > 0) process.exit(1);
 }

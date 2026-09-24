@@ -112,7 +112,68 @@ below. Each phase stands on its own, so the round can stop after any of them.
 
 ---
 
-## Phase 45. The look settles — *queued*
+## Phase 45. The look settles — *done*
+
+**Shipped.** A look is entered on the card drift crosses its line, as before, and left only
+once drift is 4 back past that line. The look lives in the run's state. The frame, the end
+screen, the sound and the screen reader all read it.
+
+**Measured** as the audit measured it: the mixed bot's first runs, 2,000 from seed 900,000,
+on alternating sides. The real engine gives exactly what the model in the original entry
+gave.
+
+| | Wanted | v0.56.1 | Now |
+|---|---|---|---|
+| Changes of look a run (median) | – | 27 | **15** |
+| Changes undone within three cards | ≤ 25% | 53.1% | **24.0%** |
+| Cards in a look drift alone has already left | ≤ 12% | – | **10.9%** |
+| Cards in a look shallower than drift alone implies | 0 | 0 | **0** |
+
+- **The other seed sets agree.** 2,000 runs from 100,000 give 16 changes, 24.3% undone and
+  10.8% held. 2,000 from 500,000 give 16, 23.9% and 10.7%. The undone target has less than
+  a point of room on every set.
+- **The other bots:**
+  - greedy: 24 changes and 62.1% undone before, 12 and 33.0% now;
+  - random: 9 and 51.2% before, 6 and 24.5% now;
+  - saint: 3 changes, none undone, before and now. It only ever goes one way.
+- **The screen reader hears it too.** A change of look is spoken with the card (BACKLOG-5
+  phase 30), so a mixed run's look announcements fall from 27 to 15 as well.
+- **What it costs.** One card in nine shows a look drift alone has left. It is never more
+  than one step past drift, and only while drift is within 4 of that look's line.
+- **Nothing else changed.** Every bot's runs are identical: the fingerprint of 1,000 seeded
+  runs per bot, with no unlocks and with all of them, is `e2749e06faa8f4f1` over 547,608
+  cards before and after (the whole final state, less the look). A test resolves every
+  choice of 60 runs from a different look, and only the look differs.
+
+**How it is built.**
+- **The rule and the lines are the engine's.** The lines (8, 20, 36) moved from the UI to the
+  engine's config as `lookAt`, beside `lookMargin`. `settleLook` is the rule. It is applied
+  once, at the end of each choice, after every step that can move drift, including a
+  decree's pull on a run with no elections.
+- **The frame reads the run's look**, at the strength its drift gives. While a look is held,
+  that is the faint end of it, never the other side's.
+- **The run save is version 12.** A run saved before resumes in the look its drift implies,
+  which is the look it was showing. So does the first road a second road holds.
+- **The debug keys jump the look with the drift.** A nudge is not drift easing back, and the
+  browser audit steps through the looks that way. The debug line says when the look is
+  being held: "theme ascent1 (drift alone: muddle)".
+- `npm run simulate` prints the three numbers, and a test holds them.
+
+**Also checked:**
+- The unit suite is 592 tests and the browser suite 42. `validate:mvp` is clean.
+- The playtest record is unchanged. The look each card was read in follows from the drifts it
+  records, which phase 46 can use.
+
+**Yours:**
+- **The margin is one number,** `lookMargin` in `src/engine/config.ts`. 3 would undo more
+  (32%) and hold less (8.2%); 5 would undo less (19%) and hold more (13.6%). Changing it
+  moves no balance.
+- **Whether the flicker read as noise is still speculation.** No person has seen either
+  version.
+- **A run saved before this update** resumes as described above. Nothing else about old saves
+  or run codes changes.
+
+<details><summary>Original entry</summary>
 
 **Why.**
 - The frame's look is the only sign of drift a player gets: Muddle, three Decay looks and
@@ -153,6 +214,8 @@ as each card is shown, over the same 2,000 runs.
 - The fingerprint of seeded runs is identical.
 
 **Cost.** Small: an engine field, the frame, a save migration and tests.
+
+</details>
 
 ---
 

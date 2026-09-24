@@ -48,6 +48,21 @@ describe("save", () => {
     expect(migrateRun(10, v10 as never)!.eraCount).toBe(DEFAULT_CONFIG.eraCount);
   });
 
+  it("brings a v11 run forward in the look its drift implies, and the first road a second road holds", () => {
+    // Before BACKLOG-7 phase 45 the look was drift's alone, so that is the look it was showing.
+    const { look: _drop, ...v11 } = { ...newRun(library, 3, { align: "left" }), drift: -21 };
+    const first = { ...v11, drift: 9, cardCount: 105 };
+    const s = migrateRun(11, { ...v11, road: { first, at: 12 } } as never)!;
+    expect(s.look).toBe(-2);
+    expect(s.road!.first.look).toBe(1);
+    expect(migrateRun(11, { ...v11, drift: 3 } as never)!.look).toBe(0);
+    // A current save keeps the look it has, even one held past its drift.
+    const held = { ...newRun(library, 3, { align: "left" }), drift: 5, look: 1 };
+    expect(migrateRun(RUN_SAVE_VERSION, held)!.look).toBe(1);
+    saveRun(held);
+    expect(loadRun()!.look).toBe(1);
+  });
+
   it("keeps a long reign long across a save", () => {
     const s = newRun(library, 42, { align: "right", eraCount: DEFAULT_CONFIG.longEraCount });
     saveRun(s);

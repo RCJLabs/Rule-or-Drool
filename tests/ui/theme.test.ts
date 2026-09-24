@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { STAGE_AT, degradeLevel, holoLevel, meterLabel, sponsorCount, sponsorFor, streamLevel, themeFor, viewersFor } from "../../src/ui/theme";
+import { library } from "../../src/content";
+import { newRun } from "../../src/engine/state";
+import { STAGE_AT, degradeLevel, holoLevel, meterLabel, sponsorCount, sponsorFor, streamLevel, themeFor, themeOf, viewersFor } from "../../src/ui/theme";
 
 describe("themeFor", () => {
   it("is neutral near zero and stages before the band line", () => {
@@ -21,6 +23,29 @@ describe("themeFor", () => {
     expect(themeFor(40).ascent).toBeGreaterThan(themeFor(20).ascent);
     // Full strength has to arrive somewhere a run reaches, not at the clamp.
     expect(themeFor(-42).decay).toBe(1);
+  });
+});
+
+// BACKLOG-7 phase 45: a run shows the look it has settled on, which can hold past drift.
+describe("themeOf", () => {
+  const run = (drift: number, look: number) => ({ ...newRun(library, 1, { align: "left" }), drift, look });
+
+  it("shows the look a run has settled on, at the strength its drift gives", () => {
+    expect(themeOf(run(5, 1))).toMatchObject({ stage: 1, name: "ascent1", ascent: 0, decay: 0, band: "muddle" });
+    expect(themeOf(run(-17, -2))).toMatchObject({ stage: -2, name: "decay2" });
+    expect(themeOf(run(-17, -2)).decay).toBeCloseTo(themeFor(-17).decay);
+    expect(themeOf(run(30, 2))).toEqual(themeFor(30));
+  });
+
+  it("settles a look its drift has left by more than the margin", () => {
+    expect(themeOf(run(3, 1)).name).toBe("muddle");
+    expect(themeOf(run(-9, 1)).name).toBe("decay1");
+    expect(themeOf(run(40, 0)).name).toBe("ascent3");
+  });
+
+  it("gives any stage it is handed", () => {
+    expect(themeFor(5, undefined, 1)).toMatchObject({ stage: 1, name: "ascent1" });
+    expect(STAGE_AT).toBe(library.config.lookAt);
   });
 });
 

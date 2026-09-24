@@ -63,6 +63,17 @@ export interface EngineConfig {
   bandDecayAt: number;
   bandAscentAt: number;
   /**
+   * |drift| at which each of the frame's three looks begins on either side (section 9). The
+   * first lands before the band line on purpose, so early signs show within a band; the
+   * history of the numbers is on STAGE_AT in the UI's theme, which reads them from here.
+   */
+  lookAt: readonly [number, number, number];
+  /**
+   * How far back past its line drift has to come before the frame leaves a look (BACKLOG-7
+   * phase 45). A look is still entered on the card drift crosses the line.
+   */
+  lookMargin: number;
+  /**
    * Band is locked when advancing past this era (5.2: "after era 3"). An ordinary run ends
    * in a finale rather than advancing past era 3, so only a long reign reaches it: its last
    * two eras are lived in the direction the first three set (BACKLOG-5 phase 39).
@@ -166,6 +177,8 @@ export const DEFAULT_CONFIG: EngineConfig = {
   coupEnding: "coup",
   bandDecayAt: -25,
   bandAscentAt: 25,
+  lookAt: [8, 20, 36],
+  lookMargin: 4,
   bandLockAfterEra: 3,
   volatility: { decay: 1.4, muddle: 1, ascent: 0.8 },
   traitEffects: {

@@ -1,5 +1,6 @@
 import { DEFAULT_CONFIG } from "../engine/config";
 import type { Library } from "../engine/library";
+import { stageOf } from "../engine/look";
 import { decodeRunResult, encodeRunResult, type RunResult } from "../meta/challenge";
 import type { GameState, Meters } from "../engine/types";
 import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
@@ -99,6 +100,15 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     const ordinary = <T extends GameState>(x: T): T => ({ ...x, eraCount: DEFAULT_CONFIG.eraCount });
     s = ordinary(s);
     if (s.road) s = { ...s, road: { ...s.road, first: ordinary(s.road.first) } };
+  }
+  // v11 -> v12: the run keeps the look it is showing, which now depends on where drift has
+  // been and not only where it is (BACKLOG-7 phase 45). A run saved before has only its drift,
+  // so it resumes in the look that drift implies, which is the look it was showing when saved.
+  // The first road a second road holds is brought forward the same way.
+  if (v < 12) {
+    const looked = <T extends GameState>(x: T): T => ({ ...x, look: stageOf(x.drift, DEFAULT_CONFIG) });
+    s = looked(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: looked(s.road.first) } };
   }
   return s;
 }

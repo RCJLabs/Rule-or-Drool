@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import type { Browser, Page } from "playwright-core";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
+import { stageOf as driftStage } from "../../src/engine/look";
 import { rollSetup } from "../../src/engine/state";
 import { preview } from "../../src/engine/preview";
 import { METER_KEYS, type GameState, type PlayerAlign, type Side } from "../../src/engine/types";
@@ -257,6 +258,8 @@ export async function playFrom(page: Page, late: Late, at: { cardCount: number; 
     cardCount: at.cardCount,
     era: at.era,
     drift: late.drift,
+    // A run arrives at a drift in the look it implies; the look it was in before is gone.
+    look: driftStage(late.drift, library.config),
     meters: Object.fromEntries(METER_KEYS.map((k) => [k, 55])),
     // The clock moves with the card, so the one card played is not also an election, or a
     // coup's turn for a run that abolished them.

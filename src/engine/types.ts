@@ -299,6 +299,12 @@ export interface GameState {
   cardCount: number;
   meters: Meters;
   drift: number;
+  /**
+   * The frame's look, -3 to 3, as the player has been shown it (BACKLOG-7 phase 45). It
+   * follows drift into a look at once and out of one only past a margin, so it depends on
+   * where drift has been, not just where it is. Nothing in the engine reads it.
+   */
+  look: number;
   band: Band;
   bandLocked: boolean;
   flags: string[];

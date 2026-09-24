@@ -9,6 +9,7 @@ import { CardView, commitThreshold } from "../../src/ui/CardView";
 import { Ending } from "../../src/ui/Ending";
 import { getCard } from "../../src/engine/library";
 import { historyOf } from "../../src/meta";
+import { RUN_SAVE_VERSION } from "../../src/version";
 
 describe("App", () => {
   beforeEach(() => {
@@ -71,6 +72,33 @@ describe("App", () => {
     render(<App />);
     fireEvent.click(screen.getByRole("button", { name: /Continue saved run/ }));
     expect(document.querySelector(".debug")!.textContent).toContain("card #4");
+  });
+
+  // BACKLOG-7 phase 45: the frame shows the look the run has settled on, which holds a little
+  // past drift on the way back; the debug keys move it at once, as the browser audit needs.
+  it("shows the look a saved run had settled on, and the debug keys move it at once", () => {
+    const s = newRun(library, 9, { align: "left" });
+    localStorage.setItem("rod.run", JSON.stringify({ v: RUN_SAVE_VERSION, state: { ...s, cardCount: 4, drift: 5, look: 1 } }));
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Continue saved run/ }));
+    const look = () => document.querySelector(".frame")!.getAttribute("data-theme");
+    expect(look()).toBe("ascent1");
+    expect(document.querySelector(".debug")!.textContent).toContain("theme ascent1 (drift alone: muddle)");
+    fireEvent.keyDown(window, { key: "[" });
+    expect(look()).toBe("muddle");
+    fireEvent.keyDown(window, { key: "[" });
+    expect(look()).toBe("decay1");
+    // Drift at -5 would hold decay1 on the way back; a nudge is not the way back.
+    fireEvent.keyDown(window, { key: "]" });
+    expect(look()).toBe("muddle");
+  });
+
+  it("resumes a run saved before the look settled in the look its drift implies", () => {
+    const { look: _drop, ...v11 } = newRun(library, 9, { align: "left" });
+    localStorage.setItem("rod.run", JSON.stringify({ v: 11, state: { ...v11, cardCount: 4, drift: -21 } }));
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /Continue saved run/ }));
+    expect(document.querySelector(".frame")!.getAttribute("data-theme")).toBe("decay2");
   });
 
   it("opens the codex, which hides unseen endings until they are found", () => {
