@@ -555,6 +555,8 @@ export const STRINGS = {
     },
     notFound: "{n} not found yet.",
     moreNotFound: "{n} more not found yet.",
+    // Clues to endings not found yet, a few at a time (BACKLOG-10 phase 58).
+    rumours: "Heard in the corridors, of ways it has ended:",
   },
   /**
    * The stream the Decay path is broadcast on (BACKLOG-3 phase 18). Generic on purpose:
@@ -630,6 +632,12 @@ export const STRINGS = {
     epilogue: "Where it went without you",
     year: "Year",
     codex: "Codex",
+    /**
+     * The menu's codex button leads with the histories (BACKLOG-10 phase 58): a good player adds
+     * one most runs, and an ending hardly ever, so "Codex 4/77" sat still for fifty runs.
+     */
+    codexHistory: "Codex \u00b7 1 history",
+    codexHistories: "Codex \u00b7 {n} histories",
     back: "Back",
     daily: "Daily #{n}",
     dailyDone: "Daily #{n} played",

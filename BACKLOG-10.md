@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2 and 10, which you chose: phases 55 to 57, done in v0.65.0 to v0.66.1, at the
-end of this file.
+except ideas 1, 2, 10 and 6, which you chose: phases 55 to 58, done in v0.65.0 to v0.66.2, at
+the end of this file.
 
 Each idea says:
 - what it is;
@@ -623,3 +623,68 @@ card it campaigns the easy way on a narrow loss.
 2. **Who the Ascent is balanced for.** Still the informed voter. If the test shows people play
    like the eyes bot, the Ascent is too easy for them by a wide margin, and a retune would be
    large. The default: wait for the test.
+
+## Phase 58. Endings you can aim for (idea 6) — *done*
+
+**Shipped in v0.66.2.** The deck is still `3c9ktfpd`: the clues live in `src/meta/clues.ts`, not
+in the content, so rewording one does not move it.
+
+**The two endings no bot reached: no path needed.** `country_decided` and `clean_hands` end the
+stories `arc_referendum` and `arc_truth`, on the honest side of each story's last card. Both
+stories wait for an unlock: "Three clean votes" and "Every way it can go". The audit's harness
+plays without unlocks, so it never dealt them. With every unlock (2,000 runs a bot, and 600 for
+the last two rows):
+
+| | `country_decided` | `clean_hands` |
+|---|---|---|
+| Random bot | 1.4% | 0.7% |
+| Mixed, informed and eyes bots | 0% | 0% |
+| The informed voter, but honest through the story | 23.2% of runs | 16.8% of runs |
+| The same, of runs that deal the story | 91% | 90% |
+
+The careful bots never take either ending, because it is a choice to leave office and they avoid
+endings. A person who wants one gets it most times the story comes. A test plays that way for
+each ending, and fails if 60 seeds never reach it.
+
+**Clues in the codex.**
+- Every ending has one line, 77 in all and none over 76 characters. It says what the ending is
+  made of, without naming it: "Money printed until the army is paid in bread." A test checks
+  that no clue holds its ending's title. Some share a word with a longer title ("a court" for
+  *Contempt of Court*).
+- The codex's endings section now has four kinds of row:
+  - endings found, as before;
+  - near misses, still named, now with their clue after "You came close to this.";
+  - three clues to endings not yet found, under "Heard in the corridors, of ways it has ended:";
+  - a count of the rest.
+- The three move on by one with every run played. On a new profile each clue comes round every
+  72 runs, and sooner as endings are found. Three at a time is the answer to the idea's risk:
+  something to aim at, not a list to work down.
+- A clue is never given for an ending the profile cannot reach yet. That means the two unlock
+  stories' endings, and the long reign's three finales until a finale opens it.
+- The guardrail test now reads the clues with everything else a player can see.
+
+**The menu counts histories.** The codex button said "Codex 4/77", a count a good player hardly
+moves. It now says "Codex · 42 histories", which the audit's informed player reaches by run 50.
+It says plain "Codex" before any history. The endings count is still in the codex. At 360px the
+row fits even at its longest ("Daily #101 played", "Codex · 675 histories"). It wraps onto a
+second line rather than running off a phone set to large system text.
+
+**What was built.**
+- `src/meta/clues.ts`: the clues, `rumours()` and `withinReach()`.
+- The codex's endings section, the menu button, and the strings.
+- Tests:
+  - 2 for the unreached endings;
+  - 8 for the clues and rumours;
+  - 2 more for the codex, on near misses, rumours and the menu's count;
+  - 1 browser check at 360×640 for the menu row at its longest and the codex's clues, for fit
+    and contrast.
+
+**Not established.** Whether clues send people after endings, or make the codex a checklist. Bots
+cannot say, and the playtest records do not show what a player read in the codex. STORE.md asks
+the testers directly.
+
+**Decisions for you.**
+1. **How many clues at once.** The default is three, moving on by one a run. All 77 at once
+   would be a checklist. None until a near miss would be the game before this phase.
+2. **The wording.** The 77 lines are one per line in `src/meta/clues.ts`. Rewording any of them
+   does not move the deck.

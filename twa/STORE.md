@@ -268,6 +268,9 @@ bots (BACKLOG-5 phase 31):
   the two people play like is the question the test can answer, in the report's table of
   turns from the honest side: how often people take the other side with nothing drawn in
   danger, and how near an edge their nearest meter is when they do.
+- Since v0.66.2 the codex gives a clue to three endings not yet found, a different three as
+  runs go by (BACKLOG-10 phase 58). The records do not say whether anyone read one, so ask
+  testers at the end whether a clue sent them after an ending. The deck did not move.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

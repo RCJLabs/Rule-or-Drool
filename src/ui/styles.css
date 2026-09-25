@@ -1691,8 +1691,11 @@ button {
 }
 
 /* ---- meta: codex, objectives, daily ---------------------------------------------- */
+/* Wraps rather than running off a phone whose system text is set large: the codex button's
+   label grows with the histories (BACKLOG-10 phase 58). */
 .meta-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
 }
@@ -1855,6 +1858,10 @@ button {
   /* Dimmed by colour rather than opacity, for the same reason: 0.45 put this at 2.86:1. */
   color: var(--muted);
   border-style: dashed;
+}
+/* A rumoured ending: its clue, without its name (BACKLOG-10 phase 58). */
+.codex-list li.rumour {
+  font-style: italic;
 }
 .codex-list li.nearly {
   opacity: 0.8;

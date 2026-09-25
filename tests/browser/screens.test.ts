@@ -13,6 +13,7 @@ import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card } from "../../src/engine/types";
 import { setupOf } from "../../src/meta/runcode";
+import { ALL_HISTORY_KEYS } from "../../src/meta/histories";
 import { emptyMeta } from "../../src/meta/state";
 import { fitPlacements, longestSeats, shownText } from "../fit";
 import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, target, toLook } from "./harness";
@@ -381,6 +382,42 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await contrast(page, `codex, September, ${label}`)));
         await close(page);
       }
+      expect(failures).toEqual([]);
+    });
+
+    // The menu's codex button leads with the histories (BACKLOG-10 phase 58), a longer label
+    // than the count it replaced, here beside the daily's longest. The codex gives its clues:
+    // a near miss named with one, and a few rumoured.
+    it("fits the menu's buttons at their longest, and reads the codex's clues, on the smallest phone", async () => {
+      const today = "2026-12-30"; // Daily #101, played
+      const meta = {
+        ...emptyMeta(),
+        runs: 700,
+        histories: Object.fromEntries(ALL_HISTORY_KEYS.map((k) => [k, 1])),
+        nearMissed: ["riots"],
+        dailies: [{ day: today, history: "habit_skim:decay:left", ending: "finale_muddle", cards: 61 }],
+      };
+      const failures: string[] = [];
+      const page = await open(browser, { width: 360, height: 640, at: `${today}T12:00:00Z` });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      const codex = page.getByRole("button", { name: STRINGS.ui.codexHistories.replace("{n}", String(ALL_HISTORY_KEYS.length)) });
+      await codex.waitFor();
+      failures.push(...(await contrast(page, "the menu")), ...(await misfits(page, "the menu", { mayScroll: true })));
+      const row = (await page.evaluate(`[...document.querySelectorAll(".meta-row button")].map((b) => {
+        const r = b.getBoundingClientRect();
+        return [b.textContent, Math.round(r.left), Math.round(r.right), b.scrollWidth > b.clientWidth];
+      })`)) as [string, number, number, boolean][];
+      expect(row.map(([text]) => text)).toContain(STRINGS.ui.dailyDone.replace("{n}", "101"));
+      for (const [text, left, right, cut] of row) {
+        if (left < 0 || right > 360) failures.push(`the menu: "${text}" runs off the screen, ${left} to ${right}`);
+        if (cut) failures.push(`the menu: "${text}" is cut short`);
+      }
+      await codex.click();
+      await page.getByRole("button", { name: new RegExp(`^${STRINGS.codex.endings}`) }).click();
+      await page.waitForSelector(".codex-list li.rumour");
+      failures.push(...(await contrast(page, "the codex's clues")), ...(await misfits(page, "the codex's clues", { mayScroll: true })));
+      await close(page);
       expect(failures).toEqual([]);
     });
   });

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { content } from "../src/content";
 import histories from "../src/content/histories.json";
 import { STRINGS } from "../src/content/strings";
+import { CLUES } from "../src/meta/clues";
 
 /**
  * TRANSFER §3: no real people, real parties, or real countries. Archetypes only.
@@ -68,7 +69,7 @@ const PEOPLE = [
   "Corbyn", "Farage", "Pelosi", "DeSantis", "Bush",
 ];
 
-/** Everything a player can read: cards, endings, epilogues, histories, names, and the UI. */
+/** Everything a player can read: cards, endings, epilogues, histories, names, the codex's clues, and the UI. */
 const everything = [
   JSON.stringify(content.cards),
   JSON.stringify(content.endings),
@@ -77,6 +78,7 @@ const everything = [
   JSON.stringify(content.modifiers),
   JSON.stringify(histories),
   JSON.stringify(STRINGS),
+  JSON.stringify(CLUES),
   readFileSync(new URL("../src/engine/mandates.ts", import.meta.url), "utf8"),
 ].join("\n");
 

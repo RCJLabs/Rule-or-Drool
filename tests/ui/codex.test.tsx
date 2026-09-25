@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
-import { LEGACIES, codexProgress, emptyMeta, saveMeta } from "../../src/meta";
+import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, emptyMeta, rumours, saveMeta } from "../../src/meta";
 import { App } from "../../src/ui/App";
 import { Codex } from "../../src/ui/Codex";
 import { playedProfile } from "./profile";
@@ -60,6 +60,35 @@ describe("the codex", () => {
     expect(within(panel as HTMLElement).getAllByRole("listitem").map((li) => li.textContent)).toEqual([`${Object.values(LEGACIES)[0]}left behind 2 times`]);
     expect(within(panel as HTMLElement).getByText(c.moreNotFound.replace("{n}", String(Object.keys(LEGACIES).length - 1)))).toBeTruthy();
     expect(panel.querySelector("li.locked")).toBeNull();
+  });
+
+  it("gives a near miss its clue, and rumours a few endings by theirs without naming them", () => {
+    const meta = { ...emptyMeta(), runs: 5, nearMissed: ["riots"] };
+    render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open="endings" />);
+    const panel = document.querySelector("[data-section='endings'] .codex-panel") as HTMLElement;
+    const near = panel.querySelector("li.nearly")!;
+    expect(near.querySelector("b")!.textContent).toBe(library.endings.get("riots")!.title);
+    expect(near.querySelector("span")!.textContent).toBe(`${STRINGS.ui.cameClose} ${CLUES.riots}`);
+    expect(within(panel).getByText(c.rumours)).toBeTruthy();
+    const rumoured = [...panel.querySelectorAll("li.rumour")].map((li) => li.textContent);
+    expect(rumoured).toEqual(rumours(library, meta).map((id) => CLUES[id]));
+    expect(rumoured).toHaveLength(RUMOURS_AT_ONCE);
+    for (const e of library.endings.values()) if (e.id !== "riots") expect(panel.textContent).not.toContain(e.title);
+    expect(within(panel).getByText(c.moreNotFound.replace("{n}", String(library.endings.size - 1 - RUMOURS_AT_ONCE)))).toBeTruthy();
+  });
+
+  it("is counted on the menu in histories, the thing a player adds to most runs", () => {
+    const button = () => screen.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).textContent;
+    const shows = (histories: number) => {
+      saveMeta({ ...emptyMeta(), runs: histories, histories: Object.fromEntries(ALL_HISTORY_KEYS.slice(0, histories).map((k) => [k, 1])) });
+      render(<App />);
+      const text = button();
+      cleanup();
+      return text;
+    };
+    expect(shows(0)).toBe(STRINGS.ui.codex);
+    expect(shows(1)).toBe(STRINGS.ui.codexHistory);
+    expect(shows(12)).toBe(STRINGS.ui.codexHistories.replace("{n}", "12"));
   });
 
   it("keeps the section open when the player leaves the codex and comes back", () => {

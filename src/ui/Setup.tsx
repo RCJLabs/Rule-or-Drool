@@ -141,7 +141,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             {dailyLabel}
           </button>
           <button type="button" onClick={onCodex}>
-            {STRINGS.ui.codex} {progress.endingsSeen}/{progress.endingsTotal}
+            {progress.historiesSeen === 0 ? STRINGS.ui.codex : progress.historiesSeen === 1 ? STRINGS.ui.codexHistory : STRINGS.ui.codexHistories.replace("{n}", String(progress.historiesSeen))}
           </button>
           <button type="button" onClick={onSettings}>
             {STRINGS.ui.settings}

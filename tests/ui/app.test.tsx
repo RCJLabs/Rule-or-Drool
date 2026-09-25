@@ -8,7 +8,7 @@ import { App } from "../../src/ui/App";
 import { CardView, commitThreshold } from "../../src/ui/CardView";
 import { Ending } from "../../src/ui/Ending";
 import { getCard } from "../../src/engine/library";
-import { historyOf } from "../../src/meta";
+import { historyOf, RUMOURS_AT_ONCE } from "../../src/meta";
 import { RUN_SAVE_VERSION } from "../../src/version";
 
 describe("App", () => {
@@ -103,12 +103,14 @@ describe("App", () => {
 
   it("opens the codex, which hides unseen endings until they are found", () => {
     render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: /Codex 0\// }));
+    fireEvent.click(screen.getByRole("button", { name: STRINGS.ui.codex }));
     expect(screen.getByRole("heading", { name: "Codex" })).toBeTruthy();
-    // Nothing discovered yet, so no ending is named, only counted.
+    // Nothing discovered yet, so no ending is named: a few are rumoured by their clues
+    // (BACKLOG-10 phase 58), and the rest are counted.
     fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.codex.endings}`) }));
     expect(document.querySelectorAll(".codex-list li.found")).toHaveLength(0);
-    expect(screen.getByText(STRINGS.codex.notFound.replace("{n}", String(library.endings.size)))).toBeTruthy();
+    expect(document.querySelectorAll(".codex-list li.rumour")).toHaveLength(RUMOURS_AT_ONCE);
+    expect(screen.getByText(STRINGS.codex.moreNotFound.replace("{n}", String(library.endings.size - RUMOURS_AT_ONCE)))).toBeTruthy();
     expect(screen.queryByText("The Streets Decide")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Back" }));

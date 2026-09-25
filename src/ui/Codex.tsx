@@ -3,7 +3,7 @@ import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, answeredQuestions, codexProgress, historyTitle, todayKey, type MetaState } from "../meta";
+import { CLUES, HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, answeredQuestions, codexProgress, historyTitle, rumours, todayKey, type MetaState } from "../meta";
 import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
@@ -172,8 +172,10 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
           count: `${p.endingsSeen}/${p.endingsTotal}`,
           body: () => {
             // An ending you have been within reach of is named rather than hidden, so it
-            // becomes something to aim at (phase 13); the rest are counted.
+            // becomes something to aim at (phase 13). A few more are rumoured, as clues without
+            // their names, moving on with every run (BACKLOG-10 phase 58); the rest are counted.
             const shown = endings.filter((e) => (meta.endings[e.id] ?? 0) > 0 || meta.nearMissed.includes(e.id));
+            const rumoured = rumours(lib, meta);
             return (
               <>
                 {shown.length > 0 && (
@@ -183,14 +185,26 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
                       return (
                         <li key={e.id} className={count ? "found" : "nearly"}>
                           <b>{e.title}</b>
-                          <span>{count ? e.text : STRINGS.ui.cameClose}</span>
+                          <span>{count ? e.text : `${STRINGS.ui.cameClose} ${CLUES[e.id] ?? ""}`.trim()}</span>
                           {count > 1 && <em>seen {count} times</em>}
                         </li>
                       );
                     })}
                   </ul>
                 )}
-                {rest(endings.length - shown.length, shown.length > 0)}
+                {rumoured.length > 0 && (
+                  <>
+                    <p className="codex-foot">{c.rumours}</p>
+                    <ul className="codex-list">
+                      {rumoured.map((id) => (
+                        <li key={id} className="locked rumour">
+                          <span>{CLUES[id]}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {rest(endings.length - shown.length - rumoured.length, shown.length + rumoured.length > 0)}
               </>
             );
           },

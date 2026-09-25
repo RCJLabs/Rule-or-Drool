@@ -8,3 +8,4 @@ export * from "./runcode";
 export * from "./challenge";
 export * from "./state";
 export * from "./save";
+export * from "./clues";
