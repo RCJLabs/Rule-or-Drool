@@ -3,7 +3,7 @@ import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { CLUES, HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, answeredQuestions, codexProgress, historyTitle, rumours, todayKey, type MetaState } from "../meta";
+import { CLUES, HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, answeredQuestions, codexProgress, collectsEnding, historyTitle, rumours, todayKey, type MetaState } from "../meta";
 import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
@@ -85,7 +85,8 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
     })
     .sort((a, b) => rank(a.key) - rank(b.key) || a.title.localeCompare(b.title));
   const questions = answeredQuestions(lib, meta);
-  const endings = [...lib.endings.values()];
+  // A first term's end is not collected (BACKLOG-10 phase 59).
+  const endings = [...lib.endings.values()].filter((e) => collectsEnding(e.id));
   const epilogues = [...new Map(lib.epilogues.map((e) => [epilogueKey(e), e])).values()];
   const met = [...lib.advisorsById.values()].filter((a) => (meta.advisorsKept[a.id] ?? 0) + (meta.advisorsFired[a.id] ?? 0) > 0);
   const promised = MANDATES.filter((m) => (meta.mandatesKept[m.id] ?? 0) + (meta.mandatesBroken[m.id] ?? 0) > 0).length;

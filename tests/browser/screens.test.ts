@@ -518,6 +518,26 @@ describe.skipIf(!target)("in a browser", () => {
         expect(failures).toEqual([]);
       });
     }
+
+    // A first term (BACKLOG-10 phase 59): what a new profile's menu starts, ended in a line that
+    // says what comes next.
+    it("reads, and fits the smallest phone, at the end of a first term started from a new profile's menu", async () => {
+      const failures: string[] = [];
+      for (const band of ["ascent", "decay"] as const) {
+        const page = await open(browser, { width: 360, height: 640 });
+        const first = page.getByRole("button", { name: new RegExp(STRINGS.reign.first) });
+        if ((await first.getAttribute("aria-pressed")) !== "true") failures.push("a new profile's menu does not start a first term");
+        await page.locator(".seed input").fill(String(SEED));
+        await page.getByRole("button", { name: STRINGS.ui.start }).click();
+        await page.waitForSelector(".card");
+        await playFrom(page, LATE[band], { cardCount: library.config.eraLength - 1, era: 1 });
+        await page.waitForSelector(".first-term-after");
+        failures.push(...(await contrast(page, `a first term's end, ${band}`)));
+        failures.push(...(await misfits(page, `a first term's end, ${band}`, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
   });
 
   describe("a run fits the screen", () => {

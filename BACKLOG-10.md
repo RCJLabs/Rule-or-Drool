@@ -5,7 +5,7 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10 and 6, which you chose: phases 55 to 58, done in v0.65.0 to v0.66.2, at
+except ideas 1, 2, 10, 6 and 5, which you chose: phases 55 to 59, done in v0.65.0 to v0.67.0, at
 the end of this file.
 
 Each idea says:
@@ -687,3 +687,86 @@ the testers directly.
 1. **How many clues at once.** Decided: one, since v0.66.3.
 2. **The wording.** The 77 lines are one per line in `src/meta/clues.ts`. Rewording any of them
    does not move the deck.
+
+## Phase 59. A first term (idea 5) — *done*
+
+**Shipped in v0.67.0.** You did not choose between the idea's two options, so I built the second:
+a one-era first run. The deck moved to `2bocj4mk` for three new endings. The deal did not move
+(`yeycfme9`), so a full reign plays exactly as before.
+
+**Why this option.** New-profile first runs today, 2,000 a bot:
+
+| | Random | Mixed | Informed | Eyes |
+|---|---|---|---|---|
+| Median length | 48 cards | 105 | 105 | 105 |
+| Ends in a finale | 7.2% | 97.4% | 98.0% | 92.6% |
+| The election lesson lands | 74.2% | 99.6% | 99.6% | 99.9% |
+| A bill comes back (median card) | 75.5% (20) | 99.6% (32) | 99.5% (33) | 97.0% (41) |
+| The habit lesson lands (median card) | 32.3% (47) | 79.8% (67) | 82.2% (66) | 66.3% (74) |
+
+- A careful player's first ending comes at card 105. A first term brings it to card 35, with the
+  vote at 25 still inside it.
+- The dealt opening had three aims:
+  - an election by card 15 is easy to deal;
+  - a bill by card 12 depends on the player taking an easy side, and careful players take few;
+  - a habit by card 20 has no clean way in, since a habit is the same decision made many times.
+- A dealt opening is also the same for every new player, which the idea named as its risk.
+
+**How it works.**
+- A profile's runs start as a first term until it has seen one run through: a first term's end,
+  or any finale. A run lost early does not count, so the next is a first term too.
+- The menu says so under "How long", with "A first term" chosen and "Three eras" beside it.
+- A first term is the ordinary game's first era, dealt the same. It has one vote, at card 25,
+  with the campaign before it. A lost vote sends it into opposition until the end, as in any
+  last era.
+- At card 35 it ends in one of three ends, by band: *Downhill From Here*, *One Term* or *A Good
+  Start*. The end screen adds: "That was one term. A full reign is three eras, and the next run
+  you start is one."
+- A first term's end is not a finale. It does not open the long reign or count for the finale
+  objectives.
+- It is not an ending the codex collects either. The codex still counts 77, so a veteran who
+  never plays a first term is missing nothing.
+- Histories, legacies, epilogues and the other objectives count as they do for any run.
+- A first term's run code says it is one, so a shared first term, a playtest record and "take the
+  other road" all deal it the same. The daily is always a full reign.
+
+**Where a first term ends** (2,000 a bot):
+
+| | Downhill From Here | One Term | A Good Start | Lost before its end |
+|---|---|---|---|---|
+| Random | 24.3% | 33.8% | 3.6% | 38.3% |
+| Mixed | 6.2% | 64.3% | 29.1% | 0.4% |
+| Informed | 4.2% | 63.0% | 32.4% | 0.4% |
+| Eyes | 0.1% | 11.6% | 87.4% | 0.9% |
+
+**What it costs.**
+- The habit lesson lands in 2–7% of first terms. In a full first run it lands in 32–82%, mostly
+  after card 35. It now waits for the second run.
+- Eras 2 and 3 wait too: their rules, their cards, and the questions asked there.
+- A player returning on a new device starts with a first term, unless they pick three eras or
+  move their progress.
+- Profiles that have played but never seen a run through get first terms from this version.
+
+**Not established.** How long a first term takes a person, and whether they come back for a
+second run. The closed test's records can show both. The report sets first terms beside bots
+playing the same setups.
+
+**What was built.**
+- Engine: `firstTermEras` and `firstTermPrefix` in the config, `isFirstTerm`, the first term's
+  end at the era boundary, and `survivedTo` for any run seen through.
+- Content: the three ends, which the validator now requires.
+- Meta: `firstTermDue` and `collectsEnding`. The codex, the clues and the endings objectives count
+  only collected endings. Run codes carry a first term.
+- Screen: the reign picker for a new profile, the continue button, the share line, and the end
+  screen's line, record and sound.
+- Tests:
+  - 5 engine tests: the deal is the first era's, the end is by band, most runs see it through,
+    the run code, and what it counts for;
+  - 6 on screen, one of them for a profile moved in on the menu, which must not start a first term;
+  - 1 browser check: a first term from a new profile's menu to its end, at 360×640.
+
+**Decisions for you.**
+1. **Which option.** The default is this one. The dealt opening could still go on top for the
+   vote and a bill; the habit has no clean way in.
+2. **Until when.** The default is until a run is seen through. "The first run only" is simpler,
+   but 38% of careless first terms end early, and those players would never see one through.

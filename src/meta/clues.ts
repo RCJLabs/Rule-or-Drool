@@ -1,5 +1,5 @@
 import type { Library } from "../engine/library";
-import { longReignOpen } from "./objectives";
+import { collectsEnding, longReignOpen } from "./objectives";
 import type { MetaState } from "./types";
 
 /**
@@ -125,7 +125,7 @@ export function withinReach(lib: Library, meta: MetaState, id: string): boolean 
  * without becoming a list to work down.
  */
 export function rumours(lib: Library, meta: MetaState, n = RUMOURS_AT_ONCE): string[] {
-  const open = [...lib.endings.keys()].filter((id) => !(meta.endings[id] ?? 0) && !meta.nearMissed.includes(id) && CLUES[id] && withinReach(lib, meta, id));
+  const open = [...lib.endings.keys()].filter((id) => collectsEnding(id) && !(meta.endings[id] ?? 0) && !meta.nearMissed.includes(id) && CLUES[id] && withinReach(lib, meta, id));
   if (open.length <= n) return open;
   const from = meta.runs % open.length;
   return [...open.slice(from), ...open.slice(0, from)].slice(0, n);

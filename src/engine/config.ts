@@ -12,6 +12,11 @@ export interface EngineConfig {
    * centuries on (BACKLOG-5 phase 39). A run has one count or the other, chosen at setup.
    */
   longEraCount: number;
+  /**
+   * Eras in a first term, the reign a profile is offered until it has seen a finale of any kind
+   * (BACKLOG-10 phase 59): the ordinary game's first era, ending in a finale of its own.
+   */
+  firstTermEras: number;
   /** Cards per era (5.3 says 30–40). */
   eraLength: number;
   /** Cards between elections (5.4 says ~25). */
@@ -162,6 +167,11 @@ export interface EngineConfig {
    */
   longFinalePrefix: string;
   /**
+   * Ending id prefix for a first term's end, by band. Not a finale's prefix on purpose: a first
+   * term opens nothing a finale opens, and is not one of the endings the codex collects.
+   */
+  firstTermPrefix: string;
+  /**
    * Ending ids for meter extremes. Blocs only end a run at the bottom: a bloc at zero has
    * abandoned you. There is no per-bloc ceiling, because adoration is only a problem when
    * every bloc shares it (see cultAt).
@@ -175,6 +185,7 @@ export interface EngineConfig {
 export const DEFAULT_CONFIG: EngineConfig = {
   eraCount: 3,
   longEraCount: 5,
+  firstTermEras: 1,
   eraLength: 35,
   electionInterval: 25,
   campaignLead: 2,
@@ -267,6 +278,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   meterStartMax: 75,
   finalePrefix: "finale_",
   longFinalePrefix: "finale_long_",
+  firstTermPrefix: "first_term_",
   meterEndings: {
     base: { low: "abandoned_base" },
     backers: { low: "abandoned_backers" },

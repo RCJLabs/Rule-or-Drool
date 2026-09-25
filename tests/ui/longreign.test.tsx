@@ -58,8 +58,9 @@ afterEach(() => cleanup());
 
 describe("choosing the long reign", () => {
   it("is not offered before a finale, and is once one has opened it", () => {
+    // Before a finale the choice is a first term or three eras (BACKLOG-10 phase 59), never five.
     menu(emptyMeta());
-    expect(screen.queryByRole("group", { name: STRINGS.reign.legend })).toBeNull();
+    expect(screen.queryByRole("button", { name: new RegExp(STRINGS.reign.long) })).toBeNull();
     cleanup();
     const started: unknown[][] = [];
     menu(veteran(), (...a) => started.push(a));

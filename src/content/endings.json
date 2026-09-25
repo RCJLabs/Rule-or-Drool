@@ -80,6 +80,21 @@
     "text": "Five centuries on, ships leave for other stars as routinely as trains once left for the coast. Nobody remembers who first let them go."
   },
   {
+    "id": "first_term_decay",
+    "title": "Downhill From Here",
+    "text": "One term, and the country has started downhill. The slope is gentle for now. It always is, near the top."
+  },
+  {
+    "id": "first_term_muddle",
+    "title": "One Term",
+    "text": "One term, and the country is about where you found it. Both sides call that a win. Which way it goes is for the eras after."
+  },
+  {
+    "id": "first_term_ascent",
+    "title": "A Good Start",
+    "text": "One term, and the country is looking up. Starting well is the easy part. The eras after are where it holds, or does not."
+  },
+  {
     "id": "blackmailed",
     "title": "A Quiet Arrangement",
     "text": "You were not removed. You were kept, like a signature on a file, by people who had the file."

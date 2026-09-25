@@ -48,6 +48,14 @@ export function isLongReign(lib: Library, state: Pick<GameState, "eraCount">): b
 }
 
 /**
+ * Whether a run is a first term: fewer eras than the ordinary game, which is how a new profile
+ * starts (BACKLOG-10 phase 59). It ends in a first term's end rather than a finale.
+ */
+export function isFirstTerm(lib: Library, state: Pick<GameState, "eraCount">): boolean {
+  return (state.eraCount ?? lib.config.eraCount) < lib.config.eraCount;
+}
+
+/**
  * The band a run "exits" in: the locked band if locked, otherwise the band implied by
  * drift right now. Used for epilogues and finales so short runs still reveal the futures.
  */

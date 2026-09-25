@@ -341,6 +341,12 @@ export const STRINGS = {
     opens: "Opens the long reign",
     locked: "The country's direction is set now. Nothing you do changes where it is going, only whether you are there when it arrives.",
     offer: "A long reign: five eras, to five centuries on.",
+    // A first term (BACKLOG-10 phase 59): how a profile starts, until it sees a run through.
+    first: "A first term",
+    firstBlurb: "One era and one vote. Your runs start this way until you see one through.",
+    firstShort: "First term",
+    offerFirst: "A first term: one era and one vote.",
+    afterFirst: "That was one term. A full reign is three eras, and the next run you start is one.",
   },
   /**
    * The questions (BACKLOG-6 phase 40): policies asked plainly. The card says it is one, so a

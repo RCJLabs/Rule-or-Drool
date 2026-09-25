@@ -18,6 +18,9 @@ decides whether you come back. A second lost count ends the run. The two cards b
 are the campaign: each says where the count stands, and can move it, a little if you play fair
 and further if you don't.
 
+A new profile starts with a **first term**: the first era alone, with its one vote, ending in an
+end of its own. Once a run is seen through, runs are full reigns of three eras.
+
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
 20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and

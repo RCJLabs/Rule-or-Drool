@@ -1,11 +1,11 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { deckStamp } from "../engine/deck";
-import { epilogueByKey, withNames } from "../engine/endings";
+import { epilogueByKey, survivedTo, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { otherSide, replays } from "../engine/replay";
-import { exitBand } from "../engine/state";
+import { exitBand, isFirstTerm } from "../engine/state";
 import type { Band, GameState } from "../engine/types";
 import {
   LEGACIES,
@@ -88,7 +88,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const endingTitle = ending?.title ?? over.endingId;
   const moments = timeline(lib, state, endingTitle);
   // An ouster already says what happened and does not want a tally of your elections under it.
-  const record = over.endingId.startsWith(lib.config.finalePrefix) ? runRecord(lib, state) : null;
+  const record = survivedTo(lib.config, over.endingId) ? runRecord(lib, state) : null;
+  // A first term seen through says what comes next (BACKLOG-10 phase 59).
+  const firstTermDone = isFirstTerm(lib, state) && over.endingId.startsWith(lib.config.firstTermPrefix);
   const shown = new Set(history.consequences.map((c) => c.flag));
   const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f)).map((f) => LEGACIES[f]!);
   const when = STRINGS.world.when[Math.min(state.era, STRINGS.world.when.length) - 1] ?? "";
@@ -210,6 +212,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           />
         )}
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
+        {firstTermDone && <p className="first-term-after">{STRINGS.reign.afterFirst}</p>}
 
         <section className="became">
           <h2>{STRINGS.after.became}</h2>

@@ -3,7 +3,7 @@ export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
-import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
+import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
@@ -243,14 +243,15 @@ export function checkElection(lib: Library, state: GameState): GameState {
  * Era boundary: after the run's last era it ends in a finale by band; otherwise a
  * successor takes office, the band is recomputed (and locked past bandLockAfterEra),
  * meters are pulled toward 50 and the election clock restarts (5.3). A long reign has two
- * eras more and finales of its own (BACKLOG-5 phase 39).
+ * eras more and finales of its own (BACKLOG-5 phase 39); a first term ends after its one
+ * era in an end of its own (BACKLOG-10 phase 59).
  */
 export function advanceEra(lib: Library, state: GameState): GameState {
   if (state.over) return state;
   const cfg = lib.config;
   if (state.cardCount < state.era * cfg.eraLength) return state;
   if (state.era >= (state.eraCount ?? cfg.eraCount)) {
-    const prefix = isLongReign(lib, state) ? cfg.longFinalePrefix : cfg.finalePrefix;
+    const prefix = isLongReign(lib, state) ? cfg.longFinalePrefix : isFirstTerm(lib, state) ? cfg.firstTermPrefix : cfg.finalePrefix;
     return endRun(lib, state, `${prefix}${exitBand(lib, state)}`);
   }
   const era = state.era + 1;

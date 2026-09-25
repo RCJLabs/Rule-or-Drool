@@ -16,6 +16,7 @@ import { buzz, newlyDangerous, play } from "./sound";
 import { DANGER_BELOW } from "./Meters";
 import { stageOf } from "../engine/look";
 import { clampDrift } from "../engine/state";
+import { survivedTo } from "../engine/endings";
 import { soundLevel, themeOf } from "./theme";
 
 export type Screen = "setup" | "play" | "over" | "codex";
@@ -67,7 +68,7 @@ function cue(lib: Library, settings: Settings, before: GameState, after: GameSta
     play("election");
   }
   if (eraChanged) play("era");
-  if (after.over && !before.over) play(after.over.endingId.startsWith("finale_") ? "endWell" : "endBadly");
+  if (after.over && !before.over) play(survivedTo(lib.config, after.over.endingId) ? "endWell" : "endBadly");
 }
 
 export function useGame(lib: Library) {

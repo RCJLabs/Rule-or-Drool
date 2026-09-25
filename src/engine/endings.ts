@@ -8,6 +8,14 @@ export function epilogueKey(e: Pick<Epilogue, "band" | "align" | "era">): string
 }
 
 /**
+ * Whether an ending is a run survived to its end: a finale, a long reign's, or a first term's
+ * (BACKLOG-10 phase 59). What the end screen and its sound treat as ending well.
+ */
+export function survivedTo(cfg: Pick<Library["config"], "finalePrefix" | "firstTermPrefix">, endingId: string): boolean {
+  return endingId.startsWith(cfg.finalePrefix) || endingId.startsWith(cfg.firstTermPrefix);
+}
+
+/**
  * Pick the epilogue for a band/align/era, preferring an align-specific text, then an
  * "any" text, then the nearest earlier era of either. Returns null if nothing matches.
  */

@@ -1,3 +1,4 @@
+import { survivedTo } from "../engine/endings";
 import type { Library } from "../engine/library";
 import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
@@ -143,7 +144,7 @@ function outcomes(lib: Library, ended: readonly Ended[]): Outcomes {
   const n = Math.max(1, ended.length);
   return {
     runs: ended.length,
-    finale: ended.filter((e) => e.ending.startsWith(lib.config.finalePrefix)).length / n,
+    finale: ended.filter((e) => survivedTo(lib.config, e.ending)).length / n,
     era1: ended.filter((e) => e.era === 1).length / n,
     cards: quantiles(ended.map((e) => e.cards)),
     endings,
@@ -434,7 +435,7 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
   const lastCounts = new Map<string, { card: string; ending: string; n: number }>();
   for (const r of finished) {
     const last = r.cards[r.cards.length - 1];
-    if (!last || r.end!.ending.startsWith(lib.config.finalePrefix)) continue;
+    if (!last || survivedTo(lib.config, r.end!.ending)) continue;
     const key = `${last.card}|${r.end!.ending}`;
     const row = lastCounts.get(key) ?? { card: last.card, ending: r.end!.ending, n: 0 };
     row.n++;
@@ -462,7 +463,7 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
       return {
         label,
         runs: rs.length,
-        finale: rs.length ? rs.filter((r) => r.end!.ending.startsWith(lib.config.finalePrefix)).length / rs.length : 0,
+        finale: rs.length ? rs.filter((r) => survivedTo(lib.config, r.end!.ending)).length / rs.length : 0,
         medianCards: median(rs.map((r) => r.end!.cards)),
         medianMs: median(ds.map((d) => d.card.ms)),
       };

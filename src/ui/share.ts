@@ -49,11 +49,13 @@ const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /**
  * "The Commons · 105 cards · Orbit": a party name starts a line here, so it is capitalised. A
- * long reign says so, since its card count is not the ordinary game's (BACKLOG-5 phase 39).
+ * long reign says so, since its card count is not the ordinary game's (BACKLOG-5 phase 39), and
+ * so does a first term (BACKLOG-10 phase 59).
  */
 export function runFacts(state: GameState, endingTitle: string): string {
-  const long = (state.eraCount ?? DEFAULT_CONFIG.eraCount) > DEFAULT_CONFIG.eraCount ? ` · ${STRINGS.reign.short}` : "";
-  return `${upperFirst(STRINGS.parties[state.align])}${long} · ${STRINGS.share.cards.replace("{n}", String(state.cardCount))} · ${endingTitle}`;
+  const eras = state.eraCount ?? DEFAULT_CONFIG.eraCount;
+  const reign = eras > DEFAULT_CONFIG.eraCount ? ` · ${STRINGS.reign.short}` : eras < DEFAULT_CONFIG.eraCount ? ` · ${STRINGS.reign.firstShort}` : "";
+  return `${upperFirst(STRINGS.parties[state.align])}${reign} · ${STRINGS.share.cards.replace("{n}", String(state.cardCount))} · ${endingTitle}`;
 }
 
 export interface CardText {

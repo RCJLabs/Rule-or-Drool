@@ -1,34 +1,39 @@
 import { STRINGS } from "../content/strings";
 
+/** One way a reign can run: its era count, or undefined for the ordinary game's. */
+export interface ReignChoice {
+  eraCount: number | undefined;
+  title: string;
+  blurb: string;
+}
+
 interface Props {
-  /** The long reign's era count, or undefined for the ordinary game. */
+  choices: readonly ReignChoice[];
   value: number | undefined;
-  longEraCount: number;
   onChange: (eraCount: number | undefined) => void;
 }
 
 /**
- * Three eras or five (BACKLOG-5 phase 39). Shown only once the long reign is open, and it says
- * the one thing that changes how a long reign plays: after the third era, the direction is set.
+ * How long a reign runs: three eras or five once a finale has opened the long reign (BACKLOG-5
+ * phase 39), and a first term or three eras for a profile that has not seen a run through yet
+ * (BACKLOG-10 phase 59). Each choice says the one thing that changes how it plays.
  */
-export function ReignPicker({ value, longEraCount, onChange }: Props) {
-  const r = STRINGS.reign;
+export function ReignPicker({ choices, value, onChange }: Props) {
   return (
     <fieldset className="mandates reign">
-      <legend>{r.legend}</legend>
-      <button type="button" className={`mandate-choice${value === undefined ? " selected" : ""}`} aria-pressed={value === undefined} onClick={() => onChange(undefined)}>
-        <b>{r.ordinary}</b>
-        <span>{r.ordinaryBlurb}</span>
-      </button>
-      <button
-        type="button"
-        className={`mandate-choice${value === longEraCount ? " selected" : ""}`}
-        aria-pressed={value === longEraCount}
-        onClick={() => onChange(longEraCount)}
-      >
-        <b>{r.long}</b>
-        <span>{r.longBlurb}</span>
-      </button>
+      <legend>{STRINGS.reign.legend}</legend>
+      {choices.map((c) => (
+        <button
+          key={c.eraCount ?? "ordinary"}
+          type="button"
+          className={`mandate-choice${value === c.eraCount ? " selected" : ""}`}
+          aria-pressed={value === c.eraCount}
+          onClick={() => onChange(c.eraCount)}
+        >
+          <b>{c.title}</b>
+          <span>{c.blurb}</span>
+        </button>
+      ))}
     </fieldset>
   );
 }

@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
-import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, emptyMeta, rumours, saveMeta } from "../../src/meta";
+import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, collectsEnding, emptyMeta, rumours, saveMeta } from "../../src/meta";
 import { App } from "../../src/ui/App";
 import { Codex } from "../../src/ui/Codex";
 import { playedProfile } from "./profile";
@@ -73,8 +73,8 @@ describe("the codex", () => {
     const rumoured = [...panel.querySelectorAll("li.rumour")].map((li) => li.textContent);
     expect(rumoured).toEqual(rumours(library, meta).map((id) => CLUES[id]));
     expect(rumoured).toHaveLength(RUMOURS_AT_ONCE);
-    for (const e of library.endings.values()) if (e.id !== "riots") expect(panel.textContent).not.toContain(e.title);
-    expect(within(panel).getByText(c.moreNotFound.replace("{n}", String(library.endings.size - 1 - RUMOURS_AT_ONCE)))).toBeTruthy();
+    for (const e of library.endings.values()) if (e.id !== "riots" && collectsEnding(e.id)) expect(panel.textContent).not.toContain(e.title);
+    expect(within(panel).getByText(c.moreNotFound.replace("{n}", String(codexProgress(library, meta).endingsTotal - 1 - RUMOURS_AT_ONCE)))).toBeTruthy();
   });
 
   it("is counted on the menu in histories, the thing a player adds to most runs", () => {

@@ -3,6 +3,7 @@ import { getCard, questionOfArc, type Library } from "../engine/library";
 import { honestCount, losingEnding, resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { exitBand, newRun, rollSetup } from "../engine/state";
+import { survivedTo } from "../engine/endings";
 import type { Band, GameState, PlayerAlign, RunSetup, Side } from "../engine/types";
 import { BOTS, makeContext, type BotName, type BotOptions } from "./bots";
 
@@ -125,7 +126,7 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
     endingId,
     exitBand: exitBand(lib, state),
     drift: state.drift,
-    finale: endingId.startsWith(lib.config.finalePrefix),
+    finale: survivedTo(lib.config, endingId),
     electionsSeen,
     cheats,
     campaigns,

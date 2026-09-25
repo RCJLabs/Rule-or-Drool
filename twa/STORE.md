@@ -271,6 +271,10 @@ bots (BACKLOG-5 phase 31):
 - Since v0.66.3 the codex gives a clue to one ending not yet found, a different one each run
   (BACKLOG-10 phase 58; v0.66.2 gave three). The records do not say whether anyone read it, so
   ask testers at the end whether a clue sent them after an ending. The deck did not move.
+- Since v0.67.0 a new profile starts with a first term: the first era alone, ending at card 35
+  (BACKLOG-10 phase 59). Testers' first runs will be first terms unless they choose three eras.
+  The report sets them beside bots playing first terms on the same setups. The deck moved, so
+  records from v0.66.x and before are kept apart.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

@@ -84,6 +84,8 @@ export function engineEndings(config: EngineConfig): string[] {
     ...BANDS.map((b) => `${config.finalePrefix}${b}`),
     // A long reign's finales (BACKLOG-5 phase 39), when the config has one.
     ...(config.longEraCount > config.eraCount ? BANDS.map((b) => `${config.longFinalePrefix}${b}`) : []),
+    // A first term's ends (BACKLOG-10 phase 59), when the config has one.
+    ...(config.firstTermEras < config.eraCount ? BANDS.map((b) => `${config.firstTermPrefix}${b}`) : []),
   ].filter((id): id is string => typeof id === "string");
 }
 

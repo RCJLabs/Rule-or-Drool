@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { library } from "../../src/content";
-import { CLUES, RUMOURS_AT_ONCE, emptyMeta, rumours, withinReach, type MetaState } from "../../src/meta";
+import { CLUES, RUMOURS_AT_ONCE, collectsEnding, emptyMeta, rumours, withinReach, type MetaState } from "../../src/meta";
 
 /**
  * A clue to every ending (BACKLOG-10 phase 58): what an ending is made of, never its name, and one
  * at a time, so the codex gives a player something to aim at without a list to work down.
  */
 
-const endings = [...library.endings.values()];
+// A first term's end is not collected, so it has no clue (BACKLOG-10 phase 59).
+const endings = [...library.endings.values()].filter((e) => collectsEnding(e.id));
 const LOCKED = ["country_decided", "clean_hands", "finale_long_decay", "finale_long_muddle", "finale_long_ascent"];
 const meta = (patch: Partial<MetaState> = {}): MetaState => ({ ...emptyMeta(), ...patch });
 
@@ -61,7 +62,7 @@ describe("the rumours", () => {
   it("keep quiet about what waits on an unlock or the long reign until it opens", () => {
     const all = (m: MetaState) => rumours(library, m, library.endings.size);
     for (const id of LOCKED) expect(all(meta()), id).not.toContain(id);
-    expect(all(meta()).length).toBe(library.endings.size - LOCKED.length);
+    expect(all(meta()).length).toBe(endings.length - LOCKED.length);
     const opened = meta({ unlocks: ["u_referendum", "u_truth"], objectives: { obj_finale: 1 } });
     for (const id of LOCKED) expect(all(opened), id).toContain(id);
   });

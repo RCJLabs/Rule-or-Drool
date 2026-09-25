@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { library } from "../../src/content";
-import { emptyMeta } from "../../src/meta";
+import { codexProgress, emptyMeta } from "../../src/meta";
 import { progressCode, progressJson, progressSummary, readProgress } from "../../src/ui/progress";
 import { DEFAULT_SETTINGS, type Settings } from "../../src/ui/settings";
 import { META_SAVE_VERSION, SETTINGS_VERSION } from "../../src/version";
@@ -90,8 +90,8 @@ describe("moving progress", () => {
   });
 
   it("sums a profile up in the numbers a player would miss", () => {
-    expect(progressSummary(library, meta)).toMatchObject({ runs: 40, unlocks: meta.unlocks.length, endingsTotal: library.endings.size });
-    expect(progressSummary(library, emptyMeta())).toEqual({ runs: 0, endings: 0, endingsTotal: library.endings.size, unlocks: 0, dailies: 0, streak: 0 });
+    expect(progressSummary(library, meta)).toMatchObject({ runs: 40, unlocks: meta.unlocks.length, endingsTotal: codexProgress(library, emptyMeta()).endingsTotal });
+    expect(progressSummary(library, emptyMeta())).toEqual({ runs: 0, endings: 0, endingsTotal: codexProgress(library, emptyMeta()).endingsTotal, unlocks: 0, dailies: 0, streak: 0 });
     // A streak is the thing a replace would lose that no other number shows (BACKLOG-5 phase 38).
     const day = (d: string) => ({ day: d, history: null, ending: "riots", cards: 40 });
     const dailies = [day("2026-09-19"), day("2026-09-21"), day("2026-09-22")];

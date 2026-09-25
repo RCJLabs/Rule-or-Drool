@@ -5,7 +5,7 @@ import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
 import { ALL_HISTORY_KEYS, historyOf, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
-import { OBJECTIVES } from "./objectives";
+import { OBJECTIVES, collectsEnding } from "./objectives";
 import { answeredQuestions } from "./questions";
 import type { DailyEntry, MetaState, RunRecord } from "./types";
 
@@ -61,7 +61,8 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
 
-  const newEnding = !(endingId in meta.endings);
+  // A first term's end is not one the codex collects, so it is never a new one for it.
+  const newEnding = collectsEnding(endingId) && !(endingId in meta.endings);
   const history = historyOf(run, band);
   const newHistory = !(history.key in (meta.histories ?? {}));
   const next: MetaState = {
@@ -175,8 +176,8 @@ export interface CodexProgress {
 export function codexProgress(lib: Library, meta: MetaState): CodexProgress {
   const questions = answeredQuestions(lib, meta);
   return {
-    endingsSeen: Object.keys(meta.endings).length,
-    endingsTotal: lib.endings.size,
+    endingsSeen: Object.keys(meta.endings).filter(collectsEnding).length,
+    endingsTotal: [...lib.endings.keys()].filter(collectsEnding).length,
     epiloguesSeen: meta.epilogues.length,
     epiloguesTotal: new Set(lib.epilogues.map(epilogueKey)).size,
     // Only outcomes of stories this deck still has: a profile can carry one of a card an update

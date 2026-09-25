@@ -1,4 +1,5 @@
 import { DEFAULT_CONFIG } from "../engine/config";
+import { survivedTo } from "../engine/endings";
 import { MANDATES } from "../engine/mandates";
 import { BLOC_KEYS, type Band, type GameState } from "../engine/types";
 import { LONG_REIGN, type MetaState, type Objective } from "./types";
@@ -148,7 +149,7 @@ export const OBJECTIVES: readonly Objective[] = [
     id: "obj_five_endings",
     title: "Five ways out",
     hint: "Discover five different endings.",
-    check: ({ meta }) => Object.keys(meta.endings).length >= 5,
+    check: ({ meta }) => Object.keys(meta.endings).filter(collectsEnding).length >= 5,
   },
   {
     id: "obj_clearout",
@@ -160,7 +161,7 @@ export const OBJECTIVES: readonly Objective[] = [
     id: "obj_ten_endings",
     title: "Collector",
     hint: "Discover ten different endings.",
-    check: ({ meta }) => Object.keys(meta.endings).length >= 10,
+    check: ({ meta }) => Object.keys(meta.endings).filter(collectsEnding).length >= 10,
   },
   {
     id: "obj_stepped_down",
@@ -215,6 +216,22 @@ export const OBJECTIVES_BY_ID: ReadonlyMap<string, Objective> = new Map(OBJECTIV
 /** Whether this profile may take a long reign: it has reached a finale (BACKLOG-5 phase 39). */
 export function longReignOpen(meta: Pick<MetaState, "objectives">): boolean {
   return OBJECTIVES.some((o) => o.opens === LONG_REIGN && meta.objectives[o.id] !== undefined);
+}
+
+/**
+ * Whether an ending is one the codex collects: every one but a first term's end, which a profile
+ * meets while it is new and a veteran never meets at all (BACKLOG-10 phase 59).
+ */
+export function collectsEnding(id: string): boolean {
+  return !id.startsWith(DEFAULT_CONFIG.firstTermPrefix);
+}
+
+/**
+ * Whether this profile's runs start as a first term: it has survived no run to its end yet, a
+ * first term's included (BACKLOG-10 phase 59). After that it starts where everyone does.
+ */
+export function firstTermDue(meta: Pick<MetaState, "endings">): boolean {
+  return !Object.entries(meta.endings).some(([id, n]) => n > 0 && survivedTo(DEFAULT_CONFIG, id));
 }
 
 /** Every unlock token any objective can grant. */

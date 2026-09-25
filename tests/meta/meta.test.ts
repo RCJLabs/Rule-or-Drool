@@ -315,7 +315,8 @@ describe("codexProgress", () => {
   it("counts against the real content totals", () => {
     const p = codexProgress(library, emptyMeta());
     expect(p).toMatchObject({ endingsSeen: 0, objectivesDone: 0, objectivesTotal: OBJECTIVES.length });
-    expect(p.endingsTotal).toBe(library.endings.size);
+    // Every ending but a first term's three (BACKLOG-10 phase 59).
+    expect(p.endingsTotal).toBe(library.endings.size - 3);
     expect(p.epiloguesTotal).toBeGreaterThan(0);
 
     const fold = foldRun(library, emptyMeta(), finished({ endingId: "riots", epilogueKey: "decay:left:1" }));

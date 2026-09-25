@@ -33,7 +33,10 @@ export interface RunCode {
   modifiers: string[];
   unlocked: string[];
   mandate: string | null;
-  /** Eras, for a long reign only; an ordinary run's code has none (BACKLOG-5 phase 39). */
+  /**
+   * Eras, for a long reign (BACKLOG-5 phase 39) or a first term (BACKLOG-10 phase 59); an
+   * ordinary run's code has none.
+   */
   eraCount?: number;
 }
 
@@ -65,9 +68,9 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   const [, seed36, side, mods, unlocks, mandate, eras] = parts as [string, string, string, string, string, string, string?];
   if (!/^[0-9a-z]{1,8}$/.test(seed36) || (side !== "L" && side !== "R")) return { ok: false, reason: "format" };
   if (eras !== undefined && !/^[1-9][0-9]?$/.test(eras)) return { ok: false, reason: "format" };
-  // Only a long reign is written in format 2, and only one as long as this game's.
+  // Only a long reign or a first term is written in format 2, and only one as long as this game's.
   const eraCount = eras === undefined ? undefined : Number(eras);
-  if (eraCount !== undefined && eraCount !== lib.config.longEraCount) return { ok: false, reason: "content" };
+  if (eraCount !== undefined && eraCount !== lib.config.longEraCount && eraCount !== lib.config.firstTermEras) return { ok: false, reason: "content" };
   const seed = parseInt(seed36, 36);
   if (!Number.isSafeInteger(seed)) return { ok: false, reason: "format" };
   const list = (s: string) => (s === NONE ? [] : s.split("~"));
