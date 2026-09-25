@@ -29,6 +29,7 @@ its own file: every item measured before it was built, and written up with what 
 | 8 | `BACKLOG-8.md` | 49–51 |
 | 9 | `BACKLOG-9.md` | 52–54 |
 | 10 | `BACKLOG-10.md` | 55–65 |
+| 11 | `BACKLOG-11.md` | ten ideas for what is already there, none chosen yet |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -49,6 +50,9 @@ decisions only the owner can make.
    whether the account needs a closed test first, then a signed build. The listing, the
    graphics (made from v0.73.1), the Data safety answers and the content-rating notes are in
    `twa/STORE.md`.
+3. **Round eleven** (BACKLOG-11.md): ten ways to improve how the systems, the endings and the
+   codex work, with no card added or changed. Among them, bugs the audit found: a lost honest
+   vote is counted as a win, and winning the office back can end the run on that card.
 
 The list this file ended on after phase 7, and what became of it:
 
