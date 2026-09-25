@@ -543,6 +543,29 @@ button {
     padding-left: 12px;
   }
 }
+/* Past 700px a phone gets the full-size text and speaker back, and the deepest looks their
+   chrome, but not the height to pay for both: at 360×701 to 360×800 the longest cards lost
+   2-86px in Decay 3 and Ascent 3, where only 360×640 was audited (BACKLOG-10 phase 64). So
+   the deepest looks keep the short phone's spacing up to 800px, and Decay 3's emote column
+   needs a wide phone as well as a tall one: at 360px it left the card 190px of width. */
+@media (max-height: 800px) {
+  .frame[data-theme="ascent2"],
+  .frame[data-theme="ascent3"] {
+    --space: 15px;
+    --line: 1.5;
+  }
+  .frame[data-theme="decay3"] .stream-alert.second {
+    display: none;
+  }
+}
+@media (max-height: 800px), (max-width: 399px) {
+  .frame[data-theme="decay3"] .stream-emotes {
+    display: none;
+  }
+  .frame[data-theme="decay3"] .stage {
+    padding-left: 12px;
+  }
+}
 /* Wide enough that a centred card cannot reach the chat (a 380px card, and a chat 96px in
    from the edge), the gutter has nothing to keep apart, and keeping it pushed the card off
    centre under a footer that is centred (BACKLOG-5 phase 32). */

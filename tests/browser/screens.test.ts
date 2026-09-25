@@ -744,7 +744,18 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
-    it("with the longest card of every kind on the table, at 360×640 with the buttons drawn, in all seven looks", async () => {
+    /**
+     * The smallest phone, and the first height past each line the stylesheet draws: past 700px
+     * the text and the speaker are full size again, and past 800px the deepest looks get their
+     * chrome back. Only 360×640 was audited, and between those lines the longest cards lost
+     * 2-86px in Decay 3 and Ascent 3 (BACKLOG-10 phase 64).
+     */
+    const LONGEST_AT: [number, number][] = [
+      [360, 640],
+      [360, 701],
+      [360, 801],
+    ];
+    it.each(LONGEST_AT)("with the longest card of every kind on the table, at %i×%i with the buttons drawn, in all seven looks", async (width, height) => {
       // The audit reads the cards its seed deals, and the seed never dealt a long one on a
       // short phone: the deck's forty longest cards all ran 2-10px past the card there, with
       // the buttons, a promise and the first lesson drawn (BACKLOG-6 phase 44). So each side's
@@ -753,6 +764,7 @@ describe.skipIf(!target)("in a browser", () => {
       // border, and a card with a name is as long as the name in the seat, so the seats hold
       // the longest names they can (tests/fit.ts).
       const failures: string[] = [];
+      const smallest = width === 360 && height === 640;
       // An election carries a line on how an honest count goes (BACKLOG-9 phase 53), and it is
       // put on the table at its longest: a coalition a point or two under the bar, which is a
       // narrow loss in every look, since a look moves the bar by under three points.
@@ -761,7 +773,7 @@ describe.skipIf(!target)("in a browser", () => {
       const longestStanding = Object.values(STRINGS.standing).reduce((a, b) => (b.length > a.length ? b : a));
       const counted = (kind: string) => kind === "election" || kind === "campaign";
       for (const party of ["left", "right"] as const) {
-        const page = await startRun(browser, party, { width: 360, height: 640, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
+        const page = await startRun(browser, party, { width, height, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
           await rewriteRun(
             page,
@@ -779,7 +791,7 @@ describe.skipIf(!target)("in a browser", () => {
           if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);
           for (const look of LOOKS) {
             await toLook(page, look);
-            const label = `${party}, ${kind} ${card.id} in ${look}`;
+            const label = `${width}×${height}, ${party}, ${kind} ${card.id} in ${look}`;
             failures.push(...(await misfits(page, label)));
             if (!counted(kind)) continue;
             // The longest line, on one line, and as readable as the prose above it.
@@ -789,7 +801,8 @@ describe.skipIf(!target)("in a browser", () => {
             if (said !== longest) failures.push(`${label}: the count says "${said}", not the longest, "${longest}"`);
             const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
             if (lines !== 1) failures.push(`${label}: the count takes ${lines} lines`);
-            failures.push(...(await contrast(page, label)));
+            // Colour does not change with the height, so it is read once, on the smallest phone.
+            if (smallest) failures.push(...(await contrast(page, label)));
           }
         }
         await close(page);

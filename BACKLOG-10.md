@@ -1166,3 +1166,46 @@ before):
 2. **Whether the last reign's rival returns.** The default is yes. It changes nothing measurable,
    and it is the part of a line a player can name.
 
+
+## Phase 64. The country on screen (idea 9) — *in progress*
+
+**Shipped so far: v0.71.1, a fit fix the measuring found.** The picture itself is not built yet.
+
+**Measured first: the room.** How many pixels the play screen can give up before any card is cut
+off, at 360×640 with the buttons drawn, a platform of two and the first lesson:
+
+| | Muddle | Decay 1 | Decay 2 | Decay 3 | Ascent 1–3 |
+|---|---|---|---|---|---|
+| The seed's own first card | 113–116 | 94–98 | 49–53 | 45–49 | 80–83 |
+| The longest card of any kind | 73–77 | 59–76 | 12–16 | 7–11 | 36–41 |
+
+The card stops growing at 532px, so a tall phone has room under it:
+- None, in any look, at 360×640, 412×732, 360×780 or 390×844, or on a 1280×720 laptop.
+- 12–72px on a 412×915 Pixel and 29–89px on a 430×932, except in Decay 3, which has none.
+- 85–181px on a tablet.
+
+So a picture that is always on screen does not fit the smallest phone, and the deeper looks are
+where it fits least.
+
+**Measured first: which flags have a drawing.** 300 runs a bot:
+- 845 of 1,770 cards set a legacy, and 805 set one the end screen draws. But 742 of those set
+  only a habit, the texture of every self-serving choice. 63 cards set a landmark.
+- The competent bots set 8.4–9.3 legacies a run, and 56–63% of those have a drawing.
+- A picture of them would change about 5 times a run, first at card 12, and mostly show the
+  habits: the barricade in 66–91% of runs, the gated house in 50–80%, then the posters and the
+  gold tower. The seawall, the ring and the statue are each in about 5%.
+- The answers to questions, about three a run and the biggest decisions in it, have no drawing.
+  Neither does a lost count, in 31–64% of runs.
+
+**Found on the way: the longest cards were cut on phones 701–800px tall** (fixed in v0.71.1).
+- Past 700px, a phone gets full-size text and speaker spacing back, and the deepest looks their
+  chrome: Ascent 2 and 3 their wide spacing, Decay 3 a second alert and a 58px emote column. That
+  column left a 360px phone's card 190px wide.
+- Only 360×640 had the longest cards put on the table. At 360×701 to 360×800 they lost 2–86px in
+  Decay 3 and Ascent 3, usually their last line or two; even at 360×800 one election lost 2px.
+- The fix: the deepest looks keep the short phone's spacing up to 800px, and Decay 3's emote
+  column needs a phone 400px wide as well as tall.
+- Every longest card now fits at 360×640, 701, 720, 740, 760, 780, 800 and 801, at 400 and 412 wide
+  past 800, and at 412×732, 390×844, 384×854, 393×873, 412×892 and 412×915.
+- The browser audit now puts the longest cards on the table at 360×701 and 360×801 as well as
+  360×640: the first height past each line the stylesheet draws.
