@@ -134,6 +134,15 @@ describe("a run that took over, at the end", () => {
     expect(timeline(library, run, "The end")[0]!.text.startsWith(STRINGS.timeline.tookOver.replace("{party}", STRINGS.parties.left))).toBe(true);
   });
 
+  it("does not list what it took over as what it left behind (BACKLOG-11 phase 66)", () => {
+    const run = ended();
+    expect(run.flags).toContain("seawall");
+    render(<Ending lib={library} state={run} fold={foldRun(library, emptyMeta(), run)} onPlayAgain={noop} onCodex={noop} onSettings={noop} />);
+    expect(document.querySelector(".line-note")!.textContent).toContain(LEGACIES.seawall);
+    expect(document.querySelector(".became-also")?.textContent ?? "").not.toContain(LEGACIES.seawall);
+    expect(document.querySelector(".became")!.textContent).not.toContain(LEGACIES.seawall);
+  });
+
   it("is marked in the codex's history, and a fresh start is not", () => {
     const meta = foldRun(library, foldRun(library, emptyMeta(), { ...ended(), inherited: null }).meta, ended()).meta;
     render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open="runs" />);

@@ -1,5 +1,6 @@
 import { DEFAULT_CONFIG } from "../engine/config";
 import { survivedTo } from "../engine/endings";
+import { honestWins } from "../engine/state";
 import { MANDATES, wordKept } from "../engine/mandates";
 import { BLOC_KEYS, type Band, type GameState } from "../engine/types";
 import { LONG_REIGN, type MetaState, type Objective } from "./types";
@@ -73,7 +74,8 @@ export const OBJECTIVES: readonly Objective[] = [
     title: "A clean win",
     hint: "Win an election honestly.",
     unlocks: "u_dissident",
-    check: ({ run }) => (run?.stats.electionsHonest ?? 0) >= 1,
+    // Won, not only held: a lost count was credited until BACKLOG-11 phase 66.
+    check: ({ run }) => !!run && honestWins(run.stats) >= 1,
   },
   {
     id: "obj_reach_ascent",
@@ -120,7 +122,7 @@ export const OBJECTIVES: readonly Objective[] = [
     title: "Three clean votes",
     hint: "Survive three elections without cheating once.",
     unlocks: "u_referendum",
-    check: ({ run }) => (run?.stats.electionsHonest ?? 0) >= 3 && (run?.stats.electionsCheated ?? 0) === 0,
+    check: ({ run }) => !!run && honestWins(run.stats) >= 3 && run.stats.electionsCheated === 0,
   },
   {
     id: "obj_orbit_clean",
@@ -195,7 +197,8 @@ export const OBJECTIVES: readonly Objective[] = [
     id: "obj_line_redeemed",
     title: "The line redeemed",
     hint: "Take over from a reign that ended in Decay, and bring yours to the Ascent finale.",
-    check: ({ run }) => run?.inherited?.band === "decay" && run.over?.endingId === `${DEFAULT_CONFIG.finalePrefix}ascent`,
+    // Either length of reign: a long one to the Ascent is the line redeemed too (BACKLOG-11 phase 66).
+    check: ({ run }) => run?.inherited?.band === "decay" && finaleIn(run, "ascent"),
   },
   // Mandates sit at the end because they are the only objectives the player chooses to
   // attempt rather than happens into. None of them grants an unlock: a mandate is opt-in,

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { library } from "../../src/content";
+import { STRINGS } from "../../src/content/strings";
 import { CLUES, RUMOURS_AT_ONCE, collectsEnding, emptyMeta, rumours, withinReach, type MetaState } from "../../src/meta";
 
 /**
@@ -25,6 +26,12 @@ describe("the clues", () => {
       expect(clue.length, e.id).toBeLessThanOrEqual(80);
       expect(clue, e.id).toMatch(/^[A-Z].*\.$/);
     }
+  });
+
+  it("tell a long reign's length as its eras do (BACKLOG-11 phase 66)", () => {
+    // Five eras, the last "Five centuries on": the clue said two centuries survived.
+    const last = STRINGS.eras[library.config.longEraCount - 1]!.name.split(" ").slice(0, 2).join(" ");
+    for (const band of ["decay", "muddle", "ascent"]) expect(CLUES[`finale_long_${band}`], band).toContain(last);
   });
 
   it("are all different", () => {

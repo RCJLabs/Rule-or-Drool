@@ -1,3 +1,4 @@
+import { EASY_CAMPAIGN_FLAG, easySide } from "./campaign";
 import { endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
@@ -99,14 +100,14 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   // either side of the return vote ends the opposition, unless the run ends there
   // (BACKLOG-10 phase 55).
   let goingOut = false;
+  let lost = false;
   if (card.type === "election") {
     if (choice.honest) {
-      const lost = !honestCount(lib, s).wins;
+      lost = !honestCount(lib, s).wins;
       goingOut = lost && goesOut(lib, s, card);
       endingId = lost && !goingOut ? (choice.ending ?? losingEnding(lib, s)) : null;
     }
-    const interval = choice.electionDelay ?? cfg.electionInterval;
-    s = { ...s, nextElectionAt: s.cardCount + interval };
+    s = { ...s, nextElectionAt: s.cardCount + cfg.electionInterval };
   }
   const comingBack = !!card.opposition && card.type === "election" && !endingId;
 
@@ -119,9 +120,10 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     if (v) meters[k] = clampMeter(meters[k] + Math.round(v * mult * (v > 0 ? trait.gain : trait.loss)));
   }
   const drift = clampDrift(s.drift + (choice.drift ?? 0));
-  // What the rival banks: a stolen vote is the gift, a clean one is the cost. The rest of
-  // their threat is not banked at all, it is read off how far you have gone (rivalPressure).
-  const vote = card.type !== "election" ? 0 : choice.honest ? -cfg.rivalHonestLoss : cfg.rivalCheatGain;
+  // What the rival banks: a stolen vote is the gift, a clean one you win is the cost, and a clean
+  // one they win costs them nothing (BACKLOG-11 phase 66). The rest of their threat is not
+  // banked at all, it is read off how far you have gone (rivalPressure).
+  const vote = card.type !== "election" ? 0 : !choice.honest ? cfg.rivalCheatGain : lost ? 0 : -cfg.rivalHonestLoss;
   const rivalStanding = clampMeter(s.rivalStanding + vote + (choice.rival ?? 0));
 
   let flags = s.flags;
@@ -133,6 +135,8 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     const add = choice.setFlags.filter((f, i, arr) => !flags.includes(f) && arr.indexOf(f) === i);
     if (add.length) flags = [...flags, ...add];
   }
+  // A campaign won the easy way, which a clean fight promises never to do (BACKLOG-11 phase 66).
+  if (easySide(card) === side && !flags.includes(EASY_CAMPAIGN_FLAG)) flags = [...flags, EASY_CAMPAIGN_FLAG];
 
   let queue = s.queue;
   if (choice.enqueue?.length) {
@@ -165,6 +169,9 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   } else if (comingBack) {
     opposition = null;
     if (choice.honest && !flags.includes(WON_BACK_FLAG)) flags = [...flags, WON_BACK_FLAG];
+    // The card that brings the run back is played out of office, where the state is held off
+    // its edges: it does not hand the office back already lost (BACKLOG-11 phase 66).
+    for (const k of CORE_KEYS) meters[k] = Math.min(99, Math.max(1, meters[k]));
   }
 
   s = { ...s, meters, drift, flags, queue, activeArcs, rivalStanding, opposition };
@@ -239,10 +246,10 @@ export function checkElection(lib: Library, state: GameState): GameState {
     nextElectionAt: s1.cardCount + cfg.electionInterval,
     drift: clampDrift(s1.drift - cfg.decreeDriftPull),
   };
-  if (p < coupRisk(lib, s2)) {
-    const theirs = rivalPressure(lib, s2) >= cfg.rivalWinsAt;
-    return endRun(lib, s2, theirs ? cfg.rivalEnding : cfg.coupEnding);
-  }
+  // A rival with standing makes the coup likelier (coupRisk), but with the ballot gone it is a
+  // coup that ends the run, not a count they win: "They Won" told of a count on time and not
+  // disputed, and it was every one of the rival's wins in a long reign (BACKLOG-11 phase 66).
+  if (p < coupRisk(lib, s2)) return endRun(lib, s2, cfg.coupEnding);
   return s2;
 }
 
@@ -350,8 +357,12 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   else if (drift > 0) stats.honest++;
   else stats.neutral++;
   if (card.type === "election") {
-    if (choice.honest) stats.electionsHonest++;
-    else stats.electionsCheated++;
+    // A vote left to the count is honest whichever way it goes; the count as the card found it
+    // is what decided it (applyChoice), and a lost one is counted apart (BACKLOG-11 phase 66).
+    if (choice.honest) {
+      stats.electionsHonest++;
+      if (!honestCount(lib, state).wins) stats.electionsLost++;
+    } else stats.electionsCheated++;
   }
   if (choice.fireSpeaker) {
     const before = s.cabinet[card.speaker];

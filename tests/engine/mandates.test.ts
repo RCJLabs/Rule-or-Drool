@@ -16,6 +16,7 @@ import {
   inCatalogOrder,
   wordKept,
 } from "../../src/engine/mandates";
+import { EASY_CAMPAIGN_FLAG, easySide } from "../../src/engine/campaign";
 import { checkMandate, resolve } from "../../src/engine/resolve";
 import { newRun, rollSetup } from "../../src/engine/state";
 import { allUnlockTokens } from "../../src/meta/objectives";
@@ -211,6 +212,22 @@ describe("mandates: what the shipped set asks of a player", () => {
       );
       expect(results, `${m.id}: a side that breaks it`).toContain(true);
       expect(results, `${m.id}: a side that keeps it`).toContain(false);
+    }
+  });
+
+  it("breaks a clean fight on every campaign won the easy way, and on no honest one (BACKLOG-11 phase 66)", () => {
+    // Its cost says one smeared, scared or bought campaign breaks it; until phase 66 none did.
+    const campaigns = content.cards.filter((c) => c.campaign);
+    expect(campaigns.length).toBeGreaterThanOrEqual(40);
+    for (const card of campaigns) {
+      const easy = easySide(card);
+      expect(easy, card.id).not.toBeNull();
+      for (const side of ["left", "right"] as const) {
+        const run = newRun(l, 11, { align: card.align === "right" ? "right" : "left", mandates: ["m_fair"] });
+        const after = resolve(l, { ...run, cardCount: 20, nextElectionAt: 25, current: card.id }, card.id, side);
+        expect("m_fair" in after.mandatesBroken, `${card.id} ${side}`).toBe(side === easy);
+        expect(after.flags.includes(EASY_CAMPAIGN_FLAG), `${card.id} ${side}`).toBe(side === easy);
+      }
     }
   });
 

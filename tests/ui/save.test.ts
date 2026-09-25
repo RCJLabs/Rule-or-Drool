@@ -6,6 +6,7 @@ import { RUN_SAVE_VERSION } from "../../src/version";
 import { EMPTY_STATS, type GameState } from "../../src/engine/types";
 import { DEFAULT_CONFIG } from "../../src/engine/config";
 import { brokenFlag } from "../../src/engine/mandates";
+import { LOST_OFFICE_FLAG } from "../../src/engine/opposition";
 import { clearRun, hintSeen, loadRun, markHintSeen, migrateRun, saveRun } from "../../src/ui/save";
 
 describe("save", () => {
@@ -112,6 +113,23 @@ describe("save", () => {
     const s = migrateRun(8, { ...v8, flags: ["seawall"] } as never)!;
     expect(s.flagSince).toEqual({});
     expect(s.flags).toContain("seawall");
+  });
+
+  it("brings a v15 run forward with the one count it can have lost, and the first road a second road holds", () => {
+    const fresh = newRun(library, 3, { align: "left" });
+    const v15 = (x: GameState) => {
+      const { electionsLost: _drop, ...stats } = x.stats;
+      return { ...x, stats };
+    };
+    const out = { ...fresh, flags: [...fresh.flags, LOST_OFFICE_FLAG], stats: { ...fresh.stats, electionsHonest: 2 } };
+    const s = migrateRun(15, { ...v15(out), road: { first: v15(fresh), at: 12 } } as never)!;
+    // A run under way has lost only the vote that sent it out; any other lost count ended it.
+    expect(s.stats.electionsLost).toBe(1);
+    expect(s.road!.first.stats.electionsLost).toBe(0);
+    expect(migrateRun(15, v15(fresh) as never)!.stats).toEqual(EMPTY_STATS);
+    // A current save keeps its count.
+    const counted = { ...out, stats: { ...out.stats, electionsLost: 1 } };
+    expect(migrateRun(RUN_SAVE_VERSION, counted)!.stats).toEqual(counted.stats);
   });
 
   it("migrateRun refuses versions it does not know", () => {

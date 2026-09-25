@@ -36,6 +36,19 @@ describe("the record of a reign", () => {
     expect(rec({ stats: { electionsHonest: 0, electionsCheated: 0 } }).lines[0]).toBe(STRINGS.record.votes.none);
   });
 
+  it("does not count a vote left to the count and lost as won (BACKLOG-11 phase 66)", () => {
+    // The vote that sent the run out, and the return vote won: one win, not two.
+    expect(rec({ stats: { electionsHonest: 2, electionsLost: 1, electionsCheated: 0 } }).lines[0]).toBe(
+      "You won one vote honestly, and counted nothing twice.",
+    );
+    expect(rec({ stats: { electionsHonest: 1, electionsLost: 1, electionsCheated: 0 } }).lines[0]).toBe("You left one vote to an honest count, and lost it.");
+    expect(rec({ stats: { electionsHonest: 2, electionsLost: 2, electionsCheated: 0 } }).lines[0]).toBe(
+      "You left 2 votes to an honest count, and lost each of them.",
+    );
+    // Lost one, cheated the next: no vote was won that had not been arranged.
+    expect(rec({ stats: { electionsHonest: 1, electionsLost: 1, electionsCheated: 1 } }).lines[0]).toBe(STRINGS.record.votes.neverClean);
+  });
+
   it("does not count the rival as somebody who stayed", () => {
     // The rival holds a cabinet slot from the first day and was never yours to keep.
     const since = Object.fromEntries(Object.keys(base().cabinetSince).map((r) => [r, 0]));
@@ -82,6 +95,17 @@ describe("the record of a reign", () => {
     expect(none.carried).toEqual([]);
     expect(none.lines[2]).toBe(STRINGS.record.carrying.nothing);
     expect(rec({ flags: ["seawall"] }).lines[2]).toBe(STRINGS.record.carrying.one);
+  });
+
+  it("does not credit an heir with what it took over (BACKLOG-11 phase 66)", () => {
+    const inherited = { band: "decay" as const, line: 2, legacies: ["cheated_election"], rival: null, rivalStanding: 30 };
+    const heir = rec({ flags: ["cheated_election", "schools_starved"], inherited });
+    expect(heir.carried).toEqual(["The schools were starved"]);
+    expect(heir.lines[2]).toBe(STRINGS.record.carrying.one);
+    // Nothing of its own, and still carrying what it took over.
+    expect(rec({ flags: ["cheated_election"], inherited }).lines[2]).toBe(STRINGS.record.carrying.onlyBefore);
+    // What it took over and put down is not carried at all.
+    expect(rec({ flags: [], inherited }).lines[2]).toBe(STRINGS.record.carrying.nothing);
   });
 
   it("reads differently for two runs that did different things", () => {

@@ -3,6 +3,7 @@
  * Content bundle and options, returns issues. Runs on fixtures in tests and on the real
  * content from the CLI.
  */
+import { EASY_CAMPAIGN_FLAG, easySide } from "../engine/campaign";
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
 import { TOOK_OVER_FLAG } from "../engine/inherit";
@@ -295,8 +296,8 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       for (const k of FX_KEYS) {
         if (ch.fx && ch.fx[k] === 0) issues.warn("fx-zero", `${k}: 0 does nothing; drop it`, { ...where, path: `${side}.fx.${k}` });
       }
-      if (card.type !== "election" && (ch.honest !== undefined || ch.electionDelay !== undefined)) {
-        issues.error("honest-misplaced", `honest / electionDelay only mean something on election cards`, { ...where, path: side });
+      if (card.type !== "election" && ch.honest !== undefined) {
+        issues.error("honest-misplaced", `honest only means something on an election card`, { ...where, path: side });
       }
       if (ch.fireSpeaker && card.speaker === cfg.rivalRole) {
         issues.error("fire-the-rival", `the rival is not yours to replace; fireSpeaker does nothing here`, { ...where, path: `${side}.fireSpeaker` });
@@ -582,9 +583,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!flagReads.has(f) && !engineReads.has(f) && !codexReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
-    // The engine sets these: a promise broken, a run that took over from the last (phase 63), and
-    // someone gone over to the rival (phase 65).
-    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG || f === RIVAL_POACHED_FLAG) continue;
+    // The engine sets these: a promise broken, a run that took over from the last (phase 63),
+    // someone gone over to the rival (phase 65), and a campaign won the easy way (phase 66).
+    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG || f === RIVAL_POACHED_FLAG || f === EASY_CAMPAIGN_FLAG) continue;
     if (f.startsWith(MANDATE_FLAG_PREFIX)) {
       // `mandate_<id>`, set when the run is taken on it, or `mandate_<id>_broken` (phase 62).
       const name = f.slice(MANDATE_FLAG_PREFIX.length).replace(/_broken$/, "");
@@ -664,7 +665,14 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     for (const side of ["left", "right"] as const) {
       if (lift(c[side]) <= 0) issues.error("campaign-flat", `${side} does not lift the coalition, and a campaign card is a choice of how to win the vote`, { ...where, path: side });
     }
-    const [honest, easy] = (c.left.drift ?? 0) >= (c.right.drift ?? 0) ? [c.left, c.right] : [c.right, c.left];
+    // The easy side is what a clean fight promises never to take (BACKLOG-11 phase 66), so the
+    // engine has to be able to tell which it is.
+    const easySideOf = easySide(c);
+    if (!easySideOf) {
+      issues.error("campaign-no-easy", "neither side drifts toward Decay below the other and below zero, so no side is the easy campaign", where);
+      continue;
+    }
+    const [honest, easy] = easySideOf === "right" ? [c.left, c.right] : [c.right, c.left];
     if (lift(easy) < lift(honest)) issues.error("campaign-backwards", "the honest side lifts the coalition further than the side that drifts toward Decay", where);
   }
 

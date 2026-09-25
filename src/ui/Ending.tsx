@@ -97,7 +97,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // A first term seen through says what comes next (BACKLOG-10 phase 59).
   const firstTermDone = isFirstTerm(lib, state) && over.endingId.startsWith(lib.config.firstTermPrefix);
   const shown = new Set(history.consequences.map((c) => c.flag));
-  const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f)).map((f) => LEGACIES[f]!);
+  // What this reign left and history did not name; what it took over is named above (BACKLOG-11 phase 66).
+  const inherited = state.inherited?.legacies ?? [];
+  const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f) && !inherited.includes(f)).map((f) => LEGACIES[f]!);
   const when = STRINGS.world.when[Math.min(state.era, STRINGS.world.when.length) - 1] ?? "";
   // A daily is marked in the text by its number, so a group can compare without links
   // (BACKLOG-5 phase 38). Only the run that went into the log as the day's daily says so.

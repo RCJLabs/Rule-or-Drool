@@ -97,7 +97,7 @@ export function makeFixture(): Content {
       cond: { flags: ["want_delay"] },
       weight: 100,
       left: { label: "honest", honest: true },
-      right: { label: "postpone", electionDelay: 5 },
+      right: { label: "postpone" },
     },
     {
       ...ev("arc_t1"),

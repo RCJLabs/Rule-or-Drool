@@ -184,6 +184,9 @@ export const STRINGS = {
       clean: "{won}, and counted nothing twice.",
       mixed: "{won} and {cheated}.",
       neverClean: "You never won a vote you had not arranged first.",
+      /** Every vote left to the count, and none of them won (BACKLOG-11 phase 66). */
+      lostOne: "You left one vote to an honest count, and lost it.",
+      lostMany: "You left {n} votes to an honest count, and lost each of them.",
       none: "No vote was held while the office was yours.",
     },
     room: {
@@ -200,17 +203,21 @@ export const STRINGS = {
     },
     carrying: {
       nothing: "The country is carrying nothing it cannot put down.",
+      /** A reign that took over from the last and left nothing of its own (BACKLOG-11 phase 66). */
+      onlyBefore: "The country is carrying nothing you did to it, only what it carried before you.",
       one: "The country is still carrying one thing you did to it.",
       many: "The country is still carrying {n} things you did to it.",
     },
   },
   /**
    * The world after a run, in words, for the picture's accessible name (post-run
-   * histories). `when` is indexed by the era the run ended in; `sky` by band and by how far
-   * the country went; each landmark is one decision the run made.
+   * histories). `when` is indexed by the era the run ended in, at the time its epilogue is told
+   * from: the first three eras' look ahead, and the long reign's are told from their own era,
+   * as their names are (BACKLOG-11 phase 66); `sky` by band and by how far the country went;
+   * each landmark is one decision the run made.
    */
   world: {
-    when: ["A generation later", "A century later", "Centuries later", "Centuries after that", "A thousand years later"],
+    when: ["A generation later", "A century later", "Centuries later", "Two centuries on", "Five centuries on"],
     sky: {
       decay: ["the city under a brown haze", "the city under smoke, half its lights out", "a dark city of broken towers under a red sun"],
       muddle: ["the city under an ordinary grey sky", "the city under a flat grey sky, much as it was", "the city under a low grey sky, unchanged and unimproved"],

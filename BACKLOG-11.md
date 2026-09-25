@@ -344,3 +344,98 @@ and 10 cannot.
 3. **Whether a side that ends the run should be marked (3).** The default is yes: the edge of a
    meter is already on screen, and the mark only says the side reaches it.
 4. **Whether the Institutions ceiling (4) waits for people's runs.** The default is yes.
+
+## Phase 66. Fix what the audit found broken (idea 1) — *done*
+
+**Shipped in v0.74.0.** The deck moved (DEAL_VERSION 7): the return vote's hold, the rival's
+standing after a lost count, the coup after abolition and a clean fight's break each change what
+is dealt or how a run ends. Run saves are v16.
+
+1. **A lost honest vote was counted as a win.** A run counts the honest counts it lost
+   (`electionsLost`), and a vote is won honestly only when it was honest and not lost
+   (`honestWins`). The record, "A clean win", "Three clean votes" and the contracts' "honestly"
+   read wins. A run that left every vote to the count and lost them says so. A save from before
+   can have lost only the vote that sent it out, which its flag says, so the count comes forward
+   exact. Objectives already earned stay earned. What it costs, measured on this fix alone,
+   2,000 runs a bot:
+
+   | "A clean win" | First term | Full reign | Long reign |
+   |---|---|---|---|
+   | Informed voter | 99.5% → 68.0% | 99.5% → 96.7% | 99.5% → 98.8% |
+   | Mixed bot | 57.4% → 32.1% | 91.0% → 78.3% | 96.0% → 90.8% |
+   | Eyes bot | 99.6% → 35.9% | 99.6% → 76.5% | 99.6% → 91.1% |
+
+   "Three clean votes" moved by 2 points at most, and the contracts that ask for an honest vote
+   not at all: a reign that sees its finale without cheating a vote has won one.
+2. **Winning the office back could end the run on that card.** The card that brings a run back
+   is played out of office, so its effects on the state are held off the edges as the
+   opposition's are. Every honest return vote builds Institutions and spends the Treasury, which
+   is how a meter held at 99 or 1 went over. On the audit's seeds, the eyes bot's deaths on
+   winning back went from 49 to none, and its finale from 93.2% to 96.0%.
+3. **A clean fight survived a dirty campaign.** Taking a campaign card's easy side, the one that
+   drifts toward Decay, sets `easy_campaign`, and the promise breaks on it as on
+   `dirty_politics`. The validator asks every campaign card for an easy side
+   (`campaign-no-easy`). Kept at the finale, 1,000 runs a bot taken on the promise alone:
+   - by bots that pay it no attention, 57.5% → 2.2% (informed) and 34.6% → 1.7% (mixed);
+   - by the same bots taking the other side wherever their pick would break it and the other is
+     safe, 85.5% → 81.7% and 85.8% → 86.2%, with survival unchanged.
+
+   The card that follows the break said "The rumour did its work". Most easy campaigns are a
+   cheque, a ribbon or a poll, and several of the other ways to the break, buying the balance or
+   signing a pact among them, were never rumours. It now says the cheap win worked, and its
+   right side is "Say it was fair": the one card this phase touched, its words only.
+4. **The rival lost standing when they beat you.** A clean count costs the rival 6 only when you
+   win it; one they win costs them nothing. In runs that lost the office the rival ends 6–7
+   points stronger: 41.8 → 47.8 for the eyes bot, 57.6 → 65.1 in the mixed bot's long reigns.
+   They are at the top rung at the end of 52.6% of those eyes runs, from 38.3%. The saint bot,
+   which loses its first vote and then the return vote, now loses the second to the rival by
+   name: `rival_wins` 2.4% → 10.6%, `election_loss` 9.9% → 1.8%.
+5. **Postponing a vote did nothing.** `electionDelay` is gone from the engine, the schema, the
+   validator and the two cards that had it. Every vote falls on card 26 of its era, and the
+   opposition, the campaign and the votes by name are built on that. A working 15-card delay
+   would move a vote into the next era's first cards, where losing it would put a run out of
+   office for most of an era. The two emergencies play as they did: the vote is not held this
+   era.
+6. **"They Won" described a count that was never held.** With elections abolished, the coup
+   check ends in a coup whoever is behind it; the rival's standing still makes it likelier. In
+   the mixed bot's long reigns, on the audit's seeds, the coup roll ended 60 runs, 55 of them as
+   the rival's win; now it ends 56, every one a coup. `rival_wins` comes from a count lost at the
+   top rung, or a card that chooses it. The clues already said so.
+7. **The line redeemed** is earned by a long reign's Ascent as well as the ordinary one.
+8. **An heir was credited with what it took over.** The record's "things you did to it" and
+   "Also left behind" leave out the legacies the reign inherited, which the end screen names
+   beside its place in the line. A reign that left nothing of its own says it carries only what
+   it carried before. The picture keeps them: they still stand in the country.
+9. **The codex counted 18 names no run could reach.** Its total is the names a run of this deck
+   can be given, 657 of the 675 written; six legacies are set by one side's cards only. A name a
+   profile already holds always counts, so no profile shows more found than there are.
+10. **The time scales.** A long reign's clues say five centuries survived. The picture after a
+    run that ended in era 4 or 5 is captioned "Two centuries on" or "Five centuries on", as the
+    epilogue under it begins; it said "Centuries after that" and "A thousand years later". The
+    audit's other example was wrong: the ordinary finale's epilogues look ahead ("Centuries
+    on"), so its caption, "Centuries later", already agreed with them and is kept.
+
+**Balance.** Every harness target passes. 10,000 runs a bot, long reigns 4,000:
+
+| | Before | After |
+|---|---|---|
+| Informed voter, Ascent | 27.5% | 26.9% |
+| Mixed bot, Ascent | 14.5% | 14.4% |
+| Greedy bot, Decay | 77.6% | 77.7% |
+| Eyes bot, finale | 92.2% | 94.6% |
+| Mixed bot, long reign, reaches era 5 | 96.3% | 96.0% |
+| Mixed bot, long finale | 93.8% | 93.5% |
+| Informed voter, long reign, Ascent | 26.7% | 25.8% |
+
+One test's bound moved. The most-served adviser was at 54.9% of the mixed bot's runs against a
+ceiling of 55%, and at 55.7% on another seed, before any of this; after, it was 55.0%. The
+ceiling was set when the range was 32–52%, before the rival could take people. It is 60% now,
+with the range measured over three seeds, 32–56%, beside it.
+
+**Caveats.**
+- The rival is stronger after a lost vote, which is the fix, and nothing was retuned for it.
+  Whether the way back into office now feels harder than it should is for the closed test.
+- "A clean win" is rarer from a first term, where a lost vote is common. Profiles keep what they
+  have.
+- A clean fight is now broken in most runs on it that do not watch the campaign cards, as its
+  cost says. Whether a player reads the cost before the first campaign is not measured.

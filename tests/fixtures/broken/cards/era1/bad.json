@@ -41,7 +41,7 @@
   },
   {
     "id": "honest_event", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief", "text": "Honest event.",
-    "left": { "label": "A", "honest": true, "drift": -1 }, "right": { "label": "B", "electionDelay": 3, "drift": 1 }
+    "left": { "label": "A", "honest": true, "drift": -1 }, "right": { "label": "B", "drift": 1 }
   },
   {
     "id": "long_winded", "type": "event", "align": "any", "eras": [1], "bands": ["decay", "muddle", "ascent"], "speaker": "chief",

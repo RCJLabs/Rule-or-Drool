@@ -421,7 +421,7 @@ describe("rules: per-card", () => {
     card(c, "el_a").right.honest = true;
     card(c, "el_b").right.honest = false;
     card(c, "ev_a").left.honest = true;
-    card(c, "ev_a").right.electionDelay = 4;
+    card(c, "ev_a").right.honest = false;
     expect(run(c).filter((i) => i.code === "election-honest").map((i) => i.id)).toEqual(["el_a", "el_b"]);
     expect(run(c).filter((i) => i.code === "honest-misplaced").map((i) => i.path)).toEqual(["left", "right"]);
   });
@@ -497,5 +497,14 @@ describe("rules: the campaign", () => {
 
   it("rejects a card that is the opposition's as well", () => {
     expect(about(campaign({ opposition: true }))).toContain("campaign-opposition");
+  });
+
+  it("asks for an easy side a clean fight can promise never to take (BACKLOG-11 phase 66)", () => {
+    // Two honest sides, or two that drift the same way as far: nothing for the promise to break on.
+    expect(about(campaign({ right: { label: "Also honest", fx: { public: 5, inst: -2 }, drift: 1 } }))).toEqual(["campaign-no-easy"]);
+    expect(about(campaign({ left: { label: "As bad", fx: { public: 2, inst: 1 }, drift: -5 } }))).toEqual(["campaign-no-easy"]);
+    // Either side can be the easy one.
+    const flipped = campaign();
+    expect(about({ ...flipped, left: flipped.right, right: flipped.left })).toEqual([]);
   });
 });

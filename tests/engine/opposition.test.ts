@@ -5,7 +5,7 @@ import { getCard } from "../../src/engine/library";
 import { LOST_OFFICE_FLAG, WON_BACK_FLAG } from "../../src/engine/opposition";
 import { preview } from "../../src/engine/preview";
 import { electionBar, losingEnding, resolve } from "../../src/engine/resolve";
-import { newRun } from "../../src/engine/state";
+import { honestWins, newRun } from "../../src/engine/state";
 import type { GameState, Side } from "../../src/engine/types";
 import { migrateRun } from "../../src/ui/save";
 
@@ -60,6 +60,38 @@ describe("losing the count", () => {
   });
 });
 
+describe("what the run counts of it (BACKLOG-11 phase 66)", () => {
+  it("counts a lost count as honest and lost, and not as a win", () => {
+    const out = resolve(library, at(vote.id, 25, low), vote.id, honest);
+    expect(out.stats).toMatchObject({ electionsHonest: 1, electionsLost: 1, electionsCheated: 0 });
+    expect(honestWins(out.stats)).toBe(0);
+    const ended = resolve(library, at(vote.id, 60, low, 2, { flags: [LOST_OFFICE_FLAG] }), vote.id, honest);
+    expect(ended.stats).toMatchObject({ electionsHonest: 1, electionsLost: 1 });
+  });
+
+  it("counts a count won, at an ordinary vote and at the return vote, as a win", () => {
+    const won = resolve(library, at(vote.id, 25, 70), vote.id, honest);
+    expect(won.stats).toMatchObject({ electionsHonest: 1, electionsLost: 0 });
+    expect(honestWins(won.stats)).toBe(1);
+    const s = returning(cfg.electionMoodThreshold - cfg.returnSwing);
+    const back = resolve(library, s, s.current!, getCard(library, s.current!).left.honest ? "left" : "right");
+    expect(honestWins(back.stats)).toBe(1);
+    const lost = returning(cfg.electionMoodThreshold - cfg.returnSwing - 3);
+    expect(resolve(library, lost, lost.current!, getCard(library, lost.current!).left.honest ? "left" : "right").stats.electionsLost).toBe(1);
+  });
+
+  it("does not cost the rival standing when they win it, as a count you win does", () => {
+    const own = vote[honest].rival ?? 0;
+    expect(resolve(library, at(vote.id, 25, low), vote.id, honest).rivalStanding).toBe(cfg.rivalStart + own);
+    expect(resolve(library, at(vote.id, 25, 70), vote.id, honest).rivalStanding).toBe(cfg.rivalStart - cfg.rivalHonestLoss + own);
+  });
+
+  it("never counts a cheated vote as lost", () => {
+    const cheated = resolve(library, at(vote.id, 25, low), vote.id, cheat);
+    expect(cheated.stats).toMatchObject({ electionsHonest: 0, electionsLost: 0, electionsCheated: 1 });
+  });
+});
+
 describe("out of office", () => {
   it("deals from the opposition's deck, then the return vote on the era's last card", () => {
     let s = resolve(library, at(vote.id, 25, cfg.electionMoodThreshold - 2), vote.id, honest);
@@ -109,6 +141,21 @@ describe("the return vote", () => {
     const card = getCard(library, s.current!);
     const lost = resolve(library, s, card.id, card.left.honest ? "left" : "right");
     expect(lost.over?.endingId).toBe(losingEnding(library, s));
+  });
+
+  it("does not hand the office back already lost on its own card (BACKLOG-11 phase 66)", () => {
+    // The state is held off its edges out of office. Either side of the return vote can push
+    // it past them: the honest side spends and builds, the short way tears down.
+    const s = returning(cfg.electionMoodThreshold);
+    const card = getCard(library, s.current!);
+    for (const side of ["left", "right"] as const) {
+      const fx = card[side].fx ?? {};
+      const edge = { ...s, meters: { ...s.meters, money: (fx.money ?? 0) < 0 ? 1 : 50, inst: (fx.inst ?? 0) > 0 ? 99 : 1, order: (fx.order ?? 0) < 0 ? 1 : 50 } };
+      expect(preview(library, edge, card, side).endingId, side).toBeNull();
+      const back = resolve(library, edge, card.id, side);
+      expect([back.over, back.opposition], side).toEqual([null, null]);
+      expect(back.era, side).toBe(2);
+    }
   });
 
   it("can be taken the short way, back in office at a cheat's price", () => {

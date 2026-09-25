@@ -3,6 +3,7 @@ import { DEFAULT_CONFIG } from "../engine/config";
 import { MANDATES_BY_ID, holds } from "../engine/mandates";
 import { WON_BACK_FLAG } from "../engine/opposition";
 import { makeRng } from "../engine/rng";
+import { honestWins } from "../engine/state";
 import { BLOC_KEYS, PLAYER_ALIGNS, type Band, type GameState } from "../engine/types";
 import { FIRST_DAILY, dayIndex, dayKey } from "./daily";
 import { LEGACIES } from "./legacies";
@@ -56,8 +57,11 @@ function legacyText(flag: string): string {
 /** A legacy this reign left, not one it took over from the last of its line (BACKLOG-10 phase 63). */
 const leftBy = (run: GameState, flag: string) => run.flags.includes(flag) && !(run.inherited?.legacies ?? []).includes(flag);
 
-/** A vote to win: a reign with elections abolished cheats none, and should not keep a contract for it. */
-const honestly = (run: GameState) => clean(run) && run.stats.electionsHonest > 0;
+/**
+ * A vote to win: a reign with elections abolished cheats none, and should not keep a contract
+ * for it. Won, not only held (BACKLOG-11 phase 66).
+ */
+const honestly = (run: GameState) => clean(run) && honestWins(run.stats) > 0;
 
 /**
  * The pool, by tier, with the share of runs a player aiming at each keeps it in, measured in

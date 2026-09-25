@@ -2,8 +2,6 @@
  * Engine types. Mirrors TRANSFER.md section 6 with a few documented additions:
  *
  *  - Choice.honest      election cards only: marks the honest side (section 5.4).
- *  - Choice.electionDelay election cards only: cheat options that postpone the vote
- *                       can shorten the interval before the next election.
  *  - Card.weight === 0  the card is never drawn from the random pool; it can only
  *                       arrive via a queue (enqueue), an arc (next) or an election slot.
  *  - GameState.current  the card on the table (drawn, not yet resolved).
@@ -97,8 +95,6 @@ export interface Choice {
   ending?: string;
   /** Election cards only. Exactly one side should be honest. */
   honest?: boolean;
-  /** Election cards only. Overrides the interval until the next election. */
-  electionDelay?: number;
   /** Replace the advisor holding this card's speaker role (5.8). Applied by resolve, not preview. */
   fireSpeaker?: boolean;
   /**
@@ -292,7 +288,14 @@ export interface RunStats {
   honest: number;
   /** Choices with no drift either way. */
   neutral: number;
+  /** Votes left to the count, won or lost. */
   electionsHonest: number;
+  /**
+   * The honest counts of them lost (BACKLOG-11 phase 66): the vote that sent the run out of
+   * office, and the one that ended it. A vote is won honestly only when it is honest and not
+   * lost, which `honestWins` reads.
+   */
+  electionsLost: number;
   electionsCheated: number;
   advisorsFired: number;
   arcsEntered: number;
@@ -311,6 +314,7 @@ export const EMPTY_STATS: RunStats = {
   honest: 0,
   neutral: 0,
   electionsHonest: 0,
+  electionsLost: 0,
   electionsCheated: 0,
   advisorsFired: 0,
   arcsEntered: 0,

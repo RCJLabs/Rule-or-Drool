@@ -110,6 +110,13 @@ describe("keeping a contract", () => {
     expect(wonBack.keeps(reign("riots", { flags: [WON_BACK_FLAG] }), "decay", "")).toBe(false);
   });
 
+  it("asks for a vote won honestly, not one left to the count and lost (BACKLOG-11 phase 66)", () => {
+    const clean = CONTRACT_TEMPLATES.find((t) => t.key === "clean")!;
+    const stats = reign("finale_muddle").stats;
+    expect(clean.keeps(reign("finale_muddle", { stats: { ...stats, electionsHonest: 2, electionsLost: 1 } }), "muddle", "")).toBe(true);
+    expect(clean.keeps(reign("finale_muddle", { stats: { ...stats, electionsHonest: 1, electionsLost: 1 } }), "muddle", "")).toBe(false);
+  });
+
   it("asks for a legacy this reign left, not one it took over from the last of its line", () => {
     const legacy = CONTRACT_TEMPLATES.find((t) => t.key === "legacyHard")!;
     expect(legacy.keeps(reign("finale_muddle", { flags: ["ring_started"] }), "muddle", "ring_started")).toBe(true);

@@ -3,6 +3,7 @@ import { DECK_PATTERN } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { stageOf } from "../engine/look";
 import { brokenFlag } from "../engine/mandates";
+import { LOST_OFFICE_FLAG } from "../engine/opposition";
 import { decodeRunResult, encodeRunResult, type RunResult } from "../meta/challenge";
 import type { GameState, Meters } from "../engine/types";
 import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
@@ -149,6 +150,15 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     const fresh = <T extends GameState>(x: T): T => ({ ...x, inherited: null });
     s = fresh(s);
     if (s.road) s = { ...s, road: { ...s.road, first: fresh(s.road.first) } };
+  }
+  // v15 -> v16: the run counts the honest votes it lost apart from the ones it won (BACKLOG-11
+  // phase 66). A run under way can have lost only the one that sent it out, which its flag
+  // says; any other lost count ended the run. A first road is brought forward the same way,
+  // though nothing reads its votes.
+  if (v < 16) {
+    const counted = <T extends GameState>(x: T): T => ({ ...x, stats: { ...x.stats, electionsLost: x.flags.includes(LOST_OFFICE_FLAG) ? 1 : 0 } });
+    s = counted(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: counted(s.road.first) } };
   }
   return s;
 }

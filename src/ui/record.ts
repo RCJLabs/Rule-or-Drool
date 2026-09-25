@@ -3,6 +3,7 @@ import { withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { POACHED_PREFIX } from "../engine/rival";
+import { honestWins } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { HISTORY_ORDER } from "../meta/histories";
 import { LEGACIES } from "../meta/legacies";
@@ -24,7 +25,7 @@ import { LEGACIES } from "../meta/legacies";
 export interface RunRecord {
   /** One sentence each, in the order they are read. Only the true ones are here. */
   lines: string[];
-  /** What the country is left carrying, as the era jump names it. */
+  /** What the country is left carrying of this reign's doing, as the era jump names it. */
   carried: string[];
 }
 
@@ -32,7 +33,9 @@ const plural = (n: number, one: string, many: string) => (n === 1 ? one : many).
 
 export function runRecord(lib: Library, state: GameState): RunRecord {
   const { votes, room, carrying } = STRINGS.record;
-  const honest = state.stats.electionsHonest;
+  // Won at an honest count; one left to the count and lost is not a win (BACKLOG-11 phase 66).
+  const honest = honestWins(state.stats);
+  const lost = state.stats.electionsLost;
   const cheated = state.stats.electionsCheated;
   const fired = state.stats.firedAdvisors.length;
   // The rival was never yours to keep, so they do not count as someone who stayed.
@@ -44,6 +47,7 @@ export function runRecord(lib: Library, state: GameState): RunRecord {
     lines.push(votes.mixed.replace("{won}", won).replace("{cheated}", plural(cheated, votes.cheatedOne, votes.cheatedMany)));
   } else if (honest > 0) lines.push(votes.clean.replace("{won}", won));
   else if (cheated > 0) lines.push(votes.neverClean);
+  else if (lost > 0) lines.push(plural(lost, votes.lostOne, votes.lostMany));
   else lines.push(votes.none);
   // A run that ended out of office: at the finale, at the return vote, or when its coalition
   // left it there (BACKLOG-10 phase 55).
@@ -58,8 +62,12 @@ export function runRecord(lib: Library, state: GameState): RunRecord {
   const poached = state.flags.filter((f) => f.startsWith(POACHED_PREFIX)).length;
   if (poached > 0) lines.push(withNames(lib, state, plural(poached, room.poachedOne, room.poachedMany)));
 
-  const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
-  lines.push(carried.length === 0 ? carrying.nothing : plural(carried.length, carrying.one, carrying.many));
+  // What this reign did to it: one that took over from the last of its line is not credited with
+  // what it took over, which the end screen names on its own (BACKLOG-11 phase 66).
+  const inherited = state.inherited?.legacies ?? [];
+  const carried = state.flags.filter((f) => LEGACIES[f] && !inherited.includes(f)).map((f) => LEGACIES[f]!);
+  const before = state.flags.some((f) => LEGACIES[f] && inherited.includes(f));
+  lines.push(carried.length > 0 ? plural(carried.length, carrying.one, carrying.many) : before ? carrying.onlyBefore : carrying.nothing);
   return { lines, carried };
 }
 

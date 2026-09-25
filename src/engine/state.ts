@@ -5,7 +5,7 @@ import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX, inCatalogOrder, platformProblem } 
 import { TOOK_OVER_FLAG, handoverCard, inheritanceProblem, leanOf } from "./inherit";
 import { stageOf } from "./look";
 import { POACHED_PREFIX } from "./rival";
-import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
+import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup, RunStats } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
 export function clampMeter(v: number): number {
@@ -68,6 +68,11 @@ export function exitBand(lib: Library, state: GameState): Band {
 
 export function hasFlag(state: GameState, flag: string): boolean {
   return state.flags.includes(flag);
+}
+
+/** Votes the run won at an honest count: left to the count, and not lost (BACKLOG-11 phase 66). */
+export function honestWins(stats: Pick<RunStats, "electionsHonest" | "electionsLost">): number {
+  return stats.electionsHonest - stats.electionsLost;
 }
 
 /**

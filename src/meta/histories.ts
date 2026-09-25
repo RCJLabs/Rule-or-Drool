@@ -1,5 +1,6 @@
 import data from "../content/histories.json";
 import { DEFAULT_CONFIG } from "../engine/config";
+import type { Library } from "../engine/library";
 import type { Band, GameState, PlayerAlign } from "../engine/types";
 import { LEGACIES } from "./legacies";
 
@@ -50,10 +51,41 @@ export const LONG_VIEW = "long";
 /** The ordinary game's eras: a run that lives past them is seen from the long view. */
 const ORDINARY_ERAS = DEFAULT_CONFIG.eraCount;
 
-/** Every history key there is, which is the codex's denominator. */
+/** Every history key there is: every title written, whether or not a run can be given it. */
 export const ALL_HISTORY_KEYS: readonly string[] = Object.keys(HISTORIES).flatMap((sig) =>
   BANDS.flatMap((band) => [...SIDES.map((side) => historyKey(sig, band, side)), historyKey(sig, band, LONG_VIEW)]),
 );
+
+const reachable = new WeakMap<Library, readonly string[]>();
+
+/**
+ * The history keys a run of this deck can be given, which is the codex's denominator
+ * (BACKLOG-11 phase 66). A legacy that only one side's cards set names no run of the other
+ * side's, though its title is written for both: six of them did, and the codex counted 18 names
+ * no run could reach. The long view names no side, so it takes a legacy either side can leave;
+ * one no card sets is the engine's (a promise broken, the office lost or won back) or none at
+ * all, and either side can have it.
+ */
+export function reachableHistoryKeys(lib: Library): readonly string[] {
+  const known = reachable.get(lib);
+  if (known) return known;
+  const sides = new Map<string, Set<PlayerAlign>>();
+  for (const card of lib.content.cards) {
+    const by = card.align === "any" ? SIDES : [card.align];
+    for (const f of [...(card.left.setFlags ?? []), ...(card.right.setFlags ?? [])]) {
+      const set = sides.get(f) ?? new Set<PlayerAlign>();
+      for (const side of by) set.add(side);
+      sides.set(f, set);
+    }
+  }
+  const keys = Object.keys(HISTORIES).flatMap((sig) => {
+    const set = sides.get(sig);
+    const can = set ? SIDES.filter((side) => set.has(side)) : SIDES;
+    return BANDS.flatMap((band) => [...can.map((side) => historyKey(sig, band, side)), historyKey(sig, band, LONG_VIEW)]);
+  });
+  reachable.set(lib, keys);
+  return keys;
+}
 
 export function historyKey(signature: string, band: Band, align: PlayerAlign | typeof LONG_VIEW): string {
   return `${signature}:${band}:${align}`;

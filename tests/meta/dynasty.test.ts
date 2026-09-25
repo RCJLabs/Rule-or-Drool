@@ -116,5 +116,8 @@ describe("a run that took over, remembered", () => {
     expect(foldRun(library, emptyMeta(), redeemed).newObjectives).toContain("obj_line_redeemed");
     const fromAscent = { ...redeemed, inherited: { ...inh, band: "ascent" as const } };
     expect(foldRun(library, emptyMeta(), fromAscent).newObjectives).not.toContain("obj_line_redeemed");
+    // A long reign's Ascent is the line redeemed as well (BACKLOG-11 phase 66).
+    const long = { ...redeemed, eraCount: library.config.longEraCount, era: 5, over: { endingId: `${library.config.longFinalePrefix}ascent`, epilogueKey: "ascent:left:5" } };
+    expect(foldRun(library, emptyMeta(), long).newObjectives).toContain("obj_line_redeemed");
   });
 });

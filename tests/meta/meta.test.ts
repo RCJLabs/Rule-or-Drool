@@ -103,6 +103,17 @@ describe("foldRun", () => {
     expect(fold.newObjectives).not.toContain("obj_saint");
   });
 
+  it("credits a win, not a vote left to the count and lost (BACKLOG-11 phase 66)", () => {
+    // Lost the count that sent it out, and never won one: nothing clean to its name.
+    const out = finished({ endingId: "finale_muddle", epilogueKey: "muddle:left:3" }, { stats: { ...EMPTY_STATS, electionsHonest: 1, electionsLost: 1 } });
+    expect(foldRun(library, emptyMeta(), out).newObjectives).not.toContain("obj_honest_election");
+    // Three honest votes, one of them lost, is two clean votes.
+    const two = finished({ endingId: "finale_muddle", epilogueKey: "muddle:left:3" }, { stats: { ...EMPTY_STATS, electionsHonest: 3, electionsLost: 1 } });
+    const fold = foldRun(library, emptyMeta(), two);
+    expect(fold.newObjectives).toContain("obj_honest_election");
+    expect(fold.newObjectives).not.toContain("obj_three_honest");
+  });
+
   it("earns every unlock from a plausible run of play", () => {
     // BACKLOG item 9: u_truth used to sit behind "discover ten endings", which a player who
     // keeps surviving never reaches, because most endings require losing a specific way.

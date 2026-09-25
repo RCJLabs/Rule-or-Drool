@@ -146,7 +146,6 @@ export const CHOICE_SPEC: Spec = {
     nextByAlign: { kind: "record", keys: PLAYER_ALIGNS, values: ID },
     ending: ID,
     honest: BOOL,
-    electionDelay: POSITIVE_INT,
     fireSpeaker: BOOL,
     poach: BOOL,
   },

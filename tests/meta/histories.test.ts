@@ -14,6 +14,7 @@ import {
   historyOf,
   historyTitle,
   migrateMeta,
+  reachableHistoryKeys,
 } from "../../src/meta";
 
 const finale = (patch: Partial<GameState> = {}, epilogueKey = "muddle:left:3"): GameState => ({
@@ -109,7 +110,28 @@ describe("histories in the codex", () => {
     const again = foldRun(library, first.meta, run);
     expect(again.newHistory).toBe(false);
     expect(again.meta.histories["seawall:muddle:left"]).toBe(2);
-    expect(codexProgress(library, again.meta)).toMatchObject({ historiesSeen: 1, historiesTotal: ALL_HISTORY_KEYS.length });
+    expect(codexProgress(library, again.meta)).toMatchObject({ historiesSeen: 1, historiesTotal: reachableHistoryKeys(library).length });
+  });
+
+  it("counts only the names a run of this deck can be given (BACKLOG-11 phase 66)", () => {
+    const keys = reachableHistoryKeys(library);
+    expect(keys.length).toBeLessThan(ALL_HISTORY_KEYS.length);
+    for (const k of keys) expect(ALL_HISTORY_KEYS).toContain(k);
+    // Each name left out is a side no card of which sets the legacy; the long view names no side.
+    const setBy = (flag: string, side: string) =>
+      library.content.cards.some((c) => (c.align === "any" || c.align === side) && [c.left, c.right].some((ch) => ch.setFlags?.includes(flag)));
+    for (const k of ALL_HISTORY_KEYS.filter((k) => !keys.includes(k))) {
+      const [sig, , side] = k.split(":");
+      expect(side, k).not.toBe("long");
+      expect(setBy(sig!, side!), k).toBe(false);
+    }
+    expect(keys).toContain("purge_begun:decay:left");
+    expect(keys).toContain("purge_begun:decay:long");
+    expect(keys).not.toContain("purge_begun:decay:right");
+    expect(codexProgress(library, emptyMeta()).historiesTotal).toBe(keys.length);
+    // A name a profile already has counts in the whole, so it is never more than the whole.
+    const odd = { ...emptyMeta(), histories: { "purge_begun:decay:right": 1 } };
+    expect(codexProgress(library, odd)).toMatchObject({ historiesSeen: 1, historiesTotal: keys.length + 1 });
   });
 
   it("brings a v4 profile forward with an empty collection and its old runs unnamed", () => {

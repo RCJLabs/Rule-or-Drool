@@ -495,7 +495,7 @@
     "rivalStands": true,
     "text": "{rival} leads in every poll. The general says a state of emergency would put the vote off, and knows how to start one.",
     "left": { "label": "Vote on the day", "honest": true, "fx": { "money": -5, "order": -2, "inst": 4, "public": 2 }, "drift": 1 },
-    "right": { "label": "Start the emergency", "fx": { "order": 3, "base": 2, "public": -3, "inst": -3 }, "drift": -20, "setFlags": ["cheated_election"], "electionDelay": 15 }
+    "right": { "label": "Start the emergency", "fx": { "order": 3, "base": 2, "public": -3, "inst": -3 }, "drift": -20, "setFlags": ["cheated_election"] }
   },
   {
     "id": "el_rival_abolish",

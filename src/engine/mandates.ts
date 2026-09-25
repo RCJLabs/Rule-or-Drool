@@ -1,5 +1,6 @@
 import type { FxSpec, GameState, MeterKey } from "./types";
 import { BLOC_KEYS } from "./types";
+import { EASY_CAMPAIGN_FLAG } from "./campaign";
 import { RIVAL_POACHED_FLAG } from "./rival";
 
 /**
@@ -151,8 +152,10 @@ export const MANDATES: readonly Mandate[] = [
     promise: "You said you would beat the other side on the record, and never on a rumour.",
     cost: "Smear, scare or buy your way through a single campaign, and the promise is gone.",
     brokeCard: "mn_fair_broke",
-    neverFlags: ["dirty_politics"],
-    isBroken: never("dirty_politics"),
+    // A campaign's easy side breaks it as the cost says, not only the cards that make a habit of
+    // the cheap win: until BACKLOG-11 phase 66 it was kept through every easy campaign.
+    neverFlags: ["dirty_politics", EASY_CAMPAIGN_FLAG],
+    isBroken: never("dirty_politics", EASY_CAMPAIGN_FLAG),
   },
   {
     id: "m_barracks",

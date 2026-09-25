@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { draw } from "../../src/engine/draw";
 import { preview } from "../../src/engine/preview";
-import { advanceEra, applyChoice, checkElection, checkOuster, coupRisk, resolve, traitScale } from "../../src/engine/resolve";
+import { advanceEra, applyChoice, checkElection, checkOuster, coupRisk, resolve, rivalPressure, traitScale } from "../../src/engine/resolve";
 import { getCard } from "../../src/engine/library";
 import { moodOf } from "../../src/engine/state";
 import { BLOC_KEYS, type Band } from "../../src/engine/types";
@@ -228,16 +228,16 @@ describe("resolve: elections", () => {
     expect(r.nextElectionAt).toBe(55);
   });
 
-  it("honours electionDelay overrides", () => {
-    const l = lib({ electionInterval: 25 });
-    const s = start(l, { cardCount: 30, nextElectionAt: 30, flags: ["want_delay"] });
-    expect(resolve(l, table(s, "el_delay"), "el_delay", "right").nextElectionAt).toBe(35);
-  });
-
   it("replaces elections with a coup-risk check once abolished", () => {
     const risky = lib({ coupBase: 1, electionInterval: 25 });
     const s = start(risky, { cardCount: 10, nextElectionAt: 10, flags: ["elections_abolished"] });
     expect(checkElection(risky, s).over?.endingId).toBe("coup");
+
+    // A rival at the top rung makes it likelier, and it is still a coup: no count is held to lose
+    // to them (BACKLOG-11 phase 66).
+    const strong = start(risky, { cardCount: 10, nextElectionAt: 10, flags: ["elections_abolished"], rivalStanding: 95 });
+    expect(rivalPressure(risky, strong)).toBeGreaterThanOrEqual(risky.config.rivalWinsAt);
+    expect(checkElection(risky, strong).over?.endingId).toBe("coup");
 
     const safe = lib({ coupBase: 0, coupPerPoint: 0, electionInterval: 25 });
     const survived = checkElection(safe, start(safe, { cardCount: 10, nextElectionAt: 10, flags: ["elections_abolished"] }));
@@ -375,6 +375,9 @@ describe("resolve: losing to the rival", () => {
     const clean = resolve(l, table(s, "el_basic"), "el_basic", "left");
     expect(cheated.rivalStanding).toBe(40 + l.config.rivalCheatGain);
     expect(clean.rivalStanding).toBe(40 - l.config.rivalHonestLoss);
+    // A clean count they win costs them nothing (BACKLOG-11 phase 66).
+    const losing = start(l, { rivalStanding: 40, meters: meters({ mood: 10 }), cardCount: 5 });
+    expect(resolve(l, table(losing, "el_basic"), "el_basic", "left").rivalStanding).toBe(40);
   });
 });
 

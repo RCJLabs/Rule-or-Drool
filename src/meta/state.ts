@@ -3,7 +3,7 @@ import { questionOf, type Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
-import { ALL_HISTORY_KEYS, historyOf, type History } from "./histories";
+import { historyOf, reachableHistoryKeys, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
 import { OBJECTIVES, collectsEnding } from "./objectives";
@@ -209,7 +209,9 @@ export function codexProgress(lib: Library, meta: MetaState): CodexProgress {
     legaciesSeen: Object.keys(meta.legacies).length,
     legaciesTotal: Object.keys(LEGACIES).length,
     historiesSeen: Object.keys(meta.histories ?? {}).length,
-    historiesTotal: ALL_HISTORY_KEYS.length,
+    // What a run of this deck can be called, and anything a profile was already called, so a
+    // name reached under an older deck is never more than the whole (BACKLOG-11 phase 66).
+    historiesTotal: new Set([...reachableHistoryKeys(lib), ...Object.keys(meta.histories ?? {})]).size,
     objectivesDone: Object.keys(meta.objectives).length,
     objectivesTotal: OBJECTIVES.length,
   };

@@ -14,7 +14,8 @@ that follow from it.
 **Full description** (2,613 / 4,000 characters). Every number in it was checked
 against the content when written: 1,816 cards, 44 stories and 16 questions, 30 advisors, 77
 endings a run can collect (80 with the three that close a first term, which the codex leaves
-out), 675 history names (re-checked in v0.73.1). Re-check them if the content changes.
+out), 657 history names a run can be given, of 675 written (re-checked in v0.74.0: six legacies
+are left by one side's cards only). Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -29,7 +30,7 @@ HOW IT PLAYS
 • Elections you can win honestly, or not, and a record of which. A rival grows on every vote you steal, and once they are somebody they come for your cabinet, and then for the office by name.
 
 EVERY RUN IS ITS OWN
-• 77 ways for a rule to end, many of them yours to choose, and 675 names history can give it, from what you did and where it took the country.
+• 77 ways for a rule to end, many of them yours to choose, and 657 names history can give it, from what you did and where it took the country.
 • The country stands under the card as you build it: the seawall going up, the warships leaving. At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Promises you make at the start, one or two of nine, each at a price, and each kept or broken on its own.
@@ -325,6 +326,11 @@ bots (BACKLOG-5 phase 31):
   someone gone over to them, votes against them by name, and their wins. The top rung has five
   such votes a side now, as ordinary votes have, so the deck moved: records from v0.73.0 and
   before are kept apart.
+- Since v0.74.0 ten things the round-eleven audit found wrong are fixed (BACKLOG-11 phase 66).
+  Winning the office back no longer ends a run on that card; the rival no longer loses standing
+  by beating you; a coup after the vote is abolished is a coup, not the rival's win; a clean
+  fight breaks on a campaign won the easy way. The deck moved, so records from v0.73.1 and before
+  are kept apart. The record counts a vote left to the count and lost as lost, not won.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

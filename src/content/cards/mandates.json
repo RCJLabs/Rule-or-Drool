@@ -782,7 +782,7 @@
       "ascent"
     ],
     "speaker": "organizer",
-    "text": "The rumour did its work, and the country has worked out who started it. Your volunteers are being asked about it on doorsteps.",
+    "text": "The cheap win worked, and the country has worked out how it was won. Your volunteers are being asked about it on doorsteps.",
     "weight": 0,
     "left": {
       "label": "Apologise for it",
@@ -794,7 +794,7 @@
       "drift": 5
     },
     "right": {
-      "label": "Say it was true",
+      "label": "Say it was fair",
       "fx": {
         "base": 4,
         "public": -4,

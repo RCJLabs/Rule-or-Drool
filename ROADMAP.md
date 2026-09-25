@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.73.1)
+## Where the project stands now (v0.74.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -29,15 +29,15 @@ its own file: every item measured before it was built, and written up with what 
 | 8 | `BACKLOG-8.md` | 49–51 |
 | 9 | `BACKLOG-9.md` | 52–54 |
 | 10 | `BACKLOG-10.md` | 55–65 |
-| 11 | `BACKLOG-11.md` | ten ideas for what is already there, none chosen yet |
+| 11 | `BACKLOG-11.md` | 66, and nine ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
 
 | | |
 |---|---|
-| Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names; three eras, and five in a long reign |
-| Tests | 835 unit tests and 56 browser tests |
+| Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names written, 657 of which a run can be given; three eras, and five in a long reign |
+| Tests | 850 unit tests and 56 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -51,8 +51,9 @@ decisions only the owner can make.
    graphics (made from v0.73.1), the Data safety answers and the content-rating notes are in
    `twa/STORE.md`.
 3. **Round eleven** (BACKLOG-11.md): ten ways to improve how the systems, the endings and the
-   codex work, with no card added or changed. Among them, bugs the audit found: a lost honest
-   vote is counted as a win, and winning the office back can end the run on that card.
+   codex work, without adding cards. Phase 66 (v0.74.0) fixed the ten bugs the audit found,
+   among them a lost honest vote counted as a win and a run ended by winning the office back.
+   Nine ideas are left to choose from.
 
 The list this file ended on after phase 7, and what became of it:
 
@@ -136,7 +137,8 @@ Change any of these by editing `src/engine/config.ts` or the types; tests cover 
 - **Election honesty marker.** `Choice.honest: true` marks the honest side of an election card.
   The engine applies `election_loss` (or the choice's own `ending`) only when Mood is below the
   threshold; otherwise the honest choice's fx apply as a win. Cheat sides are plain data (drift,
-  flags). `Choice.electionDelay` lets a cheat shorten the next interval (postponement).
+  flags). `Choice.electionDelay` lets a cheat shorten the next interval (postponement). (Removed
+  in BACKLOG-11 phase 66: the era's end reset the clock first, so it never took effect.)
 - **Abolished elections** become a coup roll in `checkElection`: risk = 0.05 + 0.01 × (Order
   shortfall below 50 + Institutions shortfall below 50). No card is shown for it yet.
 - **Finale.** The last era (3 in MVP) ends the run with `finale_<band>`; those are endings.
@@ -206,7 +208,7 @@ Errors fail the run. Warnings pass unless `--strict`.
 | `cell-thin` | error | Fewer than `--min-cell` eligible event cards for an era × band × align (default 16, cooldown + 1). |
 | `election-missing` | error | No unconditional election card for an era × band × align, which would let a due election be skipped. |
 | `epilogue-missing` | error | No epilogue resolves for a band × align × era. |
-| `election-honest`, `honest-misplaced` | error | Election cards mark exactly one honest side; `honest`/`electionDelay` only on election cards. |
+| `election-honest`, `honest-misplaced` | error | Election cards mark exactly one honest side; `honest` only on election cards (and `electionDelay`, until BACKLOG-11 phase 66 removed it). |
 | `speaker-unknown` | error | Speaker role with no advisor. |
 | `cond-unsatisfiable` | error | A flag both required and forbidden; meter bounds outside 0..100 or leaving no integer. |
 | `no-tradeoff` | warn | Both choices move every meter and drift in the same direction (section 8). |

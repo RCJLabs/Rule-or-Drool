@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
+import { library } from "../../src/content";
+import { STRINGS } from "../../src/content/strings";
 import { LANDMARKS_SHOWN, composeWorld } from "../../src/ui/world";
 import { WorldAfter } from "../../src/ui/WorldAfter";
 
@@ -13,6 +15,21 @@ const base = { band: "muddle" as const, drift: 0, align: "left" as const, flags:
  * in a rendered gallery; what belongs here is that the picture is decided by what the run
  * did, and that it cannot put two things in one place.
  */
+describe("the world after, in time", () => {
+  it("is told from the time the epilogue under it is told from (BACKLOG-11 phase 66)", () => {
+    // A long reign's epilogues are told from their own era, as its name is; a long finale said
+    // five centuries on over a picture captioned a thousand years later.
+    for (const era of [4, 5]) {
+      const when = STRINGS.world.when[era - 1]!;
+      expect(when).toBe(STRINGS.eras[era - 1]!.name);
+      const told = library.epilogues.filter((e) => e.era === era);
+      expect(told.length).toBeGreaterThan(0);
+      for (const e of told) expect(e.text.startsWith(`${when},`), e.text).toBe(true);
+    }
+    for (const band of ["decay", "muddle", "ascent"]) expect(library.endings.get(`finale_long_${band}`)!.text.startsWith(`${STRINGS.world.when[4]},`)).toBe(true);
+  });
+});
+
 describe("the world after", () => {
   it("puts a landmark in the world for a decision the run made", () => {
     const w = composeWorld({ ...base, flags: ["seawall", "orbit_reached"] });
