@@ -1284,11 +1284,13 @@ where it fits least.
   people read into the new drawings, is for the closed test. The drawings were judged by eye.
 - **The store screenshots are stale.** They are taken at 360×640, where the play screen has no
   strip, but the era's change (`04`) draws the country now. `npm run build && npm run
-  store:assets` makes new ones. The listing's description mentions the strip.
+  store:assets` makes new ones. The listing's description mentions the strip. (They were made
+  again from v0.73.0, after phase 65.)
 - **The listing's numbers had gone stale,** its counts since phase 48 and its length since phase 43.
   They are 1,770 cards, 80 endings, 675 history names and 2,486 characters now. The content-rating
   notes still say 1,577 cards were searched for the questionnaire's themes, and the 193 written
-  since have not been; that search is yours before the questionnaire.
+  since have not been; that search is yours before the questionnaire. (It was done after phase
+  65, over every line written since v0.59.0; STORE.md has the notes.)
 
 **What was built.**
 - `world.ts`:
@@ -1426,6 +1428,8 @@ Every harness target passes.
 - **The content-rating search is further behind.** 233 cards have been written since the 1,577
   that were searched. Among the new ones: a press secretary who has found a minority to blame
   (as `e_scapegoat` already had), and a rival's claim that foreign money pays for your reforms.
+  (Searched after this phase: nothing the questionnaire asks about beyond these; STORE.md has
+  the notes.)
 
 **What was built.**
 - Engine:

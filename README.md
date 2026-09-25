@@ -4,7 +4,8 @@ A Reigns-style card swiper where the easy choice now is the ruinous choice later
 fictional country; every card is a two-way decision that moves four survival meters and a
 hidden trajectory. Over a run the country drifts toward Decay or Ascent.
 
-The design spec is `TRANSFER.md`. Progress and decisions live in `ROADMAP.md`. Read both
+The design spec is `TRANSFER.md`. Progress and decisions live in `ROADMAP.md`, which says
+where the project stands and indexes the rounds of work since in `BACKLOG*.md`. Read both
 before changing anything.
 
 ## Status

@@ -12,8 +12,9 @@ that follow from it.
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
 **Full description** (2,613 / 4,000 characters). Every number in it was checked
-against the content when written: 1,810 cards, 44 stories and 16 questions, 30 advisors, 80
-endings, 675 history names (re-checked in v0.73.0). Re-check them if the content changes.
+against the content when written: 1,810 cards, 44 stories and 16 questions, 30 advisors, 77
+endings a run can collect (80 with the three that close a first term, which the codex leaves
+out), 675 history names (re-checked in v0.73.0). Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -28,7 +29,7 @@ HOW IT PLAYS
 • Elections you can win honestly, or not, and a record of which. A rival grows on every vote you steal, and once they are somebody they come for your cabinet, and then for the office by name.
 
 EVERY RUN IS ITS OWN
-• 80 ways for a rule to end, many of them yours to choose, and 675 names history can give it, from what you did and where it took the country.
+• 77 ways for a rule to end, many of them yours to choose, and 675 names history can give it, from what you did and where it took the country.
 • The country stands under the card as you build it: the seawall going up, the warships leaving. At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Promises you make at the start, one or two of nine, each at a price, and each kept or broken on its own.
@@ -50,7 +51,8 @@ game, strategy, choices matter.
 ## Graphics
 
 `npm run build && npm run store:assets` makes all of these from the built game into
-`twa/store/`, in about ten seconds. Run it again whenever the screens change.
+`twa/store/`, in about ten seconds. Run it again whenever the screens change. The ones here
+were made from v0.73.0.
 
 | File | Size | What it shows |
 |---|---|---|
@@ -59,11 +61,11 @@ game, strategy, choices matter.
 | `01-card.jpg` | 1080×1920, JPEG | A card, in the neutral look |
 | `02-decay.jpg` | 1080×1920 | The same card in deep Decay: the screen has become a livestream |
 | `03-ascent.jpg` | 1080×1920 | The Ledger in deep Ascent |
-| `04-twenty-years-on.jpg` | 1080×1920 | An era boundary: what the country was left with, and what is still owed |
+| `04-twenty-years-on.jpg` | 1080×1920 | An era boundary: the country the reign hands on, what it was left with, and what is still owed |
 | `05-end-ascent.jpg` | 1080×1920 | The end of a run that went up: the world left behind, and its name |
 | `06-end-decay.jpg` | 1080×1920 | The end of a run that went down |
 | `07-codex.jpg` | 1080×1920 | The codex of a profile thirty runs in |
-| `08-menu.jpg` | 1080×1920 | The start of a run: a side, a setup, a promise |
+| `08-menu.jpg` | 1080×1920 | The start of a run: a side, a setup, and a fresh start or the last run's country |
 
 The screenshots are a 360×640 phone at three device pixels per CSS pixel, in Roboto, the
 font Android draws the game in. It is the copy the browser audits measure in
@@ -125,8 +127,10 @@ a run ends (`navigator.storage.persist()`), which sends nothing anywhere.
 
 ## Content rating questionnaire (IARC)
 
-These are notes to answer from, not answers. The 1,577 cards were searched for each theme the
-questionnaire asks about:
+These are notes to answer from, not answers. Everything the game can show was searched for each
+theme the questionnaire asks about: the 1,577 cards of v0.59.0 first, then, in v0.73.0, the 967
+lines written or reworded since. Those are 233 new cards, and the endings, histories, codex clues,
+promises and screen text added with them.
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people
   died"), and there are riots, a coup, purges and a general "unleashed". Later cards add water
@@ -147,9 +151,13 @@ questionnaire asks about:
   die, an earthquake that flattens three schools, a foreign agent in the leader's office, a
   flood the valley is moved out of, and an army paid in bread that takes the bakeries, told
   the same way. The pictures are flat silhouettes (tanks, a searchlight), with no blood and no
-  injury.
-- **Language:** no profanity found.
-- **Sexual content:** none found.
+  injury. What was written since v0.59.0 adds almost none: police at a rally the organisers
+  expect to be "lively", a promise to jail a rival's ministers, soldiers sent into the streets
+  who do not all come back, floods, and a plague stockpile that expires unopened. The pictures
+  of v0.72.0 add police vans under a searchlight, and a fence with a bus of the deported, as
+  silhouettes.
+- **Language:** no profanity found, including in the lines written since v0.59.0.
+- **Sexual content:** none found, including in the lines written since v0.59.0.
 - **Drugs, alcohol, tobacco:** medicine, several times: drug pricing, a drug made in orbit,
   a drug that adds ten years, antibiotics that stop working, a flu vaccine in short supply,
   and a treatment that keeps one official alive for centuries. One tobacco mention: cigarettes
@@ -163,19 +171,31 @@ questionnaire asks about:
   playgrounds. No drug is named and no one is shown or described taking one. The cards that
   follow each answer later in a run (v0.54.0) add more of the same kind: the drug squads
   turned into a dynasty that sells what it seized, and legal drug firms sponsoring the
-  schools. The questionnaire asks about references to illegal drugs; answer it from this.
+  schools. The questionnaire asks about references to illegal drugs; answer it from this. Since
+  v0.59.0 the only addition is a codex clue for the legalising road: "Dealers given licences,
+  and then the ports."
 - **Gambling:** a national lottery appears as policy satire (its surplus, an evening draw,
   its results read out on a loyalty broadcast), and a casino asks for a licence. Since v0.56.0
   a party lottery's treasurer keeps winning it, and bookmakers go untaxed on a state race day.
   Since v0.59.0 a story has the national lottery rigged, its jackpot drawn before the tickets
-  went on sale. There is no simulated gambling and nothing to buy.
+  went on sale. A card of v0.62.0 proposes choosing people by lottery, a draw with no stakes.
+  There is no simulated gambling and nothing to buy.
 - **User interaction:** none. The chat in the Decay look is scripted decoration.
 - **Religion** is not a questionnaire theme, but in case a reviewer asks: a church appears
   as a landowner, a lobby and a school provider (tax exemptions, congregations turned out for
   a manifesto, a blasphemy law a town wants enforced, commandments for courtrooms). The long
   reign adds a religion that worships the power grid, a party turned church, and a cult of the
-  room where votes were once counted. The jokes are at institutions and the politicians
-  courting them, not at belief.
+  room where votes were once counted. Since v0.65.0 bishops offer to preach for a party in
+  return for the office that licenses bishops, and to mention a candidate from the pulpit for a
+  word about the charity tax rules; since v0.73.0 a rival learns the responses in the front pew.
+  The jokes are at institutions and the politicians courting them, not at belief.
+- **Discrimination,** in case the questionnaire asks (PEGI, one of the systems it rates for, has
+  a descriptor for it). It appears as something a government is tempted to do, never as the
+  game's view. Since v0.1.0 a spin chief at an election has found a minority to blame for the
+  numbers; since v0.73.0 the rival's own vote offers the same, and the rival claims a foreign
+  power pays for your reforms. A card of v0.62.0 has a campaign against a "foreign dance" fill
+  the news while a bill passes unread, and the deportation question is under Violence above.
+  No group is named, real or invented.
 - **Politics:** throughout, and all fictional. The country, the parties (the Commons and the
   Ledger) and every person are invented. Since v0.52.0 some cards name real policies plainly:
   going to war for an ally, deporting everyone without papers, the top tax rate, universal
@@ -184,8 +204,10 @@ questionnaire asks about:
   misinformation, adding seats to the highest court, and bailing out banks. Since v0.54.0
   each answer comes back in the eras after it, whichever party gave it. Each is asked of
   both parties, and the game does not score the answer, only
-  how it is carried out. No real country, party, person, faith or slogan appears; a test
-  (`tests/guardrails.test.ts`) searches everything the game can show for them.
+  how it is carried out. Since v0.65.0 a run can lose the office and lead the opposition, and
+  since v0.73.0 a rival can stand against it by name; the rival is as invented as the rest. No
+  real country, party, person, faith or slogan appears; a test (`tests/guardrails.test.ts`)
+  searches everything the game can show for them.
 
 ## Yours to decide
 

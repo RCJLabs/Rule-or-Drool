@@ -12,6 +12,55 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
+## Where the project stands now (v0.73.0)
+
+The seven phases above built the game. Since then the work has been planned in rounds, each in
+its own file: every item measured before it was built, and written up with what it did after.
+
+| Round | File | Phases |
+|---|---|---|
+| 1 | `BACKLOG.md` | ten numbered items |
+| 2 | `BACKLOG-2.md` | 8–17 |
+| 3 | `BACKLOG-3.md` | 18–27 |
+| 4 | `BACKLOG-4.md` | 28–29 |
+| 5 | `BACKLOG-5.md` | 30–39 |
+| 6 | `BACKLOG-6.md` | 40–44 |
+| 7 | `BACKLOG-7.md` | 45–48 |
+| 8 | `BACKLOG-8.md` | 49–51 |
+| 9 | `BACKLOG-9.md` | 52–54 |
+| 10 | `BACKLOG-10.md` | 55–65 |
+
+Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
+decisions only the owner can make.
+
+| | |
+|---|---|
+| Content | 1,810 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names; three eras, and five in a long reign |
+| Tests | 833 unit tests and 56 browser tests |
+| Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
+| Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
+
+### What is left
+
+1. **A human playtest.** Still never done: every balance number in every round is from bots.
+   The recorder and its report beside the bots (BACKLOG-5 phase 31, taken further in BACKLOG-7
+   phase 46) are ready for it; the closed test is the way to get the runs.
+2. **Getting onto Play** (BACKLOG-2 phase 17): where `assetlinks.json` lives, the policy check,
+   whether the account needs a closed test first, then a signed build. The listing, the
+   graphics (made from v0.73.0), the Data safety answers and the content-rating notes are in
+   `twa/STORE.md`.
+
+The list this file ended on after phase 7, and what became of it:
+
+1. The human playtest: still open, above.
+2. The voice edit pass: BACKLOG-7 phase 47, and `npm run voice` since.
+3. The saint problem: BACKLOG-5 considered it and proposed no change. The saint bot takes the
+   more honest side whatever it costs, so it dies by design; the mixed bot plays the same line
+   but steps in when a meter nears its edge, and finishes 97% of runs.
+4. Play packaging: still open, above.
+5. Post-MVP scope: eras 4 and 5 are the long reign (BACKLOG-5 phase 39), and the content is past
+   a thousand cards, forty arcs and fifty endings.
+
 ## Phase 1: what shipped
 
 - `src/engine/`: types (section 6), mulberry32 RNG stored in state, `newRun`, `draw` with the
@@ -657,7 +706,10 @@ API level. **Do that before building the package, not after.** The one thing alr
 game's favour is structural: section 3's rule that everything is fictional was followed
 throughout, so there are no real parties, people or countries anywhere in the content.
 
-## Where the project stands
+## Where the project stood after phase 7
+
+This is the state at phase 7, kept as it was written. The current state is at the top of this
+file.
 
 All seven phases are built. The game is playable at
 https://rcjlabs.github.io/Rule-or-Drool/, installs to a home screen, and runs offline.
