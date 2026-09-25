@@ -130,6 +130,7 @@ import edgeCards from "./cards/edges.json";
 import billCards from "./cards/bills.json";
 import habitCards from "./cards/habits.json";
 import mandateCards from "./cards/mandates.json";
+import appointmentCards from "./cards/appointments.json";
 import oppositionAny from "./cards/opposition/any.json";
 import oppositionLeft from "./cards/opposition/left.json";
 import oppositionRight from "./cards/opposition/right.json";
@@ -308,6 +309,7 @@ export const content: Content = {
     ...asCards(billCards, "bills.json"),
     ...asCards(habitCards, "habits.json"),
     ...asCards(mandateCards, "mandates.json"),
+    ...asCards(appointmentCards, "appointments.json"),
   ],
   arcs: arcs as unknown as Arc[],
   advisors: advisors as Advisor[],

@@ -1,6 +1,6 @@
 import type { Library } from "./library";
-import { exitBand } from "./state";
-import type { Band, Epilogue, GameState, PlayerAlign } from "./types";
+import { candidatesFor, exitBand } from "./state";
+import type { Advisor, Band, Epilogue, GameState, PlayerAlign } from "./types";
 import { BLOC_KEYS, METER_KEYS, PLAYER_ALIGNS } from "./types";
 
 export function epilogueKey(e: Pick<Epilogue, "band" | "align" | "era">): string {
@@ -50,6 +50,16 @@ export function withNames(lib: Library, state: GameState, text: string, speaker?
   if (out.includes("{advisor}")) {
     const name = speaker ? lib.advisorsById.get(state.cabinet[speaker] ?? "")?.name : undefined;
     out = out.replaceAll("{advisor}", name ?? "your adviser");
+  }
+  // The two people a seat can go to at an era's start, and what each is (BACKLOG-10 phase 61).
+  if (speaker && /\{(first|second)(Traits)?\}/.test(out)) {
+    const pair = candidatesFor(lib, state, speaker);
+    const traits = (a: Advisor | undefined) => (a?.traits.length ? a.traits.join(" and ") : "unremarkable");
+    out = out
+      .replaceAll("{firstTraits}", traits(pair?.[0]))
+      .replaceAll("{secondTraits}", traits(pair?.[1]))
+      .replaceAll("{first}", pair?.[0].name ?? "one candidate")
+      .replaceAll("{second}", pair?.[1].name ?? "another");
   }
   return out;
 }

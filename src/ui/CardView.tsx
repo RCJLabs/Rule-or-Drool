@@ -7,6 +7,8 @@ import { Portrait } from "./Portrait";
 interface Props {
   card: Card;
   text: string;
+  /** Each side's label with its names filled in, as the buttons show it: an appointment names who it appoints (BACKLOG-10 phase 61). */
+  labels?: { left: string; right: string };
   /**
    * The text as a screen reader should hear it, when the look is mangling what is on
    * screen: "Teh pension fund" is a joke for the eye and a stumble read aloud
@@ -55,7 +57,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
+export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const nameId = `speaker${useId().replace(/\W/g, "")}`;
   useEffect(() => {
@@ -127,10 +129,10 @@ export function CardView({ card, text, spokenText, speakerName, roleLabel, trait
       )}
       <div className="card-labels" aria-hidden={side === null}>
         <span className="card-label" style={{ opacity: side === "left" ? reveal : 0 }}>
-          {card.left.label}
+          {labels?.left ?? card.left.label}
         </span>
         <span className="card-label" style={{ opacity: side === "right" ? reveal : 0 }}>
-          {card.right.label}
+          {labels?.right ?? card.right.label}
         </span>
       </div>
       <div className="speaker">

@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10, 6, 5 and 7, which you chose: phases 55 to 60, done in v0.65.0 to v0.68.0,
-at the end of this file.
+except ideas 1, 2, 10, 6, 5, 7 and the first half of 8, which you chose: phases 55 to 61, done in
+v0.65.0 to v0.69.0, at the end of this file.
 
 Each idea says:
 - what it is;
@@ -863,3 +863,72 @@ Left out:
    already carry the unlocks.
 2. **Whose rate sets the tier.** The default is the best way of playing it. Using the informed
    voter's rate instead would move the Ascent contracts to fair.
+
+## Phase 61. Choose your cabinet (idea 8, first half) — *done*
+
+**Shipped in v0.69.0.** This is the cabinet half of idea 8; the platform half is phase 62. The deck
+moved to `4je4vymh`, and the deal to `hxp7kaz5`, because a new card opens each era after the
+first.
+
+**Measured first: how much an advisor moves a run.** Each cabinet seat was forced to each of its
+three people in turn, on the same 400 seeds, for three bots:
+
+| | Informed | Eyes | Mixed |
+|---|---|---|---|
+| One seat: how far the finale moves | 0.2–2.5 pts | 0.5–2.7 pts | 0.5–2.0 pts |
+| One seat: how far the Ascent moves | 2.7–10.7 pts | 3.2–14.8 pts | 2.5–5.3 pts |
+| Every seat stacked "best", then "worst": Ascent | 2.5%, 7.2% (dealt: 25.5%) | 16.8%, 46.5% (60.5%) | 0%, 3.5% (11.3%) |
+
+- **One seat barely moves survival.** It moves the Ascent more, but not the way the traits'
+  names suggest. A competent chief or judge gives less Ascent than a corrupt one. The corrupt
+  bring the cards about their corruption, whose honest side is a chance to refuse them.
+- **A whole cabinet chosen at once would be a different game.** Stacked either way, it sinks the
+  Ascent. So the choice is one seat an era, never the whole table.
+
+**How it works.**
+- The first card of each era after the first is an appointment. That is era 2 and era 3 of a
+  reign, and eras 2 to 5 of a long reign. A first term has none.
+- The seat is dealt by the run's own dice, from those held since the first day, so a reign never
+  fills the same seat twice.
+- Its holder is leaving and names the two other people the seat's pool holds, with what each is.
+  Every seat has three people, so there are always exactly two.
+- Each side appoints one of them. Nothing else moves: no meters, no drift. The choice is who sits
+  at the table from here, and their traits scale every card they bring.
+- Out of office there is no appointment.
+- An appointment is not a firing, so it keeps the promise of keeping the cabinet.
+- A lesson says what an appointment is the first time one comes.
+- The bots appoint by the trait blurbs, the careful ones the better reading and the greedy one
+  the worse. The random bot picks at random.
+
+**Balance** (10,000 runs a bot): every target passes, and nothing moved far.
+
+| | Before | After |
+|---|---|---|
+| Informed voter: Ascent, finale | 27.5%, 97.6% | 27.3%, 97.5% |
+| Mixed: Ascent | 15.2% | 14.8% |
+| Eyes bot: Ascent, finale | 69.5%, 92.0% | 67.4%, 92.4% |
+| Long reign, mixed: era 5, long finale | 96.7%, 94.0% | 96.4%, 93.5% |
+
+- The cabinet advisors now serve in 32–52% of runs, where it was 32–42%. Two more people come
+  in each reign, and the ones a careful player picks sit at the top. The test that holds every
+  advisor between 20% and 45% now allows 55%.
+
+**What was built.**
+- Engine:
+  - a card field, `appoints`, and the library's appointment cards;
+  - `candidatesFor` and `appoint`;
+  - the deal's `appointmentDue`;
+  - the choice seating its person with the cabinet's flags brought up to date.
+- Names: `withNames` fills `{first}`, `{second}` and their traits. The labels on the card and the
+  buttons now go through it too.
+- Content: eight appointment cards, one a seat, each in the voice of the person leaving.
+- The validator: one card a seat, spoken by its holder, naming both, moving nothing, and a label
+  that fits with the seat's longest name. They are exempt from the trade-off rule.
+- The fit audit places the appointment with its longest names.
+- Tests: 5 engine, 2 on screen, and the fit and deck tests.
+
+**Decisions for you.**
+1. **One seat an era, or more.** The default is one. Two an era would come near the stacked
+   cabinet the measurements warn about.
+2. **Whether keeping the cabinet should forbid appointments.** The default is no: a generation
+   passing is not letting someone go.

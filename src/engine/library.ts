@@ -26,6 +26,8 @@ export interface Library {
   returnVotes: readonly Card[];
   /** The campaign deck: events dealt only in the cards before a vote in office (BACKLOG-10 phase 56). */
   campaignCards: readonly Card[];
+  /** Each cabinet seat's appointment card, dealt only at an era's start (BACKLOG-10 phase 61). */
+  appointmentCards: ReadonlyMap<string, Card>;
   epilogues: readonly Epilogue[];
   /** Every era number that at least one event card lists, ascending. */
   eras: readonly number[];
@@ -71,8 +73,14 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
   const oppositionCards: Card[] = [];
   const returnVotes: Card[] = [];
   const campaignCards: Card[] = [];
+  const appointmentCards = new Map<string, Card>();
   const eraSet = new Set<number>();
   for (const c of content.cards) {
+    // A seat's appointment, dealt only as an era's first card (BACKLOG-10 phase 61).
+    if (c.appoints) {
+      appointmentCards.set(c.appoints, c);
+      continue;
+    }
     // The opposition's own deck and its return votes, dealt only while the run is out of
     // office and never from the ordinary pools (BACKLOG-10 phase 55).
     if (c.opposition) {
@@ -119,6 +127,7 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
     oppositionCards,
     returnVotes,
     campaignCards,
+    appointmentCards,
     epilogues: content.epilogues,
     eras: [...eraSet].sort((a, b) => a - b),
   };

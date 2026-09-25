@@ -182,6 +182,25 @@ export function advisorPool(lib: Library, role: string, align: PlayerAlign): Adv
 }
 
 /**
+ * The two people a seat can be given at an era's start (BACKLOG-10 phase 61): its pool on this
+ * side, without whoever holds it, in id order. Null for a seat with fewer than two to offer.
+ */
+export function candidatesFor(lib: Library, state: Pick<GameState, "align" | "cabinet">, role: string): [Advisor, Advisor] | null {
+  const others = advisorPool(lib, role, state.align)
+    .filter((a) => a.id !== state.cabinet[role])
+    .sort((a, b) => a.id.localeCompare(b.id));
+  return others.length >= 2 ? [others[0]!, others[1]!] : null;
+}
+
+/** A seat given to someone new, with the flags that say who is in the room brought up to date. */
+export function appoint(lib: Library, state: GameState, role: string, advisorId: string): GameState {
+  const cabinet = { ...state.cabinet, [role]: advisorId };
+  const prefix = lib.config.advisorFlagPrefix;
+  const flags = [...state.flags.filter((f) => !f.startsWith(prefix)), ...cabinetFlags(lib, cabinet)];
+  return { ...state, cabinet, cabinetSince: { ...state.cabinetSince, [role]: state.cardCount }, flags };
+}
+
+/**
  * Swap the advisor in a role for another from the same pool, refreshing trait flags.
  * The rival is not yours to replace, so that role is left alone.
  */

@@ -3,7 +3,7 @@ export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
-import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
+import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
@@ -167,6 +167,12 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   }
 
   s = { ...s, meters, drift, flags, queue, activeArcs, rivalStanding, opposition };
+  // A seat filled at an era's start: the left side appoints the first of its two candidates,
+  // the right side the second (BACKLOG-10 phase 61).
+  if (card.appoints) {
+    const pair = candidatesFor(lib, s, card.appoints);
+    if (pair) s = appoint(lib, s, card.appoints, pair[side === "left" ? 0 : 1].id);
+  }
   if (endingId) s = endRun(lib, s, endingId);
   return s;
 }

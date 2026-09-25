@@ -278,6 +278,8 @@ bots (BACKLOG-5 phase 31):
 - Since v0.68.0 there are three contracts a week (BACKLOG-10 phase 60), kept by full reigns. The
   records do not say whether a tester aimed at one, so ask them at the end. Their profile saves as
   v7, which v0.67.0 and before set aside rather than read.
+- Since v0.69.0 each era after the first opens with an appointment to one seat (BACKLOG-10
+  phase 61). The deck moved, so records from v0.68.0 and before are kept apart.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

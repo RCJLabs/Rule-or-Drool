@@ -155,6 +155,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const traitName = advisor?.traits.map((t) => STRINGS.traits[t]?.name).filter(Boolean).join(" · ") || undefined;
   // What the card says, and what the screen shows of it: late Decay mangles the second.
   const spoken = card ? withNames(lib, state, card.text, card.speaker) : "";
+  // The labels with their names in, for a card that names people on its sides (BACKLOG-10 phase 61).
+  const labels = card ? { left: withNames(lib, state, card.left.label, card.speaker), right: withNames(lib, state, card.right.label, card.speaker) } : undefined;
   const shown = card ? degrade(spoken, textLevel(settings, theme), state.seed) : "";
   const rival = rivalReport(lib, state);
   const eraInfo = STRINGS.eras[state.era - 1];
@@ -243,6 +245,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             key={cardKey}
             card={card}
             text={shown}
+            labels={labels}
             spokenText={spoken}
             speakerName={speakerName}
             roleLabel={roleLabel}
@@ -276,7 +279,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
               onFocus={focusChoice(side)}
               onBlur={() => setPeek((p) => (p === side ? null : p))}
             >
-              {card[side].label}
+              {labels?.[side] ?? card[side].label}
             </button>
           ))}
           {SIDES.map((side) => (

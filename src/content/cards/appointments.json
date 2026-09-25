@@ -1,0 +1,202 @@
+[
+  {
+    "id": "appoint_treasurer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "appoints": "treasurer",
+    "text": "{advisor} is leaving the Treasury. Two names for the desk: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_general",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "appoints": "general",
+    "text": "{advisor} is retiring from the army. The generals offer two: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_spin",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "appoints": "spin",
+    "text": "{advisor} is done with the podium. Two could take it: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_chief",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "appoints": "chief",
+    "text": "{advisor} is stepping aside. Your office needs a new chief: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_judge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "appoints": "judge",
+    "text": "{advisor} is leaving the bench. The clerks send two names: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_scientist",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "appoints": "scientist",
+    "text": "{advisor} is going back to the lab for good. Two could advise you: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_tycoon",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "appoints": "tycoon",
+    "text": "{advisor} is cashing out. The money has two friends in mind: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  },
+  {
+    "id": "appoint_organizer",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "appoints": "organizer",
+    "text": "{advisor} is going back to the street. The movement sends two: {first}, {firstTraits}, or {second}, {secondTraits}.",
+    "left": {
+      "label": "Appoint {first}"
+    },
+    "right": {
+      "label": "Appoint {second}"
+    }
+  }
+]

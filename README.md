@@ -21,6 +21,10 @@ and further if you don't.
 A new profile starts with a **first term**: the first era alone, with its one vote, ending in an
 end of its own. Once a run is seen through, runs are full reigns of three eras.
 
+Each era after the first opens with an **appointment**: a seat's holder leaves, names the two
+people who could follow, and you choose. What they are (competent, loyal, a zealot, corrupt)
+scales every card they bring you.
+
 Every week brings three **contracts**, the same for everyone and dealt from the date like the
 daily: an easy one, a fair one and a hard one, such as "Reach the Ascent finale leading the
 Ledger, cheating no vote". A full reign that ends in the week keeps them, and a run of weeks with

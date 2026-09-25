@@ -181,17 +181,18 @@ describe("who a run inherits", () => {
     }
   });
 
-  it("seats every cabinet advisor in 20–45% of a competent player's runs", () => {
+  it("seats every cabinet advisor in 20–55% of a competent player's runs", () => {
     // Serving is holding the role at any point: the cabinet a run opens with and everyone
     // brought in when somebody was let go. Measured: 32–42% with three to a role, where two
-    // to a role gave 47–75%.
+    // to a role gave 47–75%. Each era after the first appoints someone to a seat (BACKLOG-10
+    // phase 61), two more people a run: 32–52%, the ones a careful player picks at the top.
     const mixed = summarize("mixed", simulate(library, { runs: 2000, seed: 1, bots: ["mixed"], align: "alternate", danger: 25, maxCards: 1000 }).get("mixed")!);
     const cabinet = content.advisors.filter((a) => a.role !== library.config.rivalRole);
     expect(cabinet.length).toBeGreaterThanOrEqual(24);
     const share = new Map(mixed.served);
     for (const a of cabinet) {
       expect(share.get(a.id) ?? 0, a.id).toBeGreaterThanOrEqual(0.2);
-      expect(share.get(a.id) ?? 0, a.id).toBeLessThanOrEqual(0.45);
+      expect(share.get(a.id) ?? 0, a.id).toBeLessThanOrEqual(0.55);
     }
   }, 60000);
 });

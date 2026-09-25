@@ -42,8 +42,9 @@ describe("content", () => {
   });
 
   it("offers a real tradeoff on every event card (sign of drift differs between sides)", () => {
-    // Only a question carries no drift (BACKLOG-6 phase 40), and a question is never an event.
-    for (const c of events) {
+    // Only a question carries no drift (BACKLOG-6 phase 40), and a question is never an event. An
+    // appointment is a choice of who, not of what it costs (BACKLOG-10 phase 61).
+    for (const c of events.filter((e) => !e.appoints)) {
       const l = c.left.drift ?? 0;
       const r = c.right.drift ?? 0;
       expect(Math.sign(l) !== Math.sign(r), c.id).toBe(true);

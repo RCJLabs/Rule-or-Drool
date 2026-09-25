@@ -104,6 +104,13 @@ export const LESSONS: readonly Lesson[] = [
       "You lost the count, and the office. Until the era ends you lead the opposition: your groups can still leave you, and the state is not yours to lose.",
     when: ({ state }) => !!state.opposition,
   },
+  {
+    id: "appoint",
+    title: "A new face at the table",
+    body: () =>
+      "A generation on, a seat at your table changes hands, and you choose who takes it. What they are changes every card they bring you, for better and for worse.",
+    when: ({ card }) => !!card.appoints,
+  },
 ];
 
 export const LESSONS_BY_ID: ReadonlyMap<string, Lesson> = new Map(LESSONS.map((l) => [l.id, l]));

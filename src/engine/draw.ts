@@ -1,6 +1,6 @@
 import { getCard, poolKey, questionOfArc, type Library } from "./library";
 import { pickWeighted } from "./rng";
-import { condMet, hasFlag, roll } from "./state";
+import { candidatesFor, condMet, hasFlag, roll } from "./state";
 import { returnDue } from "./opposition";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
@@ -21,6 +21,28 @@ export function isHabitCard(lib: Library, card: Card): boolean {
   const flags = card.cond?.flags;
   if (!flags || flags.length === 0) return false;
   return flags.every((f) => f.startsWith(lib.config.habitMarkPrefix));
+}
+
+/**
+ * Whether the card about to be dealt is a seat's appointment (BACKLOG-10 phase 61): the first
+ * card of every era after the first. An era is a generation, and a new one brings a new face to
+ * the table, of the player's choosing.
+ */
+export function appointmentDue(lib: Library, state: GameState): boolean {
+  return state.era > 1 && !state.opposition && state.cardCount === (state.era - 1) * lib.config.eraLength && lib.appointmentCards.size > 0;
+}
+
+/**
+ * The seat an era's appointment fills, by the run's own dice: one held since the first day while
+ * there is one, so a long reign does not fill the same seat twice before the others.
+ */
+function drawAppointment(lib: Library, state: GameState): [Card | null, GameState] {
+  const seats = [...lib.appointmentCards.keys()].sort().filter((role) => role !== lib.config.rivalRole && !!state.cabinet[role] && !!candidatesFor(lib, state, role));
+  const fresh = seats.filter((role) => (state.cabinetSince[role] ?? 0) === 0);
+  const from = fresh.length ? fresh : seats;
+  if (from.length === 0) return [null, state];
+  const [p, s] = roll(state);
+  return [lib.appointmentCards.get(from[Math.floor(p * from.length)]!)!, s];
 }
 
 export function electionDue(lib: Library, state: GameState): boolean {
@@ -331,6 +353,8 @@ export function draw(lib: Library, state: GameState): GameState {
   const sources: Source[] = state.opposition
     ? [...(returnDue(state) ? [["election", drawReturnVote] as Source] : []), ["opposition", drawOpposition]]
     : [
+        // An era's first card fills a seat at the table (BACKLOG-10 phase 61).
+        ...(appointmentDue(lib, state) ? [["appointment", drawAppointment] as Source] : []),
         ...(electionDue(lib, state) ? [["election", drawElection] as Source] : []),
         // The cards before a vote are the campaign's; bills and stories wait for them
         // (BACKLOG-10 phase 56).

@@ -2,8 +2,8 @@ import type { Library } from "../engine/library";
 import { preview, type Preview } from "../engine/preview";
 import { LOST_OFFICE_FLAG } from "../engine/opposition";
 import { honestCount } from "../engine/resolve";
-import { hasFlag } from "../engine/state";
-import type { Card, GameState, MeterKey, Meters, Side } from "../engine/types";
+import { candidatesFor, hasFlag } from "../engine/state";
+import type { Advisor, Card, GameState, MeterKey, Meters, Side } from "../engine/types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "../engine/types";
 import { countBand } from "../ui/count";
 import { shownInDanger } from "../ui/signals";
@@ -193,7 +193,37 @@ const eyes: Bot = (ctx) => {
   return clean;
 };
 
-export const BOTS: Record<BotName, Bot> = { random, greedy, saint, mixed, informed, eyes };
+/**
+ * How a player who reads the trait blurbs rates a candidate at an appointment (BACKLOG-10 phase
+ * 61): competent gets more out of what works, loyal takes the edge off, a zealot makes all of it
+ * land harder, and whatever goes wrong under the corrupt goes further wrong.
+ */
+const TRAIT_WORTH: Readonly<Record<string, number>> = { competent: 2, loyal: 1, zealot: -1, corrupt: -2 };
+
+/** The side that appoints the candidate a bot would, on an appointment card; null on any other. */
+export function appointee(ctx: BotContext, prefer: 1 | -1): Side | null {
+  const role = ctx.card.appoints;
+  if (!role) return null;
+  const pair = candidatesFor(ctx.lib, ctx.state, role);
+  if (!pair) return "left";
+  const worth = (a: Advisor) => a.traits.reduce((n, t) => n + (TRAIT_WORTH[t] ?? 0), 0);
+  return prefer * (worth(pair[1]) - worth(pair[0])) > 0 ? "right" : "left";
+}
+
+/** A bot that appoints by the traits, the careful ones the better reading and the greedy one the worse. */
+const appointing =
+  (bot: Bot, prefer: 1 | -1): Bot =>
+  (ctx) =>
+    appointee(ctx, prefer) ?? bot(ctx);
+
+export const BOTS: Record<BotName, Bot> = {
+  random,
+  greedy: appointing(greedy, -1),
+  saint: appointing(saint, 1),
+  mixed: appointing(mixed, 1),
+  informed: appointing(informed, 1),
+  eyes: appointing(eyes, 1),
+};
 
 export function makeContext(lib: Library, state: GameState, card: Card, rng: () => number, opts: BotOptions): BotContext {
   return {

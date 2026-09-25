@@ -10,7 +10,7 @@ import type { Advisor, Card, GameState, PlayerAlign } from "../src/engine/types"
  * the table would show it, not only the longest events. A campaign card carries the count
  * under its text, as an election does (BACKLOG-10 phase 56).
  */
-export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign";
+export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign" | "appointment";
 
 /** How many of each side's longest events are placed: they are most of the deck. */
 const EVENTS = 4;
@@ -23,6 +23,7 @@ export function arcOf(lib: Library, card: Card): { id: string; question: boolean
 /** The kind of card this is on the table; undefined for one the fit check does not know. */
 export function kindOf(lib: Library, card: Card): FitKind | undefined {
   if (card.campaign) return "campaign";
+  if (card.appoints) return "appointment";
   if (/\{\w+\}/.test(card.text)) return "named";
   const arc = arcOf(lib, card);
   if (arc) return arc.question ? "question" : "story";
@@ -51,6 +52,14 @@ const longestName = (people: readonly Advisor[]): Advisor | undefined => [...peo
  */
 export function longestSeats(lib: Library, card: Card, party: PlayerAlign): Record<string, string> {
   const seats: Record<string, string> = {};
+  // An appointment names the seat's other two people (BACKLOG-10 phase 61): its holder is whoever
+  // leaves the longest pair, and the longest text with them.
+  if (card.appoints) {
+    const shown = (holder: string) => withNames(lib, { align: party, cabinet: { [card.speaker]: holder } } as unknown as GameState, card.text, card.speaker).length;
+    const holder = [...advisorPool(lib, card.speaker, party)].sort((a, b) => shown(b.id) - shown(a.id) || a.id.localeCompare(b.id))[0];
+    if (holder) seats[card.speaker] = holder.id;
+    return seats;
+  }
   const roles = card.text.includes("{rival}") ? [card.speaker, lib.config.rivalRole] : [card.speaker];
   for (const role of roles) {
     const who = longestName(eligible(lib, card, role, party));
@@ -82,7 +91,7 @@ export function fitPlacements(lib: Library, party: PlayerAlign): Placement[] {
     .map((card) => ({ card, kind: kindOf(lib, card), text: shownText(lib, card, party) }))
     .sort((a, b) => b.text.length - a.text.length || a.card.id.localeCompare(b.card.id));
   const out: Placement[] = [];
-  for (const kind of ["event", "story", "question", "election", "named", "campaign"] as const) {
+  for (const kind of ["event", "story", "question", "election", "named", "campaign", "appointment"] as const) {
     for (const { card, text } of theirs.filter((c) => c.kind === kind).slice(0, kind === "event" ? EVENTS : 1)) {
       out.push({ kind, card, arc: arcOf(lib, card)?.id, seats: longestSeats(lib, card, party), text });
     }

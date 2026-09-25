@@ -128,6 +128,12 @@ export interface Card {
    * how to campaign, honestly or not, with the count as it stands on the card.
    */
   campaign?: boolean;
+  /**
+   * The cabinet seat this card fills (BACKLOG-10 phase 61): the first card of each era after the
+   * first, on which the player appoints one of the two people the seat's pool holds besides its
+   * holder. The left side appoints the first by id, the right side the second.
+   */
+  appoints?: string;
   left: Choice;
   right: Choice;
 }
@@ -409,7 +415,7 @@ export interface Road {
  * card is gated on counting marks: it is not here because of one choice, it is here because
  * of a pattern of them, which is a different thing to say to the player.
  */
-export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign"] as const;
+export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign", "appointment"] as const;
 export type CardSource = (typeof CARD_SOURCES)[number];
 
 export interface RunSetup {

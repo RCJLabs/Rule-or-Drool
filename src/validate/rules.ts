@@ -337,7 +337,8 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (card.type === "ending" && (!card.left.ending || !card.right.ending)) {
       issues.warn("ending-card", `type "ending" cards usually end the run on both sides`, where);
     }
-    if (card.type !== "ending" && signVector(card.left) === signVector(card.right)) {
+    // An appointment is a choice of who, not of what it costs (BACKLOG-10 phase 61).
+    if (card.type !== "ending" && !card.appoints && signVector(card.left) === signVector(card.right)) {
       issues.warn("no-tradeoff", `both choices move every meter and drift in the same direction (no real tradeoff)`, where);
     }
   }
@@ -642,6 +643,32 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     }
     const [honest, easy] = (c.left.drift ?? 0) >= (c.right.drift ?? 0) ? [c.left, c.right] : [c.right, c.left];
     if (lift(easy) < lift(honest)) issues.error("campaign-backwards", "the honest side lifts the coalition further than the side that drifts toward Decay", where);
+  }
+
+  // An era's first card after the first fills a seat (BACKLOG-10 phase 61): one card a seat, in
+  // the seat's own voice, naming the two it can go to and nothing else. Each side appoints one
+  // of them and moves nothing, so the choice is who sits at the table, not what it costs today.
+  const seats = new Set<string>();
+  for (const c of content.cards) {
+    if (!c.appoints) continue;
+    const where: Where = { kind: "card", id: c.id };
+    const pool = content.advisors.filter((a) => a.role === c.appoints);
+    if (c.appoints === opts.config.rivalRole || pool.length < 3) {
+      issues.error("appoint-seat", `"${c.appoints}" is not a cabinet seat with three people to choose from`, where);
+    }
+    if (seats.has(c.appoints)) issues.error("appoint-twice", `a second appointment card for "${c.appoints}"`, where);
+    seats.add(c.appoints);
+    if (c.speaker !== c.appoints) issues.error("appoint-speaker", "the seat's own holder presents their successors", where);
+    if (c.type !== "event" || c.arc || c.campaign || c.opposition) issues.error("appoint-type", "an appointment is an event of its own, not a story's, a campaign's or the opposition's", where);
+    if (!c.text.includes("{first}") || !c.text.includes("{second}")) issues.error("appoint-names", "the text names both candidates, as {first} and {second}", where);
+    for (const [side, token] of [["left", "{first}"], ["right", "{second}"]] as const) {
+      const ch = c[side];
+      if (!ch.label.includes(token)) issues.error("appoint-label", `${side} appoints ${token}, and its label says so`, { ...where, path: `${side}.label` });
+      if (ch.fx || ch.drift || ch.ending || ch.setFlags?.length || ch.enqueue?.length) issues.error("appoint-effects", `${side} moves something; an appointment only fills the seat`, { ...where, path: side });
+      // The longest name the seat can offer, which is what a phone has to fit.
+      const longest = Math.max(...pool.map((a) => a.name.length));
+      if (ch.label.replace(token, "x".repeat(longest)).length > opts.maxLabel) issues.warn("label-length", `label can run to ${ch.label.replace(token, "x".repeat(longest)).length} characters with the seat's longest name`, { ...where, path: `${side}.label` });
+    }
   }
 
   checkHistories(issues);

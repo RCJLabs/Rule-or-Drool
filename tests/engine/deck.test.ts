@@ -33,7 +33,7 @@ const MECHANICS = [
   "arcs[].align", "arcs[].cards[]", "arcs[].entry.bands[]", "arcs[].entry.flags[]", "arcs[].entry.notFlags[]",
   "arcs[].entry.speakerTraits[]", "arcs[].id", "arcs[].question", "arcs[].requires",
   "cards[].align", "cards[].arc", "cards[].bands[]", "cards[].cond.flags[]", "cards[].cond.notFlags[]",
-  "cards[].cond.speakerTraits[]", "cards[].id", "cards[].speaker", "cards[].type",
+  "cards[].appoints", "cards[].cond.speakerTraits[]", "cards[].id", "cards[].speaker", "cards[].type",
   ...["left", "right"].flatMap((s) =>
     ["clearFlags[]", "ending", "enqueue[].id", "next", "nextByAlign.left", "nextByAlign.right", "setFlags[]"].map((f) => `cards[].${s}.${f}`),
   ),
