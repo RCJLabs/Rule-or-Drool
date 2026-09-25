@@ -11,10 +11,10 @@ import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
 import { draw } from "../../src/engine/draw";
 import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
-import { BLOC_KEYS } from "../../src/engine/types";
+import { BLOC_KEYS, type Card } from "../../src/engine/types";
 import { setupOf } from "../../src/meta/runcode";
 import { emptyMeta } from "../../src/meta/state";
-import { fitPlacements } from "../fit";
+import { fitPlacements, longestSeats, shownText } from "../fit";
 import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, target, toLook } from "./harness";
 
 /**
@@ -652,6 +652,45 @@ describe.skipIf(!target)("in a browser", () => {
             if (said !== longestCount) failures.push(`${label}: the count says "${said}", not the longest, "${longestCount}"`);
             const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
             if (lines !== 1) failures.push(`${label}: the count takes ${lines} lines`);
+            failures.push(...(await contrast(page, label)));
+          }
+        }
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    it("out of office, at 360×640 with the buttons drawn, in all seven looks", async () => {
+      // BACKLOG-10 phase 55. Out of office the footer is at its fullest: the party chip says so,
+      // the first card out carries a note, and a promise and a lesson are there too. Each side's
+      // longest opposition card goes on the table as that first card, and its longest return
+      // vote as the era's last, with the count line under it.
+      const failures: string[] = [];
+      for (const party of ["left", "right"] as const) {
+        const theirs = (c: Card) => c.align === "any" || c.align === party;
+        const longest = (cards: readonly Card[]) => [...cards].filter(theirs).sort((a, b) => shownText(library, b, party).length - shownText(library, a, party).length)[0]!;
+        const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
+        for (const [card, played, from] of [[longest(library.oppositionCards), 26, "opposition"], [longest(library.returnVotes), library.config.eraLength - 1, "election"]] as const) {
+          await rewriteRun(
+            page,
+            `raw.state.current = ${JSON.stringify(card.id)};
+            raw.state.currentFrom = ${JSON.stringify(from)};
+            raw.state.era = 1;
+            raw.state.cardCount = ${played};
+            raw.state.opposition = { since: 26, returnAt: ${library.config.eraLength - 1} };
+            raw.state.flags = [...new Set([...raw.state.flags, "lost_office"])];
+            Object.assign(raw.state.cabinet, ${JSON.stringify(longestSeats(library, card, party))});`,
+          );
+          await page.reload();
+          await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+          await page.waitForSelector(`.card[data-card="${card.id}"]`);
+          const chip = await page.locator(".party").textContent();
+          if (chip !== STRINGS.opposition.chip.replace("{party}", STRINGS.parties[party])) failures.push(`${party}, ${card.id}: the chip says "${chip}"`);
+          if (played === 26 && !(await page.isVisible(".opposition-note"))) failures.push(`${party}, ${card.id}: no note on the first card out`);
+          for (const look of LOOKS) {
+            await toLook(page, look);
+            const label = `${party}, out of office, ${card.id} in ${look}`;
+            failures.push(...(await misfits(page, label)));
             failures.push(...(await contrast(page, label)));
           }
         }

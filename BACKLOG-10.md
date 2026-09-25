@@ -4,7 +4,8 @@ Round nine (BACKLOG-9.md) is phases 52–54, all done: v0.62.0 to v0.64.0. BACKL
 getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
-looked at what the game has and where the measurements say it is thin. They are not phases yet.
+looked at what the game has and where the measurements say it is thin. They are not phases yet,
+except idea 1, which you chose: it is phase 55, done in v0.65.0, at the end of this file.
 
 Each idea says:
 - what it is;
@@ -279,3 +280,142 @@ during it.
 
 1. **Which of these become phases,** and in what order. The default is the order above.
 2. **Whether the big two (1 and 4) wait for the closed test.** The default is that they wait.
+
+---
+
+## Phase 55. Opposition (idea 1) — *done*
+
+**Shipped in v0.65.0.** You chose idea 1. It was built to the rules proposed, with one number
+added: the bar at the return vote.
+
+**Measured first, at v0.64.0** (4,000 runs a bot).
+- **A forced vote is common.** 56% of the informed voter's runs meet one, where the honest count
+  loses. For the mixed bot it is 58%.
+- **The first one is usually the first vote:** three times in four.
+- **Every vote falls on card 26 of its era** (cards 26, 61 and 96 of a run). A lost vote leaves 9
+  cards of the era.
+
+**The rules.**
+1. **The first honest vote a run loses does not end it.** The rival takes the office, and you lead
+   the opposition until the era ends. A second lost vote ends the run as it did before:
+   `election_loss`, or `rival_wins` when the rival is somebody. A cheated vote is never lost.
+2. **In opposition the deal is the opposition deck, and nothing else:**
+   - bills wait, their due dates moved on by the cards left in the era;
+   - stories and questions pause where they are;
+   - the ordinary deck and its habits wait.
+3. **Your coalition can still leave you:** a bloc at zero ends the run. The state is the rival's:
+   money, order and the institutions are held between 1 and 99 while you are out, so none of them
+   can end the run, and no cult grows around a leader out of office. The era's pull toward the
+   middle meets you when you return.
+4. **The era's last card is the return vote,** an election with two sides:
+   - stand again honestly: the count decides, against a bar 3 lower than in office, since
+     governing has worn the rival down (`returnSwing`). A loss ends the run;
+   - take a shortcut back at a cheat's price: contest the count, start a rumour, call a strike,
+     sign a pact, buy the balance, or let the army ask. It counts as a cheated vote.
+5. **In the run's last era there is no return vote.** The finale comes with you in opposition,
+   and the end screen says so.
+6. **Drift and the look go on as ever.**
+
+**The bar at the return vote.** With no help, the informed voter came back by the shortcut more
+often than honestly: in 56% of its oppositions, against 37%. A game about the honest road should
+not teach that the way back is the other one. So the honest count at the return vote clears a
+lower bar. Measured on the first draft of the return votes, 3,000 runs a bot:
+
+| Lower by | Informed Ascent | Back honestly | By the shortcut |
+|---|---|---|---|
+| 0 | 25.3% | 37% | 56% |
+| 3 | 27.4% | 59% | 34% |
+| 6 | 29.3% | 74% | 20% |
+| 9 | 30.4%, a miss | | |
+| 12 | 31.1%, a miss | | |
+
+- **3, not 6.** At 3 the honest road is already the usual way back. At 6 the informed voter is
+  0.7 points under its 30% ceiling at 3,000 runs, and at 3 the figure rose 0.7 points between
+  3,000 runs and 10,000. At 6 it would sit on the line.
+- **Also measured,** at 4,000 runs a bot, all passing:
+  - the bar in office at 45, to make room for more help at the return vote: 26.3% with 4, 27.7%
+    with 6. Rejected because it moves every vote in office, which phase 54 had just set;
+  - the opposition's self-serving sides drifting 2 further toward Decay, with 4: 22.1%, and the
+    mixed bot 11.6%, near its 10% floor.
+
+**What was built.**
+- **The engine** (`src/engine/opposition.ts`, and the deal, the vote and the ouster rule):
+  - run saves are version 13, and a run saved before resumes in office;
+  - the deal version is 2;
+  - a deck with no opposition cards for a side keeps the old rule. The validator requires 25 or
+    more for each side, and a return vote.
+- **The content** (`src/content/cards/opposition/`):
+  - 60 opposition cards: 30 for either side, and 15 each for the Commons and the Ledger. Each
+    weighs principled opposition against opportunism, in each side's own failure modes;
+  - seven of them make a promise that comes due in office, as one of 7 bills;
+  - 6 return votes: 2 for either side, and 2 each;
+  - two legacies with their histories: *A government lost the count, and went*
+    (`lost_office`), and *It came back at the next count, honestly* (`won_it_back`).
+- **The screen:**
+  - the first card out of office says what happened and who holds the office, aloud too;
+  - the party chip reads "the Commons, in opposition";
+  - out of office only the coalition's meters show danger, and the danger sound and the near
+    endings follow them;
+  - the return vote's count line reads the lower bar;
+  - a lesson, *In opposition*, the first time;
+  - the end screen says when a run ended out of office.
+- **Tests:**
+  - 11 for the engine and 6 for the screen;
+  - a browser audit of the first card out of office at 360×640 with the buttons drawn, in all
+    seven looks;
+  - the harness's check that the card tells the vote true counts a vote that sends a run out
+    as a vote lost.
+- **The playtest report** counts return votes with the others. Its note on honest votes that
+  lose now says what they do.
+
+**Measured after, at 10,000 runs a bot.**
+- **The informed voter:** Ascent 28.2% (was 26.8%), 1.8 points under its ceiling. It cheats
+  17.1% of its votes (was 34.0%): a lost count no longer ends its run, so it takes the first one
+  rather than cheat. Finale 97.1%.
+- **The mixed bot:** Ascent 14.1% (was 14.2%). It cheats 61.0% of its votes (was 71.0%).
+  Finale 97.2%.
+- **Every other target holds:**
+  - random's median run is 45 cards (was 42), and no ouster cause takes over 13.5%;
+  - greedy ends in Decay 77.7%;
+  - saint is ousted before era 2 in every run;
+  - the card told 111,441 of 111,441 votes true.
+- **The long reign,** 3,000 reigns a bot:
+  - informed Ascent 27.3%, mixed 12.5%;
+  - the mixed bot reaches era 5 in 96.3% (was 95.5%) and sees the long finale in 94.1% (was
+    92.9%).
+- **Repeats,** a player's 10th and 20th run: cards already seen 60.0% and 79.0%, story cards
+  already met 62.5% and 83.3%. The limits are 65% and 85%.
+
+**What a player meets** (3,000 runs a bot).
+- **About one run in two goes out of office:** 55% of the informed voter's, 35% of the mixed
+  bot's, which cheats more of its votes, and 6.5% of the random bot's.
+- **Most come back.** Of the informed voter's oppositions:
+  - 59.5% came back honestly;
+  - 33.7% came back by the shortcut;
+  - 6.8% saw the finale from the opposition benches.
+
+  The mixed bot took the shortcut in 64% of its oppositions. Neither lost a return vote, or a
+  bloc while out. The random bot lost the return vote in 26% of its oppositions.
+- **An opposition costs.** It is 9 cards long, and the informed voter's drift fell by 13 over
+  one: out of office its blocs are low, and it spends the time sparing them. Its runs that went
+  out reached the Ascent 25.5% of the time, against 33.2% for runs that never did.
+
+**The deck moved,** from `5l1dae79` to `0d81nay4`. Codes, links and dailies from before deal
+differently, and the game says so (phase 49). The playtest report keeps records from the old
+deck apart.
+
+**What it does not settle.**
+- **Three margins are thin:**
+  - the informed voter's Ascent is 1.8 points under its ceiling;
+  - in the long reign, the mixed bot reaches era 5 0.7 points under its limit;
+  - and it sees the long finale 0.9 points under its limit.
+
+  The next change that helps a competent run will probably need a retune with it.
+- **The bots' opposition is a model.** The informed voter takes the first lost count rather than
+  cheat, spares low blocs while out, and never loses a return vote it can see coming. Whether
+  people take the loss or the cheat, and how they spend nine cards with none of the state to
+  lose, is for the closed test.
+- **The 60 cards are a first draft.** They pass the strict validator, voice ceilings included.
+  Each side's longest opposition card and return vote fit a 360×640 screen in all seven looks,
+  with the buttons drawn. They are also the least-read cards in the game, and yours to read and
+  sharpen.

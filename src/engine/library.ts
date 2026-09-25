@@ -20,6 +20,10 @@ export interface Library {
   /** Event cards with weight > 0 keyed by `${era}:${band}:${align}`; align is "left" | "right" | "any". */
   eventPool: ReadonlyMap<string, Card[]>;
   electionCards: readonly Card[];
+  /** The opposition deck: events dealt only while the run is out of office (BACKLOG-10 phase 55). */
+  oppositionCards: readonly Card[];
+  /** The votes that end an opposition, one dealt on the era's last card. */
+  returnVotes: readonly Card[];
   epilogues: readonly Epilogue[];
   /** Every era number that at least one event card lists, ascending. */
   eras: readonly number[];
@@ -62,8 +66,17 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
 
   const eventPool = new Map<string, Card[]>();
   const electionCards: Card[] = [];
+  const oppositionCards: Card[] = [];
+  const returnVotes: Card[] = [];
   const eraSet = new Set<number>();
   for (const c of content.cards) {
+    // The opposition's own deck and its return votes, dealt only while the run is out of
+    // office and never from the ordinary pools (BACKLOG-10 phase 55).
+    if (c.opposition) {
+      if (c.type === "election") returnVotes.push(c);
+      else if (c.type === "event" && (c.weight ?? 1) > 0) oppositionCards.push(c);
+      continue;
+    }
     if (c.type === "election") {
       electionCards.push(c);
       continue;
@@ -95,6 +108,8 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
     roles,
     eventPool,
     electionCards,
+    oppositionCards,
+    returnVotes,
     epilogues: content.epilogues,
     eras: [...eraSet].sort((a, b) => a - b),
   };

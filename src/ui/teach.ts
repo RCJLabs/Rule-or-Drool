@@ -90,6 +90,13 @@ export const LESSONS: readonly Lesson[] = [
       "An honest win needs the average of your three groups, and the card says if you have it. Cheating is always cheaper today, which is the whole problem with it.",
     when: ({ card }) => card.type === "election",
   },
+  {
+    id: "opposition",
+    title: "In opposition",
+    body: () =>
+      "You lost the count, and the office. Until the era ends you lead the opposition: your groups can still leave you, and the state is not yours to lose.",
+    when: ({ state }) => !!state.opposition,
+  },
 ];
 
 export const LESSONS_BY_ID: ReadonlyMap<string, Lesson> = new Map(LESSONS.map((l) => [l.id, l]));

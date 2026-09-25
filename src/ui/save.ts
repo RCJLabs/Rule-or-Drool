@@ -113,6 +113,13 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     s = looked(s);
     if (s.road) s = { ...s, road: { ...s.road, first: looked(s.road.first) } };
   }
+  // v12 -> v13: a run can be out of office, in opposition (BACKLOG-10 phase 55). No run saved
+  // before could be, so it resumes in office, and so does the first road a second road holds.
+  if (v < 13) {
+    const inOffice = <T extends GameState>(x: T): T => ({ ...x, opposition: null });
+    s = inOffice(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: inOffice(s.road.first) } };
+  }
   return s;
 }
 

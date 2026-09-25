@@ -11,6 +11,8 @@ export interface Preview {
   endingId: string | null;
   /** Meters the choice touches; the UI shows these as dots without direction (section 9). */
   affected: MeterKey[];
+  /** The run is out of office after this choice (BACKLOG-10 phase 55). */
+  outOfOffice: boolean;
 }
 
 /** Project a choice without committing it. Deterministic and side-effect free. */
@@ -24,5 +26,6 @@ export function preview(lib: Library, state: GameState, card: Card, side: Side):
     drift: after.drift,
     endingId: after.over?.endingId ?? null,
     affected: METER_KEYS.filter((k) => (deltas[k] ?? 0) !== 0),
+    outOfOffice: !!after.opposition,
   };
 }

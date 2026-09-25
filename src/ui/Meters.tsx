@@ -56,7 +56,8 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
         const v = meters[k];
         const isBloc = (BLOC_KEYS as readonly string[]).includes(k);
         // A bloc only ends the run at the bottom, so only the bottom is dangerous.
-        const danger = isBloc ? v < DANGER_BELOW : v < DANGER_BELOW || v > 100 - DANGER_BELOW;
+        // Out of office only the coalition can end the run (BACKLOG-10 phase 55).
+        const danger = isBloc ? v < DANGER_BELOW : !state.opposition && (v < DANGER_BELOW || v > 100 - DANGER_BELOW);
         return (
           <div key={k} className={`meter-slot${k === "money" ? " group-break" : ""}${k === restless ? " restless" : ""}`}>
             <MeterIcon

@@ -1,6 +1,7 @@
 import { getCard, poolKey, questionOfArc, type Library } from "./library";
 import { pickWeighted } from "./rng";
 import { condMet, hasFlag, roll } from "./state";
+import { returnDue } from "./opposition";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
 
@@ -120,6 +121,29 @@ function pickFrom(lib: Library, state: GameState, cards: Card[]): [Card | null, 
   const next = { ...state, rngState: r.state };
   if (r.index < 0) return [null, next];
   return [cards[r.index] ?? null, next];
+}
+
+/**
+ * The return vote, on the era's last card of an opposition (BACKLOG-10 phase 55). Relaxed like
+ * any draw rather than skipped: an opposition always ends in a vote.
+ */
+function drawReturnVote(lib: Library, state: GameState): [Card | null, GameState] {
+  const past = pastOf(state);
+  for (const relax of LADDER) {
+    const cands = lib.returnVotes.filter((c) => alignOk(c, state) && eligible(lib, c, state, { ...relax, cooldown: true }, past));
+    if (cands.length > 0) return pickFrom(lib, state, cands);
+  }
+  return [null, state];
+}
+
+/** A card from the opposition's own deck: any era and band, this side's and either side's. */
+function drawOpposition(lib: Library, state: GameState): [Card | null, GameState] {
+  const past = pastOf(state);
+  for (const relax of LADDER) {
+    const cands = lib.oppositionCards.filter((c) => alignOk(c, state) && eligible(lib, c, state, relax, past));
+    if (cands.length > 0) return pickFrom(lib, state, cands);
+  }
+  return [null, state];
 }
 
 function drawElection(lib: Library, state: GameState): [Card | null, GameState] {
@@ -278,14 +302,18 @@ export function draw(lib: Library, state: GameState): GameState {
   // Each source in draw order, with the name it answers to. The first one that produces a
   // card wins, and its name is why that card is on the table.
   type Source = [CardSource, (lib: Library, state: GameState) => [Card | null, GameState]];
-  const sources: Source[] = [
-    ...(electionDue(lib, state) ? [["election", drawElection] as Source] : []),
-    ["queue", tickQueue],
-    ["arc", drawArcContinue],
-    ["arc", drawQuestionEntry],
-    ["arc", drawArcEntry],
-    ["deck", drawEvent],
-  ];
+  // Out of office the opposition deals from its own deck and nothing else: the bills wait,
+  // the stories pause, and the era ends in the return vote (BACKLOG-10 phase 55).
+  const sources: Source[] = state.opposition
+    ? [...(returnDue(state) ? [["election", drawReturnVote] as Source] : []), ["opposition", drawOpposition]]
+    : [
+        ...(electionDue(lib, state) ? [["election", drawElection] as Source] : []),
+        ["queue", tickQueue],
+        ["arc", drawArcContinue],
+        ["arc", drawQuestionEntry],
+        ["arc", drawArcEntry],
+        ["deck", drawEvent],
+      ];
 
   let s = state;
   for (const [name, pick] of sources) {

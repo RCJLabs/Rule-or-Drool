@@ -130,6 +130,11 @@ import edgeCards from "./cards/edges.json";
 import billCards from "./cards/bills.json";
 import habitCards from "./cards/habits.json";
 import mandateCards from "./cards/mandates.json";
+import oppositionAny from "./cards/opposition/any.json";
+import oppositionLeft from "./cards/opposition/left.json";
+import oppositionRight from "./cards/opposition/right.json";
+import oppositionVotes from "./cards/opposition/votes.json";
+import oppositionBills from "./cards/opposition/bills.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
 import modifiers from "./modifiers.json";
@@ -199,6 +204,13 @@ export const content: Content = {
     ...asCards(era3Any5, "era3/any5.json"),
     ...asCards(era3Left5, "era3/left5.json"),
     ...asCards(era3Right5, "era3/right5.json"),
+    // The opposition's deck, its return votes, and the promises it makes that come due once
+    // the office is back (BACKLOG-10 phase 55).
+    ...asCards(oppositionAny, "opposition/any.json"),
+    ...asCards(oppositionLeft, "opposition/left.json"),
+    ...asCards(oppositionRight, "opposition/right.json"),
+    ...asCards(oppositionVotes, "opposition/votes.json"),
+    ...asCards(oppositionBills, "opposition/bills.json"),
     // The long reign's two eras (BACKLOG-5 phase 39): drawn only in a run that reaches them.
     ...asCards(era4Any, "era4/any.json"),
     ...asCards(era4Bands, "era4/bands.json"),

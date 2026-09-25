@@ -255,6 +255,10 @@ bots (BACKLOG-5 phase 31):
   Runs played before v0.63.0 are set beside runs played after it when a report has both.
 - Since v0.64.0 the Ascent is balanced for that player, the informed bot in the report
   (BACKLOG-9 phase 54). Every table has a row for it, beside the mixed bot's.
+- Since v0.65.0 the first honest vote a run loses sends it into opposition until the era
+  ends, and a return vote decides whether it comes back (BACKLOG-10 phase 55). The report
+  counts return votes with the others. The deck moved with it, so records from v0.64.0 and
+  before are kept apart.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

@@ -32,7 +32,9 @@ function play(seed: number, bot: BotName, eraCount?: number): GameState {
   return s;
 }
 
-const sameRun = (s: GameState) => JSON.stringify({ ...s, eraCount: undefined });
+// A run out of office in its third era is due back on the era's last card only in a long reign,
+// whose third era is not its last (BACKLOG-10 phase 55): the date of that vote is the difference.
+const sameRun = (s: GameState) => JSON.stringify({ ...s, eraCount: undefined, opposition: s.opposition && { ...s.opposition, returnAt: undefined } });
 
 describe("a long reign", () => {
   it("is the ordinary run on its setup, card for card, until its fourth era", () => {
@@ -42,9 +44,11 @@ describe("a long reign", () => {
       const ordinary = play(seed, bot);
       const long = play(seed, bot, LONG);
       if (ordinary.over!.endingId.startsWith(library.config.finalePrefix)) {
-        // The ordinary run ended in its finale on card 105; the long one went on from there.
+        // The ordinary run ended in its finale on card 105; the long one went on from there. Out
+        // of office, card 105 is the long reign's return vote, and every card before it the same.
         outlasted++;
-        expect(long.choices!.slice(0, ordinary.cardCount), `seed ${seed}`).toEqual(ordinary.choices);
+        const same = ordinary.opposition ? ordinary.cardCount - 1 : ordinary.cardCount;
+        expect(long.choices!.slice(0, same), `seed ${seed}`).toEqual(ordinary.choices!.slice(0, same));
         expect(long.cardCount).toBeGreaterThan(ordinary.cardCount);
       } else {
         // An ouster before the end of era 3 is the same ouster in both.

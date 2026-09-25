@@ -61,7 +61,7 @@ function cue(lib: Library, settings: Settings, before: GameState, after: GameSta
   // The card landing follows the same look the frame does, read after the choice, so the
   // swipe that tipped the run over is the one that sounds different (BACKLOG-3 phase 22).
   play("commit", side, soundLevel(themeOf(after, lib.config)));
-  for (const meter of newlyDangerous(before.meters, after.meters, DANGER_BELOW)) play("danger", meter);
+  for (const meter of newlyDangerous(before.meters, after.meters, DANGER_BELOW, !!after.opposition)) play("danger", meter);
   if (after.activeArcs.length > before.activeArcs.length) play("arc");
   if (after.stats.electionsHonest + after.stats.electionsCheated > before.stats.electionsHonest + before.stats.electionsCheated) {
     play("election");

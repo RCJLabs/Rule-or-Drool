@@ -226,7 +226,7 @@ export interface VoteRow {
   cheatedWinnable: number;
   /** Of the winnable votes cheated, the share cast with a meter near its edge. NaN with none. */
   near: number;
-  /** Of the votes an honest count would have lost, the share voted honestly, which ends the run. NaN with none. */
+  /** Of the votes an honest count would have lost, the share voted honestly: out of office the first time, the end after. NaN with none. */
   honestLosing: number;
 }
 
@@ -506,8 +506,8 @@ export function formatReport(r: Report, top = 10): string {
   }
   out.push("(winnable: an honest count would have won it, and of those, the share cheated anyway. Near its edge: a meter");
   out.push(" within 25 of the edge that ends a run, where the mixed bot turns greedy. Losing, voted honestly: of the votes");
-  out.push(" an honest count would have lost, the share voted honestly, which ends the run. A run this version deals");
-  out.push(" differently is left out of the people's row.)");
+  out.push(" an honest count would have lost, the share voted honestly, which puts a run out of office the first time and");
+  out.push(" ends it after. A run this version deals differently is left out of the people's row.)");
   // Since v0.63.0 the election card says whether an honest count wins (BACKLOG-9 phase 53).
   const told =
     r.told === r.rebuilt ? "All of them were told on the card how the count stood."

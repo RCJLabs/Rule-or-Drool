@@ -1,0 +1,250 @@
+[
+  {
+    "id": "ret_stand",
+    "type": "election",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The country votes again. {rival} has had nine years and wants nine more. The count is honest this time, or says it is.",
+    "opposition": true,
+    "left": {
+      "label": "Stand and be counted",
+      "honest": true,
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Contest the last count",
+      "fx": {
+        "base": 3,
+        "inst": -4,
+        "order": -1
+      },
+      "drift": -18,
+      "setFlags": [
+        "cheated_election",
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "ret_rumour",
+    "type": "election",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Election day. {rival}'s people are tired, and so is the country. Win it clean, or win it on a rumour about their health.",
+    "opposition": true,
+    "left": {
+      "label": "Win it clean",
+      "honest": true,
+      "fx": {
+        "money": -2,
+        "inst": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Start the rumour",
+      "fx": {
+        "public": 3,
+        "inst": -3
+      },
+      "drift": -18,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "ret_close_country",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The unions could close the country the week before the vote. {rival} would have to call it on your terms, or not at all.",
+    "opposition": true,
+    "left": {
+      "label": "Win it at the ballot",
+      "honest": true,
+      "fx": {
+        "money": -2,
+        "inst": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Close the country",
+      "fx": {
+        "base": 4,
+        "order": -5,
+        "money": -3
+      },
+      "drift": -20,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "ret_pact",
+    "type": "election",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} offers a pact: your ministries now, the top job in two years. Your members call it surrender with a salary.",
+    "opposition": true,
+    "left": {
+      "label": "Stand alone",
+      "honest": true,
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "base": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Sign the pact",
+      "fx": {
+        "backers": 3,
+        "base": -3,
+        "inst": -2
+      },
+      "drift": -18,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "ret_balance",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Your donors could buy a month of adverts, and the two small parties holding the balance. {rival} would never recover.",
+    "opposition": true,
+    "left": {
+      "label": "Spend what's declared",
+      "honest": true,
+      "fx": {
+        "money": -2,
+        "inst": 2,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Buy the balance",
+      "fx": {
+        "backers": 4,
+        "inst": -4
+      },
+      "drift": -20,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "ret_army",
+    "type": "election",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The general says the army is restless under {rival} and would welcome you back. It need not be a vote, strictly speaking.",
+    "opposition": true,
+    "left": {
+      "label": "Go to the country",
+      "honest": true,
+      "fx": {
+        "order": -1,
+        "inst": 3
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let the army ask",
+      "fx": {
+        "order": 4,
+        "inst": -6,
+        "public": -3
+      },
+      "drift": -25,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  }
+]

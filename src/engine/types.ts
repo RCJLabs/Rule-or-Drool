@@ -118,6 +118,11 @@ export interface Card {
   oneShot?: boolean;
   arc?: string;
   step?: number;
+  /**
+   * Dealt only while the run is out of office (BACKLOG-10 phase 55): an event card from the
+   * opposition deck, or an election card that is the return vote at the era's end.
+   */
+  opposition?: boolean;
   left: Choice;
   right: Choice;
 }
@@ -364,6 +369,22 @@ export interface GameState {
    * before stamps, and for one continued on another deck, since no one deck dealt it.
    */
   deck?: string;
+  /** Out of office since losing an honest vote, or null while in it (BACKLOG-10 phase 55). */
+  opposition: Opposition | null;
+}
+
+/**
+ * A run out of office (BACKLOG-10 phase 55). The first honest vote a run loses does not end
+ * it: the rival takes the office, and the run plays the opposition until the era ends.
+ */
+export interface Opposition {
+  /** Cards played when the office went, the lost vote included. */
+  since: number;
+  /**
+   * The card count at which the return vote is dealt: the era's last card. Null when there is
+   * none, in the run's last era, which ends with the run still out.
+   */
+  returnAt: number | null;
 }
 
 /** One choice made: the card, and the side taken on it. */
@@ -383,7 +404,7 @@ export interface Road {
  * card is gated on counting marks: it is not here because of one choice, it is here because
  * of a pattern of them, which is a different thing to say to the player.
  */
-export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election"] as const;
+export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition"] as const;
 export type CardSource = (typeof CARD_SOURCES)[number];
 
 export interface RunSetup {

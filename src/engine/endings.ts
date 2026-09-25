@@ -105,12 +105,15 @@ export function nearMisses(lib: Library, state: GameState, within: number): Near
   const add = (endingId: string | undefined, away: number) => {
     if (endingId && away >= 0 && away <= within) out.push({ endingId, away });
   };
-  for (const k of METER_KEYS) {
+  // Out of office only the coalition can end the run: the state is not yours to lose, and
+  // nobody builds a cult around the opposition (BACKLOG-10 phase 55).
+  const outOfOffice = !!state.opposition;
+  for (const k of outOfOffice ? BLOC_KEYS : METER_KEYS) {
     const v = state.meters[k];
     add(cfg.meterEndings[k].low, v);
     add(cfg.meterEndings[k].high, 100 - v);
   }
   // Every bloc at cultAt, so the distance is set by whichever is furthest from it.
-  add(cfg.cultEnding, Math.max(...BLOC_KEYS.map((b) => cfg.cultAt - state.meters[b])));
+  if (!outOfOffice) add(cfg.cultEnding, Math.max(...BLOC_KEYS.map((b) => cfg.cultAt - state.meters[b])));
   return out.sort((a, b) => a.away - b.away || a.endingId.localeCompare(b.endingId));
 }

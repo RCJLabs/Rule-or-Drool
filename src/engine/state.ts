@@ -274,6 +274,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     flagSince: Object.fromEntries(flags.map((f) => [f, 0])),
     choices: [],
     road: null,
+    opposition: null,
     deck: deckStamp(lib),
   };
 }

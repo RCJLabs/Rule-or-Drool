@@ -42,6 +42,9 @@ export function runRecord(lib: Library, state: GameState): RunRecord {
   } else if (honest > 0) lines.push(votes.clean.replace("{won}", won));
   else if (cheated > 0) lines.push(votes.neverClean);
   else lines.push(votes.none);
+  // A run that ended out of office: at the finale, at the return vote, or when its coalition
+  // left it there (BACKLOG-10 phase 55).
+  if (state.opposition) lines.push(STRINGS.opposition.endedOut);
 
   if (fired === 0) lines.push(room.nobody);
   else if (originals > 0) lines.push(plural(fired, room.someOne, room.someMany).replace("{k}", String(originals)));

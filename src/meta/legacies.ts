@@ -28,6 +28,8 @@ export const LEGACIES: Record<string, string> = {
   oracle_running: "The oracle is still running",
   commission_open: "The commission is still sitting",
   referendum_called: "The country was asked directly",
+  lost_office: "A government lost the count, and went",
+  won_it_back: "It came back at the next count, honestly",
   heir_named: "An heir was named",
   broke_balance: "The deficit promise was broken",
   broke_inquiry: "The inquiry promise was broken",

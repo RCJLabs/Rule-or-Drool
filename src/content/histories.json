@@ -67,8 +67,10 @@
     "debt_kept",
     "pension_age_kept",
     "wage_left",
+    "won_it_back",
     "dirty_politics",
     "cheated_election",
+    "lost_office",
     "habit_clamp",
     "habit_bend",
     "habit_skim"
@@ -1970,6 +1972,58 @@
         "decay": "The lease on the port ran out and was renewed by the line, which by then owned the government that renewed it.",
         "muddle": "The port stayed leased for its ninety-nine years, and the country paid its fees for all of them.",
         "ascent": "The lease was broken in court, and the harbour was run in the open from then on. The line keeps one berth."
+      }
+    },
+    "won_it_back": {
+      "titles": {
+        "decay": {
+          "left": "The Return That Changed Nothing",
+          "right": "The Hollow Restoration"
+        },
+        "muddle": {
+          "left": "The Second Term",
+          "right": "The Comeback Years"
+        },
+        "ascent": {
+          "left": "The Earned Return",
+          "right": "The Honest Comeback"
+        }
+      },
+      "long": {
+        "decay": "The Revolving Door",
+        "muddle": "The Swing Years",
+        "ascent": "The Second Chance Republic"
+      },
+      "after": {
+        "decay": "You lost the office and won it back at the next count, honestly. Then you did nothing different with it.",
+        "muddle": "You lost the office and won it back honestly. The country learned it could do that, and did it often.",
+        "ascent": "You lost the office and won it back honestly, and the second term is the one they wrote about."
+      }
+    },
+    "lost_office": {
+      "titles": {
+        "decay": {
+          "left": "The Wilderness Years",
+          "right": "The Lost Mandate"
+        },
+        "muddle": {
+          "left": "The Interregnum",
+          "right": "The Borrowed Years"
+        },
+        "ascent": {
+          "left": "The Loyal Opposition",
+          "right": "The Graceful Exit"
+        }
+      },
+      "long": {
+        "decay": "The Door That Stayed Shut",
+        "muddle": "The Changing of the Guard",
+        "ascent": "The Peaceful Handover"
+      },
+      "after": {
+        "decay": "You lost the office at a count and went. What came after was worse, and you watched it from across the chamber.",
+        "muddle": "You lost the office at a count and went quietly, which was new, and did not last.",
+        "ascent": "You lost the office at a count and went. The country remembers, above everything else, that you went."
       }
     }
   }

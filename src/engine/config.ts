@@ -22,6 +22,11 @@ export interface EngineConfig {
    * player who never cheats a vote they can win reached the Ascent in 39% of runs.
    */
   electionMoodThreshold: number;
+  /**
+   * How much lower the bar is at the return vote that ends an opposition (BACKLOG-10 phase
+   * 55): the government has had the office for the rest of the era, and worn out its welcome.
+   */
+  returnSwing: number;
   /** Role whose advisor is the rival, drawn from the side the player did not pick. */
   rivalRole: string;
   /** Where the rival's standing starts, on 0-100. */
@@ -163,6 +168,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   eraLength: 35,
   electionInterval: 25,
   electionMoodThreshold: 44,
+  returnSwing: 3,
   rivalRole: "rival",
   rivalStart: 30,
   rivalCheatGain: 9,

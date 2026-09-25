@@ -1,0 +1,616 @@
+[
+  {
+    "id": "opl_expel_third",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Your members want to expel everyone who voted for {rival}'s budget last year. That is a third of your own benches.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep them in",
+      "fx": {
+        "base": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Expel the third",
+      "fx": {
+        "base": 4,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "opl_general_strike",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The unions offer a general strike against {rival}. It would bring the government down in a week, and the country with it.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Talk them out of it",
+      "fx": {
+        "base": -3,
+        "order": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Back the strike",
+      "fx": {
+        "base": 3,
+        "order": -4,
+        "money": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "opl_banner",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The movement has a new slogan. It rhymes, it fits on a banner, and it promises a thing no government could deliver.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Find a truer one",
+      "fx": {
+        "base": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Print the banners",
+      "fx": {
+        "base": 3,
+        "public": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "opb_banner",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "opl_old_comrade",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "An old comrade from the movement wants a safe seat. He has earned it in years of service, and in nothing else.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Open the selection",
+      "fx": {
+        "base": -2,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Hand him the seat",
+      "fx": {
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "opl_free_rail",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Your members want to promise the railways back at no cost to anyone. The railways cost a great deal to someone.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Cost it honestly",
+      "fx": {
+        "base": -2,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise it free",
+      "fx": {
+        "base": 3,
+        "inst": -3
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "opb_rail",
+          "delay": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "opl_occupation",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Protesters have occupied {rival}'s ministry in your name. They have sent word asking when you are coming.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Ask them to leave",
+      "fx": {
+        "base": -3,
+        "order": 2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Join them for a photo",
+      "fx": {
+        "base": 3,
+        "order": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "opl_anonymous",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A rich sympathiser will fund your campaign if he can stay anonymous. The movement's own rules forbid anonymous money.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the rule",
+      "fx": {
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make an exception",
+      "fx": {
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "opl_songs",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your benches have taken to singing at {rival} during questions. The clips do very well. The questions have stopped happening.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Bring back questions",
+      "fx": {
+        "base": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Learn the second verse",
+      "fx": {
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opl_founder_file",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A historian has found that the movement's founding hero took money from a mill owner. The movement hopes she finds something else.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Publish the finding",
+      "fx": {
+        "base": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Lose the file",
+      "fx": {
+        "base": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "opl_free_buses",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "You could promise free buses in every town. The buses would still need drivers, fuel and repairs, which the promise leaves out.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise cheap, costed",
+      "fx": {
+        "base": -2,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promise them free",
+      "fx": {
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "opb_buses",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "opl_purity_pledge",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The membership wants every candidate to sign a pledge of ideological purity. Your best candidate has refused, politely.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Drop the pledge",
+      "fx": {
+        "base": -3,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Make them all sign",
+      "fx": {
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "opl_rent_strike",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Tenants in {rival}'s capital want a rent strike, with you as its face. Half of them would be evicted by the spring.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Fund their lawyers",
+      "fx": {
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Be the face of it",
+      "fx": {
+        "base": 3,
+        "order": -2,
+        "inst": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "opl_statue",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The movement wants to pull down the statue of {rival}'s grandfather tonight. The council meets about it on Thursday.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Wait for Thursday",
+      "fx": {
+        "base": -2,
+        "order": 1,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Bring the rope",
+      "fx": {
+        "base": 3,
+        "order": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "opl_leaky_deputy",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your deputy has been leaking to {rival} for years. The members want her removed in public, the day before a vote.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Deal with it quietly",
+      "fx": {
+        "base": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Do it in public",
+      "fx": {
+        "base": 3,
+        "public": -1,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opl_union_list",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The unions will fund your campaign if they choose a third of your candidates. They have chosen already, mostly their own officials.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Choose on merit",
+      "fx": {
+        "base": -3,
+        "inst": 2,
+        "public": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take their list",
+      "fx": {
+        "base": 3,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  }
+]

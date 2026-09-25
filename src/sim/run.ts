@@ -93,10 +93,12 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
       electionsSeen++;
       if (!card[side].honest) cheats++;
       // What the card says an honest count will do, against what the honest side then does,
-      // whichever side the bot takes: it loses the vote when it ends the run as a lost vote ends.
+      // whichever side the bot takes: it loses the vote when it ends the run as a lost vote
+      // ends, or when it puts the run out of office (BACKLOG-10 phase 55).
       const honest = SIDES.find((h) => card[h].honest);
       if (honest) {
-        const lost = ctx[honest].endingId === (card[honest].ending ?? losingEnding(lib, state));
+        const out = ctx[honest].outOfOffice && !state.opposition;
+        const lost = out || ctx[honest].endingId === (card[honest].ending ?? losingEnding(lib, state));
         if (honestCount(lib, state).wins === lost) mistold++;
       }
     }

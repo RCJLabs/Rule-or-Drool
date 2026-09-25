@@ -167,6 +167,7 @@ export const CARD_SPEC: Spec = {
     oneShot: BOOL,
     arc: ID,
     step: POSITIVE_INT,
+    opposition: BOOL,
     left: CHOICE_SPEC,
     right: CHOICE_SPEC,
   },

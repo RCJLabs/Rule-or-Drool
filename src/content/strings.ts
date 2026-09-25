@@ -146,6 +146,15 @@ export const STRINGS = {
     loss: "Counted honestly: a loss",
   },
   /**
+   * Out of office (BACKLOG-10 phase 55): the first lost vote hands the office to the rival, and
+   * the run plays the opposition until the era ends.
+   */
+  opposition: {
+    chip: "{party}, in opposition",
+    wentOut: "The count went against you. {rival} holds the office now, and you lead the opposition until the era ends.",
+    endedOut: "You saw the end of it from the opposition benches.",
+  },
+  /**
    * The record of a reign, assembled from what the run did (BACKLOG-3 phase 27). Written so
    * that every combination reads as a sentence: the counts are in the strings rather than
    * concatenated onto them, because "You won 1 votes" is how this goes wrong.

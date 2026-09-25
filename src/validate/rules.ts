@@ -19,6 +19,9 @@ import { LEGACY_FLAGS } from "../meta/legacies";
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
+/** The fewest opposition cards each side may have: an opposition is up to nine cards. */
+const OPPOSITION_MIN = 25;
+
 export interface RuleOptions {
   config: EngineConfig;
   /** Minimum eligible event cards per era × band × align cell. */
@@ -580,8 +583,8 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   }
 
   // ---- coverage: cells, elections, epilogues ----------------------------------------------
-  const pool = content.cards.filter((c) => c.type === "event" && (c.weight ?? 1) > 0);
-  const electionCards = content.cards.filter((c) => c.type === "election" && (c.weight ?? 1) > 0);
+  const pool = content.cards.filter((c) => c.type === "event" && !c.opposition && (c.weight ?? 1) > 0);
+  const electionCards = content.cards.filter((c) => c.type === "election" && !c.opposition && (c.weight ?? 1) > 0);
   for (const era of eras) {
     for (const band of BANDS) {
       for (const align of PLAYER_ALIGNS) {
@@ -595,6 +598,23 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
         }
       }
     }
+  }
+
+  // The opposition deals from its own deck, in any era and band, and ends in a return vote
+  // (BACKLOG-10 phase 55): each side needs enough of the one and an unconditional one of the other.
+  // Content with no opposition at all keeps the old rule, a lost vote ends the run, so only a
+  // deck that has one is held to covering both sides.
+  for (const align of content.cards.some((c) => c.opposition) ? PLAYER_ALIGNS : []) {
+    const mine = (c: Card) => c.opposition && (c.align === align || c.align === "any");
+    const deck = content.cards.filter((c) => mine(c) && c.type === "event" && (c.weight ?? 1) > 0);
+    if (deck.length < OPPOSITION_MIN) issues.error("opposition-thin", `${align}: ${deck.length} opposition cards, minimum ${OPPOSITION_MIN}`);
+    const votes = content.cards.filter((c) => mine(c) && c.type === "election" && !c.cond?.flags?.length && !c.cond?.meters);
+    if (votes.length === 0) issues.error("return-vote-missing", `${align}: no unconditional return vote, so an opposition could end without one`);
+  }
+  for (const c of content.cards) {
+    if (!c.opposition) continue;
+    if (c.type !== "event" && c.type !== "election") issues.error("opposition-type", `only an event or an election can be dealt in opposition, not "${c.type}"`, { kind: "card", id: c.id });
+    if (c.arc) issues.error("opposition-arc", "a story card cannot be dealt in opposition: stories pause there", { kind: "card", id: c.id });
   }
 
   checkHistories(issues);

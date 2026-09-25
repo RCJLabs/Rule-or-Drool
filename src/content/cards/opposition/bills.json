@@ -1,0 +1,263 @@
+[
+  {
+    "id": "opb_tax_cut",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "In opposition you promised a tax cut no budget could survive. You are in office now, and the treasury would like to know how.",
+    "weight": 0,
+    "left": {
+      "label": "Admit it can't be done",
+      "fx": {
+        "public": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Borrow to do it",
+      "fx": {
+        "money": -6,
+        "public": 3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "opb_shadow_budget",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Your shadow budget needed the economy to grow twice as fast as it ever has. It has not, and the costings office has its meeting now.",
+    "weight": 0,
+    "left": {
+      "label": "Rewrite the budget",
+      "fx": {
+        "public": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cut what can't be seen",
+      "fx": {
+        "inst": -3,
+        "money": 3,
+        "public": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "opb_everything",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "In opposition you promised everything to everyone. Everyone has arrived, each with a copy of the promise and a date.",
+    "weight": 0,
+    "left": {
+      "label": "Keep the costed half",
+      "fx": {
+        "base": -3,
+        "public": -2,
+        "inst": 3
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promise it all again",
+      "fx": {
+        "base": 2,
+        "public": 2,
+        "inst": -3,
+        "money": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "opb_banner",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The banner promised a thing no government could deliver. You are the government now, and the banner is still up.",
+    "weight": 0,
+    "left": {
+      "label": "Take it down yourself",
+      "fx": {
+        "base": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the last lot",
+      "fx": {
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opb_rail",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "You promised the railways back at no cost. The railways are back, and so is the cost, which is the size of a small war.",
+    "weight": 0,
+    "left": {
+      "label": "Pay for it openly",
+      "fx": {
+        "money": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Hide it in the books",
+      "fx": {
+        "money": -1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "opb_buses",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Free buses, as promised. The drivers have not been paid since spring, and have parked the buses outside your office.",
+    "weight": 0,
+    "left": {
+      "label": "Pay the drivers",
+      "fx": {
+        "money": -4,
+        "base": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the drivers",
+      "fx": {
+        "money": 1,
+        "base": -2,
+        "order": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opb_tariff",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The tariff you promised is in force. So are the new prices, which the manufacturer's rivals have printed on every shelf.",
+    "weight": 0,
+    "left": {
+      "label": "Repeal it",
+      "fx": {
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the shops",
+      "fx": {
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -4
+    }
+  }
+]

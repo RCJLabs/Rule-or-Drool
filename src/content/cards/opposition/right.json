@@ -1,0 +1,611 @@
+[
+  {
+    "id": "opr_donor_dinner",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Your donors have booked a dinner to plan your return to office. They have also booked your policies, as starters.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Bring your own policies",
+      "fx": {
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take their menu",
+      "fx": {
+        "backers": 4,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "opr_torches",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A flag rally outside parliament would do more for you than a year of debate. Someone has invited the men with torches.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Uninvite the torches",
+      "fx": {
+        "base": -2,
+        "order": 2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Rally with everyone",
+      "fx": {
+        "base": 3,
+        "order": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "opr_capital_strike",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The chambers of commerce offer to stop investing until {rival} goes. The country would feel it long before {rival} did.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Ask them not to",
+      "fx": {
+        "backers": -3,
+        "money": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Welcome the strike",
+      "fx": {
+        "backers": 3,
+        "money": -4
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "opr_old_guard",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The old guard want your promise that nothing will change when you return to office. Several things badly need to.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise the changes",
+      "fx": {
+        "base": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise nothing will",
+      "fx": {
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opr_pulpits",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The bishops will preach for you on Sunday if you promise them the licensing office. It is the office that licenses bishops.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Decline the bargain",
+      "fx": {
+        "base": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Take the pulpits",
+      "fx": {
+        "base": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "opr_police_board",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The police union will endorse you if you promise to scrap the complaints board. The board has a great many complaints.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the board",
+      "fx": {
+        "order": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise to scrap it",
+      "fx": {
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "opr_offshore",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Half your shadow cabinet keep their savings offshore. {rival}'s people have found out, and have planned a week of it.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Bring it home first",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Call it a smear",
+      "fx": {
+        "backers": 2,
+        "public": -1,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "opr_old_film",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your campaign film is all old farms and old uniforms. None of the farms exist any more, and most of the uniforms were never ours.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Film the country now",
+      "fx": {
+        "base": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the old country",
+      "fx": {
+        "base": 3,
+        "public": -1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opr_heir",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The founder's grandson wants the top of your list. He is charming and rich, and has never once held a job.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Choose on merit",
+      "fx": {
+        "backers": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give him the list",
+      "fx": {
+        "backers": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "opr_tariff",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A manufacturer offers his workers' votes if you promise him a tariff. His rivals' workers would pay for it in prices.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise no favours",
+      "fx": {
+        "backers": -2,
+        "public": 1,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise the tariff",
+      "fx": {
+        "backers": 3,
+        "public": -2,
+        "inst": -1
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "opb_tariff",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "opr_generals_letter",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Retired generals want to sign a letter calling {rival} unfit to command. Two of them are still on the payroll.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Only the retired ones",
+      "fx": {
+        "base": -1,
+        "order": 1,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Let them all sign",
+      "fx": {
+        "base": 3,
+        "order": -1,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "opr_broadcaster",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A newspaper owner will turn his paper against {rival} if you promise to sell him the state broadcaster afterwards.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the broadcaster",
+      "fx": {
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Promise it to him",
+      "fx": {
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "opr_club",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your leadership meets at a club that still does not admit women. {rival} has noticed, and so, slowly, have the voters.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Meet somewhere else",
+      "fx": {
+        "backers": -2,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it tradition",
+      "fx": {
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "opr_cells",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "You could promise to jail {rival}'s ministers on your first day. There is evidence against two of them, and a feeling about the rest.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise due process",
+      "fx": {
+        "base": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise the cells",
+      "fx": {
+        "base": 3,
+        "order": 1,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "opr_family_firm",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Your shadow treasurer's family firm would win every contract in your first budget. He promises to recuse himself from the lunches.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Replace him",
+      "fx": {
+        "backers": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Trust the lunches",
+      "fx": {
+        "backers": 3,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  }
+]

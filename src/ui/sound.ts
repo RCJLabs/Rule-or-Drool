@@ -159,10 +159,13 @@ export function buzz(pattern: number | number[]): void {
  * Which meters crossed into danger on this choice. Only a crossing makes a sound: a meter
  * that was already low should not keep shouting every card.
  */
-export function newlyDangerous(before: Meters, after: Meters, below: number): MeterKey[] {
+export function newlyDangerous(before: Meters, after: Meters, below: number, outOfOffice = false): MeterKey[] {
   const out: MeterKey[] = [];
   for (const k of METER_KEYS) {
     const isBloc = (BLOC_KEYS as readonly string[]).includes(k);
+    // Out of office the state is not yours to lose, so only the coalition can be in danger
+    // (BACKLOG-10 phase 55).
+    if (outOfOffice && !isBloc) continue;
     const bad = (v: number) => v < below || (!isBloc && v > 100 - below);
     if (!bad(before[k]) && bad(after[k])) out.push(k);
   }

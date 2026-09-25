@@ -4,6 +4,7 @@ import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
 import { bandOf, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
+import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
 
@@ -52,7 +53,10 @@ function eraProduct(lib: Library, state: GameState, key: "volatility" | "queueSc
 export function electionBar(lib: Library, state: GameState): number {
   const cfg = lib.config;
   const over = Math.max(0, rivalPressure(lib, state) - cfg.rivalStart);
-  return cfg.electionMoodThreshold + over * cfg.rivalElectionPull;
+  // Out of office the only vote is the return vote, and it is kinder than the one that was
+  // lost: oppositions do not win elections, governments lose them (BACKLOG-10 phase 55).
+  const swing = state.opposition ? cfg.returnSwing : 0;
+  return cfg.electionMoodThreshold + over * cfg.rivalElectionPull - swing;
 }
 
 /**
@@ -90,14 +94,20 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   let s = state;
 
   let endingId: string | null = choice.ending ?? null;
+  // The first honest vote a run loses sends it into opposition, where a later one would end it;
+  // either side of the return vote ends the opposition, unless the run ends there
+  // (BACKLOG-10 phase 55).
+  let goingOut = false;
   if (card.type === "election") {
     if (choice.honest) {
       const lost = !honestCount(lib, s).wins;
-      endingId = lost ? (choice.ending ?? losingEnding(lib, s)) : null;
+      goingOut = lost && goesOut(lib, s, card);
+      endingId = lost && !goingOut ? (choice.ending ?? losingEnding(lib, s)) : null;
     }
     const interval = choice.electionDelay ?? cfg.electionInterval;
     s = { ...s, nextElectionAt: s.cardCount + interval };
   }
+  const comingBack = !!card.opposition && card.type === "election" && !endingId;
 
   const mult = cfg.volatility[s.band] * eraProduct(lib, s, "volatility");
   const trait = traitScale(lib, s, card.speaker);
@@ -142,7 +152,21 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
     queue = [...queue, { id: choice.next, dueAt: s.cardCount + 1 }];
   }
 
-  s = { ...s, meters, drift, flags, queue, activeArcs, rivalStanding };
+  let opposition = s.opposition;
+  if (goingOut) {
+    const returnAt = returnAtFor(lib, s);
+    opposition = { since: s.cardCount + 1, returnAt };
+    if (!flags.includes(LOST_OFFICE_FLAG)) flags = [...flags, LOST_OFFICE_FLAG];
+    // The bills wait for whoever holds the office next: every one due is moved on by the
+    // cards left in the era, the opposition's length.
+    const wait = s.era * cfg.eraLength - (s.cardCount + 1);
+    if (wait > 0) queue = queue.map((q) => ({ ...q, dueAt: q.dueAt + wait }));
+  } else if (comingBack) {
+    opposition = null;
+    if (choice.honest && !flags.includes(WON_BACK_FLAG)) flags = [...flags, WON_BACK_FLAG];
+  }
+
+  s = { ...s, meters, drift, flags, queue, activeArcs, rivalStanding, opposition };
   if (endingId) s = endRun(lib, s, endingId);
   return s;
 }
@@ -155,6 +179,19 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
 export function checkOuster(lib: Library, state: GameState): GameState {
   if (state.over) return state;
   const cfg = lib.config;
+  // Out of office, only the coalition can end the run: the state is the rival's to break, and
+  // it is held off its edges so the office is never handed back already lost (BACKLOG-10
+  // phase 55).
+  if (state.opposition) {
+    for (const b of BLOC_KEYS) {
+      if (state.meters[b] <= 0) return endRun(lib, state, cfg.meterEndings[b].low);
+    }
+    const held = CORE_KEYS.filter((k) => state.meters[k] < 1 || state.meters[k] > 99);
+    if (!held.length) return state;
+    const meters = { ...state.meters };
+    for (const k of held) meters[k] = Math.min(99, Math.max(1, meters[k]));
+    return { ...state, meters };
+  }
   for (const k of METER_KEYS) {
     if (state.meters[k] <= 0) return endRun(lib, state, cfg.meterEndings[k].low);
   }
@@ -223,7 +260,9 @@ export function advanceEra(lib: Library, state: GameState): GameState {
   if (cfg.eraMeterPull > 0) {
     for (const k of METER_KEYS) meters[k] = clampMeter(Math.round(meters[k] + (50 - meters[k]) * cfg.eraMeterPull));
   }
-  return { ...state, era, band, bandLocked, meters, nextElectionAt: state.cardCount + cfg.electionInterval };
+  // A successor takes office, even one whose side was out of it: an era is a generation, and
+  // an opposition the return vote did not end (a vote on the era's last card) ends here.
+  return { ...state, era, band, bandLocked, meters, nextElectionAt: state.cardCount + cfg.electionInterval, opposition: null };
 }
 
 /**

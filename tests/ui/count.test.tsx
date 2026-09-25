@@ -21,8 +21,14 @@ import { DEFAULT_SETTINGS } from "../../src/ui/settings";
 
 const WINS: readonly CountBand[] = ["easy", "win", "narrowWin"];
 const honestSide = (card: Card): Side => (card.left.honest ? "left" : "right");
-/** The vote alone, before anything after it can end the run: an honest side that loses ends it. */
-const lost = (s: GameState, card: Card): boolean => !!applyChoice(library, s, card, honestSide(card)).over;
+/**
+ * The vote alone, before anything after it can end the run: an honest side that loses ends it,
+ * or, the first time, puts the run out of office (BACKLOG-10 phase 55).
+ */
+const lost = (s: GameState, card: Card): boolean => {
+  const after = applyChoice(library, s, card, honestSide(card));
+  return !!after.over || (!!after.opposition && !s.opposition);
+};
 
 const rig = getCard(library, "e_rig");
 const at = (bloc: number, rivalStanding: number, card: Card = rig): GameState => {

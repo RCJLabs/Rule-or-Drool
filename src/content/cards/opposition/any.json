@@ -1,0 +1,1224 @@
+[
+  {
+    "id": "op_budget",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "{rival}'s budget is dull, costed and mostly right. Voting against it would make the evening news. Voting for it would make none.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Vote for what works",
+      "fx": {
+        "money": 2,
+        "inst": 2,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Oppose all of it",
+      "fx": {
+        "base": 3,
+        "public": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "op_diary",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A clerk has leaked you {rival}'s private diary. It is mostly shopping lists. One line could be read as a confession, if read loudly.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Send it back",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Read it loudly",
+      "fx": {
+        "public": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "op_flood",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Floods in {rival}'s safest region. The cameras want you there in boots. The rescue crews want you out of their way.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Send help, stay away",
+      "fx": {
+        "public": 1,
+        "inst": 2,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Go for the cameras",
+      "fx": {
+        "public": 3,
+        "order": -1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "op_ethics_chair",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "rival",
+    "text": "{rival} offers you the chair of the ethics committee. It comes with a car, a salary, and no power to make anyone answer anything.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Decline the chair",
+      "fx": {
+        "backers": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Take the car",
+      "fx": {
+        "backers": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "op_water_bill",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The government's water bill would fix the pipes and sell off the meters. You could amend the meters out, or talk the whole bill to death.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Amend the meters out",
+      "fx": {
+        "inst": 3,
+        "base": -2,
+        "backers": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Talk it to death",
+      "fx": {
+        "base": 3,
+        "order": -1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "op_tax_promise",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The polls say the country wants a tax cut no budget could survive. Your economists agree with the polls, in a different tone of voice.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Say it can't be paid",
+      "fx": {
+        "public": -3,
+        "inst": 2,
+        "money": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise the cut",
+      "fx": {
+        "public": 4,
+        "inst": -2
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "opb_tax_cut",
+          "delay": 14
+        }
+      ]
+    }
+  },
+  {
+    "id": "op_defector",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "One of {rival}'s ministers has crossed the floor to you. She brings twelve votes, a fine speaking voice and a fraud case.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Turn her away",
+      "fx": {
+        "backers": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Welcome her votes",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "op_boundaries",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The new constituency map is illegal in two places and very good for {rival} in forty. You could fight the two, or draw a map of your own.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Fight the two in court",
+      "fx": {
+        "inst": 3,
+        "money": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Draw your own map",
+      "fx": {
+        "base": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "op_two_yachts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{rival}'s treasurer bought a yacht with charity money. Your shadow treasurer bought a smaller yacht with a smaller charity's.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "An inquiry into both",
+      "fx": {
+        "inst": 3,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Shout about the big one",
+      "fx": {
+        "public": 3,
+        "backers": 1,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  },
+  {
+    "id": "op_border_week",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A border incident. {rival} asks the opposition to stand with the government for a week. The cameras would much prefer a row.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Stand with them",
+      "fx": {
+        "order": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Give them a row",
+      "fx": {
+        "base": 3,
+        "order": -3
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "op_shadow_budget",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Your shadow budget adds up if the economy grows twice as fast as it ever has. The costings office has asked for a meeting.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Cut it till it adds up",
+      "fx": {
+        "inst": 2,
+        "public": -2,
+        "base": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish it as it is",
+      "fx": {
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "enqueue": [
+        {
+          "id": "opb_shadow_budget",
+          "delay": 15
+        }
+      ]
+    }
+  },
+  {
+    "id": "op_pairing",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The government whip asks for a pair: one of yours sits out tonight while their minister buries her father. You could win the vote instead.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Honour the pair",
+      "fx": {
+        "inst": 2,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Win the vote",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "op_listening_tour",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Your listening tour visited forty towns. The report says exactly what the focus groups said before the tour set off.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Write it from the towns",
+      "fx": {
+        "public": 2,
+        "base": -1,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish the focus groups",
+      "fx": {
+        "backers": 2,
+        "public": 1,
+        "inst": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "op_one_donor",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A donor offers to pay for your whole campaign. In return one line of your programme would be his to write, any line he likes.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Small donors only",
+      "fx": {
+        "backers": -3,
+        "public": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let him write a line",
+      "fx": {
+        "backers": 4,
+        "inst": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "op_march",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Students are marching against {rival} and want you at the front. Two of their banners are libel, one of them about you.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "March, banners down",
+      "fx": {
+        "public": 1,
+        "base": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "March behind them all",
+      "fx": {
+        "base": 3,
+        "order": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "op_would_you",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A journalist asks whether you would have done what {rival} did. You would have, and you are very tired.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Say you would have",
+      "fx": {
+        "public": -2,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Say never",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "op_reshuffle",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your shadow cabinet needs reshuffling. The talented ones disagree with you. The loyal ones agree with anything, including each other.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the talented",
+      "fx": {
+        "base": -2,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Keep the loyal",
+      "fx": {
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -3,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ]
+    }
+  },
+  {
+    "id": "op_manifesto",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The manifesto committee wants to promise everything to everyone. The draft is two pages long, and both are the same page.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise what's costed",
+      "fx": {
+        "base": -2,
+        "public": -1,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Promise everything",
+      "fx": {
+        "base": 2,
+        "public": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "opb_everything",
+          "delay": 16
+        }
+      ]
+    }
+  },
+  {
+    "id": "op_court_friends",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "{rival} has put three friends on the constitutional court. Your members want you to promise four friends of your own.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise to unpack it",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Promise four friends",
+      "fx": {
+        "base": 3,
+        "inst": -4
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ]
+    }
+  },
+  {
+    "id": "op_emergency_powers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "{rival} wants emergency powers for the dock strike. You could oppose them, or vote them through and keep them for your own term.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Oppose the powers",
+      "fx": {
+        "inst": 3,
+        "order": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Vote them through",
+      "fx": {
+        "order": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_c"
+      ]
+    }
+  },
+  {
+    "id": "op_hospital_rumour",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "A by-election in a seat you should win. Your canvassers could explain the new hospital, or say {rival} is closing the old one.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Explain the hospital",
+      "fx": {
+        "public": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Say it's closing",
+      "fx": {
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "op_think_tank",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "A think tank has written you a climate plan. It is excellent, and paid for by a firm the plan would quietly exempt.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Write your own",
+      "fx": {
+        "backers": -2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Use theirs",
+      "fx": {
+        "backers": 3,
+        "inst": -2
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "op_old_speech",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "An old speech of yours praising {rival}'s housing plan has surfaced. {rival} is reading it aloud in the chamber, slowly.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "You changed your mind",
+      "fx": {
+        "public": -1,
+        "inst": 2,
+        "base": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Say it was faked",
+      "fx": {
+        "public": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "op_own_finances",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "You could publish your own finances before the vote, which {rival} never has. Yours are mostly fine, which is the difficulty.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Publish them",
+      "fx": {
+        "inst": 3,
+        "backers": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Keep them private",
+      "fx": {
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "op_census",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The census shows {rival} was right about the housing figures and you were wrong, in three speeches. The census could be questioned.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Concede the figures",
+      "fx": {
+        "inst": 3,
+        "base": -3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Question the census",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "op_get_well",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{rival} is in hospital. Your press office has two statements ready: one kind, and one that mentions the waiting lists.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Send the kind one",
+      "fx": {
+        "public": 1,
+        "inst": 1,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Mention the lists",
+      "fx": {
+        "base": 3,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "op_youth_wing",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Your youth wing has been caught mocking {rival}'s children in public. The wing says the children started it.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Suspend the wing",
+      "fx": {
+        "base": -3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Blame both sides",
+      "fx": {
+        "base": 2,
+        "public": -1,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "op_summit",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "A foreign president invites you to her summit instead of {rival}. It would look like a government in waiting, and be an insult.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Go with their blessing",
+      "fx": {
+        "order": 1,
+        "inst": 2,
+        "base": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Go and gloat",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "order": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "op_fair_count",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The electoral commission asks both parties to sign a pledge on fair counting before the next vote. {rival} has signed already.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Sign, and mean it",
+      "fx": {
+        "inst": 3,
+        "base": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign, and keep lawyers",
+      "fx": {
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ]
+    }
+  },
+  {
+    "id": "op_jobless_figures",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "{rival} has stopped publishing the jobless figures. You could demand them back, or publish your own, which are worse and made up.",
+    "opposition": true,
+    "oneShot": true,
+    "left": {
+      "label": "Demand them back",
+      "fx": {
+        "inst": 3,
+        "public": -2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Publish your own",
+      "fx": {
+        "public": 3,
+        "inst": -3
+      },
+      "drift": -5,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ]
+    }
+  }
+]
