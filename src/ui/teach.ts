@@ -84,6 +84,13 @@ export const LESSONS: readonly Lesson[] = [
     when: ({ card }) => card.type === "arc",
   },
   {
+    id: "campaign",
+    title: "Before the count",
+    body: () =>
+      "A vote is coming. The line says how an honest count would go today, and how you campaign can move it: a little if you play fair, further if you don't.",
+    when: ({ card }) => !!card.campaign,
+  },
+  {
     id: "election",
     title: "The count reads the average",
     body: () =>

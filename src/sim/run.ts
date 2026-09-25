@@ -19,6 +19,9 @@ export interface RunResult {
   finale: boolean;
   electionsSeen: number;
   cheats: number;
+  /** Campaign cards played (BACKLOG-10 phase 56), and of those the ones campaigned the easy way. */
+  campaigns: number;
+  easyCampaigns: number;
   /**
    * Votes the card told wrong (BACKLOG-9 phase 53): it said an honest count would win and the
    * honest side lost the vote, or the other way round. Anything but zero means the card lied.
@@ -71,6 +74,8 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
   let electionsSeen = 0;
   let cheats = 0;
   let mistold = 0;
+  let campaigns = 0;
+  let easyCampaigns = 0;
 
   while (!state.over) {
     if (state.cardCount >= opts.maxCards) throw new Error(`run exceeded ${opts.maxCards} cards (seed ${seed}, bot ${bot})`);
@@ -102,6 +107,10 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
         if (honestCount(lib, state).wins === lost) mistold++;
       }
     }
+    if (card.campaign) {
+      campaigns++;
+      if ((card[side].drift ?? 0) < (card[side === "left" ? "right" : "left"].drift ?? 0)) easyCampaigns++;
+    }
     state = resolve(lib, state, id, side);
     seat(state);
   }
@@ -119,6 +128,8 @@ export function playRunFrom(lib: Library, bot: BotName, seed: number, setup: Run
     finale: endingId.startsWith(lib.config.finalePrefix),
     electionsSeen,
     cheats,
+    campaigns,
+    easyCampaigns,
     mistold,
     arcs: state.activeArcs.filter((a) => questionOfArc(lib, a.id) === undefined).length,
     questions: state.activeArcs.filter((a) => questionOfArc(lib, a.id) !== undefined).length,

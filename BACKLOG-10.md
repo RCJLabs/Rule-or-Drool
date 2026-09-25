@@ -5,7 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except idea 1, which you chose: it is phase 55, done in v0.65.0, at the end of this file.
+except ideas 1 and 2, which you chose: phases 55 and 56, done in v0.65.0 and v0.66.0, at the end
+of this file.
 
 Each idea says:
 - what it is;
@@ -419,3 +420,129 @@ deck apart.
   Each side's longest opposition card and return vote fit a 360×640 screen in all seven looks,
   with the buttons drawn. They are also the least-read cards in the game, and yours to read and
   sharpen.
+
+---
+
+## Phase 56. A campaign before the count (idea 2) — *done*
+
+**Shipped in v0.66.0.** You chose idea 2. It was built to the rules proposed, and cost more
+balance than they said: the bar rose from 44 to 46, and the return vote's swing from 3 to 5.
+
+**Measured first, at v0.65.0** (3,000 runs a bot).
+- **A third of the votes are close.** For the informed voter, 16.7% of votes are narrow losses,
+  within 5 points of the bar, and 18.1% narrow wins. 16.7% are lost by more.
+- **What a lift would do:** +2 on the count turns 7.0% of all votes from lost to won, +3 10.4%,
+  and +5 16.7%, every narrow loss. The mixed bot's votes are the same to within a point.
+- **The two cards before a vote already move the count,** by chance: by 3 points or more either
+  way in one vote in five, and by 2 or more in half.
+
+**The rules.**
+1. **The two cards before each vote in office are the campaign.** They come from a campaign deck,
+   this side's and either side's, in any era and band. Out of office there is none: the
+   opposition's nine cards are its campaign. Once elections are abolished there is none, and a
+   side with no campaign card left gets the ordinary deal.
+2. **Each campaign card is a choice of how to campaign,** and both sides lift the coalition:
+   - the honest campaign by 2 to 4 bloc points, about a point on the count, often at a small
+     cost to the treasury or another bloc. It drifts +1 to +3, as an honest vote has since
+     phase 54: it is the least a candidate owes;
+   - the easy one by 6 to 9 bloc points, two or three on the count. It costs the state, drifts
+     −5 to −7, and hands the rival 3 points of standing to campaign on. About a quarter leave a
+     promise that comes due as a bill.
+
+   Two easy campaigns can make up a narrow loss. Nothing makes up a loss by more, so deep losses
+   keep the choice between cheating and losing.
+3. **A campaign card says where the count stands,** in the election card's bands: "As it stands:
+   a narrow loss". The election card's line then reads the count the campaign left.
+4. **A lesson,** *Before the count*, the first time.
+
+**Balancing it.** As first written, the honest side drifted +2 to +4, the easy side −3 to −5, and
+the rival got nothing. That broke the targets: the informed voter reached the Ascent in 42.3% of
+runs, the mixed bot in 25.0%, and the greedy bot ended in Decay in 68.9%, a miss.
+- **Where the gain came from.** The campaign cards were close to drift-neutral themselves: −2.0
+  a run for the informed voter. The gain was at the votes. Both sides lift the coalition, so
+  fewer votes were lost: the informed voter went out of office in 31.6% of runs, from 56.3%, and
+  the mixed bot cheated 1.35 votes a run, from 1.77. Each bot gained about 10 drift a run.
+- **What was measured** (3,000 runs a bot unless marked):
+
+| Setting | Informed Ascent | Mixed | Greedy in Decay | Long reign: mixed reaches era 5 |
+|---|---|---|---|---|
+| As first written, bar 44 | 42.3% | 25.0% | 68.9%, a miss | |
+| The honest lift cut to 1 bloc point (2,000 runs) | 40.9% | 24.8% | 70.5% | |
+| Both sides' drift 1 less (2,000 runs) | 34.5% | 19.8% | 76.2% | |
+| Honest drift 1 less, easy 2 less, bar 46 | 27.5% | 14.6% | 79.9% | 97.2%, a miss |
+| The same at bar 47 | 25.8% | 13.6% | 80.0% | 97.3%, a miss |
+| Bar 46, and the easy side gives the rival 3 | 26.6% | 14.7% | 79.0% | 96.6% |
+| The rival 5 instead | 26.7% | 14.5% | 79.3% | 96.7% |
+
+- **Drift is the lever that works.** The honest lift barely moved the Ascent, and each point on
+  the bar moved it by one to two points.
+- **The long reign.** A campaign card is also a bloc heal: the easy side lifts every bloc, and the
+  mixed bot takes it when a meter is near its edge. Its long reigns lasted longer, and no bar
+  changed that: `rival_wins` halved, and `personality_cult` appeared. Giving the rival 3 points
+  of standing on each easy campaign brought era 5 back under the limit. 5 did no better.
+- **The return vote.** At bar 46 the return vote's bar would have been 43, not 41, and honest
+  returns fell to 51% of oppositions. The swing went from 3 to 5, which keeps it at 41: 62.5% of
+  the informed voter's oppositions end in an honest return, 30.3% in the shortcut.
+
+**What was built.**
+- **The engine:** the campaign slot in the deal (`campaignDue`, `campaignLead` 2), and the deal
+  version 3. There is no new run state: the slot is the card count against the next vote, so saves
+  need no migration.
+- **The validator:** each side needs 20 or more campaign cards. A campaign card is an event, not
+  a story's or the opposition's. Both sides must lift the coalition, and the easy side at least as
+  far as the honest one.
+- **The content** (`src/content/cards/campaign/`): 40 campaign cards, 20 for either side and 10
+  each for the Commons and the Ledger, and the 11 bills their promises leave.
+- **The screen:** the line on a campaign card, said aloud too, and the lesson.
+- **The bots:** the engine's preview now carries the count after each choice. The informed voter
+  reads a campaign card's line: honestly when that wins, the easy way on a narrow loss, honestly
+  when the loss is deeper. The harness reports campaign cards a run and the share taken the easy
+  way.
+- **Tests:**
+  - 9 for the engine and the informed voter, 4 for the screen, 4 for the validator;
+  - the small-phone fit audit places each side's longest campaign card with its longest line, in
+    all seven looks;
+  - the count-line tests expect the line on campaign cards.
+
+**Measured after, at 10,000 runs a bot.**
+- **The informed voter:** Ascent 27.5% (was 28.2%), 2.5 points under its ceiling. It cheats 11.1%
+  of its votes (was 17.1%).
+- **The mixed bot:** Ascent 15.2% (was 14.1%). It cheats 50.4% of its votes (was 61.0%).
+- **Every other target holds:**
+  - random's median run is 47 cards (was 45), and no ouster cause takes over 15.3%;
+  - greedy ends in Decay 78.7%;
+  - saint is ousted before era 2 in every run;
+  - the card told 112,836 of 112,836 votes true.
+- **The long reign,** 3,000 reigns a bot:
+  - informed Ascent 27.3%, mixed 14.6%;
+  - the mixed bot reaches era 5 in 96.7% (was 96.3%) and sees the long finale in 94.0% (was
+    94.1%).
+- **Repeats,** a player's 10th and 20th run: cards already seen 56.2% and 79.0%, story cards
+  already met 55.6% and 83.3%. The limits are 65% and 85%.
+
+**What a player meets** (3,000 runs a bot).
+- **About six campaign cards a competent run.** The informed voter campaigns the easy way on 47%
+  of them, the mixed bot on 41%.
+- **The campaign decides votes.** It turns a losing count into a winning one at 16.0% of the
+  informed voter's votes, and at 11.6% of the mixed bot's. It never turns a win into a loss.
+- **The dilemma is still there.** 22.6% of the informed voter's votes are lost honestly at the
+  vote, from 33%, and 29.3% of the mixed bot's. The informed voter goes out of office in 42% of
+  runs, from 55%.
+
+**The deck moved,** from `0d81nay4` to `3c9ktfpd`. Codes, links and dailies from before deal
+differently, and the game says so (phase 49). The playtest report keeps records from the old
+deck apart.
+
+**What it does not settle.**
+- **One margin is thinner:** the mixed bot's long reign reaches era 5 in 96.7%, 0.3 points under
+  its limit (0.7 at v0.65.0). The informed voter's Ascent margin widened, from 1.8 points to 2.5.
+- **The bot mostly campaigns the easy way by its danger rule, not by the line.** 88% of the
+  informed voter's easy campaigns come with a meter near its edge, where it plays as the mixed
+  bot. How people campaign, and why, is for the closed test.
+- **The bar rose again,** to 46. An honest campaign lifts the count by about 2 before a vote, so
+  for a player who campaigns honestly a vote is about as hard as it was. It is the easy campaign
+  that makes one easier.
+- **The playtest report** does not yet show campaign choices on their own.
+- **The 40 cards and 11 bills are a first draft.** They pass the strict validator, voice ceilings
+  included, and each side's longest fits a 360×640 screen in all seven looks with its line. They
+  are yours to read and sharpen.

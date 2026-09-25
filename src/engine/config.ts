@@ -17,14 +17,24 @@ export interface EngineConfig {
   /** Cards between elections (5.4 says ~25). */
   electionInterval: number;
   /**
+   * How many cards before a vote in office are the campaign (BACKLOG-10 phase 56): the cards
+   * that can still move the count, with the count on them.
+   */
+  campaignLead: number;
+  /**
    * An honest election is lost when the average of the three blocs falls below this (5.4).
    * 40 until BACKLOG-9 phase 54 raised it to 44: once the card said how the count stood, a
-   * player who never cheats a vote they can win reached the Ascent in 39% of runs.
+   * player who never cheats a vote they can win reached the Ascent in 39% of runs. 46 since
+   * BACKLOG-10 phase 56, whose campaign lifts the coalition by about three points before a
+   * vote: at 44 about one vote in six was lost honestly, and the informed voter's Ascent
+   * passed its ceiling.
    */
   electionMoodThreshold: number;
   /**
    * How much lower the bar is at the return vote that ends an opposition (BACKLOG-10 phase
    * 55): the government has had the office for the rest of the era, and worn out its welcome.
+   * 5 since phase 56 raised the bar by 2, which keeps the return vote's own bar where phase 55
+   * set it, at 41.
    */
   returnSwing: number;
   /** Role whose advisor is the rival, drawn from the side the player did not pick. */
@@ -167,8 +177,9 @@ export const DEFAULT_CONFIG: EngineConfig = {
   longEraCount: 5,
   eraLength: 35,
   electionInterval: 25,
-  electionMoodThreshold: 44,
-  returnSwing: 3,
+  campaignLead: 2,
+  electionMoodThreshold: 46,
+  returnSwing: 5,
   rivalRole: "rival",
   rivalStart: 30,
   rivalCheatGain: 9,

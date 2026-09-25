@@ -27,6 +27,17 @@ export function electionDue(lib: Library, state: GameState): boolean {
   return !hasFlag(state, lib.config.electionsAbolishedFlag) && state.cardCount >= state.nextElectionAt;
 }
 
+/**
+ * Whether the card about to be dealt is one of the campaign's (BACKLOG-10 phase 56): one of the
+ * `campaignLead` cards before a vote in office. Out of office the opposition's own cards are its
+ * campaign, and once elections are abolished there is no vote to campaign for.
+ */
+export function campaignDue(lib: Library, state: GameState): boolean {
+  if (state.opposition || hasFlag(state, lib.config.electionsAbolishedFlag)) return false;
+  const until = state.nextElectionAt - state.cardCount;
+  return until >= 1 && until <= lib.config.campaignLead;
+}
+
 function alignOk(card: { align: Card["align"] }, state: GameState): boolean {
   return card.align === "any" || card.align === state.align;
 }
@@ -131,6 +142,19 @@ function drawReturnVote(lib: Library, state: GameState): [Card | null, GameState
   const past = pastOf(state);
   for (const relax of LADDER) {
     const cands = lib.returnVotes.filter((c) => alignOk(c, state) && eligible(lib, c, state, { ...relax, cooldown: true }, past));
+    if (cands.length > 0) return pickFrom(lib, state, cands);
+  }
+  return [null, state];
+}
+
+/**
+ * A card from the campaign deck: any era and band, this side's and either side's. A side with
+ * none left to deal falls through to the ordinary deal.
+ */
+function drawCampaign(lib: Library, state: GameState): [Card | null, GameState] {
+  const past = pastOf(state);
+  for (const relax of LADDER) {
+    const cands = lib.campaignCards.filter((c) => alignOk(c, state) && eligible(lib, c, state, relax, past));
     if (cands.length > 0) return pickFrom(lib, state, cands);
   }
   return [null, state];
@@ -308,6 +332,9 @@ export function draw(lib: Library, state: GameState): GameState {
     ? [...(returnDue(state) ? [["election", drawReturnVote] as Source] : []), ["opposition", drawOpposition]]
     : [
         ...(electionDue(lib, state) ? [["election", drawElection] as Source] : []),
+        // The cards before a vote are the campaign's; bills and stories wait for them
+        // (BACKLOG-10 phase 56).
+        ...(campaignDue(lib, state) ? [["campaign", drawCampaign] as Source] : []),
         ["queue", tickQueue],
         ["arc", drawArcContinue],
         ["arc", drawQuestionEntry],

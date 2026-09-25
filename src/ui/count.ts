@@ -34,10 +34,15 @@ export interface CountLine {
   text: string;
 }
 
-/** The line for a card on the table: an election with an honest side has one, nothing else does. */
+/**
+ * The line for a card on the table: an election with an honest side has one, and so does a
+ * campaign card, which says where the count stands before the vote it campaigns for (BACKLOG-10
+ * phase 56). Nothing else does.
+ */
 export function countLine(lib: Library, state: GameState, card: Card): CountLine | null {
-  if (card.type !== "election" || !(card.left.honest || card.right.honest)) return null;
+  const standing = !!card.campaign;
+  if (!standing && (card.type !== "election" || !(card.left.honest || card.right.honest))) return null;
   const count = honestCount(lib, state);
   const band = countBand(count);
-  return { band, wins: count.wins, text: STRINGS.count[band] };
+  return { band, wins: count.wins, text: (standing ? STRINGS.standing : STRINGS.count)[band] };
 }

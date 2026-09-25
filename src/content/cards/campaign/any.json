@@ -1,0 +1,889 @@
+[
+  {
+    "id": "cp_debate",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{rival} has agreed to a televised debate. You could prepare to answer, or fill the studio with people who clap on cue.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Prepare to answer",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Fill the studio",
+      "fx": {
+        "base": 4,
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_cheques",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasury could post every household a cheque the week before the vote. It would bounce, economically, some time after.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep the treasury shut",
+      "fx": {
+        "backers": 2,
+        "public": 1,
+        "inst": 1,
+        "money": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Post the cheques",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "money": -5
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_cheques",
+          "delay": 10
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_ribbon",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A bridge in a close district could be opened the week before the vote. It is not finished, but the ribbon is.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Open it when it's safe",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Cut the ribbon now",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "order": -2,
+        "inst": -1
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_bridge",
+          "delay": 9
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_poll",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Your pollster could publish a poll that shows you ahead. She could also publish the one she actually took.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Publish the real one",
+      "fx": {
+        "base": 3,
+        "public": -1,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Publish the nice one",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_doorstep",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The canvassers want a doorstep script. The honest one takes eight minutes. The other takes one, and a small lie.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "The eight minutes",
+      "fx": {
+        "public": 3,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "One minute and the lie",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_chef",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A famous chef will endorse you on the evening news, for a small consideration involving a restaurant licence.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "No licences for fans",
+      "fx": {
+        "public": 2,
+        "inst": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Sort out the licence",
+      "fx": {
+        "public": 5,
+        "backers": 1,
+        "inst": -3
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_wedding",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The agency made two adverts. One says what you would do. The other says what {rival} said at a wedding years ago.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Run what you'd do",
+      "fx": {
+        "public": 3,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Run the wedding",
+      "fx": {
+        "base": 4,
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_stations",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Extra polling stations could open where your voters live, and a few could close where they don't. The law is silent on it.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Open more everywhere",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "money": -2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Only where it helps",
+      "fx": {
+        "base": 4,
+        "public": 2,
+        "inst": -3,
+        "order": -1
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_rally",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Your rally could march past {rival}'s headquarters. The police say it would be lively. The organisers say that is the idea.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Hold it in the park",
+      "fx": {
+        "base": 3,
+        "money": -1
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "March past their door",
+      "fx": {
+        "base": 5,
+        "public": 1,
+        "order": -3
+      },
+      "drift": -5,
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_jobs",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The statistics office publishes the jobs figures three days before the vote. They are bad. It could be asked to wait.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Publish on the day",
+      "fx": {
+        "inst": 3,
+        "public": 1,
+        "base": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Ask it to wait",
+      "fx": {
+        "public": 3,
+        "backers": 2,
+        "base": 1,
+        "inst": -4
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_young",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The young do not vote, so no one promises them anything, so they do not vote. You could break the circle either way.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise what you'll do",
+      "fx": {
+        "public": 3,
+        "backers": -1,
+        "money": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Promise them everything",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "inst": -1
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_young",
+          "delay": 11
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_pensions",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Pensions rise in spring whoever wins. A letter to every pensioner could say so, or could imply it was your idea.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Send the plain facts",
+      "fx": {
+        "public": 2,
+        "inst": 1,
+        "money": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Imply it's your doing",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "money": -2,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_crime",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Crime is down this year. Your campaign could say so, or say it is rising and only you can stop it, which polls better.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Say it's down",
+      "fx": {
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Say it's rising",
+      "fx": {
+        "base": 4,
+        "public": 3,
+        "order": -2,
+        "inst": -1
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_accounts",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A firm offers ten thousand online accounts that will agree with you loudly until polling day. They are one man in a flat.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Real supporters only",
+      "fx": {
+        "base": 2,
+        "public": 1,
+        "money": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Buy the ten thousand",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "money": -3,
+        "inst": -2
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_budget",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The budget could come before the vote, full of gifts, or after it, full of arithmetic.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "After, with arithmetic",
+      "fx": {
+        "backers": 2,
+        "inst": 2
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Before, with gifts",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "money": -4
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_budget",
+          "delay": 10
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_town_hall",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A town hall in a hostile district. You could take every question, or only the ones your staff wrote out on cards.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Take every question",
+      "fx": {
+        "public": 3,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Only the cards",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_farm",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A photograph on a farm would help in the towns. The farmer asks whether you will come back after the vote.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Say you might not",
+      "fx": {
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Promise to come back",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "inst": -1
+      },
+      "drift": -5,
+      "enqueue": [
+        {
+          "id": "cpb_farm",
+          "delay": 12
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_storm_fund",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The storm repair fund could go to the districts that flooded, or to the districts that are close.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Where the water was",
+      "fx": {
+        "public": 2,
+        "inst": 2,
+        "money": -2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Where the votes are",
+      "fx": {
+        "base": 3,
+        "public": 4,
+        "money": -2,
+        "inst": -3
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_tax_file",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Someone has sent you {rival}'s tax file. It is probably illegal to have it, and certainly interesting.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Send it to the police",
+      "fx": {
+        "inst": 3,
+        "public": 1,
+        "base": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Leak one page",
+      "fx": {
+        "base": 4,
+        "public": 3,
+        "inst": -4
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cp_ministers",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Every minister could spend the last week opening things in close seats, paid for by the ministry rather than the party.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "The party pays",
+      "fx": {
+        "base": 3,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "The ministries pay",
+      "fx": {
+        "public": 4,
+        "base": 3,
+        "money": -3,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ],
+      "rival": 3
+    }
+  }
+]

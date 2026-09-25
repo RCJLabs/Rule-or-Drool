@@ -6,8 +6,9 @@
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
 import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../engine/mandates";
+import { fxDeltas } from "../engine/state";
 import type { Arc, Card, Choice, Cond, Content } from "../engine/types";
-import { BANDS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
+import { BANDS, BLOC_KEYS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
 
 /** Content may write and read `mood`, the shorthand across the coalition blocs. */
 const FX_KEYS = [...METER_KEYS, "mood"] as const;
@@ -21,6 +22,8 @@ import { Issues, type Issue, type Where } from "./issues";
 
 /** The fewest opposition cards each side may have: an opposition is up to nine cards. */
 const OPPOSITION_MIN = 25;
+/** The fewest campaign cards each side may have: a long reign campaigns for five votes, two cards each. */
+const CAMPAIGN_MIN = 20;
 
 export interface RuleOptions {
   config: EngineConfig;
@@ -583,7 +586,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   }
 
   // ---- coverage: cells, elections, epilogues ----------------------------------------------
-  const pool = content.cards.filter((c) => c.type === "event" && !c.opposition && (c.weight ?? 1) > 0);
+  const pool = content.cards.filter((c) => c.type === "event" && !c.opposition && !c.campaign && (c.weight ?? 1) > 0);
   const electionCards = content.cards.filter((c) => c.type === "election" && !c.opposition && (c.weight ?? 1) > 0);
   for (const era of eras) {
     for (const band of BANDS) {
@@ -615,6 +618,28 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!c.opposition) continue;
     if (c.type !== "event" && c.type !== "election") issues.error("opposition-type", `only an event or an election can be dealt in opposition, not "${c.type}"`, { kind: "card", id: c.id });
     if (c.arc) issues.error("opposition-arc", "a story card cannot be dealt in opposition: stories pause there", { kind: "card", id: c.id });
+  }
+
+  // The campaign deals from its own deck in the cards before a vote in office (BACKLOG-10 phase
+  // 56). A campaign card is a choice of how to win the vote, so both sides lift the coalition, and
+  // the side that drifts toward Decay lifts it at least as far: the easy campaign is the one that
+  // works today. Content with no campaign keeps the ordinary deal before a vote.
+  for (const align of content.cards.some((c) => c.campaign) ? PLAYER_ALIGNS : []) {
+    const deck = content.cards.filter((c) => c.campaign && c.type === "event" && (c.weight ?? 1) > 0 && (c.align === align || c.align === "any"));
+    if (deck.length < CAMPAIGN_MIN) issues.error("campaign-thin", `${align}: ${deck.length} campaign cards, minimum ${CAMPAIGN_MIN}`);
+  }
+  for (const c of content.cards) {
+    if (!c.campaign) continue;
+    const where: Where = { kind: "card", id: c.id };
+    if (c.type !== "event") issues.error("campaign-type", `only an event can be dealt in a campaign, not "${c.type}"`, where);
+    if (c.arc) issues.error("campaign-arc", "a story card cannot be dealt in a campaign", where);
+    if (c.opposition) issues.error("campaign-opposition", "a card belongs to the campaign or the opposition, not both", where);
+    const lift = (ch: Choice) => BLOC_KEYS.reduce((n, b) => n + (fxDeltas(ch.fx)[b] ?? 0), 0);
+    for (const side of ["left", "right"] as const) {
+      if (lift(c[side]) <= 0) issues.error("campaign-flat", `${side} does not lift the coalition, and a campaign card is a choice of how to win the vote`, { ...where, path: side });
+    }
+    const [honest, easy] = (c.left.drift ?? 0) >= (c.right.drift ?? 0) ? [c.left, c.right] : [c.right, c.left];
+    if (lift(easy) < lift(honest)) issues.error("campaign-backwards", "the honest side lifts the coalition further than the side that drifts toward Decay", where);
   }
 
   checkHistories(issues);

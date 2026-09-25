@@ -259,6 +259,9 @@ bots (BACKLOG-5 phase 31):
   ends, and a return vote decides whether it comes back (BACKLOG-10 phase 55). The report
   counts return votes with the others. The deck moved with it, so records from v0.64.0 and
   before are kept apart.
+- Since v0.66.0 the two cards before each vote are a campaign, which says where the count
+  stands and can move it (BACKLOG-10 phase 56). The bar an honest count must clear rose from
+  44 to 46 with it. The deck moved again, so records from v0.65.0 and before are kept apart.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

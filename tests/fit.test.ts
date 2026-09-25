@@ -16,7 +16,7 @@ describe("the cards the fit check places", () => {
     expect(unknown, "a kind of card the fit check does not place: add it to tests/fit.ts").toEqual([]);
     for (const party of ["left", "right"] as const) {
       const kinds = new Set(fitPlacements(library, party).map((p) => p.kind));
-      expect([...kinds].sort(), party).toEqual(["election", "event", "named", "question", "story"]);
+      expect([...kinds].sort(), party).toEqual(["campaign", "election", "event", "named", "question", "story"]);
     }
   });
 

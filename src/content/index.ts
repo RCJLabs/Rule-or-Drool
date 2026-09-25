@@ -135,6 +135,10 @@ import oppositionLeft from "./cards/opposition/left.json";
 import oppositionRight from "./cards/opposition/right.json";
 import oppositionVotes from "./cards/opposition/votes.json";
 import oppositionBills from "./cards/opposition/bills.json";
+import campaignAny from "./cards/campaign/any.json";
+import campaignLeft from "./cards/campaign/left.json";
+import campaignRight from "./cards/campaign/right.json";
+import campaignBills from "./cards/campaign/bills.json";
 import arcs from "./arcs/arcs.json";
 import advisors from "./advisors.json";
 import modifiers from "./modifiers.json";
@@ -211,6 +215,12 @@ export const content: Content = {
     ...asCards(oppositionRight, "opposition/right.json"),
     ...asCards(oppositionVotes, "opposition/votes.json"),
     ...asCards(oppositionBills, "opposition/bills.json"),
+    // The campaign before each vote, and the promises it makes that come due after the count
+    // (BACKLOG-10 phase 56).
+    ...asCards(campaignAny, "campaign/any.json"),
+    ...asCards(campaignLeft, "campaign/left.json"),
+    ...asCards(campaignRight, "campaign/right.json"),
+    ...asCards(campaignBills, "campaign/bills.json"),
     // The long reign's two eras (BACKLOG-5 phase 39): drawn only in a run that reaches them.
     ...asCards(era4Any, "era4/any.json"),
     ...asCards(era4Bands, "era4/bands.json"),

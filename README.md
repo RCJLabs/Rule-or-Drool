@@ -14,7 +14,9 @@ the Cities if you lead the Commons; the Faithful, the Donors and the Country if 
 Ledger. Pleasing one usually costs another, any of them can walk out on you, and elections
 are decided by their average. The election card says whether an honest count would win.
 Lose an honest count and you lead the opposition until the era ends, when a return vote
-decides whether you come back. A second lost count ends the run.
+decides whether you come back. A second lost count ends the run. The two cards before each vote
+are the campaign: each says where the count stands, and can move it, a little if you play fair
+and further if you don't.
 
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,

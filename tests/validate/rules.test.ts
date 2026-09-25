@@ -423,3 +423,41 @@ describe("rules: per-card", () => {
     expect(codes(c)).toEqual(["warn:ending-card"]);
   });
 });
+
+// BACKLOG-10 phase 56: the campaign deals from its own deck in the cards before a vote.
+describe("rules: the campaign", () => {
+  const campaign = (over: Partial<Card> = {}): Card =>
+    extraCard({
+      id: "camp",
+      campaign: true,
+      left: { label: "Honestly", fx: { public: 2, inst: 1 }, drift: 2 },
+      right: { label: "The easy way", fx: { public: 5, inst: -2 }, drift: -5, rival: 3 },
+      ...over,
+    });
+  const about = (card: Card) =>
+    run({ ...makeValid(), cards: [...makeValid().cards, card] })
+      .filter((i) => i.id === "camp")
+      .map((i) => i.code)
+      .sort();
+
+  it("holds content that has a campaign to covering both sides, and leaves content without one alone", () => {
+    const c = makeValid();
+    expect(codes(c)).not.toContain("error:campaign-thin");
+    expect(codes({ ...c, cards: [...c.cards, campaign()] })).toContain("error:campaign-thin");
+  });
+
+  it("accepts a card whose sides both lift the coalition, the easy one further", () => {
+    expect(about(campaign())).toEqual([]);
+  });
+
+  it("rejects a side that does not lift the coalition, and an honest side that lifts it further", () => {
+    expect(about(campaign({ left: { label: "Hard truths", fx: { public: -1, inst: 3 }, drift: 3 } }))).toContain("campaign-flat");
+    expect(about(campaign({ left: { label: "Honestly", fx: { public: 6 }, drift: 2 } }))).toContain("campaign-backwards");
+    // The mood shorthand lifts all three blocs.
+    expect(about(campaign({ left: { label: "Honestly", fx: { mood: 1 }, drift: 2 } }))).toEqual([]);
+  });
+
+  it("rejects a card that is the opposition's as well", () => {
+    expect(about(campaign({ opposition: true }))).toContain("campaign-opposition");
+  });
+});

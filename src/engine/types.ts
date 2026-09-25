@@ -123,6 +123,11 @@ export interface Card {
    * opposition deck, or an election card that is the return vote at the era's end.
    */
   opposition?: boolean;
+  /**
+   * Dealt only as one of the cards before a vote in office (BACKLOG-10 phase 56): a choice of
+   * how to campaign, honestly or not, with the count as it stands on the card.
+   */
+  campaign?: boolean;
   left: Choice;
   right: Choice;
 }
@@ -404,7 +409,7 @@ export interface Road {
  * card is gated on counting marks: it is not here because of one choice, it is here because
  * of a pattern of them, which is a different thing to say to the player.
  */
-export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition"] as const;
+export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign"] as const;
 export type CardSource = (typeof CARD_SOURCES)[number];
 
 export interface RunSetup {

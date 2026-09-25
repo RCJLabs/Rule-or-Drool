@@ -1,0 +1,441 @@
+[
+  {
+    "id": "cpl_ballot",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The transport union could hold its strike ballot the week after the vote, as a favour. The Cities would get to the polls.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Let them ballot freely",
+      "fx": {
+        "backers": 3,
+        "public": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Ask for the favour",
+      "fx": {
+        "public": 4,
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_rent",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The Cities want a rent freeze announced before the vote. Your lawyers say it cannot pass. Your pollster says that is not the point.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Say what can pass",
+      "fx": {
+        "public": 3,
+        "inst": 1,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Announce it anyway",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_rent",
+          "delay": 10
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_saturday",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Movement wants one more march before polling day: through the shopping streets, on a Saturday, with drums.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Sunday, in the park",
+      "fx": {
+        "base": 3,
+        "public": -1
+      },
+      "drift": 1
+    },
+    "right": {
+      "label": "Saturday, with drums",
+      "fx": {
+        "base": 5,
+        "public": 1,
+        "order": -3
+      },
+      "drift": -5,
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_wages",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The Unions will pay for the last week of the campaign if they may write the paragraph on wages themselves.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Pay your own way",
+      "fx": {
+        "public": 2,
+        "base": 1,
+        "backers": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Let them write it",
+      "fx": {
+        "backers": 5,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_flats",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Your canvassers could promise each renter a flat from the waiting list. There are nine thousand flats and ninety thousand renters.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Promise the building",
+      "fx": {
+        "public": 3,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Promise each a flat",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_flats",
+          "delay": 11
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_gate",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A speech at the factory gate would play well, if the factory were open. It closed in spring. The gate is still there.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Speak at a working one",
+      "fx": {
+        "backers": 3,
+        "base": 1,
+        "public": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Use the gate anyway",
+      "fx": {
+        "backers": 3,
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_students",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Students may register at home or at college, wherever they are asked to. Your organiser has a list of where to ask them.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Tell them the rules",
+      "fx": {
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Send them where needed",
+      "fx": {
+        "base": 3,
+        "public": 3,
+        "inst": -3
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_payslips",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The Unions' stewards could hand out your leaflets with the pay slips. The employers would call it a scandal, correctly.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Leaflets at the gates",
+      "fx": {
+        "backers": 2,
+        "base": 1,
+        "public": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "In with the pay slips",
+      "fx": {
+        "backers": 4,
+        "public": 2,
+        "inst": -2,
+        "order": -1
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_metro",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The new metro line could be drawn through every close district. It would be long, slow, and mostly curves.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Draw it where people go",
+      "fx": {
+        "public": 2,
+        "inst": 1,
+        "money": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Draw it through them",
+      "fx": {
+        "public": 5,
+        "base": 1,
+        "money": -3
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_metro",
+          "delay": 12
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpl_bailiffs",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Evictions could be paused until after the vote by a letter to the bailiffs. The letter has no legal force, and they know it.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Change the law properly",
+      "fx": {
+        "public": 3,
+        "inst": 1,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Send the letter",
+      "fx": {
+        "public": 5,
+        "base": 2,
+        "inst": -3
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ],
+      "rival": 3
+    }
+  }
+]

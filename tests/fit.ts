@@ -7,9 +7,10 @@ import type { Advisor, Card, GameState, PlayerAlign } from "../src/engine/types"
  * Which cards the small-phone fit check puts on the table (BACKLOG-8 phase 51). Every kind of
  * card draws something the others do not: a question a title line, an election a double
  * border, a card with a name the name. So each side's longest of every kind is placed, as
- * the table would show it, not only the longest events.
+ * the table would show it, not only the longest events. A campaign card carries the count
+ * under its text, as an election does (BACKLOG-10 phase 56).
  */
-export type FitKind = "event" | "story" | "question" | "election" | "named";
+export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign";
 
 /** How many of each side's longest events are placed: they are most of the deck. */
 const EVENTS = 4;
@@ -21,6 +22,7 @@ export function arcOf(lib: Library, card: Card): { id: string; question: boolean
 
 /** The kind of card this is on the table; undefined for one the fit check does not know. */
 export function kindOf(lib: Library, card: Card): FitKind | undefined {
+  if (card.campaign) return "campaign";
   if (/\{\w+\}/.test(card.text)) return "named";
   const arc = arcOf(lib, card);
   if (arc) return arc.question ? "question" : "story";
@@ -80,7 +82,7 @@ export function fitPlacements(lib: Library, party: PlayerAlign): Placement[] {
     .map((card) => ({ card, kind: kindOf(lib, card), text: shownText(lib, card, party) }))
     .sort((a, b) => b.text.length - a.text.length || a.card.id.localeCompare(b.card.id));
   const out: Placement[] = [];
-  for (const kind of ["event", "story", "question", "election", "named"] as const) {
+  for (const kind of ["event", "story", "question", "election", "named", "campaign"] as const) {
     for (const { card, text } of theirs.filter((c) => c.kind === kind).slice(0, kind === "event" ? EVENTS : 1)) {
       out.push({ kind, card, arc: arcOf(lib, card)?.id, seats: longestSeats(lib, card, party), text });
     }

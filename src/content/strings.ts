@@ -146,6 +146,17 @@ export const STRINGS = {
     loss: "Counted honestly: a loss",
   },
   /**
+   * The same count on a campaign card (BACKLOG-10 phase 56), read before the vote it campaigns
+   * for: where it stands now, which the campaign can still move. No longer than the count's own.
+   */
+  standing: {
+    easy: "As it stands: an easy win",
+    win: "As it stands: a win",
+    narrowWin: "As it stands: a narrow win",
+    narrowLoss: "As it stands: a narrow loss",
+    loss: "As it stands: a loss",
+  },
+  /**
    * Out of office (BACKLOG-10 phase 55): the first lost vote hands the office to the rival, and
    * the run plays the opposition until the era ends.
    */

@@ -624,15 +624,18 @@ describe.skipIf(!target)("in a browser", () => {
       // put on the table at its longest: a coalition a point or two under the bar, which is a
       // narrow loss in every look, since a look moves the bar by under three points.
       const longestCount = Object.values(STRINGS.count).reduce((a, b) => (b.length > a.length ? b : a));
+      // A campaign card says where the same count stands, at its longest too (BACKLOG-10 phase 56).
+      const longestStanding = Object.values(STRINGS.standing).reduce((a, b) => (b.length > a.length ? b : a));
+      const counted = (kind: string) => kind === "election" || kind === "campaign";
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
           await rewriteRun(
             page,
             `raw.state.current = ${JSON.stringify(card.id)};
-            raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" ? "election" : "deck")};
+            raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" ? kind : "deck")};
             ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
-            ${kind === "election" ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
+            ${counted(kind) ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
             Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
           );
           await page.reload();
@@ -645,11 +648,12 @@ describe.skipIf(!target)("in a browser", () => {
             await toLook(page, look);
             const label = `${party}, ${kind} ${card.id} in ${look}`;
             failures.push(...(await misfits(page, label)));
-            if (kind !== "election") continue;
+            if (!counted(kind)) continue;
             // The longest line, on one line, and as readable as the prose above it.
             const line = page.locator(".card .count-line");
             const said = await line.textContent();
-            if (said !== longestCount) failures.push(`${label}: the count says "${said}", not the longest, "${longestCount}"`);
+            const longest = kind === "campaign" ? longestStanding : longestCount;
+            if (said !== longest) failures.push(`${label}: the count says "${said}", not the longest, "${longest}"`);
             const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
             if (lines !== 1) failures.push(`${label}: the count takes ${lines} lines`);
             failures.push(...(await contrast(page, label)));

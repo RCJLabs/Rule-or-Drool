@@ -1,0 +1,439 @@
+[
+  {
+    "id": "cpr_pulpit",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The bishops could mention you from the pulpit on the last Sunday. First they want a word about the charity tax rules.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Ask only for prayers",
+      "fx": {
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Have the word about tax",
+      "fx": {
+        "base": 5,
+        "backers": 1,
+        "inst": -2,
+        "money": -1
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_plates",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A dinner for the Donors at a thousand a plate. At ten thousand, they could sit beside the minister who signs the tenders.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "A thousand a plate",
+      "fx": {
+        "backers": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Ten thousand, and a seat",
+      "fx": {
+        "backers": 5,
+        "base": 1,
+        "inst": -3
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_fuel",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Fuel duty could be cut for the month of the vote. The farms would notice at once, and the treasury a month later.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Keep it, and explain",
+      "fx": {
+        "public": 2,
+        "backers": 1,
+        "base": -1,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Cut it for the month",
+      "fx": {
+        "public": 5,
+        "base": 1,
+        "money": -4
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_fuel",
+          "delay": 9
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_stall",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Market day in the river towns. You could stand at a stall and be shouted at, or arrive by helicopter and wave.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Stand at a stall",
+      "fx": {
+        "public": 3,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Wave from the helicopter",
+      "fx": {
+        "public": 3,
+        "base": 3,
+        "money": -2
+      },
+      "drift": -5,
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_pledge",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The Donors want you to sign a pledge on camera: not one tax raised, ever. The budget office wants a word, off camera.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Pledge what's costed",
+      "fx": {
+        "backers": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Sign on camera",
+      "fx": {
+        "backers": 5,
+        "base": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_pledge",
+          "delay": 12
+        }
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_harvest",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "A harvest grant could go to every farm in the close counties, and to any farm elsewhere that asks loudly enough.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Grant it where it's due",
+      "fx": {
+        "public": 2,
+        "money": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Every farm that asks",
+      "fx": {
+        "public": 5,
+        "base": 1,
+        "money": -4
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_values",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The campaign could run on family values. Two of your ministers could not, and the agency asks whether that matters.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Run on the record",
+      "fx": {
+        "base": 1,
+        "public": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Run on values anyway",
+      "fx": {
+        "base": 5,
+        "public": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_patrols",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "Police in every market town before the vote would reassure the Country. It would also take every officer in the land.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Patrols as usual",
+      "fx": {
+        "public": 2,
+        "order": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Every officer, visible",
+      "fx": {
+        "public": 4,
+        "base": 2,
+        "order": -3,
+        "inst": -1
+      },
+      "drift": -6,
+      "setFlags": [
+        "habit_clamp",
+        "mark_clamp_b"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_bed",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "{rival}'s welfare plan could be called a plan to pay people to stay in bed. It isn't one, but it could be called one.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Argue with the real plan",
+      "fx": {
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Call it that",
+      "fx": {
+        "base": 4,
+        "public": 3,
+        "inst": -2
+      },
+      "drift": -7,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_c"
+      ],
+      "rival": 3
+    }
+  },
+  {
+    "id": "cpr_mill",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A donor could reopen the old mill for the fortnight before the vote, lights on and a sign up. It would close after.",
+    "campaign": true,
+    "oneShot": true,
+    "left": {
+      "label": "Only if it stays open",
+      "fx": {
+        "public": 2,
+        "backers": 1,
+        "base": -1
+      },
+      "drift": 2
+    },
+    "right": {
+      "label": "Lights on, sign up",
+      "fx": {
+        "public": 5,
+        "backers": 2,
+        "inst": -2
+      },
+      "drift": -6,
+      "enqueue": [
+        {
+          "id": "cpb_mill",
+          "delay": 10
+        }
+      ],
+      "rival": 3
+    }
+  }
+]

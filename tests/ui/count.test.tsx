@@ -61,6 +61,9 @@ describe("the line on an election card", () => {
             expect(WINS.includes(line!.band), `${bot} ${seed} ${card.id}: ${line!.band}`).toBe(wins);
             seen.add(line!.band);
             votes++;
+          } else if (card.campaign) {
+            // A campaign card says where the same count stands (BACKLOG-10 phase 56).
+            expect(line, `${bot} ${seed} ${card.id}`).toMatchObject({ text: STRINGS.standing[line!.band] });
           } else {
             expect(line).toBeNull();
           }
@@ -105,15 +108,16 @@ describe("the line on an election card", () => {
     for (const text of Object.values(STRINGS.count)) expect(text).not.toMatch(/\d/);
   });
 
-  it("is on every election card, whichever side is the honest one, and on nothing else", () => {
+  it("is on every election card, whichever side is the honest one, and on no ordinary card", () => {
     const elections = library.content.cards.filter((c) => c.type === "election");
     expect(elections.length).toBeGreaterThan(10);
+    const easily = library.config.electionMoodThreshold + EASY_BY + 1;
     for (const card of elections) {
       expect([card.left.honest, card.right.honest].filter(Boolean), card.id).toHaveLength(1);
-      expect(countLine(library, at(60, 0, card), card), card.id).toMatchObject({ band: "easy", wins: true });
+      expect(countLine(library, at(easily, 0, card), card), card.id).toMatchObject({ band: "easy", wins: true });
     }
-    const ordinary = library.content.cards.find((c) => c.type === "event")!;
-    expect(countLine(library, at(60, 0), ordinary)).toBeNull();
+    const ordinary = library.content.cards.find((c) => c.type === "event" && !c.campaign)!;
+    expect(countLine(library, at(easily, 0), ordinary)).toBeNull();
   });
 });
 

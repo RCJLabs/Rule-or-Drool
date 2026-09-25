@@ -40,6 +40,9 @@ export interface BotSummary {
   finaleBands: Record<Band, number>;
   electionsPerRun: number;
   cheatsPerElection: number;
+  /** Campaign cards per run, and the share campaigned the easy way (BACKLOG-10 phase 56). */
+  campaignsPerRun: number;
+  easyCampaigns: number;
   /** Every vote held, and those the card told wrong (BACKLOG-9 phase 53). */
   votes: { held: number; mistold: number };
   arcsPerRun: number;
@@ -107,6 +110,7 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
       return [b, inBand.length ? inBand.filter((r) => r.finale).length / inBand.length : null];
     }),
   ) as Record<Band, number | null>;
+  const campaigns = results.reduce((a, r) => a + r.campaigns, 0);
   return {
     bot,
     runs: n,
@@ -122,6 +126,8 @@ export function summarize(bot: BotName, results: RunResult[]): BotSummary {
     finaleBands: bandShares(results.filter((r) => r.finale)),
     electionsPerRun: elections / n,
     cheatsPerElection: elections > 0 ? cheats / elections : 0,
+    campaignsPerRun: campaigns / n,
+    easyCampaigns: campaigns > 0 ? results.reduce((a, r) => a + r.easyCampaigns, 0) / campaigns : 0,
     votes: { held: elections, mistold },
     arcsPerRun: arcs / n,
     questionsPerRun: questions / n,
@@ -161,6 +167,7 @@ export function formatSummary(s: BotSummary): string {
     );
   }
   lines.push(`elections   ${f1(s.electionsPerRun)} per run, cheated ${pct(s.cheatsPerElection)} of them   stories ${f1(s.arcsPerRun)}, questions ${f1(s.questionsPerRun)} per run`);
+  lines.push(`campaigns   ${f1(s.campaignsPerRun)} cards per run, the easy way ${pct(s.easyCampaigns)} of them`);
   lines.push(
     `relaxed draws per run   cooldown ${f1(s.relaxedPerRun.cooldown)}  band ${f1(s.relaxedPerRun.band)}  era ${f1(s.relaxedPerRun.era)}`,
   );

@@ -1,5 +1,5 @@
 import type { Library } from "./library";
-import { applyChoice, checkOuster } from "./resolve";
+import { applyChoice, checkOuster, honestCount, type HonestCount } from "./resolve";
 import { fxDeltas } from "./state";
 import type { Card, GameState, MeterKey, Meters, Side } from "./types";
 import { METER_KEYS } from "./types";
@@ -13,6 +13,8 @@ export interface Preview {
   affected: MeterKey[];
   /** The run is out of office after this choice (BACKLOG-10 phase 55). */
   outOfOffice: boolean;
+  /** How an honest count would go after this choice: what a campaign card moves (BACKLOG-10 phase 56). */
+  count: HonestCount;
 }
 
 /** Project a choice without committing it. Deterministic and side-effect free. */
@@ -27,5 +29,6 @@ export function preview(lib: Library, state: GameState, card: Card, side: Side):
     endingId: after.over?.endingId ?? null,
     affected: METER_KEYS.filter((k) => (deltas[k] ?? 0) !== 0),
     outOfOffice: !!after.opposition,
+    count: honestCount(lib, after),
   };
 }

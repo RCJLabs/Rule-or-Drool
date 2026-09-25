@@ -1,7 +1,9 @@
 import type { Library } from "../engine/library";
 import { preview, type Preview } from "../engine/preview";
+import { honestCount } from "../engine/resolve";
 import type { Card, GameState, Meters, Side } from "../engine/types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "../engine/types";
+import { countBand } from "../ui/count";
 
 /**
  * Headless policies from TRANSFER.md section 8. Bots are omniscient about card data:
@@ -96,17 +98,32 @@ const mixed: Bot = (ctx) => {
 };
 
 /**
+ * How the informed voter campaigns (BACKLOG-10 phase 56), reading the line a campaign card
+ * carries: honestly when that wins the count, the easy way when the count is a narrow loss, and
+ * honestly when the loss is too deep for a campaign to make up.
+ */
+function campaign(ctx: BotContext): Side {
+  const clean = saint(ctx);
+  const easy: Side = clean === "left" ? "right" : "left";
+  if (ctx[clean].endingId) return ctx[easy].endingId ? clean : easy;
+  if (ctx[clean].count.wins) return clean;
+  if (countBand(honestCount(ctx.lib, ctx.state)) === "narrowLoss" && !ctx[easy].endingId) return easy;
+  return clean;
+}
+
+/**
  * The mixed bot with the election card read (BACKLOG-9 phase 54). Since phase 53 the card says
  * whether an honest count wins, so this player never cheats a vote they can win honestly: they
  * take the honest side unless it ends the run on the spot, and otherwise play as the mixed bot.
- * It is the player the balance is for; the mixed bot, which cheats to spare a meter near its
- * edge, is the floor.
+ * It reads a campaign card's line too (phase 56). It is the player the balance is for; the
+ * mixed bot, which cheats to spare a meter near its edge, is the floor.
  */
 const informed: Bot = (ctx) => {
   if (ctx.card.type === "election") {
     const honest = (["left", "right"] as const).find((s) => ctx.card[s].honest);
     if (honest && !ctx[honest].endingId) return honest;
   }
+  if (ctx.card.campaign && !nearAnEdge(ctx.state.meters, ctx.opts.danger)) return campaign(ctx);
   return mixed(ctx);
 };
 

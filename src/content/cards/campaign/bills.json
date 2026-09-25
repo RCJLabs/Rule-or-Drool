@@ -1,0 +1,421 @@
+[
+  {
+    "id": "cpb_cheques",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The cheques posted before the vote were all cashed in the same week. The treasury has worked out what that costs.",
+    "weight": 0,
+    "left": {
+      "label": "Pay it from reserves",
+      "fx": {
+        "money": -5,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Borrow, and say nothing",
+      "fx": {
+        "money": -1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_a"
+      ]
+    }
+  },
+  {
+    "id": "cpb_bridge",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The bridge opened before the vote has been closed again by the engineers, who were not asked the first time.",
+    "weight": 0,
+    "left": {
+      "label": "Close it, and say why",
+      "fx": {
+        "public": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the engineers",
+      "fx": {
+        "public": 1,
+        "inst": -2,
+        "order": -1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cpb_young",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The young voted, for once, on your promise of everything. They have come to collect it, with a list.",
+    "weight": 0,
+    "left": {
+      "label": "Tell them what's real",
+      "fx": {
+        "public": -4,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Promise it all again",
+      "fx": {
+        "public": 2,
+        "money": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cpb_budget",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The gifts in the budget before the vote arrive this month. So does their cost, which was not in the budget.",
+    "weight": 0,
+    "left": {
+      "label": "Pay for them openly",
+      "fx": {
+        "money": -5,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Cut what can't be seen",
+      "fx": {
+        "money": -1,
+        "inst": -3,
+        "public": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "cpb_farm",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The farmer you promised to visit after the vote has written. So have four hundred of his neighbours.",
+    "weight": 0,
+    "left": {
+      "label": "Go, and be shouted at",
+      "fx": {
+        "public": 2,
+        "base": -2,
+        "order": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Send a signed photo",
+      "fx": {
+        "public": -2,
+        "base": 1
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cpb_rent",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The rent freeze announced before the vote has reached the courts, which have frozen it instead.",
+    "weight": 0,
+    "left": {
+      "label": "Write one that holds",
+      "fx": {
+        "public": -2,
+        "inst": 2,
+        "money": -1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the judges",
+      "fx": {
+        "public": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_a"
+      ]
+    }
+  },
+  {
+    "id": "cpb_flats",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Ninety thousand renters have written about the flats promised on the doorstep. There are still nine thousand flats.",
+    "weight": 0,
+    "left": {
+      "label": "Build, and say how long",
+      "fx": {
+        "money": -4,
+        "public": -1,
+        "inst": 1
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Move the waiting list",
+      "fx": {
+        "public": 1,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_skim",
+        "mark_skim_b"
+      ]
+    }
+  },
+  {
+    "id": "cpb_metro",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The metro line drawn through every close district has been costed. It goes round the city twice.",
+    "weight": 0,
+    "left": {
+      "label": "Redraw it straight",
+      "fx": {
+        "public": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Build the curves",
+      "fx": {
+        "money": -5,
+        "public": 2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cpb_fuel",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The fuel duty cut for the month of the vote ends now. The farms have noticed, all at once, and so have the pumps.",
+    "weight": 0,
+    "left": {
+      "label": "Let it end",
+      "fx": {
+        "public": -3,
+        "money": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Extend it again",
+      "fx": {
+        "public": 2,
+        "money": -4
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "cpb_pledge",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The pledge never to raise a tax meets its first budget. The budget has asked, politely, who signed it.",
+    "weight": 0,
+    "left": {
+      "label": "Break it, and say so",
+      "fx": {
+        "backers": -3,
+        "inst": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Call it a levy",
+      "fx": {
+        "backers": 1,
+        "money": 2,
+        "inst": -3
+      },
+      "drift": -4,
+      "setFlags": [
+        "habit_bend",
+        "mark_bend_b"
+      ]
+    }
+  },
+  {
+    "id": "cpb_mill",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The mill that reopened for the vote has closed again. The town has kept the sign, as evidence.",
+    "weight": 0,
+    "left": {
+      "label": "Pay for a real one",
+      "fx": {
+        "money": -4,
+        "public": 2
+      },
+      "drift": 3
+    },
+    "right": {
+      "label": "Blame the market",
+      "fx": {
+        "public": -2,
+        "backers": 1
+      },
+      "drift": -3
+    }
+  }
+]
