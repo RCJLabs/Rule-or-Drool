@@ -12,9 +12,9 @@ that follow from it.
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
 **Full description** (2,613 / 4,000 characters). Every number in it was checked
-against the content when written: 1,810 cards, 44 stories and 16 questions, 30 advisors, 77
+against the content when written: 1,816 cards, 44 stories and 16 questions, 30 advisors, 77
 endings a run can collect (80 with the three that close a first term, which the codex leaves
-out), 675 history names (re-checked in v0.73.0). Re-check them if the content changes.
+out), 675 history names (re-checked in v0.73.1). Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -25,7 +25,7 @@ HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
 • Sixteen questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, raise the minimum wage, control the rents, price carbon, bail out the banks. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes, and the answer comes back in the eras after.
-• 1,810 cards, 44 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
+• 1,816 cards, 44 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which. A rival grows on every vote you steal, and once they are somebody they come for your cabinet, and then for the office by name.
 
 EVERY RUN IS ITS OWN
@@ -52,7 +52,7 @@ game, strategy, choices matter.
 
 `npm run build && npm run store:assets` makes all of these from the built game into
 `twa/store/`, in about ten seconds. Run it again whenever the screens change. The ones here
-were made from v0.73.0.
+were made from v0.73.1.
 
 | File | Size | What it shows |
 |---|---|---|
@@ -128,8 +128,8 @@ a run ends (`navigator.storage.persist()`), which sends nothing anywhere.
 ## Content rating questionnaire (IARC)
 
 These are notes to answer from, not answers. Everything the game can show was searched for each
-theme the questionnaire asks about: the 1,577 cards of v0.59.0 first, then, in v0.73.0, the 967
-lines written or reworded since. Those are 233 new cards, and the endings, histories, codex clues,
+theme the questionnaire asks about: the 1,577 cards of v0.59.0 first, then, in v0.73.1, the 984
+lines written or reworded since. Those are 239 new cards, and the endings, histories, codex clues,
 promises and screen text added with them.
 
 - **Violence:** reported, not shown. Deaths are told in text ("forty thousand people
@@ -317,9 +317,14 @@ bots (BACKLOG-5 phase 31):
   it showing.
 - Since v0.73.0 the rival plays (BACKLOG-10 phase 65): once the cabinet calls them the obvious
   alternative they can take someone from the cabinet, court a bloc, and turn a scandal against
-  you, and once they are ready to take the office every vote is against them by name. The deck moved, so records from v0.72.0 and before are kept apart. The
-  report does not count what the rival did, and no record can say whether a tester noticed the
-  rival before the vote; ask them.
+  you, and once they are ready to take the office every vote is against them by name. The deck
+  moved, so records from v0.72.0 and before are kept apart. No record can say whether a tester
+  noticed the rival before the vote; ask them.
+- Since v0.73.1 the report counts what the rival did, for testers beside the bots on the same
+  runs: how often the rival got to the top rung, their cards and how they were answered,
+  someone gone over to them, votes against them by name, and their wins. The top rung has five
+  such votes a side now, as ordinary votes have, so the deck moved: records from v0.73.0 and
+  before are kept apart.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

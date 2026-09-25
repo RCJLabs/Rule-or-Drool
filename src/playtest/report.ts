@@ -262,6 +262,28 @@ export interface TurnRow {
   gap: number;
 }
 
+/**
+ * The rival (BACKLOG-10 phase 65), on the same runs for people and each bot: how often they got
+ * to the top rung, what they did, how it was answered, and whether they won. Whether a player
+ * noticed them before a vote is not in any record.
+ */
+export interface RivalRow {
+  label: string;
+  runs: number;
+  /** Share of runs in which the rival got to the top rung, where a lost vote is theirs. */
+  top: number;
+  /** Cards a run dealt only because the rival was somebody, the mean. NaN with no runs. */
+  cards: number;
+  /** Of those cards, the share taken on the honest side. NaN with none. */
+  honest: number;
+  /** Share of runs in which someone went over to the rival. */
+  wentOver: number;
+  /** Share of runs with a vote the rival stood in by name. */
+  stood: number;
+  /** Share of runs the rival won. */
+  won: number;
+}
+
 /** Runs walked card by card (`src/playtest/trace.ts`): what the votes and looks are read from. */
 export interface Traces {
   /** People's finished runs that this version rebuilt card for card. */
@@ -297,6 +319,7 @@ export interface Report {
   told: number;
   looks: LookRow[];
   turns: TurnRow[];
+  rival: RivalRow[];
   lookMs: number;
   minDecisions: number;
 }
@@ -375,6 +398,22 @@ function turnRow(label: string, traces: readonly Trace[]): TurnRow {
     turned: share(turns.length, choices),
     unseen: share(turns.filter((g) => g >= DANGER_BELOW).length, turns.length),
     gap: turns.length ? median(turns) : Number.NaN,
+  };
+}
+
+function rivalRow(label: string, traces: readonly Trace[]): RivalRow {
+  const runs = traces.length;
+  const cards = traces.reduce((n, t) => n + t.rival.cards, 0);
+  const of = (test: (t: Trace) => boolean) => share(traces.filter(test).length, runs);
+  return {
+    label,
+    runs,
+    top: of((t) => t.rival.top),
+    cards: runs ? cards / runs : Number.NaN,
+    honest: share(traces.reduce((n, t) => n + t.rival.honest, 0), cards),
+    wentOver: of((t) => t.rival.wentOver),
+    stood: of((t) => t.rival.stood > 0),
+    won: of((t) => t.rival.won),
   };
 }
 
@@ -491,6 +530,7 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     told: traces.people.filter((t) => t.line).length,
     looks: [lookRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => lookRow(`${bot} bot`, ts))],
     turns: [turnRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => turnRow(`${bot} bot`, ts))],
+    rival: [rivalRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => rivalRow(`${bot} bot`, ts))],
     lookMs: opts.lookMs,
     minDecisions: opts.minDecisions,
   };
@@ -581,6 +621,20 @@ export function formatReport(r: Report, top = 10): string {
   out.push(`(Of the choices with an honest side, the share taken the other way; of those, the share taken with no meter drawn`);
   out.push(` in danger (the screen draws a meter within ${DANGER_BELOW} of the edge that ends a run); and how near the nearest meter was`);
   out.push(" to that edge, the median. The informed bot turns at 25, which the screen never draws; the eyes bot waits for it.)");
+  out.push("");
+
+  out.push("== the rival, on the same runs ==");
+  out.push(`${"".padEnd(12)} ${pad("runs", 5)} ${pad("top rung", 9)} ${pad("cards a run", 12)} ${pad("taken honestly", 15)} ${pad("someone went over", 18)} ${pad("stood by name", 14)} ${pad("rival won", 10)}`);
+  for (const v of r.rival) {
+    const cards = Number.isFinite(v.cards) ? v.cards.toFixed(2) : "–";
+    out.push(
+      `${v.label.padEnd(12)} ${pad(v.runs, 5)} ${pad(or(v.top), 9)} ${pad(cards, 12)} ${pad(or(v.honest), 15)} ${pad(or(v.wentOver), 18)} ${pad(or(v.stood), 14)} ${pad(or(v.won), 10)}`,
+    );
+  }
+  out.push("(Top rung: the rival high enough that a lost vote is theirs, at some card. Cards: those dealt only because the");
+  out.push(" rival was somebody, their moves and the votes they stood in by name, and the share of them taken on the honest");
+  out.push(" side. Stood by name and someone went over: the share of runs in which it happened at least once. No record says");
+  out.push(" whether a player noticed the rival before a vote; ask them.)");
   out.push("");
 
   out.push("== the look each card was read in ==");

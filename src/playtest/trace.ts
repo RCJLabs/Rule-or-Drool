@@ -1,8 +1,9 @@
 import { draw } from "../engine/draw";
 import { getCard, type Library } from "../engine/library";
 import { honestCount, resolve } from "../engine/resolve";
+import { RIVAL_POACHED_FLAG, isRivalCard } from "../engine/rival";
 import { makeRng } from "../engine/rng";
-import { newRun } from "../engine/state";
+import { newRun, rivalStands } from "../engine/state";
 import type { Card, GameState, RunSetup, Side } from "../engine/types";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import { decodeRunCode, setupOf } from "../meta/runcode";
@@ -38,11 +39,29 @@ export interface Trace {
    */
   choices: number;
   turns: number[];
+  /** What the rival did in the run, and how it went (BACKLOG-10 phase 65). */
+  rival: RivalTrace;
   /**
    * Whether the election cards said how an honest count would go when the run was played
    * (BACKLOG-9 phase 53): a person's version decides it. Absent for a bot, which always knows.
    */
   line?: boolean;
+}
+
+/** The rival in one run, read the same way for a person's run as for a bot's. */
+export interface RivalTrace {
+  /** At some card they were high enough that a lost vote would have been theirs: the top rung. */
+  top: boolean;
+  /** Cards dealt only because they were somebody (`isRivalCard`): their moves, and the votes they stood in. */
+  cards: number;
+  /** Of those, the ones taken on the honest side. */
+  honest: number;
+  /** Votes they stood in by name. */
+  stood: number;
+  /** Someone in the cabinet went over to them. */
+  wentOver: boolean;
+  /** The run ended as their win. */
+  won: boolean;
 }
 
 /** The first version whose election cards say how an honest count goes (BACKLOG-9 phase 53). */
@@ -83,13 +102,20 @@ type Chooser = (state: GameState, card: Card, index: number) => Side | null;
 
 function walk(lib: Library, seed: number, setup: RunSetup, choose: Chooser): { trace: Trace; state: GameState } | null {
   let s = draw(lib, newRun(lib, seed, setup));
-  const trace: Trace = { looks: [], votes: [], choices: 0, turns: [] };
+  const rival: RivalTrace = { top: false, cards: 0, honest: 0, stood: 0, wentOver: false, won: false };
+  const trace: Trace = { looks: [], votes: [], choices: 0, turns: [], rival };
   for (let i = 0; !s.over; i++) {
     if (i >= DEFAULT_RUN_OPTIONS.maxCards || !s.current) return null;
     const card = getCard(lib, s.current);
     const side = choose(s, card, i);
     if (!side) return null;
     trace.looks.push(s.look);
+    if (rivalStands(lib, s)) rival.top = true;
+    if (isRivalCard(card)) {
+      rival.cards++;
+      if (card.type === "election" ? card[side].honest === true : honestSide(card) === side) rival.honest++;
+      if (card.rivalStands) rival.stood++;
+    }
     if (card.type === "election") {
       trace.votes.push({ honest: card[side].honest === true, winnable: honestCount(lib, s).wins, near: nearAnEdge(s.meters, NEAR_EDGE) });
     } else if (!card.campaign) {
@@ -102,6 +128,8 @@ function walk(lib: Library, seed: number, setup: RunSetup, choose: Chooser): { t
     }
     s = draw(lib, resolve(lib, s, card.id, side));
   }
+  rival.wentOver = s.flags.includes(RIVAL_POACHED_FLAG);
+  rival.won = s.over?.endingId === lib.config.rivalEnding;
   return { trace, state: s };
 }
 

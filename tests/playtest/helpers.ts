@@ -1,7 +1,7 @@
 import { library } from "../../src/content";
 import { draw } from "../../src/engine/draw";
 import { getCard } from "../../src/engine/library";
-import { electionBar, resolve } from "../../src/engine/resolve";
+import { electionBar, resolve, rivalPressure } from "../../src/engine/resolve";
 import { makeRng } from "../../src/engine/rng";
 import { moodOf, newRun, rollSetup } from "../../src/engine/state";
 import type { GameState, Side } from "../../src/engine/types";
@@ -34,12 +34,21 @@ export function recordBotRun(seed: number, bot: BotName): { run: RecordedRun; se
   let s = newRun(library, seed, rollSetup(library, seed, seed % 2 ? "left" : "right", []));
   let run = openRun(s, { kind: "own", run: 1, game: "0.57.0" });
   // Recorded on a version from before the election card said how the count stood.
-  const seen: Trace = { looks: [], votes: [], choices: 0, turns: [], line: false };
+  const seen: Trace = { looks: [], votes: [], choices: 0, turns: [], line: false, rival: { top: false, cards: 0, honest: 0, stood: 0, wentOver: false, won: false } };
   while (!s.over) {
     s = draw(library, s);
     const card = getCard(library, s.current!);
     const side = BOTS[bot](makeContext(library, s, card, rng, { danger: 25 }));
     seen.looks.push(s.look);
+    // The rival (BACKLOG-10 phase 65): at the top rung, and the cards dealt because they were
+    // somebody, read here from the pressure and the conditions themselves.
+    if (rivalPressure(library, s) >= library.config.rivalWinsAt) seen.rival.top = true;
+    if (card.rivalStands || card.cond?.meters?.rival || card.cond?.flags?.includes("rival_poached")) {
+      seen.rival.cards++;
+      const honest = card.type === "election" ? card[side].honest === true : (card[side].drift ?? 0) > (card[side === "left" ? "right" : "left"].drift ?? 0);
+      if (honest) seen.rival.honest++;
+      if (card.rivalStands) seen.rival.stood++;
+    }
     if (card.type === "election") {
       seen.votes.push({ honest: card[side].honest === true, winnable: moodOf(s.meters) >= electionBar(library, s), near: nearAnEdge(s.meters, 25) });
     } else if (!card.campaign && (card.left.drift ?? 0) !== (card.right.drift ?? 0)) {
@@ -54,5 +63,7 @@ export function recordBotRun(seed: number, bot: BotName): { run: RecordedRun; se
     run = { ...run, cards: [...run.cards, takeCard(s, after, side, { ms: 1200, looked: [0, 0] })] };
     s = after;
   }
+  seen.rival.wentOver = s.flags.includes("rival_poached");
+  seen.rival.won = s.over.endingId === "rival_wins";
   return { run: closeRun(library, run, s), seen };
 }

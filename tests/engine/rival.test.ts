@@ -3,7 +3,7 @@ import { draw } from "../../src/engine/draw";
 import { buildLibrary, getCard } from "../../src/engine/library";
 import { preview } from "../../src/engine/preview";
 import { resolve } from "../../src/engine/resolve";
-import { RIVAL_POACHED_FLAG, poachedAdvisors } from "../../src/engine/rival";
+import { RIVAL_POACHED_FLAG, isRivalCard, poachedAdvisors } from "../../src/engine/rival";
 import { candidatesFor, rivalPressure, rivalStands } from "../../src/engine/state";
 import type { Card } from "../../src/engine/types";
 import { ev, makeFixture } from "../fixtures/content";
@@ -134,5 +134,17 @@ describe("the rival standing by name", () => {
     expect(s.current).toBe("el_theirs");
     // The fixture has no opposition, so the vote lost is the run lost.
     expect(resolve(l, s, "el_theirs", "left").over?.endingId).toBe(cfg.rivalEnding);
+  });
+});
+
+describe("what counts as the rival's card", () => {
+  it("is a card dealt only because the rival is somebody, not every card they speak", () => {
+    expect(isRivalCard(theirs)).toBe(true);
+    expect(isRivalCard(ev("up", { cond: { meters: { rival: { gt: 44 } } } }))).toBe(true);
+    expect(isRivalCard(ev("after", { cond: { flags: [RIVAL_POACHED_FLAG] } }))).toBe(true);
+    // Their own words, dealt whatever their standing, and a card for when they are nobody.
+    expect(isRivalCard(ev("spoken", { speaker: "rival" }))).toBe(false);
+    expect(isRivalCard(ev("down", { cond: { meters: { rival: { lt: 30 } } } }))).toBe(false);
+    expect(isRivalCard(poach)).toBe(false);
   });
 });

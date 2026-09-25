@@ -5,7 +5,7 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. You chose all ten, in
-the order 1, 2, 10, 6, 5, 7, 8, 4, 9 and 3: phases 55 to 65, done in v0.65.0 to v0.73.0, at the
+the order 1, 2, 10, 6, 5, 7, 8, 4, 9 and 3: phases 55 to 65, done in v0.65.0 to v0.73.1, at the
 end of this file.
 
 Each idea says:
@@ -1285,7 +1285,7 @@ where it fits least.
 - **The store screenshots are stale.** They are taken at 360×640, where the play screen has no
   strip, but the era's change (`04`) draws the country now. `npm run build && npm run
   store:assets` makes new ones. The listing's description mentions the strip. (They were made
-  again from v0.73.0, after phase 65.)
+  again from v0.73.1, after phase 65.)
 - **The listing's numbers had gone stale,** its counts since phase 48 and its length since phase 43.
   They are 1,770 cards, 80 endings, 675 history names and 2,486 characters now. The content-rating
   notes still say 1,577 cards were searched for the questionnaire's themes, and the 193 written
@@ -1421,10 +1421,10 @@ Every harness target passes.
   that reads as the rival or as nagging is for the closed test.
 - **The top rung has fewer votes to deal:** six a side, where an ordinary vote has nine. A run
   that holds several votes up there sees them come round sooner. The mixed bot holds 0.36 such
-  votes a run.
+  votes a run. (Nine a side since v0.73.1: see the follow-ups below.)
 - **Poaching reaches six seats of eight.** The judge and the donor are not offered jobs.
 - **The playtest report does not count the rival's moves,** and no record can say whether a
-  tester noticed the rival before a vote.
+  tester noticed the rival before a vote. (It counts them since v0.73.1.)
 - **The content-rating search is further behind.** 233 cards have been written since the 1,577
   that were searched. Among the new ones: a press secretary who has found a minority to blame
   (as `e_scapegoat` already had), and a rival's claim that foreign money pays for your reforms.
@@ -1458,3 +1458,57 @@ Every harness target passes.
 2. **Whether the judge and the donor can be poached too.** The default is no: a judge who
    crosses the floor and a donor who funds the other side are stories of their own, not a job
    offer.
+
+## After phase 65: the round's loose ends — *done*
+
+**Shipped in v0.73.1.** The deck moved: six cards, and four cards' weights.
+
+**The store.**
+- The eight screenshots were made again, from v0.73.1. They had been stale since v0.72.0: the
+  era's change draws the country now, and the menu offers taking over the last run's country.
+  The codex and the menu are a profile of thirty runs played, so they change whenever the deal
+  does.
+- The listing said 80 ways for a rule to end. A run can collect 77: the other three close a
+  first term, and the codex leaves them out. It says 77 now.
+- The content-rating notes had been written from the 1,577 cards of v0.59.0. Every line
+  written or reworded since was searched for the same themes: 984 of them, from 239 new cards
+  and the endings, histories, codex clues, promises and screen text added with them. They add
+  a few mild things, noted under each theme, and nothing a new answer turns on. A note on
+  discrimination was added, in case the questionnaire asks.
+
+**ROADMAP.md** had stopped at phase 7, and its list of what was left still named the voice pass,
+eras 4 and 5 and the card count, all done since. It now opens with where the project stands, an
+index of the ten rounds, and what is left: a human playtest, and getting onto Play. The phase 7
+section is kept as it was, dated.
+
+**The playtest report counts what the rival did.** For people beside each bot on the same runs:
+- how often the rival got to the top rung;
+- the cards dealt because they were somebody, a run, and the share of them taken honestly;
+- how often someone went over to them, and how often they stood by name;
+- how often they won.
+
+What counts as the rival's card is decided by its condition, not its name (`isRivalCard`): their
+pressure over a line, someone gone over to them, or a vote they stand in by name. Whether a
+tester noticed the rival before a vote is still in no record.
+
+**Five votes a side at the top rung,** as ordinary votes have. The rival had two campaign votes
+a side, beside the four any side can face. Three more a side mirror ordinary votes' numbers: the
+turnout machine, the cheques before polling day and the coalition partners for the Commons; the
+donors, the new voters in the cities and the generals for the Ledger. The five share the weight
+the two had, so a vote at the top rung offers the ways out as often as before.
+
+Repeated by-name votes, 2,000 runs each on the same seeds:
+
+| | Before | After |
+|---|---|---|
+| Mixed bot, three eras | 7.9% of them | 3.2% |
+| Eyes bot, three eras | 10.8% | 5.3% |
+| Mixed bot, long reign | 22.3%, in 23% of its runs | 11.1%, in 13% |
+
+The balance did not move: the informed voter's Ascent 27.3% (27.4% before), the mixed bot's
+long finale 93.8% (93.8%), the rival's wins in its long reigns 2.7% (2.9%). Every harness target
+passes.
+
+**Caveat.** In 13% of the mixed bot's long reigns a vote by name still comes round twice. How
+often an ordinary vote repeats in a long reign was not measured, so whether that is more than the
+rest of the deck does is not known.

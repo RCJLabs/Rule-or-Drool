@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.73.0)
+## Where the project stands now (v0.73.1)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -35,8 +35,8 @@ decisions only the owner can make.
 
 | | |
 |---|---|
-| Content | 1,810 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names; three eras, and five in a long reign |
-| Tests | 833 unit tests and 56 browser tests |
+| Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names; three eras, and five in a long reign |
+| Tests | 835 unit tests and 56 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -47,7 +47,7 @@ decisions only the owner can make.
    phase 46) are ready for it; the closed test is the way to get the runs.
 2. **Getting onto Play** (BACKLOG-2 phase 17): where `assetlinks.json` lives, the policy check,
    whether the account needs a closed test first, then a signed build. The listing, the
-   graphics (made from v0.73.0), the Data safety answers and the content-rating notes are in
+   graphics (made from v0.73.1), the Data safety answers and the content-rating notes are in
    `twa/STORE.md`.
 
 The list this file ended on after phase 7, and what became of it:

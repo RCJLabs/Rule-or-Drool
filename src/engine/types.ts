@@ -143,10 +143,11 @@ export interface Card {
   /**
    * An election the rival stands in by name (BACKLOG-10 phase 65). Dealt whenever a vote comes
    * with the rival high enough that losing it would be their win, and never otherwise. Since
-   * they replace every other vote then, they need one of every kind, at the same weights: each
-   * side's plain votes, and the rigged count, the emergency, the abolition and the scapegoat any
-   * side can be offered. Without the last four, the top rung was the one place a run was never
-   * offered the way out of a vote, and long reigns got safer.
+   * they replace every other vote then, they are written in the numbers and weights of the votes
+   * they replace: five for each side, as its plain votes are, and the rigged count, the
+   * emergency, the abolition and the scapegoat any side can be offered. Without the last four,
+   * the top rung was the one place a run was never offered the way out of a vote, and long
+   * reigns got safer.
    */
   rivalStands?: boolean;
   left: Choice;
