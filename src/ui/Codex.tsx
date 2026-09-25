@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { STRINGS } from "../content/strings";
+import { lineName } from "./dynasty";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
@@ -116,6 +117,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
                     <li key={`${r.endingId}-${i}`}>
                       {r.history && historyTitle(r.history) && <b className="codex-run-history">{historyTitle(r.history)}</b>}
                       {r.road && <em className="codex-road">{STRINGS.road.mark}</em>}
+                      {(r.line ?? 1) > 1 && <em className="codex-line">{lineName(r.line!)}</em>}
                       <b>
                         {STRINGS.parties[r.align]} · {r.cards} cards · {STRINGS.bands[r.band]}
                       </b>

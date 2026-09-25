@@ -3,7 +3,7 @@ import type { Library } from "../engine/library";
 import { inCatalogOrder } from "../engine/mandates";
 import { resolve } from "../engine/resolve";
 import { newRun, rollSetup } from "../engine/state";
-import type { GameState, PlayerAlign, Side } from "../engine/types";
+import type { GameState, Inheritance, PlayerAlign, Side } from "../engine/types";
 import { setupOf, type RunCode } from "../meta/runcode";
 
 /** Pure UI-level flow on top of the engine, kept out of React so it is testable. */
@@ -15,8 +15,9 @@ export function beginRun(
   unlocked: readonly string[] = [],
   mandates: readonly string[] = [],
   eraCount?: number,
+  inheritance: Inheritance | null = null,
 ): GameState {
-  const setup = { ...rollSetup(lib, seed, align, unlocked), mandates };
+  const setup = { ...rollSetup(lib, seed, align, unlocked), mandates, ...(inheritance ? { inheritance } : {}) };
   return draw(lib, newRun(lib, seed, eraCount === undefined ? setup : { ...setup, eraCount }));
 }
 

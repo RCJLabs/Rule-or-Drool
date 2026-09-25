@@ -2780,3 +2780,17 @@ button {
   text-decoration: line-through;
   text-decoration-thickness: 1px;
 }
+
+/* A run that took over from the last of its line (BACKLOG-10 phase 63). */
+.line-note {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.line-note b {
+  color: var(--ink);
+}
+.mandate-choice.take-over em + em {
+  margin-top: -2px;
+}

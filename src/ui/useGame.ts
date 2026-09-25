@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
-import type { GameState, PlayerAlign, Side } from "../engine/types";
+import type { GameState, Inheritance, PlayerAlign, Side } from "../engine/types";
 import { asides, canComeBack, clearAsides, clearMeta, dailySeedFor, dropAside, emptyMeta, encodeRunCode, foldRun, loadProfile, markAside, runCodeOf, saveMeta, todayKey, type MetaState, type RunFold, type RunResult, type SetAside } from "../meta";
 import { askToBeKept, onWriteFailed, writeFailures } from "../meta/storage";
 import { closeRun, openRun, takeCard, type Measure, type RecordedRun, type RunKind } from "../playtest/record";
@@ -239,7 +239,7 @@ export function useGame(lib: Library) {
 
   /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39). */
   const start = useCallback(
-    guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number) => {
+    guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number, inheritance: Inheritance | null = null) => {
       setSaved(null);
       setSavedDaily(null);
       setSavedChallenge(null);
@@ -247,7 +247,7 @@ export function useGame(lib: Library) {
       setTransition(null);
       setLastFold(null);
       dailyRef.current = null;
-      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount);
+      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount, inheritance);
       setState(s);
       beginRecording(s, "own");
     }),

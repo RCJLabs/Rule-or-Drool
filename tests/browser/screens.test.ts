@@ -5,7 +5,7 @@ import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { deckStamp } from "../../src/engine/deck";
 import { MANDATES, compatible } from "../../src/engine/mandates";
-import { rollSetup } from "../../src/engine/state";
+import { advisorPool, rollSetup } from "../../src/engine/state";
 import { encodeRunResult, resultOf } from "../../src/meta/challenge";
 import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
 import { draw } from "../../src/engine/draw";
@@ -13,7 +13,9 @@ import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card } from "../../src/engine/types";
 import { setupOf } from "../../src/meta/runcode";
-import { ALL_HISTORY_KEYS } from "../../src/meta/histories";
+import { ALL_HISTORY_KEYS, HISTORY_ORDER, historyTitle } from "../../src/meta/histories";
+import { inheritable } from "../../src/meta/dynasty";
+import { LEGACIES } from "../../src/meta/legacies";
 import { emptyMeta } from "../../src/meta/state";
 import { fitPlacements, longestSeats, shownText } from "../fit";
 import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, target, toLook } from "./harness";
@@ -394,6 +396,40 @@ describe.skipIf(!target)("in a browser", () => {
     // The menu's codex button leads with the histories (BACKLOG-10 phase 58), a longer label
     // than the count it replaced, here beside the daily's longest. The codex gives its clues:
     // a near miss named with one, and a few rumoured.
+    it("offers taking over at its fullest on the smallest phone, and hands the country over on a card that fits", async () => {
+      // The longest the choice gets (BACKLOG-10 phase 63): the longest history the last run could
+      // be named, the two longest legacies a country can hand on, and the longest rival's name.
+      const title = (k: string) => historyTitle(k) ?? "";
+      const history = ALL_HISTORY_KEYS.filter((k) => k.endsWith(":decay:right")).reduce((a, b) => (title(b).length > title(a).length ? b : a));
+      const legacies = Object.keys(LEGACIES).filter(inheritable).sort((a, b) => LEGACIES[b]!.length - LEGACIES[a]!.length);
+      const rival = advisorPool(library, library.config.rivalRole, "right").reduce((a, b) => (b.name.length > a.name.length ? b : a));
+      // Two that stand in history's order, so both are the ones handed on.
+      const handed = HISTORY_ORDER.filter((f) => legacies.slice(0, 12).includes(f)).slice(0, 2);
+      const meta = {
+        ...emptyMeta(),
+        runs: 5,
+        endings: { finale_decay: 1 },
+        history: [{ align: "right", cards: 105, era: 3, endingId: "finale_decay", band: "decay", rival: rival.id, legacies: handed, history, mandates: [], rivalStanding: 60 }],
+      };
+      const failures: string[] = [];
+      const page = await open(browser, { width: 360, height: 640 });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      const take = page.getByRole("button", { name: new RegExp(STRINGS.dynasty.takeOver) });
+      await take.waitFor();
+      await take.click();
+      expect(await take.getAttribute("aria-pressed")).toBe("true");
+      failures.push(...(await contrast(page, "the menu, taking over")), ...(await misfits(page, "the menu, taking over", { mayScroll: true })));
+      await page.getByRole("button", { name: STRINGS.ui.start }).click();
+      await page.waitForSelector(`.card[data-card="${library.config.handoverPrefix}decay"]`);
+      for (const look of ["decay1", "decay2"]) {
+        await toLook(page, look);
+        failures.push(...(await misfits(page, `the handover, ${look}`)));
+      }
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
     it("fits the menu's buttons at their longest, and reads the codex's clues, on the smallest phone", async () => {
       const today = "2026-12-30"; // Daily #101, played
       const meta = {

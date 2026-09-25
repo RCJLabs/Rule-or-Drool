@@ -12,6 +12,8 @@ export interface Library {
   content: Content;
   cards: ReadonlyMap<string, Card>;
   arcs: ReadonlyMap<string, Arc>;
+  /** The flags any card of an arc can set, by arc: what telling the story can leave behind. */
+  arcSets: ReadonlyMap<string, ReadonlySet<string>>;
   endings: ReadonlyMap<string, Ending>;
   modifiers: ReadonlyMap<string, Modifier>;
   advisorsByRole: ReadonlyMap<string, Advisor[]>;
@@ -112,11 +114,19 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
     }
   }
 
+  const arcSets = new Map<string, ReadonlySet<string>>();
+  for (const a of arcs.values()) {
+    const set = new Set<string>();
+    for (const id of a.cards) for (const side of [cards.get(id)?.left, cards.get(id)?.right]) for (const f of side?.setFlags ?? []) set.add(f);
+    arcSets.set(a.id, set);
+  }
+
   return {
     config,
     content,
     cards,
     arcs,
+    arcSets,
     endings,
     modifiers,
     advisorsByRole,

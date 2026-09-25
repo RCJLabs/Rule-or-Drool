@@ -6,6 +6,8 @@ interface Props {
   /** The promises chosen, in the order they were chosen: none, one, or two. */
   value: readonly string[];
   onChange: (ids: string[]) => void;
+  /** Promises that cannot be made in this run: the country it takes over already breaks them (phase 63). */
+  unavailable?: readonly string[];
 }
 
 interface Option {
@@ -38,14 +40,15 @@ function Words({ option }: { option: Option }) {
  * a first is made, so a player who promises nothing has nothing more to choose, and it offers
  * only what can stand beside the first.
  */
-export function MandatePicker({ value, onChange }: Props) {
+export function MandatePicker({ value, onChange, unavailable = [] }: Props) {
   const [first = null, second = null] = value;
-  const beside = first ? PROMISES.filter((o) => compatible(first, o.id!)) : [];
+  const open = PROMISES.filter((o) => !unavailable.includes(o.id!));
+  const beside = first ? open.filter((o) => compatible(first, o.id!)) : [];
   return (
     <>
       <Dropdown
         legend={STRINGS.ui.mandate}
-        options={[NONE, ...PROMISES]}
+        options={[NONE, ...open]}
         value={first}
         hint={STRINGS.ui.mandateHint}
         // A second that cannot stand beside the new first is let go, not kept out of sight.

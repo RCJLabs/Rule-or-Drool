@@ -25,6 +25,7 @@ import {
 } from "../meta";
 import { DailyMonth, dailyName, streakLine } from "./DailyMonth";
 import { Frame } from "./Frame";
+import { lineName, tookOverLine } from "./dynasty";
 import { runRecord, timeline } from "./record";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
@@ -191,6 +192,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           {history.title}
         </h1>
         {fold?.newHistory && <p className="history-new">{STRINGS.after.newHistory}</p>}
+        {state.inherited && (
+          <p className="line-note">
+            <b>{lineName(state.inherited.line)}</b> {tookOverLine(state.inherited)}
+          </p>
+        )}
         <div className="share-row">
           <button type="button" className="share" onClick={share} disabled={sharing === "working"}>
             {sharing === "working" ? STRINGS.share.working : STRINGS.share.button}

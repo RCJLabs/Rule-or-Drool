@@ -2,6 +2,8 @@ import { deckStamp } from "./deck";
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
 import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX, inCatalogOrder, platformProblem } from "./mandates";
+import { TOOK_OVER_FLAG, handoverCard, inheritanceProblem, leanOf } from "./inherit";
+import { stageOf } from "./look";
 import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
@@ -271,14 +273,29 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     cabinet[role] = pool[pick.value]!.id;
   }
 
+  // A run that takes over keeps the last reign's rival. The seat is still dealt first, so the
+  // dice fall exactly as they would for a fresh start on the same seed (BACKLOG-10 phase 63).
+  const inh = setup.inheritance ?? null;
+  if (inh) {
+    const problem = inheritanceProblem(lib, inh);
+    if (problem) throw new Error(problem);
+    if (inh.rival !== null) {
+      if (!advisorPool(lib, cfg.rivalRole, setup.align).some((a) => a.id === inh.rival)) throw new Error(`no rival for this side is called ${inh.rival}`);
+      cabinet[cfg.rivalRole] = inh.rival;
+    }
+    for (const f of [...inh.legacies, TOOK_OVER_FLAG]) if (!flags.includes(f)) flags.push(f);
+  }
+
   for (const f of cabinetFlags(lib, cabinet)) if (!flags.includes(f)) flags.push(f);
   const cabinetSince: Record<string, number> = {};
   for (const role of Object.keys(cabinet)) cabinetSince[role] = 0;
 
   const budget = nextInt(rng, cfg.arcBudgetMin, cfg.arcBudgetMax);
   rng = budget.state;
+  const drift = inh ? leanOf(lib, inh.band) : 0;
+  const handover = inh ? handoverCard(lib, inh) : null;
 
-  return {
+  const state: GameState = {
     seed,
     rngState: rng,
     align: setup.align,
@@ -286,12 +303,13 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     eraCount,
     cardCount: 0,
     meters,
-    drift: 0,
-    look: 0,
+    drift,
+    look: stageOf(drift, cfg),
     band: cfg.startBand,
     bandLocked: false,
     flags,
-    queue: [],
+    // The last reign's band decides the card that hands the country over, first on the table.
+    queue: handover ? [{ id: handover, dueAt: 0 }] : [],
     seen: [],
     cooldown: [],
     activeArcs: [],
@@ -303,7 +321,7 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     current: null,
     currentFrom: null,
     arcBudget: budget.value,
-    rivalStanding: cfg.rivalStart,
+    rivalStanding: inh ? inh.rivalStanding : cfg.rivalStart,
     stats: { ...EMPTY_STATS },
     unlocked: [...(setup.unlocked ?? [])],
     mandates: [...promised],
@@ -313,5 +331,10 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     road: null,
     opposition: null,
     deck: deckStamp(lib),
+    inherited: inh ? { ...inh, legacies: [...inh.legacies] } : null,
   };
+  // A promise the country already breaks cannot be made in it: a press already answering to
+  // the office, taken over from the last reign, is not a promise to keep it free (phase 63).
+  for (const id of promised) if (MANDATES_BY_ID.get(id)!.isBroken(state)) throw new Error(`the run starts with ${id} already broken`);
+  return state;
 }

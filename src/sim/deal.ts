@@ -5,7 +5,7 @@ import { MANDATES, PLATFORMS } from "../engine/mandates";
 import { resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { newRun, rollSetup } from "../engine/state";
-import type { GameState } from "../engine/types";
+import { BANDS, type GameState, type Inheritance } from "../engine/types";
 import { allUnlockTokens } from "../meta/objectives";
 import { BOTS, makeContext } from "./bots";
 
@@ -25,7 +25,11 @@ export function dealOf(lib: Library): string {
     const rng = makeRng(seed ^ 0x5bd1e995);
     const kind = Math.floor(i / 5) % 3;
     const mandates = kind === 0 ? [] : kind === 1 ? singles[i % singles.length]! : [...PLATFORMS[i % PLATFORMS.length]!];
-    const setup = { ...rollSetup(lib, seed, i % 2 ? "left" : "right", i % 3 === 0 ? allUnlockTokens() : []), mandates };
+    // Every seventh run takes over a country (BACKLOG-10 phase 63), from each band in turn, with
+    // a story and a question settled and the rival dealt as a fresh run's would be.
+    const inheritance: Inheritance | undefined =
+      i % 7 === 6 ? { band: BANDS[Math.floor(i / 7) % BANDS.length]!, line: 2, legacies: ["ring_started", "went_to_war"], rival: null, rivalStanding: 36 } : undefined;
+    const setup = { ...rollSetup(lib, seed, i % 2 ? "left" : "right", i % 3 === 0 ? allUnlockTokens() : []), mandates, ...(inheritance ? { inheritance } : {}) };
     let s: GameState = newRun(lib, seed, i % 4 === 3 ? { ...setup, eraCount: lib.config.longEraCount } : setup);
     while (!s.over) {
       s = draw(lib, s);

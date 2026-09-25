@@ -74,6 +74,16 @@ describe("save", () => {
     expect([v6.mandates, v6.mandatesBroken]).toEqual([[], {}]);
   });
 
+  it("brings a v14 run forward as the fresh start it was, and the first road a second road holds", () => {
+    const { inherited: _drop, ...v14 } = newRun(library, 3, { align: "left" });
+    const s = migrateRun(14, { ...v14, road: { first: { ...v14, cardCount: 90 }, at: 12 } } as never)!;
+    expect(s.inherited).toBeNull();
+    expect(s.road!.first.inherited).toBeNull();
+    // A current save keeps what it took over.
+    const heir = newRun(library, 3, { align: "left", inheritance: { band: "ascent", line: 2, legacies: ["seawall"], rival: null, rivalStanding: 30 } });
+    expect(migrateRun(RUN_SAVE_VERSION, heir)!.inherited).toEqual(heir.inherited);
+  });
+
   it("brings a v11 run forward in the look its drift implies, and the first road a second road holds", () => {
     // Before BACKLOG-7 phase 45 the look was drift's alone, so that is the look it was showing.
     const { look: _drop, ...v11 } = { ...newRun(library, 3, { align: "left" }), drift: -21 };

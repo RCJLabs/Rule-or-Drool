@@ -53,6 +53,9 @@ function legacyText(flag: string): string {
   return k.legacy.replace("{legacy}", LEGACIES[flag] ?? flag);
 }
 
+/** A legacy this reign left, not one it took over from the last of its line (BACKLOG-10 phase 63). */
+const leftBy = (run: GameState, flag: string) => run.flags.includes(flag) && !(run.inherited?.legacies ?? []).includes(flag);
+
 /** A vote to win: a reign with elections abolished cheats none, and should not keep a contract for it. */
 const honestly = (run: GameState) => clean(run) && run.stats.electionsHonest > 0;
 
@@ -89,7 +92,7 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   { key: "muddleClean", tier: "fair", params: [], text: () => k.muddleClean, keeps: (r) => finale(r, "muddle") && honestly(r) },
   { key: "wonBackFinale", tier: "fair", params: [], text: () => k.wonBackFinale, keeps: (r) => r.flags.includes(WON_BACK_FLAG) && finale(r) },
   { key: "ascentClean", tier: "fair", params: PLAYER_ALIGNS, text: (s) => k.ascentClean.replace("{party}", party(s)), keeps: (r, _, s) => r.align === s && finale(r, "ascent") && honestly(r) },
-  { key: "legacy", tier: "fair", params: ["media_captured", "took_the_skim", "schools_starved"], text: legacyText, keeps: (r, _, f) => r.flags.includes(f) && finale(r) },
+  { key: "legacy", tier: "fair", params: ["media_captured", "took_the_skim", "schools_starved"], text: legacyText, keeps: (r, _, f) => leftBy(r, f) && finale(r) },
   // Hard: one run in five to fourteen.
   { key: "broad", tier: "hard", params: [], text: () => k.broad, keeps: (r) => finale(r) && BLOC_KEYS.every((b) => r.meters[b] >= 60) },
   { key: "saintEra", tier: "hard", params: [], text: () => k.saintEra, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= DEFAULT_CONFIG.eraLength },
@@ -98,7 +101,7 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
     tier: "hard",
     params: ["ring_started", "long_ship", "seawall", "pension_raided", "feed_captured"],
     text: legacyText,
-    keeps: (r, _, f) => r.flags.includes(f) && finale(r),
+    keeps: (r, _, f) => leftBy(r, f) && finale(r),
   },
 ];
 

@@ -385,6 +385,26 @@ export interface GameState {
   deck?: string;
   /** Out of office since losing an honest vote, or null while in it (BACKLOG-10 phase 55). */
   opposition: Opposition | null;
+  /** What the run took over from the last one, or null for a fresh start (BACKLOG-10 phase 63). */
+  inherited: Inheritance | null;
+}
+
+/**
+ * The country a run takes over from the one before it (BACKLOG-10 phase 63): the way the
+ * last reign leaned, a legacy or two still in force, and the rival who remembers it. The
+ * engine takes the legacies as flags; which flags a country can hand on is the profile's to say.
+ */
+export interface Inheritance {
+  /** The band the last reign ended in, which sets the lean this one starts with. */
+  band: Band;
+  /** Which reign of its line this is: 2 for the first to take over, and so on. */
+  line: number;
+  /** In force from the first card, and counted as the last reign's, not this one's. */
+  legacies: string[];
+  /** The last reign's rival, who takes the seat again, or null to deal one as a fresh run does. */
+  rival: string | null;
+  /** Where the rival's standing starts. */
+  rivalStanding: number;
 }
 
 /**
@@ -418,7 +438,7 @@ export interface Road {
  * card is gated on counting marks: it is not here because of one choice, it is here because
  * of a pattern of them, which is a different thing to say to the player.
  */
-export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign", "appointment"] as const;
+export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign", "appointment", "handover"] as const;
 export type CardSource = (typeof CARD_SOURCES)[number];
 
 export interface RunSetup {
@@ -432,6 +452,8 @@ export interface RunSetup {
   mandate?: string | null;
   /** Eras the run has; omitted means the ordinary game's (BACKLOG-5 phase 39). */
   eraCount?: number;
+  /** The country taken over from the last run, for a run that is not a fresh start (BACKLOG-10 phase 63). */
+  inheritance?: Inheritance | null;
 }
 
 /** Advisor traits the engine knows about (5.8). */

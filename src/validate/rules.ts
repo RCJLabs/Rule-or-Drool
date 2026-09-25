@@ -5,6 +5,7 @@
  */
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
+import { TOOK_OVER_FLAG } from "../engine/inherit";
 import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../engine/mandates";
 import { fxDeltas } from "../engine/state";
 import type { Arc, Card, Choice, Cond, Content } from "../engine/types";
@@ -498,8 +499,10 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     const entry = a.cards[0];
     if (a.weight > 0 && a.entry.eras.length > 0 && a.entry.bands.length > 0 && entry !== undefined) seed(entry);
   }
-  // The engine, not a card, sends the card that follows a broken promise (phase 16).
+  // The engine, not a card, sends the card that follows a broken promise (phase 16), and the
+  // card that hands a run over to the next of its line (BACKLOG-10 phase 63).
   for (const m of MANDATES) if (cards.has(m.brokeCard)) seed(m.brokeCard);
+  for (const b of BANDS) if (cards.has(`${cfg.handoverPrefix}${b}`)) seed(`${cfg.handoverPrefix}${b}`);
   while (queue.length) {
     const c = cards.get(queue.pop()!);
     if (!c) continue;
@@ -564,7 +567,8 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!flagReads.has(f) && !engineReads.has(f) && !codexReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
-    if (f === BROKE_MANDATE_FLAG) continue;
+    // The engine sets these: a promise broken, and a run that took over from the last (phase 63).
+    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG) continue;
     if (f.startsWith(MANDATE_FLAG_PREFIX)) {
       // `mandate_<id>`, set when the run is taken on it, or `mandate_<id>_broken` (phase 62).
       const name = f.slice(MANDATE_FLAG_PREFIX.length).replace(/_broken$/, "");

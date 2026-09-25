@@ -86,6 +86,13 @@ export interface RunRecord {
   mandates: PromiseRecord[];
   /** A second road: the run taken again from one of its decisions (BACKLOG-5 phase 34). */
   road?: true;
+  /**
+   * Which reign of its line the run was: absent for a fresh start, which is the first of one,
+   * and 2 on for a run that took over from the one before (BACKLOG-10 phase 63).
+   */
+  line?: number;
+  /** The rival's standing at the end, which the next reign of the line starts halfway back from. */
+  rivalStanding?: number;
 }
 
 export interface PromiseRecord {

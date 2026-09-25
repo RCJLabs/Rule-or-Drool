@@ -32,6 +32,7 @@ EVERY RUN IS ITS OWN
 • At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Promises you make at the start, one or two of nine, each at a price, and each kept or broken on its own.
+• Take over the country your last run left, with its lean, its legacies and its rival, or start fresh.
 • A daily run that is the same run for everyone.
 • Share a run: send the link, and a friend starts the very run you played.
 
@@ -284,6 +285,10 @@ bots (BACKLOG-5 phase 31):
   profile saves as v8, which v0.69.0 and before set aside rather than read. The deck moved, so
   records from v0.69.0 and before are kept apart. Each record's run code names the promises its
   run was taken on; the report does not group runs by them.
+- Since v0.71.0 a run can take over the country the last one left (BACKLOG-10 phase 63). A run
+  that took over has a format 3 code, which v0.70.0 and before cannot open, and the report replays
+  it like any other. The deck moved, so records from v0.70.0 and before are kept apart. Ask testers
+  whether they took over, and why or why not: the records say whether they did, not why.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

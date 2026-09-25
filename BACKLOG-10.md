@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10, 6, 5, 7 and 8, which you chose: phases 55 to 62, done in v0.65.0 to
-v0.70.0, at the end of this file.
+except ideas 1, 2, 10, 6, 5, 7, 8 and 4, which you chose: phases 55 to 63, done in v0.65.0 to
+v0.71.0, at the end of this file.
 
 Each idea says:
 - what it is;
@@ -1047,3 +1047,122 @@ whenever only one side does and it does not end the run.
    aimed one.
 2. **Whether the second promise should wait until a profile has kept one.** The default is no. It
    is asked for only once a first is made, so a player who promises nothing sees nothing more.
+
+## Phase 63. A dynasty (idea 4) — *done*
+
+**Shipped in v0.71.0.** A run can take over the country the last one left, beside a fresh start.
+The deck moved to `n6qkf7mq`, and the deal to `126uprcw`: eleven new cards, and runs that take over
+in the deal's sample. A fresh start deals exactly as it did: 300 bot runs, every card and ending
+compared with v0.70.0.
+
+**Measured first: what a run leaves.** 1,000 runs a bot, every unlock:
+
+| | Informed | Mixed | Eyes |
+|---|---|---|---|
+| Legacies a run leaves | 7.9 | 8.7 | 8.4 |
+| Of them, the reign's own: the habits, cheating, dirty campaigning, a lost count | most | most | most |
+| Runs leaving two or more the country could hand on | 99.9% | 99.9% | 98.9% |
+| Drift at the end: Decay, Ascent (median) | −40, +36 | −46, +36 | −35, +47 |
+| The rival's standing at the end (it starts at 30) | 24 | 43 | 36 |
+
+What gets handed on is mostly the answers to questions (a way to papers 13%, the war 10%, the
+deportations 10%), then the stories: the ring 11–13%, the long ship, the port, the levee, the feed
+and the seawall 4–7%.
+
+**Measured first: how much a run started from it differs.** 400 runs a case:
+
+- **The lean is what a line feels.** Starting drift at −10 took the informed voter's Decay from 19%
+  to 30%; +10 took its Ascent from 24.5% to 40%. The mixed bot moved as much.
+- **A legacy alone moves nothing a bot can measure.** Seventeen were tried one at a time. All were
+  within noise of a fresh start but one: the abolished vote, under which a run reached the finale
+  in 69–76% of runs rather than 91–97%.
+- **The rival's standing moves nothing.** Anywhere from 20 to 50, the rates stayed within noise.
+
+**How it works.**
+- The menu offers **"Take over from your last run"** beside **"A fresh start"**, once a profile is
+  past its first term. It says what it hands on before it is chosen: the side, the history the last
+  run was given, which way the country leans, what is still in force, and who remembers.
+- A run that takes over:
+  - leads the same side;
+  - starts its drift 10 toward the band the last reign ended in (0 after a Muddle), and the look
+    shows it from the first card;
+  - keeps the last reign's two biggest legacies in force, in history's order;
+  - faces the last reign's rival, at a standing halfway back from where they ended to the start;
+  - opens on a card handing the country over, one for each band the last reign ended in.
+- What a country can hand on is its own: not how the last reign governed (its habits, cheating,
+  dirty campaigning, broken promises, honours sold), not what happened to it (a lost count, a won
+  one, an heir named), and not the abolished vote, which would change the rules of the whole run
+  and make three promises moot or free.
+- What the country has is not made again. A story or a question that would set an inherited
+  legacy is not started, and a card that would make one is not dealt: the seawall already stands,
+  and the war was already decided.
+- A promise the country already breaks cannot be made in it: a press that answers to the office
+  rules out "The papers print what they like".
+- Eight cards are written for a run that took over, for the stories most often handed on: the ring,
+  the long ship, the port, the levee, the seawall, the feed, the papers and the general. The answers
+  to questions already have their comeback cards.
+- History names what the run did, not what it took over, and the codex counts only its own
+  legacies. So does a weekly contract: an inherited ring does not keep "leave the ring begun". The
+  record keeps every legacy the country ended with, which the next reign takes over.
+- The handover card has a source of its own, so it is not marked as a choice coming back, and does
+  not teach that lesson.
+- The end screen, the codex and the timeline say which reign of its line a run was, and what it took
+  over.
+- Two objectives: **"Third of the line"** (see the third reign of a line to its finale) and **"The
+  line redeemed"** (take over from a Decay and reach the Ascent finale).
+- The daily is always a fresh start. A shared run carries what it took over, so it plays the same
+  for whoever opens it.
+- Formats:
+  - The run save is v15: a run saved before took over nothing.
+  - A run code for a run that took over is format 3, with the inheritance after the era count. Every
+    other code is unchanged. A version from before says it cannot reproduce a format 3 code.
+  - The profile keeps its version. A run record gains its line and its rival's standing, both
+    optional.
+
+**Lines of three, through the game as shipped** (400 lines a bot, each run taking over from the one
+before):
+
+| | Informed | Mixed | Eyes |
+|---|---|---|---|
+| Decay, by generation | 16.5%, 16.5%, 19.5% | 31.8%, 36.8%, 42.3% | 2.5%, 1.3%, 1.0% |
+| After a Decay reign: Decay | 34.8% | 47.8% | (15 runs) |
+| After an Ascent reign: Ascent | 38.3% | 28.4% | 72.5% |
+| Finale, every generation | 96–98% | 97–98% | 92–94% |
+
+- Every run that took over opened on its handover card, and one in five met a card written for
+  what it inherited. No settled story started, and every code round-tripped.
+- **A careless line declines.** The mixed bot's Decay rises by a third over three reigns, most of it
+  from the lean. A handover card whose honest side cost the coalition added more, so its cost was
+  moved to the treasury and the institutions.
+
+**Caveats.**
+- The compounding is the point, and it is also the risk idea 4 named. A player whose line is going
+  wrong has a fresh start one tap away, and the menu does not choose it for them.
+- A legacy handed on changes little on its own. What a line feels is the lean, the rival's name, the
+  handover and one card in five written for it. A player may expect the seawall to matter more.
+- The lean is a first guess measured on bots. How it feels to people is for the closed test.
+
+**What was built.**
+- Engine:
+  - `Inheritance` on the setup and the run;
+  - `newRun` applying it without moving the dice a fresh start would use;
+  - `settledByInheritance` and `makesInherited` in the deal;
+  - the handover card queued first;
+  - replay and run codes carrying it.
+- Profile: `inheritanceFrom`, `takeOverFrom` and the list of what the reign keeps (`RUN_BOUND`), the
+  fold's line and tally, history's naming, two objectives.
+- Screens: the start choice on the menu, the promise picker leaving out what the country breaks,
+  the end screen's line, the codex's mark, the timeline's first line.
+- Tests:
+  - 7 engine;
+  - 6 for the profile, and 1 for the contracts;
+  - 3 for run codes and the save;
+  - 8 on screen;
+  - a browser audit of the fullest choice and its handover on the smallest phone.
+
+**Decisions for you.**
+1. **How far a line leans.** The default is 10, about a third of the way to a band's line. Lower
+   makes a line gentler and the choice less felt.
+2. **Whether the last reign's rival returns.** The default is yes. It changes nothing measurable,
+   and it is the part of a line a player can name.
+

@@ -1,4 +1,5 @@
 import { getCard, poolKey, questionOfArc, type Library } from "./library";
+import { isHandoverCard, makesInherited, settledByInheritance } from "./inherit";
 import { pickWeighted } from "./rng";
 import { candidatesFor, condMet, hasFlag, roll } from "./state";
 import { returnDue } from "./opposition";
@@ -99,6 +100,9 @@ const pastOf = (state: GameState): Past => ({ cooldown: new Set(state.cooldown),
 function eligible(lib: Library, card: Card, state: GameState, relax: Relax, past: Past): boolean {
   if (!relax.cooldown && past.cooldown.has(card.id)) return false;
   if (card.oneShot && past.seen.has(card.id)) return false;
+  // A card that would make what the country took over from the last reign is not dealt: the
+  // seawall already stands (BACKLOG-10 phase 63).
+  if (makesInherited(card, state)) return false;
   return condMet(lib, card.cond, state, card.speaker, past.flags);
 }
 
@@ -309,6 +313,8 @@ function startable(lib: Library, state: GameState, questions: boolean): Arc[] {
     if ((arc.question !== undefined) !== questions) continue;
     if (started.has(arc.id)) continue;
     if (arc.requires && !state.unlocked.includes(arc.requires)) continue;
+    // What the country took over from the last reign is not built, or asked, again (phase 63).
+    if (settledByInheritance(lib, state, arc.id)) continue;
     if (!alignOk(arc, state)) continue;
     if (!arc.entry.eras.includes(state.era)) continue;
     if (!arc.entry.bands.includes(state.band)) continue;
@@ -371,7 +377,9 @@ export function draw(lib: Library, state: GameState): GameState {
     const [card, next] = pick(lib, s);
     s = next;
     if (!card) continue;
-    return select(lib, s, card.id, name === "deck" && isHabitCard(lib, card) ? "habit" : name);
+    // A handover is queued to come first, but it is not a choice coming back (phase 63).
+    const from = name === "deck" && isHabitCard(lib, card) ? "habit" : name === "queue" && isHandoverCard(lib, card.id) ? "handover" : name;
+    return select(lib, s, card.id, from);
   }
   throw new Error(`no eligible card (era ${s.era}, band ${s.band}, align ${s.align})`);
 }

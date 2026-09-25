@@ -72,9 +72,10 @@ export interface Moment {
 export const TIMELINE_DECISIONS = 8;
 
 export function timeline(lib: Library, state: GameState, endingTitle: string): Moment[] {
-  const { took, inheriting, broke, brokeOf } = STRINGS.timeline;
+  const { took, tookOver, inheriting, broke, brokeOf } = STRINGS.timeline;
   const crisis = state.modifiers.map((m) => STRINGS.modifiers[m as keyof typeof STRINGS.modifiers]).find((m, i) => m && state.modifiers[i]!.startsWith("crisis_"));
-  const start = took.replace("{party}", STRINGS.parties[state.align]) + (crisis ? `, ${inheriting.replace("{crisis}", crisis.name.toLowerCase())}` : "") + ".";
+  // A run that took over from the last of its line says so (BACKLOG-10 phase 63).
+  const start = (state.inherited ? tookOver : took).replace("{party}", STRINGS.parties[state.align]) + (crisis ? `, ${inheriting.replace("{crisis}", crisis.name.toLowerCase())}` : "") + ".";
   const moments: Moment[] = [{ at: 0, kind: "start", text: start }];
 
   // The biggest decisions, if there are more than fit, told in the order they were made.

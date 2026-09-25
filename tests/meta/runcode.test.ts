@@ -4,7 +4,7 @@ import { draw } from "../../src/engine/draw";
 import { getCard } from "../../src/engine/library";
 import { resolve } from "../../src/engine/resolve";
 import { makeRng } from "../../src/engine/rng";
-import { newRun, rollSetup } from "../../src/engine/state";
+import { advisorPool, newRun, rollSetup } from "../../src/engine/state";
 import type { GameState, PlayerAlign } from "../../src/engine/types";
 import { allUnlockTokens, dailySeed, decodeRunCode, encodeRunCode, runCodeOf, type RunCode } from "../../src/meta";
 import { BOTS, makeContext } from "../../src/sim";
@@ -64,7 +64,7 @@ describe("sharing a run", () => {
 
   it("refuses a code it cannot reproduce rather than starting a different run", () => {
     expect(decodeRunCode(library, "nonsense")).toEqual({ ok: false, reason: "format" });
-    expect(decodeRunCode(library, "3.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    expect(decodeRunCode(library, "4.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
     // Format 2 is a long reign's, with the era count as a seventh part (BACKLOG-5 phase 39).
     expect(decodeRunCode(library, "2.abc.L.-.-.-")).toEqual({ ok: false, reason: "format" });
     // Only this game's long reign is written in format 2, and an era count is a number.
@@ -97,6 +97,44 @@ describe("sharing a run", () => {
     expect(encodeRunCode(runCodeOf(run))).toBe(text);
     // A code with one promise is the code it always was.
     expect(encodeRunCode({ ...code, mandates: ["m_broad"] })).toBe("1.2r.R.-.-.m_broad");
+  });
+
+  it("carries what a run took over, in format 3, and reproduces the run (BACKLOG-10 phase 63)", () => {
+    const rival = advisorPool(library, library.config.rivalRole, "left")[1]!.id;
+    const inheritance = { band: "decay" as const, line: 3, legacies: ["ring_started", "went_to_war"], rival, rivalStanding: 41 };
+    const code: RunCode = { seed: 99, align: "left", modifiers: [], unlocked: [], mandates: ["m_broad"], inheritance };
+    const text = encodeRunCode(code);
+    expect(text).toBe(`3.2r.L.-.-.m_broad.-.decay~3~${rival}~41~ring_started~went_to_war`);
+    expect(decodeRunCode(library, text)).toEqual({ ok: true, code });
+    // A long reign that took over names its eras where format 2 did.
+    const long = encodeRunCode({ ...code, eraCount: library.config.longEraCount });
+    expect(long.split(".")[6]).toBe(String(library.config.longEraCount));
+    expect(decodeRunCode(library, long)).toEqual({ ok: true, code: { ...code, eraCount: library.config.longEraCount } });
+    // The run it starts is the run that took over, and its code is the code it came from.
+    const run = beginRunFromCode(library, code);
+    expect(run.inherited).toEqual(inheritance);
+    expect(encodeRunCode(runCodeOf(run))).toBe(text);
+    // A fresh start's code is the code it always was.
+    expect(encodeRunCode({ ...code, inheritance: undefined })).toBe("1.2r.L.-.-.m_broad");
+  });
+
+  it("refuses an inheritance this game could not have handed on", () => {
+    const rival = advisorPool(library, library.config.rivalRole, "left")[0]!.id;
+    const other = advisorPool(library, library.config.rivalRole, "right")[0]!.id;
+    const base = `3.abc.L.-.-.-.-`;
+    expect(decodeRunCode(library, `${base}.decay~2~${rival}~40~seawall`).ok).toBe(true);
+    expect(decodeRunCode(library, `${base}.decay~2~-~40`).ok).toBe(true);
+    expect(decodeRunCode(library, `${base}.sideways~2~-~40`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~1~-~40`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~2~-~140`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~2~-~40~habit_skim`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~2~-~40~elections_abolished`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~2~-~40~seawall~ring_started~long_ship`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~2~${other}~40`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, `${base}.decay~2`)).toEqual({ ok: false, reason: "format" });
+    expect(decodeRunCode(library, `3.abc.L.-.-.-.-`)).toEqual({ ok: false, reason: "format" });
+    // A promise the country it takes over already breaks cannot ride with it.
+    expect(decodeRunCode(library, `3.abc.L.-.-.m_press.-.decay~2~-~40~media_captured`)).toEqual({ ok: false, reason: "content" });
   });
 
   it("refuses a platform this game would not start", () => {

@@ -1,0 +1,447 @@
+[
+  {
+    "id": "ho_decay",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your predecessor's desk has been cleared of everything but the unpaid bills. Their people are still in every office, waiting to learn who gets the blame.",
+    "cond": {
+      "flags": [
+        "took_over"
+      ]
+    },
+    "weight": 0,
+    "left": {
+      "label": "Blame the last lot",
+      "fx": {
+        "base": 4,
+        "public": 2,
+        "inst": -4
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Keep them, and fix it",
+      "fx": {
+        "money": -4,
+        "inst": 4,
+        "base": -1
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "ho_muddle",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Your predecessor left the country roughly as they found it, and a handover file nobody has opened. The staff would like to know what changes.",
+    "cond": {
+      "flags": [
+        "took_over"
+      ]
+    },
+    "weight": 0,
+    "left": {
+      "label": "Announce a clean break",
+      "fx": {
+        "base": 4,
+        "public": 1,
+        "inst": -4
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Read the file first",
+      "fx": {
+        "money": -2,
+        "inst": 3,
+        "base": -1
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "ho_ascent",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The country misses your predecessor already. Their portrait still hangs in every ministry, and nobody has asked whether it should come down.",
+    "cond": {
+      "flags": [
+        "took_over"
+      ]
+    },
+    "weight": 0,
+    "left": {
+      "label": "Take it down",
+      "fx": {
+        "base": 3,
+        "public": -2,
+        "inst": -2
+      },
+      "drift": -3
+    },
+    "right": {
+      "label": "Leave it up",
+      "fx": {
+        "public": 2,
+        "inst": 2,
+        "money": -2
+      },
+      "drift": 3
+    }
+  },
+  {
+    "id": "heir_ring",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The ring your predecessor began is a third built and wholly paid for, apart from the other two thirds.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "ring_started"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Keep building",
+      "fx": {
+        "money": -6,
+        "inst": 3,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Mothball it",
+      "fx": {
+        "money": 5,
+        "public": -3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "heir_ship",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The long ship your predecessor launched reports home every month. This month's report asks whether anyone is still reading them.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "long_ship"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Answer it yourself",
+      "fx": {
+        "money": -3,
+        "public": 3,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Close the listening post",
+      "fx": {
+        "money": 4,
+        "inst": -3,
+        "public": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "heir_port",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The port your predecessor leased for ninety-nine years has ninety-one left, and the tenant has started calling it theirs.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "port_leased"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Challenge the lease",
+      "fx": {
+        "money": -5,
+        "order": -2,
+        "inst": 4
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Renew it early",
+      "fx": {
+        "money": 6,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "heir_levee",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The levee your predecessor built held last spring. The engineers say it needs money every year, which nobody told the voters.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "levee_built"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Fund the upkeep",
+      "fx": {
+        "money": -5,
+        "public": 2,
+        "order": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Let it coast a year",
+      "fx": {
+        "money": 5,
+        "public": -2,
+        "order": -1
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "heir_seawall",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The seawall is the one thing from the last government everyone agrees on. Its upkeep is the one thing nobody budgeted for.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "seawall"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Budget for it",
+      "fx": {
+        "money": -5,
+        "public": 2,
+        "inst": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Name it and move on",
+      "fx": {
+        "money": 3,
+        "base": 2,
+        "public": -2
+      },
+      "drift": -3
+    }
+  },
+  {
+    "id": "heir_feed",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The feed still answers to this office. Its editors are waiting to be told what to say about you, and they are very good at waiting.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "feed_captured"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Give it back",
+      "fx": {
+        "base": -5,
+        "inst": 5,
+        "public": 2
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Tell them",
+      "fx": {
+        "base": 5,
+        "public": -3,
+        "inst": -4
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "heir_press",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The papers still take this office's calls. Their owners want to know whether the arrangement with your predecessor stands.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "media_captured"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "End the arrangement",
+      "fx": {
+        "base": -4,
+        "inst": 5,
+        "public": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep it going",
+      "fx": {
+        "base": 4,
+        "inst": -4,
+        "public": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "heir_general",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The general your predecessor let loose has not gone back to barracks. He sends his compliments, and a list of names.",
+    "cond": {
+      "flags": [
+        "took_over",
+        "general_unleashed"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Recall him",
+      "fx": {
+        "order": -5,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Read the list",
+      "fx": {
+        "order": 5,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -6
+    }
+  }
+]

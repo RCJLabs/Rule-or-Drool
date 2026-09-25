@@ -28,7 +28,7 @@ export function canRetrace(state: GameState): boolean {
 export function replayTo(lib: Library, state: GameState, k: number): GameState | null {
   const record = state.choices;
   if (!record || k < 0 || k > record.length) return null;
-  const setup = { align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: [...state.mandates], eraCount: state.eraCount };
+  const setup = { align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: [...state.mandates], eraCount: state.eraCount, inheritance: state.inherited };
   let s = draw(lib, newRun(lib, state.seed, setup));
   for (let i = 0; i < k; i++) {
     const [card, side] = record[i]!;

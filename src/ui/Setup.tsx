@@ -3,14 +3,15 @@ import { STRINGS } from "../content/strings";
 import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { isFirstTerm, isLongReign, rollSetup } from "../engine/state";
-import type { GameState, PlayerAlign } from "../engine/types";
-import { codexProgress, dailyNumber, dailySeed, encodeRunCode, firstTermDue, historyTitle, keptIn, longReignOpen, streakOf, todayKey, weekNumber, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
-import { MANDATES_BY_ID } from "../engine/mandates";
+import type { GameState, Inheritance, PlayerAlign } from "../engine/types";
+import { codexProgress, dailyNumber, dailySeed, encodeRunCode, firstTermDue, historyTitle, inheritanceFrom, keptIn, longReignOpen, streakOf, takeOverFrom, todayKey, weekNumber, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
+import { MANDATES_BY_ID, brokenByFlags } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
 import { MandatePicker } from "./MandatePicker";
 import { ReignPicker, type ReignChoice } from "./ReignPicker";
+import { StartPicker } from "./StartPicker";
 import { SetupSummary } from "./SetupSummary";
 import { dailyCode, randomSeed } from "./flow";
 import { dailyName } from "./DailyMonth";
@@ -23,7 +24,7 @@ interface Props {
   /** The saved run's daily, when it is one. */
   savedDaily?: DailyMark | null;
   meta: MetaState;
-  onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number) => void;
+  onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number, inheritance?: Inheritance | null) => void;
   onDaily: (align: PlayerAlign, mandates: readonly string[]) => void;
   /** A run someone sent, decoded from the link that opened the game, if one did. */
   shared?: Decoded | null;
@@ -47,6 +48,26 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
   const [align, setAlign] = useState<PlayerAlign>("left");
   // None, one, or a platform of two (BACKLOG-10 phase 62).
   const [mandates, setMandates] = useState<readonly string[]>([]);
+  // Fresh, or taking over the country the last run left (BACKLOG-10 phase 63). Only a profile
+  // past its first term, with a run behind it, is offered it; the daily is always fresh.
+  const parent = takeOverFrom(meta);
+  const inheritance = useMemo(() => (parent ? inheritanceFrom(lib, parent) : null), [lib, parent]);
+  const [takeOverChosen, setTakeOver] = useState(false);
+  const takeOver = takeOverChosen && !!inheritance;
+  const unavailable = takeOver && inheritance ? brokenByFlags(inheritance.legacies) : [];
+  const chooseStart = (on: boolean) => {
+    setTakeOver(on);
+    // Taking over is taking over the same side, and a promise the country already breaks goes.
+    if (on && parent && inheritance) {
+      setAlign(parent.align);
+      const gone = brokenByFlags(inheritance.legacies);
+      setMandates((m) => m.filter((id) => !gone.includes(id)));
+    }
+  };
+  const chooseSide = (a: PlayerAlign) => {
+    setAlign(a);
+    if (parent && a !== parent.align) setTakeOver(false);
+  };
   // Five eras rather than three, once a finale has opened them (BACKLOG-5 phase 39); one, as a
   // first term, until the profile has seen a run through (BACKLOG-10 phase 59).
   const termDue = firstTermDue(meta);
@@ -134,14 +155,15 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
         <fieldset className="align">
           <legend>Your side</legend>
           {PLAYER_ALIGNS.map((a) => (
-            <button key={a} type="button" className={`align-choice${align === a ? " selected" : ""}`} aria-pressed={align === a} onClick={() => setAlign(a)}>
+            <button key={a} type="button" className={`align-choice${align === a ? " selected" : ""}`} aria-pressed={align === a} onClick={() => chooseSide(a)}>
               <b>{STRINGS.parties[a]}</b>
               <span>{STRINGS.partyBlurbs[a]}</span>
             </button>
           ))}
         </fieldset>
         <SetupSummary lib={lib} modifiers={setup.modifiers ?? []} />
-        <MandatePicker value={mandates} onChange={setMandates} />
+        {parent && inheritance && <StartPicker lib={lib} from={parent} inheritance={inheritance} value={takeOver} onChange={chooseStart} />}
+        <MandatePicker value={mandates} onChange={setMandates} unavailable={unavailable} />
         {reigns && <ReignPicker choices={reigns} value={chosen} onChange={setEraCount} />}
         <label className="seed">
           {STRINGS.ui.seed}
@@ -150,7 +172,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             {STRINGS.ui.shuffle}
           </button>
         </label>
-        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined)}>
+        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null)}>
           {STRINGS.ui.start}
         </button>
         <div className="meta-row">

@@ -1,7 +1,10 @@
 import { DEFAULT_CONFIG } from "../engine/config";
 import type { Library } from "../engine/library";
-import { inCatalogOrder, platformProblem } from "../engine/mandates";
-import type { PlayerAlign, RunSetup } from "../engine/types";
+import { inheritanceProblem } from "../engine/inherit";
+import { brokenByFlags, inCatalogOrder, platformProblem } from "../engine/mandates";
+import { advisorPool } from "../engine/state";
+import { BANDS, type Band, type Inheritance, type PlayerAlign, type RunSetup } from "../engine/types";
+import { inheritable } from "./dynasty";
 import { allUnlockTokens } from "./objectives";
 
 /**
@@ -31,6 +34,12 @@ import { allUnlockTokens } from "./objectives";
  * modifiers are listed, `m_broad~m_loyal`, in the catalog's order. That needs no new format: a
  * version from before reads the pair, or a promise it never had, as a promise it does not know,
  * and says it cannot reproduce the run, which is true. A code with one promise is unchanged.
+ *
+ * Format 3 adds what a run took over from the last one (BACKLOG-10 phase 63), after the era count
+ * (`-` for an ordinary run's): the band the last reign ended in, the reign of its line this is,
+ * the rival or `-`, their standing, and the legacies in force:
+ * `3.gh2k7p.L.crisis_war~trait_orator~flaw_vain.-.-.-.decay~2~adv_wrenne~41~ring_started~seawall`.
+ * Only a run that took over is written in it, so every other code is the code it was.
  */
 export interface RunCode {
   seed: number;
@@ -44,19 +53,28 @@ export interface RunCode {
    * ordinary run's code has none.
    */
   eraCount?: number;
+  /** What the run took over from the last one; a fresh start's code has none (BACKLOG-10 phase 63). */
+  inheritance?: Inheritance;
 }
 
 /** The ordinary game's era count, which a code leaves unsaid. */
 const ORDINARY_ERAS = DEFAULT_CONFIG.eraCount;
 const VERSION = "1";
 const LONG_VERSION = "2";
+const LINE_VERSION = "3";
 const NONE = "-";
 
 export function encodeRunCode(code: RunCode): string {
   const list = (xs: readonly string[]) => (xs.length ? [...xs].join("~") : NONE);
   const parts = [code.seed.toString(36), code.align === "left" ? "L" : "R", list(code.modifiers), list([...code.unlocked].sort()), list(inCatalogOrder(code.mandates))];
   const ordinary = code.eraCount === undefined || code.eraCount === ORDINARY_ERAS;
-  return ordinary ? [VERSION, ...parts].join(".") : [LONG_VERSION, ...parts, String(code.eraCount)].join(".");
+  const eras = ordinary ? NONE : String(code.eraCount);
+  const inh = code.inheritance;
+  if (inh) {
+    const took = [inh.band, String(inh.line), inh.rival ?? NONE, String(inh.rivalStanding), ...inh.legacies].join("~");
+    return [LINE_VERSION, ...parts, eras, took].join(".");
+  }
+  return ordinary ? [VERSION, ...parts].join(".") : [LONG_VERSION, ...parts, eras].join(".");
 }
 
 export type Decoded = { ok: true; code: RunCode } | { ok: false; reason: "format" | "version" | "content" };
@@ -69,12 +87,14 @@ export type Decoded = { ok: true; code: RunCode } | { ok: false; reason: "format
 export function decodeRunCode(lib: Library, raw: string): Decoded {
   const parts = raw.trim().split(".");
   const v = parts[0];
-  if (v !== VERSION && v !== LONG_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
-  if (parts.length !== (v === VERSION ? 6 : 7)) return { ok: false, reason: "format" };
-  const [, seed36, side, mods, unlocks, promises, eras] = parts as [string, string, string, string, string, string, string?];
+  if (v !== VERSION && v !== LONG_VERSION && v !== LINE_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
+  if (parts.length !== (v === VERSION ? 6 : v === LONG_VERSION ? 7 : 8)) return { ok: false, reason: "format" };
+  const [, seed36, side, mods, unlocks, promises, erasPart, took] = parts as [string, string, string, string, string, string, string?, string?];
   if (!/^[0-9a-z]{1,8}$/.test(seed36) || (side !== "L" && side !== "R")) return { ok: false, reason: "format" };
+  // Format 3 says "-" for an ordinary run's eras; format 2 always names them.
+  const eras = v === LINE_VERSION && erasPart === NONE ? undefined : erasPart;
   if (eras !== undefined && !/^[1-9][0-9]?$/.test(eras)) return { ok: false, reason: "format" };
-  // Only a long reign or a first term is written in format 2, and only one as long as this game's.
+  // Only a long reign or a first term is written with its eras, and only one as long as this game's.
   const eraCount = eras === undefined ? undefined : Number(eras);
   if (eraCount !== undefined && eraCount !== lib.config.longEraCount && eraCount !== lib.config.firstTermEras) return { ok: false, reason: "content" };
   const seed = parseInt(seed36, 36);
@@ -90,14 +110,38 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   // A platform this version would refuse to start (a promise twice, two that cannot stand
   // together) is refused here too, rather than failing when the run is started.
   if (platformProblem(mandates)) return { ok: false, reason: "content" };
-  const code: RunCode = { seed, align: side === "L" ? "left" : "right", modifiers, unlocked, mandates: inCatalogOrder(mandates) };
-  return { ok: true, code: eraCount === undefined ? code : { ...code, eraCount } };
+  const align = side === "L" ? "left" : "right";
+  let inheritance: Inheritance | undefined;
+  if (took !== undefined) {
+    const read = readInheritance(lib, took, align);
+    if (!read.ok) return read;
+    inheritance = read.inheritance;
+    // As the setup would: a promise the country already breaks cannot be made in it.
+    if (brokenByFlags(inheritance.legacies).some((id) => mandates.includes(id))) return { ok: false, reason: "content" };
+  }
+  const code: RunCode = { seed, align, modifiers, unlocked, mandates: inCatalogOrder(mandates) };
+  const withEras = eraCount === undefined ? code : { ...code, eraCount };
+  return { ok: true, code: inheritance ? { ...withEras, inheritance } : withEras };
+}
+
+/** The inheritance a format 3 code carries, read as carefully as the rest of it. */
+function readInheritance(lib: Library, raw: string, align: PlayerAlign): { ok: true; inheritance: Inheritance } | { ok: false; reason: "format" | "content" } {
+  const [band, line, rival, standing, ...legacies] = raw.split("~") as [string, string?, string?, string?, ...string[]];
+  if (line === undefined || rival === undefined || standing === undefined) return { ok: false, reason: "format" };
+  if (!/^[1-9][0-9]{0,3}$/.test(line) || !/^[0-9]{1,3}$/.test(standing) || !/^[a-z0-9_-]+$/.test(rival)) return { ok: false, reason: "format" };
+  if (!(BANDS as readonly string[]).includes(band)) return { ok: false, reason: "content" };
+  const inheritance: Inheritance = { band: band as Band, line: Number(line), legacies, rival: rival === NONE ? null : rival, rivalStanding: Number(standing) };
+  // Legacies this game can hand on, and a rival who can sit against this side, or it is not the run.
+  if (!legacies.every(inheritable) || inheritanceProblem(lib, inheritance)) return { ok: false, reason: "content" };
+  if (inheritance.rival !== null && !advisorPool(lib, lib.config.rivalRole, align).some((a) => a.id === inheritance.rival)) return { ok: false, reason: "content" };
+  return { ok: true, inheritance };
 }
 
 /** The setup a code describes, ready for `newRun`. */
 export function setupOf(code: RunCode): RunSetup {
   const setup: RunSetup = { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandates: [...code.mandates] };
-  return code.eraCount === undefined ? setup : { ...setup, eraCount: code.eraCount };
+  const withEras = code.eraCount === undefined ? setup : { ...setup, eraCount: code.eraCount };
+  return code.inheritance ? { ...withEras, inheritance: { ...code.inheritance, legacies: [...code.inheritance.legacies] } } : withEras;
 }
 
 /**
@@ -111,7 +155,9 @@ export function runCodeOf(state: {
   unlocked: readonly string[];
   mandates: readonly string[];
   eraCount?: number;
+  inherited?: Inheritance | null;
 }): RunCode {
   const code: RunCode = { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: inCatalogOrder(state.mandates) };
-  return state.eraCount === undefined || state.eraCount === ORDINARY_ERAS ? code : { ...code, eraCount: state.eraCount };
+  const withEras = state.eraCount === undefined || state.eraCount === ORDINARY_ERAS ? code : { ...code, eraCount: state.eraCount };
+  return state.inherited ? { ...withEras, inheritance: { ...state.inherited, legacies: [...state.inherited.legacies] } } : withEras;
 }

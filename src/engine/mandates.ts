@@ -38,6 +38,8 @@ export interface Mandate {
   floor?: { meters: readonly MeterKey[]; at: number };
   /** The card that arrives once it is broken. */
   brokeCard: string;
+  /** For a promise never to do something: the flags that doing it sets, any of which breaks it. */
+  neverFlags?: readonly string[];
   /** True once this run has broken it. Read after every card; never un-broken. */
   isBroken: (state: GameState) => boolean;
 }
@@ -127,6 +129,7 @@ export const MANDATES: readonly Mandate[] = [
     promise: "You said it to a room of editors, and one of them took it down in shorthand.",
     cost: "Put a paper, a licence or the feed in friendly hands, by any route, and the promise is gone.",
     brokeCard: "mn_press_broke",
+    neverFlags: ["media_captured", "feed_captured"],
     isBroken: never("media_captured", "feed_captured"),
   },
   {
@@ -136,6 +139,7 @@ export const MANDATES: readonly Mandate[] = [
     promise: "You turned out your pockets on the treasury steps, and the cameras got the lint.",
     cost: "Take the money once, or bury an audit that found some, and the promise is gone.",
     brokeCard: "mn_hands_broke",
+    neverFlags: ["took_the_skim", "buried_the_audit"],
     isBroken: never("took_the_skim", "buried_the_audit"),
   },
   {
@@ -145,6 +149,7 @@ export const MANDATES: readonly Mandate[] = [
     promise: "You said you would beat the other side on the record, and never on a rumour.",
     cost: "Smear, scare or buy your way through a single campaign, and the promise is gone.",
     brokeCard: "mn_fair_broke",
+    neverFlags: ["dirty_politics"],
     isBroken: never("dirty_politics"),
   },
   {
@@ -154,6 +159,7 @@ export const MANDATES: readonly Mandate[] = [
     promise: "You said the army's only job was the border. The generals applauded, which was the worrying part.",
     cost: "Let the general handle anyone at home, or open a register of the disloyal, and the promise is gone.",
     brokeCard: "mn_barracks_broke",
+    neverFlags: ["general_unleashed", "purge_begun"],
     isBroken: never("general_unleashed", "purge_begun"),
   },
 ];
@@ -204,6 +210,15 @@ export function platformProblem(ids: readonly string[]): string | null {
   if (new Set(ids).size < ids.length) return `a promise is made once: ${ids.join(", ")}`;
   if (ids.length === 2 && !compatible(ids[0]!, ids[1]!)) return `${ids[0]} and ${ids[1]} cannot be promised together`;
   return null;
+}
+
+/**
+ * The promises a country's standing flags already break, so none of them can be made in it: a
+ * run that took over a press answering to the office cannot promise to keep it free (BACKLOG-10
+ * phase 63).
+ */
+export function brokenByFlags(flags: readonly string[]): string[] {
+  return MANDATES.filter((m) => m.neverFlags?.some((f) => flags.includes(f))).map((m) => m.id);
 }
 
 /** Whether a run still holds this promise: it was made, and it has not been broken. */

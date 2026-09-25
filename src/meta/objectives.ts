@@ -182,6 +182,21 @@ export const OBJECTIVES: readonly Objective[] = [
     hint: "See a long reign through to its finale, five centuries on.",
     check: ({ run }) => !!run?.over?.endingId.startsWith(DEFAULT_CONFIG.longFinalePrefix),
   },
+  // A line of runs (BACKLOG-10 phase 63), chosen like the long reign: a run takes over only when
+  // the player says so. Measured, a reign after a Decay reached the Ascent in 6-47% of runs,
+  // by bot, against 11-66% for a fresh one.
+  {
+    id: "obj_line_three",
+    title: "Third of the line",
+    hint: "Take over from your last run twice running, and see the third reign to its finale.",
+    check: ({ run }) => (run?.inherited?.line ?? 1) >= 3 && !!run?.over && run.over.endingId.startsWith(DEFAULT_CONFIG.finalePrefix),
+  },
+  {
+    id: "obj_line_redeemed",
+    title: "The line redeemed",
+    hint: "Take over from a reign that ended in Decay, and bring yours to the Ascent finale.",
+    check: ({ run }) => run?.inherited?.band === "decay" && run.over?.endingId === `${DEFAULT_CONFIG.finalePrefix}ascent`,
+  },
   // Mandates sit at the end because they are the only objectives the player chooses to
   // attempt rather than happens into. None of them grants an unlock: a mandate is opt-in,
   // so content behind one would be content a player who never takes a promise can never

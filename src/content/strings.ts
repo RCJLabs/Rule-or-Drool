@@ -241,6 +241,8 @@ export const STRINGS = {
   timeline: {
     title: "How it went",
     took: "You took office for {party}",
+    /** A run that took over from the last of its line (BACKLOG-10 phase 63). */
+    tookOver: "You took over for {party}",
     inheriting: "inheriting {crisis}",
     broke: "You broke the promise you took the job on",
     /** One of two, named (BACKLOG-10 phase 62). */
@@ -351,6 +353,25 @@ export const STRINGS = {
     firstShort: "First term",
     offerFirst: "A first term: one era and one vote.",
     afterFirst: "That was one term. A full reign is three eras, and the next run you start is one.",
+  },
+  /** A line of runs (BACKLOG-10 phase 63): taking over the country the last run left. */
+  dynasty: {
+    legend: "Where you start",
+    fresh: "A fresh start",
+    freshBlurb: "A country nobody has run before.",
+    takeOver: "Take over from your last run",
+    takeOverBlurb: "Leading {party} again, after \u201c{history}\u201d. The country leans {lean}.",
+    lean: { decay: "toward Decay", muddle: "nowhere yet", ascent: "toward the Ascent" },
+    still: "Still in force: {legacies}.",
+    rival: "{rival} remembers the last reign.",
+    /** Which reign of its line a run is, from the second on. */
+    ordinals: ["", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth"],
+    ordinalMany: "Reign {n}",
+    line: "{ordinal} of its line",
+    tookOver: "It took over a country leaning {lean}, with {legacies} still in force.",
+    tookOverBare: "It took over a country leaning {lean}.",
+    /** A promise the country already breaks cannot be made in it. */
+    promiseGone: "Already broken in the country you would take over.",
   },
   /**
    * The questions (BACKLOG-6 phase 40): policies asked plainly. The card says it is one, so a

@@ -143,6 +143,13 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     s = listed(s);
     if (s.road) s = { ...s, road: { ...s.road, first: listed(s.road.first) } };
   }
+  // v14 -> v15: a run can take over the country the last one left (BACKLOG-10 phase 63). No
+  // run saved before could, so it resumes as the fresh start it was, and so does a first road.
+  if (v < 15) {
+    const fresh = <T extends GameState>(x: T): T => ({ ...x, inherited: null });
+    s = fresh(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: fresh(s.road.first) } };
+  }
   return s;
 }
 

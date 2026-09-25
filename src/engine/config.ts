@@ -116,6 +116,18 @@ export interface EngineConfig {
    * era 1 in any other band can never be drawn (BACKLOG-3 phase 20).
    */
   startBand: Band;
+  /**
+   * A run that takes over from the last one starts its drift this far toward the band the last
+   * reign ended in, and at zero after a Muddle (BACKLOG-10 phase 63). Measured: after a Decay
+   * reign, ±10 took the next one's Decay from 18.5% to 26% for the informed voter and from 34%
+   * to 45% for the mixed one; after an Ascent, the Ascent from 20% to 33%. A line did not run
+   * away over three reigns.
+   */
+  inheritLean: number;
+  /** The most legacies a run takes over: the last reign's biggest, in history's order. */
+  inheritLegacies: number;
+  /** The card that hands a run over, first on the table: `${handoverPrefix}${band}` of the last reign. */
+  handoverPrefix: string;
   /** Run start sets `${advisorFlagPrefix}${trait}` for every trait sitting in the cabinet. */
   advisorFlagPrefix: string;
   /**
@@ -220,6 +232,9 @@ export const DEFAULT_CONFIG: EngineConfig = {
     corrupt: { gain: 1, loss: 1.35 },
   },
   startBand: "muddle",
+  inheritLean: 10,
+  inheritLegacies: 2,
+  handoverPrefix: "ho_",
   advisorFlagPrefix: "advisor_",
   habitMarkPrefix: "mark_",
   cooldownSize: 30,

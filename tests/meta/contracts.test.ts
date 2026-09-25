@@ -110,6 +110,13 @@ describe("keeping a contract", () => {
     expect(wonBack.keeps(reign("riots", { flags: [WON_BACK_FLAG] }), "decay", "")).toBe(false);
   });
 
+  it("asks for a legacy this reign left, not one it took over from the last of its line", () => {
+    const legacy = CONTRACT_TEMPLATES.find((t) => t.key === "legacyHard")!;
+    expect(legacy.keeps(reign("finale_muddle", { flags: ["ring_started"] }), "muddle", "ring_started")).toBe(true);
+    const inherited = { band: "decay" as const, line: 2, legacies: ["ring_started"], rival: null, rivalStanding: 30 };
+    expect(legacy.keeps(reign("finale_muddle", { flags: ["ring_started"], inherited }), "muddle", "ring_started")).toBe(false);
+  });
+
   it("is never done by a first term, or by a run still going", () => {
     // Every week's contracts, against a first term that would keep any a full reign could.
     const term = { ...reign("first_term_ascent"), eraCount: library.config.firstTermEras, cardCount: 35, era: 1 };

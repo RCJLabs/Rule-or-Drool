@@ -99,8 +99,11 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
 
   // What the country was left carrying. Only the flags that name something durable count;
   // the rest are bookkeeping the player never sees (BACKLOG item 10).
+  // The record keeps every legacy the country ends with, which is what the next reign of the line
+  // takes over; the codex counts only what this reign left, not what it inherited (phase 63).
   const legacies = run.flags.filter((f) => LEGACY_FLAGS.has(f));
-  for (const f of legacies) next.legacies[f] = (next.legacies[f] ?? 0) + 1;
+  const inherited = run.inherited?.legacies ?? [];
+  for (const f of legacies) if (!inherited.includes(f)) next.legacies[f] = (next.legacies[f] ?? 0) + 1;
 
   // Whoever was still in the room at the end stayed; whoever you let go, you let go.
   for (const id of Object.values(run.cabinet)) {
@@ -132,6 +135,9 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   // A second road counts like any run, and says what it is (BACKLOG-5 phase 34). It is
   // never the daily: that was the first road's, and the fold is only told so for the first.
   if (run.road) record.road = true;
+  // A line of runs (BACKLOG-10 phase 63): which reign of it this was, and where the rival ended.
+  if (run.inherited) record.line = run.inherited.line;
+  record.rivalStanding = run.rivalStanding;
   next.history = [record, ...meta.history].slice(0, HISTORY_LENGTH);
   // One entry a day, and only for the run that was dealt as that day's daily: the first to
   // finish keeps the day (BACKLOG-5 phase 38).
