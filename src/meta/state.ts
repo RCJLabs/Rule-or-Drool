@@ -110,11 +110,12 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   for (const id of run.stats.firedAdvisors) next.advisorsFired[id] = (next.advisorsFired[id] ?? 0) + 1;
 
   // A promise only counts as kept by a run that finished; a run cut short by an ouster
-  // was still governed under it, which is the whole point of choosing one.
-  const mandateKept = !!run.mandate && run.mandateBrokenAt === null;
-  if (run.mandate) {
-    const tally = mandateKept ? next.mandatesKept : next.mandatesBroken;
-    tally[run.mandate] = (tally[run.mandate] ?? 0) + 1;
+  // was still governed under it, which is the whole point of choosing one. Each of a
+  // platform's two is kept or broken on its own (BACKLOG-10 phase 62).
+  const promises = run.mandates.map((id) => ({ id, kept: !(id in run.mandatesBroken) }));
+  for (const { id, kept } of promises) {
+    const tally = kept ? next.mandatesKept : next.mandatesBroken;
+    tally[id] = (tally[id] ?? 0) + 1;
   }
 
   const record: RunRecord = {
@@ -126,8 +127,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     rival: run.cabinet[lib.config.rivalRole] ?? null,
     legacies,
     history: history.key,
-    mandate: run.mandate,
-    mandateKept,
+    mandates: promises,
   };
   // A second road counts like any run, and says what it is (BACKLOG-5 phase 34). It is
   // never the daily: that was the first road's, and the fold is only told so for the first.

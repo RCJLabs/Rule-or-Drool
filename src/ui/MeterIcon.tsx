@@ -14,10 +14,12 @@ interface Props {
    * everyone else.
    */
   spoken: string;
+  /** A line a held promise keeps this meter above, drawn across the icon (BACKLOG-10 phase 62). */
+  floor?: number;
 }
 
 /** Reigns-style silhouette filled from the bottom to the meter's value. */
-export function MeterIcon({ meter, value, dot, danger, label, spoken }: Props) {
+export function MeterIcon({ meter, value, dot, danger, label, spoken, floor }: Props) {
   const clip = `clip${useId().replace(/\W/g, "")}`;
   const v = Math.max(0, Math.min(100, value));
   const h = (v / 100) * 40;
@@ -35,6 +37,7 @@ export function MeterIcon({ meter, value, dot, danger, label, spoken }: Props) {
         <g className="meter-outline">
           <Shape meter={meter} value={v} details />
         </g>
+        {floor !== undefined && <line className="meter-floor" x1="1" x2="39" y1={40 - (floor / 100) * 40} y2={40 - (floor / 100) * 40} />}
       </svg>
       <span className={`meter-dot dot-${dot}`} aria-hidden="true" />
       <span className="meter-label">{label}</span>

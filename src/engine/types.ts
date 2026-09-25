@@ -355,10 +355,13 @@ export interface GameState {
   stats: RunStats;
   /** Meta unlock ids in force for this run; gates modifiers and arcs that name a `requires`. */
   unlocked: string[];
-  /** The promise this run was taken on, or null for a run that promised nothing (phase 16). */
-  mandate: string | null;
-  /** The card count at which that promise was broken, or null while it still holds. */
-  mandateBrokenAt: number | null;
+  /**
+   * The promises this run was taken on, in the catalog's order: none, one (BACKLOG-2 phase 16),
+   * or two, a platform (BACKLOG-10 phase 62).
+   */
+  mandates: string[];
+  /** Each promise broken, and the card count it was broken at. A promise not here still holds. */
+  mandatesBroken: Record<string, number>;
   /**
    * Flag -> the card count after which it was first set; 0 for anything the run started
    * with. The end of a run tells the player *when* they did the things that defined it, not
@@ -423,7 +426,9 @@ export interface RunSetup {
   modifiers?: string[];
   /** Unlock ids the player has earned; omitted means only always-available content. */
   unlocked?: string[];
-  /** The mandate the player took the job on, if they set themselves one (phase 16). */
+  /** The promises the player took the job on, one or two (phase 16; BACKLOG-10 phase 62). */
+  mandates?: readonly string[];
+  /** One promise, the way a setup said it before a run could take two. Ignored beside `mandates`. */
   mandate?: string | null;
   /** Eras the run has; omitted means the ordinary game's (BACKLOG-5 phase 39). */
   eraCount?: number;

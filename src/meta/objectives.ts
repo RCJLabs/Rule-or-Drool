@@ -1,6 +1,6 @@
 import { DEFAULT_CONFIG } from "../engine/config";
 import { survivedTo } from "../engine/endings";
-import { MANDATES } from "../engine/mandates";
+import { MANDATES, wordKept } from "../engine/mandates";
 import { BLOC_KEYS, type Band, type GameState } from "../engine/types";
 import { LONG_REIGN, type MetaState, type Objective } from "./types";
 
@@ -191,23 +191,28 @@ export const OBJECTIVES: readonly Objective[] = [
   // shipped: asking for no self-serving choice at all is keepable 2.5% of the time even
   // by a run trying its hardest, because the deck reliably reaches a card where the honest
   // side ends the run. That objective is hard for a reason, not for want of being asked.
+  //
+  // A run taken on two (BACKLOG-10 phase 62) keeps its word only by keeping both: one of two
+  // broken is a promise broken, and two made are two chances to break one, not to keep one.
   {
     id: "obj_mandate_kept",
     title: "Kept your word",
-    hint: "Finish a run under a mandate without breaking it.",
-    check: ({ run }) => !!run?.over && !!run.mandate && run.mandateBrokenAt === null,
+    hint: "Finish a run under a mandate, breaking none you made.",
+    check: ({ run }) => !!run?.over && wordKept(run),
   },
   {
     id: "obj_mandate_finale",
     title: "A whole term, as promised",
-    hint: "Reach a finale with a mandate still intact.",
-    check: ({ run }) => !!run?.over?.endingId.startsWith("finale_") && !!run.mandate && run.mandateBrokenAt === null,
+    hint: "Reach a finale with every mandate you made intact.",
+    check: ({ run }) => !!run?.over?.endingId.startsWith("finale_") && wordKept(run),
   },
   {
+    // Every one of the four there were until phase 62; now any four of them, which a profile
+    // that had kept the first four has already done.
     id: "obj_mandate_all",
     title: "Four promises",
-    hint: "Keep every one of the four mandates at least once.",
-    check: ({ meta }) => MANDATES.every((m) => (meta.mandatesKept[m.id] ?? 0) > 0),
+    hint: "Keep four different mandates, each at least once.",
+    check: ({ meta }) => MANDATES.filter((m) => (meta.mandatesKept[m.id] ?? 0) > 0).length >= 4,
   },
 ];
 

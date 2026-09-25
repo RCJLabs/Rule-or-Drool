@@ -126,7 +126,7 @@ export function missingContent(lib: Library, state: GameState): string[] {
   }
   for (const id of Object.values(state.cabinet)) if (!lib.advisorsById.has(id)) missing.push(id);
   for (const id of state.modifiers) if (!lib.modifiers.has(id)) missing.push(id);
-  if (state.mandate && !MANDATES_BY_ID.has(state.mandate)) missing.push(state.mandate);
+  for (const id of state.mandates) if (!MANDATES_BY_ID.has(id)) missing.push(id);
   if (state.road) card(state.choices?.[state.road.at]?.[0]);
   return missing;
 }

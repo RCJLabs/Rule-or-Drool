@@ -123,12 +123,11 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
                         {lib.endings.get(r.endingId)?.title ?? r.endingId}
                         {r.rival && `, against ${lib.advisorsById.get(r.rival)?.name ?? "a rival"}`}
                       </span>
-                      {r.mandate && (
-                        <em className={r.mandateKept ? "kept" : "broken"}>
-                          {MANDATES.find((m) => m.id === r.mandate)?.title ?? r.mandate} —{" "}
-                          {r.mandateKept ? STRINGS.ui.mandateKept : STRINGS.ui.mandateBroken}
+                      {r.mandates.map((p) => (
+                        <em key={p.id} className={p.kept ? "kept" : "broken"}>
+                          {MANDATES.find((m) => m.id === p.id)?.title ?? p.id} — {p.kept ? STRINGS.ui.mandateKept : STRINGS.ui.mandateBroken}
                         </em>
-                      )}
+                      ))}
                       {r.legacies.length > 0 && <em>{r.legacies.map((f) => LEGACIES[f] ?? f).join(" · ")}</em>}
                     </li>
                   ))}

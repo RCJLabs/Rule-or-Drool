@@ -608,7 +608,7 @@ describe("content: every card can be drawn", () => {
     for (const c of content.cards) {
       for (const f of c.cond?.flags ?? []) {
         if (!f.startsWith(MANDATE_FLAG_PREFIX)) continue;
-        expect(ids.has(f.slice(MANDATE_FLAG_PREFIX.length)), `${c.id} waits on ${f}`).toBe(true);
+        expect(ids.has(f.slice(MANDATE_FLAG_PREFIX.length).replace(/_broken$/, "")), `${c.id} waits on ${f}`).toBe(true);
       }
     }
   });

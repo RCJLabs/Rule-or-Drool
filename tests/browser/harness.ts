@@ -27,6 +27,6 @@ export function open(browser: Browser, opts: OpenOptions = {}): Promise<Page> {
   return openAt(browser, target!.url, opts);
 }
 
-export function startRun(browser: Browser, align: PlayerAlign, opts: OpenOptions & { mandate?: string } = {}): Promise<Page> {
+export function startRun(browser: Browser, align: PlayerAlign, opts: OpenOptions & { mandates?: readonly string[] } = {}): Promise<Page> {
   return startRunAt(browser, target!.url, SEED, align, opts);
 }

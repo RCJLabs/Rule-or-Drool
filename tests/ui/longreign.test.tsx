@@ -76,7 +76,7 @@ describe("choosing the long reign", () => {
 
   it("starts a run of five eras, which a reload keeps", () => {
     const first = renderHook(() => useGame(library));
-    act(() => first.result.current.start(2024, "left", null, LONG));
+    act(() => first.result.current.start(2024, "left", [], LONG));
     expect(first.result.current.state!.eraCount).toBe(LONG);
     act(() => first.result.current.exitToMenu());
     first.unmount();

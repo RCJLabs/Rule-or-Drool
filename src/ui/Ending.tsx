@@ -83,7 +83,10 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const ending = lib.endings.get(over.endingId);
   const epilogue = epilogueByKey(lib, over.epilogueKey);
   const band = exitBand(lib, state);
-  const mandate = state.mandate ? MANDATES_BY_ID.get(state.mandate) : undefined;
+  const promises = state.mandates.flatMap((id) => {
+    const mandate = MANDATES_BY_ID.get(id);
+    return mandate ? [{ mandate, brokenAt: state.mandatesBroken[id] ?? null }] : [];
+  });
   const history = fold?.history ?? historyOf(state, band);
   const world = composeWorld({ band, drift: state.drift, align: state.align, flags: state.flags, seed: state.seed, era: state.era });
   const endingTitle = ending?.title ?? over.endingId;
@@ -303,14 +306,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
             </ul>
           </section>
         )}
-        {mandate && (
-          <p className={`mandate-result${state.mandateBrokenAt === null ? " kept" : " broken"}`}>
-            <b>{mandate.title}</b>{" "}
-            {state.mandateBrokenAt === null
-              ? STRINGS.ui.mandateKept
-              : `${STRINGS.ui.mandateBroken} · ${STRINGS.ui.mandateBrokenAt} ${state.mandateBrokenAt}`}
+        {promises.map(({ mandate, brokenAt }) => (
+          <p key={mandate.id} className={`mandate-result${brokenAt === null ? " kept" : " broken"}`}>
+            <b>{mandate.title}</b> {brokenAt === null ? STRINGS.ui.mandateKept : `${STRINGS.ui.mandateBroken} · ${STRINGS.ui.mandateBrokenAt} ${brokenAt}`}
           </p>
-        )}
+        ))}
         <SetupSummary lib={lib} modifiers={state.modifiers} compact />
         <dl className="stats">
           <dt>Cards</dt>

@@ -1,5 +1,6 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
+import { MANDATES_BY_ID } from "../engine/mandates";
 import type { GameState } from "../engine/types";
 import { HISTORY_ORDER } from "../meta/histories";
 import { LEGACIES } from "../meta/legacies";
@@ -71,7 +72,7 @@ export interface Moment {
 export const TIMELINE_DECISIONS = 8;
 
 export function timeline(lib: Library, state: GameState, endingTitle: string): Moment[] {
-  const { took, inheriting, broke } = STRINGS.timeline;
+  const { took, inheriting, broke, brokeOf } = STRINGS.timeline;
   const crisis = state.modifiers.map((m) => STRINGS.modifiers[m as keyof typeof STRINGS.modifiers]).find((m, i) => m && state.modifiers[i]!.startsWith("crisis_"));
   const start = took.replace("{party}", STRINGS.parties[state.align]) + (crisis ? `, ${inheriting.replace("{crisis}", crisis.name.toLowerCase())}` : "") + ".";
   const moments: Moment[] = [{ at: 0, kind: "start", text: start }];
@@ -83,7 +84,11 @@ export function timeline(lib: Library, state: GameState, endingTitle: string): M
   for (let era = 2; era <= state.era; era++) {
     moments.push({ at: (era - 1) * lib.config.eraLength, kind: "era", text: STRINGS.eras[era - 1]?.name ?? `Era ${era}` });
   }
-  if (state.mandate && state.mandateBrokenAt !== null) moments.push({ at: state.mandateBrokenAt, kind: "promise", text: broke });
+  // A run on two says which it broke (BACKLOG-10 phase 62); a run on one needs no name for it.
+  for (const [id, at] of Object.entries(state.mandatesBroken)) {
+    const title = MANDATES_BY_ID.get(id)?.title ?? id;
+    moments.push({ at, kind: "promise", text: state.mandates.length > 1 ? brokeOf.replace("{promise}", title) : broke });
+  }
   moments.push({ at: state.cardCount, kind: "end", text: endingTitle });
 
   // A decision made on the card that tipped the era happened before the years passed.

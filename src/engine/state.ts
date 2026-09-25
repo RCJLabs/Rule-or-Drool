@@ -1,7 +1,7 @@
 import { deckStamp } from "./deck";
 import type { Library } from "./library";
 import { nextInt, nextRandom, seedToState } from "./rng";
-import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX } from "./mandates";
+import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX, inCatalogOrder, platformProblem } from "./mandates";
 import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
@@ -235,10 +235,14 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
   }
 
   // A mandate is applied with the modifiers and before the clamp, because what you
-  // promised to get the job is part of the position you start from (phase 16).
-  const mandate = setup.mandate ? MANDATES_BY_ID.get(setup.mandate) : undefined;
-  if (setup.mandate && !mandate) throw new Error(`unknown mandate id: ${setup.mandate}`);
-  if (mandate) {
+  // promised to get the job is part of the position you start from (phase 16). A run can be
+  // taken on two, a platform (BACKLOG-10 phase 62), and each is applied as one would be.
+  const asked = setup.mandates ?? (setup.mandate ? [setup.mandate] : []);
+  const problem = platformProblem(asked);
+  if (problem) throw new Error(problem);
+  const promised = inCatalogOrder(asked);
+  for (const id of promised) {
+    const mandate = MANDATES_BY_ID.get(id)!;
     for (const [k, delta] of Object.entries(fxDeltas(mandate.meterStart))) {
       meters[k as keyof Meters] = clampMeter(meters[k as keyof Meters] + delta);
     }
@@ -246,6 +250,12 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     // The deck can be written for a particular promise, which is what lets it put the
     // promise and the country on opposite sides of one card.
     flags.push(`${MANDATE_FLAG_PREFIX}${mandate.id}`);
+  }
+  // A floor is where a run taken on it starts from at least, so no promise is broken before
+  // the first card: measured, a dealt setup started under the line in 2-5% of runs (phase 62).
+  for (const id of promised) {
+    const floor = MANDATES_BY_ID.get(id)!.floor;
+    for (const k of floor?.meters ?? []) meters[k] = Math.max(meters[k], floor!.at);
   }
 
   for (const k of METER_KEYS) {
@@ -296,8 +306,8 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     rivalStanding: cfg.rivalStart,
     stats: { ...EMPTY_STATS },
     unlocked: [...(setup.unlocked ?? [])],
-    mandate: mandate?.id ?? null,
-    mandateBrokenAt: null,
+    mandates: [...promised],
+    mandatesBroken: {},
     flagSince: Object.fromEntries(flags.map((f) => [f, 0])),
     choices: [],
     road: null,

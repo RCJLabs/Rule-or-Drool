@@ -3,6 +3,7 @@ import type { Preview } from "../engine/preview";
 import type { GameState, Meters, PlayerAlign } from "../engine/types";
 import type { Library } from "../engine/library";
 import { nearMisses } from "../engine/endings";
+import { heldFloors } from "../engine/mandates";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import { MeterIcon } from "./MeterIcon";
 import { NEAR_WITHIN, RESTLESS_BELOW, shownInDanger } from "./signals";
@@ -44,6 +45,7 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
   // The nearest ending, named, so a run that is five points from one knows it (phase 13).
   const near = nearMisses(lib, state, NEAR_WITHIN)[0];
   const nearTitle = near ? lib.endings.get(near.endingId)?.title : undefined;
+  const floors = heldFloors(state);
   return (
     <header className="meters">
       {METER_KEYS.map((k) => {
@@ -60,7 +62,8 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
               dot={dot}
               danger={danger}
               label={meterLabel(k, theme, align)}
-              spoken={`${meterName(k, align)}, ${meterLevel(k, v, danger)}`}
+              spoken={`${meterName(k, align)}, ${meterLevel(k, v, danger)}${floors[k] !== undefined ? `, ${STRINGS.speech.promisedFloor}` : ""}`}
+              floor={floors[k]}
             />
           </div>
         );

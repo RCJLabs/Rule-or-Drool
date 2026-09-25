@@ -111,13 +111,13 @@ export async function close(page: Page): Promise<void> {
 }
 
 /** The run code for a new player's run on the given seed: no unlocks, the base setup. */
-export function codeFor(seed: number, align: PlayerAlign, mandate: string | null = null): string {
-  return encodeRunCode({ seed, align, modifiers: rollSetup(library, seed, align, []).modifiers ?? [], unlocked: [], mandate });
+export function codeFor(seed: number, align: PlayerAlign, mandates: readonly string[] = []): string {
+  return encodeRunCode({ seed, align, modifiers: rollSetup(library, seed, align, []).modifiers ?? [], unlocked: [], mandates: [...mandates] });
 }
 
 /** A new player's run, started the way a shared link starts one, so the same cards come. */
-export async function startRunAt(browser: Browser, url: string, seed: number, align: PlayerAlign, opts: OpenOptions & { mandate?: string } = {}): Promise<Page> {
-  const page = await openAt(browser, url, { ...opts, query: `run=${codeFor(seed, align, opts.mandate ?? null)}` });
+export async function startRunAt(browser: Browser, url: string, seed: number, align: PlayerAlign, opts: OpenOptions & { mandates?: readonly string[] } = {}): Promise<Page> {
+  const page = await openAt(browser, url, { ...opts, query: `run=${codeFor(seed, align, opts.mandates ?? [])}` });
   await page.getByRole("button", { name: STRINGS.share.offerPlay }).click();
   await page.waitForSelector(".card");
   return page;

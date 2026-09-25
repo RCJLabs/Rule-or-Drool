@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { deckStamp } from "../../src/engine/deck";
-import { MANDATES } from "../../src/engine/mandates";
+import { MANDATES, compatible } from "../../src/engine/mandates";
 import { rollSetup } from "../../src/engine/state";
 import { encodeRunResult, resultOf } from "../../src/meta/challenge";
 import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
@@ -30,6 +30,12 @@ import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf
  */
 
 const LONGEST_MANDATE = MANDATES.reduce((a, b) => (b.title.length > a.title.length ? b : a));
+/**
+ * The fullest header a run has: a platform of two, sharing a line by their short names, so the
+ * widest pair of those (BACKLOG-10 phase 62).
+ */
+const LONGEST_SHORT = MANDATES.reduce((a, b) => (b.short.length > a.short.length ? b : a));
+const FULLEST_PLATFORM = [LONGEST_SHORT.id, MANDATES.filter((m) => compatible(LONGEST_SHORT.id, m.id)).reduce((a, b) => (b.short.length > a.short.length ? b : a)).id];
 
 /**
  * The codex read for contrast section by section. It is an index that opens one section at a
@@ -190,9 +196,9 @@ describe.skipIf(!target)("in a browser", () => {
     it("on the offer of a run someone sent, and on a link that is broken", async () => {
       const failures: string[] = [];
       const links = [
-        ["a good link", codeFor(SEED, "left", LONGEST_MANDATE.id)],
+        ["a good link", codeFor(SEED, "left", FULLEST_PLATFORM)],
         // The longest of the offer's three sentences (BACKLOG-8 phase 49).
-        ["a link from another deck", `${codeFor(SEED, "left", LONGEST_MANDATE.id)}&deck=zzzzzzzz`],
+        ["a link from another deck", `${codeFor(SEED, "left", FULLEST_PLATFORM)}&deck=zzzzzzzz`],
         ["a broken link", "1.4svgv.L.crisis_meteor.-.-"],
       ] as const;
       for (const [label, code] of links) {
@@ -580,8 +586,8 @@ describe.skipIf(!target)("in a browser", () => {
       [768, 1024, "tablet"],
     ];
     it.each(PHONES)("at %i×%i (%s), in each direction, without scrolling or cutting anything off", async (width, height) => {
-      // The fullest footer a run has: the longest mandate's badge and a teaching note.
-      const page = await startRun(browser, "left", { width, height, mandate: LONGEST_MANDATE.id });
+      // The fullest footer a run has: a platform's two badges and a teaching note.
+      const page = await startRun(browser, "left", { width, height, mandates: FULLEST_PLATFORM });
       const failures: string[] = [];
       for (const look of ["muddle", "decay3", "ascent3"]) {
         await toLook(page, look);
@@ -595,7 +601,7 @@ describe.skipIf(!target)("in a browser", () => {
     it("on a laptop (1280×720), with the party and the menus beside the card, in each direction", async () => {
       // A shared link is often opened on a laptop. The game stays a phone-width column, and
       // the row under the card used to put the party chip and the menus at the window's edges.
-      const page = await startRun(browser, "left", { width: 1280, height: 720, mandate: LONGEST_MANDATE.id });
+      const page = await startRun(browser, "left", { width: 1280, height: 720, mandates: FULLEST_PLATFORM });
       const failures: string[] = [];
       for (const look of ["muddle", "decay3", "ascent3"]) {
         await toLook(page, look);
@@ -661,13 +667,44 @@ describe.skipIf(!target)("in a browser", () => {
     });
 
     it("at 360×640 with the choice buttons drawn, in each direction", async () => {
-      const page = await startRun(browser, "left", { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
+      const page = await startRun(browser, "left", { width: 360, height: 640, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
       const failures: string[] = [];
       for (const look of ["muddle", "decay3", "ascent3"]) {
         await toLook(page, look);
         failures.push(...(await misfits(page, `buttons drawn, ${look}`)));
       }
       await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    it("keeps a promise's line to one line at its widest, at 360×640: the longest title broken, and a platform's two", async () => {
+      // One promise shows its whole title and its state, widest once broken. A platform's two
+      // share a line by their short names, because a second line took up to 16px off the longest
+      // cards here (BACKLOG-10 phase 62).
+      const failures: string[] = [];
+      const cases: [string, string[], string[]][] = [
+        ["the longest promise, broken", [LONGEST_MANDATE.id], [LONGEST_MANDATE.id]],
+        ["the widest platform, one of it broken", FULLEST_PLATFORM, [FULLEST_PLATFORM[0]!]],
+      ];
+      for (const [label, ids, broken] of cases) {
+        const page = await startRun(browser, "left", { width: 360, height: 640, mandates: ids, settings: { showChoices: true } });
+        await rewriteRun(page, `raw.state.mandatesBroken = ${JSON.stringify(Object.fromEntries(broken.map((id) => [id, 1])))};`);
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(".mandate-badge");
+        const { height, size, over } = await page.locator(".mandate-badge").evaluate((el) => ({
+          height: el.getBoundingClientRect().height,
+          size: parseFloat(getComputedStyle(el).fontSize),
+          over: el.scrollWidth - el.clientWidth,
+        }));
+        if (height > size * 2) failures.push(`${label}: the promise's line is ${height}px tall, more than one line`);
+        if (over > 0) failures.push(`${label}: the promise's line runs ${over}px past its width`);
+        for (const look of ["muddle", "decay3"]) {
+          await toLook(page, look);
+          failures.push(...(await misfits(page, `${label}, ${look}`)));
+        }
+        await close(page);
+      }
       expect(failures).toEqual([]);
     });
 
@@ -688,7 +725,7 @@ describe.skipIf(!target)("in a browser", () => {
       const longestStanding = Object.values(STRINGS.standing).reduce((a, b) => (b.length > a.length ? b : a));
       const counted = (kind: string) => kind === "election" || kind === "campaign";
       for (const party of ["left", "right"] as const) {
-        const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
+        const page = await startRun(browser, party, { width: 360, height: 640, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
           await rewriteRun(
             page,
@@ -733,7 +770,7 @@ describe.skipIf(!target)("in a browser", () => {
       for (const party of ["left", "right"] as const) {
         const theirs = (c: Card) => c.align === "any" || c.align === party;
         const longest = (cards: readonly Card[]) => [...cards].filter(theirs).sort((a, b) => shownText(library, b, party).length - shownText(library, a, party).length)[0]!;
-        const page = await startRun(browser, party, { width: 360, height: 640, mandate: LONGEST_MANDATE.id, settings: { showChoices: true } });
+        const page = await startRun(browser, party, { width: 360, height: 640, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
         for (const [card, played, from] of [[longest(library.oppositionCards), 26, "opposition"], [longest(library.returnVotes), library.config.eraLength - 1, "election"]] as const) {
           await rewriteRun(
             page,
@@ -803,7 +840,7 @@ describe.skipIf(!target)("in a browser", () => {
       // run is the audit seed's own, with the crisis swapped for the one that bends era 2.
       const failures: string[] = [];
       const setup = rollSetup(library, SEED, "left", []);
-      const code = encodeRunCode({ seed: SEED, align: "left", modifiers: ["crisis_blackouts", ...setup.modifiers!.slice(1)], unlocked: [], mandate: null });
+      const code = encodeRunCode({ seed: SEED, align: "left", modifiers: ["crisis_blackouts", ...setup.modifiers!.slice(1)], unlocked: [], mandates: [] });
       for (const [width, height] of [[360, 640], [412, 732]] as const) {
         const page = await open(browser, { width, height, query: `run=${code}` });
         await page.getByRole("button", { name: STRINGS.share.offerPlay }).click();

@@ -30,7 +30,7 @@ function cardsOf(start: GameState): { cards: string[]; ending: string } {
  */
 describe("sharing a run", () => {
   it("round-trips through a readable code", () => {
-    const code: RunCode = { seed: 123456789, align: "left", modifiers: ["crisis_war", "trait_orator", "flaw_vain"], unlocked: ["u_truth", "u_dissident"], mandate: "m_broad" };
+    const code: RunCode = { seed: 123456789, align: "left", modifiers: ["crisis_war", "trait_orator", "flaw_vain"], unlocked: ["u_truth", "u_dissident"], mandates: ["m_broad"] };
     const text = encodeRunCode(code);
     expect(text).toBe("1.21i3v9.L.crisis_war~trait_orator~flaw_vain.u_dissident~u_truth.m_broad");
     expect(decodeRunCode(library, text)).toEqual({ ok: true, code: { ...code, unlocked: ["u_dissident", "u_truth"] } });
@@ -41,7 +41,7 @@ describe("sharing a run", () => {
     for (const seed of [11, 222, 3333, 44444]) {
       for (const align of ["left", "right"] as PlayerAlign[]) {
         // The sender is fully unlocked; the code is all the receiver gets.
-        const theirs = beginRun(library, seed, align, veteran, null);
+        const theirs = beginRun(library, seed, align, veteran, []);
         const decoded = decodeRunCode(library, encodeRunCode(runCodeOf(theirs)));
         expect(decoded.ok).toBe(true);
         const mine = beginRunFromCode(library, (decoded as { code: RunCode }).code);
@@ -53,10 +53,10 @@ describe("sharing a run", () => {
   it("makes the daily the same run for a new player and a veteran", () => {
     const seed = dailySeed("2026-09-22");
     for (const align of ["left", "right"] as PlayerAlign[]) {
-      const code = dailyCode(library, seed, align, null);
+      const code = dailyCode(library, seed, align, []);
       // It no longer matters what either of them has unlocked: both start from the code.
       expect(code.unlocked).toEqual([]);
-      expect(cardsOf(beginRunFromCode(library, code))).toEqual(cardsOf(beginRunFromCode(library, dailyCode(library, seed, align, null))));
+      expect(cardsOf(beginRunFromCode(library, code))).toEqual(cardsOf(beginRunFromCode(library, dailyCode(library, seed, align, []))));
       // And it is the base game: the setup a profile with nothing unlocked would roll.
       expect(code.modifiers).toEqual(rollSetup(library, seed, align, []).modifiers);
     }
@@ -80,8 +80,29 @@ describe("sharing a run", () => {
   });
 
   it("describes where a run started, not what it became", () => {
-    const s = newRun(library, 5, { ...rollSetup(library, 5, "right", []), mandate: null });
-    const later = { ...s, cardCount: 80, flags: [...s.flags, "seawall"] };
+    const s = newRun(library, 5, { ...rollSetup(library, 5, "right", []), mandates: [] });
+    const later = { ...s, cardCount: 80, flags: [...s.flags, "seawall"], mandatesBroken: { m_broad: 12 } };
     expect(runCodeOf(later)).toEqual(runCodeOf(s));
+  });
+
+  it("carries a platform of two in the promise slot, in the catalog's order (BACKLOG-10 phase 62)", () => {
+    const code: RunCode = { seed: 99, align: "right", modifiers: [], unlocked: [], mandates: ["m_loyal", "m_broad"] };
+    const text = encodeRunCode(code);
+    expect(text).toBe("1.2r.R.-.-.m_broad~m_loyal");
+    expect(decodeRunCode(library, text)).toEqual({ ok: true, code: { ...code, mandates: ["m_broad", "m_loyal"] } });
+    // Read in either order, it is one run.
+    expect(decodeRunCode(library, "1.2r.R.-.-.m_loyal~m_broad")).toEqual(decodeRunCode(library, text));
+    const run = beginRunFromCode(library, (decodeRunCode(library, text) as { code: RunCode }).code);
+    expect(run.mandates).toEqual(["m_broad", "m_loyal"]);
+    expect(encodeRunCode(runCodeOf(run))).toBe(text);
+    // A code with one promise is the code it always was.
+    expect(encodeRunCode({ ...code, mandates: ["m_broad"] })).toBe("1.2r.R.-.-.m_broad");
+  });
+
+  it("refuses a platform this game would not start", () => {
+    expect(decodeRunCode(library, "1.abc.L.-.-.m_clean~m_decree")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "1.abc.L.-.-.m_broad~m_broad")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "1.abc.L.-.-.m_broad~m_loyal~m_clean")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "1.abc.L.-.-.m_broad~m_nothing")).toEqual({ ok: false, reason: "content" });
   });
 });

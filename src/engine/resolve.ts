@@ -2,7 +2,7 @@ import { endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
-import { BROKE_MANDATE_FLAG, MANDATES_BY_ID } from "./mandates";
+import { BROKE_MANDATE_FLAG, MANDATES_BY_ID, brokenFlag } from "./mandates";
 import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
@@ -305,18 +305,29 @@ export function applyEraPassive(lib: Library, state: GameState): GameState {
  * does not end the run and does not cost meters on the spot: the run carries the flag, the
  * country is told in its own voice a few cards later, and the codex remembers that this was
  * a run where you said one thing and did another (phase 16).
+ *
+ * A platform's two are checked each on its own (BACKLOG-10 phase 62): breaking one leaves the
+ * other standing, and each carries its own flag so that the card tempting a run to break the
+ * other keeps coming. `broke_mandate` is any of them broken, which is what the deck and the
+ * codex said before a run could make two.
  */
 export function checkMandate(lib: Library, state: GameState): GameState {
-  if (!state.mandate || state.mandateBrokenAt !== null) return state;
-  const mandate = MANDATES_BY_ID.get(state.mandate);
-  if (!mandate || !mandate.isBroken(state)) return state;
-  const queued = state.queue.some((q) => q.id === mandate.brokeCard);
-  return {
-    ...state,
-    mandateBrokenAt: state.cardCount,
-    flags: hasFlag(state, BROKE_MANDATE_FLAG) ? state.flags : [...state.flags, BROKE_MANDATE_FLAG],
-    queue: queued ? state.queue : [...state.queue, { id: mandate.brokeCard, dueAt: state.cardCount + 2 }],
-  };
+  let s = state;
+  for (const id of state.mandates) {
+    if (id in s.mandatesBroken) continue;
+    const mandate = MANDATES_BY_ID.get(id);
+    if (!mandate || !mandate.isBroken(s)) continue;
+    const queued = s.queue.some((q) => q.id === mandate.brokeCard);
+    const flags = [BROKE_MANDATE_FLAG, brokenFlag(id)].filter((f) => !hasFlag(s, f));
+    // Two broken on one card are both queued for the same card; the queue deals one a card.
+    s = {
+      ...s,
+      mandatesBroken: { ...s.mandatesBroken, [id]: s.cardCount },
+      flags: flags.length ? [...s.flags, ...flags] : s.flags,
+      queue: queued ? s.queue : [...s.queue, { id: mandate.brokeCard, dueAt: s.cardCount + 2 }],
+    };
+  }
+  return s;
 }
 
 export function resolve(lib: Library, state: GameState, cardId: string, side: Side): GameState {

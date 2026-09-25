@@ -1,6 +1,6 @@
 import { STRINGS } from "../content/strings";
 import { DEFAULT_CONFIG } from "../engine/config";
-import { MANDATES_BY_ID } from "../engine/mandates";
+import { MANDATES_BY_ID, holds } from "../engine/mandates";
 import { WON_BACK_FLAG } from "../engine/opposition";
 import { makeRng } from "../engine/rng";
 import { BLOC_KEYS, PLAYER_ALIGNS, type Band, type GameState } from "../engine/types";
@@ -75,7 +75,7 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
     tier: "easy",
     params: ["m_clean", "m_loyal", "m_decree"],
     text: (m) => k.promise.replace("{promise}", MANDATES_BY_ID.get(m)?.title ?? m),
-    keeps: (r, _, m) => r.mandate === m && r.mandateBrokenAt === null && finale(r),
+    keeps: (r, _, m) => holds(r, m) && finale(r),
   },
   { key: "saint", tier: "easy", params: [], text: () => k.saint, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= 20 },
   // Fair: one run in two to five.
@@ -84,7 +84,7 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
     tier: "fair",
     params: [],
     text: () => k.promise.replace("{promise}", MANDATES_BY_ID.get("m_broad")?.title ?? "m_broad"),
-    keeps: (r) => r.mandate === "m_broad" && r.mandateBrokenAt === null && finale(r),
+    keeps: (r) => holds(r, "m_broad") && finale(r),
   },
   { key: "muddleClean", tier: "fair", params: [], text: () => k.muddleClean, keeps: (r) => finale(r, "muddle") && honestly(r) },
   { key: "wonBackFinale", tier: "fair", params: [], text: () => k.wonBackFinale, keeps: (r) => r.flags.includes(WON_BACK_FLAG) && finale(r) },

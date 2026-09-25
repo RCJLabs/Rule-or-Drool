@@ -297,7 +297,7 @@
         "mandate_m_clean"
       ],
       "notFlags": [
-        "broke_mandate",
+        "mandate_m_clean_broken",
         "counted_late_boxes"
       ]
     },
@@ -346,7 +346,7 @@
         "mandate_m_broad"
       ],
       "notFlags": [
-        "broke_mandate"
+        "mandate_m_broad_broken"
       ]
     },
     "weight": 3,
@@ -390,7 +390,7 @@
         "mandate_m_loyal"
       ],
       "notFlags": [
-        "broke_mandate"
+        "mandate_m_loyal_broken"
       ]
     },
     "weight": 3,
@@ -437,7 +437,7 @@
         "elections_abolished"
       ],
       "notFlags": [
-        "broke_mandate"
+        "mandate_m_decree_broken"
       ]
     },
     "weight": 3,
@@ -463,6 +463,429 @@
       "clearFlags": [
         "elections_abolished"
       ]
+    }
+  },
+  {
+    "id": "mn_reserve_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "The flood barrier costs what the treasury has set aside. The engineers say this spring or never, and they have been right about the river before.",
+    "cond": {
+      "flags": [
+        "mandate_m_reserve"
+      ],
+      "notFlags": [
+        "mandate_m_reserve_broken"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Keep it set aside",
+      "fx": {
+        "money": 3,
+        "public": -6,
+        "order": -3,
+        "base": 2
+      },
+      "drift": -5
+    },
+    "right": {
+      "label": "Build the barrier",
+      "fx": {
+        "money": -16,
+        "public": 6,
+        "inst": 4,
+        "order": 2
+      },
+      "drift": 6
+    }
+  },
+  {
+    "id": "mn_reserve_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The treasury has gone under the line you drew, and the line was printed on a poster. The posters are still up in the districts that believed them.",
+    "weight": 0,
+    "left": {
+      "label": "Say so plainly",
+      "fx": {
+        "inst": 4,
+        "public": 3,
+        "base": -5
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Move the line",
+      "fx": {
+        "base": 3,
+        "public": -4,
+        "inst": -4,
+        "order": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_press_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "A paper that hates you has printed a lie about the water supply, and people are filling their baths. A friend could buy the paper by Friday.",
+    "cond": {
+      "flags": [
+        "mandate_m_press"
+      ],
+      "notFlags": [
+        "mandate_m_press_broken"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Answer it in print",
+      "fx": {
+        "order": -5,
+        "public": -4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let your friend buy it",
+      "fx": {
+        "order": 4,
+        "public": 3,
+        "base": 3,
+        "inst": -6
+      },
+      "drift": -6,
+      "setFlags": [
+        "media_captured"
+      ]
+    }
+  },
+  {
+    "id": "mn_press_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "The papers you did not buy have printed your promise on their front pages, beside a photograph of the one you did.",
+    "weight": 0,
+    "left": {
+      "label": "Admit it",
+      "fx": {
+        "inst": 5,
+        "base": -5,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Call it a rescue",
+      "fx": {
+        "base": 3,
+        "public": -4,
+        "inst": -4,
+        "order": 2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_hands_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "A builder you have never met has paid off the party's debts, in cash, as a gift. He says he wants nothing, and he has said it twice.",
+    "cond": {
+      "flags": [
+        "mandate_m_hands"
+      ],
+      "notFlags": [
+        "mandate_m_hands_broken"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Send it back",
+      "fx": {
+        "money": -5,
+        "base": -4,
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Keep it quiet",
+      "fx": {
+        "money": 6,
+        "backers": 4,
+        "inst": -5
+      },
+      "drift": -6,
+      "setFlags": [
+        "took_the_skim"
+      ]
+    }
+  },
+  {
+    "id": "mn_hands_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "An auditor you appointed has found the money. She is waiting in the corridor to see whether you meant the appointment.",
+    "weight": 0,
+    "left": {
+      "label": "Let her publish",
+      "fx": {
+        "inst": 5,
+        "public": 3,
+        "base": -4,
+        "money": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Thank her, and move her",
+      "fx": {
+        "base": 3,
+        "inst": -5,
+        "public": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_fair_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Someone has posted you {rival}'s medical records. Nothing in them is a crime. Most of it would still end a career by Sunday.",
+    "cond": {
+      "flags": [
+        "mandate_m_fair"
+      ],
+      "notFlags": [
+        "mandate_m_fair_broken"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Shred them",
+      "fx": {
+        "base": -5,
+        "backers": -3,
+        "public": 3,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pass them on",
+      "fx": {
+        "base": 5,
+        "backers": 3,
+        "public": -4,
+        "inst": -4
+      },
+      "drift": -6,
+      "setFlags": [
+        "dirty_politics"
+      ]
+    }
+  },
+  {
+    "id": "mn_fair_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The rumour did its work, and the country has worked out who started it. Your volunteers are being asked about it on doorsteps.",
+    "weight": 0,
+    "left": {
+      "label": "Apologise for it",
+      "fx": {
+        "base": -4,
+        "public": 4,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Say it was true",
+      "fx": {
+        "base": 4,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "mn_barracks_tempt",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The strikes have closed the ports for a month. The general says his men could open them by morning, and does not say how.",
+    "cond": {
+      "flags": [
+        "mandate_m_barracks"
+      ],
+      "notFlags": [
+        "mandate_m_barracks_broken"
+      ]
+    },
+    "weight": 3,
+    "left": {
+      "label": "Keep them in barracks",
+      "fx": {
+        "money": -6,
+        "order": -4,
+        "backers": -3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let him open them",
+      "fx": {
+        "money": 5,
+        "order": 5,
+        "public": -5,
+        "inst": -4
+      },
+      "drift": -6,
+      "setFlags": [
+        "general_unleashed"
+      ]
+    }
+  },
+  {
+    "id": "mn_barracks_broke",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "general",
+    "text": "The soldiers you sent out have not all come back in. Some of them have found they like the streets better.",
+    "weight": 0,
+    "left": {
+      "label": "Order them home",
+      "fx": {
+        "order": -5,
+        "inst": 4,
+        "public": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Let them stay out",
+      "fx": {
+        "order": 5,
+        "inst": -5,
+        "public": -4
+      },
+      "drift": -5
     }
   }
 ]

@@ -203,7 +203,7 @@ describe("the other road, elsewhere", () => {
   });
 
   it("brings a run saved before choices were kept forward, with no record to go back into", () => {
-    const v9 = newRun(library, 5, { ...rollSetup(library, 5, "left", []), mandate: null }) as Partial<GameState>;
+    const v9 = newRun(library, 5, { ...rollSetup(library, 5, "left", []), mandates: [] }) as Partial<GameState>;
     delete v9.choices;
     delete v9.road;
     const s = migrateRun(9, v9 as GameState)!;

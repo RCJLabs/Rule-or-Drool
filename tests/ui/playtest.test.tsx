@@ -62,7 +62,7 @@ describe("the playtest record", () => {
     play(g, 3);
     const open = loadOpen()!;
     expect(open).toMatchObject({ kind: "own", run: 1, game: expect.stringMatching(/^\d+\.\d+\.\d+$/), end: null });
-    expect(open.code).toBe(encodeRunCode({ seed: 103, align: "left", modifiers: g.current.state!.modifiers, unlocked: [], mandate: null }));
+    expect(open.code).toBe(encodeRunCode({ seed: 103, align: "left", modifiers: g.current.state!.modifiers, unlocked: [], mandates: [] }));
     expect(open.cards.map((c) => [c.side, c.ms, c.looked])).toEqual([
       ["right", 1200, [0, 300]],
       ["left", 1200, [0, 300]],
@@ -100,7 +100,7 @@ describe("the playtest record", () => {
     turnOn(g);
     act(() => g.current.startDaily("left"));
     expect(loadOpen()!.kind).toBe("daily");
-    act(() => g.current.startFromCode({ seed: 9, align: "right", modifiers: [], unlocked: [], mandate: null }));
+    act(() => g.current.startFromCode({ seed: 9, align: "right", modifiers: [], unlocked: [], mandates: [] }));
     expect(loadOpen()!.kind).toBe("shared");
   });
 

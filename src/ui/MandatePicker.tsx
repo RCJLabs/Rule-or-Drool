@@ -1,10 +1,11 @@
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { STRINGS } from "../content/strings";
-import { MANDATES } from "../engine/mandates";
+import { MANDATES, compatible } from "../engine/mandates";
 
 interface Props {
-  value: string | null;
-  onChange: (id: string | null) => void;
+  /** The promises chosen, in the order they were chosen: none, one, or two. */
+  value: readonly string[];
+  onChange: (ids: string[]) => void;
 }
 
 interface Option {
@@ -14,10 +15,9 @@ interface Option {
   cost?: string;
 }
 
-const OPTIONS: readonly Option[] = [
-  { id: null, title: STRINGS.ui.mandateNone, promise: STRINGS.ui.mandateNoneBlurb },
-  ...MANDATES.map((m) => ({ id: m.id, title: m.title, promise: m.promise, cost: m.cost })),
-];
+const NONE: Option = { id: null, title: STRINGS.ui.mandateNone, promise: STRINGS.ui.mandateNoneBlurb };
+const JUST_ONE: Option = { id: null, title: STRINGS.ui.mandateOnlyOne, promise: STRINGS.ui.mandateOnlyOneBlurb };
+const PROMISES: readonly Option[] = MANDATES.map((m) => ({ id: m.id, title: m.title, promise: m.promise, cost: m.cost }));
 
 function Words({ option }: { option: Option }) {
   return (
@@ -34,15 +34,54 @@ function Words({ option }: { option: Option }) {
  * Each option says what it will cost as plainly as what it is, because a promise you did
  * not understand when you made it is a trap rather than a challenge.
  *
- * An inline drop-down: the promise chosen, and the others only when it is opened, in place,
- * so the menu is not five cards long on a phone. Not a native select, whose list shows titles
- * only: every option still shows its cost before it is taken.
+ * A run can stand on two, a platform (BACKLOG-10 phase 62). The second is asked for only once
+ * a first is made, so a player who promises nothing has nothing more to choose, and it offers
+ * only what can stand beside the first.
  */
 export function MandatePicker({ value, onChange }: Props) {
+  const [first = null, second = null] = value;
+  const beside = first ? PROMISES.filter((o) => compatible(first, o.id!)) : [];
+  return (
+    <>
+      <Dropdown
+        legend={STRINGS.ui.mandate}
+        options={[NONE, ...PROMISES]}
+        value={first}
+        hint={STRINGS.ui.mandateHint}
+        // A second that cannot stand beside the new first is let go, not kept out of sight.
+        onChange={(id) => onChange(id === null ? [] : second && compatible(id, second) ? [id, second] : [id])}
+      />
+      {first && (
+        <Dropdown
+          legend={STRINGS.ui.mandateSecond}
+          options={[JUST_ONE, ...beside]}
+          value={second}
+          hint={STRINGS.ui.mandateSecondHint}
+          onChange={(id) => onChange(id === null ? [first] : [first, id])}
+        />
+      )}
+    </>
+  );
+}
+
+interface DropdownProps {
+  legend: string;
+  options: readonly Option[];
+  value: string | null;
+  hint: string;
+  onChange: (id: string | null) => void;
+}
+
+/**
+ * An inline drop-down: the promise chosen, and the others only when it is opened, in place,
+ * so the menu is not ten cards long on a phone. Not a native select, whose list shows titles
+ * only: every option still shows its cost before it is taken.
+ */
+function Dropdown({ legend, options, value, hint, onChange }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const listId = useId();
   const trigger = useRef<HTMLButtonElement>(null);
-  const current = OPTIONS.find((o) => o.id === value) ?? OPTIONS[0]!;
+  const current = options.find((o) => o.id === value) ?? options[0]!;
 
   const close = () => {
     setOpen(false);
@@ -57,7 +96,7 @@ export function MandatePicker({ value, onChange }: Props) {
 
   return (
     <fieldset className="mandates" onKeyDown={onKeyDown}>
-      <legend>{STRINGS.ui.mandate}</legend>
+      <legend>{legend}</legend>
       <button
         ref={trigger}
         type="button"
@@ -73,20 +112,22 @@ export function MandatePicker({ value, onChange }: Props) {
       </button>
       {open && (
         <div id={listId} className="mandate-list">
-          {OPTIONS.filter((o) => o !== current).map((o) => (
-            <button
-              key={o.id ?? "none"}
-              type="button"
-              className="mandate-choice"
-              onClick={() => {
-                onChange(o.id);
-                close();
-              }}
-            >
-              <Words option={o} />
-            </button>
-          ))}
-          <p className="hint">{STRINGS.ui.mandateHint}</p>
+          {options
+            .filter((o) => o !== current)
+            .map((o) => (
+              <button
+                key={o.id ?? "none"}
+                type="button"
+                className="mandate-choice"
+                onClick={() => {
+                  onChange(o.id);
+                  close();
+                }}
+              >
+                <Words option={o} />
+              </button>
+            ))}
+          <p className="hint">{hint}</p>
         </div>
       )}
     </fieldset>

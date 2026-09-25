@@ -31,7 +31,7 @@ EVERY RUN IS ITS OWN
 • 55 ways for a rule to end, many of them yours to choose, and 585 names history can give it, from what you did and where it took the country.
 • At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
-• Mandates: promises you make at the start, at a price.
+• Promises you make at the start, one or two of nine, each at a price, and each kept or broken on its own.
 • A daily run that is the same run for everyone.
 • Share a run: send the link, and a friend starts the very run you played.
 
@@ -280,6 +280,10 @@ bots (BACKLOG-5 phase 31):
   v7, which v0.67.0 and before set aside rather than read.
 - Since v0.69.0 each era after the first opens with an appointment to one seat (BACKLOG-10
   phase 61). The deck moved, so records from v0.68.0 and before are kept apart.
+- Since v0.70.0 a run can be taken on two promises, from nine (BACKLOG-10 phase 62). Their
+  profile saves as v8, which v0.69.0 and before set aside rather than read. The deck moved, so
+  records from v0.69.0 and before are kept apart. Each record's run code names the promises its
+  run was taken on; the report does not group runs by them.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

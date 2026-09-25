@@ -12,7 +12,7 @@ import { content } from "../src/content";
 import { buildLibrary } from "../src/engine";
 import { draw } from "../src/engine/draw";
 import { getCard } from "../src/engine/library";
-import { MANDATES_BY_ID } from "../src/engine/mandates";
+import { MANDATES_BY_ID, holds } from "../src/engine/mandates";
 import { applyChoice, resolve } from "../src/engine/resolve";
 import { makeRng } from "../src/engine/rng";
 import { exitBand, newRun, rollSetup } from "../src/engine/state";
@@ -41,8 +41,10 @@ const prefer = (b: Bot, want: (ctx: BotContext, s: Side) => boolean): Bot => (ct
 const honest = (b: Bot): Bot => (ctx) => (ctx.card.type === "election" ? (ctx.card.left.honest ? "left" : "right") : b(ctx));
 const keep = (b: Bot): Bot =>
   prefer(b, (ctx, s) => {
-    const m = ctx.state.mandate ? MANDATES_BY_ID.get(ctx.state.mandate) : undefined;
-    return !!m && ctx.state.mandateBrokenAt === null && !m.isBroken(applyChoice(ctx.lib, ctx.state, ctx.card, s));
+    // Every promise still held stays held: a platform's two are both aimed at (phase 62).
+    const held = ctx.state.mandates.filter((id) => holds(ctx.state, id));
+    const after = applyChoice(ctx.lib, ctx.state, ctx.card, s);
+    return held.length > 0 && held.every((id) => !MANDATES_BY_ID.get(id)!.isBroken(after));
   });
 const leave = (b: Bot, flag: string): Bot => prefer(b, (ctx, s) => !ctx.state.flags.includes(flag) && applyChoice(ctx.lib, ctx.state, ctx.card, s).flags.includes(flag));
 
@@ -90,7 +92,7 @@ for (const t of CONTRACT_TEMPLATES) {
         const seed = 900_000 + i;
         const side: PlayerAlign = align ?? (i % 2 ? "left" : "right");
         const rng = makeRng(seed ^ 0x5bd1e995);
-        let s = newRun(lib, seed, { ...rollSetup(lib, seed, side, unlocked), mandate });
+        let s = newRun(lib, seed, { ...rollSetup(lib, seed, side, unlocked), mandates: mandate ? [mandate] : [] });
         while (!s.over) {
           s = draw(lib, s);
           const card = getCard(lib, s.current!);

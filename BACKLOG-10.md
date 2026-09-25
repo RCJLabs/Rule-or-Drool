@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10, 6, 5, 7 and the first half of 8, which you chose: phases 55 to 61, done in
-v0.65.0 to v0.69.0, at the end of this file.
+except ideas 1, 2, 10, 6, 5, 7 and 8, which you chose: phases 55 to 62, done in v0.65.0 to
+v0.70.0, at the end of this file.
 
 Each idea says:
 - what it is;
@@ -932,3 +932,118 @@ three people in turn, on the same 400 seeds, for three bots:
    cabinet the measurements warn about.
 2. **Whether keeping the cabinet should forbid appointments.** The default is no: a generation
    passing is not letting someone go.
+
+## Phase 62. Choose your platform (idea 8, second half) — *done*
+
+**Shipped in v0.70.0.** This is the platform half of idea 8. A run can be taken on two promises,
+from nine. The deck moved to `6pxvizbi`, and the deal to `d2brewqm` (deal version 5): ten new
+cards, and a run under a floor now starts at its line.
+
+**Measured first: what each candidate asks.** Each candidate, played by three bots at 300 runs
+each. "Unaimed" plays as the bot always does. "Aimed" takes the side that keeps the promise
+whenever only one side does and it does not end the run.
+
+| Candidate | Broken, unaimed | Kept to the finale, aimed | |
+|---|---|---|---|
+| The four shipped: clean count, nobody under forty, the cabinet, no votes | 35–100% | 10–78% (best: 47–78%) | For comparison |
+| The treasury never under 40 | 99% | 28–34% | Harder than any shipped |
+| The treasury never under 30 | 89–96% | 52–62% | **Shipped**, with its card |
+| The institutions never under 40 | 0–8% | 91–97% | Free |
+| The institutions never under 50 | 32–49% | 62–63% | Left out: under the line at the start in 38–49% of runs |
+| Order never under 40, 45, 50 | 34–78% | 74–98% | Left out: a crackdown keeps it best |
+| Never take the skim, bend a rule or clamp down, by habit | 84–100% | 58–97% | Left out: the side that sets a habit does not say so ("Keep the balance" is a skim, "Tighten the licences" a clamp) |
+| Never capture the press, unleash the army, bury an audit, or name an heir | 4–15% | 89–100% | Nearly free with no card of its own; three shipped with one |
+| Never campaign dirty | 15–65% | 83–86% | **Shipped**, with its card |
+
+- **A floor could be broken before the first card.** A dealt setup put a bloc under forty in 2–5%
+  of runs, which broke "Nobody under forty" on card one. A run under a floor now starts at its line.
+  A test holds every promise, and every platform, unbroken at the start of 240 setups.
+- **An institutions floor that bites starts broken.** The meter starts anywhere from 37 to 66.
+
+**The five new promises** (300 runs a bot, with their cards):
+
+| Promise | Broken by | Broken, unaimed | Kept to the finale, aimed |
+|---|---|---|---|
+| Something set aside | The treasury under thirty | 90–97% | 56–62% |
+| A clean fight | A dirty campaign: a smear, a scare, a bought vote | 40–73% | 83–84% (eyes: 32%) |
+| Not a coin for us | Taking the money, or burying an audit that found some | 26–46% | 85–96% |
+| The papers print what they like | A paper, a licence or the feed put in friendly hands | 23–44% | 92–98% |
+| The army stays in its barracks | The general let loose at home, or a register of the disloyal | 27–40% | 92–100% |
+
+**Two at once** (150 runs a bot, the best of three; the pair aimed at together):
+
+| | Kept, both, to the finale |
+|---|---|
+| The hardest: nobody under forty with something set aside | 23% |
+| Any other two of the hard five (the four shipped, and something set aside) | 32–53% |
+| A hard promise with an easy one | about the hard one's own rate |
+| A clean fight with one of the easy three | 87–91% |
+| Two of the easy three | 98–100% |
+
+**How it works.**
+- Setup asks for a second promise once a first is made. It offers only those that can stand
+  beside the first.
+- Three pairs cannot be made:
+  - a clean count with no votes: one keeps the other;
+  - a clean fight with no votes: measured, it was kept exactly as often as no votes alone;
+  - nobody under forty with no votes: the price of no votes puts the public under forty in a large
+    share of runs.
+- Each promise is kept or broken on its own. It has its own flag, so the card tempting a run to
+  break it keeps coming after the other goes. It has its own card when it breaks, and its own
+  mark in the run and line on the end screen and in the codex. `broke_mandate` still means any.
+- A run's promises are kept in the catalog's order, so one platform is one run, and one code,
+  whichever was picked first.
+- The meters draw the line a held floor keeps them above, and a screen reader says so.
+- Objectives:
+  - "Kept your word" and "A whole term, as promised" need every promise made kept.
+  - "Four promises" now counts any four kept, which a profile that kept the first four has done.
+- Formats:
+  - The run save is v14: the one promise becomes a list of one.
+  - The profile is v8: each run in the history lists its promises, and whether each was kept.
+  - A run code lists the promises in the promise slot, `m_broad~m_loyal`. A code with one promise
+    is unchanged. An older version reads a platform, or a new promise, as a promise it does not
+    have, and says it cannot reproduce the run.
+- The weekly contracts are unchanged. A new promise in their pool would change what past weeks
+  dealt.
+
+**What was built.**
+- Engine:
+  - `mandates` and `mandatesBroken` in place of one promise and the card it broke at;
+  - `platformProblem`, `compatible`, `PLATFORMS`, `inCatalogOrder`, `holds`, `wordKept` and
+    `heldFloors`;
+  - the check breaks each promise on its own;
+  - floors as data on a promise.
+- Content: five promises, each with a card that tempts a run to break it and one for when it goes.
+  The four temptations there were now stop on their own promise's flag, not on any.
+- Screens:
+  - a second drop-down;
+  - in the run, a platform's two on one line by short names ("A free press", "Nobody under
+    40"). Two lines took up to 16px off the longest cards at 360×640;
+  - at the end, and in the codex, a line for each;
+  - the floor drawn on its meters;
+  - the timeline naming the promise broken, when there were two.
+- Tests:
+  - 9 engine;
+  - 4 for the formats (run codes, the run save, the profile);
+  - 2 for the profile's record and the objectives;
+  - 4 for the picker;
+  - 6 for the screens;
+  - the browser audits run the widest platform on every phone, and hold a promise's line to one
+    line at its widest on the narrowest.
+
+**Caveats.**
+- **Three of the five are easy for a player who pays attention.** The press, the money and the army
+  are kept to the finale in 92–100% of aimed runs. They catch a player who is not watching:
+  23–46% of unaimed runs break them. Refusing is always survivable, so a platform of two of them
+  costs almost nothing.
+- "Aimed" is a bot looking one card ahead. A person keeps a promise less well, or better, than that.
+- Five, not the six to eight idea 8 guessed at. The candidates that would have made more were
+  unreadable, broken before the first card, rewarded a crackdown, or scored a policy (the pensions
+  and the schools are set by policy cards).
+
+**Decisions for you.**
+1. **Whether the easy three should cost more.** The default is no: they are the easy second
+   promise. A second temptation each would catch more unaimed runs. It would barely move an
+   aimed one.
+2. **Whether the second promise should wait until a profile has kept one.** The default is no. It
+   is asked for only once a first is made, so a player who promises nothing sees nothing more.

@@ -79,11 +79,18 @@ export interface RunRecord {
   legacies: string[];
   /** What history called the run, as a history key; null for runs recorded before histories. */
   history: string | null;
-  /** The promise the run was taken on, if any, and whether it survived the run. */
-  mandate: string | null;
-  mandateKept: boolean;
+  /**
+   * The promises the run was taken on, in the catalog's order, and whether each survived the
+   * run: none, one, or two since BACKLOG-10 phase 62.
+   */
+  mandates: PromiseRecord[];
   /** A second road: the run taken again from one of its decisions (BACKLOG-5 phase 34). */
   road?: true;
+}
+
+export interface PromiseRecord {
+  id: string;
+  kept: boolean;
 }
 
 /** One day's daily, as the log keeps it: about 100 bytes, so a year of them is under 40 KB. */

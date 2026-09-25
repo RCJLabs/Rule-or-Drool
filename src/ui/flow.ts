@@ -1,5 +1,6 @@
 import { draw } from "../engine/draw";
 import type { Library } from "../engine/library";
+import { inCatalogOrder } from "../engine/mandates";
 import { resolve } from "../engine/resolve";
 import { newRun, rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
@@ -12,10 +13,10 @@ export function beginRun(
   seed: number,
   align: PlayerAlign,
   unlocked: readonly string[] = [],
-  mandate: string | null = null,
+  mandates: readonly string[] = [],
   eraCount?: number,
 ): GameState {
-  const setup = { ...rollSetup(lib, seed, align, unlocked), mandate };
+  const setup = { ...rollSetup(lib, seed, align, unlocked), mandates };
   return draw(lib, newRun(lib, seed, eraCount === undefined ? setup : { ...setup, eraCount }));
 }
 
@@ -33,8 +34,8 @@ export function beginRunFromCode(lib: Library, code: RunCode): GameState {
  * A veteran loses their unlocked traits for this one run, which is the price of the daily
  * being the same run for everyone rather than the same seed read two different ways.
  */
-export function dailyCode(lib: Library, seed: number, align: PlayerAlign, mandate: string | null): RunCode {
-  return { seed, align, modifiers: rollSetup(lib, seed, align, []).modifiers ?? [], unlocked: [], mandate };
+export function dailyCode(lib: Library, seed: number, align: PlayerAlign, mandates: readonly string[]): RunCode {
+  return { seed, align, modifiers: rollSetup(lib, seed, align, []).modifiers ?? [], unlocked: [], mandates: inCatalogOrder(mandates) };
 }
 
 /** Draw if the table is empty (after an era transition, or a save taken between cards). */

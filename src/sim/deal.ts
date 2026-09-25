@@ -1,7 +1,7 @@
 import { hash53 } from "../engine/deck";
 import { draw } from "../engine/draw";
 import { getCard, type Library } from "../engine/library";
-import { MANDATES } from "../engine/mandates";
+import { MANDATES, PLATFORMS } from "../engine/mandates";
 import { resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { newRun, rollSetup } from "../engine/state";
@@ -17,11 +17,15 @@ import { BOTS, makeContext } from "./bots";
  */
 export function dealOf(lib: Library): string {
   const seq: string[] = [];
-  const promises = [null, ...MANDATES.map((m) => m.id)];
+  // None, one, or a platform of two, in turn (BACKLOG-10 phase 62), crossed with the side,
+  // the unlocks and the long reign so each meets each.
+  const singles = MANDATES.map((m) => [m.id]);
   for (let i = 0; i < 96; i++) {
     const seed = 6_000_000 + i;
     const rng = makeRng(seed ^ 0x5bd1e995);
-    const setup = { ...rollSetup(lib, seed, i % 2 ? "left" : "right", i % 3 === 0 ? allUnlockTokens() : []), mandate: promises[i % promises.length]! };
+    const kind = Math.floor(i / 5) % 3;
+    const mandates = kind === 0 ? [] : kind === 1 ? singles[i % singles.length]! : [...PLATFORMS[i % PLATFORMS.length]!];
+    const setup = { ...rollSetup(lib, seed, i % 2 ? "left" : "right", i % 3 === 0 ? allUnlockTokens() : []), mandates };
     let s: GameState = newRun(lib, seed, i % 4 === 3 ? { ...setup, eraCount: lib.config.longEraCount } : setup);
     while (!s.over) {
       s = draw(lib, s);

@@ -157,7 +157,8 @@ describe("the record of contracts", () => {
   });
 
   it("is read back from a saved profile carefully, since one can arrive in a link", () => {
-    expect(META_SAVE_VERSION).toBe(7);
+    // Contracts arrived in v7; a profile from before has none.
+    expect(META_SAVE_VERSION).toBeGreaterThanOrEqual(7);
     const old = { ...emptyMeta(), v: 6 } as Record<string, unknown>;
     delete old.contracts;
     expect(migrateMeta(old)!.contracts).toEqual([]);

@@ -1,6 +1,6 @@
 import { DEFAULT_CONFIG } from "../engine/config";
 import type { Library } from "../engine/library";
-import { MANDATES_BY_ID } from "../engine/mandates";
+import { inCatalogOrder, platformProblem } from "../engine/mandates";
 import type { PlayerAlign, RunSetup } from "../engine/types";
 import { allUnlockTokens } from "./objectives";
 
@@ -26,13 +26,19 @@ import { allUnlockTokens } from "./objectives";
  * oldest format that can say it, so an ordinary run's code is the same as it always was and
  * opens on every version since phase 11. A long reign's does not open on a version from
  * before this one, which could not play it; that version says it cannot reproduce the run.
+ *
+ * A run taken on two promises (BACKLOG-10 phase 62) lists them in the promise slot the way the
+ * modifiers are listed, `m_broad~m_loyal`, in the catalog's order. That needs no new format: a
+ * version from before reads the pair, or a promise it never had, as a promise it does not know,
+ * and says it cannot reproduce the run, which is true. A code with one promise is unchanged.
  */
 export interface RunCode {
   seed: number;
   align: PlayerAlign;
   modifiers: string[];
   unlocked: string[];
-  mandate: string | null;
+  /** The promises the run was taken on, in the catalog's order: none, one, or two. */
+  mandates: string[];
   /**
    * Eras, for a long reign (BACKLOG-5 phase 39) or a first term (BACKLOG-10 phase 59); an
    * ordinary run's code has none.
@@ -48,7 +54,7 @@ const NONE = "-";
 
 export function encodeRunCode(code: RunCode): string {
   const list = (xs: readonly string[]) => (xs.length ? [...xs].join("~") : NONE);
-  const parts = [code.seed.toString(36), code.align === "left" ? "L" : "R", list(code.modifiers), list([...code.unlocked].sort()), code.mandate ?? NONE];
+  const parts = [code.seed.toString(36), code.align === "left" ? "L" : "R", list(code.modifiers), list([...code.unlocked].sort()), list(inCatalogOrder(code.mandates))];
   const ordinary = code.eraCount === undefined || code.eraCount === ORDINARY_ERAS;
   return ordinary ? [VERSION, ...parts].join(".") : [LONG_VERSION, ...parts, String(code.eraCount)].join(".");
 }
@@ -65,7 +71,7 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   const v = parts[0];
   if (v !== VERSION && v !== LONG_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
   if (parts.length !== (v === VERSION ? 6 : 7)) return { ok: false, reason: "format" };
-  const [, seed36, side, mods, unlocks, mandate, eras] = parts as [string, string, string, string, string, string, string?];
+  const [, seed36, side, mods, unlocks, promises, eras] = parts as [string, string, string, string, string, string, string?];
   if (!/^[0-9a-z]{1,8}$/.test(seed36) || (side !== "L" && side !== "R")) return { ok: false, reason: "format" };
   if (eras !== undefined && !/^[1-9][0-9]?$/.test(eras)) return { ok: false, reason: "format" };
   // Only a long reign or a first term is written in format 2, and only one as long as this game's.
@@ -80,14 +86,17 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   const tokens = new Set(allUnlockTokens());
   if (!modifiers.every((m) => known.has(m))) return { ok: false, reason: "content" };
   if (!unlocked.every((u) => tokens.has(u))) return { ok: false, reason: "content" };
-  if (mandate !== NONE && !MANDATES_BY_ID.has(mandate)) return { ok: false, reason: "content" };
-  const code: RunCode = { seed, align: side === "L" ? "left" : "right", modifiers, unlocked, mandate: mandate === NONE ? null : mandate };
+  const mandates = list(promises);
+  // A platform this version would refuse to start (a promise twice, two that cannot stand
+  // together) is refused here too, rather than failing when the run is started.
+  if (platformProblem(mandates)) return { ok: false, reason: "content" };
+  const code: RunCode = { seed, align: side === "L" ? "left" : "right", modifiers, unlocked, mandates: inCatalogOrder(mandates) };
   return { ok: true, code: eraCount === undefined ? code : { ...code, eraCount } };
 }
 
 /** The setup a code describes, ready for `newRun`. */
 export function setupOf(code: RunCode): RunSetup {
-  const setup: RunSetup = { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandate: code.mandate };
+  const setup: RunSetup = { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandates: [...code.mandates] };
   return code.eraCount === undefined ? setup : { ...setup, eraCount: code.eraCount };
 }
 
@@ -100,9 +109,9 @@ export function runCodeOf(state: {
   align: PlayerAlign;
   modifiers: readonly string[];
   unlocked: readonly string[];
-  mandate: string | null;
+  mandates: readonly string[];
   eraCount?: number;
 }): RunCode {
-  const code: RunCode = { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandate: state.mandate };
+  const code: RunCode = { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: inCatalogOrder(state.mandates) };
   return state.eraCount === undefined || state.eraCount === ORDINARY_ERAS ? code : { ...code, eraCount: state.eraCount };
 }

@@ -22,7 +22,7 @@ const FIRST = cfg.firstTermEras;
 function play(bot: BotName, seed: number, eraCount?: number): { run: GameState; dealt: string[] } {
   const rng = makeRng(seed ^ 0x5bd1e995);
   const align: PlayerAlign = seed % 2 ? "left" : "right";
-  let s = newRun(library, seed, { ...rollSetup(library, seed, align, []), mandate: null, ...(eraCount === undefined ? {} : { eraCount }) });
+  let s = newRun(library, seed, { ...rollSetup(library, seed, align, []), mandates: [], ...(eraCount === undefined ? {} : { eraCount }) });
   const dealt: string[] = [];
   while (!s.over) {
     s = draw(library, s);

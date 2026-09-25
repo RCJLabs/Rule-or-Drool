@@ -243,6 +243,8 @@ export const STRINGS = {
     took: "You took office for {party}",
     inheriting: "inheriting {crisis}",
     broke: "You broke the promise you took the job on",
+    /** One of two, named (BACKLOG-10 phase 62). */
+    brokeOf: "You broke the promise \u201c{promise}\u201d",
     card: "card {n}",
   },
   /** The end screen's own words around the history and the picture. */
@@ -270,6 +272,8 @@ export const STRINGS = {
     moves: "Moves {list}.",
     movesNothing: "Moves no meter.",
     inDanger: "{meter} is in danger.",
+    /** A meter a held promise keeps above a line, which the icon draws (BACKLOG-10 phase 62). */
+    promisedFloor: "promised above the line drawn on it",
     choicesHint: "The two choices are the buttons after the card.",
     /**
      * The look, when it changes. Each stage in the order a run reaches it; easing back
@@ -708,6 +712,11 @@ export const STRINGS = {
     mandateBroken: "Promise broken",
     mandateBrokenAt: "Broken at card",
     mandateHint: "A promise you make to get the job. Nothing stops you breaking it; the country will notice, and so will the codex.",
+    /** A second promise, a platform (BACKLOG-10 phase 62). */
+    mandateSecond: "A second promise",
+    mandateOnlyOne: "Just the one",
+    mandateOnlyOneBlurb: "One promise is plenty to be held to.",
+    mandateSecondHint: "Each promise is kept or broken on its own: breaking one leaves the other standing.",
     mandates: "Promises",
     cameBack: "This card came back: an earlier choice sent it.",
     aHabit: "This card is here because you have made the same choice several times.",

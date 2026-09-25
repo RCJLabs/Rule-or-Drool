@@ -15,7 +15,7 @@ export function playedProfile(runs = 40): MetaState {
     const seed = 1000 + i * 7919;
     const align: PlayerAlign = i % 2 ? "right" : "left";
     const rng = makeRng(seed ^ 0x5bd1e995);
-    let s: GameState = newRun(library, seed, { ...rollSetup(library, seed, align, meta.unlocks), mandate: null });
+    let s: GameState = newRun(library, seed, { ...rollSetup(library, seed, align, meta.unlocks), mandates: [] });
     while (!s.over) {
       s = draw(library, s);
       s = resolve(library, s, s.current!, BOTS.mixed(makeContext(library, s, getCard(library, s.current!), rng, { danger: 25 })));

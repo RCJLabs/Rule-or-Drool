@@ -5,6 +5,7 @@ import { newRun } from "../../src/engine/state";
 import { RUN_SAVE_VERSION } from "../../src/version";
 import { EMPTY_STATS, type GameState } from "../../src/engine/types";
 import { DEFAULT_CONFIG } from "../../src/engine/config";
+import { brokenFlag } from "../../src/engine/mandates";
 import { clearRun, hintSeen, loadRun, markHintSeen, migrateRun, saveRun } from "../../src/ui/save";
 
 describe("save", () => {
@@ -46,6 +47,31 @@ describe("save", () => {
     expect(s.eraCount).toBe(DEFAULT_CONFIG.eraCount);
     expect(s.road!.first.eraCount).toBe(DEFAULT_CONFIG.eraCount);
     expect(migrateRun(10, v10 as never)!.eraCount).toBe(DEFAULT_CONFIG.eraCount);
+  });
+
+  it("brings a v13 run's one promise forward as a list of one, and the first road a second road holds", () => {
+    // Before BACKLOG-10 phase 62 a run had one promise, and the card it was broken at.
+    const v13 = (patch: object) => {
+      const { mandates: _m, mandatesBroken: _b, ...s } = newRun(library, 3, { align: "left", mandates: ["m_broad"] });
+      return { ...s, ...patch };
+    };
+    const broken = v13({ mandate: "m_broad", mandateBrokenAt: 12, flags: [...newRun(library, 3, { align: "left" }).flags, "broke_mandate"] });
+    const s = migrateRun(13, { ...broken, road: { first: v13({ mandate: "m_broad", mandateBrokenAt: null }), at: 20 } } as never)!;
+    expect(s.mandates).toEqual(["m_broad"]);
+    expect(s.mandatesBroken).toEqual({ m_broad: 12 });
+    // Its temptation stays gone: the flag a broken promise now carries of its own, dated.
+    expect(s.flags).toContain(brokenFlag("m_broad"));
+    expect(s.flagSince[brokenFlag("m_broad")]).toBe(12);
+    expect(s).not.toHaveProperty("mandate");
+    expect(s).not.toHaveProperty("mandateBrokenAt");
+    expect(s.road!.first.mandates).toEqual(["m_broad"]);
+    expect(s.road!.first.mandatesBroken).toEqual({});
+    expect(s.road!.first.flags).not.toContain(brokenFlag("m_broad"));
+    const none = migrateRun(13, v13({ mandate: null, mandateBrokenAt: null }) as never)!;
+    expect([none.mandates, none.mandatesBroken]).toEqual([[], {}]);
+    // From before promises (v6), a run promised nothing.
+    const v6 = migrateRun(6, v13({}) as never)!;
+    expect([v6.mandates, v6.mandatesBroken]).toEqual([[], {}]);
   });
 
   it("brings a v11 run forward in the look its drift implies, and the first road a second road holds", () => {

@@ -2,6 +2,7 @@ import { DEFAULT_CONFIG } from "../engine/config";
 import { DECK_PATTERN } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { stageOf } from "../engine/look";
+import { brokenFlag } from "../engine/mandates";
 import { decodeRunResult, encodeRunResult, type RunResult } from "../meta/challenge";
 import type { GameState, Meters } from "../engine/types";
 import { BLOC_KEYS, EMPTY_STATS } from "../engine/types";
@@ -82,8 +83,8 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     s = { ...s, cabinetSince: since };
   }
   // v6 -> v7: a run can be taken on a promise (BACKLOG-2 phase 16). A run already under
-  // way was taken on none, so it resumes promising nothing rather than being dropped.
-  if (v < 7) s = { ...s, mandate: null, mandateBrokenAt: null };
+  // way was taken on none, so it resumes promising nothing rather than being dropped. It has
+  // no `mandate` at all, which the step to v14 below reads as none.
   // v7 -> v8: the run records why the card on the table is there (BACKLOG-3 phase 19). A
   // save taken before this cannot know, and guessing would put a mark on the wrong card, so
   // the one card in progress is unmarked and everything after it is recorded properly.
@@ -119,6 +120,28 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     const inOffice = <T extends GameState>(x: T): T => ({ ...x, opposition: null });
     s = inOffice(s);
     if (s.road) s = { ...s, road: { ...s.road, first: inOffice(s.road.first) } };
+  }
+  // v13 -> v14: a run can be taken on two promises (BACKLOG-10 phase 62). The one a run had
+  // becomes a list of one, and the card it was broken at a record of one, with the flag a
+  // broken promise now carries of its own so its temptation stays gone. The first road a
+  // second road holds is brought forward the same way.
+  if (v < 14) {
+    const listed = <T extends GameState>(x: T): T => {
+      const { mandate, mandateBrokenAt, ...rest } = x as T & { mandate?: string | null; mandateBrokenAt?: number | null };
+      if (mandate === undefined && Array.isArray(rest.mandates)) return x;
+      const at = mandate && typeof mandateBrokenAt === "number" ? mandateBrokenAt : null;
+      if (!mandate || at === null) return { ...rest, mandates: mandate ? [mandate] : [], mandatesBroken: {} } as unknown as T;
+      const flag = brokenFlag(mandate);
+      return {
+        ...rest,
+        mandates: [mandate],
+        mandatesBroken: { [mandate]: at },
+        flags: rest.flags.includes(flag) ? rest.flags : [...rest.flags, flag],
+        flagSince: { ...rest.flagSince, [flag]: rest.flagSince?.[flag] ?? at },
+      } as unknown as T;
+    };
+    s = listed(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: listed(s.road.first) } };
   }
   return s;
 }

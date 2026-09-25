@@ -12,7 +12,7 @@ import { shareLink, shareText } from "../../src/ui/share";
 afterEach(() => cleanup());
 
 const finished = (patch: Partial<GameState> = {}): GameState => ({
-  ...newRun(library, 4242, { ...rollSetup(library, 4242, "right", []), mandate: null }),
+  ...newRun(library, 4242, { ...rollSetup(library, 4242, "right", []), mandates: [] }),
   cardCount: 105,
   era: 3,
   flags: ["seawall", "housing_built", "orbit_reached", "habit_skim"],
@@ -56,7 +56,7 @@ describe("opening a link someone sent", () => {
   beforeEach(() => localStorage.clear());
 
   it("offers their run and starts exactly it when asked", () => {
-    const code = { seed: 77, align: "right" as const, modifiers: rollSetup(library, 77, "right", ["u_dissident"]).modifiers!, unlocked: ["u_dissident"], mandate: null };
+    const code = { seed: 77, align: "right" as const, modifiers: rollSetup(library, 77, "right", ["u_dissident"]).modifiers!, unlocked: ["u_dissident"], mandates: [] };
     window.history.replaceState({}, "", `/?debug=1&run=${encodeRunCode(code)}`);
     render(<App />);
     expect(screen.getByRole("heading", { name: STRINGS.share.offerTitle })).toBeTruthy();

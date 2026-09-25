@@ -307,7 +307,30 @@ describe("mandate saves come forward", () => {
     expect(meta.v).toBe(META_SAVE_VERSION);
     expect(meta.mandatesKept).toEqual({});
     expect(meta.mandatesBroken).toEqual({});
-    expect(meta.history[0]).toMatchObject({ mandate: null, mandateKept: false });
+    expect(meta.history[0]!.mandates).toEqual([]);
+    expect(meta.history[0]).not.toHaveProperty("mandate");
+  });
+
+  it("brings a v7 history's one promise forward as a list of one (BACKLOG-10 phase 62)", () => {
+    const run = { align: "left", cards: 90, era: 3, endingId: "finale_muddle", band: "muddle", rival: null, legacies: [], history: null };
+    const old = {
+      ...emptyMeta(),
+      v: 7,
+      history: [
+        { ...run, mandate: "m_broad", mandateKept: true },
+        { ...run, mandate: "m_loyal", mandateKept: false },
+        { ...run, mandate: null, mandateKept: false },
+      ],
+    };
+    const meta = migrateMeta(old)!;
+    expect(meta.v).toBe(META_SAVE_VERSION);
+    expect(meta.history.map((r) => r.mandates)).toEqual([[{ id: "m_broad", kept: true }], [{ id: "m_loyal", kept: false }], []]);
+    for (const r of meta.history) {
+      expect(r).not.toHaveProperty("mandate");
+      expect(r).not.toHaveProperty("mandateKept");
+    }
+    // And a v8 history is read as it was written.
+    expect(migrateMeta(meta)).toEqual(meta);
   });
 });
 
@@ -363,31 +386,55 @@ describe("the codex as a history", () => {
   });
 
   it("remembers the promise a run was taken on, and whether it survived it", () => {
-    const kept = foldRun(library, emptyMeta(), withHistory({ mandate: "m_broad", mandateBrokenAt: null }));
+    const kept = foldRun(library, emptyMeta(), withHistory({ mandates: ["m_broad"], mandatesBroken: {} }));
     expect(kept.meta.mandatesKept).toEqual({ m_broad: 1 });
     expect(kept.meta.mandatesBroken).toEqual({});
-    expect(kept.meta.history[0]).toMatchObject({ mandate: "m_broad", mandateKept: true });
+    expect(kept.meta.history[0]).toMatchObject({ mandates: [{ id: "m_broad", kept: true }] });
 
-    const broken = foldRun(library, kept.meta, withHistory({ mandate: "m_broad", mandateBrokenAt: 31 }));
+    const broken = foldRun(library, kept.meta, withHistory({ mandates: ["m_broad"], mandatesBroken: { m_broad: 31 } }));
     expect(broken.meta.mandatesKept).toEqual({ m_broad: 1 });
     expect(broken.meta.mandatesBroken).toEqual({ m_broad: 1 });
-    expect(broken.meta.history[0]).toMatchObject({ mandate: "m_broad", mandateKept: false });
+    expect(broken.meta.history[0]).toMatchObject({ mandates: [{ id: "m_broad", kept: false }] });
 
     // A run that promised nothing cannot have kept anything.
     const none = foldRun(library, emptyMeta(), withHistory());
     expect(none.meta.mandatesKept).toEqual({});
-    expect(none.meta.history[0]).toMatchObject({ mandate: null, mandateKept: false });
+    expect(none.meta.history[0]).toMatchObject({ mandates: [] });
   });
 
-  it("only counts the mandate objectives for a run that took one on", () => {
+  it("remembers each of a platform's two on its own (BACKLOG-10 phase 62)", () => {
+    const fold = foldRun(library, emptyMeta(), withHistory({ mandates: ["m_broad", "m_loyal"], mandatesBroken: { m_loyal: 12 } }));
+    expect(fold.meta.mandatesKept).toEqual({ m_broad: 1 });
+    expect(fold.meta.mandatesBroken).toEqual({ m_loyal: 1 });
+    expect(fold.meta.history[0]!.mandates).toEqual([
+      { id: "m_broad", kept: true },
+      { id: "m_loyal", kept: false },
+    ]);
+  });
+
+  it("only counts the mandate objectives for a run that took one on, and kept every one it took", () => {
     const l = library;
     const plain = foldRun(l, emptyMeta(), withHistory());
     expect(plain.newObjectives).not.toContain("obj_mandate_kept");
-    const kept = foldRun(l, emptyMeta(), withHistory({ mandate: "m_loyal", mandateBrokenAt: null }));
+    const kept = foldRun(l, emptyMeta(), withHistory({ mandates: ["m_loyal"], mandatesBroken: {} }));
     expect(kept.newObjectives).toContain("obj_mandate_kept");
     expect(kept.newObjectives).toContain("obj_mandate_finale");
-    const broke = foldRun(l, emptyMeta(), withHistory({ mandate: "m_loyal", mandateBrokenAt: 9 }));
+    const broke = foldRun(l, emptyMeta(), withHistory({ mandates: ["m_loyal"], mandatesBroken: { m_loyal: 9 } }));
     expect(broke.newObjectives).not.toContain("obj_mandate_kept");
+    // One of two broken is a promise broken, whatever became of the other.
+    const half = foldRun(l, emptyMeta(), withHistory({ mandates: ["m_broad", "m_loyal"], mandatesBroken: { m_loyal: 9 } }));
+    expect(half.newObjectives).not.toContain("obj_mandate_kept");
+    expect(half.newObjectives).not.toContain("obj_mandate_finale");
+    const both = foldRun(l, emptyMeta(), withHistory({ mandates: ["m_broad", "m_loyal"], mandatesBroken: {} }));
+    expect(both.newObjectives).toContain("obj_mandate_kept");
+  });
+
+  it("counts any four promises kept toward the four", () => {
+    const four = ["m_broad", "m_loyal", "m_clean", "m_decree"];
+    const meta = { ...emptyMeta(), mandatesKept: Object.fromEntries(four.slice(0, 3).map((id) => [id, 1])) };
+    expect(foldRun(library, meta, withHistory()).newObjectives).not.toContain("obj_mandate_all");
+    const fourth = foldRun(library, meta, withHistory({ mandates: ["m_decree"], mandatesBroken: {} }));
+    expect(fourth.newObjectives).toContain("obj_mandate_all");
   });
 
   it("keeps a bounded history, newest first", () => {

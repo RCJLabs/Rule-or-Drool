@@ -566,7 +566,8 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   for (const [f, where] of flagReads) {
     if (f === BROKE_MANDATE_FLAG) continue;
     if (f.startsWith(MANDATE_FLAG_PREFIX)) {
-      const name = f.slice(MANDATE_FLAG_PREFIX.length);
+      // `mandate_<id>`, set when the run is taken on it, or `mandate_<id>_broken` (phase 62).
+      const name = f.slice(MANDATE_FLAG_PREFIX.length).replace(/_broken$/, "");
       if (!mandateIds.has(name)) issues.error("flag-unset", `no mandate is called "${name}", so "${f}" is never set`, where);
       continue;
     }

@@ -299,6 +299,12 @@ button {
   stroke-width: 2;
   stroke-linecap: round;
 }
+/* A promise's floor, across the meter it keeps above a line, while it holds (BACKLOG-10 phase 62). */
+.meter-icon .meter-floor {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 2;
+}
 .meter.danger .meter-icon {
   animation: pulse 0.9s infinite alternate;
 }
@@ -2734,10 +2740,21 @@ button {
 .mandate-badge .mandate-mark {
   font-size: 13px;
 }
-.mandate-badge.broken {
+.mandate-badge.broken,
+.mandate-one.broken {
   text-decoration: line-through;
   text-decoration-thickness: 1px;
   opacity: 0.75;
+}
+/* A platform's two on one line, by their short names (BACKLOG-10 phase 62). */
+.mandate-badge.pair {
+  gap: 14px;
+}
+.mandate-one {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  white-space: nowrap;
 }
 .mandate-result {
   margin: 12px 0 0;

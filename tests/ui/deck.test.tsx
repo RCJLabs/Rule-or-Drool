@@ -23,7 +23,7 @@ const T: Measure = { ms: 1000, looked: [0, 0] };
 const noop = () => {};
 /** A stamp no deck here has: the deck of some other version of the game. */
 const OTHER = "zzzzzzzz";
-const CODE: RunCode = { seed: 2024, align: "left", modifiers: [], unlocked: [], mandate: null };
+const CODE: RunCode = { seed: 2024, align: "left", modifiers: [], unlocked: [], mandates: [] };
 type Game = { current: ReturnType<typeof useGame> };
 
 function finish(g: Game, sides: readonly Side[] = []) {

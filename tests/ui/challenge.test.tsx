@@ -42,7 +42,7 @@ function sent(code: RunCode, sides?: Side[]): { run: GameState; result: RunResul
   return { run, result: resultOf(library, run)! };
 }
 
-const CODE: RunCode = { seed: 2024, align: "left", modifiers: [], unlocked: [], mandate: null };
+const CODE: RunCode = { seed: 2024, align: "left", modifiers: [], unlocked: [], mandates: [] };
 
 function ended(g: Game) {
   render(<Ending lib={library} state={g.current.state!} fold={g.current.lastFold} challenge={g.current.challenge} onPlayAgain={noop} onCodex={noop} onSettings={noop} />);
@@ -166,7 +166,7 @@ describe("today's daily, sent by someone who played it", () => {
   it("counts as today's daily for whoever plays it, and the offer says so", () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date(`${TODAY}T12:00:00Z`));
-    const code = dailyCode(library, dailySeed(TODAY), "right", null);
+    const code = dailyCode(library, dailySeed(TODAY), "right", []);
     const { result } = sent(code);
     window.history.replaceState({}, "", `/?run=${encodeRunCode(code)}&vs=${encodeRunResult(result)}`);
     render(<App />);
@@ -181,7 +181,7 @@ describe("today's daily, sent by someone who played it", () => {
   it("is not today's daily when it was yesterday's", () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date(`${TODAY}T12:00:00Z`));
-    const code = dailyCode(library, dailySeed("2026-09-22"), "right", null);
+    const code = dailyCode(library, dailySeed("2026-09-22"), "right", []);
     const g = renderHook(() => useGame(library)).result;
     act(() => g.current.playShared(code, null));
     finish(g);

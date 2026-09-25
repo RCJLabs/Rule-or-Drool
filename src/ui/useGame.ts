@@ -239,7 +239,7 @@ export function useGame(lib: Library) {
 
   /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39). */
   const start = useCallback(
-    guarded(crash, (seed: number, align: PlayerAlign, mandate: string | null = null, eraCount?: number) => {
+    guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number) => {
       setSaved(null);
       setSavedDaily(null);
       setSavedChallenge(null);
@@ -247,7 +247,7 @@ export function useGame(lib: Library) {
       setTransition(null);
       setLastFold(null);
       dailyRef.current = null;
-      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandate, eraCount);
+      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount);
       setState(s);
       beginRecording(s, "own");
     }),
@@ -280,9 +280,9 @@ export function useGame(lib: Library) {
    * things (BACKLOG-2 phase 11). It starts from a fixed setup now.
    */
   const startDaily = useCallback(
-    (align: PlayerAlign, mandate: string | null = null) => {
+    (align: PlayerAlign, mandates: readonly string[] = []) => {
       const d = dailySeedFor();
-      startFromCode(dailyCode(lib, d.seed, align, mandate), d);
+      startFromCode(dailyCode(lib, d.seed, align, mandates), d);
     },
     [lib, startFromCode],
   );
@@ -295,7 +295,7 @@ export function useGame(lib: Library) {
   const playShared = useCallback(
     (code: RunCode, vs: RunResult | null = null) => {
       const today = dailySeedFor();
-      const isToday = code.seed === today.seed && encodeRunCode(code) === encodeRunCode(dailyCode(lib, today.seed, code.align, code.mandate));
+      const isToday = code.seed === today.seed && encodeRunCode(code) === encodeRunCode(dailyCode(lib, today.seed, code.align, code.mandates));
       startFromCode(code, isToday ? today : undefined, vs);
     },
     [lib, startFromCode],

@@ -23,8 +23,8 @@ interface Props {
   /** The saved run's daily, when it is one. */
   savedDaily?: DailyMark | null;
   meta: MetaState;
-  onStart: (seed: number, align: PlayerAlign, mandate: string | null, eraCount?: number) => void;
-  onDaily: (align: PlayerAlign, mandate: string | null) => void;
+  onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number) => void;
+  onDaily: (align: PlayerAlign, mandates: readonly string[]) => void;
   /** A run someone sent, decoded from the link that opened the game, if one did. */
   shared?: Decoded | null;
   /** How it went for them, when the link said (BACKLOG-5 phase 37). */
@@ -45,7 +45,8 @@ interface Props {
 export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onContracts, onSettings, shared, sharedResult, sharedDeck, onPlayShared, onDismissShared, today = todayKey() }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
-  const [mandate, setMandate] = useState<string | null>(null);
+  // None, one, or a platform of two (BACKLOG-10 phase 62).
+  const [mandates, setMandates] = useState<readonly string[]>([]);
   // Five eras rather than three, once a finale has opened them (BACKLOG-5 phase 39); one, as a
   // first term, until the profile has seen a run through (BACKLOG-10 phase 59).
   const termDue = firstTermDue(meta);
@@ -72,7 +73,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
   const sharedIsDaily =
     !!shared?.ok &&
     shared.code.seed === dailySeed(today) &&
-    encodeRunCode(shared.code) === encodeRunCode(dailyCode(lib, shared.code.seed, shared.code.align, shared.code.mandate));
+    encodeRunCode(shared.code) === encodeRunCode(dailyCode(lib, shared.code.seed, shared.code.align, shared.code.mandates));
   // "The same deck" only when the link says so and it is this one (BACKLOG-8 phase 49).
   const deck = deckStamp(lib);
   const offerBody = !sharedDeck ? STRINGS.share.offerMaybe : sharedDeck === deck ? STRINGS.share.offerBody : STRINGS.share.offerOtherDeck;
@@ -90,7 +91,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
               <>
                 <p className="shared-side">
                   <b>{STRINGS.parties[shared.code.align]}</b>
-                  {shared.code.mandate && ` · ${MANDATES_BY_ID.get(shared.code.mandate)?.title ?? ""}`}
+                  {shared.code.mandates.map((id) => ` · ${MANDATES_BY_ID.get(id)?.title ?? ""}`).join("")}
                 </p>
                 <SetupSummary lib={lib} modifiers={shared.code.modifiers} />
                 {shared.code.eraCount !== undefined && <p className="shared-reign">{shared.code.eraCount < lib.config.eraCount ? STRINGS.reign.offerFirst : STRINGS.reign.offer}</p>}
@@ -140,7 +141,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
           ))}
         </fieldset>
         <SetupSummary lib={lib} modifiers={setup.modifiers ?? []} />
-        <MandatePicker value={mandate} onChange={setMandate} />
+        <MandatePicker value={mandates} onChange={setMandates} />
         {reigns && <ReignPicker choices={reigns} value={chosen} onChange={setEraCount} />}
         <label className="seed">
           {STRINGS.ui.seed}
@@ -149,11 +150,11 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             {STRINGS.ui.shuffle}
           </button>
         </label>
-        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandate, reigns ? chosen : undefined)}>
+        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined)}>
           {STRINGS.ui.start}
         </button>
         <div className="meta-row">
-          <button type="button" onClick={() => onDaily(align, mandate)} disabled={dailyPlayed}>
+          <button type="button" onClick={() => onDaily(align, mandates)} disabled={dailyPlayed}>
             {dailyLabel}
           </button>
           <button type="button" onClick={onCodex}>

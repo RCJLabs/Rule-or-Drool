@@ -4,7 +4,7 @@ import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
 import { holdKey, releaseKey, removeKey, writeKey } from "./storage";
 import { TIERS } from "./contracts";
-import type { ContractWeek, DailyEntry, MetaState } from "./types";
+import type { ContractWeek, DailyEntry, MetaState, RunRecord } from "./types";
 
 const META_KEY = "rod.meta";
 /** Profiles this version could not read, kept instead of written over (BACKLOG-8 phase 50). */
@@ -47,18 +47,24 @@ export function migrateMeta(raw: unknown): MetaState | null {
     // which is true of them rather than missing from them.
     mandatesKept: { ...(data.mandatesKept ?? {}) },
     mandatesBroken: { ...(data.mandatesBroken ?? {}) },
-    history: (Array.isArray(data.history) ? data.history : []).map((r) => ({
-      ...r,
-      mandate: r.mandate ?? null,
-      mandateKept: r.mandateKept ?? false,
-      history: r.history ?? null,
-    })),
+    history: (Array.isArray(data.history) ? data.history : []).map(recordOf),
     nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
     dailies: dailiesOf(data.dailies, kept),
     contracts: contractsOf(data.contracts),
   };
+}
+
+/**
+ * A run in the history, brought forward. v7 -> v8: a run can be taken on two promises
+ * (BACKLOG-10 phase 62), so the one a record named, and whether it was kept, becomes a list
+ * of one; a record from before phase 16 named none.
+ */
+function recordOf(raw: RunRecord): RunRecord {
+  const { mandate, mandateKept, ...r } = raw as RunRecord & { mandate?: string | null; mandateKept?: boolean };
+  const mandates = Array.isArray(r.mandates) ? r.mandates : mandate ? [{ id: mandate, kept: mandateKept === true }] : [];
+  return { ...r, mandates, history: r.history ?? null };
 }
 
 /**

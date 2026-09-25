@@ -30,6 +30,11 @@ daily: an easy one, a fair one and a hard one, such as "Reach the Ascent finale 
 Ledger, cheating no vote". A full reign that ends in the week keeps them, and a run of weeks with
 one kept is a streak. `npm run contracts` measures how many runs each takes a player aiming at it.
 
+A run can be taken on a **promise**, or on two: a platform. There are nine, and each is broken by
+something the screen shows, a meter under a line drawn on it or a choice that says what it does.
+Each is kept or broken on its own, with a card that tempts the run to break it and one that tells
+the country when it goes.
+
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
 20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and
