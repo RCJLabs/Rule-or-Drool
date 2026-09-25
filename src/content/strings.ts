@@ -555,8 +555,8 @@ export const STRINGS = {
     },
     notFound: "{n} not found yet.",
     moreNotFound: "{n} more not found yet.",
-    // Clues to endings not found yet, a few at a time (BACKLOG-10 phase 58).
-    rumours: "Heard in the corridors, of ways it has ended:",
+    // A clue to an ending not found yet, a different one each run (BACKLOG-10 phase 58).
+    rumours: "Heard in the corridors, of a way it has ended:",
   },
   /**
    * The stream the Decay path is broadcast on (BACKLOG-3 phase 18). Generic on purpose:

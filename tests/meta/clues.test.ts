@@ -3,8 +3,8 @@ import { library } from "../../src/content";
 import { CLUES, RUMOURS_AT_ONCE, emptyMeta, rumours, withinReach, type MetaState } from "../../src/meta";
 
 /**
- * A clue to every ending (BACKLOG-10 phase 58): what an ending is made of, never its name, and a
- * few at a time, so the codex gives a player something to aim at without a list to work down.
+ * A clue to every ending (BACKLOG-10 phase 58): what an ending is made of, never its name, and one
+ * at a time, so the codex gives a player something to aim at without a list to work down.
  */
 
 const endings = [...library.endings.values()];
@@ -32,15 +32,16 @@ describe("the clues", () => {
 });
 
 describe("the rumours", () => {
-  it("offer a few clues to a new profile, from endings it can reach", () => {
+  it("offer one clue at a time, to an ending the profile can reach", () => {
+    expect(RUMOURS_AT_ONCE).toBe(1);
     const r = rumours(library, meta());
-    expect(r).toHaveLength(RUMOURS_AT_ONCE);
-    for (const id of r) expect(withinReach(library, meta(), id), id).toBe(true);
+    expect(r).toHaveLength(1);
+    expect(withinReach(library, meta(), r[0]!)).toBe(true);
   });
 
   it("move on by one with every run, and come round again", () => {
-    const at = (runs: number) => rumours(library, meta({ runs }));
-    expect(at(1).slice(0, -1)).toEqual(at(0).slice(1));
+    const at = (runs: number, n = RUMOURS_AT_ONCE) => rumours(library, meta({ runs }), n);
+    expect(at(1, 3).slice(0, -1)).toEqual(at(0, 3).slice(1));
     expect(at(1)).not.toEqual(at(0));
     const open = rumours(library, meta(), library.endings.size);
     expect(at(open.length)).toEqual(at(0));
@@ -50,8 +51,8 @@ describe("the rumours", () => {
   });
 
   it("leave out what is found and what the codex already names as near", () => {
-    const [a, b, c] = rumours(library, meta());
-    const next = rumours(library, meta({ endings: { [a!]: 1 }, nearMissed: [b!] }));
+    const [a, b, c] = rumours(library, meta(), 3);
+    const next = rumours(library, meta({ endings: { [a!]: 1 }, nearMissed: [b!] }), 3);
     expect(next).not.toContain(a);
     expect(next).not.toContain(b);
     expect(next[0]).toBe(c);

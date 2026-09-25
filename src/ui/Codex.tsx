@@ -172,8 +172,8 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
           count: `${p.endingsSeen}/${p.endingsTotal}`,
           body: () => {
             // An ending you have been within reach of is named rather than hidden, so it
-            // becomes something to aim at (phase 13). A few more are rumoured, as clues without
-            // their names, moving on with every run (BACKLOG-10 phase 58); the rest are counted.
+            // becomes something to aim at (phase 13). One more is rumoured, by its clue and not its
+            // name, a different one each run (BACKLOG-10 phase 58); the rest are counted.
             const shown = endings.filter((e) => (meta.endings[e.id] ?? 0) > 0 || meta.nearMissed.includes(e.id));
             const rumoured = rumours(lib, meta);
             return (

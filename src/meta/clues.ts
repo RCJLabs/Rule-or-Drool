@@ -90,8 +90,8 @@ export const CLUES: Readonly<Record<string, string>> = {
   clear_cut: "The national forest given away, and the hills cut bare.",
 };
 
-/** How many clues the codex offers at a time. */
-export const RUMOURS_AT_ONCE = 3;
+/** How many clues the codex offers at a time: one, so it points somewhere without making a list (it was three in v0.66.2). */
+export const RUMOURS_AT_ONCE = 1;
 
 /** Endings stated only in stories that wait on an unlock, with the unlocks that open them. Worked out once per library. */
 const WAITS = new WeakMap<Library, ReadonlyMap<string, readonly string[]>>();
@@ -121,7 +121,7 @@ export function withinReach(lib: Library, meta: MetaState, id: string): boolean 
 
 /**
  * The endings the codex has a clue out for: ones not found, not already named as near, and within
- * reach, a few at a time, moving on with every run played, so the codex keeps something to aim at
+ * reach, `n` at a time, moving on with every run played, so the codex keeps something to aim at
  * without becoming a list to work down.
  */
 export function rumours(lib: Library, meta: MetaState, n = RUMOURS_AT_ONCE): string[] {

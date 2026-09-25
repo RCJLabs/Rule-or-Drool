@@ -62,7 +62,7 @@ describe("the codex", () => {
     expect(panel.querySelector("li.locked")).toBeNull();
   });
 
-  it("gives a near miss its clue, and rumours a few endings by theirs without naming them", () => {
+  it("gives a near miss its clue, and rumours one more ending by its clue without naming it", () => {
     const meta = { ...emptyMeta(), runs: 5, nearMissed: ["riots"] };
     render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open="endings" />);
     const panel = document.querySelector("[data-section='endings'] .codex-panel") as HTMLElement;

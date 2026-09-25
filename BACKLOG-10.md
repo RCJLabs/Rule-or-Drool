@@ -626,8 +626,8 @@ card it campaigns the easy way on a narrow loss.
 
 ## Phase 58. Endings you can aim for (idea 6) — *done*
 
-**Shipped in v0.66.2.** The deck is still `3c9ktfpd`: the clues live in `src/meta/clues.ts`, not
-in the content, so rewording one does not move it.
+**Shipped in v0.66.2,** with one clue at a time since v0.66.3. The deck is still `3c9ktfpd`: the
+clues live in `src/meta/clues.ts`, not in the content, so rewording one does not move it.
 
 **The two endings no bot reached: no path needed.** `country_decided` and `clean_hands` end the
 stories `arc_referendum` and `arc_truth`, on the honest side of each story's last card. Both
@@ -654,11 +654,11 @@ each ending, and fails if 60 seeds never reach it.
 - The codex's endings section now has four kinds of row:
   - endings found, as before;
   - near misses, still named, now with their clue after "You came close to this.";
-  - three clues to endings not yet found, under "Heard in the corridors, of ways it has ended:";
+  - a clue to one ending not yet found, under "Heard in the corridors, of a way it has ended:";
   - a count of the rest.
-- The three move on by one with every run played. On a new profile each clue comes round every
-  72 runs, and sooner as endings are found. Three at a time is the answer to the idea's risk:
-  something to aim at, not a list to work down.
+- The clue changes with every run played. On a new profile each comes round every 72 runs, and
+  sooner as endings are found. One at a time is the answer to the idea's risk: something to aim
+  at, not a list to work down. v0.66.2 gave three; you chose one.
 - A clue is never given for an ending the profile cannot reach yet. That means the two unlock
   stories' endings, and the long reign's three finales until a finale opens it.
 - The guardrail test now reads the clues with everything else a player can see.
@@ -684,7 +684,6 @@ cannot say, and the playtest records do not show what a player read in the codex
 the testers directly.
 
 **Decisions for you.**
-1. **How many clues at once.** The default is three, moving on by one a run. All 77 at once
-   would be a checklist. None until a near miss would be the game before this phase.
+1. **How many clues at once.** Decided: one, since v0.66.3.
 2. **The wording.** The 77 lines are one per line in `src/meta/clues.ts`. Rewording any of them
    does not move the deck.
