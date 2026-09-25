@@ -3,6 +3,7 @@ import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
 import type { RunResult } from "../sim/run";
 import { RUN_KINDS, type RecordedRun, type RecordFile, type RunKind, type TakenCard } from "./record";
+import { DANGER_BELOW } from "../ui/signals";
 import { LINE_SINCE, type Trace } from "./trace";
 
 /**
@@ -241,6 +242,25 @@ export interface LookRow {
   changes: number;
 }
 
+/**
+ * Turning from the honest side (BACKLOG-10 phase 57). The bots the balance is set on turn
+ * careful when a meter is within 25 of its edge, which the screen never draws; the bot with a
+ * person's eyes waits for the danger the screen does draw, under 15. This row says where people
+ * turn: it is the question that decides which of the two the Ascent is balanced right for.
+ */
+export interface TurnRow {
+  label: string;
+  runs: number;
+  /** Choices with an honest side, votes and campaign cards aside. */
+  choices: number;
+  /** The share of those taken the other way. */
+  turned: number;
+  /** Of those, the share taken with nothing drawn in danger. NaN with none. */
+  unseen: number;
+  /** How near the nearest meter was to the edge that ends a run, the median over those turns. NaN with none. */
+  gap: number;
+}
+
 /** Runs walked card by card (`src/playtest/trace.ts`): what the votes and looks are read from. */
 export interface Traces {
   /** People's finished runs that this version rebuilt card for card. */
@@ -275,6 +295,7 @@ export interface Report {
   /** Of the rebuilt runs, those played on a version whose election cards say how the count stands. */
   told: number;
   looks: LookRow[];
+  turns: TurnRow[];
   lookMs: number;
   minDecisions: number;
 }
@@ -341,6 +362,19 @@ function peopleVotes(people: readonly Trace[]): VoteRow[] {
   const rows = [voteRow("people", people)];
   if (told.length && before.length) rows.push(voteRow(" told", told), voteRow(" not told", before));
   return rows;
+}
+
+function turnRow(label: string, traces: readonly Trace[]): TurnRow {
+  const choices = traces.reduce((n, t) => n + t.choices, 0);
+  const turns = traces.flatMap((t) => t.turns);
+  return {
+    label,
+    runs: traces.length,
+    choices,
+    turned: share(turns.length, choices),
+    unseen: share(turns.filter((g) => g >= DANGER_BELOW).length, turns.length),
+    gap: turns.length ? median(turns) : Number.NaN,
+  };
 }
 
 function lookRow(label: string, traces: readonly Trace[]): LookRow {
@@ -455,6 +489,7 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     votes: [...peopleVotes(traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => voteRow(`${bot} bot`, ts))],
     told: traces.people.filter((t) => t.line).length,
     looks: [lookRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => lookRow(`${bot} bot`, ts))],
+    turns: [turnRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => turnRow(`${bot} bot`, ts))],
     lookMs: opts.lookMs,
     minDecisions: opts.minDecisions,
   };
@@ -535,6 +570,16 @@ export function formatReport(r: Report, top = 10): string {
     out.push("the cards they ended on:");
     for (const c of r.lastCards.slice(0, top)) out.push(`  ${pad(c.n, 3)}  ${c.card.padEnd(34)} ${c.ending}`);
   }
+  out.push("");
+
+  out.push("== turning from the honest side, on the same runs ==");
+  out.push(`${"".padEnd(12)} ${pad("runs", 5)} ${pad("choices", 8)} ${pad("turned", 7)} ${pad("nothing drawn in danger", 24)} ${pad("nearest edge", 13)}`);
+  for (const t of r.turns) {
+    out.push(`${t.label.padEnd(12)} ${pad(t.runs, 5)} ${pad(t.choices, 8)} ${pad(or(t.turned), 7)} ${pad(or(t.unseen), 24)} ${pad(Number.isFinite(t.gap) ? t.gap : "–", 13)}`);
+  }
+  out.push(`(Of the choices with an honest side, the share taken the other way; of those, the share taken with no meter drawn`);
+  out.push(` in danger (the screen draws a meter within ${DANGER_BELOW} of the edge that ends a run); and how near the nearest meter was`);
+  out.push(" to that edge, the median. The informed bot turns at 25, which the screen never draws; the eyes bot waits for it.)");
   out.push("");
 
   out.push("== the look each card was read in ==");

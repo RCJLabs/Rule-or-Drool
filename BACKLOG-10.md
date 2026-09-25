@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1 and 2, which you chose: phases 55 and 56, done in v0.65.0 and v0.66.0, at the end
-of this file.
+except ideas 1, 2 and 10, which you chose: phases 55 to 57, done in v0.65.0 to v0.66.1, at the
+end of this file.
 
 Each idea says:
 - what it is;
@@ -546,3 +546,80 @@ deck apart.
 - **The 40 cards and 11 bills are a first draft.** They pass the strict validator, voice ceilings
   included, and each side's longest fits a 360×640 screen in all seven looks with its line. They
   are yours to read and sharpen.
+
+---
+
+## Phase 57. A bot with a person's eyes (idea 10) — *done*
+
+**Shipped in v0.66.1.** It is tooling: the game plays as before, and the deck is still `3c9ktfpd`.
+
+**What it sees.** The eyes bot (`src/sim/bots.ts`) decides from what the table shows a person:
+- which side is the honest one, and which way each meter goes, as the card's words say;
+- how far, only in the preview's three dot sizes, read as 2, 4 and 8 points;
+- the meters, and the danger the screen draws them in: a bloc under 15, or in office a state meter
+  under 15 or over 85;
+- the count line on a vote or a campaign card;
+- a side the card says ends the reign, which it never takes while the other does not.
+
+It plays as the informed voter would with those alone. It is honest unless a meter is drawn in
+danger, and then takes the side it reads as leaving the worst of those furthest from its edge. On
+a vote it stands honestly unless the line says a loss that would end the run, and on a campaign
+card it campaigns the easy way on a narrow loss.
+
+**What it found** (10,000 runs a bot):
+
+| | Informed voter | Eyes bot |
+|---|---|---|
+| Reaches the Ascent | 27.5% | 69.5% |
+| Sees the finale | 97.6% | 92.0% |
+| Ousted before era 2 | 0.5% | 2.9% |
+| Votes cheated | 11.1% | 39.0% |
+| Long reign (3,000 runs): Ascent, finale | 27.3%, 96.4% | 68.9%, 86.2% |
+
+- **The dots are enough.** Given the exact effects instead of the dots, the bot played the same, to
+  within 0.3 points on every measure.
+- **What decides it is where a player turns careful.** The informed voter turns from the honest
+  side on 45.6% of its ordinary choices. On 97.6% of those, nothing is drawn in danger: its
+  nearest meter is a median 22 from its edge, over the screen's 15. The eyes bot waits for the
+  screen, and turns with its nearest meter a median 13 from the edge. Moving only that line
+  (3,000 runs each):
+
+| Turns careful at | Ascent | Finale | Votes cheated |
+|---|---|---|---|
+| 15, the screen's danger | 68.9% | 91.5% | 39.8% |
+| 25, the other bots' line | 37.1% | 96.0% | 23.0% |
+| 35, where the screen reader says "low" | 17.3% | 95.4% | 8.4% |
+
+- **Reading the card's own endings is what keeps it alive.** Without it, only 46.7% of runs saw
+  the finale: story turning points end the reign on the honest side in 29 cards, and most say so
+  in their labels ("Resign over it", "Say you will go").
+
+**What it means.**
+- **Established, for bots:** the Ascent's 15–30% holds only for a player who turns careful well
+  before the screen warns. The informed voter turns with a meter a median 22 from its edge;
+  played the eyes bot's way, the line would have to sit between 25 and 35. A player who stays
+  honest until the screen draws danger reaches the Ascent in about 7 runs in 10, and still sees
+  the finale in 9.
+- **Not established:** where people turn careful. The closed test can say, and the playtest report
+  now sets people beside the eyes bot, with a table of their turns from the honest side: how
+  often, how often with nothing drawn in danger, and how near an edge.
+
+**What was built.**
+- The eyes bot, in the harness beside the other five, and `readAs`, what it reads off the dots.
+- `src/ui/signals.ts`: the screen's danger and near-ending lines, moved out of `Meters.tsx`, so
+  the bot reads the same numbers the screen draws. The meters bar reads its danger there too.
+- The harness: two information rows, not targets, setting the eyes bot beside the informed voter,
+  in the ordinary and the long evaluation.
+- The playtest report: the eyes bot among the bots, and the new table of turns, for people and
+  for every bot on the same runs.
+- Tests: 7 for the bot, and one for the table. The rebuild test checks the turns against its
+  own count.
+
+**Decisions for you.**
+1. **Where the screen warns.** The danger highlight at 15 is later than any balance target
+   assumes. Drawing it at 25 would warn where the balanced-for player already turns careful. It
+   changes the screen, not the deck. The default: leave it until the closed test shows where
+   people turn.
+2. **Who the Ascent is balanced for.** Still the informed voter. If the test shows people play
+   like the eyes bot, the Ascent is too easy for them by a wide margin, and a retune would be
+   large. The default: wait for the test.

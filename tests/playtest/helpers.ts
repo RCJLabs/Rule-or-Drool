@@ -34,7 +34,7 @@ export function recordBotRun(seed: number, bot: BotName): { run: RecordedRun; se
   let s = newRun(library, seed, rollSetup(library, seed, seed % 2 ? "left" : "right", []));
   let run = openRun(s, { kind: "own", run: 1, game: "0.57.0" });
   // Recorded on a version from before the election card said how the count stood.
-  const seen: Trace = { looks: [], votes: [], line: false };
+  const seen: Trace = { looks: [], votes: [], choices: 0, turns: [], line: false };
   while (!s.over) {
     s = draw(library, s);
     const card = getCard(library, s.current!);
@@ -42,6 +42,13 @@ export function recordBotRun(seed: number, bot: BotName): { run: RecordedRun; se
     seen.looks.push(s.look);
     if (card.type === "election") {
       seen.votes.push({ honest: card[side].honest === true, winnable: moodOf(s.meters) >= electionBar(library, s), near: nearAnEdge(s.meters, 25) });
+    } else if (!card.campaign && (card.left.drift ?? 0) !== (card.right.drift ?? 0)) {
+      // Turned from the honest side, and how near an edge the nearest meter was (BACKLOG-10 phase 57).
+      seen.choices++;
+      const honest = (card.left.drift ?? 0) > (card.right.drift ?? 0) ? "left" : "right";
+      const m = s.meters;
+      const state = s.opposition ? [] : [m.money, 100 - m.money, m.order, 100 - m.order, m.inst, 100 - m.inst];
+      if (side !== honest) seen.turns.push(Math.min(m.base, m.backers, m.public, ...state));
     }
     const after = resolve(library, s, card.id, side);
     run = { ...run, cards: [...run.cards, takeCard(s, after, side, { ms: 1200, looked: [0, 0] })] };

@@ -76,8 +76,25 @@ export function evaluateTargets(summaries: ReadonlyMap<BotName, BotSummary>): Ta
       info: true,
     });
   }
+  out.push(...eyesBeside(summaries));
   out.push(voteLine(summaries));
   return out;
+}
+
+/**
+ * The bot with a person's eyes (BACKLOG-10 phase 57), beside the informed voter the balance is
+ * for. Information, not a target: it says how far the targets depend on seeing what a person
+ * cannot, and the closed test says which of the two people are closer to.
+ */
+function eyesBeside(summaries: ReadonlyMap<BotName, BotSummary>): TargetResult[] {
+  const eyes = summaries.get("eyes");
+  if (!eyes) return [];
+  const informed = summaries.get("informed");
+  const beside = (mine: number, theirs: number | undefined) => (theirs === undefined ? pct(mine) : `${pct(mine)} (informed ${pct(theirs)})`);
+  return [
+    { bot: "eyes", name: "reaches Ascent (exit band)", target: "(beside informed)", actual: beside(eyes.exitBands.ascent, informed?.exitBands.ascent), pass: true, info: true },
+    { bot: "eyes", name: "sees the finale", target: "(beside informed)", actual: beside(eyes.finale, informed?.finale), pass: true, info: true },
+  ];
 }
 
 /**
@@ -148,6 +165,7 @@ export function evaluateLongTargets(summaries: ReadonlyMap<BotName, BotSummary>,
     out.push({ bot: "greedy", name: "ends in Decay", target: "≥ 70%", actual: pct(greedy.exitBands.decay), pass: greedy.exitBands.decay >= 0.7 });
     out.push({ bot: "greedy", name: "sees the long finale", target: "(no number given)", actual: pct(greedy.finale), pass: true, info: true });
   }
+  out.push(...eyesBeside(summaries));
   out.push(voteLine(summaries));
   return out;
 }

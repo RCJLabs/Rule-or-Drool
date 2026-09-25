@@ -1,9 +1,13 @@
 import type { Library } from "../engine/library";
 import { preview, type Preview } from "../engine/preview";
+import { LOST_OFFICE_FLAG } from "../engine/opposition";
 import { honestCount } from "../engine/resolve";
-import type { Card, GameState, Meters, Side } from "../engine/types";
+import { hasFlag } from "../engine/state";
+import type { Card, GameState, MeterKey, Meters, Side } from "../engine/types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "../engine/types";
 import { countBand } from "../ui/count";
+import { shownInDanger } from "../ui/signals";
+import { stepOf } from "../ui/speech";
 
 /**
  * Headless policies from TRANSFER.md section 8. Bots are omniscient about card data:
@@ -11,8 +15,8 @@ import { countBand } from "../ui/count";
  * a human never does. That is the point: they tune survival and band distribution,
  * not whether temptation feels tempting.
  */
-export type BotName = "random" | "greedy" | "saint" | "mixed" | "informed";
-export const BOT_NAMES: readonly BotName[] = ["random", "greedy", "saint", "mixed", "informed"];
+export type BotName = "random" | "greedy" | "saint" | "mixed" | "informed" | "eyes";
+export const BOT_NAMES: readonly BotName[] = ["random", "greedy", "saint", "mixed", "informed", "eyes"];
 
 export interface BotOptions {
   /** Mixed bot: a meter below this or above 100 - this counts as "in danger". */
@@ -127,7 +131,69 @@ const informed: Bot = (ctx) => {
   return mixed(ctx);
 };
 
-export const BOTS: Record<BotName, Bot> = { random, greedy, saint, mixed, informed };
+/** How far a person reads each of the preview's dot sizes as moving a meter: `stepOf` draws 2 or less, 5 or less, and more. */
+const DOT_READS_AS = [0, 2, 4, 8] as const;
+
+/**
+ * The meters after a side as a person reads them off the table (BACKLOG-10 phase 57): which way
+ * each moves from the card's words, and how far only from the dot's size.
+ */
+export function readAs(ctx: BotContext, side: Side): Meters {
+  const out = { ...ctx.state.meters };
+  for (const k of ctx[side].affected) {
+    const delta = ctx[side].meters[k] - ctx.state.meters[k];
+    if (delta !== 0) out[k] = ctx.state.meters[k] + Math.sign(delta) * DOT_READS_AS[stepOf(delta)];
+  }
+  return out;
+}
+
+/** How near the worst of these meters would be to the edge that ends a run. */
+function headroom(meters: Meters, worried: readonly MeterKey[]): number {
+  return Math.min(...worried.map((k) => ((BLOC_KEYS as readonly string[]).includes(k) ? meters[k] : Math.min(meters[k], 100 - meters[k]))));
+}
+
+/**
+ * A bot with a person's eyes (BACKLOG-10 phase 57). Every other bot sees both sides' exact
+ * effects, and turns careful at a line the screen never draws. This one decides from what the
+ * table shows a person:
+ * - which side is the honest one, and which way each meter goes, as the card's words say;
+ * - how far, only in the preview's three dot sizes;
+ * - the meters, and the danger the screen draws them in;
+ * - the count line on a vote or a campaign card.
+ *
+ * It plays as the informed voter would with those alone. On a vote it stands honestly unless
+ * the line says a loss that would end the run, which by the rules it has been taught is a
+ * second lost count or the return vote. A side the card says ends the reign (a resignation, a
+ * handover) it reads as one, and never takes while the other does not. Otherwise it is honest
+ * unless a meter is drawn in danger, when it takes the side it reads as leaving the worst of
+ * those furthest from its edge. On a campaign card it campaigns the easy way when the line
+ * says a narrow loss.
+ */
+const eyes: Bot = (ctx) => {
+  const { card, state } = ctx;
+  const clean = saint(ctx);
+  const easy: Side = clean === "left" ? "right" : "left";
+  const band = countBand(honestCount(ctx.lib, state));
+  if (card.type === "election") {
+    const honest = (["left", "right"] as const).find((s) => card[s].honest);
+    if (honest) {
+      const wins = band === "easy" || band === "win" || band === "narrowWin";
+      const lossEnds = !!state.opposition || hasFlag(state, LOST_OFFICE_FLAG);
+      return wins || !lossEnds ? honest : honest === "left" ? "right" : "left";
+    }
+  }
+  if (!!card.left.ending !== !!card.right.ending) return card.left.ending ? "right" : "left";
+  const worried = METER_KEYS.filter((k) => shownInDanger(k, state.meters[k], !!state.opposition));
+  if (worried.length) {
+    const l = headroom(readAs(ctx, "left"), worried);
+    const r = headroom(readAs(ctx, "right"), worried);
+    return l === r ? clean : l > r ? "left" : "right";
+  }
+  if (card.campaign && band === "narrowLoss") return easy;
+  return clean;
+};
+
+export const BOTS: Record<BotName, Bot> = { random, greedy, saint, mixed, informed, eyes };
 
 export function makeContext(lib: Library, state: GameState, card: Card, rng: () => number, opts: BotOptions): BotContext {
   return {

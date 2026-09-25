@@ -262,6 +262,12 @@ bots (BACKLOG-5 phase 31):
 - Since v0.66.0 the two cards before each vote are a campaign, which says where the count
   stands and can move it (BACKLOG-10 phase 56). The bar an honest count must clear rose from
   44 to 46 with it. The deck moved again, so records from v0.65.0 and before are kept apart.
+- Since v0.66.1 the report also sets people beside the eyes bot, which plays only from what
+  the screen shows (BACKLOG-10 phase 57). It reaches the Ascent far more often than the
+  informed bot, because it stays honest until the screen draws a meter in danger. Which of
+  the two people play like is the question the test can answer, in the report's table of
+  turns from the honest side: how often people take the other side with nothing drawn in
+  danger, and how near an edge their nearest meter is when they do.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

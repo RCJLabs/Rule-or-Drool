@@ -5,6 +5,7 @@ import type { Library } from "../engine/library";
 import { nearMisses } from "../engine/endings";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import { MeterIcon } from "./MeterIcon";
+import { NEAR_WITHIN, RESTLESS_BELOW, shownInDanger } from "./signals";
 import { meterLevel, meterName, stepOf } from "./speech";
 import { meterLabel, type Theme } from "./theme";
 
@@ -18,11 +19,7 @@ interface Props {
   align: PlayerAlign;
 }
 
-export const DANGER_BELOW = 15;
-/** A bloc this low is visibly unhappy, well before it is dangerous (BACKLOG-2 phase 8). */
-export const RESTLESS_BELOW = 32;
-/** How close an ending has to be before the run is told which one it is (phase 13). */
-export const NEAR_WITHIN = 12;
+export { DANGER_BELOW, NEAR_WITHIN, RESTLESS_BELOW } from "./signals";
 
 /**
  * Which bloc is the unhappiest, if any is unhappy enough to name. The coalition is three
@@ -54,10 +51,7 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
         const delta = preview ? Math.abs(preview.meters[k] - meters[k]) : 0;
         const dot = !affected ? 0 : stepOf(delta);
         const v = meters[k];
-        const isBloc = (BLOC_KEYS as readonly string[]).includes(k);
-        // A bloc only ends the run at the bottom, so only the bottom is dangerous.
-        // Out of office only the coalition can end the run (BACKLOG-10 phase 55).
-        const danger = isBloc ? v < DANGER_BELOW : !state.opposition && (v < DANGER_BELOW || v > 100 - DANGER_BELOW);
+        const danger = shownInDanger(k, v, !!state.opposition);
         return (
           <div key={k} className={`meter-slot${k === "money" ? " group-break" : ""}${k === restless ? " restless" : ""}`}>
             <MeterIcon

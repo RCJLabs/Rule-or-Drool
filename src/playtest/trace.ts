@@ -4,6 +4,7 @@ import { honestCount, resolve } from "../engine/resolve";
 import { makeRng } from "../engine/rng";
 import { newRun } from "../engine/state";
 import type { Card, GameState, RunSetup, Side } from "../engine/types";
+import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import { decodeRunCode, setupOf } from "../meta/runcode";
 import { BOTS, makeContext, nearAnEdge, type BotName } from "../sim/bots";
 import { DEFAULT_RUN_OPTIONS, type RunOptions } from "../sim/run";
@@ -31,6 +32,13 @@ export interface Trace {
   looks: number[];
   votes: Vote[];
   /**
+   * The ordinary choices with an honest side, and at each one taken the other way, how near
+   * the nearest meter was to the edge that ends a run, as the screen draws it (BACKLOG-10
+   * phase 57). The bots turn careful at a line the screen never draws; this says where people do.
+   */
+  choices: number;
+  turns: number[];
+  /**
    * Whether the election cards said how an honest count would go when the run was played
    * (BACKLOG-9 phase 53): a person's version decides it. Absent for a bot, which always knows.
    */
@@ -52,11 +60,30 @@ export function toldTheCount(game: string): boolean {
 /** The line a vote is split at: the mixed bot's own (`DEFAULT_RUN_OPTIONS.danger`). */
 export const NEAR_EDGE = DEFAULT_RUN_OPTIONS.danger;
 
+/**
+ * How near the nearest meter is to the edge that ends a run, as the screen can show it: a bloc
+ * from nothing, the state from either end, and the state not at all out of office.
+ */
+export function edgeGap(s: GameState): number {
+  const gaps: number[] = [];
+  for (const k of METER_KEYS) {
+    if ((BLOC_KEYS as readonly string[]).includes(k)) gaps.push(s.meters[k]);
+    else if (!s.opposition) gaps.push(Math.min(s.meters[k], 100 - s.meters[k]));
+  }
+  return Math.min(...gaps);
+}
+
+/** The side a card's words make the honest one: the one that drifts toward the Ascent. None when both drift alike. */
+function honestSide(card: Card): Side | null {
+  const [l, r] = [card.left.drift ?? 0, card.right.drift ?? 0];
+  return l === r ? null : l > r ? "left" : "right";
+}
+
 type Chooser = (state: GameState, card: Card, index: number) => Side | null;
 
 function walk(lib: Library, seed: number, setup: RunSetup, choose: Chooser): { trace: Trace; state: GameState } | null {
   let s = draw(lib, newRun(lib, seed, setup));
-  const trace: Trace = { looks: [], votes: [] };
+  const trace: Trace = { looks: [], votes: [], choices: 0, turns: [] };
   for (let i = 0; !s.over; i++) {
     if (i >= DEFAULT_RUN_OPTIONS.maxCards || !s.current) return null;
     const card = getCard(lib, s.current);
@@ -65,6 +92,13 @@ function walk(lib: Library, seed: number, setup: RunSetup, choose: Chooser): { t
     trace.looks.push(s.look);
     if (card.type === "election") {
       trace.votes.push({ honest: card[side].honest === true, winnable: honestCount(lib, s).wins, near: nearAnEdge(s.meters, NEAR_EDGE) });
+    } else if (!card.campaign) {
+      // A campaign card has a line of its own to be read by, and is not counted here.
+      const honest = honestSide(card);
+      if (honest) {
+        trace.choices++;
+        if (side !== honest) trace.turns.push(edgeGap(s));
+      }
     }
     s = draw(lib, resolve(lib, s, card.id, side));
   }

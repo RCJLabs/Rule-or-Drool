@@ -76,7 +76,8 @@ result there belongs to that font.
 
 `playtests` reads the records players send from the game (Settings › Keep a record of my
 runs, then Send my record) and prints what they did beside each bot playing the same runs:
-survival, where runs end, time on a card, and the cards people hesitate on. Put the files in
+survival, where runs end, time on a card, and the cards people hesitate on. One of the bots,
+`eyes`, decides only from what the screen shows a person (BACKLOG-10 phase 57). Put the files in
 `playtests/`, which git ignores: they are other people's play, and this repository is
 public. A file that is not exactly the format is named and skipped. The format, and what it
 leaves out, is at the top of `src/playtest/record.ts`.

@@ -137,7 +137,7 @@ describe("bands, votes and looks", () => {
       }
       const r = buildReport(library, gather([source("b", runs)]), new Map([[bot, results]]), { ...OPTS, files: 1, replayed: 6 }, { people, bots: new Map([[bot, walked]]) });
       expect(r.rebuilt).toBe(6);
-      for (const rows of [r.bands, r.votes, r.looks] as { label: string }[][]) {
+      for (const rows of [r.bands, r.votes, r.looks, r.turns] as { label: string }[][]) {
         const [person, them] = rows.map(({ label: _, ...rest }) => rest);
         expect(person).toEqual(them);
       }
@@ -148,8 +148,8 @@ describe("bands, votes and looks", () => {
   it("splits the votes by whether an honest count would have won them, and the cheated ones by the meters", () => {
     const v = (honest: boolean, winnable: boolean, near: boolean) => ({ honest, winnable, near });
     const people: Trace[] = [
-      { looks: [0, 1, 1, 0], votes: [v(true, true, false), v(false, true, true), v(false, true, false)] },
-      { looks: [0, -1, -1, -2, -2, -2], votes: [v(false, false, true), v(true, false, false)] },
+      { looks: [0, 1, 1, 0], choices: 0, turns: [], votes: [v(true, true, false), v(false, true, true), v(false, true, false)] },
+      { looks: [0, -1, -1, -2, -2, -2], choices: 0, turns: [], votes: [v(false, false, true), v(true, false, false)] },
     ];
     const r = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people, bots: new Map() });
     // Three of five cheated. Three could have been won honestly, and two of those were cheated
@@ -159,16 +159,33 @@ describe("bands, votes and looks", () => {
     expect(r.looks[0]).toMatchObject({ runs: 2, cards: 10, changes: 2 });
     expect(r.looks[0]!.share).toEqual([0, 0.3, 0.2, 0.3, 0.2, 0, 0]);
     // Nothing cheated reads as nothing, not as a share of nothing.
-    const clean = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people: [{ looks: [0], votes: [v(true, true, false)] }], bots: new Map() });
+    const clean = buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS, { people: [{ looks: [0], choices: 0, turns: [], votes: [v(true, true, false)] }], bots: new Map() });
     expect(clean.votes[0]!.cheated).toBe(0);
     expect(formatReport(clean)).toMatch(/^people\s+1\s+1\s+0\.0%\s+100\.0%\s+0\.0%\s+–\s+–$/m);
+  });
+
+  // BACKLOG-10 phase 57: where people turn from the honest side, beside where the bots do.
+  it("says how often people turned from the honest side, whether the screen showed a reason, and how near an edge", () => {
+    const people: Trace[] = [
+      { looks: [0], votes: [], choices: 6, turns: [30, 10] },
+      { looks: [0], votes: [], choices: 4, turns: [20] },
+    ];
+    const g = gather([source("p", [made(1, [["x", 1000]])])]);
+    const r = buildReport(library, g, new Map(), OPTS, { people, bots: new Map() });
+    // Three turns in ten choices; two with nothing drawn in danger, 30 and 20 being clear of it.
+    expect(r.turns).toEqual([{ label: "people", runs: 2, choices: 10, turned: 0.3, unseen: 2 / 3, gap: 20 }]);
+    expect(formatReport(r)).toContain("== turning from the honest side, on the same runs ==");
+    // Never turning reads as none, not as a share of nothing.
+    const steady = buildReport(library, g, new Map(), OPTS, { people: [{ looks: [0], votes: [], choices: 3, turns: [] }], bots: new Map() });
+    expect(steady.turns[0]).toMatchObject({ choices: 3, turned: 0 });
+    expect([steady.turns[0]!.unseen, steady.turns[0]!.gap].every(Number.isNaN)).toBe(true);
   });
 
   // BACKLOG-9 phase 53: whether people use the line shows as those told beside those not told.
   it("sets people told how the count stood beside people who were not, when there are both", () => {
     const v = (honest: boolean, winnable: boolean) => ({ honest, winnable, near: false });
-    const told: Trace = { looks: [0], votes: [v(true, true), v(true, true)], line: true };
-    const before: Trace = { looks: [0], votes: [v(false, true), v(true, true)], line: false };
+    const told: Trace = { looks: [0], choices: 0, turns: [], votes: [v(true, true), v(true, true)], line: true };
+    const before: Trace = { looks: [0], choices: 0, turns: [], votes: [v(false, true), v(true, true)], line: false };
     const g = gather([source("p", [made(1, [["x", 1000]])])]);
     const both = buildReport(library, g, new Map(), OPTS, { people: [told, before], bots: new Map() });
     expect(both.votes.map((r) => [r.label.trim(), r.runs, r.cheatedWinnable])).toEqual([
