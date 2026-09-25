@@ -3,6 +3,9 @@ import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import type { GameState } from "../engine/types";
 import { LEGACIES } from "../meta/legacies";
+import { CountryStrip } from "./CountryStrip";
+import { themeOf } from "./theme";
+import { composeCountry } from "./world";
 
 interface Props {
   lib: Library;
@@ -34,6 +37,9 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
   const info = STRINGS.eras[era - 1];
   const rule = STRINGS.eraRules[era - 1];
   const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
+  // The country the era hands on, drawn on every phone: the only place a phone too short for
+  // the strip under the card sees it before the end (BACKLOG-10 phase 64).
+  const country = composeCountry({ stage: themeOf(state, lib.config).stage, drift: state.drift, align: state.align, opposition: !!state.opposition, flags: state.flags, seed: state.seed });
   const owed = state.queue.length;
   // What the crisis this run inherited does to the era it is arriving into, beside the era's
   // own rule (BACKLOG-5 phase 35).
@@ -70,6 +76,9 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
           {info?.jump ?? "Time passes."}
         </p>
 
+        <div className="era-country">
+          <CountryStrip country={country} />
+        </div>
         {carried.length > 0 && (
           <div className="era-carried">
             <p className="kicker">{STRINGS.ui.carried}</p>

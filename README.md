@@ -40,6 +40,12 @@ leaning the way the last reign ended, with its two biggest legacies still in for
 back. What the country already has is not built or asked again, and history names what the new
 reign did. A line of reigns is kept in the codex; the daily is always a fresh start.
 
+The **country** stands under the card on any phone 740px tall or more: a strip of the world the end
+screen draws, where a decision that leaves a legacy puts up its landmark as it is made. Warships
+leave the harbour when the country goes to war, turbines rise on the ridge when carbon gets a price,
+and the statue stands where the ballot boxes were. On a shorter phone the country is drawn at each
+era's change.
+
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
 20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and

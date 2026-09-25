@@ -746,14 +746,17 @@ describe.skipIf(!target)("in a browser", () => {
 
     /**
      * The smallest phone, and the first height past each line the stylesheet draws: past 700px
-     * the text and the speaker are full size again, and past 800px the deepest looks get their
-     * chrome back. Only 360×640 was audited, and between those lines the longest cards lost
-     * 2-86px in Decay 3 and Ascent 3 (BACKLOG-10 phase 64).
+     * the text and the speaker are full size again; from 740px the country is drawn under the
+     * card, at its shortest; past 800px Decay 3 gets its second alert back, and from 860px the
+     * Ascent its airy spacing. Only 360×640 was audited, and between those lines the longest
+     * cards lost 2-86px in Decay 3 and Ascent 3 (BACKLOG-10 phase 64).
      */
     const LONGEST_AT: [number, number][] = [
       [360, 640],
       [360, 701],
+      [360, 740],
       [360, 801],
+      [360, 860],
     ];
     it.each(LONGEST_AT)("with the longest card of every kind on the table, at %i×%i with the buttons drawn, in all seven looks", async (width, height) => {
       // The audit reads the cards its seed deals, and the seed never dealt a long one on a
@@ -804,6 +807,58 @@ describe.skipIf(!target)("in a browser", () => {
             // Colour does not change with the height, so it is read once, on the smallest phone.
             if (smallest) failures.push(...(await contrast(page, label)));
           }
+        }
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    it("draws the country under the card from 740px tall, clear of the card and the footer, with every landmark in view", async () => {
+      // BACKLOG-10 phase 64. The strip takes its height from the card, so it is drawn only where
+      // the longest cards can spare it (the audit above), and at 360px wide it shows only the
+      // middle of its world: every landmark has to stand there.
+      const failures: string[] = [];
+      const strip = (page: Page) =>
+        page.evaluate(`(() => {
+          const el = document.querySelector(".frame > .country");
+          const cs = el && getComputedStyle(el);
+          if (!el || cs.display === "none") return null;
+          const r = (e) => { const b = e.getBoundingClientRect(); return { top: b.top, bottom: b.bottom, left: b.left, right: b.right, h: b.height }; };
+          return { box: r(el), card: r(document.querySelector(".card")), status: r(document.querySelector(".status")), marks: [...el.querySelectorAll("[data-motif]")].map((g) => ({ motif: g.getAttribute("data-motif"), ...r(g) })) };
+        })()`) as Promise<{ box: Box; card: Box; status: Box; marks: (Box & { motif: string })[] } | null>;
+      type Box = { top: number; bottom: number; left: number; right: number; h: number };
+      for (const [width, height, want] of [[360, 739, 0], [1280, 720, 0], [360, 740, 36], [360, 760, 56], [390, 844, 64], [412, 915, 64]] as const) {
+        const page = await startRun(browser, "left", { width, height, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
+        const got = await strip(page);
+        if (!want) {
+          if (got) failures.push(`${width}×${height}: the country is drawn, ${got.box.h}px tall, with no room for it`);
+          await close(page);
+          continue;
+        }
+        if (!got || Math.abs(got.box.h - want) > 0.5) failures.push(`${width}×${height}: the country is ${got?.box.h ?? "not drawn"}, not ${want}px tall`);
+        // Every landmark, in every part of the world, at once: two runs' worth, each at the cap.
+        for (const flags of [
+          ["ring_started", "carbon_priced", "went_to_war", "seawall", "elections_abolished", "universal_care"],
+          ["elections_abolished", "purge_begun", "universal_care", "media_captured", "took_the_skim", "moonshot_funded"],
+        ]) {
+          await rewriteRun(page, `raw.state.flags = [...new Set([...raw.state.flags, ...${JSON.stringify(flags)}])];`);
+          await page.reload();
+          await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+          await page.waitForSelector(".frame > .country [data-motif]");
+          for (const look of LOOKS) {
+            await toLook(page, look);
+            const s = (await strip(page))!;
+            const label = `${width}×${height}, ${look}`;
+            if (s.box.top < s.card.bottom - 0.5) failures.push(`${label}: the country starts ${s.card.bottom - s.box.top}px up the card`);
+            if (s.box.bottom > s.status.top + 0.5) failures.push(`${label}: the country runs ${s.box.bottom - s.status.top}px into the footer`);
+            // The ring and the seawall run the length of the world, and are meant to leave it.
+            for (const m of s.marks.filter((m) => !["ring", "seawall", "levee"].includes(m.motif))) {
+              if (m.left < s.box.left - 0.5 || m.right > s.box.right + 0.5) failures.push(`${label}: ${m.motif} is cut off at the strip's side, ${m.left}..${m.right} in ${s.box.left}..${s.box.right}`);
+            }
+            failures.push(...(await misfits(page, label)));
+          }
+          // Only the first run's landmarks are cleared for the second: each run is its own.
+          await rewriteRun(page, `raw.state.flags = raw.state.flags.filter((f) => !${JSON.stringify(flags)}.includes(f));`);
         }
         await close(page);
       }

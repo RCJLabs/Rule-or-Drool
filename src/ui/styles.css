@@ -547,13 +547,17 @@ button {
    chrome, but not the height to pay for both: at 360×701 to 360×800 the longest cards lost
    2-86px in Decay 3 and Ascent 3, where only 360×640 was audited (BACKLOG-10 phase 64). So
    the deepest looks keep the short phone's spacing up to 800px, and Decay 3's emote column
-   needs a wide phone as well as a tall one: at 360px it left the card 190px of width. */
-@media (max-height: 800px) {
+   needs a wide phone as well as a tall one: at 360px it left the card 190px of width. The
+   Ascent's airy spacing costs the longest cards 86px, and with the country under the card
+   too it needs a phone 860px tall: at 360×801 it left them 15px. */
+@media (max-height: 859px) {
   .frame[data-theme="ascent2"],
   .frame[data-theme="ascent3"] {
     --space: 15px;
     --line: 1.5;
   }
+}
+@media (max-height: 800px) {
   .frame[data-theme="decay3"] .stream-alert.second {
     display: none;
   }
@@ -705,6 +709,61 @@ button {
   opacity: 0.32;
 }
 
+/* ---- the country, under the card (BACKLOG-10 phase 64) -------------------------- */
+/**
+ * A strip of the world the end screen draws, with the landmarks the run has built. It takes its
+ * height from the card, so it is drawn only where the card can spare it: from 740px tall, 36px
+ * there and growing with the screen to 64px. Measured with each side's longest card of every
+ * kind on the table, the deepest looks have about the screen's height less 700px to spare at
+ * 360px wide, so this leaves the card at least 4px in every look; the browser audit holds it
+ * to that. Under 740px there is nothing to spare, and the country waits for the end.
+ */
+.country {
+  display: none;
+}
+@media (min-height: 740px) {
+  .country {
+    display: block;
+    flex: none;
+    width: min(100% - var(--space) * 2, 460px);
+    height: clamp(36px, 100dvh - 704px, 64px);
+    margin: 0 auto;
+    border-radius: calc(var(--radius) * var(--corner) / 2);
+    overflow: hidden;
+  }
+}
+/* Over the projection's scanlines, not under them: they are the room the card is in. */
+.frame[data-theme^="ascent"] .country {
+  position: relative;
+  z-index: 1;
+}
+/* A landmark new since the last card rises out of the ground as the next card lands. */
+.country .rising {
+  animation: country-rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+@keyframes country-rise {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    transform: none;
+  }
+}
+:root[data-reduce-motion] .country .rising {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .country .rising {
+    animation: none;
+  }
+}
+
 /* ---- status footer -------------------------------------------------------------- */
 .status {
   padding: var(--space) var(--space) calc(var(--space) + env(safe-area-inset-bottom, 0px));
@@ -848,11 +907,13 @@ button {
 }
 /* The three beats. Each is present in the DOM from the start so the height does not jump
    while a player is reading; only their opacity waits. */
+.era-country,
 .era-carried,
 .era-owed,
 .era-rule {
   transition: opacity 0.45s ease-out;
 }
+.era-jump[data-beat="0"] .era-country,
 .era-jump[data-beat="0"] .era-carried,
 .era-jump[data-beat="0"] .era-owed,
 .era-jump[data-beat="0"] .era-rule,
@@ -924,10 +985,23 @@ button {
 :root[data-reduce-motion] .era-jump {
   animation: none;
 }
+:root[data-reduce-motion] .era-country,
 :root[data-reduce-motion] .era-carried,
 :root[data-reduce-motion] .era-owed,
 :root[data-reduce-motion] .era-rule {
   transition: none;
+}
+/* The country the era hands on, with the first beat of what it carries. On every phone, where
+   the one under the card needs 740px (BACKLOG-10 phase 64). */
+.era-country {
+  margin: 16px 0 0;
+}
+.era-country .country {
+  display: block;
+  width: 100%;
+  height: 56px;
+  border-radius: calc(var(--radius) * var(--corner) / 2);
+  overflow: hidden;
 }
 
 /**

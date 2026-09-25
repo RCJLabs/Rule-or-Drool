@@ -11,9 +11,9 @@ that follow from it.
 | App name | Rule or Drool | 13 / 30 |
 | Short description | Swipe to govern. The easy choice now is the ruinous choice later. | 65 / 80 |
 
-**Full description** (2,237 / 4,000 characters). Every number in it was checked
-against the content when written: 1,577 cards, 44 stories and 16 questions, 30 advisors, 77
-endings, 657 history names. Re-check them if the content changes.
+**Full description** (2,486 / 4,000 characters). Every number in it was checked
+against the content when written: 1,770 cards, 44 stories and 16 questions, 30 advisors, 80
+endings, 675 history names (re-checked in v0.72.0). Re-check them if the content changes.
 
 ```
 You have taken office. Your advisors bring you one decision at a time: swipe left or right, and try to keep the country, your coalition and yourself in one piece for three eras.
@@ -24,12 +24,12 @@ HOW IT PLAYS
 • Six meters: the three blocs of your coalition, and the money, order and institutions of the state. Lose a bloc, or let the state run to either extreme, and your rule ends.
 • The country is heading somewhere, and nothing tells you where. The screen does: it frays into a livestream on the way down and polishes itself on the way up.
 • Sixteen questions every country argues about, asked plainly: go to war for an ally, deport everyone without papers, cut the top rate, raise the minimum wage, control the rents, price carbon, bail out the banks. Your answer decides who is pleased and who pays. How you carry it out decides where the country goes, and the answer comes back in the eras after.
-• 1,577 cards, 44 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
+• 1,770 cards, 44 stories that play out over several cards, and 30 advisors whose traits change what their advice costs you.
 • Elections you can win honestly, or not, and a record of which.
 
 EVERY RUN IS ITS OWN
-• 55 ways for a rule to end, many of them yours to choose, and 585 names history can give it, from what you did and where it took the country.
-• At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
+• 80 ways for a rule to end, many of them yours to choose, and 675 names history can give it, from what you did and where it took the country.
+• The country stands under the card as you build it: the seawall going up, the warships leaving. At the end, a picture of the world you left: spires and a ring in the sky, or tanks in the square and a drained bay.
 • Two parties to lead, the Commons and the Ledger, each with a coalition of its own.
 • Promises you make at the start, one or two of nine, each at a price, and each kept or broken on its own.
 • Take over the country your last run left, with its lean, its legacies and its rival, or start fresh.
@@ -289,6 +289,10 @@ bots (BACKLOG-5 phase 31):
   that took over has a format 3 code, which v0.70.0 and before cannot open, and the report replays
   it like any other. The deck moved, so records from v0.70.0 and before are kept apart. Ask testers
   whether they took over, and why or why not: the records say whether they did, not why.
+- Since v0.72.0 the country stands under the card on phones 740px tall or more, and at each era's
+  change on every phone (BACKLOG-10 phase 64). It deals nothing differently: the deck did not move.
+  The records do not say whether anyone looked at it, so ask testers at the end what they remember
+  it showing.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

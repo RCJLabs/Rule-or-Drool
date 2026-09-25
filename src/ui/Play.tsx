@@ -1,5 +1,5 @@
 import { withNames } from "../engine/endings";
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type FocusEvent } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type FocusEvent } from "react";
 import { STRINGS } from "../content/strings";
 import { rivalReport } from "./rival";
 import { textLevel, type Settings } from "./settings";
@@ -11,6 +11,7 @@ import type { GameState, Meters, Side } from "../engine/types";
 import { CardClock } from "../playtest/clock";
 import type { Measure } from "../playtest/record";
 import { CardView } from "./CardView";
+import { CountryStrip } from "./CountryStrip";
 import { countLine } from "./count";
 import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
@@ -24,6 +25,7 @@ import { hintSeen, markHintSeen } from "./save";
 import { newlyDangerous } from "./sound";
 import { choiceSummary, lookChange, meterName, resultSummary } from "./speech";
 import { themeOf } from "./theme";
+import { composeCountry } from "./world";
 
 interface Props {
   lib: Library;
@@ -56,6 +58,8 @@ interface Heard {
   meters: Meters;
   stage: number;
   era: number;
+  /** The country's landmarks (BACKLOG-10 phase 64). */
+  standing: string[];
 }
 
 export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift , settings, onSettings, onCabinet, onTaught }: Props) {
@@ -83,6 +87,14 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   // An election says how an honest count goes, on the card and aloud (BACKLOG-9 phase 53).
   const count = card ? countLine(lib, state, card) : null;
   const theme = themeOf(state, lib.config);
+  // The country under the card, with what the run has built standing in it (BACKLOG-10 phase 64).
+  // Composed once a card, not on every drag of it.
+  const opposition = !!state.opposition;
+  const country = useMemo(
+    () => composeCountry({ stage: theme.stage, drift: state.drift, align: state.align, opposition, flags: state.flags, seed: state.seed }),
+    [theme.stage, state.drift, state.align, opposition, state.flags, state.seed],
+  );
+  const standing = country.placed.map((q) => q.motif);
   const busy = transition !== null || leaving !== null;
 
   const commit = useCallback(
@@ -190,6 +202,14 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     }
     const look = lookChange(prev?.stage ?? 0, theme.stage);
     if (look) parts.push(look);
+    // What the last card built, as it goes up under the card. Not what was there already when the
+    // run was taken up again: that is in the strip's own description.
+    if (prev) {
+      for (const m of standing.filter((m) => !prev.standing.includes(m))) {
+        const landmark = STRINGS.world.landmarks[m];
+        if (landmark) parts.push(STRINGS.countryNow.rose.replace("{landmark}", landmark));
+      }
+    }
     if (roadNote) parts.push(roadNote);
     if (outNote) parts.push(outNote);
     parts.push(`${speakerName}, ${roleLabel}${traitName ? `, ${traitName}` : ""}.`);
@@ -201,7 +221,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     if (count) parts.push(`${count.text}.`);
     if (!prev) parts.push(STRINGS.speech.choicesHint);
     setSaid(parts.join(" "));
-    heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era };
+    heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era, standing };
   }, [cardKey]);
 
   useEffect(() => {
@@ -289,6 +309,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
           ))}
         </div>
       )}
+      <CountryStrip country={country} />
       <footer className="status">
         {/* Who is in office, in words as well as in the card's shape (BACKLOG-3 phase 23).
             The shape signature is geometry and says nothing to a screen reader or to anyone

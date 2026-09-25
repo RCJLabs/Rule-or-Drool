@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10, 6, 5, 7, 8 and 4, which you chose: phases 55 to 63, done in v0.65.0 to
-v0.71.0, at the end of this file.
+except ideas 1, 2, 10, 6, 5, 7, 8, 4 and 9, which you chose: phases 55 to 64, done in v0.65.0 to
+v0.72.0, at the end of this file.
 
 Each idea says:
 - what it is;
@@ -1167,9 +1167,10 @@ before):
    and it is the part of a line a player can name.
 
 
-## Phase 64. The country on screen (idea 9) — *in progress*
+## Phase 64. The country on screen (idea 9) — *done*
 
-**Shipped so far: v0.71.1, a fit fix the measuring found.** The picture itself is not built yet.
+**Shipped in two parts:** v0.71.1, a fit fix the measuring found, and v0.72.0, the country under
+the card. The deck did not move: nothing here deals or scores differently.
 
 **Measured first: the room.** How many pixels the play screen can give up before any card is cut
 off, at 360×640 with the buttons drawn, a platform of two and the first lesson:
@@ -1209,3 +1210,105 @@ where it fits least.
   past 800, and at 412×732, 390×844, 384×854, 393×873, 412×892 and 412×915.
 - The browser audit now puts the longest cards on the table at 360×701 and 360×801 as well as
   360×640: the first height past each line the stylesheet draws.
+
+**How it works** (v0.72.0).
+- **Under the card**, on any phone 740px tall or more, is a strip of the world the end screen
+  draws: its palettes, its landmarks, its places. It is 36px tall at 740px and grows with the
+  screen to 64px from 768px. The deepest looks spare about the screen's height less 700px at
+  360px wide, so the longest cards keep at least 4px.
+- **The landmarks are the end picture's,** placed by the same rule, so the strip never shows
+  what the end will not: the six most history-making, with the habits only in a run that has
+  done little else.
+- **A landmark goes up as it is built.** A landmark new since the last card rises out of the
+  ground as the next card lands, unless motion is reduced, and a screen reader hears "Now
+  standing in the country: a seawall holding back the sea." What stood already, when a run is
+  continued or was taken over, is simply there.
+- **The city follows the look,** not the band: taller and with spires on the way up, broken on
+  the way down. Its buildings stay where they are from card to card, since a city that
+  reshuffled whenever drift moved would be noise; the look only decides how tall they stand and
+  in what state. The flags over it are the party in office's, and the rival's while out of
+  office.
+- **On every phone, at each era's change,** the era screen draws the country it hands on, over
+  what it carried. For a phone under 740px, that is the only view of the country before the end.
+- **What the questions decide is drawn now,** in the strip and at the end: 32 answers, and four
+  stories' outcomes (the crown, the levee, the stadium and the port), 36 landmarks in all.
+  - Warships leave the harbour, or merchant ships stay at anchor.
+  - Turbines stand on the ridge, or a gas rig burns on it.
+  - The highest court gains columns, or stands as it was built.
+  - The rest are a hospital or a gated clinic; cafés or a queue at the works gate; cranes or old
+    tenements; a factory or containers; a clock tower or a park; a university with its gates open
+    or with a toll barrier; police vans or a licensed shop; a full prison or a half-dark one; a
+    camera on every pole or empty poles; loudspeakers or a billboard of claims; a propped bank or
+    a boarded one; yachts, or a long car at the revenue office; a fence and a bus, or a queue at
+    a lit door.
+- Ascent 2 and 3 keep the tighter spacing up to 860px tall, not 800px. With the strip, their airy
+  spacing left the longest cards 15px at 360×801.
+
+**Measured after** (300 runs a bot):
+
+| | Before | After |
+|---|---|---|
+| Legacies with a drawing | 32 of 74 | 69 of 74 |
+| A competent run's legacies that have one | 56–63% | 91–95% |
+| Times the picture changes in a run | 5.1–5.9 | 6.7–7.5 |
+| The first landmark (median card) | 12 | 5 |
+| Cards with a landmark standing | 85–89% | 94–95% |
+| The barricade in a competent run's last picture | 76–91% | 2–3% |
+| The gated house in a competent run's last picture | 50–80% | under 2% |
+
+- The five legacies still undrawn are the lost and won counts, the honours list, the printing
+  and the building code: what happened to the reign, or too small a thing to stand in a city.
+- With the strip, every longest card fits at 17 sizes:
+  - 360 wide at 640, 701, 740, 750, 760, 780, 800, 801, 844, 859 and 860;
+  - 390×844;
+  - 412 wide at 732, 801, 860 and 915;
+  - 430×932.
+- The browser audits:
+  - the longest cards at 360×640, 701, 740, 801 and 860;
+  - a new audit of the strip: drawn from 740px at its height, never at 739px or on a laptop, clear
+    of the card and the footer, every landmark inside the part a 360px phone shows, in all seven
+    looks;
+  - the world audit holds all 36 new landmarks inside every place they may take, in every
+    direction and depth.
+
+**Caveats.**
+- **Under 740px there is no strip under the card.** A 360×640 phone can spare 7–11px in Decay 3.
+  The country waits for the era's change there, and for the end. How many players are on such
+  phones is not in any record the game keeps.
+- **The landmarks are small.** In a 336×56px strip a landmark is 10–40px tall. The hospital, the
+  courts, the ships and the turbines read; the smaller ones (the queue at the works gate, the
+  licensed shop, the police vans) are shapes more than things. Their words carry them, aloud
+  and at the end.
+- **Six at most.** A busy run's later decisions may not get a place, as at the end.
+- **The rise happens while the player looks at the next card.** Whether anyone sees it, and what
+  people read into the new drawings, is for the closed test. The drawings were judged by eye.
+- **The store screenshots are stale.** They are taken at 360×640, where the play screen has no
+  strip, but the era's change (`04`) draws the country now. `npm run build && npm run
+  store:assets` makes new ones. The listing's description mentions the strip.
+- **The listing's numbers had gone stale,** its counts since phase 48 and its length since phase 43.
+  They are 1,770 cards, 80 endings, 675 history names and 2,486 characters now. The content-rating
+  notes still say 1,577 cards were searched for the questionnaire's themes, and the 193 written
+  since have not been; that search is yours before the questionnaire.
+
+**What was built.**
+- `world.ts`:
+  - 36 landmarks, and a place on the hills;
+  - `placeLandmarks`, shared by the picture and the strip;
+  - `composeCountry`, the strip's city from rolls fixed by the seed;
+  - `stripSlotX`.
+- `WorldAfter.tsx`: the drawings, and the hills' landmarks in the picture.
+- `CountryStrip.tsx`: the strip, and which landmarks rise.
+- `Play.tsx`: the strip under the card, and the announcement. `EraTransition.tsx`: the strip at
+  each era's change.
+- The stylesheet: where the strip is drawn and how tall, the rise and reduced motion, and the
+  Ascent's airy spacing from 860px.
+- Tests:
+  - 12 unit tests for the strip and the drawings;
+  - the browser audits above.
+
+**Decisions for you.**
+1. **Whether phones under 740px get a strip too,** at the card's cost. The default is no: in the
+   deepest looks the longest cards have 7–11px to spare there.
+2. **Whether the habits rise.** The end picture lets them in only when little else stands, and
+   the strip keeps that rule, so a run's first self-serving choice can raise the barricade on
+   card 1. The default is yes: early in a run, the habit is the story.
