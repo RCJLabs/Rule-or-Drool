@@ -166,6 +166,10 @@ export function App() {
           onDismissShared={answerShared}
           onContinue={game.continueSaved}
           onCodex={game.openCodex}
+          onContracts={() => {
+            setCodexOpen("contracts");
+            game.openCodex();
+          }}
           onSettings={game.openSettings}
         />
         {settingsMenu}

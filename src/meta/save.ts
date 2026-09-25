@@ -3,7 +3,8 @@ import { META_SAVE_VERSION } from "../version";
 import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
 import { holdKey, releaseKey, removeKey, writeKey } from "./storage";
-import type { DailyEntry, MetaState } from "./types";
+import { TIERS } from "./contracts";
+import type { ContractWeek, DailyEntry, MetaState } from "./types";
 
 const META_KEY = "rod.meta";
 /** Profiles this version could not read, kept instead of written over (BACKLOG-8 phase 50). */
@@ -56,7 +57,25 @@ export function migrateMeta(raw: unknown): MetaState | null {
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
     dailies: dailiesOf(data.dailies, kept),
+    contracts: contractsOf(data.contracts),
   };
+}
+
+/**
+ * v6 -> v7: the weekly contracts kept (BACKLOG-10 phase 60). A profile from before kept none.
+ * One from a link is read as carefully as its dailies: whole weeks from the first on, each once,
+ * and no more contracts in a week than a week deals.
+ */
+function contractsOf(raw: unknown): ContractWeek[] {
+  const byWeek = new Map<number, string[]>();
+  for (const w of Array.isArray(raw) ? raw : []) {
+    if (!w || typeof w !== "object") continue;
+    const { week, kept } = w as Record<string, unknown>;
+    if (typeof week !== "number" || !Number.isInteger(week) || week < 1 || byWeek.has(week) || !Array.isArray(kept)) continue;
+    const ids = [...new Set(kept.filter((id): id is string => typeof id === "string"))].slice(0, TIERS.length);
+    if (ids.length) byWeek.set(week, ids);
+  }
+  return [...byWeek].sort((a, b) => a[0] - b[0]).map(([week, ids]) => ({ week, kept: ids }));
 }
 
 /**

@@ -393,6 +393,8 @@ describe.skipIf(!target)("in a browser", () => {
       const meta = {
         ...emptyMeta(),
         runs: 700,
+        // A finale seen, so the menu shows the week's contracts too (BACKLOG-10 phase 60).
+        endings: { finale_muddle: 1 },
         histories: Object.fromEntries(ALL_HISTORY_KEYS.map((k) => [k, 1])),
         nearMissed: ["riots"],
         dailies: [{ day: today, history: "habit_skim:decay:left", ending: "finale_muddle", cards: 61 }],
@@ -409,6 +411,7 @@ describe.skipIf(!target)("in a browser", () => {
         return [b.textContent, Math.round(r.left), Math.round(r.right), b.scrollWidth > b.clientWidth];
       })`)) as [string, number, number, boolean][];
       expect(row.map(([text]) => text)).toContain(STRINGS.ui.dailyDone.replace("{n}", "101"));
+      expect(row.map(([text]) => text)).toContain(STRINGS.contracts.menu.replace("{n}", "0"));
       for (const [text, left, right, cut] of row) {
         if (left < 0 || right > 360) failures.push(`the menu: "${text}" runs off the screen, ${left} to ${right}`);
         if (cut) failures.push(`the menu: "${text}" is cut short`);

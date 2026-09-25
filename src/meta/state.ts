@@ -5,6 +5,7 @@ import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
 import { ALL_HISTORY_KEYS, historyOf, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
+import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
 import { OBJECTIVES, collectsEnding } from "./objectives";
 import { answeredQuestions } from "./questions";
 import type { DailyEntry, MetaState, RunRecord } from "./types";
@@ -34,6 +35,7 @@ export function emptyMeta(): MetaState {
     history: [],
     nearMissed: [],
     dailies: [],
+    contracts: [],
   };
 }
 
@@ -50,14 +52,18 @@ export interface RunFold {
   newHistory: boolean;
   /** The day this run went into the log as, when it was that day's daily. */
   daily: DailyEntry | null;
+  /** This week's contracts the run kept that were not kept already (BACKLOG-10 phase 60). */
+  newContracts: string[];
 }
 
 /**
  * Fold a finished run into meta state: record the ending and epilogue, then re-check every
- * objective against the updated meta. Pure, so the UI can show what a run earned.
+ * objective against the updated meta. Pure, so the UI can show what a run earned. `today` is the
+ * UTC day the run ended on, which says whose week's contracts it can keep; without one it keeps
+ * none.
  */
-export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: { day: string; seed: number }): RunFold {
-  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false, history: null, newHistory: false, daily: null };
+export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: { day: string; seed: number }, today?: string): RunFold {
+  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false, history: null, newHistory: false, daily: null, newContracts: [] };
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
 
@@ -135,6 +141,11 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     next.dailies = [...meta.dailies, entry].sort((a, b) => a.day.localeCompare(b.day));
   }
 
+  // This week's contracts, each kept once (BACKLOG-10 phase 60).
+  const week = today ? weekNumber(today) : null;
+  const newContracts = week === null ? [] : contractsKept(run, band, week, keptIn(meta, week));
+  if (week !== null) next.contracts = withKept(meta.contracts, week, newContracts);
+
   const newObjectives: string[] = [];
   const newUnlocks: string[] = [];
   for (const o of OBJECTIVES) {
@@ -147,7 +158,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
       newUnlocks.push(o.unlocks);
     }
   }
-  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory, daily: entry };
+  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory, daily: entry, newContracts };
 }
 
 /** Codex progress for the UI. */

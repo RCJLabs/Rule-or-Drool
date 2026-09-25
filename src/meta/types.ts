@@ -53,6 +53,17 @@ export interface MetaState {
    * profile used to keep only the latest, which left nothing to come back for tomorrow.
    */
   dailies: DailyEntry[];
+  /**
+   * The weekly contracts kept, by week, oldest first (BACKLOG-10 phase 60). Only weeks with one
+   * kept are here; the week's contracts themselves are dealt again from its number.
+   */
+  contracts: ContractWeek[];
+}
+
+/** A week's contracts kept, by id. */
+export interface ContractWeek {
+  week: number;
+  kept: string[];
 }
 
 /** One line of the history: enough to recognise the run, not enough to replay it. */

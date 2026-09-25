@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import type { GameState, PlayerAlign, Side } from "../engine/types";
-import { asides, canComeBack, clearAsides, clearMeta, dailySeedFor, dropAside, emptyMeta, encodeRunCode, foldRun, loadProfile, markAside, runCodeOf, saveMeta, type MetaState, type RunFold, type RunResult, type SetAside } from "../meta";
+import { asides, canComeBack, clearAsides, clearMeta, dailySeedFor, dropAside, emptyMeta, encodeRunCode, foldRun, loadProfile, markAside, runCodeOf, saveMeta, todayKey, type MetaState, type RunFold, type RunResult, type SetAside } from "../meta";
 import { askToBeKept, onWriteFailed, writeFailures } from "../meta/storage";
 import { closeRun, openRun, takeCard, type Measure, type RecordedRun, type RunKind } from "../playtest/record";
 import { APP_VERSION } from "../version";
@@ -326,7 +326,7 @@ export function useGame(lib: Library) {
   /** A run has ended: fold it into the profile, and into the daily only if it was that. */
   const foldFinished = useCallback(
     (done: GameState) => {
-      const fold = foldRun(lib, metaRef.current, done, dailyRef.current ?? undefined);
+      const fold = foldRun(lib, metaRef.current, done, dailyRef.current ?? undefined, todayKey());
       metaRef.current = fold.meta;
       setMeta(fold.meta);
       setLastFold(fold);

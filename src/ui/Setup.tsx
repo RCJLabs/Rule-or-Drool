@@ -4,7 +4,7 @@ import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { isFirstTerm, isLongReign, rollSetup } from "../engine/state";
 import type { GameState, PlayerAlign } from "../engine/types";
-import { codexProgress, dailyNumber, dailySeed, encodeRunCode, firstTermDue, historyTitle, longReignOpen, streakOf, todayKey, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
+import { codexProgress, dailyNumber, dailySeed, encodeRunCode, firstTermDue, historyTitle, keptIn, longReignOpen, streakOf, todayKey, weekNumber, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
@@ -35,12 +35,14 @@ interface Props {
   onDismissShared?: () => void;
   onContinue: () => void;
   onCodex: () => void;
+  /** Open the codex at this week's contracts (BACKLOG-10 phase 60). */
+  onContracts?: () => void;
   onSettings: () => void;
   /** Today's UTC day, for the daily; the clock's by default. */
   today?: string;
 }
 
-export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onSettings, shared, sharedResult, sharedDeck, onPlayShared, onDismissShared, today = todayKey() }: Props) {
+export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onContracts, onSettings, shared, sharedResult, sharedDeck, onPlayShared, onDismissShared, today = todayKey() }: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   const [mandate, setMandate] = useState<string | null>(null);
@@ -64,6 +66,8 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
   const n = dailyNumber(today);
   const dailyLabel = n ? (dailyPlayed ? STRINGS.ui.dailyDone : STRINGS.ui.daily).replace("{n}", String(n)) : dailyPlayed ? STRINGS.ui.dailyPlainDone : STRINGS.ui.dailyPlain;
   const { current: streak } = streakOf(meta.dailies, today);
+  // This week's contracts, once there are full reigns to keep them with (BACKLOG-10 phase 60).
+  const week = weekNumber(today);
   // Today's daily, sent by someone who played it, is today's daily here too (phases 37 and 38).
   const sharedIsDaily =
     !!shared?.ok &&
@@ -160,6 +164,13 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
           </button>
         </div>
         {streak > 0 && <p className="menu-streak">{STRINGS.daily.menuStreak.replace("{n}", String(streak))}</p>}
+        {week !== null && !termDue && onContracts && (
+          <div className="meta-row">
+            <button type="button" className="menu-contracts" onClick={onContracts}>
+              {STRINGS.contracts.menu.replace("{n}", String(keptIn(meta, week).length))}
+            </button>
+          </div>
+        )}
         <p className="hint">{STRINGS.ui.hint}</p>
         <footer className="version">
           v{APP_VERSION} · {STRINGS.ui.deck.replace("{stamp}", deck)}

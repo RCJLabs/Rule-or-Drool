@@ -9,3 +9,4 @@ export * from "./challenge";
 export * from "./state";
 export * from "./save";
 export * from "./clues";
+export * from "./contracts";

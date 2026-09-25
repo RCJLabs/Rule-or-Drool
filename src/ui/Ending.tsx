@@ -11,6 +11,7 @@ import {
   LEGACIES,
   OBJECTIVES_BY_ID,
   bandOfHistory,
+  contractById,
   dailyNumber,
   historyOf,
   historyTitle,
@@ -276,12 +277,15 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           <p>{epilogue?.text ?? "The record ends here."}</p>
         </section>
         {daily && fold && <DailyMonth lib={lib} dailies={fold.meta.dailies} today={today} month={monthOf(daily.day)} streak={false} />}
-        {fold && (fold.newObjectives.length > 0 || fold.newUnlocks.length > 0 || fold.newEnding || fold.newHistory) && (
+        {fold && (fold.newObjectives.length > 0 || fold.newUnlocks.length > 0 || fold.newEnding || fold.newHistory || fold.newContracts.length > 0) && (
           <section className="earned">
             <h2>{STRINGS.ui.earned}</h2>
             <ul>
               {fold.newHistory && <li>{STRINGS.ui.newHistoryEarned}</li>}
               {fold.newEnding && <li>A new ending for the codex.</li>}
+              {fold.newContracts.map((id) => (
+                <li key={id}>{STRINGS.contracts.earned.replace("{text}", contractById(id)?.text ?? id)}</li>
+              ))}
               {fold.newObjectives.map((id) => (
                 <li key={id}>{OBJECTIVES_BY_ID.get(id)?.title ?? id}</li>
               ))}

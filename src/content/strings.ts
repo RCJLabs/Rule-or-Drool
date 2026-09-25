@@ -398,6 +398,41 @@ export const STRINGS = {
     weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     weekdaysShort: ["M", "T", "W", "T", "F", "S", "S"],
   },
+  /**
+   * Weekly contracts (BACKLOG-10 phase 60). Each asks only for what the screen shows a player:
+   * the side they lead, how the reign ends, the votes, the promise, what the country is left with.
+   */
+  contracts: {
+    title: "Contracts",
+    heading: "Week {n}",
+    intro: "Three a week, the same for everyone. Any full reign that ends this week counts, the daily too.",
+    turnover: "New contracts every Monday at 00:00 UTC.",
+    kept: "Kept",
+    open: "Open",
+    tiers: { easy: "Easy", fair: "Fair", hard: "Hard" },
+    menu: "Contracts this week: {n} of 3 kept",
+    streakNone: "No weeks in a row yet. A contract kept this week starts one.",
+    streakFirst: "One kept this week. One next week makes two weeks in a row.",
+    streakThis: "{n} weeks in a row, this one included.",
+    streakOpenOne: "One kept last week. One this week makes two in a row.",
+    streakOpen: "{n} weeks in a row so far. One this week keeps it going.",
+    best: "Best: {n} weeks in a row.",
+    lastWeek: "Last week: {n} of 3 kept.",
+    earned: "Contract kept: {text}",
+    // What each asks.
+    ascent: "Reach the Ascent finale leading {party}.",
+    decay: "Lead {party} all the way down to the Decay finale.",
+    muddle: "See {party} through a reign that ends in Muddle.",
+    clean: "See a reign through, winning votes honestly and cheating none.",
+    promise: "Promise \u201c{promise}\u201d and keep it to the finale.",
+    saint: "Finish a run of twenty cards or more without one self-serving choice.",
+    ascentClean: "Reach the Ascent finale leading {party}, cheating no vote.",
+    muddleClean: "See a reign through to the Muddle finale, cheating no vote.",
+    wonBackFinale: "Lose the office at a count, win it back honestly, and see the reign through.",
+    broad: "See a reign through with all three of your groups above sixty at the end.",
+    saintEra: "Finish a run of a whole era or more without one self-serving choice.",
+    legacy: "See a reign through with \u201c{legacy}\u201d in its record.",
+  },
   playtest: {
     title: "Keep a record of my runs",
     blurb: "From your next run: how long each card takes you and which way you go. It stays on this device unless you send it.",

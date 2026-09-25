@@ -2078,6 +2078,15 @@ button {
   text-align: center;
   color: var(--muted);
 }
+/* This week's contracts, on the menu and in the codex (BACKLOG-10 phase 60). */
+.meta-row .menu-contracts {
+  font-size: 13px;
+}
+.contracts-week {
+  margin: 0;
+  font-size: 15px;
+  text-align: center;
+}
 /* A saved run from another deck, or one this version cannot go on with (BACKLOG-8 phase 49). */
 .saved-note {
   margin: 0;

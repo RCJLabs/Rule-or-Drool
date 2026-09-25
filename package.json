@@ -20,6 +20,7 @@
     "deck": "tsx scripts/deck.ts",
     "playtests": "tsx scripts/playtests.ts",
     "voice": "tsx scripts/voice.ts",
+    "contracts": "tsx scripts/contracts.ts",
     "store:assets": "tsx scripts/store-assets.ts"
   },
   "devDependencies": {

@@ -3,7 +3,8 @@ import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { CLUES, HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, answeredQuestions, codexProgress, collectsEnding, historyTitle, rumours, todayKey, type MetaState } from "../meta";
+import { CLUES, HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, TIERS, answeredQuestions, codexProgress, collectsEnding, historyTitle, keptIn, rumours, todayKey, weekNumber, type MetaState } from "../meta";
+import { ContractsWeek } from "./Contracts";
 import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
@@ -12,6 +13,7 @@ import { themeFor } from "./theme";
 export type CodexSection =
   | "runs"
   | "dailies"
+  | "contracts"
   | "objectives"
   | "endings"
   | "futures"
@@ -91,6 +93,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
   const met = [...lib.advisorsById.values()].filter((a) => (meta.advisorsKept[a.id] ?? 0) + (meta.advisorsFired[a.id] ?? 0) > 0);
   const promised = MANDATES.filter((m) => (meta.mandatesKept[m.id] ?? 0) + (meta.mandatesBroken[m.id] ?? 0) > 0).length;
   const c = STRINGS.codex;
+  const week = weekNumber(today);
 
   const groups: { title: string; sections: Section[] }[] = [
     {
@@ -138,6 +141,12 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
           title: STRINGS.daily.title,
           count: String(meta.dailies.length),
           body: () => <DailyMonth lib={lib} dailies={meta.dailies} today={today} browse />,
+        },
+        {
+          key: "contracts",
+          title: STRINGS.contracts.title,
+          count: `${week === null ? 0 : keptIn(meta, week).length}/${TIERS.length}`,
+          body: () => <ContractsWeek meta={meta} today={today} />,
         },
         {
           key: "objectives",

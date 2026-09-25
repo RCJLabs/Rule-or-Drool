@@ -11,7 +11,7 @@ import { playedProfile } from "./profile";
 /**
  * The codex as an index (after v0.61.1): four groups of sections, each a row saying how much
  * of it is found, opened one at a time where it stands. It was eleven sections on one screen,
- * thirty phone screens long for a player forty runs in.
+ * thirty phone screens long for a player forty runs in; the weekly contracts made twelve.
  */
 
 const c = STRINGS.codex;
@@ -32,7 +32,7 @@ describe("the codex", () => {
     const p = codexProgress(library, veteran);
     expect([...document.querySelectorAll(".codex-group h2")].map((h) => h.textContent)).toEqual(Object.values(c.groups));
     const counts = Object.fromEntries([...document.querySelectorAll(".codex-row")].map((r) => [r.querySelector(".codex-row-title")!.textContent, r.querySelector(".codex-row-count")!.textContent]));
-    expect(Object.keys(counts)).toHaveLength(11);
+    expect(Object.keys(counts)).toHaveLength(12);
     expect(counts[c.endings]).toBe(`${p.endingsSeen}/${p.endingsTotal}`);
     expect(counts[c.histories]).toBe(`${p.historiesSeen}/${p.historiesTotal}`);
     expect(counts[c.legacies]).toBe(`${p.legaciesSeen}/${p.legaciesTotal}`);

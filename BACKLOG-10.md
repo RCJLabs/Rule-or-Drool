@@ -5,8 +5,8 @@ getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
 looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10, 6 and 5, which you chose: phases 55 to 59, done in v0.65.0 to v0.67.0, at
-the end of this file.
+except ideas 1, 2, 10, 6, 5 and 7, which you chose: phases 55 to 60, done in v0.65.0 to v0.68.0,
+at the end of this file.
 
 Each idea says:
 - what it is;
@@ -770,3 +770,96 @@ playing the same setups.
    vote and a bill; the habit has no clean way in.
 2. **Until when.** The default is until a run is seen through. "The first run only" is simpler,
    but 38% of careless first terms end early, and those players would never see one through.
+
+## Phase 60. Weekly contracts (idea 7) — *done*
+
+**Shipped in v0.68.0.** The deck did not move (`2bocj4mk`): contracts live in the profile, not the
+content. The profile's save goes from v6 to v7.
+
+**What it is.**
+- Three contracts a week, the same for everyone. They are dealt from the week's number the way
+  the daily is dealt from its day, with no server.
+- Weeks turn over with the daily, at 00:00 UTC on Monday. Week 1 is the daily's first week.
+- There is one contract per tier: easy, fair and hard.
+- A full reign that ends in the week keeps any of that week's contracts it meets. The daily
+  counts. A first term does not.
+- The codex has a section for the week: its three contracts, which are kept, and the run of weeks
+  with one kept.
+- The menu has a line, "Contracts this week: 1 of 3 kept", which opens that section. It appears
+  once the profile has seen a run through.
+- The end screen lists each contract a run kept, with what else it earned.
+
+**What a contract can ask.** Only what the screen shows a person:
+- the side they lead;
+- how the reign ends;
+- the votes they cheat or do not;
+- the promise they took;
+- the choices they make;
+- what the country is left carrying.
+
+**Measured first** (`npm run contracts`, 500 runs a policy). Each contract was played by the
+competent bots, each doing what a person aiming at it would add:
+- leading the side the contract names;
+- taking the promise it names, and keeping it;
+- counting every vote honestly;
+- taking the side that leaves the legacy it asks for.
+
+The best of them is the contract's rate, the share of runs that keep it:
+
+| Tier | Contract | Rate | Runs |
+|---|---|---|---|
+| Easy | Reach the Ascent finale leading a side | 59–60% | 1.7 |
+| | Lead a side all the way down to the Decay finale | 81% | 1.2 |
+| | See a side through a reign that ends in Muddle | 55–57% | 1.8 |
+| | See a reign through, winning votes honestly and cheating none | 77% | 1.3 |
+| | Keep the vote, the cabinet or the decree promise to the finale | 60–75% | 1.3–1.7 |
+| | Finish a run of twenty cards or more without one self-serving choice | 50% | 2.0 |
+| Fair | Keep "Nobody under forty" to the finale | 45% | 2.2 |
+| | See a reign through to the Muddle finale, cheating no vote | 45% | 2.2 |
+| | Lose the office at a count, win it back honestly, see the reign through | 22% | 4.5 |
+| | Reach the Ascent finale leading a side, cheating no vote | 21–22% | 4.6–4.8 |
+| | See a reign through with the press, the skim or the schools legacy | 22–31% | 3.2–4.5 |
+| Hard | See a reign through with every group above sixty at the end | 16% | 6.3 |
+| | Finish a run of a whole era or more without one self-serving choice | 9% | 10.9 |
+| | See a reign through with the ring, the long ship, the seawall, the pensions or the feed legacy | 7–20% | 5–14 |
+
+Left out:
+- **Anything that scores a policy.** The answers to the policy questions came out at about 19%
+  each, but a contract for one would reward a policy, which no card does. A test holds this.
+- **What the deal decides more than the player.** That means a story's legacy kept in fewer than
+  one run in fourteen, and firing three advisors in one reign (0.2%).
+- **The long reign.** Not every profile has it open.
+- **What is free.** Winning three votes honestly came out at 89%.
+
+**What it means.**
+- **Established, for bots:** an easy contract takes one or two runs, a fair one two to five, a
+  hard one five to fourteen.
+- **Not established:** how long they take people. The rates assume a player who always knows
+  which side is honest, and which side leaves the legacy. A person will be slower.
+- **The Ascent contracts are easy only for some players.** They sit in the easy tier on the eyes
+  bot's 59–60%, a player who stays honest until the screen warns. For the informed voter they
+  are 21–25%, which is fair.
+- **The legacy contracts lean on the deal.** The card or story has to come up.
+
+**What was built.**
+- `src/meta/contracts.ts`:
+  - the templates, each measured and tiered;
+  - the week's number and the weekly deal;
+  - which contracts a run keeps;
+  - the run of weeks.
+- The profile keeps `contracts`, the ids kept by week. A profile arriving in a link is read as
+  carefully as its dailies.
+- `foldRun` takes the day a run ended.
+- The codex section, the menu line and the end screen's lines.
+- `npm run contracts` measures the pool and flags any contract outside its tier's band.
+- Tests:
+  - 11 for weeks, the deal, keeping and the record. One checks that no contract rewards a
+    question's answer.
+  - 5 on screen.
+  - The browser check of the menu at its longest now has the contracts line in it.
+
+**Decisions for you.**
+1. **What a contract gives.** The default is a mark and a streak, nothing more. The objectives
+   already carry the unlocks.
+2. **Whose rate sets the tier.** The default is the best way of playing it. Using the informed
+   voter's rate instead would move the Ascent contracts to fair.

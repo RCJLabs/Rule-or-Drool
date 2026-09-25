@@ -21,6 +21,11 @@ and further if you don't.
 A new profile starts with a **first term**: the first era alone, with its one vote, ending in an
 end of its own. Once a run is seen through, runs are full reigns of three eras.
 
+Every week brings three **contracts**, the same for everyone and dealt from the date like the
+daily: an easy one, a fair one and a hard one, such as "Reach the Ascent finale leading the
+Ledger, cheating no vote". A full reign that ends in the week keeps them, and a run of weeks with
+one kept is a streak. `npm run contracts` measures how many runs each takes a player aiming at it.
+
 All seven phases built. Engine, balance harness, content validator, swipe UI, systems layer
 (elections, arcs, cabinet traits, run setup), content at full MVP scope (329 cards, 14 arcs,
 20 endings across three eras), meta progression (codex, objectives, unlocks, daily seed), and
