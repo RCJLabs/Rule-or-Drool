@@ -1,7 +1,7 @@
 import { getCard, poolKey, questionOfArc, type Library } from "./library";
 import { isHandoverCard, makesInherited, settledByInheritance } from "./inherit";
 import { pickWeighted } from "./rng";
-import { candidatesFor, condMet, hasFlag, roll } from "./state";
+import { candidatesFor, condMet, hasFlag, rivalStands, roll } from "./state";
 import { returnDue } from "./opposition";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
@@ -199,15 +199,22 @@ function drawOpposition(lib: Library, state: GameState): [Card | null, GameState
 function drawElection(lib: Library, state: GameState): [Card | null, GameState] {
   const past = pastOf(state);
   const upTo = widenedEras(lib, state);
-  for (const relax of LADDER) {
-    const cands = lib.electionCards.filter(
-      (c) =>
-        alignOk(c, state) &&
-        (relax.era ? c.eras.some((e) => e <= upTo) : c.eras.includes(state.era)) &&
-        (relax.band || c.bands.includes(state.band)) &&
-        eligible(lib, c, state, { ...relax, cooldown: true }, past),
-    );
-    if (cands.length > 0) return pickFrom(lib, state, cands);
+  // With the rival high enough that a lost vote is their win, they stand in it by name; and a
+  // vote they do not stand in is never written as one (BACKLOG-10 phase 65). If none of theirs
+  // can be dealt, the vote is an ordinary one rather than none.
+  const stands = rivalStands(lib, state);
+  for (const theirs of stands ? [true, false] : [false]) {
+    for (const relax of LADDER) {
+      const cands = lib.electionCards.filter(
+        (c) =>
+          !!c.rivalStands === theirs &&
+          alignOk(c, state) &&
+          (relax.era ? c.eras.some((e) => e <= upTo) : c.eras.includes(state.era)) &&
+          (relax.band || c.bands.includes(state.band)) &&
+          eligible(lib, c, state, { ...relax, cooldown: true }, past),
+      );
+      if (cands.length > 0) return pickFrom(lib, state, cands);
+    }
   }
   return [null, state];
 }

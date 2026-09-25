@@ -147,6 +147,44 @@ describe("rules: the rival", () => {
     expect(codes(c)).toContain("error:fire-the-rival");
   });
 
+  // BACKLOG-10 phase 65: someone in the cabinet can go over to the rival, and the rival can
+  // stand in a vote by name.
+  it("lets a seat's holder go over to the rival, but not the rival, and not fired as well", () => {
+    const c = makeValid();
+    c.advisors.push({ id: "adv_r", role: "rival", name: "A Rival", traits: [], align: "right" });
+    c.advisors.push({ id: "c2", role: "chief", name: "Second Chief", traits: [] });
+    c.cards.push(extraCard({ id: "rp_ok", right: { label: "B", fx: { mood: -2 }, drift: 1, poach: true } }));
+    expect(codes(c).filter((x) => x.includes("poach"))).toEqual([]);
+
+    c.cards.push(extraCard({ id: "rp_self", speaker: "rival", right: { label: "B", fx: { mood: -2 }, drift: 1, poach: true } }));
+    c.cards.push(extraCard({ id: "rp_both", right: { label: "B", fx: { mood: -2 }, drift: 1, poach: true, fireSpeaker: true } }));
+    const issues = run(c).filter((i) => i.code.startsWith("poach-"));
+    expect(issues.map((i) => [i.code, i.id])).toEqual([
+      ["poach-the-rival", "rp_self"],
+      ["poach-and-fire", "rp_both"],
+    ]);
+  });
+
+  it("warns when nobody could take the seat of someone who goes over", () => {
+    const c = makeValid();
+    c.cards.push(extraCard({ id: "rp_alone", right: { label: "B", fx: { mood: -2 }, drift: 1, poach: true } }));
+    expect(codes(c)).toContain("warn:poach-no-replacement");
+  });
+
+  it("lets the rival stand by name only in an election held in office", () => {
+    const c = makeValid();
+    card(c, "el_b").rivalStands = true;
+    expect(codes(c).filter((x) => x.includes("rival-stands"))).toEqual([]);
+    c.cards.push(extraCard({ id: "ev_stands", rivalStands: true }));
+    expect(run(c).filter((i) => i.code === "rival-stands-type").map((i) => i.id)).toEqual(["ev_stands"]);
+  });
+
+  it("does not count a vote the rival stands in as covering one they could not win", () => {
+    const c = makeValid();
+    card(c, "el_a").rivalStands = true;
+    expect(run(c).filter((i) => i.code === "election-missing")).toHaveLength(6);
+  });
+
   it("accepts rival and drift as conditions, and drift may be negative", () => {
     const c = makeValid();
     card(c, "ev_a").cond = { meters: { rival: { gt: 55 }, drift: { lt: -20 } } };

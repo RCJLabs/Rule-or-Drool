@@ -1,5 +1,7 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
+import { withNames } from "../engine/endings";
+import { poachedAdvisors } from "../engine/rival";
 import type { GameState } from "../engine/types";
 import { Portrait } from "./Portrait";
 import { rivalReport } from "./rival";
@@ -39,6 +41,10 @@ export function Cabinet({ lib, state, onClose }: Props) {
   // Item 10 records who was let go; here it says who they were replacing.
   const report = rivalReport(lib, state);
   const letGo = state.stats.firedAdvisors
+    .map((id) => lib.advisorsById.get(id))
+    .filter((a): a is NonNullable<typeof a> => !!a);
+  // Who went over to the rival (BACKLOG-10 phase 65).
+  const poached = poachedAdvisors(state)
     .map((id) => lib.advisorsById.get(id))
     .filter((a): a is NonNullable<typeof a> => !!a);
 
@@ -91,6 +97,11 @@ export function Cabinet({ lib, state, onClose }: Props) {
         {letGo.length > 0 && (
           <p className="cabinet-note">
             {STRINGS.cabinet.letGo} {letGo.map((a) => a.name).join(", ")}.
+          </p>
+        )}
+        {poached.length > 0 && (
+          <p className="cabinet-note cabinet-poached">
+            {withNames(lib, state, STRINGS.cabinet.poached)} {poached.map((a) => a.name).join(", ")}.
           </p>
         )}
 

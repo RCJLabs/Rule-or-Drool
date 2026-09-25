@@ -101,6 +101,12 @@ export interface Choice {
   electionDelay?: number;
   /** Replace the advisor holding this card's speaker role (5.8). Applied by resolve, not preview. */
   fireSpeaker?: boolean;
+  /**
+   * The speaker goes over to the rival (BACKLOG-10 phase 65): their seat is dealt someone new
+   * from its pool, as a firing is, but it is not a firing. It is letting them go, though, so it
+   * breaks a promise to keep the cabinet. Applied by resolve, not preview.
+   */
+  poach?: boolean;
 }
 
 export interface Card {
@@ -134,6 +140,15 @@ export interface Card {
    * holder. The left side appoints the first by id, the right side the second.
    */
   appoints?: string;
+  /**
+   * An election the rival stands in by name (BACKLOG-10 phase 65). Dealt whenever a vote comes
+   * with the rival high enough that losing it would be their win, and never otherwise. Since
+   * they replace every other vote then, they need one of every kind, at the same weights: each
+   * side's plain votes, and the rigged count, the emergency, the abolition and the scapegoat any
+   * side can be offered. Without the last four, the top rung was the one place a run was never
+   * offered the way out of a vote, and long reigns got safer.
+   */
+  rivalStands?: boolean;
   left: Choice;
   right: Choice;
 }

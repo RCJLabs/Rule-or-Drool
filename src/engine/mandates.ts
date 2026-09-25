@@ -1,5 +1,6 @@
 import type { FxSpec, GameState, MeterKey } from "./types";
 import { BLOC_KEYS } from "./types";
+import { RIVAL_POACHED_FLAG } from "./rival";
 
 /**
  * A mandate is a promise made to get the job, chosen before the first card instead of
@@ -92,7 +93,8 @@ export const MANDATES: readonly Mandate[] = [
     promise: "You said this cabinet would be the cabinet that turned the lights off.",
     cost: "Let one of them go, for any reason, and the promise is gone.",
     brokeCard: "mn_loyal_broke",
-    isBroken: (s) => s.stats.advisorsFired > 0,
+    // Letting one go to the rival is letting them go (BACKLOG-10 phase 65).
+    isBroken: (s) => s.stats.advisorsFired > 0 || s.flags.includes(RIVAL_POACHED_FLAG),
   },
   {
     // The one that changes the run rather than only its rules: no elections to lose, and a

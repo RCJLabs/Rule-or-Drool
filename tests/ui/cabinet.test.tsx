@@ -49,6 +49,23 @@ describe("Cabinet", () => {
     expect(screen.getByText(new RegExp(`${STRINGS.cabinet.letGo} ${gone.name}`))).toBeTruthy();
   });
 
+  it("names who went over to the rival, apart from anyone let go", () => {
+    // BACKLOG-10 phase 65: going over is not a firing, so it is not in the let-go line.
+    const s = newRun(library, 21, { align: "left" });
+    const gone = library.advisorsById.get(s.cabinet.chief!)!;
+    const rival = library.advisorsById.get(s.cabinet[library.config.rivalRole]!)!;
+    const after = replaceAdvisor(library, { ...s, flags: [...s.flags, "rival_poached", `poached_${gone.id}`] }, "chief");
+    render(<Cabinet lib={library} state={after} onClose={() => {}} />);
+    const line = document.querySelector(".cabinet-poached")!.textContent!;
+    expect(line).toBe(`${STRINGS.cabinet.poached.replace("{rival}", rival.name)} ${gone.name}.`);
+    expect(screen.queryByText(new RegExp(STRINGS.cabinet.letGo))).toBeNull();
+  });
+
+  it("says nothing of the rival's people when nobody has gone over", () => {
+    render(<Cabinet lib={library} state={newRun(library, 21, { align: "left" })} onClose={() => {}} />);
+    expect(document.querySelector(".cabinet-poached")).toBeNull();
+  });
+
   it("says where you left it when they asked you for something", () => {
     const s = newRun(library, 21, { align: "left" });
     render(<Cabinet lib={library} state={{ ...s, flags: [...s.flags, "owed_chief", "snubbed_judge"] }} onClose={() => {}} />);

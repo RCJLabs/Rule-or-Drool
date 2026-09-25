@@ -7,6 +7,7 @@ import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
 import { TOOK_OVER_FLAG } from "../engine/inherit";
 import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../engine/mandates";
+import { RIVAL_POACHED_FLAG } from "../engine/rival";
 import { fxDeltas } from "../engine/state";
 import type { Arc, Card, Choice, Cond, Content } from "../engine/types";
 import { BANDS, BLOC_KEYS, METER_KEYS, PLAYER_ALIGNS } from "../engine/types";
@@ -303,6 +304,16 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
       if (ch.fireSpeaker && (content.advisors.filter((a) => a.role === card.speaker).length < 2)) {
         issues.warn("fire-no-replacement", `role "${card.speaker}" has no second advisor, so firing does nothing`, { ...where, path: `${side}.fireSpeaker` });
       }
+      // Going over to the rival (BACKLOG-10 phase 65): someone in the cabinet leaves for them.
+      if (ch.poach && card.speaker === cfg.rivalRole) {
+        issues.error("poach-the-rival", `the rival cannot go over to themselves; poach is for a cabinet seat's holder`, { ...where, path: `${side}.poach` });
+      }
+      if (ch.poach && ch.fireSpeaker) {
+        issues.error("poach-and-fire", `a side either lets its speaker go over to the rival or fires them, not both`, { ...where, path: side });
+      }
+      if (ch.poach && card.speaker !== cfg.rivalRole && content.advisors.filter((a) => a.role === card.speaker).length < 2) {
+        issues.warn("poach-no-replacement", `role "${card.speaker}" has no second advisor, so nobody can take the seat`, { ...where, path: `${side}.poach` });
+      }
 
       (ch.enqueue ?? []).forEach((e, i) => {
         const target = cards.get(e.id);
@@ -334,6 +345,10 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
 
     if (card.type === "election" && honest !== 1) {
       issues.error("election-honest", `election cards need exactly one side marked honest, found ${honest}`, where);
+    }
+    // The rival stands in a vote by name only when they could win it (BACKLOG-10 phase 65).
+    if (card.rivalStands && (card.type !== "election" || card.opposition)) {
+      issues.error("rival-stands-type", `rivalStands only means something on an election in office`, { ...where, path: "rivalStands" });
     }
     if (card.type === "ending" && (!card.left.ending || !card.right.ending)) {
       issues.warn("ending-card", `type "ending" cards usually end the run on both sides`, where);
@@ -567,8 +582,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     if (!flagReads.has(f) && !engineReads.has(f) && !codexReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
-    // The engine sets these: a promise broken, and a run that took over from the last (phase 63).
-    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG) continue;
+    // The engine sets these: a promise broken, a run that took over from the last (phase 63), and
+    // someone gone over to the rival (phase 65).
+    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG || f === RIVAL_POACHED_FLAG) continue;
     if (f.startsWith(MANDATE_FLAG_PREFIX)) {
       // `mandate_<id>`, set when the run is taken on it, or `mandate_<id>_broken` (phase 62).
       const name = f.slice(MANDATE_FLAG_PREFIX.length).replace(/_broken$/, "");
@@ -602,7 +618,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
         const fits = (c: Card) => c.eras.includes(era) && c.bands.includes(band) && (c.align === align || c.align === "any");
         const n = pool.filter(fits).length;
         if (n < opts.minCell) issues.error("cell-thin", `era ${era} × ${band} × ${align}: ${n} eligible event cards, minimum ${opts.minCell}`);
-        const unconditional = electionCards.filter((c) => fits(c) && !c.cond?.flags?.length && !c.cond?.meters);
+        // A vote the rival stands in is dealt only when they could win it, so it does not cover a
+        // vote that comes with them lower (BACKLOG-10 phase 65).
+        const unconditional = electionCards.filter((c) => fits(c) && !c.rivalStands && !c.cond?.flags?.length && !c.cond?.meters);
         if (unconditional.length === 0) issues.error("election-missing", `era ${era} × ${band} × ${align}: no unconditional election card, so a due election could be skipped`);
         if (!findEpilogue({ epilogues: content.epilogues }, band, align, era)) {
           issues.error("epilogue-missing", `no epilogue resolves for band ${band}, align ${align}, era ${era}`);

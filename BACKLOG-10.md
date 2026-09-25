@@ -4,9 +4,9 @@ Round nine (BACKLOG-9.md) is phases 52–54, all done: v0.62.0 to v0.64.0. BACKL
 getting the game onto Play, still waits on decisions only the owner can make.
 
 You asked for ten new ideas: features, or overhauls. They come from an audit of v0.64.0, which
-looked at what the game has and where the measurements say it is thin. They are not phases yet,
-except ideas 1, 2, 10, 6, 5, 7, 8, 4 and 9, which you chose: phases 55 to 64, done in v0.65.0 to
-v0.72.0, at the end of this file.
+looked at what the game has and where the measurements say it is thin. You chose all ten, in
+the order 1, 2, 10, 6, 5, 7, 8, 4, 9 and 3: phases 55 to 65, done in v0.65.0 to v0.73.0, at the
+end of this file.
 
 Each idea says:
 - what it is;
@@ -1312,3 +1312,145 @@ where it fits least.
 2. **Whether the habits rise.** The end picture lets them in only when little else stands, and
    the strip keeps that rule, so a run's first self-serving choice can raise the barricade on
    card 1. The default is yes: early in a run, the habit is the story.
+
+## Phase 65. A rival who plays (idea 3) — *done*
+
+**Shipped in v0.73.0.** The deck moved: 40 new cards, and the engine deals a vote differently.
+
+**Measured first** (400 runs a bot, before any of this):
+
+| | Informed | Mixed | Eyes |
+|---|---|---|---|
+| Cards dealt with the rival at the top rung | 1.1% | 9.4% | 13.1% |
+| Runs that reach the top rung | 8.8% | 44% | 44% |
+| Votes held at the top rung | 1.7% | 10% | 12.5% |
+| Rival wins | 0% | 0.3% | 0% |
+
+The top rung is "Ready to take the office off you", where a lost vote is theirs. The informed
+voter rarely lets the rival get there; the mixed bot and the eyes bot do in 44% of their runs.
+Even then the rival almost never won: they were a number, and the bar an honest count had to
+clear.
+
+**How it works.** The rival starts to play at the third rung, "The obvious alternative"
+(pressure over 44), and plays harder at the top one. Each move is a card, and each has an honest
+side that costs you and takes something off the rival, and a side that is easier now and feeds
+them.
+- **They poach** (6 cards, one each for the treasurer, the general, the press secretary, the
+  chief of staff, the scientist and the organizer). The adviser says the rival has offered them a
+  job. Pay to keep them, or let them go: someone new takes the seat, as after a firing, and the
+  rival gains 4. Going over is not a firing, so the record does not count it as one; but it is
+  letting them go, so it breaks the promise of a cabinet that stays together. Nobody who went
+  is dealt a seat again. Two cards can follow: the briefing they give, and the files they took.
+- **They court a bloc** you have let fall under 55 (three cards a side, one a bloc). Answer them
+  honestly, or buy the bloc back, which comes due nine cards later.
+- **They run a scandal** (8 cards), each on something the run did: the skim, the buried audit, a
+  count stolen or late, the honours, the captured press, the pension raid, a dirty campaign.
+  Answer for it and the rival loses 3 to 5; deny it and they gain 3 or 4.
+- **They smear the success** (4 cards), on the way up only (drift over 20): the seawall's
+  contracts, the rallies' claim that it is too good to be true, foreign money, and the good old
+  days.
+- **They stand against you by name** (8 cards). At every vote held at the top rung, and at no
+  other, the vote is theirs: two a side written as the rival's campaign, and a rigged count, an
+  emergency, the end of elections and a scapegoat, each offered against them.
+- **The screens.** The cabinet lists who went over to the rival, apart from anyone let go. The
+  record says how many went, and the timeline names who and when.
+
+**Found on the way: the vote by name made long reigns safer,** and the long reign's target
+failed.
+- The first version had only the four votes written as the rival's campaign. At the top rung
+  they replaced every vote, so a run there was never offered the rigged count, the emergency, the
+  abolition or the scapegoat.
+- On 4,000 long reigns of the mixed bot, the finale went from 93.5% to 95.0%, over the
+  80–95% target. The rival's wins fell from 2.3% to 1.5%.
+- Each group of cards was taken out in turn. Only the vote by name moved it: without it, 93.7%,
+  and the rival won 2.9%. The other 32 cards make the rival more dangerous, not less.
+- The fix gives the rival a version of each of the four, at the same weights and numbers. The
+  side's two campaign votes weigh 5 each, as the five plain votes they stand in for weigh 10
+  between them, so a vote at the top rung offers the ways out as often as any other vote.
+  Finale 93.8%.
+- At weight 2 instead, the four come up more often: finale 92.5%, and the rival wins 4.0%.
+  How often a run is offered them decides how often the rival wins.
+
+**Found on the way: two smaller things.**
+- The record said "Everyone who started with you was there at the end" whenever nobody had been
+  fired. That has been wrong since phase 61, when each era began appointing someone new. It
+  counts now.
+- Someone who went over to the rival could be dealt back into the cabinet by a later firing or
+  an appointment. They are left out of both now.
+
+**Measured after.** 400 runs a bot:
+
+| | Informed | Mixed | Eyes |
+|---|---|---|---|
+| Rival cards a run | 0.85 | 2.81 | 4.23 |
+| Runs where someone goes over to the rival | 11.5% | 37.5% | 43.8% |
+| Runs where the rival stands by name | 5.8% | 28.3% | 32.0% |
+| Smears a run | 0.20 | 0.39 | 1.47 |
+
+Balance, on the harness's own runs (2,000 a bot, seed 1), before and after:
+
+| | Informed | Mixed | Eyes | Greedy |
+|---|---|---|---|---|
+| Ascent | 27.8% → 27.4% | 15.2% → 14.8% | 66.6% → 66.6% | 0.3% → 0.2% |
+| Finale | 97.8% → 97.5% | 97.3% → 97.4% | 91.8% → 92.1% | 99.5% → 99.5% |
+| Rival wins | 0% → 0.1% | 0% → 0.3% | 0.1% → 0.1% | 0.1% → 0.4% |
+
+And the long reign (4,000 runs, seed 1):
+
+| | Before | After |
+|---|---|---|
+| The mixed bot sees the long finale (80–95%) | 93.5% | 93.8% |
+| The mixed bot's rival wins | 2.3% | 2.9% |
+| Decay against the Ascent, finishing from era 4 (at least 3 points apart) | 90.9% against 99.5% | 93.2% against 98.9% |
+| The informed voter's rival wins | 0.1% | 0.2% |
+
+Every harness target passes.
+
+**Caveats.**
+- **The rival plays, but still rarely wins.** In three-era runs they win 0.1–0.4% of the bots'
+  runs, from 0–0.1%. The idea's complaint was that they were a number most of the time; now a
+  careless run meets them about three times, but they change who wins about as little as
+  before. The risk the idea named, a second lever on the Ascent, did not come: the informed
+  voter's Ascent moved 0.4 points, inside the noise.
+- **Decay's lead as the hard place in the long reign narrowed,** from 8.6 points to 5.7. The
+  target is at least 3.
+- **A climbing player hears the rival call it a lie about once a run.** The eyes bot, in the
+  Ascent two runs in three, sees 1.47 smears a run and at least one in 65% of its runs. Whether
+  that reads as the rival or as nagging is for the closed test.
+- **The top rung has fewer votes to deal:** six a side, where an ordinary vote has nine. A run
+  that holds several votes up there sees them come round sooner. The mixed bot holds 0.36 such
+  votes a run.
+- **Poaching reaches six seats of eight.** The judge and the donor are not offered jobs.
+- **The playtest report does not count the rival's moves,** and no record can say whether a
+  tester noticed the rival before a vote.
+- **The content-rating search is further behind.** 233 cards have been written since the 1,577
+  that were searched. Among the new ones: a press secretary who has found a minority to blame
+  (as `e_scapegoat` already had), and a rival's claim that foreign money pays for your reforms.
+
+**What was built.**
+- Engine:
+  - `rival.ts`: the flags for someone gone over, and who;
+  - `poach` on a choice: resolve seats someone new, as a firing does, and keeps who went out of
+    the pools for firings and appointments;
+  - `rivalStands` on an election, and `rivalStands()` in `state.ts`: the vote at the top rung is
+    dealt from the rival's cards, falling back to an ordinary one only if none can be dealt;
+  - the promise of a cabinet that stays together breaks when someone goes over;
+  - `DEAL_VERSION` 6.
+- Validator: `poach-the-rival`, `poach-and-fire`, `poach-no-replacement` and
+  `rival-stands-type`; a vote the rival stands in does not count toward the cover every cell
+  needs.
+- Content: `rivalmoves.json`, 40 cards.
+- The cabinet's line, and the record's lines, room and timeline, in `Cabinet.tsx` and `record.ts`.
+- Tests:
+  - 12 engine tests for poaching and the vote by name;
+  - 4 validator tests;
+  - 5 tests for the cabinet and the record.
+
+**Decisions for you.**
+1. **Whether the rival should win more often.** They win 0.1–0.4% of three-era runs. The
+   default is to leave it: they cost a careless run votes and people, and the top rung's
+   threat is real in the long reign (2.9%). The levers are `rivalWinsAt` (60) and
+   `rivalElectionPull` (0.06), and either would move the informed voter's Ascent.
+2. **Whether the judge and the donor can be poached too.** The default is no: a judge who
+   crosses the floor and a donor who funds the other side are stories of their own, not a job
+   offer.

@@ -10,6 +10,7 @@ export * from "./resolve";
 export * from "./preview";
 export * from "./replay";
 export * from "./deck";
+export * from "./rival";
 
 import { draw } from "./draw";
 import type { Library } from "./library";

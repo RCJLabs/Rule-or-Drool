@@ -2,7 +2,7 @@
  * Bump with every deploy (TRANSFER.md section 12). From phase 7 on, bump CACHE_NAME in
  * public/sw.js in the same commit.
  */
-export const APP_VERSION = "0.72.0";
+export const APP_VERSION = "0.73.0";
 /** Gates run-state save migrations. Change only with a migration function. */
 export const RUN_SAVE_VERSION = 15;
 /** Player settings are versioned separately again: they outlive both a run and a profile. */
@@ -14,4 +14,4 @@ export const META_SAVE_VERSION = 8;
  * the engine's own code deals or scores differently. `tests/engine/deck.test.ts` fails when
  * the deal moves and the stamp does not.
  */
-export const DEAL_VERSION = 5;
+export const DEAL_VERSION = 6;

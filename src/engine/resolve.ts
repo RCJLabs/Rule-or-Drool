@@ -4,6 +4,7 @@ import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID, brokenFlag } from "./mandates";
 import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
+import { POACHED_PREFIX, RIVAL_POACHED_FLAG } from "./rival";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
@@ -358,6 +359,16 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
     if (s.cabinet[card.speaker] !== before) {
       stats.advisorsFired++;
       if (before) stats.firedAdvisors = [...stats.firedAdvisors, before];
+    }
+  }
+  // Gone over to the rival (BACKLOG-10 phase 65): a new person in the seat, as a firing deals
+  // one, but no firing. Who went is kept in the flags, for the cabinet and the cards after.
+  if (choice.poach) {
+    const before = s.cabinet[card.speaker];
+    s = replaceAdvisor(lib, s, card.speaker);
+    if (before && s.cabinet[card.speaker] !== before) {
+      const went = [RIVAL_POACHED_FLAG, `${POACHED_PREFIX}${before}`].filter((f) => !s.flags.includes(f));
+      s = { ...s, flags: [...s.flags, ...went] };
     }
   }
   const choices = state.choices ? [...state.choices, [cardId, side] as [string, Side]] : null;

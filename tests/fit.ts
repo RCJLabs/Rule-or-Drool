@@ -55,7 +55,7 @@ export function longestSeats(lib: Library, card: Card, party: PlayerAlign): Reco
   // An appointment names the seat's other two people (BACKLOG-10 phase 61): its holder is whoever
   // leaves the longest pair, and the longest text with them.
   if (card.appoints) {
-    const shown = (holder: string) => withNames(lib, { align: party, cabinet: { [card.speaker]: holder } } as unknown as GameState, card.text, card.speaker).length;
+    const shown = (holder: string) => withNames(lib, { align: party, cabinet: { [card.speaker]: holder }, flags: [] } as unknown as GameState, card.text, card.speaker).length;
     const holder = [...advisorPool(lib, card.speaker, party)].sort((a, b) => shown(b.id) - shown(a.id) || a.id.localeCompare(b.id))[0];
     if (holder) seats[card.speaker] = holder.id;
     return seats;
@@ -71,7 +71,7 @@ export function longestSeats(lib: Library, card: Card, party: PlayerAlign): Reco
 /** The card's text as the table shows it, with those seats filled. */
 export function shownText(lib: Library, card: Card, party: PlayerAlign): string {
   const cabinet = longestSeats(lib, card, party);
-  return withNames(lib, { cabinet } as unknown as GameState, card.text, card.speaker);
+  return withNames(lib, { cabinet, flags: [] } as unknown as GameState, card.text, card.speaker);
 }
 
 export interface Placement {

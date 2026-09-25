@@ -3,7 +3,7 @@ import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
-import { runRecord } from "../../src/ui/record";
+import { runRecord, timeline } from "../../src/ui/record";
 
 const base = () => newRun(library, 11, rollSetup(library, 11, "left", []));
 // Omit rather than intersect: Partial<GameState> already carries a full `stats`, so an
@@ -45,6 +45,33 @@ describe("the record of a reign", () => {
 
   it("says nobody was let go without inventing a number", () => {
     expect(rec({ stats: { firedAdvisors: [] } }).lines[1]).toBe(STRINGS.record.room.nobody);
+  });
+
+  it("does not say everyone who started was there when the room changed without a firing", () => {
+    // Each era after the first appoints someone (BACKLOG-10 phase 61), and the rival can take
+    // someone (phase 65): nobody let go is then not everyone still there.
+    const since = { ...base().cabinetSince, chief: 40 };
+    const originals = Object.entries(since).filter(([r, at]) => at === 0 && r !== library.config.rivalRole).length;
+    expect(rec({ cabinetSince: since, stats: { firedAdvisors: [] } }).lines[1]).toBe(STRINGS.record.room.nobodyChanged.replace("{k}", String(originals)));
+  });
+
+  it("says how many went over to the rival, by the rival's name", () => {
+    const b = base();
+    const rival = library.advisorsById.get(b.cabinet[library.config.rivalRole]!)!.name;
+    const one = rec({ flags: [...b.flags, "rival_poached", "poached_adv_vole"] }).lines;
+    expect(one).toContain(STRINGS.record.room.poachedOne.replace("{rival}", rival));
+    const two = rec({ flags: [...b.flags, "rival_poached", "poached_adv_vole", "poached_adv_ferris"] }).lines;
+    expect(two).toContain(STRINGS.record.room.poachedMany.replace("{n}", "2").replace("{rival}", rival));
+    expect(rec({}).lines.some((l) => l.includes(rival) && l.includes("went over"))).toBe(false);
+  });
+
+  it("puts who went over to the rival on the timeline, when they went", () => {
+    const b = base();
+    const rival = library.advisorsById.get(b.cabinet[library.config.rivalRole]!)!.name;
+    const vole = library.advisorsById.get("adv_vole")!.name;
+    const run = at({ cardCount: 60, flags: [...b.flags, "rival_poached", "poached_adv_vole"], flagSince: { ...b.flagSince, rival_poached: 31, poached_adv_vole: 31 } });
+    const moment = timeline(library, run, "The end").find((m) => m.text === STRINGS.timeline.poached.replace("{who}", vole).replace("{rival}", rival));
+    expect(moment).toMatchObject({ at: 31, kind: "decision" });
   });
 
   it("names what the country carries, and says so plainly when it carries nothing", () => {

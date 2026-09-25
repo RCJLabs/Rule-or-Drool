@@ -148,6 +148,7 @@ export const CHOICE_SPEC: Spec = {
     honest: BOOL,
     electionDelay: POSITIVE_INT,
     fireSpeaker: BOOL,
+    poach: BOOL,
   },
 };
 
@@ -170,6 +171,7 @@ export const CARD_SPEC: Spec = {
     opposition: BOOL,
     campaign: BOOL,
     appoints: ID,
+    rivalStands: BOOL,
     left: CHOICE_SPEC,
     right: CHOICE_SPEC,
   },

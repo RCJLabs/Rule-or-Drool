@@ -111,6 +111,8 @@ export const STRINGS = {
     noTrait: "Nothing remarkable either way.",
     theirs: "Applies to the cards they bring you.",
     letGo: "You let go of",
+    /** Who left for the rival (BACKLOG-10 phase 65). */
+    poached: "Gone over to {rival}:",
     rival: "Not yours, and not going anywhere.",
     owed: "You backed them when they asked.",
     snubbed: "You turned them down when they asked.",
@@ -186,6 +188,11 @@ export const STRINGS = {
     },
     room: {
       nobody: "You let nobody go. Everyone who started with you was there at the end.",
+      /** Nobody let go, but the room changed: a successor each era, or someone gone over to the rival. */
+      nobodyChanged: "You let nobody go; {k} of the people who started with you were still in the room.",
+      /** Gone over to the rival (BACKLOG-10 phase 65). */
+      poachedOne: "One of the cabinet went over to {rival}.",
+      poachedMany: "{n} of the cabinet went over to {rival}.",
       someOne: "You let one of the cabinet go; {k} of the people who started with you were still in the room.",
       someMany: "You let {n} of the cabinet go; {k} of the people who started with you were still in the room.",
       allOne: "You let one of the cabinet go, and nobody who started with you was there at the end.",
@@ -287,6 +294,8 @@ export const STRINGS = {
     took: "You took office for {party}",
     /** A run that took over from the last of its line (BACKLOG-10 phase 63). */
     tookOver: "You took over for {party}",
+    /** Someone in the cabinet going over to the rival (BACKLOG-10 phase 65). */
+    poached: "{who} went over to {rival}",
     inheriting: "inheriting {crisis}",
     broke: "You broke the promise you took the job on",
     /** One of two, named (BACKLOG-10 phase 62). */

@@ -4,6 +4,7 @@ import { nextInt, nextRandom, seedToState } from "./rng";
 import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX, inCatalogOrder, platformProblem } from "./mandates";
 import { TOOK_OVER_FLAG, handoverCard, inheritanceProblem, leanOf } from "./inherit";
 import { stageOf } from "./look";
+import { POACHED_PREFIX } from "./rival";
 import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
 
@@ -87,6 +88,15 @@ export function tenureOf(state: GameState, role: string | undefined): number {
 
 export function rivalPressure(lib: Library, state: GameState): number {
   return clampMeter(Math.round(state.rivalStanding + Math.abs(state.drift) * lib.config.rivalDriftPull));
+}
+
+/**
+ * Whether the rival stands against you by name at a vote held now (BACKLOG-10 phase 65): they
+ * are high enough that losing it would be their win, `rivalWinsAt`, the top rung of the ladder
+ * the cabinet shows.
+ */
+export function rivalStands(lib: Library, state: GameState): boolean {
+  return rivalPressure(lib, state) >= lib.config.rivalWinsAt;
 }
 
 /** Everything a condition can compare, in the order it compares them. */
@@ -183,13 +193,18 @@ export function advisorPool(lib: Library, role: string, align: PlayerAlign): Adv
   return sided.filter((a) => a.align !== align);
 }
 
+/** Someone who went over to the rival is not offered a seat again (BACKLOG-10 phase 65). */
+function wentOver(state: Pick<GameState, "flags">, id: string): boolean {
+  return state.flags.includes(`${POACHED_PREFIX}${id}`);
+}
+
 /**
  * The two people a seat can be given at an era's start (BACKLOG-10 phase 61): its pool on this
  * side, without whoever holds it, in id order. Null for a seat with fewer than two to offer.
  */
-export function candidatesFor(lib: Library, state: Pick<GameState, "align" | "cabinet">, role: string): [Advisor, Advisor] | null {
+export function candidatesFor(lib: Library, state: Pick<GameState, "align" | "cabinet" | "flags">, role: string): [Advisor, Advisor] | null {
   const others = advisorPool(lib, role, state.align)
-    .filter((a) => a.id !== state.cabinet[role])
+    .filter((a) => a.id !== state.cabinet[role] && !wentOver(state, a.id))
     .sort((a, b) => a.id.localeCompare(b.id));
   return others.length >= 2 ? [others[0]!, others[1]!] : null;
 }
@@ -204,11 +219,12 @@ export function appoint(lib: Library, state: GameState, role: string, advisorId:
 
 /**
  * Swap the advisor in a role for another from the same pool, refreshing trait flags.
- * The rival is not yours to replace, so that role is left alone.
+ * The rival is not yours to replace, so that role is left alone; and nobody who went over to
+ * them comes back.
  */
 export function replaceAdvisor(lib: Library, state: GameState, role: string): GameState {
   if (role === lib.config.rivalRole) return state;
-  const pool = advisorPool(lib, role, state.align).filter((a) => a.id !== state.cabinet[role]);
+  const pool = advisorPool(lib, role, state.align).filter((a) => a.id !== state.cabinet[role] && !wentOver(state, a.id));
   if (pool.length === 0) return state;
   const [p, s1] = roll(state);
   const cabinet = { ...s1.cabinet, [role]: pool[Math.floor(p * pool.length)]!.id };

@@ -1,6 +1,8 @@
 import { STRINGS } from "../content/strings";
+import { withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
+import { POACHED_PREFIX } from "../engine/rival";
 import type { GameState } from "../engine/types";
 import { HISTORY_ORDER } from "../meta/histories";
 import { LEGACIES } from "../meta/legacies";
@@ -47,9 +49,14 @@ export function runRecord(lib: Library, state: GameState): RunRecord {
   // left it there (BACKLOG-10 phase 55).
   if (state.opposition) lines.push(STRINGS.opposition.endedOut);
 
-  if (fired === 0) lines.push(room.nobody);
+  // Nobody fired is not the same room it started as: each era after the first appoints someone
+  // new (BACKLOG-10 phase 61), and the rival can take someone (phase 65).
+  const seats = Object.keys(state.cabinetSince).filter((role) => role !== lib.config.rivalRole).length;
+  if (fired === 0) lines.push(originals >= seats ? room.nobody : room.nobodyChanged.replace("{k}", String(originals)));
   else if (originals > 0) lines.push(plural(fired, room.someOne, room.someMany).replace("{k}", String(originals)));
   else lines.push(plural(fired, room.allOne, room.allMany));
+  const poached = state.flags.filter((f) => f.startsWith(POACHED_PREFIX)).length;
+  if (poached > 0) lines.push(withNames(lib, state, plural(poached, room.poachedOne, room.poachedMany)));
 
   const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
   lines.push(carried.length === 0 ? carrying.nothing : plural(carried.length, carrying.one, carrying.many));
@@ -81,6 +88,11 @@ export function timeline(lib: Library, state: GameState, endingTitle: string): M
   // The biggest decisions, if there are more than fit, told in the order they were made.
   const dated = HISTORY_ORDER.filter((f) => state.flags.includes(f) && state.flagSince?.[f] !== undefined && state.flagSince[f]! > 0);
   for (const f of dated.slice(0, TIMELINE_DECISIONS)) moments.push({ at: state.flagSince[f]!, kind: "decision", text: LEGACIES[f] ?? f });
+  // Who went over to the rival, and when (BACKLOG-10 phase 65).
+  for (const f of state.flags.filter((f) => f.startsWith(POACHED_PREFIX) && state.flagSince?.[f] !== undefined)) {
+    const who = lib.advisorsById.get(f.slice(POACHED_PREFIX.length))?.name ?? f;
+    moments.push({ at: state.flagSince[f]!, kind: "decision", text: withNames(lib, state, STRINGS.timeline.poached.replace("{who}", who)) });
+  }
 
   for (let era = 2; era <= state.era; era++) {
     moments.push({ at: (era - 1) * lib.config.eraLength, kind: "era", text: STRINGS.eras[era - 1]?.name ?? `Era ${era}` });

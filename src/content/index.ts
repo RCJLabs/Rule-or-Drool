@@ -119,6 +119,7 @@ import consequences from "./cards/consequences.json";
 import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
 import rivalCards from "./cards/rival.json";
+import rivalMoves from "./cards/rivalmoves.json";
 import bandCards from "./cards/bands.json";
 import flawCards from "./cards/flaws.json";
 import blocCards from "./cards/blocs.json";
@@ -299,6 +300,7 @@ export const content: Content = {
     ...asCards(chains, "chains.json"),
     ...asCards(promises, "promises.json"),
     ...asCards(rivalCards, "rival.json"),
+    ...asCards(rivalMoves, "rivalmoves.json"),
     ...asCards(bandCards, "bands.json"),
     ...asCards(flawCards, "flaws.json"),
     ...asCards(blocCards, "blocs.json"),
