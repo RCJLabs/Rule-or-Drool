@@ -37,6 +37,12 @@ export interface Settings {
   keepRecord: boolean;
   /** Synthesized cues: the card landing, a meter crossing into danger, a story opening. */
   sound: boolean;
+  /**
+   * A quiet score that follows the look (BACKLOG-12 phase 79). Off by default, unlike the cues:
+   * it plays for as long as a run does, which a phone pays for in battery, and it is a matter
+   * of taste that no bot can measure.
+   */
+  music: boolean;
   /** A short buzz on commit and a longer one when something goes wrong, where supported. */
   haptics: boolean;
   /**
@@ -57,6 +63,7 @@ export const DEFAULT_SETTINGS: Settings = {
   // On by default. A mute is one tap away on every screen, whereas an audio feature that
   // starts silent is one nobody ever hears (BACKLOG-2 phase 9).
   sound: true,
+  music: false,
   haptics: true,
   taught: [],
 };
@@ -68,7 +75,8 @@ export function migrateSettings(raw: unknown): Settings {
   if (!raw || typeof raw !== "object") return { ...DEFAULT_SETTINGS };
   const data = raw as Partial<Settings> & { v?: number };
   if (typeof data.v !== "number" || data.v > SETTINGS_VERSION) return { ...DEFAULT_SETTINGS };
-  // v1 is the first shape; v2 adds `readable`; v3 adds `showChoices`; v4 adds `keepRecord`.
+  // v1 is the first shape; v2 adds `readable`; v3 adds `showChoices`; v4 adds `keepRecord`; v5
+  // adds `music` (BACKLOG-12 phase 79).
   // An unknown key is ignored and a missing one takes its default, so a settings file from
   // either direction still loads — which is why adding a boolean preference needs a version
   // bump and nothing else.

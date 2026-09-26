@@ -389,6 +389,11 @@ with one questionnaire gathered from the questions below:
   now asks whether a scenario's goal felt too easy or too hard, which is the check on that. The
   report has a section for it: people's tries at each week, met or not, beside the week's
   measured rates, and the tries not finished when the record was sent.
+- Since v0.87.0 there is music, off unless a player turns it on in Settings (BACKLOG-12 phase
+  79): a quiet score made on the device, like the cues, that follows the look. Nothing is dealt
+  differently and nothing new is kept or sent; settings save as v5. Nothing records whether a
+  tester turned it on, so question 12 asks, and asks whether it told them which way the country
+  was going.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

@@ -31,6 +31,7 @@ const ROWS: readonly Row[] = [
     blurb: "Drop the stream, the projection and the glow. The colours and the writing stay.",
   },
   { key: "sound", kind: "toggle", title: "Sound", blurb: "The card landing, a meter going bad, a story opening." },
+  { key: "music", kind: "toggle", title: STRINGS.music.title, blurb: STRINGS.music.blurb },
   { key: "haptics", kind: "toggle", title: "Vibration", blurb: "A short buzz when a card lands, if the device does that." },
   { key: "reduceMotion", kind: "toggle", title: "Reduce motion", blurb: "Cards change without sliding or settling." },
   {

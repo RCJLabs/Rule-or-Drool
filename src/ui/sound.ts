@@ -11,9 +11,10 @@ let ctx: AudioContext | null = null;
 
 /**
  * The audio context, created lazily. Browsers refuse to start one outside a user gesture,
- * and the first cue is always a swipe, so there is nothing to arrange.
+ * and the first cue is always a swipe, so there is nothing to arrange. The music shares it
+ * (BACKLOG-12 phase 79).
  */
-function context(): AudioContext | null {
+export function audioContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
   const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!Ctor) return null;
@@ -39,7 +40,7 @@ interface ToneOpts {
 
 /** One note: a short envelope so nothing rings on, which on a phone speaker reads as noise. */
 function tone(freq: number, ms: number, opts: ToneOpts = {}): void {
-  const audio = context();
+  const audio = audioContext();
   if (!audio) return;
   const t0 = audio.currentTime + (opts.at ?? 0);
   const osc = audio.createOscillator();

@@ -525,3 +525,48 @@ such runs a bot, after a screen of 30.
   until `npm run scenarios -- --weeks <more>` extends it.
 - One goal names a line the bars show only roughly: "all three of your groups above sixty". That
   wording was already the contracts'.
+
+## Phase 79. Music that follows the look (idea 5) — *done*
+
+**Shipped in v0.87.0.** Nothing is dealt differently: the deck is still c8agx015. Settings save as
+version 5.
+
+- **What.** A quiet score made in the browser, as the cues are, under a run: a slow arpeggio over
+  a held note, a bar every 3.2 seconds, four chords to the loop.
+  - The look chooses the chords. The Ascent is major: a seventh from its second step, and a ninth
+    and a high note at its third. The Muddle is suspended chords with no third, neither major nor
+    minor. Decay is minor, then adds a flattened second, then turns to diminished chords a
+    tritone apart.
+  - Decay is sour as well as dark. Each note has a copy a few cents sharp that beats against it,
+    and each note sags, more at each step: the gesture the card's own cue makes (BACKLOG-3 phase
+    22).
+  - Each era moves the key, so a long reign's five eras are in five keys.
+- **When it plays.** Only on the play screen and at an era's door, and only while the page can be
+  seen. It is off unless the player turns it on in Settings, under Sound. It comes in over two
+  seconds and goes in under one, and stops at a run's end, where the ending's own phrase plays.
+- **Why it is off by default.** The cues are on because a mute is a tap away and a sound nobody
+  hears is no use. The music plays for the whole run, which a phone pays for, and it is a matter
+  of taste that no bot can measure.
+
+**Measured.**
+
+- Through the phone speaker the cues are held to, two highpasses at 500 Hz, every bar in every
+  look and era loses 0.3–2.9 dB. The cues lose 3.6–12.2 dB. The arpeggio sits at 590–1,200 Hz,
+  where a phone is loudest.
+- Its loudest note, through its own level, is 0.020: under half the quietest cue voice, 0.045.
+- It makes 75 short notes a minute in the Muddle and at the Ascent's first step, 94 at the
+  Ascent's deeper steps and 131 in Decay, where the sour copies are. A timer looks ahead once a
+  second.
+- In Chromium, turned on, it starts at the first card with no error on the page. Turned off,
+  nothing plays before the first swipe.
+
+**Caveats.**
+
+- It has only been checked through the model of a phone speaker, not by ear. Whether it tells
+  anyone which way the country is going, and whether it is pleasant, is for testers: question 12
+  now asks.
+- Battery: a run with the music on keeps the phone's audio running for as long as it is on
+  screen. What that costs depends on the phone and was not measured.
+- It follows the look the frame is in, which settles slowly by design (phase 45). A card that
+  carries drift across a line changes the chords from the next bar, not at once.
+- Out of office it plays the look's chords as it does in office.

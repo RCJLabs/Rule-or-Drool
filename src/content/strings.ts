@@ -685,6 +685,11 @@ export const STRINGS = {
     offer: "It is week {n}'s scenario, and playing it is your one try.",
     offerTried: "It is week {n}'s scenario, which you have tried: this one will not count.",
   },
+  /** Music that follows the look (BACKLOG-12 phase 79). */
+  music: {
+    title: "Music",
+    blurb: "A quiet score that follows which way the country is going. It plays all run, so it costs battery.",
+  },
   playtest: {
     title: "Keep a record of my runs",
     blurb: "From your next run: how long each card takes you and which way you go. It stays on this device unless you send it.",

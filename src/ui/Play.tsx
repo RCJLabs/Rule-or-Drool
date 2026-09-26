@@ -23,6 +23,7 @@ import { DANGER_BELOW, MetersBar } from "./Meters";
 import { degrade } from "./degrade";
 import { yearInEra } from "./flow";
 import { hintSeen, markHintSeen } from "./save";
+import { useMusic } from "./music";
 import { newlyDangerous } from "./sound";
 import { choiceSummary, lookChange, meterName, resultSummary } from "./speech";
 import { themeOf } from "./theme";
@@ -100,6 +101,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     [lib, state, card],
   );
   const theme = themeOf(state, lib.config);
+  // The score follows the look the frame is in, and moves key at each era (BACKLOG-12 phase 79).
+  useMusic(settings.music, theme.stage, state.era);
   // The country under the card, with what the run has built standing in it (BACKLOG-10 phase 64).
   // Composed once a card, not on every drag of it.
   const opposition = !!state.opposition;

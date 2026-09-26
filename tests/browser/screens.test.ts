@@ -28,7 +28,7 @@ import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
 import { emptyMeta, foldRun } from "../../src/meta/state";
 import { fitPlacements, longestSeats, shownText } from "../fit";
-import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, startRunAt, target, toLook } from "./harness";
+import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, pageErrors, playFrom, playToBoundary, rewriteRun, SEED, startRun, startRunAt, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -980,6 +980,32 @@ describe.skipIf(!target)("in a browser", () => {
       failures.push(...(await misfits(page, "the end of the week's try", { mayScroll: true })));
       await close(page);
       expect(failures).toEqual([]);
+    });
+
+    // Music that follows the look (BACKLOG-12 phase 79): off unless the player turns it on, and on,
+    // it plays from the first card, before any swipe has made a sound, in a real browser.
+    it("plays the score from the first card when the player has it on, and nothing before a swipe when not", async () => {
+      const counting = `(() => {
+        const C = window.AudioContext;
+        window.__notes = 0;
+        if (C) window.AudioContext = class extends C { createOscillator() { window.__notes++; return super.createOscillator(); } };
+      })()`;
+      const notes: number[] = [];
+      const errors: string[] = [];
+      for (const music of [false, true]) {
+        const page = await open(browser, { width: 360, height: 640, settings: { music } });
+        await page.addInitScript({ content: counting });
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.start, exact: true }).click();
+        await page.waitForSelector(".card");
+        await page.waitForTimeout(400);
+        notes.push((await page.evaluate("window.__notes")) as number);
+        errors.push(...pageErrors(page, music ? "music on" : "music off"));
+        await close(page);
+      }
+      expect(errors).toEqual([]);
+      expect(notes[0]).toBe(0);
+      expect(notes[1]).toBeGreaterThan(0);
     });
   });
 
