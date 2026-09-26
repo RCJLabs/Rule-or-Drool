@@ -133,6 +133,35 @@ export const STRINGS = {
     taking: "Taking {n} points of the vote you would otherwise have.",
     wouldWin: "Lose a ballot now and it is theirs by name.",
     costs: { behind: "As things stand you would lose one." },
+    /**
+     * Once the vote is abolished (BACKLOG-11 phase 69). The lines above spoke of ballots after
+     * the ballots were gone; what is left is the coup rolled in their place.
+     */
+    abolished: {
+      cost: "With the vote gone they need no ballot, only the generals. As things stand the risk of a coup is {band}.",
+      adds: "Their standing adds to it.",
+      alert: "The risk of a coup is high.",
+    },
+    /**
+     * Out of office (BACKLOG-11 phase 69), where the lines above called the rival who holds it a
+     * backbencher taking nothing off you. What counts is the vote to win it back.
+     */
+    out: {
+      state: "Holding the office you lost.",
+      win: "The vote to win it back comes at the era's end. As things stand you would win it.",
+      lose: "The vote to win it back comes at the era's end. As things stand you would lose it, and a lost return vote ends a rule.",
+      none: "No vote comes to win it back before the reign ends.",
+      alert: "As things stand you would lose the vote to win it back.",
+    },
+  },
+  /**
+   * Once the vote is abolished, the card it would have fallen due after carries a line where a
+   * vote's count would be (BACKLOG-11 phase 69): the risk of the coup rolled in its place, as it
+   * stands, in three bands and never a number (`src/ui/coup.ts`). No longer than the count's.
+   */
+  coup: {
+    line: "Coup risk after this: {band}",
+    bands: { low: "low", moderate: "moderate", high: "high" },
   },
   /**
    * The line an election card carries under its text (BACKLOG-9 phase 53): how an honest count

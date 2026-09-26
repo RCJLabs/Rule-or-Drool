@@ -810,37 +810,65 @@ describe.skipIf(!target)("in a browser", () => {
       // A campaign card says where the same count stands, at its longest too (BACKLOG-10 phase 56).
       const longestStanding = Object.values(STRINGS.standing).reduce((a, b) => (b.length > a.length ? b : a));
       const counted = (kind: string) => kind === "election" || kind === "campaign";
+      // Once the vote is abolished, any card but a vote can be the one the coup is rolled after,
+      // and it carries a line where the count would be (BACKLOG-11 phase 69). That card draws no
+      // lesson, which is the room the line takes: with the first lesson drawn as well, the
+      // longest cards lost 2-30px of their text. So every such card is staged twice, as it was
+      // and with the line at its longest: a moderate risk, which the State and Order a little
+      // short of half make in every look once the rival has no standing to add to it (the looks
+      // are reached by moving drift, which the rival gains from).
+      const longestCoup = STRINGS.coup.line.replace("{band}", Object.values(STRINGS.coup.bands).reduce((a, b) => (b.length > a.length ? b : a)));
+      expect(longestCoup).toBe(STRINGS.coup.line.replace("{band}", STRINGS.coup.bands.moderate));
+      const couped = (kind: string, card: Card) => card.type !== "election" && kind !== "campaign" && kind !== "appointment";
+      const abolished = JSON.stringify(library.config.electionsAbolishedFlag);
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width, height, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
-          await rewriteRun(
-            page,
-            `raw.state.current = ${JSON.stringify(card.id)};
-            raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" ? kind : "deck")};
-            ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
-            ${counted(kind) ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
-            Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
-          );
-          await page.reload();
-          await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
-          await page.waitForSelector(`.card[data-card="${card.id}"]`);
-          // The card as the table shows it, the names in the seats filled in.
-          const shown = await page.locator(`.card[data-card="${card.id}"] .card-text`).first().textContent();
-          if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);
-          for (const look of LOOKS) {
-            await toLook(page, look);
-            const label = `${width}×${height}, ${party}, ${kind} ${card.id} in ${look}`;
-            failures.push(...(await misfits(page, label)));
-            if (!counted(kind)) continue;
-            // The longest line, on one line, and as readable as the prose above it.
-            const line = page.locator(".card .count-line");
-            const said = await line.textContent();
-            const longest = kind === "campaign" ? longestStanding : longestCount;
-            if (said !== longest) failures.push(`${label}: the count says "${said}", not the longest, "${longest}"`);
-            const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
-            if (lines !== 1) failures.push(`${label}: the count takes ${lines} lines`);
-            // Colour does not change with the height, so it is read once, on the smallest phone.
-            if (smallest) failures.push(...(await contrast(page, label)));
+          for (const coup of couped(kind, card) ? [false, true] : [false]) {
+            await rewriteRun(
+              page,
+              `raw.state.current = ${JSON.stringify(card.id)};
+              raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" ? kind : "deck")};
+              ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
+              ${counted(kind) ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
+              ${
+                coup
+                  ? `raw.state.flags = [...new Set([...raw.state.flags, ${abolished}])];
+                     raw.state.nextElectionAt = raw.state.cardCount + 1;
+                     raw.state.rivalStanding = 0;
+                     raw.state.meters.order = 45;
+                     raw.state.meters.inst = 45;`
+                  : `raw.state.flags = raw.state.flags.filter((f) => f !== ${abolished});
+                     raw.state.nextElectionAt = raw.state.cardCount + ${library.config.electionInterval};`
+              }
+              Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
+            );
+            await page.reload();
+            await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+            await page.waitForSelector(`.card[data-card="${card.id}"]`);
+            // The card as the table shows it, the names in the seats filled in.
+            const shown = await page.locator(`.card[data-card="${card.id}"] .card-text`).first().textContent();
+            if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);
+            for (const look of LOOKS) {
+              await toLook(page, look);
+              const label = `${width}×${height}, ${party}, ${kind} ${card.id}${coup ? " with the coup's line" : ""} in ${look}`;
+              failures.push(...(await misfits(page, label)));
+              if (!counted(kind) && !coup) continue;
+              // The longest line, on one line, and as readable as the prose above it.
+              const line = page.locator(coup ? ".card .coup-line" : ".card .count-line");
+              if (!(await line.count())) {
+                failures.push(`${label}: the card carries no line`);
+                continue;
+              }
+              const said = await line.textContent();
+              const longest = coup ? longestCoup : kind === "campaign" ? longestStanding : longestCount;
+              if (said !== longest) failures.push(`${label}: the line says "${said}", not the longest, "${longest}"`);
+              const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
+              if (lines !== 1) failures.push(`${label}: the line takes ${lines} lines`);
+              if (coup && (await page.locator(".teach").count())) failures.push(`${label}: a lesson is drawn with the line`);
+              // Colour does not change with the height, so it is read once, on the smallest phone.
+              if (smallest) failures.push(...(await contrast(page, label)));
+            }
           }
         }
         await close(page);

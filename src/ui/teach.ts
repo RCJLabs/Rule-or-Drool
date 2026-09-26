@@ -1,5 +1,7 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
+import { coupDue } from "../engine/resolve";
+import { hasFlag } from "../engine/state";
 import type { Card, GameState, PlayerAlign } from "../engine/types";
 import { BLOC_KEYS } from "../engine/types";
 
@@ -25,6 +27,8 @@ export interface LessonContext {
   from: GameState["currentFrom"];
   /** The unhappiest bloc under the threshold, if any. */
   restless: (typeof BLOC_KEYS)[number] | null;
+  /** The vote is abolished, and a coup is rolled where it would have fallen due. */
+  abolished: boolean;
 }
 
 /** The lowest bloc under 40, which is the point at which one of them is visibly a problem. */
@@ -114,6 +118,15 @@ export const LESSONS: readonly Lesson[] = [
       "A generation on, a seat at your table changes hands, and you choose who takes it. What they are changes every card they bring you, for better and for worse.",
     when: ({ card }) => !!card.appoints,
   },
+  {
+    // Once the vote is gone, before the first roll rather than on it (BACKLOG-11 phase 69): the
+    // card the coup is rolled after says the risk, and the time to act on it is the cards before.
+    id: "coup",
+    title: "Where the vote was",
+    body: () =>
+      "No count to lose now. Where a vote would fall due, the generals decide, and that card says the risk. Order and the State keep them loyal; a strong rival does not.",
+    when: ({ abolished }) => abolished,
+  },
 ];
 
 export const LESSONS_BY_ID: ReadonlyMap<string, Lesson> = new Map(LESSONS.map((l) => [l.id, l]));
@@ -122,6 +135,9 @@ export const LESSONS_BY_ID: ReadonlyMap<string, Lesson> = new Map(LESSONS.map((l
 export function lessonFor(lib: Library, state: GameState, taught: readonly string[]): Lesson | null {
   const id = state.current;
   if (!id || state.over) return null;
+  // The card a coup is rolled after carries its risk in a line under the text, and no lesson:
+  // with one drawn as well, the longest cards lost 2-30px of their text (BACKLOG-11 phase 69).
+  if (coupDue(lib, state)) return null;
   const card = lib.cards.get(id);
   if (!card) return null;
   const ctx: LessonContext = {
@@ -129,6 +145,7 @@ export function lessonFor(lib: Library, state: GameState, taught: readonly strin
     card,
     from: state.currentFrom,
     restless: worstBloc(state),
+    abolished: hasFlag(state, lib.config.electionsAbolishedFlag),
   };
   return LESSONS.find((l) => !taught.includes(l.id) && l.when(ctx)) ?? null;
 }

@@ -13,6 +13,7 @@ import type { Measure } from "../playtest/record";
 import { CardView } from "./CardView";
 import { CountryStrip } from "./CountryStrip";
 import { countLine } from "./count";
+import { coupLine } from "./coup";
 import { Debug } from "./Debug";
 import { EraTransition } from "./EraTransition";
 import { Frame } from "./Frame";
@@ -86,6 +87,10 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const asked = card && questionId ? { title: STRINGS.questions.titles[questionId] ?? questionId, asking: card.step === 1 } : undefined;
   // An election says how an honest count goes, on the card and aloud (BACKLOG-9 phase 53).
   const count = card ? countLine(lib, state, card) : null;
+  // Once the vote is abolished, the card it would have fallen due after says the risk of the coup
+  // rolled in its place, as a vote says its count (BACKLOG-11 phase 69). One line a card: no vote
+  // is dealt once the vote is gone, but a card can be put on the table by hand.
+  const coup = card && !count ? coupLine(lib, state) : null;
   // A side that ends the run is marked, on the card as it is peeked and on its button (BACKLOG-11
   // phase 68). Played out once a card, not on every drag of it.
   const ends = useMemo(
@@ -225,6 +230,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     if (asked) parts.push(`${asked.asking ? `${STRINGS.questions.asking}: ${asked.title}` : asked.title}.`);
     parts.push(spoken);
     if (count) parts.push(`${count.text}.`);
+    if (coup) parts.push(`${coup.text}.`);
     if (!prev) parts.push(STRINGS.speech.choicesHint);
     setSaid(parts.join(" "));
     heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era, standing };
@@ -281,6 +287,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             from={state.currentFrom}
             question={asked}
             count={count}
+            coup={coup}
             peek={peek}
             ends={ends}
             leaving={leaving}
@@ -328,12 +335,13 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
           <span className="office-tools">
             {/* The cabinet is the only screen that says how the rival is doing, so the
                 button that opens it is where the run says it is worth opening
-                (BACKLOG-3 phase 24). */}
+                (BACKLOG-3 phase 24): for whatever they threaten as the run stands, a vote,
+                a coup or the way back into office (BACKLOG-11 phase 69). */}
             <button
               type="button"
-              className={`gear${rival.somebody ? " flagged" : ""}`}
+              className={`gear${rival.alert ? " flagged" : ""}`}
               onClick={onCabinet}
-              aria-label={rival.somebody ? `${STRINGS.cabinet.title} — ${STRINGS.rival.wouldWin}` : STRINGS.cabinet.title}
+              aria-label={rival.alert ? `${STRINGS.cabinet.title} — ${rival.alert}` : STRINGS.cabinet.title}
             >
               ☰
             </button>

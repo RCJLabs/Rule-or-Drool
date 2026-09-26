@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type PointerEvent } from "react";
 import { STRINGS } from "../content/strings";
 import type { Card, CardSource, Side } from "../engine/types";
 import type { CountLine } from "./count";
+import type { CoupLine } from "./coup";
 import { Portrait } from "./Portrait";
 
 interface Props {
@@ -37,6 +38,11 @@ interface Props {
    * is about the choice the text puts, and never degraded with it: it is the game talking.
    */
   count?: CountLine | null;
+  /**
+   * Once the vote is abolished, the risk of the coup rolled where it would have fallen due, on the
+   * card it comes after (BACKLOG-11 phase 69). Where a vote's count would be, and drawn as one.
+   */
+  coup?: CoupLine | null;
   /** Keyboard peek: shows the choice for that side without a pointer. */
   peek: Side | null;
   /** The sides that end the run, marked under their labels as they are peeked (BACKLOG-11 phase 68). */
@@ -59,7 +65,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, peek, ends, leaving, onDrag, onCommit, focusOnMount }: Props) {
+export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, coup, peek, ends, leaving, onDrag, onCommit, focusOnMount }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const nameId = `speaker${useId().replace(/\W/g, "")}`;
   useEffect(() => {
@@ -165,6 +171,11 @@ export function CardView({ card, text, labels, spokenText, speakerName, roleLabe
       {count && (
         <p className="count-line" data-band={count.band} data-ends={count.ends || undefined}>
           {count.text}
+        </p>
+      )}
+      {coup && (
+        <p className="coup-line" data-band={coup.band}>
+          {coup.text}
         </p>
       )}
     </div>

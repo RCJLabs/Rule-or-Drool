@@ -339,6 +339,11 @@ bots (BACKLOG-5 phase 31):
   and ringed on its button, and a vote whose loss would be the last says "a final loss"
   (BACKLOG-11 phase 68). Nothing is dealt differently. Ask testers whether they saw the mark,
   and whether it changed a choice; the records do not say.
+- Since v0.77.0, once the vote is abolished, the card a coup is rolled after says its risk:
+  "Coup risk after this: low", "moderate" or "high" (BACKLOG-11 phase 69). The cabinet speaks of
+  the coup rather than of ballots, and out of office of the vote to win the office back. Nothing
+  is dealt differently. Few testers will abolish the vote; ask those who did whether they saw the
+  line, and whether they did anything about it.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

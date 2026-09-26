@@ -87,8 +87,8 @@ describe("out of office, on the table", () => {
   it("teaches what it means, once, and only out of office", () => {
     const lesson = LESSONS_BY_ID.get("opposition")!;
     const s = out(26);
-    expect(lesson.when({ state: s, card: deckCard, from: "opposition", restless: null })).toBe(true);
-    expect(lesson.when({ state: { ...s, opposition: null }, card: deckCard, from: "deck", restless: null })).toBe(false);
+    expect(lesson.when({ state: s, card: deckCard, from: "opposition", restless: null, abolished: false })).toBe(true);
+    expect(lesson.when({ state: { ...s, opposition: null }, card: deckCard, from: "deck", restless: null, abolished: false })).toBe(false);
     expect(lesson.body("").length).toBeLessThanOrEqual(163);
   });
 });

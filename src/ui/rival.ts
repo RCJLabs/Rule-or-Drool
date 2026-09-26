@@ -1,7 +1,9 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
 import { electionBar, honestCount, rivalPressure } from "../engine/resolve";
+import { hasFlag } from "../engine/state";
 import type { GameState } from "../engine/types";
+import { coupWord } from "./coup";
 
 /**
  * How the rival is doing, in the terms the rest of the game uses (BACKLOG-3 phase 24).
@@ -17,6 +19,10 @@ import type { GameState } from "../engine/types";
  * and a competent coalition clears the bar by a median of 13 points. So the top rung says
  * what is actually true — they would win if you lost — rather than pretending a loss is
  * coming.
+ *
+ * What it costs you is said for the run as it stands (BACKLOG-11 phase 69). It spoke of ballots
+ * after the vote was abolished, when what is left is the coup rolled in its place; and out of
+ * office it called the rival who holds it a backbencher taking nothing off you.
  */
 export type RivalRung = 0 | 1 | 2 | 3;
 
@@ -28,14 +34,20 @@ export interface RivalReport {
   state: string;
   /** What it is costing you right now, in one sentence. */
   cost: string;
-  /** True once losing a vote would be their win by name, which is worth saying unprompted. */
+  /** True once losing a vote would be their win by name. */
   somebody: boolean;
+  /**
+   * What they threaten now that is worth saying unprompted, on the button that opens the
+   * cabinet: a vote lost to them by name, a coup whose risk is high, or the way back into
+   * office lost. Null when there is nothing to say.
+   */
+  alert: string | null;
 }
 
 export function rivalReport(lib: Library, state: GameState): RivalReport {
   const cfg = lib.config;
   const pressure = rivalPressure(lib, state);
-  const { states, costs, takingNone, taking, wouldWin } = STRINGS.rival;
+  const { states, costs, takingNone, taking, wouldWin, abolished, out } = STRINGS.rival;
   const somebody = pressure >= cfg.rivalWinsAt;
   // The rungs are the thresholds the engine already has, not new ones: below where they
   // start costing you anything, above it, halfway to winning, and able to win.
@@ -43,13 +55,30 @@ export function rivalReport(lib: Library, state: GameState): RivalReport {
   // At exactly rivalStart the engine's `over` is zero, so the bottom rung is inclusive: a
   // fresh run reads as a rival who is costing nothing, because they are.
   const rung: RivalRung = pressure <= cfg.rivalStart ? 0 : pressure < half ? 1 : somebody ? 3 : 2;
+  const behind = !honestCount(lib, state).wins;
+
+  // Out of office they hold it, and the vote that could win it back is the one that counts:
+  // read as the return vote reads it, which is kinder than the vote that was lost.
+  if (state.opposition) {
+    const returns = state.opposition.returnAt !== null && state.opposition.returnAt !== undefined;
+    const cost = !returns ? out.none : behind ? out.lose : out.win;
+    return { rung, pressure, state: out.state, cost, somebody, alert: returns && behind ? out.alert : null };
+  }
+
+  // With the vote abolished there is no ballot to lose; the coup rolled in its place is the risk.
+  if (hasFlag(state, cfg.electionsAbolishedFlag)) {
+    const { band, word } = coupWord(lib, state);
+    // Their share of it is their pressure over rivalStart (`coupRisk`), said from the rung the
+    // cabinet shows them on: the roll's own pull on drift gives a backbencher a sliver of it too.
+    const cost = `${abolished.cost.replace("{band}", word)}${rung > 0 ? ` ${abolished.adds}` : ""}`;
+    return { rung, pressure, state: states[rung]!, cost, somebody, alert: band === "high" ? abolished.alert : null };
+  }
 
   // What the standing is actually doing: the share of the coalition an honest vote needs,
   // over and above the floor it would need against nobody.
   const lift = electionBar(lib, state) - cfg.electionMoodThreshold;
-  const behind = !honestCount(lib, state).wins;
   const cost =
     lift < 0.5 ? takingNone
     : `${taking.replace("{n}", lift.toFixed(1))}${somebody ? ` ${wouldWin}` : ""}${behind ? ` ${costs.behind}` : ""}`;
-  return { rung, pressure, state: states[rung]!, cost, somebody };
+  return { rung, pressure, state: states[rung]!, cost, somebody, alert: somebody ? wouldWin : null };
 }

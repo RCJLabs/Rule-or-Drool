@@ -528,3 +528,71 @@ looks on the smallest phone.
   far it moves.
 - On a button the mark is a ring without words, since words there took room from the card.
   Whether a player who taps the buttons reads the ring is not measured; ask testers.
+
+## Phase 69. Show the rival's hidden dice (idea 5) — *done*
+
+**Shipped in v0.77.0.** Nothing is dealt differently: the deck is still 7jyrup04.
+
+- Once the vote is abolished, a coup is rolled after the card where the vote would have fallen
+  due. That card now carries a line where a vote's count would be: "Coup risk after this: low",
+  "moderate" or "high". Low is at most 12%, one in ten or so; the floor is one in twenty. High is
+  over 30%, one in three or worse. It is said aloud with the card, as the count is.
+- The odds are read as the run stands, with the roll's own pull on drift counted, since every
+  roll makes it. What the side taken does to the meters is not counted, just as a vote's count
+  reads the meters before the card is played.
+- The first card after the vote is abolished teaches what happens next: "No count to lose now.
+  Where a vote would fall due, the generals decide, and that card says the risk. Order and the
+  State keep them loyal; a strong rival does not." When the vote is abolished at a vote, that is
+  some thirty cards before the first roll, which is when there is time to act on it.
+- The card the coup is rolled after draws no lesson; one that is due waits for the next card.
+  The line needs the room a lesson takes (see **Fit**).
+- Once the vote is gone, the cabinet speaks of the coup: "With the vote gone they need no ballot,
+  only the generals. As things stand the risk of a coup is moderate." It adds "Their standing
+  adds to it." once the rival is off the bottom rung. It had still said "Lose a ballot now and
+  it is theirs by name."
+- Out of office, the cabinet says the rival holds the office you lost, and whether the vote to
+  win it back would be won as things stand. It had called the rival who holds the office a
+  backbencher taking nothing off you.
+- The cabinet's button is flagged for whatever the rival threatens now: a vote lost to them by
+  name, as before; a coup whose risk is high; or, out of office, the way back lost as things
+  stand. It had flagged a ballot that no longer existed.
+
+**Measured** over 20,000 bot runs: five bots, and 2,000 runs each of three eras and of a long
+reign, on the audit's seeds.
+
+| | |
+|---|---|
+| Rolls | 504. Every one came after a card that carried the line, and no line came without a roll |
+| The band shown is the band rolled at | 495 of 504 times; 447 without counting the roll's pull on drift |
+| Shown low / moderate / high | 15 / 148 / 341 rolls, of which 20% / 24% / 40% ended the run |
+
+- The low band's 20% is 3 coups in 15 rolls, too few to read.
+- Reading the line on the card changes nothing for the eyes bot: 29 coups in 2,000 long reigns
+  either way, and 2 in 2,000 runs of three eras. On its 94 roll cards, the two sides leave the
+  odds a median of 1.8 points apart, at most 7.8, and in different bands on 10.
+- Acting on the risk over the era does help. A version of the eyes bot that reads the cabinet
+  every card once the vote is gone was tried: whenever the risk was not low, it leaned to the
+  side that leaves Order and the State nearer half. It was couped 23 times instead of 29, and
+  cut short 155 times instead of 163. The eyes bot itself is unchanged: it reads the table, not
+  the cabinet.
+
+**Fit.** The line is drawn as a count is. The longest-card audit now stages every card that
+could carry it (anything but a vote, a campaign card or an appointment) twice: once as it was,
+and once with the line at its longest, "moderate". It does this at all five heights and in all
+seven looks. The first attempt drew the first lesson as well, and the longest questions, events
+and named cards lost 2–30px of their text in Decay 2 and 3, and in Ascent 3 at 860px. So the
+card the roll comes after draws no lesson, and the lesson for the coup comes when the vote is
+abolished.
+
+**Caveats.**
+- A band read before the card can be wrong at the roll: 9 of 504 times, the side taken moved
+  the odds across a band's edge.
+- Once a player learns where the line comes, the threat's timing is public. There is no number,
+  as the backlog asked, but whether people then play the odds rather than the country is for the
+  closed test.
+- On the card itself there is little to do with the line: what moves the risk moves over many
+  cards. The cabinet says the band on any card, and the lesson says what moves it. How much a
+  person does with them is measured only by the bot above.
+- A lesson whose moment is the roll card waits for its next moment: the lesson for a card sent
+  back by an earlier choice, say, waits for the next such card. How many lessons a player still
+  lacks by the time the vote is abolished is not measured.

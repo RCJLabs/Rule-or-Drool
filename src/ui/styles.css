@@ -523,8 +523,11 @@ button {
 /* An election says how an honest count goes (BACKLOG-9 phase 53): one line under the prose, in
    bold a size under it. A rule above it and 14px wrapped it onto two lines in Decay's narrow
    card and cut the longest election off by 20px at 360×640; the card has no room to spare
-   there, with the buttons, a promise and a lesson drawn. */
-.count-line {
+   there, with the buttons, a promise and a lesson drawn. Once the vote is abolished the card it
+   would have fallen due after says the risk of the coup rolled in its place, drawn the same way
+   (BACKLOG-11 phase 69). */
+.count-line,
+.coup-line {
   flex: 0 0 auto;
   margin: 0;
   font-size: 13px;
@@ -2587,7 +2590,8 @@ button {
 /**
  * A mark on the button that opens the screen which explains it. The run says nothing about
  * the rival on its own; this is the one place it points, and only once they could actually
- * take the office.
+ * take the office: at a vote lost to them by name, in a coup whose risk is high once the vote is
+ * gone, or at the vote to win it back, lost as things stand (BACKLOG-11 phase 69).
  */
 .gear.flagged {
   position: relative;

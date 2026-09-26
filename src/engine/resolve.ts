@@ -230,6 +230,32 @@ export function coupRisk(lib: Library, state: GameState): number {
 }
 
 /**
+ * The run as the coup roll reads it: time passing with nobody able to remove you is the decay,
+ * and it is the only place a decree run pays for the cheating it no longer has to do (phase 16).
+ */
+function decreed(lib: Library, state: GameState): GameState {
+  return { ...state, drift: clampDrift(state.drift - lib.config.decreeDriftPull) };
+}
+
+/**
+ * Whether the coup roll comes once the card on the table is played: the vote is abolished, and
+ * this is the card it would have fallen due after (BACKLOG-11 phase 69). Read as the run stands:
+ * a side that restores the vote, or abolishes it on this very card, changes it.
+ */
+export function coupDue(lib: Library, state: GameState): boolean {
+  return !state.over && hasFlag(state, lib.config.electionsAbolishedFlag) && state.cardCount + 1 >= state.nextElectionAt;
+}
+
+/**
+ * The odds the next coup roll would be made at, on the run as it stands (BACKLOG-11 phase 69):
+ * the roll's own pull on drift included, since every roll makes it. What the card on the table
+ * does to the meters is not, as a vote's count reads them before the card.
+ */
+export function coupOdds(lib: Library, state: GameState): number {
+  return coupRisk(lib, decreed(lib, state));
+}
+
+/**
  * Once elections are abolished the election slot becomes a coup-risk check against
  * Order and Institutions (5.4). Regular elections are drawn as cards by draw().
  */
@@ -239,13 +265,7 @@ export function checkElection(lib: Library, state: GameState): GameState {
   if (!hasFlag(state, cfg.electionsAbolishedFlag)) return state;
   if (state.cardCount < state.nextElectionAt) return state;
   const [p, s1] = roll(state);
-  // Time passing with nobody able to remove you is the decay, and it is the only place a
-  // decree run pays for the cheating it no longer has to do (phase 16).
-  const s2 = {
-    ...s1,
-    nextElectionAt: s1.cardCount + cfg.electionInterval,
-    drift: clampDrift(s1.drift - cfg.decreeDriftPull),
-  };
+  const s2 = { ...decreed(lib, s1), nextElectionAt: s1.cardCount + cfg.electionInterval };
   // A rival with standing makes the coup likelier (coupRisk), but with the ballot gone it is a
   // coup that ends the run, not a count they win: "They Won" told of a count on time and not
   // disputed, and it was every one of the rival's wins in a long reign (BACKLOG-11 phase 66).

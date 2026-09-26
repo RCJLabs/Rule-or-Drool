@@ -61,9 +61,9 @@ describe("a campaign card on the table", () => {
   it("teaches the campaign, on a campaign card and nowhere else", () => {
     const lesson = LESSONS_BY_ID.get("campaign")!;
     const s = standing(2);
-    expect(lesson.when({ state: s, card: campaign, from: "campaign", restless: null })).toBe(true);
+    expect(lesson.when({ state: s, card: campaign, from: "campaign", restless: null, abolished: false })).toBe(true);
     const ordinary = library.content.cards.find((c) => c.type === "event" && !c.campaign && !c.opposition)!;
-    expect(lesson.when({ state: { ...s, current: ordinary.id }, card: ordinary, from: "deck", restless: null })).toBe(false);
+    expect(lesson.when({ state: { ...s, current: ordinary.id }, card: ordinary, from: "deck", restless: null, abolished: false })).toBe(false);
     expect(lesson.body("").length).toBeLessThanOrEqual(163);
   });
 });
