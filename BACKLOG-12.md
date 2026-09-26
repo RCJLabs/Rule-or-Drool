@@ -236,7 +236,7 @@ shipped during it; idea 6 does only for runs taken on a step.
 3. **Whether the chart (2) shows direction,** which the play screen only hints at. The default is
    yes: after the run, it teaches the look rather than replacing it.
 
-## Phase 74. The shape of your rule (idea 2) — *done in part*
+## Phase 74. The shape of your rule (idea 2) — *done; the share card is phase 75*
 
 **Shipped in v0.82.0.** Nothing is dealt differently: the deck is still c8agx015, and records
 from v0.81.0 compare. No save changes: nothing new is kept.
@@ -293,7 +293,7 @@ from v0.81.0 compare. No save changes: nothing new is kept.
 
 **Caveats.**
 
-- The share card does not carry the shape yet: idea 2's second half.
+- The share card did not carry the shape: phase 75 puts the direction on it.
 - It makes the end screen 465 px longer on a 360 px phone (2,445 to 2,910), most of a small
   phone's screen. If testers skip it, it can fold behind a button.
 - A meter's whole range is 34 px high, so one card's move of a few points is under 2 px. The chart
@@ -304,3 +304,39 @@ from v0.81.0 compare. No save changes: nothing new is kept.
 - The bots keep their meters near half, so their charts are quiet. Whether people's are, and
   whether people touch the chart, is for the closed test. The tester brief's third question now
   asks about it.
+
+## Phase 75. The shape on the share card (idea 2, the rest) — *done*
+
+**Shipped in v0.83.0.** Nothing is dealt differently: the deck is still c8agx015. No save changes.
+
+- **What.** A strip under the card's picture carries the run's direction, card by card, as the
+  end screen's direction row draws it:
+  - the Ascent's side and Decay's washed from their band lines and named at the left;
+  - the middle dashed and the eras as hairlines;
+  - one white line, and a dot where the run ended.
+  No numbers. The six meters stay on the end screen: at a chat preview's size they would be
+  noise.
+- **Size.** The card grows from 1200×720 to 1200×852. The picture's fade now ends in the strip's
+  ground, so there is no seam between them. A run whose record does not deal it again has no
+  shape, and its card is the picture alone, as before.
+- **How.** The points are the end screen's replay (phase 74); nothing is replayed again to
+  share. Where the strip falls in the card's pixels is a function of its own, tested apart from
+  the canvas that draws it.
+
+**Measured.**
+
+- The browser audit shares a run played to its end through a share sheet that takes files, and
+  reads the picture back. It is 1200×852, white where the geometry puts the run's line at four
+  cards, and dark on the Decay side where the run never went. A run moved to its end by
+  rewriting its save shares a 1200×720 card. Taking the line out of the drawing fails the audit.
+- At 400 px wide, about the size of a picture in a chat, the plot is about 30 px tall. A rise into
+  the Ascent, a slide into Decay and a late fall all read; the words ASCENT and DECAY do not, and
+  the gold and violet carry them.
+
+**Caveats.**
+
+- Not checked: how chat apps crop a taller picture in their previews. One that crops to a
+  fixed shape could hide the strip until the picture is opened.
+- The strip shows direction only. A run ended by a meter, a bankruptcy say, shows its ending in
+  the words above it, not in the strip.
+- The fade is a shade darker behind the facts line on a card with a strip.

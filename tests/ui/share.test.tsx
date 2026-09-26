@@ -7,7 +7,8 @@ import { newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import { decodeRunCode, encodeRunCode, historyOf, runCodeOf } from "../../src/meta";
 import { App } from "../../src/ui/App";
-import { shareLink, shareText } from "../../src/ui/share";
+import { eraOfCard, DRIFT_REACH } from "../../src/ui/shape";
+import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, shareLink, shareText, stripOf, type CardShape } from "../../src/ui/share";
 
 afterEach(() => cleanup());
 
@@ -75,5 +76,66 @@ describe("opening a link someone sent", () => {
     render(<App />);
     expect(screen.getByText(STRINGS.share.offerBroken)).toBeTruthy();
     expect(screen.queryByRole("button", { name: STRINGS.share.offerPlay })).toBeNull();
+  });
+});
+
+/**
+ * The strip under the card's picture (BACKLOG-12 phase 75): the run's direction as the end screen
+ * draws it, in the card's own pixels. The canvas it is drawn on is a browser's; its geometry is here.
+ */
+describe("the strip on the card", () => {
+  const cfg = library.config;
+  const shapeOfDrifts = (drifts: number[]): CardShape => ({
+    points: drifts.map((drift, card) => ({ card, era: eraOfCard(library, card), meters: newRun(library, 1, { align: "left" }).meters, drift, band: "muddle", out: false })),
+    eraLength: cfg.eraLength,
+    bandAscentAt: cfg.bandAscentAt,
+    bandDecayAt: cfg.bandDecayAt,
+  });
+  const box = STRIP_BOX;
+
+  it("sits in a band of its own under the picture, inside the card's margins", () => {
+    expect(box.y).toBeGreaterThanOrEqual(CARD_H);
+    expect(box.y + box.h).toBeLessThanOrEqual(CARD_H + STRIP_H);
+    expect(box.x + box.w).toBeLessThanOrEqual(CARD_W - 56);
+  });
+
+  it("runs the line from the first card to the last, its middle at no drift and its edges at the chart's reach", () => {
+    const drifts = Array.from({ length: 106 }, (_, card) => (card === 50 ? DRIFT_REACH + 40 : card === 60 ? -DRIFT_REACH - 40 : card === 70 ? 30 : 0));
+    const strip = stripOf(shapeOfDrifts(drifts), box);
+    expect(strip.line).toHaveLength(106);
+    expect(strip.line[0]![0]).toBe(box.x);
+    expect(strip.line[105]![0]).toBe(box.x + box.w);
+    expect(strip.line[0]![1]).toBe(strip.middle);
+    expect(strip.middle).toBe(box.y + box.h / 2);
+    // Drift past the reach is drawn at the edge, as the end screen's row draws it.
+    expect(strip.line[50]![1]).toBe(box.y);
+    expect(strip.line[60]![1]).toBe(box.y + box.h);
+    // Up is the Ascent's way.
+    expect(strip.line[70]![1]).toBeLessThan(strip.middle);
+    for (const [x, y] of strip.line) {
+      expect(x).toBeGreaterThanOrEqual(box.x);
+      expect(x).toBeLessThanOrEqual(box.x + box.w);
+      expect(y).toBeGreaterThanOrEqual(box.y);
+      expect(y).toBeLessThanOrEqual(box.y + box.h);
+    }
+  });
+
+  it("washes each side from its band line to the edge, where the chart washes it", () => {
+    const strip = stripOf(shapeOfDrifts([0, 0]), box);
+    const y = (drift: number) => box.y + ((DRIFT_REACH - drift) / (2 * DRIFT_REACH)) * box.h;
+    expect(strip.up).toEqual({ top: box.y, bottom: y(cfg.bandAscentAt) });
+    expect(strip.down).toEqual({ top: y(cfg.bandDecayAt), bottom: box.y + box.h });
+    expect(strip.up.bottom).toBeLessThan(strip.middle);
+    expect(strip.down.top).toBeGreaterThan(strip.middle);
+  });
+
+  it("marks each era after the first where it began, and nothing at the run's end", () => {
+    const eras = (cards: number) => stripOf(shapeOfDrifts(Array(cards + 1).fill(0)), box).eras;
+    const at = (card: number, cards: number) => box.x + (card / cards) * box.w;
+    expect(eras(105)).toEqual([at(35, 105), at(70, 105)]);
+    expect(eras(175)).toEqual([35, 70, 105, 140].map((c) => at(c, 175)));
+    expect(eras(53)).toEqual([at(35, 53)]);
+    expect(eras(70)).toEqual([at(35, 70)]);
+    expect(eras(32)).toEqual([]);
   });
 });

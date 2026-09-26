@@ -17,6 +17,8 @@ import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card, type GameState, type PlayerAlign } from "../../src/engine/types";
 import { BOTS, makeContext, type BotName } from "../../src/sim";
 import { causeLine, endCause } from "../../src/ui/cause";
+import { shapeOf } from "../../src/ui/shape";
+import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share";
 import { setupOf } from "../../src/meta/runcode";
 import { endingSides, withinReach } from "../../src/meta/clues";
 import { ALL_HISTORY_KEYS, HISTORIES, HISTORY_ORDER, historyTitle, toldByEnding } from "../../src/meta/histories";
@@ -601,6 +603,43 @@ describe.skipIf(!target)("in a browser", () => {
     return s;
   }
 
+  /** The picture a share sends, caught from a share sheet that takes files, as a data URL. */
+  async function sharedCard(page: Page): Promise<string> {
+    await page.evaluate(`(() => {
+      window.__card = null;
+      navigator.canShare = () => true;
+      navigator.share = async (data) => {
+        const file = data.files && data.files[0];
+        window.__card = file ? await new Promise((done) => { const reader = new FileReader(); reader.onload = () => done(reader.result); reader.readAsDataURL(file); }) : "none";
+      };
+    })()`);
+    await page.getByRole("button", { name: STRINGS.share.button }).click();
+    await page.waitForFunction("window.__card !== null", undefined, { timeout: 20_000 });
+    return (await page.evaluate("window.__card")) as string;
+  }
+
+  /** A picture's size, and how white it is around each point (the least of red, green and blue at the whitest pixel near it), read by the browser. */
+  async function readPicture(page: Page, url: string, at: [number, number][]): Promise<{ w: number; h: number; lit: number[] }> {
+    if (!url.startsWith("data:image/png")) return { w: 0, h: 0, lit: [] };
+    return (await page.evaluate(`(async () => {
+      const img = new Image();
+      img.src = ${JSON.stringify(url)};
+      await img.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const lit = ${JSON.stringify(at)}.map(([x, y]) => {
+        const d = ctx.getImageData(Math.round(x) - 2, Math.round(y) - 2, 5, 5).data;
+        let best = 0;
+        for (let i = 0; i < d.length; i += 4) best = Math.max(best, Math.min(d[i], d[i + 1], d[i + 2]));
+        return best;
+      });
+      return { w: img.width, h: img.height, lit };
+    })()`)) as { w: number; h: number; lit: number[] };
+  }
+
   /** A seed whose run, one side taken on every card, ends a story within 30 cards, the story having left a legacy. */
   function storyEnd(): { seed: number; align: PlayerAlign; side: "left" | "right"; cards: number; ending: string; told: string[] } {
     for (let seed = 1; seed < 500; seed++) {
@@ -743,6 +782,41 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await misfits(page, `${label} as a table`, { mayScroll: true })));
         await close(page);
       }
+      expect(failures).toEqual([]);
+    });
+
+    // The shape on the share card (BACKLOG-12 phase 75): a run its record deals again carries its
+    // direction in a strip under the picture, drawn where the run went; a run moved to its end by
+    // rewriting its save has no record that deals it, and its card is the picture alone.
+    it("puts the run's direction under the share card's picture, where the run went, and leaves a run without a record as it was", async () => {
+      const failures: string[] = [];
+      const final = botRun(4, "right", "mixed");
+      const page = await startRunAt(browser, target!.url, 4, "right", { width: 390, height: 844 });
+      await choose(page, final.choices![0]![1]);
+      await rewriteRun(page, `raw.state = ${JSON.stringify(replayTo(library, final, final.cardCount - 1))};`);
+      await page.reload();
+      await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+      await page.waitForSelector(".card");
+      await choose(page, final.choices![final.cardCount - 1]![1]);
+      await page.waitForSelector(".history-title");
+      const { config } = library;
+      const strip = stripOf({ points: shapeOf(library, final)!, eraLength: config.eraLength, bandAscentAt: config.bandAscentAt, bandDecayAt: config.bandDecayAt }, STRIP_BOX);
+      const n = final.cardCount;
+      const onLine = [0, Math.floor(n / 3), Math.floor((2 * n) / 3), n].map((i) => strip.line[i]!);
+      const offLine: [number, number] = [strip.line[Math.floor(n / 2)]![0], STRIP_BOX.y + STRIP_BOX.h - 3];
+      const card = await readPicture(page, await sharedCard(page), [...onLine, offLine]);
+      await close(page);
+      if (card.w !== CARD_W || card.h !== CARD_H + STRIP_H) failures.push(`the card is ${card.w}x${card.h}`);
+      card.lit.slice(0, -1).forEach((lit, i) => {
+        if (lit < 200) failures.push(`the line is not drawn at (${onLine[i]!.map(Math.round).join(", ")}): brightest ${lit}`);
+      });
+      if (card.lit.at(-1)! > 120) failures.push(`the Decay side is lit where the run never went: ${card.lit.at(-1)}`);
+
+      const moved = await startRun(browser, "left", { width: 390, height: 844 });
+      await endRun(moved, LATE.muddle);
+      const plain = await readPicture(moved, await sharedCard(moved), []);
+      await close(moved);
+      if (plain.w !== CARD_W || plain.h !== CARD_H) failures.push(`a card with no record to deal is ${plain.w}x${plain.h}`);
       expect(failures).toEqual([]);
     });
 

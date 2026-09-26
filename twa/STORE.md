@@ -370,6 +370,9 @@ with one questionnaire gathered from the questions below:
   differently and the deck is still c8agx015, so records from v0.81.0 compare. It shows after a
   run the direction the play screen only hints at. Question 3 now asks whether it told testers
   anything; if they say they skip it, it can fold behind a button.
+- Since v0.83.0 the picture a share sends carries the run's direction in a strip under it
+  (BACKLOG-12 phase 75), and is 1200×852 rather than 1200×720. Nothing is dealt differently and
+  nothing new leaves the device: the picture was already the player's to send.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

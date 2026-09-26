@@ -38,6 +38,9 @@ export interface ShapePoint {
   out: boolean;
 }
 
+/** How far a direction strip reaches either way, the chart's and the share card's: drift past it is drawn at its edge. */
+export const DRIFT_REACH = 60;
+
 /** The era a card is played in. */
 export function eraOfCard(lib: Library, card: number): number {
   return Math.max(1, Math.ceil(card / lib.config.eraLength));

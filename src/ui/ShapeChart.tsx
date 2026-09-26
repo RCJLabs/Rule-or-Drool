@@ -4,7 +4,7 @@ import type { Library } from "../engine/library";
 import type { MeterKey, PlayerAlign } from "../engine/types";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
 import type { Moment } from "./record";
-import { eraEnds, inDangerAt, levelAt, readoutAt, type ShapePoint } from "./shape";
+import { DRIFT_REACH, eraEnds, inDangerAt, levelAt, readoutAt, type ShapePoint } from "./shape";
 import { DANGER_BELOW } from "./signals";
 import { meterName } from "./speech";
 
@@ -15,8 +15,6 @@ interface Props {
   moments: readonly Moment[];
 }
 
-/** How far the direction strip reaches either way: drift past it is drawn at its edge. */
-const DRIFT_REACH = 60;
 /** A moment this many cards from the one being read is read with it: a finger is wider than a card. */
 const MOMENT_NEAR = 2;
 

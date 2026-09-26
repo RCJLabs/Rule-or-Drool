@@ -164,7 +164,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     const svg = scene.current?.querySelector("svg");
     // The picture is the best part and still optional: a failed render shares the words.
     const card = svg
-      ? await renderCard(svg, { when, kicker: STRINGS.after.calls, title: history.title, facts: runFacts(state, endingTitle), number: (dailyDay && dailyNumber(dailyDay)) || undefined }).catch(() => null)
+      ? await renderCard(
+          svg,
+          { when, kicker: STRINGS.after.calls, title: history.title, facts: runFacts(state, endingTitle), number: (dailyDay && dailyNumber(dailyDay)) || undefined },
+          shape && { points: shape, eraLength: lib.config.eraLength, bandAscentAt: lib.config.bandAscentAt, bandDecayAt: lib.config.bandDecayAt },
+        ).catch(() => null)
       : null;
     const slug = history.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     setSharing(await shareRun(text, card, `rule-or-drool-${slug}.png`));
