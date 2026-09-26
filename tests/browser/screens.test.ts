@@ -9,9 +9,13 @@ import { advisorPool, rollSetup } from "../../src/engine/state";
 import { encodeRunResult, resultOf } from "../../src/meta/challenge";
 import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
 import { draw } from "../../src/engine/draw";
+import { getCard } from "../../src/engine/library";
+import { replayTo } from "../../src/engine/replay";
 import { resolve } from "../../src/engine/resolve";
+import { makeRng } from "../../src/engine/rng";
 import { newRun } from "../../src/engine/state";
-import { BLOC_KEYS, type Card, type PlayerAlign } from "../../src/engine/types";
+import { BLOC_KEYS, type Card, type GameState, type PlayerAlign } from "../../src/engine/types";
+import { BOTS, makeContext, type BotName } from "../../src/sim";
 import { causeLine, endCause } from "../../src/ui/cause";
 import { setupOf } from "../../src/meta/runcode";
 import { endingSides, withinReach } from "../../src/meta/clues";
@@ -572,6 +576,31 @@ describe.skipIf(!target)("in a browser", () => {
     throw new Error("no seed goes over the top in 40 cards of the left side");
   }
 
+  /**
+   * Runs whose end screen wears each kind of look, found by playing bots from new players' run codes:
+   * the informed voter to the Ascent, the greedy bot to Decay, and the mixed bot to the Muddle
+   * with a stretch out of office, where the state's dangers are not drawn.
+   */
+  const SHAPED = [
+    { seed: 7, align: "left", bot: "informed", look: "ascent3" },
+    { seed: 1, align: "left", bot: "greedy", look: "decay3" },
+    { seed: 4, align: "right", bot: "mixed", look: "muddle" },
+  ] as const;
+
+  /** A bot's run from a new player's run code, played to its end. */
+  function botRun(seed: number, align: PlayerAlign, bot: BotName, eraCount?: number): GameState {
+    const decoded = decodeRunCode(library, codeFor(seed, align));
+    if (!decoded.ok) throw new Error(`no run code for seed ${seed}`);
+    const rng = makeRng(seed ^ 0x5bd1e995);
+    let s = newRun(library, seed, { ...setupOf(decoded.code), ...(eraCount ? { eraCount } : {}) });
+    while (!s.over) {
+      s = draw(library, s);
+      const card = getCard(library, s.current!);
+      s = resolve(library, s, card.id, BOTS[bot](makeContext(library, s, card, rng, { danger: 25 })));
+    }
+    return s;
+  }
+
   /** A seed whose run, one side taken on every card, ends a story within 30 cards, the story having left a legacy. */
   function storyEnd(): { seed: number; align: PlayerAlign; side: "left" | "right"; cards: number; ending: string; told: string[] } {
     for (let seed = 1; seed < 500; seed++) {
@@ -666,6 +695,82 @@ describe.skipIf(!target)("in a browser", () => {
       if (!look?.startsWith("ascent")) failures.push(`an Ascent reign ended in the ${look} look`);
       failures.push(...(await contrast(page, "a long reign's Ascent end, drift in the Decay")));
       failures.push(...(await misfits(page, "a long reign's Ascent end, drift in the Decay", { mayScroll: true })));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    // The shape of a run (BACKLOG-12 phase 74): the run dealt again from its record and drawn on
+    // the end screen. A run moved to its end by rewriting its save has no record that deals it, so
+    // each run here is a bot's, played to its end, handed to the browser a card before it and
+    // finished there: the record is whole and the one the game would have kept.
+    it("draws the shape of a run played to its end, reads it by key, pointer and table, and reads and fits the smallest phone in each look", async () => {
+      const failures: string[] = [];
+      for (const { seed, align, bot, look } of SHAPED) {
+        const label = `the shape of a ${look} run`;
+        const final = botRun(seed, align, bot);
+        const page = await startRunAt(browser, target!.url, seed, align, { width: 360, height: 640 });
+        await choose(page, final.choices![0]![1]);
+        await rewriteRun(page, `raw.state = ${JSON.stringify(replayTo(library, final, final.cardCount - 1))};`);
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(".card");
+        await choose(page, final.choices![final.cardCount - 1]![1]);
+        await page.waitForSelector(".history-title");
+        if ((await lookOf(page)) !== look) failures.push(`${label}: ended in the ${await lookOf(page)} look`);
+        if (!(await page.locator(".shape").count())) {
+          failures.push(`${label}: no chart`);
+          await close(page);
+          continue;
+        }
+        failures.push(...(await contrast(page, label)));
+        failures.push(...(await misfits(page, label, { mayScroll: true })));
+        // The last card by key, the run as dealt at the plot's left edge.
+        const slider = page.getByRole("slider", { name: STRINGS.shape.label });
+        await slider.focus();
+        await page.keyboard.press("End");
+        const last = STRINGS.shape.at.replace("{n}", String(final.cardCount)).replace("{era}", String(final.era));
+        const said = (await slider.getAttribute("aria-valuetext")) ?? "";
+        if (!said.startsWith(`${last}:`)) failures.push(`${label}: the last card reads "${said}"`);
+        if ((await page.textContent(".shape-readout")) !== said) failures.push(`${label}: the readout and the slider say different things`);
+        const plot = (await page.locator(".shape-over").boundingBox())!;
+        await page.mouse.click(plot.x + 1, plot.y + plot.height / 2);
+        const first = (await slider.getAttribute("aria-valuetext")) ?? "";
+        if (!first.startsWith(`${STRINGS.shape.start.replace("{era}", "1")}:`)) failures.push(`${label}: the plot's left edge reads "${first}"`);
+        failures.push(...(await contrast(page, `${label}, read`)));
+        await page.getByRole("button", { name: STRINGS.shape.table }).click();
+        await page.waitForSelector(".shape-table");
+        failures.push(...(await contrast(page, `${label} as a table`)));
+        failures.push(...(await misfits(page, `${label} as a table`, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    // Five eras are wider than a small phone: the table scrolls across under the names, says so
+    // at its edge, and the page does not scroll across.
+    it("scrolls a long reign's table across under its names, and not the page", async () => {
+      const final = botRun(7, "left", "informed", library.config.longEraCount);
+      const page = await startRunAt(browser, target!.url, 7, "left", { width: 360, height: 640 });
+      await choose(page, final.choices![0]![1]);
+      await rewriteRun(page, `raw.state = ${JSON.stringify(replayTo(library, final, final.cardCount - 1))};`);
+      await page.reload();
+      await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+      await page.waitForSelector(".card");
+      await choose(page, final.choices![final.cardCount - 1]![1]);
+      await page.waitForSelector(".shape");
+      await page.getByRole("button", { name: STRINGS.shape.table }).click();
+      const failures: string[] = [];
+      const wrap = page.locator(".shape-table-wrap");
+      // Five eras in Roboto are wider than the phone by a column's end; the edge says so once measured.
+      await page.waitForSelector(".shape-table-wrap[data-more]", { timeout: 5000 }).catch(() => failures.push("five eras fit, or the edge does not say there are more"));
+      await wrap.evaluate((el) => el.scrollTo({ left: el.scrollWidth }));
+      await page.waitForFunction("!document.querySelector('.shape-table-wrap').hasAttribute('data-more')");
+      const name = (await page.locator(".shape-table tbody th").first().boundingBox())!;
+      const box = (await wrap.boundingBox())!;
+      if (name.x < box.x - 1) failures.push("the meters' names scrolled away with the eras");
+      const across = (await page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")) as number;
+      if (across > 0) failures.push(`the page scrolls across by ${across}px`);
+      failures.push(...(await contrast(page, "a long reign's table, scrolled")));
       await close(page);
       expect(failures).toEqual([]);
     });

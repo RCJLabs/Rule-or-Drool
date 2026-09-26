@@ -4,7 +4,7 @@ import { deckStamp } from "../engine/deck";
 import { epilogueByKey, survivedTo, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
-import { otherSide, replays } from "../engine/replay";
+import { otherSide } from "../engine/replay";
 import { exitBand, exitDrift, isFirstTerm } from "../engine/state";
 import type { Band, GameState } from "../engine/types";
 import {
@@ -32,6 +32,8 @@ import { causeLine } from "./cause";
 import { runRecord, timeline } from "./record";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
+import { shapeOf } from "./shape";
+import { ShapeChart } from "./ShapeChart";
 import { endThemeOf } from "./theme";
 import { composeWorld } from "./world";
 import { WorldAfter } from "./WorldAfter";
@@ -69,9 +71,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     heading.current?.focus({ preventScroll: true });
   }, []);
   const [sharing, setSharing] = useState<ShareOutcome | "working" | null>(null);
-  // Retraced once, whole. A record this version of the game no longer deals the same way
-  // would take a way back into a run that never happened (BACKLOG-5 phase 35).
-  const retraceable = useMemo(() => !state.road && replays(lib, state), [lib, state]);
+  // Retraced once, whole, card by card for the chart of how it went (BACKLOG-12 phase 74). A
+  // record this version of the game no longer deals the same way has no shape, and would take a
+  // way back into a run that never happened (BACKLOG-5 phase 35).
+  const shape = useMemo(() => shapeOf(lib, state), [lib, state]);
+  const retraceable = !state.road && shape !== null;
   // The run someone sent, when their link said how it went (BACKLOG-5 phase 37): dealt again
   // from their sides, so their world is drawn from their own run. A second road does not
   // compare; its end already shows two.
@@ -291,6 +295,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
 
         <section className="timeline">
           <h2>{STRINGS.timeline.title}</h2>
+          {shape && <ShapeChart lib={lib} align={state.align} points={shape} moments={moments} />}
           <ol>
             {moments.map((m, i) => (
               <li key={`${m.kind}-${m.at}-${i}`} data-kind={m.kind}>

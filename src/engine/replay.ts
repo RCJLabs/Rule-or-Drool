@@ -48,8 +48,13 @@ export function replayTo(lib: Library, state: GameState, k: number): GameState |
 export function replays(lib: Library, state: GameState): boolean {
   if (!canRetrace(state)) return false;
   const again = replayTo(lib, state, state.cardCount);
+  return again !== null && sameRun(again, state);
+}
+
+/** Whether a run dealt again from its record arrived where the run itself did. */
+export function sameRun(again: GameState, state: GameState): boolean {
   const run = (s: GameState) => JSON.stringify([s.cabinet, s.meters, s.drift, s.flags, s.over]);
-  return again !== null && run(again) === run(state);
+  return run(again) === run(state);
 }
 
 export const otherSide = (side: Side): Side => (side === "left" ? "right" : "left");

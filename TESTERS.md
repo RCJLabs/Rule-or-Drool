@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.81.0 · deck c8agx015".
+  version from the bottom of the menu. It looks like "v0.82.0 · deck c8agx015".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -58,7 +58,8 @@ drag it left or right. What your choices do builds up over a run, and not all of
 1. About how many runs did you play, and on what: an Android phone, an iPhone, a computer?
 2. Did the game feel too easy, about right, or too hard? Did any run come close to falling
    apart?
-3. How did your last run end? Did the end screen tell you anything you didn't already know?
+3. How did your last run end? Did the end screen, or its chart of how the run went, tell you
+   anything you didn't already know?
 4. By your tenth run or so, was the end screen still telling you something new, or had you
    started skipping it?
 

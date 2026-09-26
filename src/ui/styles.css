@@ -2943,3 +2943,243 @@ button {
 .mandate-choice.take-over em + em {
   margin-top: -2px;
 }
+
+/* ---- the shape of a run (BACKLOG-12 phase 74) --------------------------------- */
+/* Small multiples on the end screen's paper: one thin line in ink for each meter, named by its
+   row, so no colour has to say which is which; danger as the meters bar draws it, washed. The
+   direction strip is the one place with hues, the Ascent's side and Decay's, washed behind the
+   line and named at its edge, since the gold is too light on the light paper to be read alone
+   (2.1:1). The palettes were checked with the dataviz validator: the light pair #eda100 and
+   #4a3aa7 on #fffcf5; the dark pair #c98500 and #9085e9 on the Decay paper and the Ascent's. */
+.shape {
+  --shape-up: #eda100;
+  --shape-down: #4a3aa7;
+  --shape-alarm: var(--danger);
+  --shape-rule: color-mix(in srgb, var(--ink) 18%, transparent);
+  --shape-wash: 16%;
+  margin: 0 0 16px;
+  padding: 10px 10px 8px;
+  background: var(--paper);
+  border-radius: calc(var(--radius) / 2);
+}
+.frame[data-theme^="ascent"] .shape,
+.frame[data-theme^="decay"] .shape {
+  --shape-up: #c98500;
+  --shape-down: #9085e9;
+  --shape-wash: 22%;
+}
+.shape-caption {
+  margin: 0 0 8px;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+/* Rows of their own, label and plot, and the cursor laid over the plots' column: a grid cell
+   placed over the others would push every row out of the column it spans. */
+.shape-chart {
+  --shape-gutter: 64px;
+  --shape-gap: 8px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  touch-action: pan-y;
+  cursor: crosshair;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.shape-chart:focus {
+  outline: none;
+}
+.shape-chart:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+/* The row's height is the plot's: left to itself, an SVG's track grows to the SVG's own
+   proportions, a hundred and more pixels a row. */
+.shape-row {
+  display: grid;
+  grid-template-columns: var(--shape-gutter) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: var(--shape-gap);
+  height: 34px;
+}
+.shape-row.shape-direction {
+  height: 50px;
+}
+.shape-label {
+  align-self: center;
+  font-size: 11.5px;
+  line-height: 1.15;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.shape-direction .shape-label {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.shape-direction .shape-label span:nth-child(2) {
+  font-size: 11.5px;
+  color: var(--ink);
+}
+/* Each meter's whole range, faintly, so a line near an edge reads as near it. */
+.shape-plot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+.shape-plot line,
+.shape-plot polyline {
+  vector-effect: non-scaling-stroke;
+}
+.shape-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.shape-danger {
+  fill: color-mix(in srgb, var(--danger) var(--shape-wash), transparent);
+}
+/* The danger colour is too dark to read on the Ascent's paper (BACKLOG-11 phase 68). */
+.frame[data-theme^="ascent"] .shape {
+  --shape-alarm: #ff6a4d;
+}
+.frame[data-theme^="ascent"] .shape-danger {
+  fill: color-mix(in srgb, var(--shape-alarm) 26%, transparent);
+}
+.shape-line-danger {
+  stroke: var(--shape-alarm);
+  stroke-width: 2.5px;
+}
+.shape-era {
+  stroke: var(--shape-rule);
+  stroke-width: 1px;
+}
+.shape-up {
+  fill: color-mix(in srgb, var(--shape-up) var(--shape-wash), transparent);
+}
+.shape-down {
+  fill: color-mix(in srgb, var(--shape-down) var(--shape-wash), transparent);
+}
+.shape-middle {
+  stroke: color-mix(in srgb, var(--ink) 40%, transparent);
+  stroke-width: 1px;
+  stroke-dasharray: 3 3;
+}
+.shape-axis {
+  position: relative;
+  height: 28px;
+  margin-left: calc(var(--shape-gutter) + var(--shape-gap));
+}
+.shape-era-name {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  font-size: 10.5px;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.shape-moment {
+  position: absolute;
+  top: 2px;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 2px var(--paper);
+}
+.frame[data-theme^="ascent"] .shape-moment {
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.shape-over {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--shape-gutter) + var(--shape-gap));
+  right: 0;
+  pointer-events: none;
+}
+.shape-cursor {
+  position: absolute;
+  top: -4px;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent);
+}
+.shape-readout {
+  min-height: 2.6em;
+  margin: 8px 0 6px;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+.shape-toggle {
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--shape-rule);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.shape-table-wrap {
+  overflow-x: auto;
+}
+/* More eras off to the right: the edge fades, whatever the look's paper is under it. */
+.shape-table-wrap[data-more] {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+}
+.shape-table-wrap:focus {
+  outline: none;
+}
+.shape-table-wrap:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.shape-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.25;
+}
+.shape-table-caption {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.shape-table th,
+.shape-table td {
+  padding: 4px 5px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--shape-rule);
+}
+.shape-table thead th {
+  font-weight: 600;
+  color: var(--muted);
+}
+/* The names stay put while the eras scroll under them, on the figure's own paper. */
+.shape-table tbody th,
+.shape-table thead td {
+  position: sticky;
+  left: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  background: linear-gradient(var(--paper), var(--paper)), var(--bg);
+}
+.shape-table td[data-danger] {
+  font-weight: 700;
+}

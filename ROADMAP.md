@@ -30,7 +30,7 @@ its own file: every item measured before it was built, and written up with what 
 | 9 | `BACKLOG-9.md` | 52–54 |
 | 10 | `BACKLOG-10.md` | 55–65 |
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
-| 12 | `BACKLOG-12.md` | ten ideas, none chosen yet |
+| 12 | `BACKLOG-12.md` | 74 (idea 2, in part), and nine ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -38,7 +38,7 @@ decisions only the owner can make.
 | | |
 |---|---|
 | Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names written, 657 of which a run can be given; three eras, and five in a long reign |
-| Tests | 917 unit tests and 61 browser tests |
+| Tests | 931 unit tests and 63 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -67,7 +67,8 @@ decisions only the owner can make.
    time. Five change no deal and can be built while people play: a chart of the run on the end
    screen, a short term any time, a chronicle of every reign, a week's scenario, and music that
    follows the look. Four add content or rules and wait for the closed test; harder terms wait
-   for people's Ascent rate.
+   for people's Ascent rate. Phase 74 (v0.82.0) draws the shape of a run on the end screen; its
+   other half, the shape on the share card, is left.
 
 The list this file ended on after phase 7, and what became of it:
 

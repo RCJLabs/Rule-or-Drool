@@ -235,3 +235,72 @@ shipped during it; idea 6 does only for runs taken on a step.
    7–10 wait, and idea 6 waits for people's Ascent rate.
 3. **Whether the chart (2) shows direction,** which the play screen only hints at. The default is
    yes: after the run, it teaches the look rather than replacing it.
+
+## Phase 74. The shape of your rule (idea 2) — *done in part*
+
+**Shipped in v0.82.0.** Nothing is dealt differently: the deck is still c8agx015, and records
+from v0.81.0 compare. No save changes: nothing new is kept.
+
+- **Where.** Under "How it went" on the end screen, above the moments.
+- **What.**
+  - A thin line for each meter, card by card, over its whole range. Danger is banded where the
+    meters bar draws it: a group's at the bottom, and the state's at both ends, only while in
+    office. The line turns the danger colour while the meter was in danger, as the meters bar
+    fills it.
+  - A strip for the direction, against its middle. The Ascent's side and Decay's are washed from
+    their band lines and named at the edge.
+  - Hairlines at the eras, named under the plots, and a dot for each decision and each broken
+    promise in the timeline.
+- **How it is read.** It is a slider along the run: touch or drag along it, or use the arrow
+  keys (Shift for five cards, Page Up and Down for ten, Home and End). It says the card in the
+  words the meters are read in, "Card 40, era 2: Movement about half · … · Money in danger, too
+  low · … · heading for the Ascent.", and names a decision or a broken promise within two cards
+  of it. A screen reader hears the same words as the slider's value.
+- **The table.** "As a table" says where each era left each meter and the direction. Five eras
+  are wider than a small phone: the table scrolls across under the meters' names, and its edge
+  fades while there is more.
+- **No numbers.** The meters are read in words only. The only digits are card and era numbers,
+  as in the timeline.
+- **A long reign.** Its band is locked after the third era and drift goes on moving under it.
+  From there the line is held inside the band the reign ends in, as its end is drawn (BACKLOG-11
+  phase 72).
+- **How it is made.** A run is its seed, its setup and its choices, dealt again card by card from
+  them: the same replay the way back into a run uses (BACKLOG-5 phase 34), and now the one test
+  for both. A run whose record does not deal it again has no chart and no way back: one saved
+  before choices were kept, or dealt differently by an update.
+- **Direction is shown**, the default of decision 3 below: after the run it teaches the look
+  rather than replacing it. It is one row to take away if you decide otherwise.
+
+**Measured.**
+
+- All 160 bot runs tried (four bots, 40 seeds each) are dealt again exactly, and each has a chart.
+- The replay and the points for a whole run take 5.6 ms (median) and 14.9 ms at most, in node on
+  the audit machine.
+- The end screen appeared as fast as before. Timed in Chromium at 360×640, from the last choice
+  to the end screen, median of seven:
+
+  | | v0.81.0 | v0.82.0, with the chart |
+  |---|---|---|
+  | Full speed | 63 ms | 63 ms |
+  | CPU slowed six times | 406 ms | 408 ms |
+
+  The chart's replay is the one the end screen already made to offer the way back; drawing it
+  costs nothing measurable.
+- It fits a 360×640 phone in the Ascent, Decay and Muddle looks, read, as a table, and by key
+  and pointer, and passes the contrast audit. The direction strip's colours were checked with the
+  palette validator: the light gold is 2.1:1 on the Muddle's paper, so the strip names its sides
+  and the table says the same in words.
+
+**Caveats.**
+
+- The share card does not carry the shape yet: idea 2's second half.
+- It makes the end screen 465 px longer on a 360 px phone (2,445 to 2,910), most of a small
+  phone's screen. If testers skip it, it can fold behind a button.
+- A meter's whole range is 34 px high, so one card's move of a few points is under 2 px. The chart
+  shows where a run turned, not each card; the words give each card.
+- In a long reign the line runs flat along the band's edge wherever drift left the band after the
+  lock. The play screen's look followed drift there, so a player may remember a look the chart
+  does not show for those cards.
+- The bots keep their meters near half, so their charts are quiet. Whether people's are, and
+  whether people touch the chart, is for the closed test. The tester brief's third question now
+  asks about it.

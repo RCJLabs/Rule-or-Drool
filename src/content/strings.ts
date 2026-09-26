@@ -412,6 +412,26 @@ export const STRINGS = {
     brokeOf: "You broke the promise \u201c{promise}\u201d",
     card: "card {n}",
   },
+  /**
+   * The shape of a run on the end screen (BACKLOG-12 phase 74): its meters and its direction,
+   * card by card, read in words. Never a number, as the meters are never one.
+   */
+  shape: {
+    label: "The meters and the country's direction, card by card",
+    hint: "Touch or drag along it, or use the arrow keys, to read any card.",
+    start: "As dealt, era {era}",
+    at: "Card {n}, era {era}",
+    out: "out of office",
+    direction: "Direction",
+    heading: { ascent: "heading for the Ascent", muddle: "in the Muddle", decay: "heading for Decay" } as Record<"decay" | "muddle" | "ascent", string>,
+    era: "Era {n}",
+    table: "As a table",
+    chart: "As a chart",
+    caption: "Where each era left the meters, and which way the country was heading",
+    end: "Era {n}, the end",
+    /** A decision or a broken promise near the card being read, said after it. */
+    moment: "Card {n}: {text}.",
+  },
   /** The end screen's own words around the history and the picture. */
   after: {
     calls: "History calls it",
