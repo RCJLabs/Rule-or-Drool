@@ -30,16 +30,28 @@ export function shareLink(state: GameState, base = typeof location === "undefine
  * Short enough to read in a chat preview: what history called it, the facts of the run, the
  * biggest things left behind, and the way in.
  */
-export function shareText(state: GameState, history: History, endingTitle: string, link: string, dailyDay?: string): string {
+/** How the week's scenario went, for a run that was the week's try at it (BACKLOG-12 phase 78). */
+export interface SharedTry {
+  week: number;
+  met: boolean;
+  goal: string;
+}
+
+export function shareText(state: GameState, history: History, endingTitle: string, link: string, dailyDay?: string, scenario?: SharedTry | null): string {
   const { daily, left, play } = STRINGS.share;
   // A daily leads with its number, *Rule or Drool #412*, so a group can line their days up
-  // without opening anyone's link (BACKLOG-5 phase 38).
+  // without opening anyone's link (BACKLOG-5 phase 38). The week's scenario leads with its week
+  // and says whether the goal was met, which is what a group compares (BACKLOG-12 phase 78).
   const n = dailyDay ? dailyNumber(dailyDay) : null;
-  const title = n ? `${STRINGS.title} ${daily.replace("{n}", String(n))}` : STRINGS.title;
+  const title = n
+    ? `${STRINGS.title} ${daily.replace("{n}", String(n))}`
+    : scenario
+      ? `${STRINGS.title}, ${STRINGS.scenario.share.replace("{n}", String(scenario.week))}`
+      : STRINGS.title;
   const head = `${title} — “${history.title}”`;
   const facts = runFacts(state, endingTitle);
   const things = history.consequences.filter((c) => c.label).slice(0, 3).map((c, i) => (i === 0 ? c.label : lowerFirst(c.label)));
-  const lines = [head, facts];
+  const lines = scenario ? [head, (scenario.met ? STRINGS.scenario.shareMet : STRINGS.scenario.shareMissed).replace("{goal}", scenario.goal), facts] : [head, facts];
   if (things.length) lines.push(`${left} ${things.join("; ")}.`);
   lines.push(`${play} ${link}`);
   return lines.join("\n");

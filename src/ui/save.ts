@@ -19,6 +19,11 @@ export interface DailyMark {
   seed: number;
 }
 
+/** Which week's scenario a run is the try at, when it is one (BACKLOG-12 phase 78). */
+export interface ScenarioMark {
+  week: number;
+}
+
 interface RunSave {
   v: number;
   state: GameState;
@@ -37,14 +42,19 @@ interface RunSave {
   vs?: string | null;
   /** The deck their run was dealt from, when the link said (BACKLOG-8 phase 49). */
   vsDeck?: string | null;
+  /**
+   * Set while the run is a week's scenario (BACKLOG-12 phase 78), beside the state as the daily's
+   * mark is, so a try left for later still counts when it comes back.
+   */
+  scenario?: ScenarioMark | null;
 }
 
 /**
  * Run state is saved after every step. Meta progression gets its own key in phase 6. False
  * when it was not kept (private mode, quota), which the storage reports (BACKLOG-8 phase 50).
  */
-export function saveRun(state: GameState, daily: DailyMark | null = null, vs: RunResult | null = null): boolean {
-  return writeKey(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null, vsDeck: vs?.deck ?? null } satisfies RunSave));
+export function saveRun(state: GameState, daily: DailyMark | null = null, vs: RunResult | null = null, scenario: ScenarioMark | null = null): boolean {
+  return writeKey(RUN_KEY, JSON.stringify({ v: RUN_SAVE_VERSION, state, daily, vs: vs ? encodeRunResult(vs) : null, vsDeck: vs?.deck ?? null, scenario } satisfies RunSave));
 }
 
 /**
@@ -206,6 +216,18 @@ export function loadRunDaily(): DailyMark | null {
     const { state, daily } = JSON.parse(raw) as Partial<RunSave>;
     if (!daily || typeof daily.day !== "string" || typeof daily.seed !== "number") return null;
     return state?.seed === daily.seed ? { day: daily.day, seed: daily.seed } : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The saved run's week, when it is the try at a week's scenario. */
+export function loadRunScenario(): ScenarioMark | null {
+  try {
+    const raw = localStorage.getItem(RUN_KEY);
+    if (!raw) return null;
+    const { scenario } = JSON.parse(raw) as Partial<RunSave>;
+    return scenario && typeof scenario.week === "number" && Number.isInteger(scenario.week) && scenario.week >= 1 ? { week: scenario.week } : null;
   } catch {
     return null;
   }

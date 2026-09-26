@@ -19,6 +19,7 @@ import {
   monthOf,
   resultOf,
   runCodeOf,
+  scenarioFor,
   theirRun,
   todayKey,
   toldByEnding,
@@ -30,6 +31,7 @@ import { Frame } from "./Frame";
 import { lineName, tookOverLine } from "./dynasty";
 import { causeLine } from "./cause";
 import { runRecord, timeline } from "./record";
+import { goalOf } from "./Scenario";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
 import { shapeOf } from "./shape";
@@ -119,6 +121,10 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // (BACKLOG-5 phase 38). Only the run that went into the log as the day's daily says so.
   const daily = fold?.daily ?? null;
   const dailyDay = daily?.day;
+  // The week's scenario, when this run was its one try (BACKLOG-12 phase 78).
+  const tried = fold?.scenario ?? null;
+  const triedWeek = tried ? scenarioFor(tried.week) : null;
+  const sharedTry = tried && triedWeek ? { week: tried.week, met: tried.result.met, goal: goalOf(triedWeek) } : null;
 
   // Another road from any decision that shaped this one, where the run can be retraced to it
   // (BACKLOG-5 phase 34). A second road shows both instead, and does not branch again.
@@ -161,7 +167,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const share = async () => {
     setSharing("working");
     // The link says how this run went, so whoever opens it can put theirs beside it.
-    const text = shareText(state, history, endingTitle, shareLink(state, undefined, resultOf(lib, state)), dailyDay);
+    const text = shareText(state, history, endingTitle, shareLink(state, undefined, resultOf(lib, state)), dailyDay, sharedTry);
     const svg = scene.current?.querySelector("svg");
     // The picture is the best part and still optional: a failed render shares the words.
     const card = svg
@@ -237,6 +243,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
         {daily && fold && (
           <p className="daily-mark">
             {dailyName(daily.day)} · {streakLine(fold.meta.dailies, today)}
+          </p>
+        )}
+        {sharedTry && (
+          <p className={`scenario-mark${sharedTry.met ? " met" : ""}`}>
+            <b>
+              {STRINGS.scenario.ended.replace("{n}", String(sharedTry.week))} · {sharedTry.met ? `✓ ${STRINGS.scenario.met}` : STRINGS.scenario.missed}
+            </b>
+            <span>{sharedTry.goal}</span>
           </p>
         )}
         {vs && (

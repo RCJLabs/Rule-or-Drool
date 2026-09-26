@@ -12,14 +12,13 @@ import { content } from "../src/content";
 import { buildLibrary } from "../src/engine";
 import { draw } from "../src/engine/draw";
 import { getCard } from "../src/engine/library";
-import { MANDATES_BY_ID, holds } from "../src/engine/mandates";
-import { applyChoice, resolve } from "../src/engine/resolve";
+import { resolve } from "../src/engine/resolve";
 import { makeRng } from "../src/engine/rng";
 import { exitBand, newRun, rollSetup } from "../src/engine/state";
-import type { PlayerAlign, Side } from "../src/engine/types";
+import type { PlayerAlign } from "../src/engine/types";
 import { CONTRACT_TEMPLATES, contractById, type Tier } from "../src/meta/contracts";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOTS, makeContext, type Bot, type BotContext } from "../src/sim";
+import { BOTS, honest, keep, leave, makeContext, type Bot } from "../src/sim";
 
 /** The band each tier's rate should sit in: the share of runs a player aiming at it keeps it in. */
 const TIER_BANDS: Record<Tier, [number, number]> = { easy: [0.5, 0.9], fair: [0.2, 0.5], hard: [0.07, 0.2] };
@@ -27,26 +26,6 @@ const TIER_BANDS: Record<Tier, [number, number]> = { easy: [0.5, 0.9], fair: [0.
 const lib = buildLibrary(content);
 const runsArg = process.argv.indexOf("--runs");
 const RUNS = runsArg > 0 ? Number(process.argv[runsArg + 1]) : 500;
-
-const other = (s: Side): Side => (s === "left" ? "right" : "left");
-/** Take the side `want` picks when only one side has it and it does not end the run the other would not. */
-const prefer = (b: Bot, want: (ctx: BotContext, s: Side) => boolean): Bot => (ctx) => {
-  const l = want(ctx, "left");
-  if (l !== want(ctx, "right")) {
-    const s: Side = l ? "left" : "right";
-    if (!ctx[s].endingId || ctx[other(s)].endingId) return s;
-  }
-  return b(ctx);
-};
-const honest = (b: Bot): Bot => (ctx) => (ctx.card.type === "election" ? (ctx.card.left.honest ? "left" : "right") : b(ctx));
-const keep = (b: Bot): Bot =>
-  prefer(b, (ctx, s) => {
-    // Every promise still held stays held: a platform's two are both aimed at (phase 62).
-    const held = ctx.state.mandates.filter((id) => holds(ctx.state, id));
-    const after = applyChoice(ctx.lib, ctx.state, ctx.card, s);
-    return held.length > 0 && held.every((id) => !MANDATES_BY_ID.get(id)!.isBroken(after));
-  });
-const leave = (b: Bot, flag: string): Bot => prefer(b, (ctx, s) => !ctx.state.flags.includes(flag) && applyChoice(ctx.lib, ctx.state, ctx.card, s).flags.includes(flag));
 
 const { informed: I, eyes: E, mixed: M, greedy: G, saint: S } = BOTS;
 /** How a player would aim at each kind of contract. */

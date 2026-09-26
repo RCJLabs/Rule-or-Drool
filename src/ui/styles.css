@@ -2288,6 +2288,56 @@ button {
   font-size: 15px;
   text-align: center;
 }
+/* The week's scenario, in the codex, at each era's door and at the end (BACKLOG-12 phase 78). */
+.scenario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.scenario-goal {
+  margin: 0;
+  padding: 10px 12px;
+  border: var(--border) solid var(--accent);
+  border-radius: var(--radius);
+  font-size: 15px;
+  line-height: 1.4;
+  text-align: left;
+}
+.scenario-goal b {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.era-goal b {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.scenario-side,
+.scenario-state {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+}
+.scenario-start {
+  align-self: center;
+}
+.scenario-mark {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+.scenario-mark span {
+  font-size: 13px;
+  color: var(--muted);
+}
 /* A saved run from another deck, or one this version cannot go on with (BACKLOG-8 phase 49). */
 .saved-note {
   margin: 0;

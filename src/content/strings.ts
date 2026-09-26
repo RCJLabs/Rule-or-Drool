@@ -648,6 +648,43 @@ export const STRINGS = {
     saintEra: "Finish a run of a whole era or more without one self-serving choice.",
     legacy: "See a reign through with \u201c{legacy}\u201d in its record.",
   },
+  /**
+   * The week's scenario (BACKLOG-12 phase 78): one run for everyone each week, the same deal, side
+   * and promise, and a goal in the contracts' words. One try counts.
+   */
+  scenario: {
+    title: "Weekly scenario",
+    heading: "Week {n}'s scenario",
+    menu: "Week {n}'s scenario",
+    menuMet: "Week {n}'s scenario: met",
+    menuMissed: "Week {n}'s scenario: not met",
+    menuUnderWay: "Week {n}'s scenario: under way",
+    menuLeft: "Week {n}'s scenario: unfinished",
+    intro: "The same run for everyone this week, and a goal. One try counts, and starting it is the try.",
+    goal: "Goal",
+    side: "Leading",
+    promise: "Promise",
+    noPromise: "No promise",
+    start: "Start the scenario",
+    underWay: "Under way. Continue it from the menu.",
+    left: "Left for another run before it ended. This week's try is spent.",
+    met: "Goal met",
+    missed: "Goal not met",
+    unfinished: "Not finished",
+    result: "{cards} cards · {ending}",
+    past: "Weeks before",
+    none: "No scenario this week.",
+    turnover: "A new scenario every Monday at 00:00 UTC.",
+    /** On the end screen of the week's try. */
+    ended: "Week {n}'s scenario",
+    /** In a shared result: *Rule or Drool, week 3's scenario*. */
+    share: "week {n}'s scenario",
+    shareMet: "Goal met: {goal}",
+    shareMissed: "Goal not met: {goal}",
+    /** A link to the week's scenario, as the daily's is told (BACKLOG-12 phase 78). */
+    offer: "It is week {n}'s scenario, and playing it is your one try.",
+    offerTried: "It is week {n}'s scenario, which you have tried: this one will not count.",
+  },
   playtest: {
     title: "Keep a record of my runs",
     blurb: "From your next run: how long each card takes you and which way you go. It stays on this device unless you send it.",

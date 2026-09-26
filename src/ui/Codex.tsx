@@ -26,6 +26,7 @@ import {
 import { Chronicle } from "./Chronicle";
 import { ContractsWeek } from "./Contracts";
 import { DailyMonth } from "./DailyMonth";
+import { ScenarioWeek } from "./Scenario";
 import { Frame } from "./Frame";
 import { themeFor } from "./theme";
 
@@ -33,6 +34,7 @@ import { themeFor } from "./theme";
 export type CodexSection =
   | "runs"
   | "dailies"
+  | "scenario"
   | "contracts"
   | "objectives"
   | EndingKind
@@ -54,6 +56,10 @@ interface Props {
   /** The section open, when the caller keeps it, so leaving the codex and coming back finds it open. */
   open?: CodexSection | null;
   onOpen?: (section: CodexSection | null) => void;
+  /** Start the week's scenario, which is this week's one try at it (BACKLOG-12 phase 78). */
+  onStartScenario?: () => void;
+  /** The saved run is this week's try at the scenario, left for later. */
+  scenarioUnderWay?: boolean;
 }
 
 interface Section {
@@ -78,7 +84,7 @@ function rest(n: number, anyFound: boolean): ReactNode {
  * are counted rather than listed, as the histories already were: the count says how much is
  * left, which is all a blank row said.
  */
-export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open: kept, onOpen }: Props) {
+export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open: kept, onOpen, onStartScenario, scenarioUnderWay }: Props) {
   const [own, setOwn] = useState<CodexSection | null>(null);
   const open = kept !== undefined ? kept : own;
   const setOpen = onOpen ?? setOwn;
@@ -114,6 +120,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
   const promised = MANDATES.filter((m) => (meta.mandatesKept[m.id] ?? 0) + (meta.mandatesBroken[m.id] ?? 0) > 0).length;
   const c = STRINGS.codex;
   const week = weekNumber(today);
+  const tries = meta.scenarios ?? [];
 
   // The endings, by kind (BACKLOG-11 phase 71). One found is named; one the player has come within
   // reach of is named as near, so it is something to aim at (BACKLOG-2 phase 13); every clue given
@@ -185,6 +192,12 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
           title: STRINGS.daily.title,
           count: String(meta.dailies.length),
           body: () => <DailyMonth lib={lib} dailies={meta.dailies} today={today} browse />,
+        },
+        {
+          key: "scenario",
+          title: STRINGS.scenario.title,
+          count: `${tries.filter((t) => t.result?.met).length}/${tries.length}`,
+          body: () => <ScenarioWeek lib={lib} meta={meta} today={today} underWay={scenarioUnderWay} onStart={onStartScenario} />,
         },
         {
           key: "contracts",

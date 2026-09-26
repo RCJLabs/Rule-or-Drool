@@ -2,15 +2,39 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import type { GameState, Inheritance, PlayerAlign, Side } from "../engine/types";
-import { asides, canComeBack, clearAsides, clearMeta, dailySeedFor, dropAside, emptyMeta, encodeRunCode, foldRun, loadProfile, markAside, runCodeOf, saveMeta, todayKey, type MetaState, type RunFold, type RunResult, type SetAside } from "../meta";
+import {
+  asides,
+  canComeBack,
+  clearAsides,
+  clearMeta,
+  dailySeedFor,
+  dropAside,
+  emptyMeta,
+  encodeRunCode,
+  firstTermDue,
+  foldRun,
+  loadProfile,
+  markAside,
+  runCodeOf,
+  saveMeta,
+  scenarioFor,
+  scenarioTry,
+  todayKey,
+  weekNumber,
+  withTry,
+  type MetaState,
+  type RunFold,
+  type RunResult,
+  type SetAside,
+} from "../meta";
 import { askToBeKept, onWriteFailed, writeFailures } from "../meta/storage";
 import { closeRun, openRun, takeCard, type Measure, type RecordedRun, type RunKind } from "../playtest/record";
 import { APP_VERSION } from "../version";
 import { canRetrace, otherSide, replayTo } from "../engine/replay";
-import { beginRun, beginRunFromCode, commitChoice, dailyCode, ensureCard } from "./flow";
+import { beginRun, beginRunFromCode, commitChoice, dailyCode, ensureCard, isScenarioCode } from "./flow";
 import type { RunCode } from "../meta";
 import { appendRecorded, clearRecorded, loadOpen, loadRecorded, MAX_RECORDED_RUNS, saveOpen, sendRecord } from "./playtest";
-import { clearRun, loadRun, loadRunChallenge, loadRunDaily, saveRun, type DailyMark } from "./save";
+import { clearRun, loadRun, loadRunChallenge, loadRunDaily, loadRunScenario, saveRun, type DailyMark, type ScenarioMark } from "./save";
 import { applySettings, loadSettings, saveSettings, type Settings } from "./settings";
 import { buzz, newlyDangerous, play } from "./sound";
 import { DANGER_BELOW } from "./Meters";
@@ -87,6 +111,8 @@ export function useGame(lib: Library) {
   });
   /** The saved run's daily, when it is one, so it is still one when it is continued. */
   const [savedDaily, setSavedDaily] = useState<DailyMark | null>(() => loadRunDaily());
+  /** The saved run's week, when it is the try at a week's scenario (BACKLOG-12 phase 78). */
+  const [savedScenario, setSavedScenario] = useState<ScenarioMark | null>(() => loadRunScenario());
   /**
    * How the run went for whoever sent it, while their run is being played and at its end
    * (BACKLOG-5 phase 37); and the one saved beside a run left for later.
@@ -129,6 +155,10 @@ export function useGame(lib: Library) {
    * the run, so a daily left for later is still one when it comes back (BACKLOG-5 phase 38).
    */
   const dailyRef = useRef<DailyMark | null>(null);
+  /** Set while the run is the try at a week's scenario, and saved with it, as the daily's is. */
+  const scenarioRef = useRef<ScenarioMark | null>(null);
+  /** The same, for the screens: the play screen says the week's goal at each era's door. */
+  const [playingScenario, setPlayingScenario] = useState<ScenarioMark | null>(null);
   /** How many runs the playtest record holds (BACKLOG-5 phase 31). */
   const [recorded, setRecorded] = useState(() => loadRecorded().length);
   /** The run being recorded, while the player has asked for a record and one is under way. */
@@ -158,7 +188,7 @@ export function useGame(lib: Library) {
   );
 
   useEffect(() => {
-    if (state) saveRun(state, dailyRef.current, challenge);
+    if (state) saveRun(state, dailyRef.current, challenge, scenarioRef.current);
   }, [state, challenge]);
 
   // A write that failed, here or anywhere, is told once a page, including one that failed
@@ -210,9 +240,10 @@ export function useGame(lib: Library) {
     setTransition(null);
     setLastFold(null);
     if (s && !s.over) {
-      saveRun(s, dailyRef.current, challengeRef.current);
+      saveRun(s, dailyRef.current, challengeRef.current, scenarioRef.current);
       setSaved(s);
       setSavedDaily(dailyRef.current);
+      setSavedScenario(scenarioRef.current);
       setSavedChallenge(challengeRef.current);
     }
     setChallenge(null);
@@ -236,6 +267,7 @@ export function useGame(lib: Library) {
     setMeta(fresh);
     setSaved(null);
     setSavedDaily(null);
+    setSavedScenario(null);
     setSavedChallenge(null);
     setChallenge(null);
     setState(null);
@@ -244,6 +276,8 @@ export function useGame(lib: Library) {
     setShowSettings(false);
     setShowCodex(false);
     dailyRef.current = null;
+    scenarioRef.current = null;
+    setPlayingScenario(null);
   }, []);
 
   /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39) and a first or short term. */
@@ -251,11 +285,14 @@ export function useGame(lib: Library) {
     guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number, inheritance: Inheritance | null = null) => {
       setSaved(null);
       setSavedDaily(null);
+      setSavedScenario(null);
       setSavedChallenge(null);
       setChallenge(null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = null;
+      scenarioRef.current = null;
+      setPlayingScenario(null);
       const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount, inheritance);
       setState(s);
       beginRecording(s, "own");
@@ -265,20 +302,24 @@ export function useGame(lib: Library) {
 
   /**
    * A run someone else played, from its code: their setup, not this profile's. When the link
-   * said how it went for them, the end compares the two (BACKLOG-5 phase 37).
+   * said how it went for them, the end compares the two (BACKLOG-5 phase 37). The daily and the
+   * week's scenario start this way too, from a setup that is the same for everyone.
    */
   const startFromCode = useCallback(
-    guarded(crash, (code: RunCode, daily?: DailyMark, vs?: RunResult | null) => {
+    guarded(crash, (code: RunCode, daily?: DailyMark, vs?: RunResult | null, scenario?: ScenarioMark) => {
       setSaved(null);
       setSavedDaily(null);
+      setSavedScenario(null);
       setSavedChallenge(null);
       setChallenge(vs ?? null);
       setTransition(null);
       setLastFold(null);
       dailyRef.current = daily ?? null;
+      scenarioRef.current = scenario ?? null;
+      setPlayingScenario(scenario ?? null);
       const s = beginRunFromCode(lib, code);
       setState(s);
-      beginRecording(s, daily ? "daily" : "shared");
+      beginRecording(s, scenario ? "scenario" : daily ? "daily" : "shared");
     }),
     [lib, beginRecording, crash],
   );
@@ -297,6 +338,24 @@ export function useGame(lib: Library) {
   );
 
   /**
+   * The week's scenario (BACKLOG-12 phase 78), from the same setup for everyone, as the daily is.
+   * Starting it is the try, so the profile says so before the first card: a try left for another
+   * run is spent, and the week is not offered again.
+   */
+  const startScenario = useCallback(
+    guarded(crash, () => {
+      const s = scenarioFor(weekNumber(todayKey()));
+      if (!s || scenarioTry(metaRef.current, s.week)) return;
+      const next = withTry(metaRef.current, s.week);
+      metaRef.current = next;
+      setMeta(next);
+      saveMeta(next);
+      startFromCode(dailyCode(lib, s.seed, s.align, s.mandates), undefined, null, { week: s.week });
+    }),
+    [lib, startFromCode, crash],
+  );
+
+  /**
    * A run from a link. Today's daily sent by someone who played it is today's daily for
    * whoever plays it too, so the menu does not go on to offer them the run they have just
    * played (BACKLOG-5 phases 37 and 38).
@@ -305,6 +364,17 @@ export function useGame(lib: Library) {
     (code: RunCode, vs: RunResult | null = null) => {
       const today = dailySeedFor();
       const isToday = code.seed === today.seed && encodeRunCode(code) === encodeRunCode(dailyCode(lib, today.seed, code.align, code.mandates));
+      // So is the week's scenario, as the one try, when it has not been tried (BACKLOG-12 phase 78):
+      // a link is not a way to play it once for practice.
+      const s = scenarioFor(weekNumber(today.day));
+      if (s && !firstTermDue(metaRef.current) && !scenarioTry(metaRef.current, s.week) && isScenarioCode(lib, code, s)) {
+        const next = withTry(metaRef.current, s.week);
+        metaRef.current = next;
+        setMeta(next);
+        saveMeta(next);
+        startFromCode(code, undefined, vs, { week: s.week });
+        return;
+      }
       startFromCode(code, isToday ? today : undefined, vs);
     },
     [lib, startFromCode],
@@ -321,6 +391,9 @@ export function useGame(lib: Library) {
     setLastFold(null);
     dailyRef.current = savedDaily?.seed === saved.seed ? savedDaily : null;
     setSavedDaily(null);
+    scenarioRef.current = savedScenario && scenarioFor(savedScenario.week)?.seed === saved.seed ? savedScenario : null;
+    setPlayingScenario(scenarioRef.current);
+    setSavedScenario(null);
     setChallenge(savedChallenge);
     setSavedChallenge(null);
     setState(ensureCard(lib, run));
@@ -330,12 +403,12 @@ export function useGame(lib: Library) {
     const open = openRef.current;
     if (open && (moved || open.code !== encodeRunCode(runCodeOf(saved)) || open.cards.length !== saved.cardCount)) shelveOpen();
     else if (open) resumedRef.current = true;
-  }), [lib, saved, savedDaily, savedChallenge, shelveOpen, crash]);
+  }), [lib, saved, savedDaily, savedScenario, savedChallenge, shelveOpen, crash]);
 
-  /** A run has ended: fold it into the profile, and into the daily only if it was that. */
+  /** A run has ended: fold it into the profile, and into the daily or the week's scenario only if it was that. */
   const foldFinished = useCallback(
     (done: GameState) => {
-      const fold = foldRun(lib, metaRef.current, done, dailyRef.current ?? undefined, todayKey());
+      const fold = foldRun(lib, metaRef.current, done, dailyRef.current ?? undefined, todayKey(), scenarioRef.current);
       metaRef.current = fold.meta;
       setMeta(fold.meta);
       setLastFold(fold);
@@ -343,6 +416,8 @@ export function useGame(lib: Library) {
       // There is progress to lose now, so the browser is asked to keep it (BACKLOG-8 phase 50).
       askToBeKept();
       dailyRef.current = null;
+      scenarioRef.current = null;
+      setPlayingScenario(null);
     },
     [lib],
   );
@@ -463,12 +538,15 @@ export function useGame(lib: Library) {
     clearRun();
     setSaved(null);
     setSavedDaily(null);
+    setSavedScenario(null);
     setSavedChallenge(null);
     setChallenge(null);
     setTransition(null);
     setState(null);
     setLastFold(null);
     dailyRef.current = null;
+    scenarioRef.current = null;
+    setPlayingScenario(null);
   }, []);
 
   // An action that threw is thrown again here, where the error screen can catch it.
@@ -480,11 +558,14 @@ export function useGame(lib: Library) {
     transition,
     saved,
     savedDaily,
+    savedScenario,
+    playingScenario,
     challenge,
     meta,
     lastFold,
     start,
     startDaily,
+    startScenario,
     startFromCode,
     playShared,
     continueSaved,

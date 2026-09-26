@@ -21,6 +21,7 @@
     "playtests": "tsx scripts/playtests.ts",
     "voice": "tsx scripts/voice.ts",
     "contracts": "tsx scripts/contracts.ts",
+    "scenarios": "tsx scripts/scenarios.ts",
     "store:assets": "tsx scripts/store-assets.ts"
   },
   "devDependencies": {

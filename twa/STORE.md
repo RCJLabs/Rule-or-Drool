@@ -381,6 +381,12 @@ with one questionnaire gathered from the questions below:
   A record's run code carries its eras, so the report replays a short term with the bots on the
   same one era, as it does a first term. Short terms keep no contracts. How many runs testers
   take short is the nearest the records come to saying whether a full reign is too long.
+- Since v0.86.0 there is a scenario each week (BACKLOG-12 phase 78): the same run for everyone,
+  a goal, and one try. Nothing is dealt differently and the deck is still c8agx015. A record marks
+  a scenario's run as a kind of its own, `scenario`, beside own, daily and shared. The profile
+  saves as v11, so progress moved from v0.86.0 into an older version is refused as newer. Each
+  week's goal was measured with bots that each decide a card in five their own way; question 10
+  now asks whether a scenario's goal felt too easy or too hard, which is the check on that.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

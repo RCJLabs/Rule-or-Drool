@@ -951,6 +951,36 @@ describe.skipIf(!target)("in a browser", () => {
       await close(page);
       expect(failures).toEqual([]);
     });
+
+    // The week's scenario (BACKLOG-12 phase 78): offered on a veteran's menu by its week, set out
+    // in the codex, its goal said at an era's door, and told at the end of the one try. The clock
+    // is fixed in the first week, which the scenario is dealt from.
+    it("offers the week's scenario, says its goal between eras and at the end, and reads and fits the smallest phone", async () => {
+      const meta = { ...emptyMeta(), runs: 1, endings: { finale_muddle: 1 }, objectives: { obj_first_run: 1, obj_finale: 1 } };
+      const w = STRINGS.scenario;
+      const failures: string[] = [];
+      const page = await open(browser, { width: 360, height: 640, at: "2026-09-23T12:00:00Z" });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      await page.getByRole("button", { name: w.menu.replace("{n}", "1"), exact: true }).click();
+      await page.waitForSelector(".scenario-goal");
+      failures.push(...(await contrast(page, "the week's scenario in the codex")));
+      failures.push(...(await misfits(page, "the week's scenario in the codex", { mayScroll: true })));
+      await page.getByRole("button", { name: w.start }).click();
+      await page.waitForSelector(".card");
+      await playFrom(page, LATE.muddle, { cardCount: library.config.eraLength - 1, era: 1 });
+      await page.waitForSelector("#era-goal");
+      failures.push(...(await contrast(page, "the week's goal at an era's door")));
+      failures.push(...(await misfits(page, "the week's goal at an era's door", { mayScroll: true })));
+      await page.getByRole("button", { name: STRINGS.ui.continueEra }).click();
+      await page.waitForSelector(".card");
+      await endRun(page, LATE.muddle);
+      if (!(await page.locator(".scenario-mark").count())) failures.push("the end of the week's try does not say how it went");
+      failures.push(...(await contrast(page, "the end of the week's try")));
+      failures.push(...(await misfits(page, "the end of the week's try", { mayScroll: true })));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
   });
 
   describe("a run fits the screen", () => {

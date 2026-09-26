@@ -18,8 +18,8 @@ import { encodeRunCode, runCodeOf } from "../meta/runcode";
 export const RECORD_FORMAT = "rule-or-drool-playtest";
 export const RECORD_VERSION = 1;
 
-/** How a run began: a new one, today's daily, or from a code someone sent. */
-export const RUN_KINDS = ["own", "daily", "shared"] as const;
+/** How a run began: a new one, today's daily, from a code someone sent, or the week's scenario (BACKLOG-12 phase 78). */
+export const RUN_KINDS = ["own", "daily", "shared", "scenario"] as const;
 export type RunKind = (typeof RUN_KINDS)[number];
 
 /** What the clock in front of a card measured. */

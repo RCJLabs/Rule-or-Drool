@@ -70,6 +70,11 @@ export interface MetaState {
    * kept are here; the week's contracts themselves are dealt again from its number.
    */
   contracts: ContractWeek[];
+  /**
+   * The week's scenario, by week, oldest first (BACKLOG-12 phase 78): each week's one try, from the
+   * moment it was started, and how it went once it ended.
+   */
+  scenarios: ScenarioTry[];
 }
 
 /** A week's contracts kept, by id. */
@@ -137,6 +142,25 @@ export interface ChronicleEntry {
   line?: number;
   /** A second road (BACKLOG-5 phase 34). */
   road?: true;
+}
+
+/**
+ * A week's scenario, tried (BACKLOG-12 phase 78). Starting it is the try: one left for another run
+ * stays here with no result, and the week is not offered again.
+ */
+export interface ScenarioTry {
+  week: number;
+  /** How it went, once it ended; absent while it is under way or after it was left. */
+  result?: ScenarioResult;
+}
+
+export interface ScenarioResult {
+  /** The run met the week's goal. */
+  met: boolean;
+  cards: number;
+  ending: string;
+  /** What history called the run, as a history key. */
+  history: string;
 }
 
 export interface PromiseRecord {

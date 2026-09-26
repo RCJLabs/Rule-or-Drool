@@ -32,13 +32,15 @@ describe("the codex", () => {
     const p = codexProgress(library, veteran);
     expect([...document.querySelectorAll(".codex-group h2")].map((h) => h.textContent)).toEqual(Object.values(c.groups));
     const counts = Object.fromEntries([...document.querySelectorAll(".codex-row")].map((r) => [r.querySelector(".codex-row-title")!.textContent, r.querySelector(".codex-row-count")!.textContent]));
-    expect(Object.keys(counts)).toHaveLength(14);
+    expect(Object.keys(counts)).toHaveLength(15);
     for (const kind of ["finished", "chosen", "fallen"] as const) {
       expect(counts[c.kinds[kind]]).toBe(`${p.endingsByKind[kind].seen}/${p.endingsByKind[kind].total}`);
     }
     expect(counts[c.histories]).toBe(`${p.historiesSeen}/${p.historiesTotal}`);
     expect(counts[c.legacies]).toBe(`${p.legaciesSeen}/${p.legaciesTotal}`);
     expect(counts[c.history]).toBe(String(veteran.runs));
+    // The weeks' scenarios met, of those tried (BACKLOG-12 phase 78).
+    expect(counts[STRINGS.scenario.title]).toBe(`0/${(veteran.scenarios ?? []).length}`);
     expect(opened()).toEqual([]);
     expect(document.querySelector(".codex-panel")).toBeNull();
   });

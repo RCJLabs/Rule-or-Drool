@@ -43,6 +43,8 @@ interface Props {
   onSettings: () => void;
   onCabinet: () => void;
   onTaught: (id: string) => void;
+  /** The week's goal, when the run is the try at the week's scenario (BACKLOG-12 phase 78). */
+  goal?: string | null;
 }
 
 const LEAVE_MS = 260;
@@ -63,7 +65,7 @@ interface Heard {
   standing: string[];
 }
 
-export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift , settings, onSettings, onCabinet, onTaught }: Props) {
+export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift, settings, onSettings, onCabinet, onTaught, goal = null }: Props) {
   const [peek, setPeek] = useState<Side | null>(null);
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
@@ -370,7 +372,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
         </p>
       </footer>
       {transition !== null && (
-        <EraTransition lib={lib} state={state} era={transition} reduceMotion={settings.reduceMotion} onContinue={dismissTransition} />
+        <EraTransition lib={lib} state={state} era={transition} reduceMotion={settings.reduceMotion} onContinue={dismissTransition} goal={goal} />
       )}
       {debug && <Debug state={state} theme={theme} />}
       {/* Shown by the stylesheet on a phone held sideways, and to the eye only: a screen

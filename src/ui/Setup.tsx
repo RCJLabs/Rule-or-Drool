@@ -4,7 +4,27 @@ import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
 import { isFirstTerm, isLongReign, rollSetup } from "../engine/state";
 import type { GameState, Inheritance, PlayerAlign } from "../engine/types";
-import { codexProgress, dailyNumber, dailySeed, encodeRunCode, firstTermDue, historyTitle, inheritanceFrom, keptIn, longReignOpen, streakOf, takeOverFrom, todayKey, weekNumber, type Decoded, type MetaState, type RunCode, type RunResult } from "../meta";
+import {
+  codexProgress,
+  dailyNumber,
+  dailySeed,
+  encodeRunCode,
+  firstTermDue,
+  historyTitle,
+  inheritanceFrom,
+  keptIn,
+  longReignOpen,
+  scenarioFor,
+  scenarioTry,
+  streakOf,
+  takeOverFrom,
+  todayKey,
+  weekNumber,
+  type Decoded,
+  type MetaState,
+  type RunCode,
+  type RunResult,
+} from "../meta";
 import { MANDATES_BY_ID, brokenByFlags } from "../engine/mandates";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
@@ -13,9 +33,9 @@ import { MandatePicker } from "./MandatePicker";
 import { ReignPicker, type ReignChoice } from "./ReignPicker";
 import { StartPicker } from "./StartPicker";
 import { SetupSummary } from "./SetupSummary";
-import { dailyCode, randomSeed } from "./flow";
+import { dailyCode, isScenarioCode, randomSeed } from "./flow";
 import { dailyName } from "./DailyMonth";
-import type { DailyMark } from "./save";
+import type { DailyMark, ScenarioMark } from "./save";
 import { themeFor } from "./theme";
 
 interface Props {
@@ -23,6 +43,8 @@ interface Props {
   saved: GameState | null;
   /** The saved run's daily, when it is one. */
   savedDaily?: DailyMark | null;
+  /** The saved run's week, when it is the try at a week's scenario (BACKLOG-12 phase 78). */
+  savedScenario?: ScenarioMark | null;
   meta: MetaState;
   onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number, inheritance?: Inheritance | null) => void;
   onDaily: (align: PlayerAlign, mandates: readonly string[]) => void;
@@ -38,12 +60,33 @@ interface Props {
   onCodex: () => void;
   /** Open the codex at this week's contracts (BACKLOG-10 phase 60). */
   onContracts?: () => void;
+  /** Open the codex at the week's scenario (BACKLOG-12 phase 78). */
+  onScenario?: () => void;
   onSettings: () => void;
   /** Today's UTC day, for the daily; the clock's by default. */
   today?: string;
 }
 
-export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContinue, onCodex, onContracts, onSettings, shared, sharedResult, sharedDeck, onPlayShared, onDismissShared, today = todayKey() }: Props) {
+export function Setup({
+  lib,
+  saved,
+  savedDaily,
+  savedScenario,
+  meta,
+  onStart,
+  onDaily,
+  onContinue,
+  onCodex,
+  onContracts,
+  onScenario,
+  onSettings,
+  shared,
+  sharedResult,
+  sharedDeck,
+  onPlayShared,
+  onDismissShared,
+  today = todayKey(),
+}: Props) {
   const [seed, setSeed] = useState(() => randomSeed());
   const [align, setAlign] = useState<PlayerAlign>("left");
   // None, one, or a platform of two (BACKLOG-10 phase 62).
@@ -91,11 +134,26 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
   const { current: streak } = streakOf(meta.dailies, today);
   // This week's contracts, once there are full reigns to keep them with (BACKLOG-10 phase 60).
   const week = weekNumber(today);
+  // And the week's scenario, which says on the menu how its one try went (BACKLOG-12 phase 78).
+  const scenario = termDue ? null : scenarioFor(week);
+  const tried = scenario ? scenarioTry(meta, scenario.week) : undefined;
+  const savedIsScenario = !!saved && !!savedScenario && scenarioFor(savedScenario.week)?.seed === saved.seed;
+  const sc = STRINGS.scenario;
+  const scenarioLabel = !scenario
+    ? ""
+    : (tried?.result ? (tried.result.met ? sc.menuMet : sc.menuMissed) : tried ? (savedIsScenario && savedScenario?.week === scenario.week ? sc.menuUnderWay : sc.menuLeft) : sc.menu).replace(
+        "{n}",
+        String(scenario.week),
+      );
   // Today's daily, sent by someone who played it, is today's daily here too (phases 37 and 38).
   const sharedIsDaily =
     !!shared?.ok &&
     shared.code.seed === dailySeed(today) &&
     encodeRunCode(shared.code) === encodeRunCode(dailyCode(lib, shared.code.seed, shared.code.align, shared.code.mandates));
+  // This week's scenario, sent by someone who played it, is this week's try here too (BACKLOG-12
+  // phase 78), past the first term, as the daily is.
+  const sharedScenario = shared?.ok && scenario && isScenarioCode(lib, shared.code, scenario) ? scenario : null;
+  const sharedTried = !!sharedScenario && !!tried;
   // "The same deck" only when the link says so and it is this one (BACKLOG-8 phase 49).
   const deck = deckStamp(lib);
   const offerBody = !sharedDeck ? STRINGS.share.offerMaybe : sharedDeck === deck ? STRINGS.share.offerBody : STRINGS.share.offerOtherDeck;
@@ -118,6 +176,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
                 <SetupSummary lib={lib} modifiers={shared.code.modifiers} align={shared.code.align} />
                 {shared.code.eraCount !== undefined && <p className="shared-reign">{shared.code.eraCount < lib.config.eraCount ? STRINGS.reign.offerFirst : STRINGS.reign.offer}</p>}
                 {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
+                {sharedScenario && <p className="shared-daily">{(sharedTried ? sc.offerTried : sc.offer).replace("{n}", String(sharedScenario.week))}</p>}
                 {sharedIsDaily && n && (
                   <p className="shared-daily">{(dailyPlayed ? STRINGS.share.offerDailyPlayed : STRINGS.share.offerDaily).replace("{n}", String(n))}</p>
                 )}
@@ -150,6 +209,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             {isLongReign(lib, saved) && ` · ${STRINGS.reign.short}`}
             {isFirstTerm(lib, saved) && ` · ${STRINGS.reign.firstShort}`}
             {savedDaily && ` · ${dailyName(savedDaily.day)}`}
+            {savedIsScenario && ` · ${sc.heading.replace("{n}", String(savedScenario!.week))}`}
           </button>
         )}
         {saved && !savedGone && savedUpdated && <p className="saved-note">{STRINGS.ui.savedUpdated}</p>}
@@ -199,11 +259,18 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
           </button>
         </div>
         {streak > 0 && <p className="menu-streak">{STRINGS.daily.menuStreak.replace("{n}", String(streak))}</p>}
-        {week !== null && !termDue && onContracts && (
+        {week !== null && !termDue && (onContracts || (scenario && onScenario)) && (
           <div className="meta-row">
-            <button type="button" className="menu-contracts" onClick={onContracts}>
-              {STRINGS.contracts.menu.replace("{n}", String(keptIn(meta, week).length))}
-            </button>
+            {scenario && onScenario && (
+              <button type="button" className="menu-contracts menu-scenario" onClick={onScenario}>
+                {scenarioLabel}
+              </button>
+            )}
+            {onContracts && (
+              <button type="button" className="menu-contracts" onClick={onContracts}>
+                {STRINGS.contracts.menu.replace("{n}", String(keptIn(meta, week).length))}
+              </button>
+            )}
           </div>
         )}
         <p className="hint">{STRINGS.ui.hint}</p>

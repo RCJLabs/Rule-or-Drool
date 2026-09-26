@@ -441,3 +441,85 @@ changes.
   menu still says "A first term".
 - Under Take office, the short term is below the fold on a 360×640 phone, as Take office already
   is.
+
+## Phase 78. A week's scenario (idea 4) — *done*
+
+**Shipped in v0.86.0.** Nothing is dealt differently: the deck is still c8agx015. The profile's
+save version goes from 10 to 11.
+
+- **What.** One run a week for everyone, and a goal:
+  - the run is a seed and a side, and a promise when the goal names one, dealt with no unlocks as
+    the daily is;
+  - the goal is in the contracts' words: "Reach the Ascent finale leading the Ledger."
+- **Where.** Past the first term, the menu has *Week n's scenario* beside the contracts. It opens
+  the week in the codex: the goal, the side and promise, the setup, and *Start the scenario*.
+  - Starting it is the try. The profile writes the try down before the first card, so a try left
+    for another run is spent. A try left for later carries on from the menu and counts when it
+    ends.
+  - A link to the week's scenario is the try too, until the week is tried, so a friend's link is
+    not a practice run. The offer says so, as it does for the daily.
+  - The goal is said at each era's door, under the era's rule. The play screen has no room for it
+    under the longest cards.
+  - The end of the try says whether the goal was met, and so does the share text: *Rule or Drool,
+    week 3's scenario — "…"*, then *Goal met: …*. The codex lists the weeks before.
+- **What it counts for.** What any full reign counts for: the codex, the chronicle, the
+  objectives and the week's contracts. A second road taken from its end is not the try.
+
+**The measure the backlog asked for does not work as written.** It asked for each goal's success
+rate "for the informed voter and the eyes bot on its week's seed". A seed deals the same run to
+the same choices, and both bots choose the same way every time. On one seed, the eyes bot played
+the same run 200 times in 200, and the informed voter played it two ways, through tie-breaks. A
+goal is met by them always or never.
+
+So each week is measured with the two bots aiming at the goal, as the contracts' measure has
+them, and each deciding a card in five its own way. They never do that on a vote, never onto a
+side that ends the run there, and never to break a promise they hold. A week's rate is over 100
+such runs a bot, after a screen of 30.
+
+**Measured.**
+
+- The same goal swings with the seed. Over 24 seeds, the Ascent for the right was met by the
+  informed voter in 0–60% of runs and by the eyes bot in 17–93%. That is why each week is
+  measured, and not each goal.
+- The table ships with the game: 156 weeks, three years from 21 September 2026. It is 17 KB,
+  2.6 KB gzipped.
+  - It took 1,836 candidates and 27 minutes to find.
+  - Every week's goal is met by both bots in 20–50% of runs. The mean is 35.2% for the
+    informed voter and 33.8% for the eyes bot.
+- A first search took the kinds of goal in a fixed order. The kind after the hardest one took the
+  weeks the hardest could not fit, so 60 of the 156 weeks asked for a promise kept, one promise
+  33 times. The search now tries the kinds used least first:
+
+  | Goals over the 156 weeks | Fixed order | Least used first |
+  |---|---|---|
+  | The Ascent, for the side | 12 | 18 |
+  | The Muddle, for the side | 17 | 18 |
+  | The Ascent, cheating no vote | 18 | 17 |
+  | The Muddle, cheating no vote | 11 | 17 |
+  | A promise kept to the finale | 41 | 18 |
+  | The broad promise kept | 19 | 17 |
+  | All three groups above sixty | 15 | 17 |
+  | A legacy left | 17 | 17 |
+  | A rarer legacy left | 6 | 17 |
+  | Sides, left / right | 67 / 89 | 77 / 79 |
+- A test measures two weeks again and must get the same rates. So the table is what the search
+  found on this engine and this deck. Another deck fails the test until
+  `npm run scenarios -- --from <this week>` measures the weeks from then on; the weeks already
+  played keep their run.
+
+**Caveats.**
+
+- Whether people meet a goal in a fifth to a half of their tries is a guess. The band holds for
+  bots that decide a card in five their own way. Question 10 now asks testers whether a
+  scenario's goal felt too easy or too hard.
+- The one try is kept by the profile, not a server. A second device, or erasing progress, gets
+  another. It is for comparing among friends, not a ladder.
+- Left out of the goals:
+  - the Decay, which the two bots do not aim at;
+  - a run with no self-serving choice;
+  - a clean reign and the clean promise, met nearly always;
+  - most rare legacies, met nearly never.
+- The table runs out after week 156, in September 2029. Past it the menu offers no scenario
+  until `npm run scenarios -- --weeks <more>` extends it.
+- One goal names a line the bars show only roughly: "all three of your groups above sixty". That
+  wording was already the contracts'.

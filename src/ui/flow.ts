@@ -4,7 +4,7 @@ import { inCatalogOrder } from "../engine/mandates";
 import { resolve } from "../engine/resolve";
 import { newRun, rollSetup } from "../engine/state";
 import type { GameState, Inheritance, PlayerAlign, Side } from "../engine/types";
-import { setupOf, type RunCode } from "../meta/runcode";
+import { encodeRunCode, setupOf, type RunCode } from "../meta/runcode";
 
 /** Pure UI-level flow on top of the engine, kept out of React so it is testable. */
 
@@ -37,6 +37,11 @@ export function beginRunFromCode(lib: Library, code: RunCode): GameState {
  */
 export function dailyCode(lib: Library, seed: number, align: PlayerAlign, mandates: readonly string[]): RunCode {
   return { seed, align, modifiers: rollSetup(lib, seed, align, []).modifiers ?? [], unlocked: [], mandates: inCatalogOrder(mandates) };
+}
+
+/** Whether a run code is a week's scenario: its run, dealt as it is dealt to everyone (BACKLOG-12 phase 78). */
+export function isScenarioCode(lib: Library, code: RunCode, s: { seed: number; align: PlayerAlign; mandates: readonly string[] }): boolean {
+  return code.seed === s.seed && encodeRunCode(code) === encodeRunCode(dailyCode(lib, s.seed, s.align, s.mandates));
 }
 
 /** Draw if the table is empty (after an era transition, or a save taken between cards). */

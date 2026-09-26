@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { library } from "../content";
 import { DECK_PATTERN } from "../engine/deck";
-import { decodeRunCode, decodeRunResult, type Decoded, type RunResult } from "../meta";
+import { decodeRunCode, decodeRunResult, scenarioFor, todayKey, weekNumber, type Decoded, type RunResult } from "../meta";
 import { STRINGS } from "../content/strings";
 import { Codex, type CodexSection } from "./Codex";
 import { Ending } from "./Ending";
@@ -11,6 +11,7 @@ import { HowItWorks } from "./HowItWorks";
 import { MoveProgress } from "./MoveProgress";
 import { NoticeDialog } from "./Notice";
 import { SettingsMenu } from "./SettingsMenu";
+import { goalOf } from "./Scenario";
 import { Setup } from "./Setup";
 import { useGame } from "./useGame";
 import { useServiceWorker } from "./useServiceWorker";
@@ -23,6 +24,11 @@ function progressInHash(): string | null {
 
 export function App() {
   const game = useGame(library);
+  // The saved run is this week's try at the scenario, left for later (BACKLOG-12 phase 78).
+  const thisWeek = scenarioFor(weekNumber(todayKey()));
+  const scenarioUnderWay = !!game.saved && !!thisWeek && game.savedScenario?.week === thisWeek.week && game.saved.seed === thisWeek.seed;
+  const playing = game.playingScenario ? scenarioFor(game.playingScenario.week) : null;
+  const playingGoal = playing ? goalOf(playing) : null;
   const sw = useServiceWorker();
   // The codex section left open, so going back to the menu and returning finds it open.
   const [codexOpen, setCodexOpen] = useState<CodexSection | null>(null);
@@ -138,7 +144,19 @@ export function App() {
     return (
       <>
         {banner}
-        <Codex lib={library} meta={game.meta} onBack={game.closeCodex} onSettings={game.openSettings} open={codexOpen} onOpen={setCodexOpen} />
+        <Codex
+          lib={library}
+          meta={game.meta}
+          onBack={game.closeCodex}
+          onSettings={game.openSettings}
+          open={codexOpen}
+          onOpen={setCodexOpen}
+          onStartScenario={() => {
+            game.closeCodex();
+            game.startScenario();
+          }}
+          scenarioUnderWay={scenarioUnderWay}
+        />
         {settingsMenu}
         {raised}
         {notice}
@@ -153,6 +171,7 @@ export function App() {
           lib={library}
           saved={game.saved}
           savedDaily={game.savedDaily}
+          savedScenario={game.savedScenario}
           meta={game.meta}
           onStart={game.start}
           onDaily={game.startDaily}
@@ -168,6 +187,10 @@ export function App() {
           onCodex={game.openCodex}
           onContracts={() => {
             setCodexOpen("contracts");
+            game.openCodex();
+          }}
+          onScenario={() => {
+            setCodexOpen("scenario");
             game.openCodex();
           }}
           onSettings={game.openSettings}
@@ -214,6 +237,7 @@ export function App() {
         onSettings={game.openSettings}
         onCabinet={game.openCabinet}
         onTaught={game.markTaught}
+        goal={playingGoal}
       />
       {game.showCabinet && <Cabinet lib={library} state={game.state} onClose={game.closeCabinet} />}
       {settingsMenu}

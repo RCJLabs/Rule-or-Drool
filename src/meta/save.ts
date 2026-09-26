@@ -5,7 +5,7 @@ import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
 import { holdKey, releaseKey, removeKey, writeKey } from "./storage";
 import { TIERS } from "./contracts";
-import type { ContractWeek, DailyEntry, MetaState, RunRecord } from "./types";
+import type { ContractWeek, DailyEntry, MetaState, RunRecord, ScenarioTry } from "./types";
 
 const META_KEY = "rod.meta";
 /** Profiles this version could not read, kept instead of written over (BACKLOG-8 phase 50). */
@@ -62,6 +62,8 @@ export function migrateMeta(raw: unknown): MetaState | null {
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
     dailies: dailiesOf(data.dailies, kept),
     contracts: contractsOf(data.contracts),
+    // v10 -> v11: the week's scenario (BACKLOG-12 phase 78). A profile from before tried none.
+    scenarios: scenariosOf(data.scenarios),
   };
 }
 
@@ -91,6 +93,34 @@ function contractsOf(raw: unknown): ContractWeek[] {
     if (ids.length) byWeek.set(week, ids);
   }
   return [...byWeek].sort((a, b) => a[0] - b[0]).map(([week, ids]) => ({ week, kept: ids }));
+}
+
+/**
+ * The weeks' scenarios tried (BACKLOG-12 phase 78), read as carefully as the contracts: whole
+ * weeks from the first on, each once. A result the game could not have written is dropped, and
+ * the week stays tried.
+ */
+function scenariosOf(raw: unknown): ScenarioTry[] {
+  const byWeek = new Map<number, ScenarioTry>();
+  for (const t of Array.isArray(raw) ? raw : []) {
+    if (!t || typeof t !== "object") continue;
+    const { week, result } = t as Record<string, unknown>;
+    if (typeof week !== "number" || !Number.isInteger(week) || week < 1 || byWeek.has(week)) continue;
+    const r = result && typeof result === "object" ? (result as Record<string, unknown>) : null;
+    const ok =
+      r &&
+      typeof r.met === "boolean" &&
+      typeof r.cards === "number" &&
+      Number.isInteger(r.cards) &&
+      r.cards >= 0 &&
+      typeof r.ending === "string" &&
+      typeof r.history === "string";
+    byWeek.set(
+      week,
+      ok ? { week, result: { met: r.met as boolean, cards: r.cards as number, ending: r.ending as string, history: r.history as string } } : { week },
+    );
+  }
+  return [...byWeek.values()].sort((a, b) => a.week - b.week);
 }
 
 /**

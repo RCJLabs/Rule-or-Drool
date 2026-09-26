@@ -10,7 +10,8 @@ import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
 import { endingKind, rumours, type EndingKind } from "./clues";
 import { OBJECTIVES, collectsEnding, firstTermDue } from "./objectives";
 import { answeredQuestions } from "./questions";
-import type { DailyEntry, MetaState, RunRecord } from "./types";
+import { scenarioResult, withResult } from "./scenario";
+import type { DailyEntry, MetaState, RunRecord, ScenarioResult } from "./types";
 
 /** How many past runs the codex keeps. */
 export const HISTORY_LENGTH = 12;
@@ -40,6 +41,7 @@ export function emptyMeta(): MetaState {
     heard: [],
     dailies: [],
     contracts: [],
+    scenarios: [],
   };
 }
 
@@ -63,15 +65,24 @@ export interface RunFold {
    * A short term chosen after that is not one (BACKLOG-12 phase 77).
    */
   firstSeenThrough: boolean;
+  /** How the week's scenario went, when this run was the week's try at it (BACKLOG-12 phase 78). */
+  scenario: { week: number; result: ScenarioResult } | null;
 }
 
 /**
  * Fold a finished run into meta state: record the ending and epilogue, then re-check every
  * objective against the updated meta. Pure, so the UI can show what a run earned. `today` is the
  * UTC day the run ended on, which says whose week's contracts it can keep; without one it keeps
- * none.
+ * none. `scenario` is the week whose scenario this run was the try at (BACKLOG-12 phase 78).
  */
-export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: { day: string; seed: number }, today?: string): RunFold {
+export function foldRun(
+  lib: Library,
+  meta: MetaState,
+  run: GameState,
+  daily?: { day: string; seed: number },
+  today?: string,
+  scenario?: { week: number } | null,
+): RunFold {
   if (!run.over)
     return {
       meta,
@@ -83,6 +94,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
       daily: null,
       newContracts: [],
       firstSeenThrough: false,
+      scenario: null,
     };
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
@@ -192,7 +204,21 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     }
   }
   const firstSeenThrough = firstTermDue(meta) && !firstTermDue(next);
-  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory, daily: entry, newContracts, firstSeenThrough };
+  // The week's scenario, when this run was its try (BACKLOG-12 phase 78).
+  const result = scenario ? scenarioResult(meta, scenario.week, run, band, history.key) : null;
+  if (scenario && result) next.scenarios = withResult(meta.scenarios ?? [], scenario.week, result);
+  return {
+    meta: next,
+    newObjectives,
+    newUnlocks,
+    newEnding,
+    history,
+    newHistory,
+    daily: entry,
+    newContracts,
+    firstSeenThrough,
+    scenario: scenario && result ? { week: scenario.week, result } : null,
+  };
 }
 
 /** Codex progress for the UI. */

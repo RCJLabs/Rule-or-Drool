@@ -165,6 +165,16 @@ export function contractsKept(run: GameState, band: Band, week: number, already:
     .map((c) => c.id);
 }
 
+/**
+ * Whether a finished run keeps a contract, whichever week dealt it: the week's scenario sets one
+ * as its goal (BACKLOG-12 phase 78). False for an id this version does not know.
+ */
+export function keepsContract(id: string, run: GameState, band: Band): boolean {
+  const [key, param = ""] = id.split(/:(.*)/s);
+  const t = TEMPLATES_BY_KEY.get(key ?? "");
+  return !!t && !!run.over && (t.params.length ? t.params.includes(param) : param === "") && t.keeps(run, band, param);
+}
+
 /** What a profile kept in a week. */
 export function keptIn(meta: Pick<MetaState, "contracts">, week: number): string[] {
   return meta.contracts.find((w) => w.week === week)?.kept ?? [];

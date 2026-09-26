@@ -15,6 +15,8 @@ interface Props {
   /** Instant rather than staged, when the player has asked for less movement. */
   reduceMotion: boolean;
   onContinue: () => void;
+  /** The week's goal, when the run is the try at the week's scenario (BACKLOG-12 phase 78). */
+  goal?: string | null;
 }
 
 /** How many of the country's legacies to name before counting the rest. */
@@ -33,7 +35,7 @@ const NAMED = 4;
  * era 3, with 2.2 to 3.4 decisions still owed. The cabinet is left out on the same evidence
  * — 8.3 of the 9 are there from the first day, so its tenure says nothing at a boundary.
  */
-export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Props) {
+export function EraTransition({ lib, state, era, reduceMotion, onContinue, goal = null }: Props) {
   const info = STRINGS.eras[era - 1];
   const rule = STRINGS.eraRules[era - 1];
   const carried = state.flags.filter((f) => LEGACIES[f]).map((f) => LEGACIES[f]!);
@@ -51,7 +53,7 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
   // which changes what every choice from here can do, so it is said first among the rules.
   const locked = state.bandLocked && era === lib.config.bandLockAfterEra + 1;
   // Only what is on the panel: an era with nothing owed or no new rule has no such line.
-  const described = ["era-lead", owed > 0 ? "era-owed" : "", locked ? "era-locked" : "", rule ? "era-rule" : "", ...bends.map((_, i) => `era-bend-${i}`)]
+  const described = ["era-lead", owed > 0 ? "era-owed" : "", locked ? "era-locked" : "", rule ? "era-rule" : "", ...bends.map((_, i) => `era-bend-${i}`), goal ? "era-goal" : ""]
     .filter(Boolean)
     .join(" ");
 
@@ -111,6 +113,12 @@ export function EraTransition({ lib, state, era, reduceMotion, onContinue }: Pro
             {text}
           </p>
         ))}
+        {/* The play screen has no room for the week's goal, so it is said at each era's door. */}
+        {goal && (
+          <p className="era-rule era-goal" id="era-goal">
+            <b>{STRINGS.scenario.goal}</b> {goal}
+          </p>
+        )}
         <button type="button" className="primary" onClick={onContinue} autoFocus>
           {STRINGS.ui.continueEra}
         </button>
