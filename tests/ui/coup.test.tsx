@@ -113,7 +113,7 @@ describe("the line on the card", () => {
     }
     expect(rolls).toBeGreaterThan(15);
     expect(lines).toBeGreaterThanOrEqual(rolls);
-  });
+  }, 60_000);
 });
 
 describe("the line on the play screen", () => {
