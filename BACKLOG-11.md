@@ -439,3 +439,45 @@ with the range measured over three seeds, 32–56%, beside it.
   have.
 - A clean fight is now broken in most runs on it that do not watch the campaign cards, as its
   cost says. Whether a player reads the cost before the first campaign is not measured.
+
+## Phase 67. Say why the run ended (idea 2) — *done*
+
+**Shipped in v0.75.0.** Nothing is dealt differently: the deck is still 7jyrup04.
+
+A run cut short says why under the ending's own words, in one or two sentences read back from
+its last choice and the run as it stood with that card on the table (`endCause`, `causeLine`):
+
+- **A meter at its edge:** where it stood, the side taken, and that it was the last of it. "Money
+  was already at the edge when you chose “Pay the new rate”, and that took the last of it." When
+  the side left the meter short and the era's own pressure took the rest, it says that instead.
+- **A meter over the top** says what the top means, which nothing in the game said before: "Too
+  much order ends a rule too: the police come to answer to nobody."
+- **A vote** says what the card called the count, and why losing it was the end: a second lost
+  vote, or the way back into office lost. A first lost vote only sends a run out, so a run that
+  lost one and emptied a bloc on the same card is told about the bloc.
+- **A coup** gives the odds it was rolled at, in words: "about one in five".
+- **An ending chosen outright** says the side that chose it; **a cult**, what every bloc at the
+  top at once means.
+
+It is in words, not numbers: the game shows no meter's number anywhere, and the end screen does
+not start. Where the meter stood uses the words its icon gave the eye, "already at the edge" for
+a meter the screen showed in danger. A run that cannot be read back, from before choices were
+recorded, still names the meter.
+
+**The first card's lesson** said any meter hitting bottom ends your rule. It now says the state's
+also fail at the top, in no more characters than it had: a longer one pushed the first card's
+buttons off it in the deepest looks, up to 16px, on every 360px-wide phone the audit measures.
+
+**Measured,** 1,000 runs a bot for each length of reign:
+- Every run cut short gets a line: none of 2,654 went without one.
+- A meter was already shown in danger before the card that ended the run in 98–100% of meter
+  endings. The line says what the screen showed; it rarely has news in it about the meter.
+- Careful players are cut short mostly by a story's end they chose: 21 of the mixed bot's 26
+  cut-short three-era runs and 29 of the informed voter's 30. In long reigns coups and cults
+  join them. The eyes bot's are mostly meters, 44 of 68.
+- The longest line is 187 characters, a meter over the top with what the top means. The browser
+  audit plays a run to that ending on the smallest phone and checks it reads and fits.
+
+**Caveat.** Whether a person reads the line, or already knew, is not something a bot can say.
+Ask testers what ended their last run and whether the screen told them anything they did not
+know.

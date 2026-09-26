@@ -46,7 +46,10 @@ export const LESSONS: readonly Lesson[] = [
     id: "meters",
     title: "Six meters, two kinds",
     body: () =>
-      "The first three are your coalition: three groups who want different things from you. The last three belong to the state. Any of them hitting bottom ends your rule.",
+      // The state's three fail at the top as well: the lesson said only the bottom, and the four
+      // endings at the top were explained nowhere (BACKLOG-11 phase 67). No longer than it was,
+      // or the first card's buttons are pushed off it in the deepest looks.
+      "Your coalition first: three groups who want different things. Then the state's three. Any at the bottom ends your rule, and so does one of the state's at the top.",
     when: ({ state }) => state.cardCount === 0,
   },
   {

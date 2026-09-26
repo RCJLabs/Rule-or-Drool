@@ -210,6 +210,62 @@ export const STRINGS = {
     },
   },
   /**
+   * Why a run ended, on the end screen (BACKLOG-11 phase 67): the meter and where it stood, the
+   * card and the side taken; for a vote, what the card said the count would be; for a coup, the
+   * odds it was rolled at. In words, as the meters are everywhere else: never the number. Each
+   * sentence opens with the meter, so a bloc takes a plural verb, as the collective nouns do
+   * elsewhere, and the state's meters a singular one.
+   */
+  cause: {
+    bloc: "The {name}",
+    names: { money: "Money", order: "Order", inst: "The State" },
+    /** Where the meter stood, in the words its icon gave the eye. */
+    levels: { edge: "already at the edge", low: "low", half: "at about half", high: "high" },
+    byChoice: {
+      bloc: "{meter} were {level} when you chose “{label}”, and that was the last of them.",
+      state: {
+        low: "{meter} was {level} when you chose “{label}”, and that took the last of it.",
+        high: "{meter} was {level} when you chose “{label}”, and that took it over the top.",
+      },
+    },
+    /** The side taken left the meter short of its edge; the era's own pressure took the rest. */
+    byEra: {
+      bloc: "{meter} were {level} after “{label}”, and the era's own pressure took the last of them.",
+      state: {
+        low: "{meter} was {level} after “{label}”, and the era's own pressure took the last of it.",
+        high: "{meter} was {level} after “{label}”, and the era's own pressure took it over the top.",
+      },
+    },
+    /** A run whose record cannot be read back: the meter, and nothing about the card. */
+    bare: { low: "{meter} fell to nothing.", high: "{meter} went over the top." },
+    /** The four endings for a meter that goes too high were explained nowhere. */
+    high: {
+      money: "Too much money ends a rule too: the people who hold it come to hold you.",
+      order: "Too much order ends a rule too: the police come to answer to nobody.",
+      inst: "Too much state ends a rule too: nothing gets past the committees, you included.",
+    },
+    cult: "All three blocs were near the top at once. With nobody left to disagree, that ends a rule as surely as the bottom does.",
+    lost: { narrow: "a narrow loss", plain: "a loss" },
+    count: {
+      first: "“{label}” left it to a count the card called {lost}, and it was lost.",
+      second: "“{label}” left it to a count the card called {lost}. The office had been lost once already, and a second lost vote ends a rule.",
+      back: "“{label}” left the way back to a count the card called {lost}, and a lost return vote ends a rule.",
+    },
+    choice: "You chose “{label}”, and that ended it.",
+    coup: "With the vote abolished, the dice for a coup were rolled whenever it would have fallen due. They stood at {odds} this time, and it came.",
+    /** A coup's odds, rounded to words: each is the upper end of its band. */
+    odds: [
+      [0.07, "about one in twenty"],
+      [0.14, "about one in ten"],
+      [0.22, "about one in five"],
+      [0.29, "about one in four"],
+      [0.4, "about one in three"],
+      [0.6, "about even"],
+      [0.85, "better than even"],
+      [1, "all but certain"],
+    ] as ReadonlyArray<readonly [number, string]>,
+  },
+  /**
    * The world after a run, in words, for the picture's accessible name (post-run
    * histories). `when` is indexed by the era the run ended in, at the time its epilogue is told
    * from: the first three eras' look ahead, and the long reign's are told from their own era,

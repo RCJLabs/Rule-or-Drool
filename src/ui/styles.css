@@ -1239,6 +1239,13 @@ button {
   font-size: 17px;
   line-height: var(--line);
 }
+/* Why the run ended, under what the ending says (BACKLOG-11 phase 67). */
+.ending-cause {
+  margin: 0;
+  font-size: 15px;
+  line-height: var(--line);
+  color: var(--muted);
+}
 /* What comes after a first term (BACKLOG-10 phase 59). */
 .first-term-after {
   margin: 0;

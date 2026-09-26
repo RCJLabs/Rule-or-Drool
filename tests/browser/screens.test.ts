@@ -11,14 +11,15 @@ import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
 import { draw } from "../../src/engine/draw";
 import { resolve } from "../../src/engine/resolve";
 import { newRun } from "../../src/engine/state";
-import { BLOC_KEYS, type Card } from "../../src/engine/types";
+import { BLOC_KEYS, type Card, type PlayerAlign } from "../../src/engine/types";
+import { causeLine, endCause } from "../../src/ui/cause";
 import { setupOf } from "../../src/meta/runcode";
 import { ALL_HISTORY_KEYS, HISTORY_ORDER, historyTitle } from "../../src/meta/histories";
 import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
 import { emptyMeta } from "../../src/meta/state";
 import { fitPlacements, longestSeats, shownText } from "../fit";
-import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, target, toLook } from "./harness";
+import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, startRunAt, target, toLook } from "./harness";
 
 /**
  * The game as a player's browser draws it: every screen read for contrast in every look it
@@ -543,6 +544,21 @@ describe.skipIf(!target)("in a browser", () => {
     });
   });
 
+  /** A seed whose run, the left side taken on every card, goes over the top of a meter within 40 cards. */
+  function cutShort(): { seed: number; align: PlayerAlign; cards: number; line: string } {
+    for (let seed = 1; seed < 500; seed++) {
+      for (const align of ["left", "right"] as const) {
+        const decoded = decodeRunCode(library, codeFor(seed, align));
+        if (!decoded.ok) continue;
+        let s = draw(library, newRun(library, seed, setupOf(decoded.code)));
+        while (!s.over && s.cardCount < 40) s = draw(library, resolve(library, s, s.current!, "left"));
+        const cause = s.over ? endCause(library, s) : null;
+        if (cause?.kind === "meter" && cause.edge === "high") return { seed, align, cards: s.cardCount, line: causeLine(library, s, cause)! };
+      }
+    }
+    throw new Error("no seed goes over the top in 40 cards of the left side");
+  }
+
   describe("the end of a run", () => {
     for (const band of ["ascent", "decay", "muddle"] as const) {
       it(`reads, and fits a phone's width, after a run that went to ${band}`, async () => {
@@ -563,6 +579,23 @@ describe.skipIf(!target)("in a browser", () => {
         expect(failures).toEqual([]);
       });
     }
+
+    // Why it ended (BACKLOG-11 phase 67): a run cut short says so under the ending, in words. The
+    // longest line is a meter over the top with what that means, found by taking the left side
+    // of every card, which fills the state until it stops, and played here to that same end.
+    it("says why a run cut short ended, and reads and fits the smallest phone", async () => {
+      const cut = cutShort();
+      const page = await startRunAt(browser, target!.url, cut.seed, cut.align, { width: 360, height: 640 });
+      for (let i = 0; i < cut.cards; i++) await choose(page, "left");
+      await page.waitForSelector(".ending-cause");
+      const failures: string[] = [];
+      const said = await page.textContent(".ending-cause");
+      if (said !== cut.line) failures.push(`said "${said}", not "${cut.line}"`);
+      failures.push(...(await contrast(page, "a run cut short")));
+      failures.push(...(await misfits(page, "a run cut short", { mayScroll: true })));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
 
     // A first term (BACKLOG-10 phase 59): what a new profile's menu starts, ended in a line that
     // says what comes next.

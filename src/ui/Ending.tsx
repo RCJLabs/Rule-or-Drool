@@ -26,6 +26,7 @@ import {
 import { DailyMonth, dailyName, streakLine } from "./DailyMonth";
 import { Frame } from "./Frame";
 import { lineName, tookOverLine } from "./dynasty";
+import { causeLine } from "./cause";
 import { runRecord, timeline } from "./record";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
@@ -79,6 +80,8 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const deck = deckStamp(lib);
   const sameDeck = vs?.deck ? vs.deck === deck : null;
   const theirs = useMemo(() => (vs && sameDeck !== false ? theirRun(lib, runCodeOf(state), vs) : null), [lib, state, vs, sameDeck]);
+  // Why it ended, for a run cut short (BACKLOG-11 phase 67): read back from its last choice.
+  const cause = useMemo(() => causeLine(lib, state), [lib, state]);
   const over = state.over;
   if (!over) return null;
   const ending = lib.endings.get(over.endingId);
@@ -224,6 +227,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           />
         )}
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
+        {cause && <p className="ending-cause">{cause}</p>}
         {firstTermDone && <p className="first-term-after">{STRINGS.reign.afterFirst}</p>}
 
         <section className="became">

@@ -331,6 +331,10 @@ bots (BACKLOG-5 phase 31):
   by beating you; a coup after the vote is abolished is a coup, not the rival's win; a clean
   fight breaks on a campaign won the easy way. The deck moved, so records from v0.73.1 and before
   are kept apart. The record counts a vote left to the count and lost as lost, not won.
+- Since v0.75.0 a run cut short says why under its ending: the meter and the side that took it
+  over, the count a vote was lost at, or a coup's odds (BACKLOG-11 phase 67). Nothing is dealt
+  differently, so records from v0.74.0 are read with these. Ask testers what ended their last
+  run, and whether the screen told them anything they did not already know.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a
