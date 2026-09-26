@@ -15,7 +15,7 @@ import { BLOC_KEYS, type Card, type PlayerAlign } from "../../src/engine/types";
 import { causeLine, endCause } from "../../src/ui/cause";
 import { setupOf } from "../../src/meta/runcode";
 import { endingSides, withinReach } from "../../src/meta/clues";
-import { ALL_HISTORY_KEYS, HISTORY_ORDER, historyTitle } from "../../src/meta/histories";
+import { ALL_HISTORY_KEYS, HISTORIES, HISTORY_ORDER, historyTitle, toldByEnding } from "../../src/meta/histories";
 import { collectsEnding } from "../../src/meta/objectives";
 import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
@@ -572,6 +572,23 @@ describe.skipIf(!target)("in a browser", () => {
     throw new Error("no seed goes over the top in 40 cards of the left side");
   }
 
+  /** A seed whose run, one side taken on every card, ends a story within 30 cards, the story having left a legacy. */
+  function storyEnd(): { seed: number; align: PlayerAlign; side: "left" | "right"; cards: number; ending: string; told: string[] } {
+    for (let seed = 1; seed < 500; seed++) {
+      for (const align of ["left", "right"] as const) {
+        const decoded = decodeRunCode(library, codeFor(seed, align));
+        if (!decoded.ok) continue;
+        for (const side of ["left", "right"] as const) {
+          let s = draw(library, newRun(library, seed, setupOf(decoded.code)));
+          while (!s.over && s.cardCount < 30) s = draw(library, resolve(library, s, s.current!, side));
+          const told = s.over ? [...toldByEnding(library, s)].filter((f) => HISTORIES[f]) : [];
+          if (told.length) return { seed, align, side, cards: s.cardCount, ending: s.over!.endingId, told };
+        }
+      }
+    }
+    throw new Error("no seed ends a story that left a legacy within 30 cards of one side");
+  }
+
   describe("the end of a run", () => {
     for (const band of ["ascent", "decay", "muddle"] as const) {
       it(`reads, and fits a phone's width, after a run that went to ${band}`, async () => {
@@ -606,6 +623,49 @@ describe.skipIf(!target)("in a browser", () => {
       if (said !== cut.line) failures.push(`said "${said}", not "${cut.line}"`);
       failures.push(...(await contrast(page, "a run cut short")));
       failures.push(...(await misfits(page, "a run cut short", { mayScroll: true })));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    // A story's end (BACKLOG-11 phase 72): told as a reign cut short, and what it told is not
+    // followed up again, so the road back from it is offered under the ending instead.
+    it("offers the road back from what a story's end told, under it, and reads and fits the smallest phone", async () => {
+      const story = storyEnd();
+      const page = await startRunAt(browser, target!.url, story.seed, story.align, { width: 360, height: 640 });
+      for (let i = 0; i < story.cards; i++) await choose(page, story.side);
+      await page.waitForSelector(".history-title");
+      const failures: string[] = [];
+      const kicker = (await page.textContent(".kicker")) ?? "";
+      if (!kicker.startsWith(`${STRINGS.ui.cutShort.replace("{n}", String(story.cards))} · `)) failures.push(`the line over the name says "${kicker}"`);
+      if (!(await page.locator(".ending-roads .road-back").count())) failures.push("no road back from what the ending told");
+      const became = (await page.locator(".became").textContent().catch(() => "")) ?? "";
+      for (const f of story.told) if (LEGACIES[f] && became.includes(LEGACIES[f]!)) failures.push(`"${LEGACIES[f]}" is followed up under the ending that told it`);
+      failures.push(...(await contrast(page, `${story.ending}'s end`)));
+      failures.push(...(await misfits(page, `${story.ending}'s end`, { mayScroll: true })));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    // A long reign locked in one band whose drift went the other way (BACKLOG-11 phase 72): its
+    // end was drawn in drift's look, a gold city in a Decay frame.
+    it("ends a long reign in its locked band's look wherever drift went, and reads and fits the smallest phone", async () => {
+      const { eraLength, longEraCount } = library.config;
+      const meta = { ...emptyMeta(), runs: 1, endings: { finale_muddle: 1 }, objectives: { obj_first_run: 1, obj_finale: 1 } };
+      const page = await open(browser, { width: 360, height: 640 });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      await page.getByRole("button", { name: new RegExp(`^${STRINGS.reign.long}`) }).click();
+      await page.getByLabel(STRINGS.ui.seed).fill(String(SEED));
+      await page.getByRole("button", { name: STRINGS.ui.start, exact: true }).click();
+      await page.waitForSelector(".card");
+      // Locked in the Ascent at its fourth era, and ended with drift deep in the Decay.
+      await playFrom(page, LATE.decay, { cardCount: eraLength * longEraCount - 1, era: longEraCount, band: "ascent" });
+      await page.waitForSelector(".history-title");
+      const failures: string[] = [];
+      const look = await page.locator(".frame").first().getAttribute("data-theme");
+      if (!look?.startsWith("ascent")) failures.push(`an Ascent reign ended in the ${look} look`);
+      failures.push(...(await contrast(page, "a long reign's Ascent end, drift in the Decay")));
+      failures.push(...(await misfits(page, "a long reign's Ascent end, drift in the Decay", { mayScroll: true })));
       await close(page);
       expect(failures).toEqual([]);
     });

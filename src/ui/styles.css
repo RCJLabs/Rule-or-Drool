@@ -2364,6 +2364,17 @@ button {
   font-size: 12.5px;
   border-radius: 999px;
 }
+/* Roads back from what the ending told, under it (BACKLOG-11 phase 72). */
+.ending-roads {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: calc(var(--space) * -0.6);
+}
+.ending-roads .road-back {
+  margin-top: 0;
+}
 .road-note {
   margin: 8px auto 0;
   max-width: 460px;

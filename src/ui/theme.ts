@@ -1,7 +1,9 @@
 import { STRINGS } from "../content/strings";
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
+import type { Library } from "../engine/library";
 import { settleLook, stageOf } from "../engine/look";
 import { makeRng } from "../engine/rng";
+import { exitDrift } from "../engine/state";
 import type { Band, GameState, MeterKey, PlayerAlign } from "../engine/types";
 import { BLOC_KEYS } from "../engine/types";
 
@@ -62,6 +64,26 @@ export function themeFor(drift: number, config: EngineConfig = DEFAULT_CONFIG, s
  */
 export function themeOf(state: GameState, config: EngineConfig = DEFAULT_CONFIG): Theme {
   return themeFor(state.drift, config, settleLook(state.look ?? stageOf(state.drift, config), state.drift, config));
+}
+
+/**
+ * The look the end of a run is shown in (BACKLOG-11 phase 72): the run's own, held inside the
+ * band its ending names, which is only ever different for a long reign. Its band is locked after
+ * the third era and its look went on following drift, so a reign locked in the Ascent could end
+ * in a Decay look around a gold city (1-5% of the bots' long reigns), and 23-33% ended in a look
+ * no ordinary run ending in their band shows. The play screen still follows drift, as its only
+ * sign of it.
+ */
+export function endThemeOf(lib: Library, state: GameState): Theme {
+  const config = lib.config;
+  if (!state.bandLocked) return themeOf(state, config);
+  const drift = exitDrift(lib, state);
+  const deepest = config.lookAt.length;
+  const [low, high] =
+    state.band === "ascent" ? [stageOf(config.bandAscentAt, config), deepest]
+    : state.band === "decay" ? [-deepest, stageOf(config.bandDecayAt, config)]
+    : [stageOf(config.bandDecayAt + 1, config), stageOf(config.bandAscentAt - 1, config)];
+  return themeFor(drift, config, Math.min(high, Math.max(low, state.look ?? stageOf(drift, config))));
 }
 
 /** Labels get dumber as Decay deepens. Bloc names also depend on which side you lead. */

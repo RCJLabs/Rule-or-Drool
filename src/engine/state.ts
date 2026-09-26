@@ -66,6 +66,20 @@ export function exitBand(lib: Library, state: GameState): Band {
   return state.bandLocked ? state.band : bandOf(lib, state.drift);
 }
 
+/**
+ * The drift the end of a run is drawn from: its own, held inside the band it exits in
+ * (BACKLOG-11 phase 72). Only a long reign can differ, since its band is locked after the third
+ * era and drift goes on moving: 38-48% of the bots' long reigns ended with drift outside their
+ * band, and the end screen drew a city and a look from drift under the band's own words.
+ */
+export function exitDrift(lib: Library, state: GameState): number {
+  if (!state.bandLocked) return state.drift;
+  const cfg = lib.config;
+  if (state.band === "ascent") return Math.max(state.drift, cfg.bandAscentAt);
+  if (state.band === "decay") return Math.min(state.drift, cfg.bandDecayAt);
+  return Math.min(cfg.bandAscentAt - 1, Math.max(cfg.bandDecayAt + 1, state.drift));
+}
+
 export function hasFlag(state: GameState, flag: string): boolean {
   return state.flags.includes(flag);
 }

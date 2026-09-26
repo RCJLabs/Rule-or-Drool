@@ -927,6 +927,8 @@ export const STRINGS = {
     impliedBy: "Already on: the plain screen does this.",
     eraKicker: "Era {n}",
     ruleEnds: "Your rule ends",
+    /** A run that ended before its finale: the card it stopped at (BACKLOG-11 phase 72). */
+    cutShort: "Cut short at card {n}",
     newHistoryEarned: "A new history for the codex.",
     carried: "The country is left with",
     andMore: "and {n} more",

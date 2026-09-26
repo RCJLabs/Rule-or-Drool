@@ -262,7 +262,9 @@ access. That was the rule as I know it; check the console. It is the longest ste
 applies, so it is worth starting first.
 
 If the test is needed, it can also be the game's first measurement of people rather than
-bots (BACKLOG-5 phase 31):
+bots (BACKLOG-5 phase 31). It does not have to wait for the test: the recorder works in any
+browser, so the Pages link gets the same records. `TESTERS.md` is the brief to send testers,
+with one questionnaire gathered from the questions below:
 - Ask testers to turn on Settings › *Keep a record of my runs* before their first run.
   It is off by default, and it starts with the next run.
 - At the end of the test, ask them to press *Send my record* and send you the file. It
@@ -353,6 +355,11 @@ bots (BACKLOG-5 phase 31):
   keeps every clue it has given, says when only one party can reach an ending, and names near
   misses from the whole run (BACKLOG-11 phase 71). Nothing is dealt differently. Ask testers
   whether they went after an ending the codex pointed to, and whether they reached it.
+- Since v0.80.0 a run cut short says the card it stopped at over its name; the end screen does
+  not follow up what a story's ending already told, and offers the road back from it under the
+  ending instead; and a long reign ends in the look of the band it locked (BACKLOG-11 phase 72).
+  Nothing is dealt differently. Ask testers, around their tenth run, whether the end screen still
+  tells them anything new: the repetition that idea 8's other half would fold waits on the answer.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

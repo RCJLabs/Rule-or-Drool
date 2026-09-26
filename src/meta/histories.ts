@@ -111,26 +111,68 @@ export interface History {
   /** The defining legacy, or NO_LEGACY. */
   signature: string;
   title: string;
-  /** What became of the decisions that shaped the run, most history-making first. */
+  /**
+   * What became of the decisions that shaped the run, most history-making first. None when the
+   * run's ending told what became of every one (BACKLOG-11 phase 72).
+   */
   consequences: Consequence[];
 }
 
 /** How many of a run's decisions the end screen follows up on. */
 export const CONSEQUENCES_SHOWN = 4;
 
-export function historyOf(state: GameState, band: Band): History {
+const NOTHING_TOLD: ReadonlySet<string> = new Set();
+
+/**
+ * The legacies a run's ending has already told (BACKLOG-11 phase 72): the ones the story that
+ * ended it left, on this run, and any its last card set. A story's last card says what became of
+ * the story, and "what became of it" said it again, often written for the story's other road:
+ * the printing "was stopped in time" under an ending in which the notes were worth less than the
+ * paper, and the stadium paid its debt off under one in which it hosts a car boot sale.
+ *
+ * Only the follow-ups leave them out. The name still comes from the run's defining decision,
+ * which can be the story that ended it.
+ */
+export function toldByEnding(lib: Library, state: GameState): ReadonlySet<string> {
+  // The card whose side set a flag first, where the run kept its choices.
+  const setBy = (f: string) => {
+    const at = state.flagSince?.[f];
+    const made = at ? state.choices?.[at - 1] : undefined;
+    const card = made ? lib.cards.get(made[0]) : undefined;
+    return card && made && card[made[1]].setFlags?.includes(f) ? card : null;
+  };
+  const made = state.over ? state.choices?.[state.cardCount - 1] : undefined;
+  const last = made ? lib.cards.get(made[0]) : undefined;
+  if (!last || !made || last[made[1]].ending !== state.over?.endingId) return NOTHING_TOLD;
+  const told = new Set<string>();
+  for (const f of state.flags) {
+    const by = setBy(f);
+    if (by && (by === last || (!!last.arc && by.arc === last.arc))) told.add(f);
+  }
+  return told;
+}
+
+/**
+ * What history calls a run, and what became of the decisions that made it. `told` is what the
+ * run's ending already said (`toldByEnding`), which is not followed up again.
+ */
+export function historyOf(state: GameState, band: Band, told: ReadonlySet<string> = NOTHING_TOLD): History {
   // History names what this reign did: what it took over from the last is the last one's (phase 63).
   const inherited = state.inherited?.legacies ?? [];
   const carried = HISTORY_ORDER.filter((f) => state.flags.includes(f) && HISTORIES[f] && !inherited.includes(f));
   const signature = carried[0] ?? NO_LEGACY;
   const text = HISTORIES[signature]!;
-  const consequences: Consequence[] = carried.slice(0, CONSEQUENCES_SHOWN).map((f) => ({
-    flag: f,
-    label: LEGACIES[f] ?? f,
-    after: HISTORIES[f]!.after[band],
-    at: state.flagSince?.[f] ?? null,
-  }));
-  if (consequences.length === 0) consequences.push({ flag: NO_LEGACY, label: "", after: text.after[band], at: null });
+  const consequences: Consequence[] = carried
+    .filter((f) => !told.has(f))
+    .slice(0, CONSEQUENCES_SHOWN)
+    .map((f) => ({
+      flag: f,
+      label: LEGACIES[f] ?? f,
+      after: HISTORIES[f]!.after[band],
+      at: state.flagSince?.[f] ?? null,
+    }));
+  // A run that left nothing has the fallback's words; one whose every legacy its ending told has none.
+  if (carried.length === 0) consequences.push({ flag: NO_LEGACY, label: "", after: text.after[band], at: null });
   const long = inLongView(state);
   return {
     key: historyKey(signature, band, long ? LONG_VIEW : state.align),

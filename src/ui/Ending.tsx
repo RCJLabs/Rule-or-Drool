@@ -5,9 +5,10 @@ import { epilogueByKey, survivedTo, withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
 import { otherSide, replays } from "../engine/replay";
-import { exitBand, isFirstTerm } from "../engine/state";
+import { exitBand, exitDrift, isFirstTerm } from "../engine/state";
 import type { Band, GameState } from "../engine/types";
 import {
+  HISTORY_ORDER,
   LEGACIES,
   OBJECTIVES_BY_ID,
   bandOfHistory,
@@ -20,6 +21,7 @@ import {
   runCodeOf,
   theirRun,
   todayKey,
+  toldByEnding,
   type RunFold,
   type RunResult,
 } from "../meta";
@@ -30,7 +32,7 @@ import { causeLine } from "./cause";
 import { runRecord, timeline } from "./record";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
-import { themeOf } from "./theme";
+import { endThemeOf } from "./theme";
 import { composeWorld } from "./world";
 import { WorldAfter } from "./WorldAfter";
 
@@ -91,18 +93,22 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     const mandate = MANDATES_BY_ID.get(id);
     return mandate ? [{ mandate, brokenAt: state.mandatesBroken[id] ?? null }] : [];
   });
-  const history = fold?.history ?? historyOf(state, band);
-  const world = composeWorld({ band, drift: state.drift, align: state.align, opposition: !!state.opposition, flags: state.flags, seed: state.seed, era: state.era });
+  // What its ending already told is not followed up again (BACKLOG-11 phase 72).
+  const told = toldByEnding(lib, state);
+  const history = fold?.history ?? historyOf(state, band, told);
+  // A long reign's end is drawn in the band it locked, wherever drift went after (phase 72).
+  const world = composeWorld({ band, drift: exitDrift(lib, state), align: state.align, opposition: !!state.opposition, flags: state.flags, seed: state.seed, era: state.era });
   const endingTitle = ending?.title ?? over.endingId;
   const moments = timeline(lib, state, endingTitle);
+  const survived = survivedTo(lib.config, over.endingId);
   // An ouster already says what happened and does not want a tally of your elections under it.
-  const record = survivedTo(lib.config, over.endingId) ? runRecord(lib, state) : null;
+  const record = survived ? runRecord(lib, state) : null;
   // A first term seen through says what comes next (BACKLOG-10 phase 59).
   const firstTermDone = isFirstTerm(lib, state) && over.endingId.startsWith(lib.config.firstTermPrefix);
   const shown = new Set(history.consequences.map((c) => c.flag));
   // What this reign left and history did not name; what it took over is named above (BACKLOG-11 phase 66).
   const inherited = state.inherited?.legacies ?? [];
-  const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f) && !inherited.includes(f)).map((f) => LEGACIES[f]!);
+  const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f) && !inherited.includes(f) && !told.has(f)).map((f) => LEGACIES[f]!);
   const when = STRINGS.world.when[Math.min(state.era, STRINGS.world.when.length) - 1] ?? "";
   // A daily is marked in the text by its number, so a group can compare without links
   // (BACKLOG-5 phase 38). Only the run that went into the log as the day's daily says so.
@@ -121,15 +127,23 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     const card = made && lib.cards.get(made[0]);
     return made && card ? { k: at! - 1, label: card[otherSide(made[1])].label } : null;
   };
+  // The roads back from the legacies the ending told, which are not followed up below it and
+  // so have no road of their own there (BACKLOG-11 phase 72): one a card, in the order taken.
+  const toldRoads = new Map<number, { k: number; label: string }>();
+  if (retrace)
+    for (const f of HISTORY_ORDER) {
+      const back = told.has(f) && state.flags.includes(f) ? other(state.flagSince?.[f] ?? null) : null;
+      if (back) toldRoads.set(back.k, back);
+    }
   const first = road?.first;
   const firstBand = first ? exitBand(lib, first) : band;
-  const firstHistory = first ? historyOf(first, firstBand) : null;
-  const firstWorld = first ? composeWorld({ band: firstBand, drift: first.drift, align: first.align, opposition: !!first.opposition, flags: first.flags, seed: first.seed, era: first.era }) : null;
+  const firstHistory = first ? historyOf(first, firstBand, toldByEnding(lib, first)) : null;
+  const firstWorld = first ? composeWorld({ band: firstBand, drift: exitDrift(lib, first), align: first.align, opposition: !!first.opposition, flags: first.flags, seed: first.seed, era: first.era }) : null;
   const parted = road && first?.choices?.[road.at];
   const partedCard = parted && lib.cards.get(parted[0]);
   const theirBand = theirs ? exitBand(lib, theirs) : bandOfHistory(vs?.history ?? null);
-  const theirHistory = theirs && theirBand ? historyOf(theirs, theirBand) : null;
-  const theirWorld = theirs && theirBand ? composeWorld({ band: theirBand, drift: theirs.drift, align: theirs.align, opposition: !!theirs.opposition, flags: theirs.flags, seed: theirs.seed, era: theirs.era }) : null;
+  const theirHistory = theirs && theirBand ? historyOf(theirs, theirBand, toldByEnding(lib, theirs)) : null;
+  const theirWorld = theirs && theirBand ? composeWorld({ band: theirBand, drift: exitDrift(lib, theirs), align: theirs.align, opposition: !!theirs.opposition, flags: theirs.flags, seed: theirs.seed, era: theirs.era }) : null;
   // Two worlds side by side: the first road and the other (phase 34), or their run and yours
   // (phase 37). The one on the right is always this run, and is the picture a share sends.
   const pair =
@@ -153,7 +167,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   };
 
   return (
-    <Frame theme={themeOf(state, lib.config)} align={state.align} seed={state.seed} n={state.cardCount}>
+    <Frame theme={endThemeOf(lib, state)} align={state.align} seed={state.seed} n={state.cardCount}>
       <div className="ending">
         {pair ? (
           <div className="roads">
@@ -189,8 +203,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           </p>
         )}
 
+        {/* A reign cut short is told as one: its name stands, under the card it stopped at (phase 72). */}
         <p className="kicker">
-          {STRINGS.ui.ruleEnds} · <b className="ending-how">{endingTitle}</b>
+          {survived ? STRINGS.ui.ruleEnds : STRINGS.ui.cutShort.replace("{n}", String(state.cardCount))} · <b className="ending-how">{endingTitle}</b>
         </p>
         <p className="history-calls">{STRINGS.after.calls}</p>
         <h1 className="history-title" ref={heading} tabIndex={-1}>
@@ -228,38 +243,51 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
         )}
         <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
         {cause && <p className="ending-cause">{cause}</p>}
+        {retrace && toldRoads.size > 0 && (
+          <div className="ending-roads">
+            {[...toldRoads.values()]
+              .sort((a, b) => a.k - b.k)
+              .map((back) => (
+                <button key={back.k} type="button" className="road-back" onClick={() => retrace(back.k)}>
+                  {STRINGS.road.choose.replace("{label}", back.label)}
+                </button>
+              ))}
+          </div>
+        )}
         {firstTermDone && <p className="first-term-after">{STRINGS.reign.afterFirst}</p>}
 
-        <section className="became">
-          <h2>{STRINGS.after.became}</h2>
-          {roadGone && <p className="became-note">{STRINGS.road.updated}</p>}
-          <ul>
-            {history.consequences.map((c) => {
-              const back = retrace ? other(c.at) : null;
-              return (
-                <li key={c.flag}>
-                  {c.label && (
-                    <b>
-                      {c.label}
-                      {c.at !== null && c.at > 0 && <span className="became-when">{STRINGS.timeline.card.replace("{n}", String(c.at))}</span>}
-                    </b>
-                  )}
-                  <p>{c.after}</p>
-                  {retrace && back && (
-                    <button type="button" className="road-back" onClick={() => retrace(back.k)}>
-                      {STRINGS.road.choose.replace("{label}", back.label)}
-                    </button>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          {rest.length > 0 && (
-            <p className="became-also">
-              {STRINGS.after.also} {rest.join(" · ")}
-            </p>
-          )}
-        </section>
+        {(history.consequences.length > 0 || rest.length > 0) && (
+          <section className="became">
+            <h2>{STRINGS.after.became}</h2>
+            {roadGone && <p className="became-note">{STRINGS.road.updated}</p>}
+            <ul>
+              {history.consequences.map((c) => {
+                const back = retrace ? other(c.at) : null;
+                return (
+                  <li key={c.flag}>
+                    {c.label && (
+                      <b>
+                        {c.label}
+                        {c.at !== null && c.at > 0 && <span className="became-when">{STRINGS.timeline.card.replace("{n}", String(c.at))}</span>}
+                      </b>
+                    )}
+                    <p>{c.after}</p>
+                    {retrace && back && (
+                      <button type="button" className="road-back" onClick={() => retrace(back.k)}>
+                        {STRINGS.road.choose.replace("{label}", back.label)}
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {rest.length > 0 && (
+              <p className="became-also">
+                {STRINGS.after.also} {rest.join(" · ")}
+              </p>
+            )}
+          </section>
+        )}
 
         <section className="timeline">
           <h2>{STRINGS.timeline.title}</h2>

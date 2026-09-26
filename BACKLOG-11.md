@@ -713,3 +713,72 @@ and fit.
 - "Ended by choice" includes endings a player would not call a choice, such as being consumed by
   a purge one started. The line is drawn where the game draws it: a side that says it ends the
   reign.
+
+## Phase 72. An end screen that does not contradict itself (idea 8) — *done in part*
+
+**Shipped in v0.80.0.** Nothing is dealt differently: the deck is still 7jyrup04. No save changes.
+
+Built, the three things on the end screen that were wrong whatever a player feels:
+- **A reign cut short is told as one.** Its name stands, under the card it stopped at: "Cut short
+  at card 35 · Bankrupt", where every run said "Your rule ends". That is 57–70 of 2,000 careful
+  runs, and 1,842 of the random bot's.
+- **What the ending told is not followed up again.** "What became of it" and "Also left behind"
+  leave out the legacies the story that ended the run left on it, and any its last card set.
+  The name still comes from the run's defining decision. The follow-ups carried the road back
+  from those decisions, so it is offered under the ending instead.
+- **A long reign's end is drawn in the band it locked.** Its band locks at the fourth era and
+  drift goes on moving, and the end screen's look and its city were drawn from drift. The end
+  now holds drift inside the band. The play screen still follows drift, as its only sign of it.
+
+**Measured,** 2,000 runs a bot, and the long reigns 1,000 each:
+
+| | Ended by a story that left a legacy | Of which a follow-up goes | Left with none |
+|---|---|---|---|
+| Informed | 58 | 58 | 2 |
+| Mixed | 47 | 47 | 2 |
+| Eyes | 34 | 34 | 0 |
+| Random | 668 | 624 | 41 |
+
+- For the careful bots every one is the general's story: the general unleashed, followed up
+  under an ending in which the general has you killed or kept. That follow-up read as a coda, not
+  a contradiction. It goes because it repeats the ending.
+- The contradictions removed are on endings the careful bots rarely reach, and the codex now
+  points a player at: the stadium "paid off in its fortieth year" under The Games, in which it
+  hosts a car boot sale; the printing "stopped in time" under The Wheelbarrows; the port's lease
+  "broken in court" under The Leased Coast, which "still balances, from a shipping office
+  abroad"; "the election you counted twice" under an ending that postponed it; and a question's
+  Ascent follow-up, which tells its answer carried out the honest way, under the ending of it
+  carried out the other.
+- The audit's levee and census do not happen: in both stories the legacy is set only by the side
+  that does not end the run.
+
+| Long reigns | Band locked | Drift outside it at the end | Look on the other side | Look paler than the band's |
+|---|---|---|---|---|
+| Informed | 963 | 363 | 13 | 223 |
+| Mixed | 971 | 467 | 42 | 320 |
+| Eyes | 965 | 436 | 45 | 250 |
+
+**Not built,** the repetition half of idea 8: leading with what is new and folding the epilogues a
+player has read. Its premise is whether the repetition is felt, which is the fourth question in
+`TESTERS.md`.
+
+**Also shipped,** `TESTERS.md`: a brief for testers and one questionnaire of 13 questions, gathered
+from the per-version notes in `twa/STORE.md`. It works for a playtest in the browser as well as
+for the closed test.
+
+**Fit.** Two browser audits on the smallest phone, for contrast and fit: a story's end reached by
+taking one side on every card, with its road back under the ending; and a long reign locked in
+the Ascent and ended with drift deep in the Decay, which must end in an Ascent look.
+
+**Caveats.**
+- The name is not changed. It comes from the run's defining decision, which can be the story that
+  ended it, so a run ended by The Games can still be called "The Games That Paid". How often was
+  not measured: every careful bot's story end is the general's, whose names fit.
+- The general's story, a careful run's most common end short of a finale, loses its follow-up.
+  The ending is its account; the screen says less, not more.
+- A run whose only legacies its ending told has no "What became of it" at all: 2 of 2,000
+  careful runs, 41 of the random bot's.
+- A long reign's end looks like its band where drift says otherwise, so it can look different
+  from the card before it.
+- "Cut short" is said of every run that ended before its finale, including one a player chose to
+  end, such as handing the office over.

@@ -3,7 +3,7 @@ import { questionOf, type Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
-import { historyOf, reachableHistoryKeys, type History } from "./histories";
+import { historyOf, reachableHistoryKeys, toldByEnding, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
 import { endingKind, rumours, type EndingKind } from "./clues";
@@ -71,7 +71,7 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
 
   // A first term's end is not one the codex collects, so it is never a new one for it.
   const newEnding = collectsEnding(endingId) && !(endingId in meta.endings);
-  const history = historyOf(run, band);
+  const history = historyOf(run, band, toldByEnding(lib, run));
   const newHistory = !(history.key in (meta.histories ?? {}));
   const next: MetaState = {
     ...meta,
