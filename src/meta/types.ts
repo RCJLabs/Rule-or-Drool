@@ -116,7 +116,7 @@ export interface ChronicleEntry {
   n: number;
   align: PlayerAlign;
   cards: number;
-  /** The eras it was dealt, where not the ordinary game's three: a first term's one, a long reign's five. */
+  /** The eras it was dealt, where not the ordinary game's three: a first or short term's one, a long reign's five. */
   eras?: number;
   endingId: string;
   band: Band;

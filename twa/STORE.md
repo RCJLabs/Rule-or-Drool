@@ -376,6 +376,11 @@ with one questionnaire gathered from the questions below:
 - Since v0.84.0 the codex keeps a chronicle of every reign (BACKLOG-12 phase 76). The profile's
   save version is 10, so progress moved from v0.84.0 into an older version is refused as newer,
   and a Move my progress code is larger: 5.2 KB at forty runs. Nothing is dealt differently.
+- Since v0.85.0 a profile past its first term can take a short term, one era, from a button under
+  Take office (BACKLOG-12 phase 77). Nothing is dealt differently and the deck is still c8agx015.
+  A record's run code carries its eras, so the report replays a short term with the bots on the
+  same one era, as it does a first term. Short terms keep no contracts. How many runs testers
+  take short is the nearest the records come to saying whether a full reign is too long.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

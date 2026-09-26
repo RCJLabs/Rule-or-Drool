@@ -246,7 +246,7 @@ export function useGame(lib: Library) {
     dailyRef.current = null;
   }, []);
 
-  /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39). */
+  /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39) and a first or short term. */
   const start = useCallback(
     guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number, inheritance: Inheritance | null = null) => {
       setSaved(null);

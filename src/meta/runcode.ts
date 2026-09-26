@@ -49,8 +49,8 @@ export interface RunCode {
   /** The promises the run was taken on, in the catalog's order: none, one, or two. */
   mandates: string[];
   /**
-   * Eras, for a long reign (BACKLOG-5 phase 39) or a first term (BACKLOG-10 phase 59); an
-   * ordinary run's code has none.
+   * Eras, for a long reign (BACKLOG-5 phase 39) or a first or short term (BACKLOG-10 phase 59,
+   * BACKLOG-12 phase 77); an ordinary run's code has none.
    */
   eraCount?: number;
   /** What the run took over from the last one; a fresh start's code has none (BACKLOG-10 phase 63). */

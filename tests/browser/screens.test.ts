@@ -926,6 +926,31 @@ describe.skipIf(!target)("in a browser", () => {
       }
       expect(failures).toEqual([]);
     });
+
+    // A short term (BACKLOG-12 phase 77): the same one era, taken from a veteran's menu by a button
+    // under "Take office", and ended without the line that tells a new profile a full reign comes next.
+    it("is offered to a veteran under Take office, and its end reads and fits the smallest phone", async () => {
+      const meta = { ...emptyMeta(), runs: 1, endings: { finale_muddle: 1 }, objectives: { obj_first_run: 1, obj_finale: 1 } };
+      const failures: string[] = [];
+      const page = await open(browser, { width: 360, height: 640 });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      const start = (await page.getByRole("button", { name: STRINGS.ui.start }).boundingBox())!;
+      const short = page.getByRole("button", { name: STRINGS.reign.shortStart });
+      if ((await short.boundingBox())!.y < start.y + start.height) failures.push("the short term is offered above Take office");
+      failures.push(...(await contrast(page, "a veteran's menu")));
+      failures.push(...(await misfits(page, "a veteran's menu", { mayScroll: true })));
+      await page.locator(".seed input").fill(String(SEED));
+      await short.click();
+      await page.waitForSelector(".card");
+      await playFrom(page, LATE.muddle, { cardCount: library.config.eraLength - 1, era: 1 });
+      await page.waitForSelector(".history-title");
+      if (await page.locator(".first-term-after").count()) failures.push("a veteran's short term says a full reign comes next");
+      failures.push(...(await contrast(page, "a short term's end")));
+      failures.push(...(await misfits(page, "a short term's end", { mayScroll: true })));
+      await close(page);
+      expect(failures).toEqual([]);
+    });
   });
 
   describe("a run fits the screen", () => {

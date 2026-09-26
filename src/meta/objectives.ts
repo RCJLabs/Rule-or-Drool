@@ -242,8 +242,9 @@ export function longReignOpen(meta: Pick<MetaState, "objectives">): boolean {
 }
 
 /**
- * Whether an ending is one the codex collects: every one but a first term's end, which a profile
- * meets while it is new and a veteran never meets at all (BACKLOG-10 phase 59).
+ * Whether an ending is one the codex collects: every one but a one-era run's end, which a profile
+ * meets in its first term while it is new (BACKLOG-10 phase 59) and later only in a short term it
+ * chooses for a short sitting (BACKLOG-12 phase 77).
  */
 export function collectsEnding(id: string): boolean {
   return !id.startsWith(DEFAULT_CONFIG.firstTermPrefix);

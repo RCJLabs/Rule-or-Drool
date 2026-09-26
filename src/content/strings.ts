@@ -535,8 +535,13 @@ export const STRINGS = {
     // A first term (BACKLOG-10 phase 59): how a profile starts, until it sees a run through.
     first: "A first term",
     firstBlurb: "One era and one vote. Your runs start this way until you see one through.",
-    firstShort: "First term",
-    offerFirst: "A first term: one era and one vote.",
+    // A short term (BACKLOG-12 phase 77): the same one era, any time after, for a short sitting.
+    // Started by a button of its own under "Take office", so nothing above that button moves.
+    shortStart: "Take a short term",
+    shortNote: "One era and one vote, for a short sitting. The week's contracts are kept only in full reigns.",
+    /** A run of one era, however it was chosen: a profile's first term is a short term too. */
+    firstShort: "Short term",
+    offerFirst: "A short term: one era and one vote.",
     afterFirst: "That was one term. A full reign is three eras, and the next run you start is one.",
   },
   /** A line of runs (BACKLOG-10 phase 63): taking over the country the last run left. */
@@ -829,7 +834,7 @@ export const STRINGS = {
       fallen: "Fell apart",
     },
     /** A first term's end, listed where the finales are and not counted with them. */
-    firstTerm: "Not counted here: every profile begins with a first term.",
+    firstTerm: "Not counted here: the end of a first or short term, one era long.",
     /** A clue to an ending only one party's cards or stories can reach (BACKLOG-11 phase 71). */
     onlySide: "Only a run of {party} can end this way.",
     /** What a story's ways out are called, which are not the run's endings. */

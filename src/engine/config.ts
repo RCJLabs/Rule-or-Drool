@@ -14,7 +14,8 @@ export interface EngineConfig {
   longEraCount: number;
   /**
    * Eras in a first term, the reign a profile is offered until it has seen a finale of any kind
-   * (BACKLOG-10 phase 59): the ordinary game's first era, ending in a finale of its own.
+   * (BACKLOG-10 phase 59): the ordinary game's first era, ending in a finale of its own. A short
+   * term, offered any time after, is as long (BACKLOG-12 phase 77).
    */
   firstTermEras: number;
   /** Cards per era (5.3 says 30–40). */

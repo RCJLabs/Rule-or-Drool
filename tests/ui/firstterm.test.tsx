@@ -68,6 +68,8 @@ describe("the menu of a profile that has not seen a run through", () => {
     rerender(<Setup lib={library} saved={null} meta={veteran} onStart={(...a: unknown[]) => started.push(a)} onDaily={noop} onContinue={noop} onCodex={noop} onSettings={noop} />);
     // The long reign is open now, and the choice is the ordinary game's, not a first term.
     expect(choice(r.ordinary).getAttribute("aria-pressed")).toBe("true");
+    // A short term is there to take instead (BACKLOG-12 phase 77), and is not what starts.
+    expect(screen.getByRole("button", { name: r.shortStart })).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: STRINGS.ui.start }));
     expect(started[0]![3]).toBeUndefined();
   });
@@ -96,5 +98,66 @@ describe("the end of a first term", () => {
       expect(screen.queryByText(r.afterFirst)).toBeNull();
       cleanup();
     }
+  });
+});
+
+/**
+ * A short term (BACKLOG-12 phase 77): the same one era, offered any time after the first term, for
+ * a short sitting, by a button of its own under "Take office". It keeps no contracts and opens no
+ * long reign, as a first term keeps and opens none, and its end does not tell a veteran that a
+ * full reign comes next.
+ */
+describe("a short term", () => {
+  const choices = () => within(screen.getByRole("group", { name: r.legend })).getAllByRole("button").map((b) => b.querySelector("b")!.textContent);
+  const short = () => screen.getByRole("button", { name: r.shortStart });
+
+  it("is offered under Take office once a profile has seen a run through, and starts one era", () => {
+    const started: unknown[][] = [];
+    menu(after(ended(`${cfg.firstTermPrefix}muddle`, 35, FIRST)), (...a) => started.push(a));
+    // Nothing above Take office is new: there is still no reign to pick without the long reign.
+    expect(screen.queryByRole("group", { name: r.legend })).toBeNull();
+    const start = screen.getByRole("button", { name: STRINGS.ui.start });
+    expect(start.compareDocumentPosition(short()) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(document.getElementById(short().getAttribute("aria-describedby")!)!.textContent).toBe(r.shortNote);
+    fireEvent.click(start);
+    fireEvent.click(short());
+    expect(started[0]![3]).toBeUndefined();
+    expect(started[1]![3]).toBe(FIRST);
+    // The same side, promise, seed and start as Take office would have used.
+    expect([...started[1]!.slice(0, 3), started[1]![4]]).toEqual([...started[0]!.slice(0, 3), started[0]![4]]);
+  });
+
+  it("is one era whichever reign is picked above it", () => {
+    const started: unknown[][] = [];
+    menu(after(ended(`${cfg.finalePrefix}muddle`, 105)), (...a) => started.push(a));
+    expect(choices()).toEqual([r.ordinary, r.long]);
+    fireEvent.click(choice(r.long));
+    fireEvent.click(short());
+    expect(started[0]![3]).toBe(FIRST);
+  });
+
+  it("is not offered to a new profile, whose runs start as a first term", () => {
+    menu(emptyMeta());
+    expect(choices()).toEqual([r.first, r.ordinary]);
+    expect(screen.queryByRole("button", { name: r.shortStart })).toBeNull();
+  });
+
+  it("ends without saying a full reign comes next, and is called a short term", () => {
+    const veteran = after(ended(`${cfg.finalePrefix}muddle`, 105));
+    const run = ended(`${cfg.firstTermPrefix}ascent`, 35, FIRST);
+    const fold = foldRun(library, veteran, run);
+    expect(fold.firstSeenThrough).toBe(false);
+    render(<Ending lib={library} state={run} fold={fold} onPlayAgain={noop} onCodex={noop} onSettings={noop} />);
+    expect(screen.queryByText(r.afterFirst)).toBeNull();
+    expect(runFacts(run, "A Good Start")).toContain(` · ${r.firstShort} · `);
+    expect(r.firstShort).toBe("Short term");
+  });
+
+  it("is told by the fold apart from the run that ended a profile's first terms", () => {
+    expect(foldRun(library, emptyMeta(), ended(`${cfg.firstTermPrefix}muddle`, 35, FIRST)).firstSeenThrough).toBe(true);
+    expect(foldRun(library, emptyMeta(), ended(`${cfg.finalePrefix}muddle`, 105)).firstSeenThrough).toBe(true);
+    expect(foldRun(library, emptyMeta(), ended("riots", 20, FIRST)).firstSeenThrough).toBe(false);
+    const through = after(ended(`${cfg.firstTermPrefix}muddle`, 35, FIRST));
+    expect(foldRun(library, through, ended(`${cfg.firstTermPrefix}decay`, 35, FIRST)).firstSeenThrough).toBe(false);
   });
 });

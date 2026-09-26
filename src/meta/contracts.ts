@@ -150,7 +150,9 @@ export function contractsFor(week: number): Contract[] {
 
 /**
  * The contracts of this week a finished run keeps, of those not kept already. Only a full
- * reign counts: a first term is where a profile learns the game, before it has contracts.
+ * reign counts: a first term is where a profile learns the game, before it has contracts, and a
+ * short term chosen later (BACKLOG-12 phase 77) would keep a clean era's contracts in a third of
+ * the cards.
  */
 export function contractsKept(run: GameState, band: Band, week: number, already: readonly string[] = []): string[] {
   if (!run.over || (run.eraCount ?? DEFAULT_CONFIG.eraCount) < DEFAULT_CONFIG.eraCount) return [];

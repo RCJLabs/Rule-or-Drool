@@ -394,3 +394,50 @@ save version goes from 9 to 10.
   Pasting it works. Not checked: which chat apps cut a link that long; the file is the sure way
   for a long profile.
 - Whether players read the chronicle, or play differently for its counts, is for testers.
+
+## Phase 77. A short term, any time (idea 1) — *done*
+
+**Shipped in v0.85.0.** Nothing is dealt differently: the deck is still c8agx015. No save format
+changes.
+
+- **What.** Once a profile has seen a run through, the menu has *Take a short term* under *Take
+  office*: one era, 35 cards, one vote, ending in the first term's three ends. A line under the
+  button says so, and that the week's contracts are kept only in full reigns.
+- **Where it sits.** The first build put it in the reign picker, as a third choice. That was
+  measured and moved:
+
+  | Take office ends at, px | Without it | In the picker |
+  |---|---|---|
+  | 390×844, past the first term | 739 | 928, below the fold |
+  | 412×915, past the first term | 730 | 920, below the fold |
+  | 390×844, long reign open | 977 | 1,067 |
+
+  Each row is one page load, measured with the choice and with it hidden. Without the long reign
+  there was no picker past the first term, so the choice added all of it: 175–193 px. Measured
+  the same way under the button, Take office moves 0 px; the button and its line take 83 px
+  below it.
+- **What it counts for.** What a first term counts for:
+  - its end is not one the codex collects, for a veteran either;
+  - it keeps no contracts: a clean era's contract would otherwise be kept in 35 cards rather
+    than 105, and a test pins that;
+  - it does not open the long reign, which takes a finale.
+
+  It counts as a run finished, as a run lost early always has, so it opens no shortcut: the
+  objectives that count runs or promises count runs that ended any way. A line's next reign can
+  take over from it, and it can take over.
+- **What it is called.** "Short term", for any run of one era: in the chronicle, the share line
+  and the saved run's Continue button. A first term was "First term" there before. A challenge
+  link to a one-era run offers "A short term: one era and one vote."
+- **Its end.** "That was one term. A full reign is three eras, and the next run you start is one"
+  now shows only at the end of the run that ends a profile's first terms. Before, it showed at the
+  end of any one-era run, which a veteran's short term would have been.
+
+**Caveats.**
+
+- The backlog's measure-first was seconds per card from the recorder, to say whether a run of
+  105 cards is too long for a sitting. There are still no records, so whether anyone wants the
+  short term is a guess.
+- New players' first terms are called "Short term" in the chronicle and on the share line. Their
+  menu still says "A first term".
+- Under Take office, the short term is below the fold on a 360×640 phone, as Take office already
+  is.

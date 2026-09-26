@@ -69,7 +69,8 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
     if (parent && a !== parent.align) setTakeOver(false);
   };
   // Five eras rather than three, once a finale has opened them (BACKLOG-5 phase 39); one, as a
-  // first term, until the profile has seen a run through (BACKLOG-10 phase 59).
+  // first term, until the profile has seen a run through (BACKLOG-10 phase 59), and as a short
+  // term after, started by its own button (BACKLOG-12 phase 77).
   const termDue = firstTermDue(meta);
   const [eraCount, setEraCount] = useState<number | undefined>(() => (termDue ? lib.config.firstTermEras : undefined));
   const longOpen = longReignOpen(meta);
@@ -175,6 +176,17 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
         <button type="button" className="primary big" onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null)}>
           {STRINGS.ui.start}
         </button>
+        {/* A short term (BACKLOG-12 phase 77): a profile's first term, taken again any time after
+            for a short sitting. Under "Take office" rather than in the reign picker, which would
+            push it below the fold on a 390x844 phone. */}
+        {!termDue && (
+          <div className="short-start">
+            <button type="button" aria-describedby="short-start-note" onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null)}>
+              {r.shortStart}
+            </button>
+            <p id="short-start-note">{r.shortNote}</p>
+          </div>
+        )}
         <div className="meta-row">
           <button type="button" onClick={() => onDaily(align, mandates)} disabled={dailyPlayed}>
             {dailyLabel}

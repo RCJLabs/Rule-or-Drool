@@ -7,7 +7,19 @@ import { LOST_OFFICE_FLAG } from "../../src/engine/opposition";
 import { makeRng } from "../../src/engine/rng";
 import { exitBand, isFirstTerm, newRun, rollSetup } from "../../src/engine/state";
 import type { GameState, PlayerAlign } from "../../src/engine/types";
-import { codexProgress, collectsEnding, decodeRunCode, emptyMeta, encodeRunCode, firstTermDue, foldRun, longReignOpen, runCodeOf } from "../../src/meta";
+import {
+  codexProgress,
+  collectsEnding,
+  contractsFor,
+  contractsKept,
+  decodeRunCode,
+  emptyMeta,
+  encodeRunCode,
+  firstTermDue,
+  foldRun,
+  longReignOpen,
+  runCodeOf,
+} from "../../src/meta";
 import { BOTS, makeContext, type BotName } from "../../src/sim";
 
 /**
@@ -96,5 +108,30 @@ describe("what a first term counts for", () => {
     const ends = [...library.endings.keys()].filter((id) => !collectsEnding(id));
     expect(ends.sort()).toEqual(["ascent", "decay", "muddle"].map((b) => `${cfg.firstTermPrefix}${b}`));
     expect(codexProgress(library, emptyMeta()).endingsTotal).toBe(library.endings.size - 3);
+  });
+});
+
+describe("what a short term counts for (BACKLOG-12 phase 77)", () => {
+  const ended = (endingId: string, cards: number, eraCount?: number): GameState => ({
+    ...newRun(library, 1, { align: "left", ...(eraCount === undefined ? {} : { eraCount }) }),
+    cardCount: cards,
+    over: { endingId, epilogueKey: "ascent:left:1" },
+  });
+  const veteran = foldRun(library, emptyMeta(), ended(`${cfg.finalePrefix}muddle`, 105)).meta;
+
+  it("keeps no contracts, though a clean era's would be kept in a third of a reign's cards", () => {
+    const week = Array.from({ length: 300 }, (_, i) => i + 1).find((w) => contractsFor(w).some((c) => c.id === "saintEra"))!;
+    const run = { ...ended(`${cfg.firstTermPrefix}ascent`, cfg.eraLength, FIRST), stats: { ...newRun(library, 1, { align: "left" }).stats, tempting: 0 } };
+    expect(contractsKept({ ...run, eraCount: cfg.eraCount }, "ascent", week)).toContain("saintEra");
+    expect(contractsKept(run, "ascent", week)).toEqual([]);
+  });
+
+  it("opens no long reign, and its end is not collected, for a veteran either", () => {
+    const run = ended(`${cfg.firstTermPrefix}ascent`, cfg.eraLength, FIRST);
+    const fold = foldRun(library, veteran, run);
+    expect(fold.newEnding).toBe(false);
+    expect(fold.firstSeenThrough).toBe(false);
+    expect(codexProgress(library, fold.meta).endingsSeen).toBe(codexProgress(library, veteran).endingsSeen);
+    expect(longReignOpen(foldRun(library, emptyMeta(), run).meta)).toBe(false);
   });
 });

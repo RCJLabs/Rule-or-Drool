@@ -52,7 +52,8 @@ export function isLongReign(lib: Library, state: Pick<GameState, "eraCount">): b
 
 /**
  * Whether a run is a first term: fewer eras than the ordinary game, which is how a new profile
- * starts (BACKLOG-10 phase 59). It ends in a first term's end rather than a finale.
+ * starts (BACKLOG-10 phase 59) and what a short term chosen later is (BACKLOG-12 phase 77). It
+ * ends in a first term's end rather than a finale.
  */
 export function isFirstTerm(lib: Library, state: Pick<GameState, "eraCount">): boolean {
   return (state.eraCount ?? lib.config.eraCount) < lib.config.eraCount;

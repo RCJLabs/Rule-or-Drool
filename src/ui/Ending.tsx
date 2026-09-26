@@ -107,8 +107,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const survived = survivedTo(lib.config, over.endingId);
   // An ouster already says what happened and does not want a tally of your elections under it.
   const record = survived ? runRecord(lib, state) : null;
-  // A first term seen through says what comes next (BACKLOG-10 phase 59).
-  const firstTermDone = isFirstTerm(lib, state) && over.endingId.startsWith(lib.config.firstTermPrefix);
+  // A first term seen through says what comes next (BACKLOG-10 phase 59); a short term chosen
+  // after one does not, since what comes next is whatever the player picks (BACKLOG-12 phase 77).
+  const firstTermDone = isFirstTerm(lib, state) && over.endingId.startsWith(lib.config.firstTermPrefix) && (fold?.firstSeenThrough ?? false);
   const shown = new Set(history.consequences.map((c) => c.flag));
   // What this reign left and history did not name; what it took over is named above (BACKLOG-11 phase 66).
   const inherited = state.inherited?.legacies ?? [];

@@ -8,7 +8,7 @@ import { historyOfRun, reachableHistoryKeys, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
 import { endingKind, rumours, type EndingKind } from "./clues";
-import { OBJECTIVES, collectsEnding } from "./objectives";
+import { OBJECTIVES, collectsEnding, firstTermDue } from "./objectives";
 import { answeredQuestions } from "./questions";
 import type { DailyEntry, MetaState, RunRecord } from "./types";
 
@@ -58,6 +58,11 @@ export interface RunFold {
   daily: DailyEntry | null;
   /** This week's contracts the run kept that were not kept already (BACKLOG-10 phase 60). */
   newContracts: string[];
+  /**
+   * The first run the profile has seen through, which ends its first terms (BACKLOG-10 phase 59).
+   * A short term chosen after that is not one (BACKLOG-12 phase 77).
+   */
+  firstSeenThrough: boolean;
 }
 
 /**
@@ -67,7 +72,18 @@ export interface RunFold {
  * none.
  */
 export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: { day: string; seed: number }, today?: string): RunFold {
-  if (!run.over) return { meta, newObjectives: [], newUnlocks: [], newEnding: false, history: null, newHistory: false, daily: null, newContracts: [] };
+  if (!run.over)
+    return {
+      meta,
+      newObjectives: [],
+      newUnlocks: [],
+      newEnding: false,
+      history: null,
+      newHistory: false,
+      daily: null,
+      newContracts: [],
+      firstSeenThrough: false,
+    };
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
 
@@ -175,7 +191,8 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
       newUnlocks.push(o.unlocks);
     }
   }
-  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory, daily: entry, newContracts };
+  const firstSeenThrough = firstTermDue(meta) && !firstTermDue(next);
+  return { meta: next, newObjectives, newUnlocks, newEnding, history, newHistory, daily: entry, newContracts, firstSeenThrough };
 }
 
 /** Codex progress for the UI. */
