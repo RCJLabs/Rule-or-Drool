@@ -18,8 +18,9 @@ describe("moving progress", () => {
     expect(code.startsWith("RD1.")).toBe(true);
     // Measured: 7.1 KB of profile was about 2.2 KB of code, short enough to paste. Sixteen
     // questions (BACKLOG-6 phase 41) grew a forty-run profile's story outcomes and legacies:
-    // 9.6 KB of profile is now about 3.1 KB of code, still short enough to paste.
-    expect(code.length).toBeLessThan(4000);
+    // 9.6 KB of profile was about 3.1 KB of code. The chronicle (BACKLOG-12 phase 76) keeps each
+    // of the forty: 24.4 KB of profile is now about 5.2 KB of code, still short enough to paste.
+    expect(code.length).toBeLessThan(6000);
     const back = await readProgress(code);
     expect(back).toMatchObject({ ok: true });
     if (!back.ok) return;

@@ -340,3 +340,57 @@ from v0.81.0 compare. No save changes: nothing new is kept.
 - The strip shows direction only. A run ended by a meter, a bankruptcy say, shows its ending in
   the words above it, not in the strip.
 - The fade is a shade darker behind the facts line on a card with a strip.
+
+## Phase 76. A chronicle of your reigns (idea 3) — *done*
+
+**Shipped in v0.84.0.** Nothing is dealt differently: the deck is still c8agx015. The profile's
+save version goes from 9 to 10.
+
+- **What.** The codex's first section, which was "Your administrations", is now *The chronicle*.
+  - *How you have ruled*, as a label and a count, never a grade: the reigns and the longest;
+    where they went, to the Ascent, the Muddle or Decay; how they ended, seen through, by choice
+    or fallen apart; votes left to the count, of those held, and how many of those were lost;
+    promises kept, of those made.
+  - *The reigns, the latest first*, twenty at a time. Each is numbered as the run it was and
+    carries its history name, and a mark for a second road, a line's later reign, and a long
+    reign or first term. Then the party, the cards and the band; the ending and the rival; its
+    promises; and what it left. What it left is the three things history ranks biggest, and a
+    count of the rest: a reign's full list ran to eight lines on a phone.
+- **What is kept.** Every run from now on, oldest first, the last thousand. The last twelve are
+  still kept as they ended, for the line of reigns to take over from.
+- **A profile from before.** Its chronicle starts with the twelve runs its history kept, numbered
+  from its count, and the list ends "The chronicle begins at reign 29" for a forty-run profile.
+  What each of those left is what it ended with, less what the run before it ended with where it
+  took that over. Their votes were never kept, so the vote line counts only the reigns since and
+  says so: "in the last 3 reigns".
+- **Read with care.** A profile can arrive in a link anyone can send. Each entry is checked:
+  in order and one to a run, none past the runs the profile says it finished. Legacies the game
+  could not have written are dropped, and so is a vote count with more lost than left to the
+  count.
+
+**Measured.**
+
+| A profile of bot runs | JSON | Move my progress code |
+|---|---|---|
+| 40 runs, before | 11.0 KB | 3.7 KB |
+| 40 runs, with the chronicle | 24.4 KB | 5.2 KB |
+| 1,000 runs, before | 18.7 KB | 5.7 KB |
+| 1,000 runs, with the chronicle | 321.7 KB | 36.4 KB |
+| 1,000 runs, the chronicle packed as arrays | 216.1 KB | 33.4 KB |
+
+- Compression takes back nearly all that packing saves, so the entries keep readable names.
+- Saving the thousand-reign profile, written and read back: 4.2 ms.
+- A thousand reigns unpack to about 340 KB, inside the 1 MB a code may unpack to.
+- The browser audit reads and fits a 360×640 phone with twenty-five reigns, twenty shown and then
+  all.
+
+**Caveats.**
+
+- The cap: the thousand-and-first reign drops the first, and the chronicle then begins at reign 2.
+  Its counts are of the reigns it holds; the codex's other tallies still count every run.
+- A profile from before has twelve reigns of chronicle whatever its count; the rest were never
+  written down.
+- The code to move a profile grows about 38 bytes a reign: 5.2 KB at forty, 36 KB at a thousand.
+  Pasting it works. Not checked: which chat apps cut a link that long; the file is the sure way
+  for a long profile.
+- Whether players read the chronicle, or play differently for its counts, is for testers.

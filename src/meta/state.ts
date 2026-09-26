@@ -3,6 +3,7 @@ import { questionOf, type Library } from "../engine/library";
 import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
+import { CHRONICLE_LENGTH, chronicleEntry } from "./chronicle";
 import { historyOfRun, reachableHistoryKeys, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
@@ -34,6 +35,7 @@ export function emptyMeta(): MetaState {
     mandatesKept: {},
     mandatesBroken: {},
     history: [],
+    chronicle: [],
     nearMissed: [],
     heard: [],
     dailies: [],
@@ -146,6 +148,8 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
   if (run.inherited) record.line = run.inherited.line;
   record.rivalStanding = run.rivalStanding;
   next.history = [record, ...meta.history].slice(0, HISTORY_LENGTH);
+  // And into the chronicle, which keeps every run as the country's history (BACKLOG-12 phase 76).
+  next.chronicle = [...(meta.chronicle ?? []), chronicleEntry(run, record, next.runs, lib.config.eraCount)].slice(-CHRONICLE_LENGTH);
   // One entry a day, and only for the run that was dealt as that day's daily: the first to
   // finish keeps the day (BACKLOG-5 phase 38).
   let entry: DailyEntry | null = null;

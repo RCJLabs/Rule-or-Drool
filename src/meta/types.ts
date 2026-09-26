@@ -43,6 +43,12 @@ export interface MetaState {
   /** The last few runs, newest first. */
   history: RunRecord[];
   /**
+   * Every run the profile finishes, oldest first, as the country's history (BACKLOG-12 phase 76):
+   * the last thousand kept. `history` above keeps the last twelve as they ended, for the line of
+   * reigns to take over from; this keeps what the codex tells of each.
+   */
+  chronicle: ChronicleEntry[];
+  /**
    * Endings the player has come within reach of but not reached. The codex names these
    * rather than hiding them, so an undiscovered ending is a target rather than a blank
    * (BACKLOG-2 phase 13).
@@ -99,6 +105,38 @@ export interface RunRecord {
   line?: number;
   /** The rival's standing at the end, which the next reign of the line starts halfway back from. */
   rivalStanding?: number;
+}
+
+/**
+ * One reign in the chronicle: about 300 bytes, so a thousand of them are about 320 KB of profile
+ * and a 36 KB code to move it (BACKLOG-12 phase 76).
+ */
+export interface ChronicleEntry {
+  /** Which of the profile's runs it was: the first it ever finished is 1. */
+  n: number;
+  align: PlayerAlign;
+  cards: number;
+  /** The eras it was dealt, where not the ordinary game's three: a first term's one, a long reign's five. */
+  eras?: number;
+  endingId: string;
+  band: Band;
+  /** What history called it, as a history key. */
+  history: string | null;
+  /** The rival it faced, by advisor id. */
+  rival: string | null;
+  /** The legacies it ended with and did not take over: what this reign left. */
+  left: string[];
+  mandates: PromiseRecord[];
+  /**
+   * The votes held while the office was its own: left to the count, of those lost at the count,
+   * and counted twice. Absent for a reign from before the chronicle, which the profile kept
+   * without them.
+   */
+  votes?: { honest: number; lost: number; cheated: number };
+  /** Which reign of its line, from the second on (BACKLOG-10 phase 63). */
+  line?: number;
+  /** A second road (BACKLOG-5 phase 34). */
+  road?: true;
 }
 
 export interface PromiseRecord {

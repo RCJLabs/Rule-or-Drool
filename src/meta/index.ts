@@ -11,3 +11,4 @@ export * from "./save";
 export * from "./clues";
 export * from "./contracts";
 export * from "./dynasty";
+export * from "./chronicle";

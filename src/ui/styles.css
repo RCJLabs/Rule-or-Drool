@@ -2041,7 +2041,6 @@ button {
 /* The history list reuses the card look, numbered newest first (BACKLOG item 10). */
 .codex-history {
   list-style: none;
-  counter-reset: administration;
   margin: 0;
   padding: 0;
   display: flex;
@@ -2053,7 +2052,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 10px 12px 10px 34px;
+  padding: 10px 12px;
   background: var(--paper);
   border: var(--border) solid var(--ink);
   border-left-width: 5px;
@@ -2062,12 +2061,9 @@ button {
   font-size: 13px;
   line-height: 1.4;
 }
-.codex-history li::before {
-  counter-increment: administration;
-  content: counter(administration);
-  position: absolute;
-  left: 12px;
-  top: 10px;
+/* Each reign carries its own number, the run it was of every run the profile finished
+   (BACKLOG-12 phase 76): a counter numbered only the twelve on the page. */
+.codex-run-n {
   font-size: 12px;
   color: var(--muted);
 }
@@ -2078,6 +2074,45 @@ button {
   font-size: 12px;
   color: var(--muted);
   font-style: normal;
+}
+/* ---- the chronicle (BACKLOG-12 phase 76) ------------------------------------------ */
+.chronicle-head {
+  margin: 4px 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.chronicle-habits {
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chronicle-habits div {
+  display: grid;
+  grid-template-columns: minmax(0, 9.5em) minmax(0, 1fr);
+  column-gap: 10px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.chronicle-habits dt {
+  color: var(--muted);
+}
+.chronicle-habits dd {
+  margin: 0;
+}
+.chronicle-more {
+  margin-top: 10px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: transparent;
+  border: var(--border) solid var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
 }
 .codex-empty {
   margin: 0;

@@ -12,7 +12,8 @@ import { migrateSettings, type Settings } from "./settings";
  *
  * Two forms of the same thing:
  * - a file, as plain JSON, which any browser can read back;
- * - a code to copy, compressed: a forty-run profile is 7.1 KB of JSON and 2.2 KB of code.
+ * - a code to copy, compressed: a forty-run profile is 24 KB of JSON and 5.2 KB of code, and
+ *   one with the chronicle's full thousand reigns about 36 KB of code (BACKLOG-12 phase 76).
  *   `RD1.` marks a compressed code; `RD1u.` one from a browser that could not compress.
  *
  * Reading refuses anything from a newer version of the game rather than guessing at it, and
@@ -23,8 +24,9 @@ export const PROGRESS_VERSION = 1;
 const PACKED = "RD1.";
 const PLAIN = "RD1u.";
 /**
- * Far past any real profile (forty runs are 7.1 KB), and a stop for a code built to unpack
- * into something that would take the tab down: a link is a thing anyone can send.
+ * Far past any real profile (forty runs are 24 KB, and a chronicle kept to its thousand reigns
+ * about 340 KB), and a stop for a code built to unpack into something that would take the tab
+ * down: a link is a thing anyone can send.
  */
 const MAX_BYTES = 1_000_000;
 

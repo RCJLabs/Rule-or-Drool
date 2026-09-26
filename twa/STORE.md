@@ -373,6 +373,9 @@ with one questionnaire gathered from the questions below:
 - Since v0.83.0 the picture a share sends carries the run's direction in a strip under it
   (BACKLOG-12 phase 75), and is 1200×852 rather than 1200×720. Nothing is dealt differently and
   nothing new leaves the device: the picture was already the player's to send.
+- Since v0.84.0 the codex keeps a chronicle of every reign (BACKLOG-12 phase 76). The profile's
+  save version is 10, so progress moved from v0.84.0 into an older version is refused as newer,
+  and a Move my progress code is larger: 5.2 KB at forty runs. Nothing is dealt differently.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

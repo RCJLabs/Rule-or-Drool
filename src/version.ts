@@ -2,13 +2,13 @@
  * Bump with every deploy (TRANSFER.md section 12). From phase 7 on, bump CACHE_NAME in
  * public/sw.js in the same commit.
  */
-export const APP_VERSION = "0.83.0";
+export const APP_VERSION = "0.84.0";
 /** Gates run-state save migrations. Change only with a migration function. */
 export const RUN_SAVE_VERSION = 17;
 /** Player settings are versioned separately again: they outlive both a run and a profile. */
 export const SETTINGS_VERSION = 4;
 /** Meta progression is versioned separately from run state (section 12). */
-export const META_SAVE_VERSION = 9;
+export const META_SAVE_VERSION = 10;
 /**
  * Part of the deck stamp (BACKLOG-8 phase 49), for what the content cannot say: bump it when
  * the engine's own code deals or scores differently. `tests/engine/deck.test.ts` fails when

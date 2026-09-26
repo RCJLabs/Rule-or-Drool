@@ -1,6 +1,5 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { STRINGS } from "../content/strings";
-import { lineName } from "./dynasty";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
@@ -24,6 +23,7 @@ import {
   type EndingKind,
   type MetaState,
 } from "../meta";
+import { Chronicle } from "./Chronicle";
 import { ContractsWeek } from "./Contracts";
 import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
@@ -178,38 +178,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
           key: "runs",
           title: c.history,
           count: String(meta.runs),
-          body: () =>
-            meta.history.length === 0 ? (
-              <p className="codex-empty">{c.noHistory}</p>
-            ) : (
-              <>
-                <p className="codex-foot">
-                  Runs finished {meta.runs} · longest {meta.bestCards} cards
-                </p>
-                <ol className="codex-history">
-                  {meta.history.map((r, i) => (
-                    <li key={`${r.endingId}-${i}`}>
-                      {r.history && historyTitle(r.history) && <b className="codex-run-history">{historyTitle(r.history)}</b>}
-                      {r.road && <em className="codex-road">{STRINGS.road.mark}</em>}
-                      {(r.line ?? 1) > 1 && <em className="codex-line">{lineName(r.line!)}</em>}
-                      <b>
-                        {STRINGS.parties[r.align]} · {r.cards} cards · {STRINGS.bands[r.band]}
-                      </b>
-                      <span>
-                        {lib.endings.get(r.endingId)?.title ?? r.endingId}
-                        {r.rival && `, against ${lib.advisorsById.get(r.rival)?.name ?? "a rival"}`}
-                      </span>
-                      {r.mandates.map((p) => (
-                        <em key={p.id} className={p.kept ? "kept" : "broken"}>
-                          {MANDATES.find((m) => m.id === p.id)?.title ?? p.id} — {p.kept ? STRINGS.ui.mandateKept : STRINGS.ui.mandateBroken}
-                        </em>
-                      ))}
-                      {r.legacies.length > 0 && <em>{r.legacies.map((f) => LEGACIES[f] ?? f).join(" · ")}</em>}
-                    </li>
-                  ))}
-                </ol>
-              </>
-            ),
+          body: () => <Chronicle lib={lib} meta={meta} />,
         },
         {
           key: "dailies",

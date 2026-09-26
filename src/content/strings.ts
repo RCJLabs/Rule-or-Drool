@@ -789,6 +789,34 @@ export const STRINGS = {
     flaw_martial: { name: "Sentimental about the army", blurb: "You tear up at the parade and sign whatever the parade asks for." },
     flaw_nostalgic: { name: "Nostalgic", blurb: "You are governing a country that stopped existing before you took office." },
   } as Record<string, { name: string; blurb: string }>,
+  /**
+   * The chronicle (BACKLOG-12 phase 76): every run the profile finishes, as one country's
+   * history, and how the player has ruled, as a label and a count rather than a judgement.
+   */
+  chronicle: {
+    habits: "How you have ruled",
+    reigns: "Reigns",
+    reignsOf: "{n}, the longest {k} cards",
+    went: "Where they went",
+    ended: "How they ended",
+    votes: "Votes left to the count",
+    votesOf: "{h} of {t}",
+    votesLost: "{h} of {t}, {l} of those lost",
+    noneHeld: "None held",
+    /** After a count taken over fewer reigns than the chronicle holds: those from before it kept none. */
+    inLast: ", in the last {n} reigns",
+    inLastOne: ", in the last reign",
+    promises: "Promises kept",
+    promisesOf: "{k} of {n}",
+    noneMade: "None made",
+    reignsHead: "The reigns, the latest first",
+    reign: "Reign {n}",
+    left: "Left:",
+    andMore: ", and {n} more",
+    earlier: "Show earlier reigns ({m} more)",
+    begins: "The chronicle begins at reign {n}.",
+    next: "The chronicle begins with your next reign.",
+  },
   codex: {
     endings: "Endings",
     /**
@@ -820,10 +848,10 @@ export const STRINGS = {
     noHistories: "History has not made up its mind about you yet.",
     unwritten: "{n} more are still unwritten.",
     cabinet: "People",
-    history: "Your administrations",
+    history: "The chronicle",
     kept: "kept",
     fired: "let go",
-    noHistory: "No administration has ended yet.",
+    noHistory: "No reign has ended yet.",
     mandates: "Promises you made",
     noMandates: "You have taken the job on no terms yet.",
     // The codex as an index of sections, opened one at a time.

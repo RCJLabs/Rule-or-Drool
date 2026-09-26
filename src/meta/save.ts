@@ -1,5 +1,6 @@
 import { DECK_PATTERN } from "../engine/deck";
 import { META_SAVE_VERSION } from "../version";
+import { chronicleOf } from "./chronicle";
 import { dayIndex } from "./daily";
 import { emptyMeta } from "./state";
 import { holdKey, releaseKey, removeKey, writeKey } from "./storage";
@@ -25,6 +26,8 @@ export function migrateMeta(raw: unknown): MetaState | null {
   const collected = Array.isArray(data.epilogues) ? data.epilogues : [];
   const epilogues = data.v < 2 ? collected.filter((k) => !k.includes(":any:")) : collected;
   const base = emptyMeta();
+  const history = (Array.isArray(data.history) ? data.history : []).map(recordOf);
+  const runs = typeof data.runs === "number" && Number.isInteger(data.runs) && data.runs >= 0 ? data.runs : 0;
   return {
     ...base,
     ...data,
@@ -47,7 +50,10 @@ export function migrateMeta(raw: unknown): MetaState | null {
     // which is true of them rather than missing from them.
     mandatesKept: { ...(data.mandatesKept ?? {}) },
     mandatesBroken: { ...(data.mandatesBroken ?? {}) },
-    history: (Array.isArray(data.history) ? data.history : []).map(recordOf),
+    history,
+    // v9 -> v10: the chronicle (BACKLOG-12 phase 76). A profile from before starts it with the
+    // runs its history kept; the rest of its runs were never written down.
+    chronicle: chronicleOf(data.chronicle, history, runs),
     nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
     // v8 -> v9: the codex keeps every clue it gives (BACKLOG-11 phase 71). Which ones a profile
     // was given before is not kept anywhere, so it starts with none, and the clue out now shows.

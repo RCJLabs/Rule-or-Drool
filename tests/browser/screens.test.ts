@@ -17,6 +17,7 @@ import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card, type GameState, type PlayerAlign } from "../../src/engine/types";
 import { BOTS, makeContext, type BotName } from "../../src/sim";
 import { causeLine, endCause } from "../../src/ui/cause";
+import { CHRONICLE_PAGE } from "../../src/ui/Chronicle";
 import { shapeOf } from "../../src/ui/shape";
 import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share";
 import { setupOf } from "../../src/meta/runcode";
@@ -25,7 +26,7 @@ import { ALL_HISTORY_KEYS, HISTORIES, HISTORY_ORDER, historyTitle, toldByEnding 
 import { collectsEnding } from "../../src/meta/objectives";
 import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
-import { emptyMeta } from "../../src/meta/state";
+import { emptyMeta, foldRun } from "../../src/meta/state";
 import { fitPlacements, longestSeats, shownText } from "../fit";
 import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, playFrom, playToBoundary, rewriteRun, SEED, startRun, startRunAt, target, toLook } from "./harness";
 
@@ -782,6 +783,30 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await misfits(page, `${label} as a table`, { mayScroll: true })));
         await close(page);
       }
+      expect(failures).toEqual([]);
+    });
+
+    // The chronicle (BACKLOG-12 phase 76): every reign a profile finished, the latest first and a
+    // page at a time, under how the player has ruled; the profile is twenty-five bots' reigns.
+    it("tells the chronicle of a played profile a page at a time, and reads and fits the smallest phone", async () => {
+      const bots = ["informed", "mixed", "eyes", "greedy"] as const;
+      let meta = emptyMeta();
+      for (let seed = 1; seed <= 25; seed++) meta = foldRun(library, meta, botRun(seed, seed % 2 ? "left" : "right", bots[seed % bots.length]!)).meta;
+      const failures: string[] = [];
+      const page = await open(browser, { width: 360, height: 640 });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      await page.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }).first().click();
+      await page.waitForSelector(".codex");
+      await page.getByRole("button", { name: new RegExp(STRINGS.codex.history) }).click();
+      await page.waitForSelector(".chronicle-habits");
+      const shown = () => page.locator(".codex-history li").count();
+      if ((await shown()) !== CHRONICLE_PAGE) failures.push(`the chronicle opened on ${await shown()} reigns`);
+      failures.push(...(await contrast(page, "the chronicle")), ...(await misfits(page, "the chronicle", { mayScroll: true })));
+      await page.getByRole("button", { name: STRINGS.chronicle.earlier.replace("{m}", String(25 - CHRONICLE_PAGE)) }).click();
+      if ((await shown()) !== 25) failures.push(`every reign asked for, and ${await shown()} shown`);
+      failures.push(...(await misfits(page, "the chronicle, every reign", { mayScroll: true })));
+      await close(page);
       expect(failures).toEqual([]);
     });
 
