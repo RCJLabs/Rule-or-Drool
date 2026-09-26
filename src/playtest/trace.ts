@@ -3,10 +3,12 @@ import { getCard, type Library } from "../engine/library";
 import { honestCount, resolve } from "../engine/resolve";
 import { RIVAL_POACHED_FLAG, isRivalCard } from "../engine/rival";
 import { makeRng } from "../engine/rng";
-import { newRun, rivalStands } from "../engine/state";
+import { exitBand, newRun, rivalStands } from "../engine/state";
 import type { Card, GameState, RunSetup, Side } from "../engine/types";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
+import { keepsContract } from "../meta/contracts";
 import { decodeRunCode, setupOf } from "../meta/runcode";
+import { SCENARIO_WEEKS } from "../meta/scenario";
 import { BOTS, makeContext, nearAnEdge, type BotName } from "../sim/bots";
 import { DEFAULT_RUN_OPTIONS, type RunOptions } from "../sim/run";
 import { meterList, type RecordedRun } from "./record";
@@ -46,6 +48,11 @@ export interface Trace {
    * (BACKLOG-9 phase 53): a person's version decides it. Absent for a bot, which always knows.
    */
   line?: boolean;
+  /**
+   * The week whose scenario the run was the try at, and whether it met the goal (BACKLOG-12
+   * phase 78). Only a person's run the game marked as a scenario's has one.
+   */
+  goal?: { week: number; met: boolean };
 }
 
 /** The rival in one run, read the same way for a person's run as for a bot's. */
@@ -152,7 +159,18 @@ export function traceRecorded(lib: Library, run: RecordedRun): Trace | null {
     return taken.side;
   });
   if (!out || out.state.cardCount !== run.cards.length || out.state.over?.endingId !== run.end.ending) return null;
-  return { ...out.trace, line: toldTheCount(run.game) };
+  const goal = run.kind === "scenario" ? goalOf(lib, decoded.code.seed, out.state) : null;
+  return { ...out.trace, line: toldTheCount(run.game), ...(goal ? { goal } : {}) };
+}
+
+/**
+ * The week a scenario's run was the try at, found by its seed, and whether the rebuilt run met the
+ * week's goal. The record says it was a scenario's; the table says whose, as no two weeks share a
+ * seed.
+ */
+function goalOf(lib: Library, seed: number, state: GameState): { week: number; met: boolean } | null {
+  const w = SCENARIO_WEEKS.find((s) => s.seed === seed);
+  return w ? { week: w.week, met: keepsContract(w.goal, state, exitBand(lib, state)) } : null;
 }
 
 /** A bot playing the run a person played, from its code: the same run `playRunFrom` plays. */

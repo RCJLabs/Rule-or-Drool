@@ -1,5 +1,7 @@
 import { survivedTo } from "../engine/endings";
 import type { Library } from "../engine/library";
+import { contractById } from "../meta/contracts";
+import { SCENARIO_MEASURE, scenarioFor } from "../meta/scenario";
 import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
 import type { RunResult } from "../sim/run";
@@ -284,6 +286,20 @@ export interface RivalRow {
   won: number;
 }
 
+/**
+ * A week's scenario (BACKLOG-12 phase 78): people's tries at it, beside the rates it was chosen
+ * for, measured with bots that aim at the goal and decide a card in five their own way.
+ */
+export interface ScenarioRow {
+  week: number;
+  goal: string;
+  /** People's finished tries this version rebuilt, and how many met the goal. */
+  tried: number;
+  met: number;
+  /** The rates the week was measured at: the informed voter's and the eyes bot's. */
+  rates: readonly [number, number];
+}
+
 /** Runs walked card by card (`src/playtest/trace.ts`): what the votes and looks are read from. */
 export interface Traces {
   /** People's finished runs that this version rebuilt card for card. */
@@ -322,6 +338,10 @@ export interface Report {
   rival: RivalRow[];
   lookMs: number;
   minDecisions: number;
+  /** The weeks' scenarios people tried, by week (BACKLOG-12 phase 78). */
+  scenarios: ScenarioRow[];
+  /** Scenario runs in the record that had not ended, which say nothing of the goal. */
+  scenarioUnfinished: number;
 }
 
 export interface ReportOptions {
@@ -429,6 +449,20 @@ function lookRow(label: string, traces: readonly Trace[]): LookRow {
   };
 }
 
+/** People's rebuilt tries at the weeks' scenarios, a row a week, the earliest first. */
+function scenarioRows(people: readonly Trace[]): ScenarioRow[] {
+  const rows = new Map<number, ScenarioRow>();
+  for (const t of people) {
+    const w = t.goal && scenarioFor(t.goal.week);
+    if (!t.goal || !w) continue;
+    const row = rows.get(w.week) ?? { week: w.week, goal: contractById(w.goal)?.text ?? w.goal, tried: 0, met: 0, rates: w.rates };
+    row.tried++;
+    if (t.goal.met) row.met++;
+    rows.set(w.week, row);
+  }
+  return [...rows.values()].sort((a, b) => a.week - b.week);
+}
+
 export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName, readonly RunResult[]>, opts: ReportOptions, traces: Traces = { people: [], bots: new Map() }): Report {
   const runs = g.players.flatMap((p) => p.runs);
   const finished = runs.filter((r) => r.end !== null);
@@ -531,6 +565,8 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     looks: [lookRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => lookRow(`${bot} bot`, ts))],
     turns: [turnRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => turnRow(`${bot} bot`, ts))],
     rival: [rivalRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => rivalRow(`${bot} bot`, ts))],
+    scenarios: scenarioRows(traces.people),
+    scenarioUnfinished: runs.filter((r) => r.kind === "scenario" && !r.end).length,
     lookMs: opts.lookMs,
     minDecisions: opts.minDecisions,
   };
@@ -636,6 +672,24 @@ export function formatReport(r: Report, top = 10): string {
   out.push(" side. Stood by name and someone went over: the share of runs in which it happened at least once. No record says");
   out.push(" whether a player noticed the rival before a vote; ask them.)");
   out.push("");
+
+  if (r.scenarios.length || r.scenarioUnfinished) {
+    const [lo, hi] = SCENARIO_MEASURE.band.map((x) => Math.round(x * 100));
+    const tried = r.scenarios.reduce((n, s) => n + s.tried, 0);
+    const met = r.scenarios.reduce((n, s) => n + s.met, 0);
+    // The bots on the same weeks, each week weighed by how many tried it.
+    const bots = [0, 1].map((i) => r.scenarios.reduce((n, s) => n + s.rates[i]! * s.tried, 0) / Math.max(1, tried));
+    const line = (label: string, m: number, n: number, rates: readonly number[], goal: string) =>
+      `${label.padEnd(5)} ${pad(`${m} of ${n}`, 8)} ${pad(or(share(m, n)), 6)}   ${pad(pct(rates[0]!), 7)} ${pad(pct(rates[1]!), 6)}   ${goal}`;
+    out.push("== the week's scenario: people's tries beside the bots it was measured on ==");
+    out.push(`${"week".padEnd(5)} ${pad("met", 8)} ${pad("", 6)}   ${pad("informed", 7)} ${pad("eyes", 6)}   goal`);
+    for (const s of r.scenarios) out.push(line(pad(s.week, 5), s.met, s.tried, s.rates, s.goal));
+    if (r.scenarios.length > 1) out.push(line("all", met, tried, bots, ""));
+    out.push(`(Each week was chosen for both bots to meet its goal in ${lo}–${hi}% of runs, each aiming at it and deciding a card`);
+    out.push(" in five its own way (BACKLOG-12 phase 78). People well outside that over several weeks say the band, or the");
+    out.push(` one-in-five, is off for people. Tries not finished when the record was sent, not counted: ${r.scenarioUnfinished}.)`);
+    out.push("");
+  }
 
   out.push("== the look each card was read in ==");
   out.push(`${"".padEnd(10)} ${pad("cards", 6)} ${LOOK_NAMES.map((l) => pad(l, 8)).join(" ")} ${pad("changes a run", 14)}`);

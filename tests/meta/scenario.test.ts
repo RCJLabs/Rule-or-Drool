@@ -56,6 +56,10 @@ describe("the weeks' scenarios", () => {
     expect(scenarioFor(SCENARIO_WEEKS.length + 1)).toBeNull();
   });
 
+  it("each deal a seed of their own, so a scenario's record names its week by its seed", () => {
+    expect(new Set(SCENARIO_WEEKS.map((w) => w.seed)).size).toBe(SCENARIO_WEEKS.length);
+  });
+
   it("each set a goal in the contracts' words, on the side and with the promise it names", () => {
     for (const w of SCENARIO_WEEKS) {
       expect(contractById(w.goal), w.goal).toBeDefined();

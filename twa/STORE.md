@@ -386,7 +386,9 @@ with one questionnaire gathered from the questions below:
   a scenario's run as a kind of its own, `scenario`, beside own, daily and shared. The profile
   saves as v11, so progress moved from v0.86.0 into an older version is refused as newer. Each
   week's goal was measured with bots that each decide a card in five their own way; question 10
-  now asks whether a scenario's goal felt too easy or too hard, which is the check on that.
+  now asks whether a scenario's goal felt too easy or too hard, which is the check on that. The
+  report has a section for it: people's tries at each week, met or not, beside the week's
+  measured rates, and the tries not finished when the record was sent.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

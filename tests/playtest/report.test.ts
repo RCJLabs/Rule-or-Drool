@@ -5,11 +5,17 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { decodeRunCode, setupOf } from "../../src/meta/runcode";
-import { serialize, toFile, type RecordedRun, type TakenCard } from "../../src/playtest/record";
+import { closeRun, openRun, serialize, takeCard, toFile, type RecordedRun, type TakenCard } from "../../src/playtest/record";
 import { deckStamp } from "../../src/engine/deck";
 import { buildReport, formatReport, gather, onThisDeck, type Source } from "../../src/playtest/report";
 import { LINE_SINCE, toldTheCount, traceBot, traceRecorded, type RivalTrace, type Trace } from "../../src/playtest/trace";
-import { playRunFrom, type BotName, type RunResult } from "../../src/sim";
+import { BOTS, makeContext, playRunFrom, type BotName, type RunResult } from "../../src/sim";
+import { draw } from "../../src/engine/draw";
+import { getCard } from "../../src/engine/library";
+import { resolve } from "../../src/engine/resolve";
+import { makeRng } from "../../src/engine/rng";
+import { exitBand, newRun, rollSetup } from "../../src/engine/state";
+import { SCENARIO_WEEKS, contractById, keepsContract, type ScenarioWeek } from "../../src/meta";
 import { APP_VERSION } from "../../src/version";
 import { recordBotRun, recordRun } from "./helpers";
 
@@ -284,4 +290,53 @@ describe("npm run playtests", () => {
       rmSync(dir, { recursive: true, force: true });
     }
   }, 30_000);
+});
+
+// BACKLOG-12 phase 78: the week's scenario, people's tries beside the rates each week was
+// measured at with bots that aim at the goal and decide a card in five their own way.
+describe("the week's scenario", () => {
+  /** A week's run played by a bot and recorded as the game records a scenario's try. */
+  function tried(week: ScenarioWeek, bot: BotName, seed = 1): { run: RecordedRun; met: boolean } {
+    const rng = makeRng(seed);
+    let s = newRun(library, week.seed, { ...rollSetup(library, week.seed, week.align, []), mandates: week.mandates });
+    let run = openRun(s, { kind: "scenario", run: seed, game: APP_VERSION });
+    while (!s.over) {
+      s = draw(library, s);
+      const card = getCard(library, s.current!);
+      const side = BOTS[bot](makeContext(library, s, card, rng, { danger: 25 }));
+      const after = resolve(library, s, card.id, side);
+      run = { ...run, cards: [...run.cards, takeCard(s, after, side, { ms: 1000, looked: [0, 0] })] };
+      s = after;
+    }
+    return { run: closeRun(library, run, s), met: keepsContract(week.goal, s, exitBand(library, s)) };
+  }
+  const [w1, w2] = SCENARIO_WEEKS as [ScenarioWeek, ScenarioWeek];
+
+  it("rebuilds a try, names its week by its seed and says whether it met the goal", () => {
+    const { run, met } = tried(w1, "informed");
+    expect(traceRecorded(library, run)!.goal).toEqual({ week: 1, met });
+    // The same run not marked as a scenario's is not a try at one.
+    expect(traceRecorded(library, { ...run, kind: "shared" })!.goal).toBeUndefined();
+  });
+
+  it("sets people's tries beside the rates each week was measured at, and counts the tries not finished", () => {
+    const tries = [tried(w1, "informed", 1), tried(w1, "eyes", 2), tried(w2, "mixed", 3)];
+    const left: RecordedRun = { ...tries[0]!.run, run: 9, end: null, cards: tries[0]!.run.cards.slice(0, 3) };
+    const people = tries.map((t) => traceRecorded(library, t.run)!);
+    const r = buildReport(library, gather([source("s", [...tries.map((t) => t.run), left])]), new Map(), OPTS, { people, bots: new Map() });
+    const met = (...k: number[]) => k.filter((i) => tries[i]!.met).length;
+    expect(r.scenarios).toEqual([
+      { week: 1, goal: contractById(w1.goal)!.text, tried: 2, met: met(0, 1), rates: w1.rates },
+      { week: 2, goal: contractById(w2.goal)!.text, tried: 1, met: met(2), rates: w2.rates },
+    ]);
+    expect(r.scenarioUnfinished).toBe(1);
+    const text = formatReport(r);
+    expect(text).toContain("== the week's scenario: people's tries beside the bots it was measured on ==");
+    expect(text).toContain(contractById(w2.goal)!.text);
+    expect(text).toContain("Tries not finished when the record was sent, not counted: 1.");
+  });
+
+  it("says nothing of the scenario when no one tried one", () => {
+    expect(formatReport(buildReport(library, gather([source("p", [made(1, [["x", 1000]])])]), new Map(), OPTS))).not.toContain("the week's scenario");
+  });
 });

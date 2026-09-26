@@ -511,7 +511,9 @@ such runs a bot, after a screen of 30.
 
 - Whether people meet a goal in a fifth to a half of their tries is a guess. The band holds for
   bots that decide a card in five their own way. Question 10 now asks testers whether a
-  scenario's goal felt too easy or too hard.
+  scenario's goal felt too easy or too hard, and `npm run playtests` sets people's tries at each
+  week beside the rates it was measured at: a record marks a scenario's run, and the report finds
+  its week by its seed and rebuilds the run to see whether the goal was met.
 - The one try is kept by the profile, not a server. A second device, or erasing progress, gets
   another. It is for comparing among friends, not a ladder.
 - Left out of the goals:
