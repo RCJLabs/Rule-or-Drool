@@ -481,3 +481,50 @@ buttons off it in the deepest looks, up to 16px, on every 360px-wide phone the a
 **Caveat.** Whether a person reads the line, or already knew, is not something a bot can say.
 Ask testers what ended their last run and whether the screen told them anything they did not
 know.
+
+## Phase 68. Mark a side that ends your rule (idea 3) — *done*
+
+**Shipped in v0.76.0.** Nothing is dealt differently: the deck is still 7jyrup04.
+
+- A side that would end the run is marked: under its label as the card is dragged or peeked,
+  "Ends your rule", ringed in the colour a meter in danger is drawn in; on its button, the same
+  ring; and for a screen reader, "This ends your rule." after what the side moves.
+- What counts (`sideEnds`) is the side played out as the engine would play it: its own ending, a
+  lost count that ends the run, a meter it takes over an edge, or one the era's pressure takes
+  over once it is played. Not the coup's roll, which is dice the player is not shown (idea 5),
+  and not a finale, which is the run seen through.
+- A vote whose loss would end the run says so: "Counted honestly: a final loss", where it said
+  "a loss" or "a narrow loss". A first lost vote, which only sends the run out, reads as before.
+
+**Measured,** the eyes bot on 2,000 runs a length, the same seeds each way:
+
+| Cut short | As it was | Reading the mark |
+|---|---|---|
+| First term | 25 | 15 |
+| Three eras | 112 | 78 |
+| Long reign | 208 | 145 |
+
+- It took a marked side while the other was clear 12, 40 and 84 times; reading the mark, never.
+  What still cuts it short is nearly all a card both of whose sides end the run: 74 of the 78.
+- Marks come up on 1–3% of cards, and at least once in 945 of 1,000 runs: 1,336 times a vote
+  whose loss would be the last, 1,313 a side whose own words end the reign, 498 a meter the side
+  takes over. The first two a careful player can know already; the third is what the dots did
+  not say.
+- The eyes bot reads the mark now, since the table shows it: in the harness its finale rises from
+  94.6% to 96.2%, and its runs ended in the first era fall from 3.1% to 0.5%. No target reads
+  the eyes bot, and every target passes.
+
+**Fit.** The first wording for the vote, "Counted honestly: a loss, and your last", took two lines
+in the deepest looks and pushed the card's text off it; "a final loss" is shorter than the line
+it replaces. The danger colour could not carry the words: on the Ascent's dark paper it reads at
+2.9:1, and text needs 4.5. So the words are in ink and the colour is a ring, drawn inside, which
+the decay looks show although they draw no borders. A new browser audit stages each side's
+longest vote, the office lost once, with the buttons drawn and the side peeked, in all seven
+looks on the smallest phone.
+
+**Caveats.**
+- It takes away a surprise, as BACKLOG-11 said it would. It also says exactly what the hidden
+  numbers add up to: that a meter will cross its edge on this side, where the dots only say how
+  far it moves.
+- On a button the mark is a ring without words, since words there took room from the card.
+  Whether a player who taps the buttons reads the ring is not measured; ask testers.

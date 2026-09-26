@@ -803,8 +803,10 @@ describe.skipIf(!target)("in a browser", () => {
       const smallest = width === 360 && height === 640;
       // An election carries a line on how an honest count goes (BACKLOG-9 phase 53), and it is
       // put on the table at its longest: a coalition a point or two under the bar, which is a
-      // narrow loss in every look, since a look moves the bar by under three points.
+      // narrow loss in every look, since a look moves the bar by under three points. The line
+      // for a loss that ends the run is shorter (BACKLOG-11 phase 68), and has its own audit.
       const longestCount = Object.values(STRINGS.count).reduce((a, b) => (b.length > a.length ? b : a));
+      expect(STRINGS.countEnds.length).toBeLessThanOrEqual(longestCount.length);
       // A campaign card says where the same count stands, at its longest too (BACKLOG-10 phase 56).
       const longestStanding = Object.values(STRINGS.standing).reduce((a, b) => (b.length > a.length ? b : a));
       const counted = (kind: string) => kind === "election" || kind === "campaign";
@@ -840,6 +842,55 @@ describe.skipIf(!target)("in a browser", () => {
             // Colour does not change with the height, so it is read once, on the smallest phone.
             if (smallest) failures.push(...(await contrast(page, label)));
           }
+        }
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    // A side that ends the run is marked (BACKLOG-11 phase 68): ringed on its button, and under its
+    // label as it is peeked; and the vote says a loss would be the last. Staged on each side's
+    // longest vote, the office lost once already, with the buttons drawn on the smallest phone.
+    it("marks a side that ends the run, and the vote whose loss would, readable and fitting in all seven looks at 360×640", async () => {
+      const failures: string[] = [];
+      for (const party of ["left", "right"] as const) {
+        const vote = fitPlacements(library, party).find((p) => p.kind === "election")!;
+        const page = await startRun(browser, party, { width: 360, height: 640, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
+        await rewriteRun(
+          page,
+          `raw.state.current = ${JSON.stringify(vote.card.id)};
+          raw.state.currentFrom = "election";
+          for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};
+          raw.state.flags = [...new Set([...raw.state.flags, "lost_office"])];
+          Object.assign(raw.state.cabinet, ${JSON.stringify(vote.seats)});`,
+        );
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(`.card[data-card="${vote.card.id}"]`);
+        const honest = vote.card.left.honest ? "left" : "right";
+        for (const look of LOOKS) {
+          await toLook(page, look);
+          const label = `${party}, ${vote.card.id} in ${look}`;
+          const line = page.locator(".card .count-line");
+          if ((await line.textContent()) !== STRINGS.countEnds) failures.push(`${label}: the count says "${await line.textContent()}"`);
+          const lines = await line.evaluate((el) => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
+          if (lines !== 1) failures.push(`${label}: the count takes ${lines} lines`);
+          if (!(await page.locator(`.choice[data-side="${honest}"][data-ends]`).count())) failures.push(`${label}: the honest button is not marked`);
+          failures.push(...(await misfits(page, label)));
+          failures.push(...(await contrast(page, label)));
+        }
+        // Under the label as it is peeked, drawn as it is at the moment of committing, in full.
+        for (const look of LOOKS) {
+          await toLook(page, look);
+          await page.keyboard.press(honest === "left" ? "ArrowLeft" : "ArrowRight");
+          await page.waitForSelector(".card-labels[aria-hidden='false']");
+          await page.evaluate(`document.querySelectorAll(".card-label[data-ends]").forEach((el) => { el.style.opacity = "1"; })`);
+          const label = `${party}, ${vote.card.id} peeked in ${look}`;
+          const mark = await page.locator(".card-label[data-ends] .ends-mark").textContent();
+          if (mark !== STRINGS.ui.endsRule) failures.push(`${label}: the mark says "${mark}"`);
+          failures.push(...(await misfits(page, label)));
+          failures.push(...(await contrast(page, label)));
+          await page.keyboard.press("Escape");
         }
         await close(page);
       }

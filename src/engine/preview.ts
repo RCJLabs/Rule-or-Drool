@@ -1,5 +1,6 @@
+import { survivedTo } from "./endings";
 import type { Library } from "./library";
-import { applyChoice, checkOuster, honestCount, type HonestCount } from "./resolve";
+import { applyChoice, checkOuster, honestCount, resolve, type HonestCount } from "./resolve";
 import { fxDeltas } from "./state";
 import type { Card, GameState, MeterKey, Meters, Side } from "./types";
 import { METER_KEYS } from "./types";
@@ -31,4 +32,20 @@ export function preview(lib: Library, state: GameState, card: Card, side: Side):
     outOfOffice: !!after.opposition,
     count: honestCount(lib, after),
   };
+}
+
+/**
+ * The ending this side brings on the card it is played on, where the rules a player is shown
+ * decide it (BACKLOG-11 phase 68): the side's own ending, a lost count that ends the run, a meter
+ * the side takes over an edge, or one the era's pressure takes over once it is played. Not the
+ * coup's roll, which is dice the player is not shown, and not a finale, which is the run seen
+ * through. Null for a side that leaves the run going. It plays the card, which `preview` does
+ * not, since the era's pressure and a vote's rules come after the choice.
+ */
+export function sideEnds(lib: Library, state: GameState, card: Card, side: Side): string | null {
+  if (state.over || state.current !== card.id) return null;
+  const id = resolve(lib, state, card.id, side).over?.endingId ?? null;
+  if (!id || survivedTo(lib.config, id)) return null;
+  if (id === lib.config.coupEnding && card[side].ending !== id) return null;
+  return id;
 }

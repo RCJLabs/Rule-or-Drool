@@ -335,6 +335,10 @@ bots (BACKLOG-5 phase 31):
   over, the count a vote was lost at, or a coup's odds (BACKLOG-11 phase 67). Nothing is dealt
   differently, so records from v0.74.0 are read with these. Ask testers what ended their last
   run, and whether the screen told them anything they did not already know.
+- Since v0.76.0 a side that would end the run is marked, under its label as the card is dragged
+  and ringed on its button, and a vote whose loss would be the last says "a final loss"
+  (BACKLOG-11 phase 68). Nothing is dealt differently. Ask testers whether they saw the mark,
+  and whether it changed a choice; the records do not say.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

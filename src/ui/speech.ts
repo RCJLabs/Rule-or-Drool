@@ -39,12 +39,15 @@ export function stepOf(delta: number): 1 | 2 | 3 {
 
 const sized = (name: string, step: 1 | 2 | 3) => `${name} ${STRINGS.speech.sizes[step - 1]}`;
 
-/** What a choice would move, as the preview dots show it: which meters and how much, never which way. */
-export function choiceSummary(p: Preview, before: Meters, align: PlayerAlign): string {
+/**
+ * What a choice would move, as the preview dots show it: which meters and how much, never which
+ * way; and, as the card marks it, whether it ends the run (BACKLOG-11 phase 68).
+ */
+export function choiceSummary(p: Preview, before: Meters, align: PlayerAlign, ends = false): string {
   const moved = METER_KEYS.filter((k) => p.affected.includes(k));
-  if (!moved.length) return STRINGS.speech.movesNothing;
   const list = moved.map((k) => sized(meterName(k, align), stepOf(p.meters[k] - before[k]))).join(", ");
-  return STRINGS.speech.moves.replace("{list}", list);
+  const moves = moved.length ? STRINGS.speech.moves.replace("{list}", list) : STRINGS.speech.movesNothing;
+  return ends ? `${moves} ${STRINGS.speech.endsRule}` : moves;
 }
 
 /** What a choice did, as the meters show it afterwards: which moved, which way, and how much. */

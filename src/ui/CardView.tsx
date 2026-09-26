@@ -39,6 +39,8 @@ interface Props {
   count?: CountLine | null;
   /** Keyboard peek: shows the choice for that side without a pointer. */
   peek: Side | null;
+  /** The sides that end the run, marked under their labels as they are peeked (BACKLOG-11 phase 68). */
+  ends?: Record<Side, boolean> | null;
   /** Set once a choice is committed; the card flies off that way. */
   leaving: Side | null;
   onDrag: (side: Side | null) => void;
@@ -57,7 +59,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, peek, leaving, onDrag, onCommit, focusOnMount }: Props) {
+export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, peek, ends, leaving, onDrag, onCommit, focusOnMount }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const nameId = `speaker${useId().replace(/\W/g, "")}`;
   useEffect(() => {
@@ -128,12 +130,12 @@ export function CardView({ card, text, labels, spokenText, speakerName, roleLabe
         <span className="sr-only">{from === "queue" ? STRINGS.ui.cameBack : STRINGS.ui.aHabit}</span>
       )}
       <div className="card-labels" aria-hidden={side === null}>
-        <span className="card-label" style={{ opacity: side === "left" ? reveal : 0 }}>
-          {labels?.left ?? card.left.label}
-        </span>
-        <span className="card-label" style={{ opacity: side === "right" ? reveal : 0 }}>
-          {labels?.right ?? card.right.label}
-        </span>
+        {(["left", "right"] as const).map((s) => (
+          <span key={s} className="card-label" data-ends={ends?.[s] || undefined} style={{ opacity: side === s ? reveal : 0 }}>
+            {labels?.[s] ?? card[s].label}
+            {ends?.[s] && <span className="ends-mark">{STRINGS.ui.endsRule}</span>}
+          </span>
+        ))}
       </div>
       <div className="speaker">
         <Portrait role={card.speaker} advisorId={advisorId} seed={seed} />
@@ -161,7 +163,7 @@ export function CardView({ card, text, labels, spokenText, speakerName, roleLabe
         <p className="card-text">{text}</p>
       )}
       {count && (
-        <p className="count-line" data-band={count.band}>
+        <p className="count-line" data-band={count.band} data-ends={count.ends || undefined}>
           {count.text}
         </p>
       )}

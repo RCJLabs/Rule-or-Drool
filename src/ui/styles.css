@@ -442,6 +442,24 @@ button {
   opacity: 0;
   transition: opacity 0.08s;
 }
+/* A side that ends the run (BACKLOG-11 phase 68): said under the label, and ringed in the colour a
+   meter in danger is drawn in. The words stay in ink, since the danger colour is too dark to read
+   on the Ascent's paper; the ring is drawn inside, since the decay looks draw no borders. The
+   label is laid over the card, so its second line takes no room from it. */
+.card-label[data-ends],
+.choice[data-ends] {
+  box-shadow: inset 0 0 0 2px var(--danger);
+}
+.card-label[data-ends] {
+  border-radius: 14px;
+}
+.ends-mark {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
 .speaker {
   display: flex;
   flex-direction: column;

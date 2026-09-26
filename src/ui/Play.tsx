@@ -6,7 +6,7 @@ import { textLevel, type Settings } from "./settings";
 import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
 import { getCard, questionOf, type Library } from "../engine/library";
-import { preview } from "../engine/preview";
+import { preview, sideEnds } from "../engine/preview";
 import type { GameState, Meters, Side } from "../engine/types";
 import { CardClock } from "../playtest/clock";
 import type { Measure } from "../playtest/record";
@@ -86,6 +86,12 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const asked = card && questionId ? { title: STRINGS.questions.titles[questionId] ?? questionId, asking: card.step === 1 } : undefined;
   // An election says how an honest count goes, on the card and aloud (BACKLOG-9 phase 53).
   const count = card ? countLine(lib, state, card) : null;
+  // A side that ends the run is marked, on the card as it is peeked and on its button (BACKLOG-11
+  // phase 68). Played out once a card, not on every drag of it.
+  const ends = useMemo(
+    () => (card && state.current === card.id ? { left: sideEnds(lib, state, card, "left") !== null, right: sideEnds(lib, state, card, "right") !== null } : null),
+    [lib, state, card],
+  );
   const theme = themeOf(state, lib.config);
   // The country under the card, with what the run has built standing in it (BACKLOG-10 phase 64).
   // Composed once a card, not on every drag of it.
@@ -276,6 +282,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             question={asked}
             count={count}
             peek={peek}
+            ends={ends}
             leaving={leaving}
             onDrag={setDragSide}
             onCommit={commit}
@@ -294,6 +301,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
               type="button"
               className="choice"
               data-side={side}
+              data-ends={ends?.[side] || undefined}
               aria-describedby={`${describe}-${side}`}
               onClick={() => commit(side)}
               onFocus={focusChoice(side)}
@@ -304,7 +312,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
           ))}
           {SIDES.map((side) => (
             <span key={side} id={`${describe}-${side}`} className="sr-only">
-              {choiceSummary(preview(lib, state, card, side), state.meters, state.align)}
+              {choiceSummary(preview(lib, state, card, side), state.meters, state.align, !!ends?.[side])}
             </span>
           ))}
         </div>

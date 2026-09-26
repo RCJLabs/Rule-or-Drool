@@ -148,6 +148,12 @@ export const STRINGS = {
     loss: "Counted honestly: a loss",
   },
   /**
+   * The count on a vote whose loss ends the run, narrow or not (BACKLOG-11 phase 68): a second
+   * lost vote, or the way back into office. The line said "a loss" either way. No longer than
+   * the others: "a loss, and your last" took two lines in the deepest looks.
+   */
+  countEnds: "Counted honestly: a final loss",
+  /**
    * The same count on a campaign card (BACKLOG-10 phase 56), read before the vote it campaigns
    * for: where it stands now, which the campaign can still move. No longer than the count's own.
    */
@@ -389,6 +395,8 @@ export const STRINGS = {
     down: "down",
     moves: "Moves {list}.",
     movesNothing: "Moves no meter.",
+    /** A side that ends the run, said after what it moves (BACKLOG-11 phase 68). */
+    endsRule: "This ends your rule.",
     inDanger: "{meter} is in danger.",
     /** A meter a held promise keeps above a line, which the icon draws (BACKLOG-10 phase 62). */
     promisedFloor: "promised above the line drawn on it",
@@ -800,6 +808,8 @@ export const STRINGS = {
   } as Record<string, string>,
   ui: {
     start: "Take office",
+    /** The mark on a side that ends the run, under its label as it is peeked (BACKLOG-11 phase 68). */
+    endsRule: "Ends your rule",
     continueRun: "Continue saved run",
     // A saved run and the deck it was dealt from (BACKLOG-8 phase 49).
     savedUpdated: "The game has been updated since this run began. It carries on with this version's cards.",

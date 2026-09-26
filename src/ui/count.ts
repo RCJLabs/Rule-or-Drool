@@ -1,5 +1,6 @@
 import { STRINGS } from "../content/strings";
 import type { Library } from "../engine/library";
+import { goesOut } from "../engine/opposition";
 import { honestCount, type HonestCount } from "../engine/resolve";
 import type { Card, GameState } from "../engine/types";
 
@@ -31,6 +32,11 @@ export function countBand(count: HonestCount): CountBand {
 export interface CountLine {
   band: CountBand;
   wins: boolean;
+  /**
+   * Losing this count ends the run (BACKLOG-11 phase 68): a second lost vote, the way back into
+   * office, or a deck with no opposition. The line said "a loss" either way.
+   */
+  ends: boolean;
   text: string;
 }
 
@@ -44,5 +50,6 @@ export function countLine(lib: Library, state: GameState, card: Card): CountLine
   if (!standing && (card.type !== "election" || !(card.left.honest || card.right.honest))) return null;
   const count = honestCount(lib, state);
   const band = countBand(count);
-  return { band, wins: count.wins, text: (standing ? STRINGS.standing : STRINGS.count)[band] };
+  const ends = !standing && !count.wins && !goesOut(lib, state, card);
+  return { band, wins: count.wins, ends, text: ends ? STRINGS.countEnds : (standing ? STRINGS.standing : STRINGS.count)[band] };
 }

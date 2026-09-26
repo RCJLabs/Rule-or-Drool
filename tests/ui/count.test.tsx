@@ -46,6 +46,7 @@ describe("the line on an election card", () => {
   it("agrees with what the vote does, at every election four bots meet in 200 runs each", () => {
     const seen = new Set<CountBand>();
     let votes = 0;
+    let final = 0;
     for (const bot of BOT_NAMES) {
       for (let i = 0; i < 200; i++) {
         const seed = 53_000 + i;
@@ -57,7 +58,10 @@ describe("the line on an election card", () => {
           const line = countLine(library, s, card);
           if (card.type === "election") {
             const wins = !lost(s, card);
-            expect(line, `${bot} ${seed} ${card.id}`).toMatchObject({ wins, text: STRINGS.count[line!.band] });
+            // Says a loss ends the run exactly where the vote alone would end it (BACKLOG-11 phase 68).
+            const ends = !!applyChoice(library, s, card, honestSide(card)).over;
+            expect(line, `${bot} ${seed} ${card.id}`).toMatchObject({ wins, ends, text: ends ? STRINGS.countEnds : STRINGS.count[line!.band] });
+            if (ends) final++;
             expect(WINS.includes(line!.band), `${bot} ${seed} ${card.id}: ${line!.band}`).toBe(wins);
             seen.add(line!.band);
             votes++;
@@ -72,6 +76,7 @@ describe("the line on an election card", () => {
       }
     }
     expect(votes).toBeGreaterThan(1000);
+    expect(final).toBeGreaterThan(20);
     expect([...seen].sort()).toEqual(["easy", "loss", "narrowLoss", "narrowWin", "win"]);
   }, 60_000);
 

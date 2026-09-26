@@ -1,5 +1,5 @@
 import type { Library } from "../engine/library";
-import { preview, type Preview } from "../engine/preview";
+import { preview, sideEnds, type Preview } from "../engine/preview";
 import { LOST_OFFICE_FLAG } from "../engine/opposition";
 import { honestCount } from "../engine/resolve";
 import { candidatesFor, hasFlag } from "../engine/state";
@@ -168,8 +168,20 @@ function headroom(meters: Meters, worried: readonly MeterKey[]): number {
  * unless a meter is drawn in danger, when it takes the side it reads as leaving the worst of
  * those furthest from its edge. On a campaign card it campaigns the easy way when the line
  * says a narrow loss.
+ *
+ * Since BACKLOG-11 phase 68 the card marks a side that ends the run, and it reads the mark:
+ * whatever it would take, it takes the other side when this one is marked and that one is not.
+ * Reading the dots alone, it had taken such a side in 40 of 2,000 runs.
  */
 const eyes: Bot = (ctx) => {
+  const side = byEye(ctx);
+  const other: Side = side === "left" ? "right" : "left";
+  const marked = (s: Side) => sideEnds(ctx.lib, ctx.state, ctx.card, s) !== null;
+  return marked(side) && !marked(other) ? other : side;
+};
+
+/** What the eyes bot takes from the dots, the words and the lines, before it reads the mark. */
+const byEye: Bot = (ctx) => {
   const { card, state } = ctx;
   const clean = saint(ctx);
   const easy: Side = clean === "left" ? "right" : "left";
