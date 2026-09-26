@@ -5,7 +5,7 @@ import { BLOC_KEYS, METER_KEYS, type MeterKey, type Meters } from "../engine/typ
  * audio files, so the PWA stays small and works offline with no extra fetch
  * (BACKLOG-2 phase 9).
  */
-export type Cue = "commit" | "danger" | "arc" | "election" | "era" | "endWell" | "endBadly";
+export type Cue = "commit" | "danger" | "arc" | "election" | "era" | "endWell" | "endOut" | "endBadly";
 
 let ctx: AudioContext | null = null;
 
@@ -133,6 +133,15 @@ const CUES: Record<Cue, (detail?: string, level?: number) => void> = {
     tone(392, 160, { gain: 0.1 });
     tone(523, 200, { gain: 0.1, at: 0.14 });
     tone(659, 300, { gain: 0.09, at: 0.3 });
+  },
+  /**
+   * Seen through, from the opposition benches (BACKLOG-11 phase 70): the same three notes as
+   * ending well, walked down instead of up, the last one letting go of its pitch.
+   */
+  endOut: () => {
+    tone(659, 160, { gain: 0.09 });
+    tone(523, 200, { gain: 0.1, at: 0.14 });
+    tone(392, 340, { gain: 0.1, at: 0.3, glide: 0.94 });
   },
   endBadly: () => {
     tone(262, 200, { type: "sawtooth", gain: 0.07 });

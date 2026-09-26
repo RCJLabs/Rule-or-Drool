@@ -128,7 +128,7 @@ describe("every cue on a phone speaker", () => {
       for (const level of [-1, -0.5, 0, 0.5, 1]) lost[`commit ${side} ${level}`] = lossOnAPhone(voicesOf("commit", side, level));
     }
     for (const meter of METER_KEYS) lost[`danger ${meter}`] = lossOnAPhone(voicesOf("danger", meter));
-    for (const cue of ["arc", "election", "era", "endWell", "endBadly"] as const) lost[cue] = lossOnAPhone(voicesOf(cue));
+    for (const cue of ["arc", "election", "era", "endWell", "endOut", "endBadly"] as const) lost[cue] = lossOnAPhone(voicesOf(cue));
     const tooQuiet = Object.entries(lost)
       .filter(([, db]) => !(db < MAX_LOSS_DB))
       .map(([cue, db]) => `${cue}: loses ${db.toFixed(1)} dB`);

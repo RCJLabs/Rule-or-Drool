@@ -200,7 +200,6 @@ export const STRINGS = {
   opposition: {
     chip: "{party}, in opposition",
     wentOut: "The count went against you. {rival} holds the office now, and you lead the opposition until the era ends.",
-    endedOut: "You saw the end of it from the opposition benches.",
   },
   /**
    * The record of a reign, assembled from what the run did (BACKLOG-3 phase 27). Written so
@@ -223,6 +222,14 @@ export const STRINGS = {
       lostOne: "You left one vote to an honest count, and lost it.",
       lostMany: "You left {n} votes to an honest count, and lost each of them.",
       none: "No vote was held while the office was yours.",
+    },
+    /**
+     * A run that lost the office at a count and came back (BACKLOG-11 phase 70). One that saw the
+     * end from the opposition benches says so under its ending instead, as why it ended as it did.
+     */
+    office: {
+      back: "You lost the office at a count, and won it back at the next, honestly.",
+      taken: "You lost the office at a count, and took it back without winning the next.",
     },
     room: {
       nobody: "You let nobody go. Everyone who started with you was there at the end.",
@@ -287,6 +294,11 @@ export const STRINGS = {
       back: "“{label}” left the way back to a count the card called {lost}, and a lost return vote ends a rule.",
     },
     choice: "You chose “{label}”, and that ended it.",
+    /**
+     * A run seen through out of office (BACKLOG-11 phase 70): its finale, or a first term's end,
+     * read as if the office had been kept, and played the same sound.
+     */
+    out: "The count went against you, and no vote came to win the office back: {rival} held it to the end, and you saw it from the opposition benches.",
     coup: "With the vote abolished, the dice for a coup were rolled whenever it would have fallen due. They stood at {odds} this time, and it came.",
     /** A coup's odds, rounded to words: each is the upper end of its band. */
     odds: [

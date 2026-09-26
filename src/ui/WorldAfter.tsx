@@ -236,7 +236,7 @@ function SkylineBuilding({ b, p, flag }: { b: World["buildings"][number]; p: Pal
         </g>
       )}
       {flag && (
-        <g>
+        <g data-flag={flag}>
           <line x1={b.x + 3} y1={top} x2={b.x + 3} y2={top - 12} stroke={p.far} strokeWidth="1" />
           {/* The Commons fly pennants and the Ledger square flags: the same shape the card
               takes for each side during the run (BACKLOG-3 phase 23). */}

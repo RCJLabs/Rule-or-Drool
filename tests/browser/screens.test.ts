@@ -597,6 +597,39 @@ describe.skipIf(!target)("in a browser", () => {
       expect(failures).toEqual([]);
     });
 
+    // A run seen through out of office (BACKLOG-11 phase 70): the finale said nothing of it, played
+    // the sound of a run that kept the office, and flew the party's own flags over the picture.
+    it("says a run was seen through from the opposition benches, flies the rival's flags, and reads and fits the smallest phone", async () => {
+      const failures: string[] = [];
+      const { eraLength, eraCount, electionInterval } = library.config;
+      const last = eraLength * eraCount - 1;
+      for (const party of ["left", "right"] as const) {
+        const page = await startRun(browser, party, { width: 360, height: 640 });
+        for (let i = 0; i < 4; i++) await choose(page, "right");
+        await rewriteRun(
+          page,
+          `Object.assign(raw.state, ${JSON.stringify({ cardCount: last, era: eraCount, nextElectionAt: last + electionInterval, opposition: { since: last - 8, returnAt: null } })});
+          for (const k of Object.keys(raw.state.meters)) raw.state.meters[k] = 55;
+          raw.state.flags = [...new Set([...raw.state.flags, "lost_office"])];`,
+        );
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(".card");
+        await choose(page, "right");
+        await page.waitForSelector(".ending-cause");
+        const label = `seen through out of office, ${party}`;
+        const said = (await page.textContent(".ending-cause")) ?? "";
+        if (!said.endsWith("you saw it from the opposition benches.")) failures.push(`${label}: says "${said}"`);
+        const rival = party === "left" ? "right" : "left";
+        if (!(await page.locator(`.world-after [data-flag="${rival}"]`).count())) failures.push(`${label}: the picture does not fly the rival's flags`);
+        if (await page.locator(`.world-after [data-flag="${party}"]`).count()) failures.push(`${label}: the picture flies the party's own flags`);
+        failures.push(...(await contrast(page, label)));
+        failures.push(...(await misfits(page, label, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
     // A first term (BACKLOG-10 phase 59): what a new profile's menu starts, ended in a line that
     // says what comes next.
     it("reads, and fits the smallest phone, at the end of a first term started from a new profile's menu", async () => {

@@ -52,6 +52,15 @@ function guarded<A extends unknown[]>(crash: (e: unknown) => void, act: (...args
 }
 
 /**
+ * How a run that has ended sounds: seen through, cut short, or seen through from the opposition
+ * benches, which played the phrase of a run that kept the office (BACKLOG-11 phase 70).
+ */
+export function endCue(lib: Library, over: GameState): "endWell" | "endOut" | "endBadly" {
+  if (!over.over || !survivedTo(lib.config, over.over.endingId)) return "endBadly";
+  return over.opposition ? "endOut" : "endWell";
+}
+
+/**
  * What a choice sounds like. Ordered so the loudest thing a card did is the last thing you
  * hear: the card lands, then anything that went wrong, then anything that opened
  * (BACKLOG-2 phase 9).
@@ -68,7 +77,7 @@ function cue(lib: Library, settings: Settings, before: GameState, after: GameSta
     play("election");
   }
   if (eraChanged) play("era");
-  if (after.over && !before.over) play(survivedTo(lib.config, after.over.endingId) ? "endWell" : "endBadly");
+  if (after.over && !before.over) play(endCue(lib, after));
 }
 
 export function useGame(lib: Library) {

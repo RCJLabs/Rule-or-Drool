@@ -2,8 +2,9 @@ import { STRINGS } from "../content/strings";
 import { withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES_BY_ID } from "../engine/mandates";
+import { LOST_OFFICE_FLAG, WON_BACK_FLAG } from "../engine/opposition";
 import { POACHED_PREFIX } from "../engine/rival";
-import { honestWins } from "../engine/state";
+import { hasFlag, honestWins } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { HISTORY_ORDER } from "../meta/histories";
 import { LEGACIES } from "../meta/legacies";
@@ -32,7 +33,7 @@ export interface RunRecord {
 const plural = (n: number, one: string, many: string) => (n === 1 ? one : many).replace("{n}", String(n));
 
 export function runRecord(lib: Library, state: GameState): RunRecord {
-  const { votes, room, carrying } = STRINGS.record;
+  const { votes, office, room, carrying } = STRINGS.record;
   // Won at an honest count; one left to the count and lost is not a win (BACKLOG-11 phase 66).
   const honest = honestWins(state.stats);
   const lost = state.stats.electionsLost;
@@ -49,9 +50,10 @@ export function runRecord(lib: Library, state: GameState): RunRecord {
   else if (cheated > 0) lines.push(votes.neverClean);
   else if (lost > 0) lines.push(plural(lost, votes.lostOne, votes.lostMany));
   else lines.push(votes.none);
-  // A run that ended out of office: at the finale, at the return vote, or when its coalition
-  // left it there (BACKLOG-10 phase 55).
-  if (state.opposition) lines.push(STRINGS.opposition.endedOut);
+  // A run that lost the office at a count and came back says how: at the next count, or by its
+  // shortcut (BACKLOG-11 phase 70). One that saw the end from the opposition benches says so
+  // under its ending, as why it ended as it did (`causeLine`). Neither flag is inherited.
+  if (hasFlag(state, LOST_OFFICE_FLAG) && !state.opposition) lines.push(hasFlag(state, WON_BACK_FLAG) ? office.back : office.taken);
 
   // Nobody fired is not the same room it started as: each era after the first appoints someone
   // new (BACKLOG-10 phase 61), and the rival can take someone (phase 65).

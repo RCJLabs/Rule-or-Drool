@@ -13,7 +13,8 @@ import { HISTORY_ORDER } from "../meta/histories";
  * - the decisions that left a legacy: each one puts a landmark in the world — the seawall on
  *   the coast, the ring across the sky, the statue where the ballot boxes were;
  * - who held the office: the pennants the Commons fly, or the square flags of the Ledger,
- *   the same shape distinction the card makes during the run.
+ *   the same shape distinction the card makes during the run. A run that ended out of office
+ *   flies the rival's, as the country under the card did (BACKLOG-11 phase 70).
  *
  * The skyline behind the landmarks is drawn from the run's seed, so two runs that did the
  * same things in the same direction still do not produce the same city.
@@ -163,6 +164,7 @@ export interface World {
   band: Band;
   /** 0..1, how far the country went in that direction. */
   level: number;
+  /** Whose flags fly: the party in office at the end, which out of office is the rival's. */
   align: PlayerAlign;
   /** Landmarks in the order they are drawn, each with where it stands. */
   placed: { motif: Motif; slot: Slot; flag: string }[];
@@ -226,8 +228,9 @@ export function placeLandmarks(flags: readonly string[]): Placed[] {
   return placed;
 }
 
-export function composeWorld(input: { band: Band; drift: number; align: PlayerAlign; flags: readonly string[]; seed: number; era: number }): World {
-  const { band, align, seed } = input;
+export function composeWorld(input: { band: Band; drift: number; align: PlayerAlign; opposition?: boolean; flags: readonly string[]; seed: number; era: number }): World {
+  const { band, seed } = input;
+  const align: PlayerAlign = input.opposition ? (input.align === "left" ? "right" : "left") : input.align;
   const level = Math.min(1, Math.abs(input.drift) / 60);
   const placed = placeLandmarks(input.flags);
 

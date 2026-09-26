@@ -344,6 +344,11 @@ bots (BACKLOG-5 phase 31):
   the coup rather than of ballots, and out of office of the vote to win the office back. Nothing
   is dealt differently. Few testers will abolish the vote; ask those who did whether they saw the
   line, and whether they did anything about it.
+- Since v0.78.0 a run that lost the office at a count says so at its end (BACKLOG-11 phase 70).
+  History follows it up, the record says how the office came back, and a run seen through from
+  the opposition benches says so under its ending, with a sound of its own and the rival's flags
+  over the picture. Nothing is dealt differently. Ask testers who went out whether the end
+  screen told them what happened.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

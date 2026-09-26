@@ -596,3 +596,68 @@ abolished.
 - A lesson whose moment is the roll card waits for its next moment: the lesson for a card sent
   back by an earlier choice, say, waits for the next such card. How many lessons a player still
   lacks by the time the vote is abolished is not measured.
+
+## Phase 70. Tell what happened out of office (idea 6) — *done in part*
+
+**Shipped in v0.78.0.** Nothing is dealt differently: the deck is still 7jyrup04. Of idea 6's
+three parts, the third is built. The first two would have made time out of office cost more.
+They were measured and not built, because the premise they rested on was wrong.
+
+**What was wrong with the premise.** The audit found that going out cost the informed voter
+nothing in survival: 98.2% finales against 96.8%. But the runs that never went out include every
+run that ended before its first vote, at card 26. Compared fairly, on runs alive at their first
+vote, split by how it went (2,000 runs a bot):
+
+| | First vote lost, went out | First vote won honestly |
+|---|---|---|
+| Informed: finale | 97.9% | 97.6% |
+| Informed: Ascent | 22.0% | 29.3% |
+| Mixed: finale | 97.8% | 98.2% |
+| Mixed: Ascent | 12.1% | 22.9% |
+
+- Going out costs nothing in survival, and it already costs 7 to 11 points of Ascent.
+- The hold that keeps the state off its edges while out never did anything for a careful bot. It
+  held a meter on none of their cards out of office: 7,515 for the informed voter, 6,417 for the
+  mixed bot.
+- It does matter for the eyes bot, which is not shown the state in danger while out. It held a
+  meter on 2,658 of that bot's 12,294 cards out of office, in 899 of 1,256 oppositions.
+
+**The two rules, measured and not built.**
+- **The rival gaining standing while they govern.** At 1 a card out of office, the informed
+  voter's runs that went out lost 4.5 more points of Ascent (23.1% to 18.6%; at 2 a card,
+  16.4%), and survival did not move. That widens a gap that already punishes losing an honest
+  vote, which phase 55 set out not to teach.
+- **The state moving their way.** The parties' own cards differ on the state only in money:
+  −0.47 a side for the Commons, +0.07 for the Ledger. So a party's way would help one party's
+  runs and cost the other's. The rival as the game defines it, a mirror of the player, would pull
+  drift toward the middle instead: another band cost for honest runs, for the reason above.
+
+Each would be a single setting, if they are wanted anyway.
+
+**What was built.**
+- **History tells it.** The office lost moved from 71st of history's 74 to 42nd, and the office
+  won back honestly from 68th to 31st. Measured on 3,000 runs a bot, one of the two is now among
+  the four decisions the end screen follows up on in 95% of the mixed bot's runs that went out
+  (was 10%), 97% of the informed voter's (was 31%) and 95% of the eyes bot's (was 2%).
+  - They name a run's history in 1.5–5.5% of runs, and the office lost 7.3% of the eyes bot's.
+    Each bot's most common name is still the one it was, and the harness's 15% cap holds.
+  - The timeline dates them too.
+- **The record says how the office came back:** "You lost the office at a count, and won it back
+  at the next, honestly", or "…and took it back without winning the next". Before, once a run
+  had also won or cheated a vote, it never said a vote was lost at all.
+- **A run seen through out of office says so under its ending:** "The count went against you,
+  and no vote came to win the office back: {rival} held it to the end, and you saw it from the
+  opposition benches." The record no longer repeats it further down. A first term that goes
+  out ends the same way.
+- **Its sound is its own:** the three notes of a run seen through, walked down instead of up.
+- **The end picture flies the rival's flags** over a run that ended out of office, as the
+  country under the card did. So do the first road's picture and the sender's beside it.
+
+**Not done:** no card reads that a run lost the office or won it back. Cards are outside this
+round.
+
+**Caveats.**
+- The fair comparison is still bots. Whether people feel the band cost of going out, or play
+  differently because of it, is for the closed test.
+- Moving the two up the order changes which four decisions the end screen follows up on for runs
+  that went out. The one they displace is listed below the four, with the rest.

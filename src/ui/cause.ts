@@ -38,7 +38,13 @@ export type EndCause =
   /** The side taken ended the run itself: a story's end, or an ending chosen outright. */
   | { kind: "choice"; card: Card; side: Side }
   /** The coup roll that replaces the vote once it is abolished, at the odds it was rolled at. */
-  | { kind: "coup"; risk: number };
+  | { kind: "coup"; risk: number }
+  /**
+   * Seen through, but out of office: a count lost in the run's last era, or a first term's,
+   * with no vote left to win it back (BACKLOG-11 phase 70). The finale read as if the office
+   * had been kept.
+   */
+  | { kind: "out" };
 
 /** The run's last choice: the card and the side, where the run kept a record of them. */
 function lastChoice(lib: Library, state: GameState): { card: Card; side: Side } | null {
@@ -58,13 +64,14 @@ function meterOf(lib: Library, state: GameState, endingId: string): { meter: Met
 }
 
 /**
- * How this run ended, or null for one that was seen through (a finale, a first term's end) and
- * for one whose ending cannot be read back. `before` is the run with its last card on the table,
- * when the caller has it already; otherwise it is replayed from the record.
+ * How this run ended, or null for one that was seen through in office (a finale, a first term's
+ * end) and for one whose ending cannot be read back. `before` is the run with its last card on
+ * the table, when the caller has it already; otherwise it is replayed from the record.
  */
 export function endCause(lib: Library, state: GameState, before: GameState | null = replayTo(lib, state, state.cardCount - 1)): EndCause | null {
   const over = state.over;
-  if (!over || survivedTo(lib.config, over.endingId)) return null;
+  if (!over) return null;
+  if (survivedTo(lib.config, over.endingId)) return state.opposition ? { kind: "out" } : null;
   const cfg = lib.config;
   const id = over.endingId;
   const last = lastChoice(lib, state);
@@ -123,7 +130,7 @@ export function oddsWord(risk: number): string {
   return (at ?? odds[odds.length - 1]!)[1];
 }
 
-/** The line for the end screen, or null for a run seen through or one that cannot be read back. */
+/** The line for the end screen, or null for a run seen through in office or one that cannot be read back. */
 export function causeLine(lib: Library, state: GameState, cause: EndCause | null = endCause(lib, state)): string | null {
   if (!cause) return null;
   const c = STRINGS.cause;
@@ -133,6 +140,8 @@ export function causeLine(lib: Library, state: GameState, cause: EndCause | null
       return withNames(lib, state, c.choice.replace("{label}", label(cause.card, cause.side)));
     case "coup":
       return c.coup.replace("{odds}", oddsWord(cause.risk));
+    case "out":
+      return withNames(lib, state, c.out);
     case "count": {
       const band = countBand(cause.count) === "narrowLoss" ? c.lost.narrow : c.lost.plain;
       const template = cause.returnVote ? c.count.back : cause.second ? c.count.second : c.count.first;

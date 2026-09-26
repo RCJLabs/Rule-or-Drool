@@ -92,7 +92,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     return mandate ? [{ mandate, brokenAt: state.mandatesBroken[id] ?? null }] : [];
   });
   const history = fold?.history ?? historyOf(state, band);
-  const world = composeWorld({ band, drift: state.drift, align: state.align, flags: state.flags, seed: state.seed, era: state.era });
+  const world = composeWorld({ band, drift: state.drift, align: state.align, opposition: !!state.opposition, flags: state.flags, seed: state.seed, era: state.era });
   const endingTitle = ending?.title ?? over.endingId;
   const moments = timeline(lib, state, endingTitle);
   // An ouster already says what happened and does not want a tally of your elections under it.
@@ -124,12 +124,12 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const first = road?.first;
   const firstBand = first ? exitBand(lib, first) : band;
   const firstHistory = first ? historyOf(first, firstBand) : null;
-  const firstWorld = first ? composeWorld({ band: firstBand, drift: first.drift, align: first.align, flags: first.flags, seed: first.seed, era: first.era }) : null;
+  const firstWorld = first ? composeWorld({ band: firstBand, drift: first.drift, align: first.align, opposition: !!first.opposition, flags: first.flags, seed: first.seed, era: first.era }) : null;
   const parted = road && first?.choices?.[road.at];
   const partedCard = parted && lib.cards.get(parted[0]);
   const theirBand = theirs ? exitBand(lib, theirs) : bandOfHistory(vs?.history ?? null);
   const theirHistory = theirs && theirBand ? historyOf(theirs, theirBand) : null;
-  const theirWorld = theirs && theirBand ? composeWorld({ band: theirBand, drift: theirs.drift, align: theirs.align, flags: theirs.flags, seed: theirs.seed, era: theirs.era }) : null;
+  const theirWorld = theirs && theirBand ? composeWorld({ band: theirBand, drift: theirs.drift, align: theirs.align, opposition: !!theirs.opposition, flags: theirs.flags, seed: theirs.seed, era: theirs.era }) : null;
   // Two worlds side by side: the first road and the other (phase 34), or their run and yours
   // (phase 37). The one on the right is always this run, and is the picture a share sends.
   const pair =

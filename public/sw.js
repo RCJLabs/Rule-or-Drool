@@ -7,7 +7,7 @@
  * the section 12 convention ("bump APP_VERSION and CACHE_NAME together") automatic rather
  * than a thing to remember; `tests/pwa.test.ts` checks the literal below still matches.
  */
-const CACHE_NAME = "rod-v0.77.0";
+const CACHE_NAME = "rod-v0.78.0";
 /**
  * Every cache this game has made is named rod-v<version>. The origin is not the game's own:
  * rcjlabs.github.io serves every Pages site on the account, and caches belong to the origin.
