@@ -30,6 +30,7 @@ its own file: every item measured before it was built, and written up with what 
 | 9 | `BACKLOG-9.md` | 52–54 |
 | 10 | `BACKLOG-10.md` | 55–65 |
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
+| 12 | `BACKLOG-12.md` | ten ideas, none chosen yet |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -62,6 +63,11 @@ decisions only the owner can make.
    to aim at, phase 72 (v0.80.0) takes the contradictions off the end screen, and phase 73
    (v0.81.0) does idea 10's one defect and idea 9's display half. Ideas 4 and 10 are left, with
    idea 9's choosing half and idea 8's repetition half, all waiting on people's runs.
+4. **Round twelve** (BACKLOG-12.md): ten new features, phases and items, content allowed this
+   time. Five change no deal and can be built while people play: a chart of the run on the end
+   screen, a short term any time, a chronicle of every reign, a week's scenario, and music that
+   follows the look. Four add content or rules and wait for the closed test; harder terms wait
+   for people's Ascent rate.
 
 The list this file ended on after phase 7, and what became of it:
 
