@@ -1,6 +1,6 @@
 import data from "../content/histories.json";
 import { DEFAULT_CONFIG } from "../engine/config";
-import type { Library } from "../engine/library";
+import { questionOf, type Library } from "../engine/library";
 import type { Band, GameState, PlayerAlign } from "../engine/types";
 import { LEGACIES } from "./legacies";
 
@@ -34,6 +34,11 @@ export interface HistoryText {
 
 interface HistoryFile {
   order: string[];
+  /**
+   * The names a story's own ending shows to be false, by ending: history keys a run it ended is
+   * not named by (BACKLOG-11 phase 73). A question's are worked out, not listed (`namesAgainst`).
+   */
+  falseAfter: Record<string, string[]>;
   histories: Record<string, HistoryText>;
 }
 
@@ -42,6 +47,7 @@ const FILE = data as HistoryFile;
 /** The fallback for a run that left no legacy at all: 0.5% of random runs, 0% of others. */
 export const NO_LEGACY = "none";
 export const HISTORY_ORDER: readonly string[] = FILE.order;
+export const FALSE_AFTER: Readonly<Record<string, readonly string[]>> = FILE.falseAfter;
 export const HISTORIES: Readonly<Record<string, HistoryText>> = FILE.histories;
 const BANDS: readonly Band[] = ["decay", "muddle", "ascent"];
 const SIDES: readonly PlayerAlign[] = ["left", "right"];
@@ -153,14 +159,46 @@ export function toldByEnding(lib: Library, state: GameState): ReadonlySet<string
 }
 
 /**
- * What history calls a run, and what became of the decisions that made it. `told` is what the
- * run's ending already said (`toldByEnding`), which is not followed up again.
+ * The names a run's ending shows to be false (BACKLOG-11 phase 73): history keys it is not named
+ * by, though its defining decision would name it so. A question's names in the Ascent are for its
+ * answer carried out the honest way, and a question that ended the run on its self-serving side
+ * did not carry it out so: "The Paid-For Pensions" over a march on the capital. A story's are
+ * listed in `histories.json` (`falseAfter`), since most of a story's Ascent names read as what
+ * came after it and fit; three do not, among them "The Games That Paid" over The Games.
  */
-export function historyOf(state: GameState, band: Band, told: ReadonlySet<string> = NOTHING_TOLD): History {
+export function namesAgainst(lib: Library, state: GameState): ReadonlySet<string> {
+  const made = state.over ? state.choices?.[state.cardCount - 1] : undefined;
+  const last = made ? lib.cards.get(made[0]) : undefined;
+  const choice = last && made ? last[made[1]] : undefined;
+  const ending = state.over?.endingId;
+  if (!last || !choice || !ending || choice.ending !== ending) return NOTHING_TOLD;
+  const against = new Set<string>(FALSE_AFTER[ending] ?? []);
+  if (questionOf(lib, last) && (choice.drift ?? 0) < 0) {
+    for (const f of toldByEnding(lib, state)) for (const side of [...SIDES, LONG_VIEW] as const) against.add(historyKey(f, "ascent", side));
+  }
+  return against;
+}
+
+/**
+ * What history calls a run and what became of it, as its end shows them: nothing its ending told
+ * is followed up again (phase 72), and it is not named by what its ending shows to be false (73).
+ */
+export function historyOfRun(lib: Library, state: GameState, band: Band): History {
+  return historyOf(state, band, toldByEnding(lib, state), namesAgainst(lib, state));
+}
+
+/**
+ * What history calls a run, and what became of the decisions that made it. `told` is what the
+ * run's ending already said (`toldByEnding`), which is not followed up again; `against` are names
+ * its ending shows to be false (`namesAgainst`), which go to its next decision if it has one.
+ */
+export function historyOf(state: GameState, band: Band, told: ReadonlySet<string> = NOTHING_TOLD, against: ReadonlySet<string> = NOTHING_TOLD): History {
   // History names what this reign did: what it took over from the last is the last one's (phase 63).
   const inherited = state.inherited?.legacies ?? [];
   const carried = HISTORY_ORDER.filter((f) => state.flags.includes(f) && HISTORIES[f] && !inherited.includes(f));
-  const signature = carried[0] ?? NO_LEGACY;
+  const long = inLongView(state);
+  const seen = long ? LONG_VIEW : state.align;
+  const signature = carried.find((f) => !against.has(historyKey(f, band, seen))) ?? carried[0] ?? NO_LEGACY;
   const text = HISTORIES[signature]!;
   const consequences: Consequence[] = carried
     .filter((f) => !told.has(f))
@@ -173,9 +211,8 @@ export function historyOf(state: GameState, band: Band, told: ReadonlySet<string
     }));
   // A run that left nothing has the fallback's words; one whose every legacy its ending told has none.
   if (carried.length === 0) consequences.push({ flag: NO_LEGACY, label: "", after: text.after[band], at: null });
-  const long = inLongView(state);
   return {
-    key: historyKey(signature, band, long ? LONG_VIEW : state.align),
+    key: historyKey(signature, band, seen),
     signature,
     title: long ? text.long[band] : text.titles[band][state.align],
     consequences,

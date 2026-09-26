@@ -782,3 +782,52 @@ the Ascent and ended with drift deep in the Decay, which must end in an Ascent l
   from the card before it.
 - "Cut short" is said of every run that ended before its finale, including one a player chose to
   end, such as handing the office over.
+
+## Phase 73. Three follow-ups: the treasury out of office, names an ending belies, what a setup starts — *done*
+
+**Shipped in v0.81.0.** The deck moved, to c8agx015, for the first of them: records from v0.80.0
+and before are kept apart. No save changes.
+
+- **The treasury promise out of office** (idea 10's one defect). "Something set aside" broke on a
+  card played out of office, though the lesson there says the state is not yours to lose: 9, 5
+  and 9 of 2,000 runs on it for the informed, mixed and eyes bots. A promise about the state's
+  own meters now waits while the rival holds them, and on the way back in until the state is over
+  its line again: of the runs on it that went out with it kept, 8–9 in 2,000 came back to a
+  treasury under thirty. Its words say "while it is yours". A promise about the coalition still
+  counts out of office, where the coalition is still yours. The card that sends a run out is
+  played in office and is judged so: 35–50 promises a bot broke on that card still break there.
+- **A name its ending shows to be false** (the phase 72 caveat). A question's Ascent names are
+  for its answer carried out the honest way, "The Paid-For Pensions" and "The Guaranteed Savers";
+  a question that ended the run on its self-serving side, the march or the run on the banks, is
+  not named by them. Three story names are listed with the endings that belie them, "The Games
+  That Paid" among them. The other story names read as what came after the story, and fit. A run
+  so named is named by its next decision, and keeps the name if it has none.
+- **What a setup starts** (idea 9's display half). Each part of the setup says which meters it
+  starts higher or lower, in words, "Money much lower", largest first and in the run's own names
+  for its groups. A line under them names the edges that end a rule the whole setup starts
+  nearer: "Nearer an edge that ends a rule: Order, high." It does not say why a high State costs
+  a careful run; that is idea 4's, and the closed test's to measure.
+
+**Measured.**
+
+| | Promise broken on a card played out of office | Before | After |
+|---|---|---|---|
+| Informed | of 2,000 runs on it | 9 | 0 |
+| Mixed | | 5 | 0 |
+| Eyes | | 9 | 0 |
+
+- No bot run in 12,000 (three bots and the random, three eras and long) meets a name its ending
+  belies. An informed voter that takes every story's and question's end when it comes did in 19 of
+  2,000: 13 under a question's end, 6 under The Leased Coast.
+- 1,271 of 2,000 setups start a meter far enough toward an edge to name it (9 points or more, from
+  what the three parts add up to). At 5 it was 1,973, a line on nearly every setup; at 9 the
+  academic's State is named, the trait that cut the informed voter's Ascent the most (13%).
+
+**Caveats.**
+- The deck moved. Ask testers who played before v0.81.0 to send their record then, or to note the
+  version they played.
+- The rule for questions is uniform: it also renames a few whose Ascent name reads well enough
+  after the question's end, such as "The Open Door" under Contempt of Court.
+- The setup lines make the setup screen longer on a phone, by about four lines of small text.
+- Whether a player reads them, or plays a high State differently, is for the closed test. The
+  setup screen still says nothing of the Institutions ceiling itself.

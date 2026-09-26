@@ -2,7 +2,7 @@ import type { Library } from "../engine/library";
 import { playSides } from "../engine/replay";
 import { exitBand } from "../engine/state";
 import type { Band, GameState, Side } from "../engine/types";
-import { ALL_HISTORY_KEYS, historyOf } from "./histories";
+import { ALL_HISTORY_KEYS, historyOfRun } from "./histories";
 import { setupOf, type RunCode } from "./runcode";
 
 /**
@@ -43,7 +43,7 @@ const NONE = "-";
 export function resultOf(lib: Library, state: GameState): RunResult | null {
   if (!state.over) return null;
   const sides = state.choices && state.choices.length === state.cardCount ? state.choices.map(([, side]) => side) : null;
-  return { history: historyOf(state, exitBand(lib, state)).key, ending: state.over.endingId, cards: state.cardCount, sides };
+  return { history: historyOfRun(lib, state, exitBand(lib, state)).key, ending: state.over.endingId, cards: state.cardCount, sides };
 }
 
 export function encodeRunResult(r: RunResult): string {
@@ -84,7 +84,7 @@ export function theirRun(lib: Library, code: RunCode, result: RunResult): GameSt
   // playSides only hands back a run that ends on its last side, so the card count is theirs.
   const run = playSides(lib, code.seed, setupOf(code), result.sides);
   if (!run?.over || run.over.endingId !== result.ending) return null;
-  if (result.history && historyOf(run, exitBand(lib, run)).key !== result.history) return null;
+  if (result.history && historyOfRun(lib, run, exitBand(lib, run)).key !== result.history) return null;
   return run;
 }
 

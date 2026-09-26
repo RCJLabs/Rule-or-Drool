@@ -587,8 +587,9 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     // someone gone over to the rival (phase 65), and a campaign won the easy way (phase 66).
     if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG || f === RIVAL_POACHED_FLAG || f === EASY_CAMPAIGN_FLAG) continue;
     if (f.startsWith(MANDATE_FLAG_PREFIX)) {
-      // `mandate_<id>`, set when the run is taken on it, or `mandate_<id>_broken` (phase 62).
-      const name = f.slice(MANDATE_FLAG_PREFIX.length).replace(/_broken$/, "");
+      // `mandate_<id>`, set when the run is taken on it, `mandate_<id>_broken` (phase 62), or
+      // `mandate_<id>_waits` while a promise about the state is not the run's to keep (phase 73).
+      const name = f.slice(MANDATE_FLAG_PREFIX.length).replace(/_(broken|waits)$/, "");
       if (!mandateIds.has(name)) issues.error("flag-unset", `no mandate is called "${name}", so "${f}" is never set`, where);
       continue;
     }

@@ -14,7 +14,7 @@ import {
   bandOfHistory,
   contractById,
   dailyNumber,
-  historyOf,
+  historyOfRun,
   historyTitle,
   monthOf,
   resultOf,
@@ -95,7 +95,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   });
   // What its ending already told is not followed up again (BACKLOG-11 phase 72).
   const told = toldByEnding(lib, state);
-  const history = fold?.history ?? historyOf(state, band, told);
+  const history = fold?.history ?? historyOfRun(lib, state, band);
   // A long reign's end is drawn in the band it locked, wherever drift went after (phase 72).
   const world = composeWorld({ band, drift: exitDrift(lib, state), align: state.align, opposition: !!state.opposition, flags: state.flags, seed: state.seed, era: state.era });
   const endingTitle = ending?.title ?? over.endingId;
@@ -137,12 +137,12 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     }
   const first = road?.first;
   const firstBand = first ? exitBand(lib, first) : band;
-  const firstHistory = first ? historyOf(first, firstBand, toldByEnding(lib, first)) : null;
+  const firstHistory = first ? historyOfRun(lib, first, firstBand) : null;
   const firstWorld = first ? composeWorld({ band: firstBand, drift: exitDrift(lib, first), align: first.align, opposition: !!first.opposition, flags: first.flags, seed: first.seed, era: first.era }) : null;
   const parted = road && first?.choices?.[road.at];
   const partedCard = parted && lib.cards.get(parted[0]);
   const theirBand = theirs ? exitBand(lib, theirs) : bandOfHistory(vs?.history ?? null);
-  const theirHistory = theirs && theirBand ? historyOf(theirs, theirBand, toldByEnding(lib, theirs)) : null;
+  const theirHistory = theirs && theirBand ? historyOfRun(lib, theirs, theirBand) : null;
   const theirWorld = theirs && theirBand ? composeWorld({ band: theirBand, drift: exitDrift(lib, theirs), align: theirs.align, opposition: !!theirs.opposition, flags: theirs.flags, seed: theirs.seed, era: theirs.era }) : null;
   // Two worlds side by side: the first road and the other (phase 34), or their run and yours
   // (phase 37). The one on the right is always this run, and is the picture a share sends.

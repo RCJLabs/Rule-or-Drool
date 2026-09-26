@@ -1,5 +1,5 @@
 import type { FxSpec, GameState, MeterKey } from "./types";
-import { BLOC_KEYS } from "./types";
+import { BLOC_KEYS, CORE_KEYS } from "./types";
 import { EASY_CAMPAIGN_FLAG } from "./campaign";
 import { RIVAL_POACHED_FLAG } from "./rival";
 
@@ -120,7 +120,7 @@ export const MANDATES: readonly Mandate[] = [
     title: "Something set aside",
     short: "Something aside",
     promise: "You said there would always be something in the treasury, and pointed at the rain.",
-    cost: "Let the treasury fall below thirty, for anything at all, and the promise is gone.",
+    cost: "Let the treasury fall below thirty while it is yours, for anything at all, and the promise is gone.",
     brokeCard: "mn_reserve_broke",
     floor: RESERVE_FLOOR,
     isBroken: under(RESERVE_FLOOR),
@@ -259,4 +259,20 @@ export const MANDATE_FLAG_PREFIX = "mandate_";
  */
 export function brokenFlag(id: string): string {
   return `${MANDATE_FLAG_PREFIX}${id}_broken`;
+}
+
+/**
+ * `mandate_m_reserve_waits`: a promise about the state's own meters, waiting while they are not the
+ * run's to keep (BACKLOG-11 phase 73). Out of office the rival holds the state, and a run that comes
+ * back to it under the promise's line was not the one that let it fall; the line counts again once
+ * the state is over it.
+ */
+export function waitingFlag(id: string): string {
+  return `${MANDATE_FLAG_PREFIX}${id}_waits`;
+}
+
+/** A promise's floor when it is on the state's own meters, which the office holds; none on the coalition's. */
+export function stateFloor(mandate: Mandate): NonNullable<Mandate["floor"]> | null {
+  const floor = mandate.floor;
+  return floor && floor.meters.every((k) => (CORE_KEYS as readonly MeterKey[]).includes(k)) ? floor : null;
 }

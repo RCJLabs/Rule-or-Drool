@@ -721,6 +721,20 @@ export const STRINGS = {
     suffixes: ["", "", " Plus", " Max", "!", " 2"],
   },
   setupLabels: { crisis: "You inherit", trait: "You are", flaw: "You are also" },
+  /**
+   * What a dealt setup does, in words (BACKLOG-11 phase 73): the meters each part starts higher or
+   * lower, and which edges that ends a rule the whole setup starts nearer. Never the number.
+   */
+  setupStarts: {
+    lead: "Starts:",
+    higher: "higher",
+    lower: "lower",
+    little: "a little {dir}",
+    much: "much {dir}",
+    edges: "Nearer an edge that ends a rule: {list}.",
+    low: "{meter}, low",
+    high: "{meter}, high",
+  },
   modifiers: {
     crisis_recession: { name: "A recession", blurb: "The treasury was empty the day you arrived." },
     crisis_pandemic: { name: "A pandemic", blurb: "A fever was already loose in the port cities." },

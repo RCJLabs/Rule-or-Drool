@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.80.0)
+## Where the project stands now (v0.81.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -29,7 +29,7 @@ its own file: every item measured before it was built, and written up with what 
 | 8 | `BACKLOG-8.md` | 49–51 |
 | 9 | `BACKLOG-9.md` | 52–54 |
 | 10 | `BACKLOG-10.md` | 55–65 |
-| 11 | `BACKLOG-11.md` | 66–72, and three ideas not yet chosen |
+| 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -37,7 +37,7 @@ decisions only the owner can make.
 | | |
 |---|---|
 | Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names written, 657 of which a run can be given; three eras, and five in a long reign |
-| Tests | 908 unit tests and 61 browser tests |
+| Tests | 917 unit tests and 61 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -59,8 +59,9 @@ decisions only the owner can make.
    would end it, phase 69 (v0.77.0) says the risk of the coup rolled once the vote is
    abolished, phase 70 (v0.78.0) tells what happened out of office (its two rule changes were
    measured and not built), phase 71 (v0.79.0) makes the codex's endings a careful player's
-   to aim at, and phase 72 (v0.80.0) takes the contradictions off the end screen. Three ideas are
-   left to choose from, and the half of idea 8 that asks testers first.
+   to aim at, phase 72 (v0.80.0) takes the contradictions off the end screen, and phase 73
+   (v0.81.0) does idea 10's one defect and idea 9's display half. Ideas 4 and 10 are left, with
+   idea 9's choosing half and idea 8's repetition half, all waiting on people's runs.
 
 The list this file ended on after phase 7, and what became of it:
 

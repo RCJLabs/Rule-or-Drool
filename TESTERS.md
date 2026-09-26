@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.80.0 · deck 7jyrup04".
+  version from the bottom of the menu. It looks like "v0.81.0 · deck c8agx015".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.

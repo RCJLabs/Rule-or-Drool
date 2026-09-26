@@ -360,6 +360,11 @@ with one questionnaire gathered from the questions below:
   ending instead; and a long reign ends in the look of the band it locked (BACKLOG-11 phase 72).
   Nothing is dealt differently. Ask testers, around their tenth run, whether the end screen still
   tells them anything new: the repetition that idea 8's other half would fold waits on the answer.
+- Since v0.81.0 a promise about the treasury waits while the rival holds it, a run is not named by
+  a name its own ending shows to be false, and the setup screen says which meters each part of the
+  setup starts higher or lower (BACKLOG-11 phase 73). The deck moved, to c8agx015, so records from
+  v0.80.0 and before are kept apart. The setup lines may change how people play a setup that starts
+  the State high: the report's table of turns from the honest side, by setup, is where it would show.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

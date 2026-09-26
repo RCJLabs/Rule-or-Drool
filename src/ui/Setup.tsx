@@ -114,7 +114,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
                   <b>{STRINGS.parties[shared.code.align]}</b>
                   {shared.code.mandates.map((id) => ` · ${MANDATES_BY_ID.get(id)?.title ?? ""}`).join("")}
                 </p>
-                <SetupSummary lib={lib} modifiers={shared.code.modifiers} />
+                <SetupSummary lib={lib} modifiers={shared.code.modifiers} align={shared.code.align} />
                 {shared.code.eraCount !== undefined && <p className="shared-reign">{shared.code.eraCount < lib.config.eraCount ? STRINGS.reign.offerFirst : STRINGS.reign.offer}</p>}
                 {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
                 {sharedIsDaily && n && (
@@ -161,7 +161,7 @@ export function Setup({ lib, saved, savedDaily, meta, onStart, onDaily, onContin
             </button>
           ))}
         </fieldset>
-        <SetupSummary lib={lib} modifiers={setup.modifiers ?? []} />
+        <SetupSummary lib={lib} modifiers={setup.modifiers ?? []} align={align} />
         {parent && inheritance && <StartPicker lib={lib} from={parent} inheritance={inheritance} value={takeOver} onChange={chooseStart} />}
         <MandatePicker value={mandates} onChange={setMandates} unavailable={unavailable} />
         {reigns && <ReignPicker choices={reigns} value={chosen} onChange={setEraCount} />}

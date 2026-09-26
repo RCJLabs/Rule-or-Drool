@@ -1827,6 +1827,18 @@ button {
   font-size: 13px;
   color: var(--muted);
 }
+/* What the setup starts, and the edges it starts nearer (BACKLOG-11 phase 73). */
+.setup-row dd .setup-starts {
+  margin-top: 2px;
+  color: var(--ink);
+}
+.setup-edges {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--ink);
+}
 
 /* ---- meta: codex, objectives, daily ---------------------------------------------- */
 /* Wraps rather than running off a phone whose system text is set large: the codex button's

@@ -75,6 +75,15 @@
     "habit_bend",
     "habit_skim"
   ],
+  "falseAfter": {
+    "the_games": [
+      "stadium_built:ascent:left",
+      "stadium_built:ascent:right"
+    ],
+    "leased_coast": [
+      "port_leased:ascent:right"
+    ]
+  },
   "histories": {
     "long_ship": {
       "titles": {

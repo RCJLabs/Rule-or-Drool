@@ -3,7 +3,7 @@ import { closestSoFar, endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
-import { BROKE_MANDATE_FLAG, MANDATES_BY_ID, brokenFlag } from "./mandates";
+import { BROKE_MANDATE_FLAG, MANDATES_BY_ID, brokenFlag, stateFloor, waitingFlag } from "./mandates";
 import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
 import { POACHED_PREFIX, RIVAL_POACHED_FLAG } from "./rival";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
@@ -338,13 +338,33 @@ export function applyEraPassive(lib: Library, state: GameState): GameState {
  * other standing, and each carries its own flag so that the card tempting a run to break the
  * other keeps coming. `broke_mandate` is any of them broken, which is what the deck and the
  * codex said before a run could make two.
+ *
+ * `out` is whether the card was played out of office, the way back in included, where the state
+ * was the rival's (BACKLOG-11 phase 73); by default, whether the run is out.
  */
-export function checkMandate(lib: Library, state: GameState): GameState {
+export function checkMandate(lib: Library, state: GameState, out: boolean = !!state.opposition): GameState {
   let s = state;
   for (const id of state.mandates) {
     if (id in s.mandatesBroken) continue;
     const mandate = MANDATES_BY_ID.get(id);
-    if (!mandate || !mandate.isBroken(s)) continue;
+    if (!mandate) continue;
+    // A promise about the state waits while the rival holds it, and back in office until the state
+    // is over its line again: a treasury the rival emptied is not this run's to have kept
+    // (BACKLOG-11 phase 73). The lesson out of office says the state is not yours to lose.
+    const floor = stateFloor(mandate);
+    if (floor) {
+      const waits = waitingFlag(id);
+      const under = floor.meters.some((k) => s.meters[k] < floor.at);
+      if (out) {
+        if (under !== hasFlag(s, waits)) s = { ...s, flags: under ? [...s.flags, waits] : s.flags.filter((f) => f !== waits) };
+        continue;
+      }
+      if (hasFlag(s, waits)) {
+        if (under) continue;
+        s = { ...s, flags: s.flags.filter((f) => f !== waits) };
+      }
+    }
+    if (!mandate.isBroken(s)) continue;
     const queued = s.queue.some((q) => q.id === mandate.brokeCard);
     const flags = [BROKE_MANDATE_FLAG, brokenFlag(id)].filter((f) => !hasFlag(s, f));
     // Two broken on one card are both queued for the same card; the queue deals one a card.
@@ -406,7 +426,7 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   s = { ...s, stats, current: null, cardCount: s.cardCount + 1, choices };
   s = applyEraPassive(lib, s);
   // Before the ouster check: a choice that breaks the promise and ends the run did both.
-  s = checkMandate(lib, s);
+  s = checkMandate(lib, s, !!state.opposition);
   s = checkOuster(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);

@@ -8,12 +8,15 @@ import {
   MANDATES_BY_ID,
   MANDATE_BLOC_FLOOR,
   MANDATE_FLAG_PREFIX,
+  MANDATE_RESERVE_FLOOR,
   PLATFORMS,
   brokenFlag,
   compatible,
   heldFloors,
   holds,
   inCatalogOrder,
+  stateFloor,
+  waitingFlag,
   wordKept,
 } from "../../src/engine/mandates";
 import { EASY_CAMPAIGN_FLAG, easySide } from "../../src/engine/campaign";
@@ -69,6 +72,39 @@ describe("mandates: the promise a run is taken on", () => {
     expect(queued[0]!.dueAt).toBe(7);
     // Checking again does not queue it twice.
     expect(checkMandate(l, s).queue).toEqual(s.queue);
+  });
+
+  // Out of office the state is the rival's (BACKLOG-11 phase 73): "Something set aside" broke there
+  // in 5-9 of 2,000 runs on it a bot, though the lesson says the state is not yours to lose.
+  it("does not hold a run to the treasury while the rival holds it, nor to the one it comes back to", () => {
+    const l = lib();
+    const s = start(l, { mandates: ["m_reserve"], cardCount: 30 });
+    const under = (x: typeof s, money: number) => ({ ...x, meters: { ...x.meters, money } });
+    const low = MANDATE_RESERVE_FLOOR - 5;
+    // Out of office, under the line: nothing broken, and the line waits.
+    const out = checkMandate(l, under({ ...s, opposition: { since: 20, returnAt: 35 } }, low));
+    expect(out.mandatesBroken).toEqual({});
+    expect(out.flags).toContain(waitingFlag("m_reserve"));
+    // Back in office under it, it still waits: the rival emptied it.
+    const back = checkMandate(l, under({ ...out, opposition: null, cardCount: 36 }, low));
+    expect(back.mandatesBroken).toEqual({});
+    // Over the line again, it is the run's to keep, and the next fall breaks it.
+    const refilled = checkMandate(l, under({ ...back, cardCount: 40 }, MANDATE_RESERVE_FLOOR + 5));
+    expect(refilled.flags).not.toContain(waitingFlag("m_reserve"));
+    expect(checkMandate(l, under({ ...refilled, cardCount: 44 }, low)).mandatesBroken).toEqual({ m_reserve: 44 });
+    // Never out of office, under the line is broken, as it always was.
+    expect(checkMandate(l, under(s, low)).mandatesBroken).toEqual({ m_reserve: 30 });
+    // The card that brings a run back is played out of office, and is judged so.
+    expect(checkMandate(l, under({ ...s, opposition: null }, low), true).mandatesBroken).toEqual({});
+  });
+
+  it("still holds a run to its coalition out of office, which stays its to lose", () => {
+    const l = lib();
+    expect(stateFloor(MANDATES_BY_ID.get("m_reserve")!)).not.toBeNull();
+    expect(stateFloor(MANDATES_BY_ID.get("m_broad")!)).toBeNull();
+    const s = start(l, { mandates: ["m_broad"], cardCount: 30, opposition: { since: 20, returnAt: 35 } });
+    const low = { ...s, meters: { ...s.meters, public: MANDATE_BLOC_FLOOR - 1 } };
+    expect(checkMandate(l, low).mandatesBroken).toEqual({ m_broad: 30 });
   });
 
   it("leaves a run that promised nothing completely alone", () => {

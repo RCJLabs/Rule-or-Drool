@@ -4,6 +4,7 @@ import { newRun } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import {
   ALL_HISTORY_KEYS,
+  FALSE_AFTER,
   HISTORIES,
   HISTORY_ORDER,
   LEGACY_FLAGS,
@@ -12,10 +13,13 @@ import {
   emptyMeta,
   foldRun,
   historyOf,
+  historyOfRun,
   historyTitle,
   migrateMeta,
+  namesAgainst,
   reachableHistoryKeys,
 } from "../../src/meta";
+import type { PlayerAlign, Side } from "../../src/engine/types";
 
 const finale = (patch: Partial<GameState> = {}, epilogueKey = "muddle:left:3"): GameState => ({
   ...newRun(library, 1, { align: "left" }),
@@ -139,5 +143,69 @@ describe("histories in the codex", () => {
     const m = migrateMeta(v4)!;
     expect(m.histories).toEqual({});
     expect(m.history[0]!.history).toBeNull();
+  });
+});
+
+/**
+ * A name its own ending shows to be false (BACKLOG-11 phase 73): a question's Ascent names are for
+ * its answer carried out the honest way, and three story names are listed. Measured: no bot run in
+ * 12,000 meets one; an informed voter that takes every story's and question's end when it comes
+ * had 19 of 2,000 runs renamed.
+ */
+describe("a name its ending shows to be false", () => {
+  /** A run ended on its last choice, with the flags these cards set, at this drift. */
+  const ended = (align: PlayerAlign, drift: number, endingId: string, choices: [string, Side][], flagSince: Record<string, number>, also: string[] = []): GameState => {
+    const s = newRun(library, 5, { align });
+    return {
+      ...s,
+      drift,
+      cardCount: choices.length,
+      choices,
+      flags: [...s.flags, ...Object.keys(flagSince), ...also],
+      flagSince: { ...s.flagSince, ...flagSince },
+      over: { endingId, epilogueKey: "ascent:left:1" },
+    };
+  };
+  const sideSetting = (cardId: string, flag: string): Side => (["left", "right"] as const).find((side) => library.cards.get(cardId)![side].setFlags?.includes(flag))!;
+  // Ranked below every name tested here, so a run carrying it is named by it only when they are not.
+  const next = HISTORY_ORDER[HISTORY_ORDER.length - 1]!;
+
+  it("does not name a run by its answer in the Ascent when the question ended it on its self-serving side", () => {
+    const answer = "pension_age_raised";
+    const asked = sideSetting("q_pensions_r_q", answer);
+    const run = ended("right", 40, "grey_march", [["q_pensions_r_q", asked], ["x", "left"], ["q_pensions_r_a3", "right"]], { [answer]: 1 }, [next]);
+    expect(historyOf(run, "ascent").signature).toBe(answer);
+    expect(historyOfRun(library, run, "ascent").signature).toBe(next);
+    // The Decay's name for it is not for an answer carried out honestly, and stands.
+    expect(historyOfRun(library, { ...run, drift: -40 }, "decay").signature).toBe(answer);
+    // With nothing else to name it by, it keeps the name.
+    expect(historyOfRun(library, { ...run, flags: run.flags.filter((f) => f !== next) }, "ascent").signature).toBe(answer);
+  });
+
+  it("does not name a run by a story's listed name, and leaves the story names that fit", () => {
+    const games = ended("left", 40, "the_games", [["arc_ga1", "right"], ["arc_ga3", "right"]], { stadium_built: 2 }, [next]);
+    expect(namesAgainst(library, games).has("stadium_built:ascent:left")).toBe(true);
+    expect(historyOfRun(library, games, "ascent").signature).toBe(next);
+    // The crown signed back reads as what came after it: named so still.
+    const crown = ended("right", 40, "first_minister", [["arc_cn1", "left"], ["arc_cn3", "right"]], { crown_restored: 2 }, [next]);
+    expect(historyOfRun(library, crown, "ascent").signature).toBe("crown_restored");
+  });
+
+  it("lists only names a run ended that way could be given, each of which another run still can", () => {
+    const reachable = new Set(reachableHistoryKeys(library));
+    for (const [endingId, keys] of Object.entries(FALSE_AFTER)) {
+      const ends = library.content.cards.flatMap((card) => (["left", "right"] as const).filter((side) => card[side].ending === endingId).map((side) => ({ card, side })));
+      expect(ends.length, endingId).toBeGreaterThan(0);
+      for (const key of keys) {
+        const [flag, band, seen] = key.split(":");
+        expect(HISTORIES[flag!], key).toBeTruthy();
+        expect(band, key).toBe("ascent");
+        expect(reachable.has(key), key).toBe(true);
+        // A party that can play the ending's card, and a card that sets the legacy without ending the run.
+        expect(ends.some(({ card }) => card.align === "any" || card.align === seen), key).toBe(true);
+        const elsewhere = library.content.cards.some((card) => (["left", "right"] as const).some((side) => card[side].setFlags?.includes(flag!) && !card[side].ending));
+        expect(elsewhere, key).toBe(true);
+      }
+    }
   });
 });
