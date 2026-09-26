@@ -661,3 +661,55 @@ round.
   differently because of it, is for the closed test.
 - Moving the two up the order changes which four decisions the end screen follows up on for runs
   that went out. The one they displace is listed below the four, with the rest.
+
+## Phase 71. Endings a careful player can reach, and a codex that helps (idea 7) — *done*
+
+**Shipped in v0.79.0.** Nothing is dealt differently: the deck is still 7jyrup04. Run saves are
+version 17 and profiles version 9.
+
+- **The endings in three kinds.** The codex sets them apart, each a section with its own count:
+  - *Seen through*: the six finales;
+  - *Ended by choice*: the 58 a side of a card takes outright, most of them a story's last step;
+  - *Fell apart*: the 13 the run falls into, a meter at its edge, a cult, a lost count, the coup
+    or the rival.
+
+  A careful player's three finales read as 3 of 6, where they read as 3 of 77.
+- **A first term's end** is listed with the finales, and says it is not counted: every profile
+  begins with one.
+- **Every clue is kept.** The codex gave one clue a run, a different one each time, and kept
+  none: a clue read once could be seventy runs from coming back. Now each run's clue is a new
+  one, and every clue given stays, newest first, until its ending is found or named as near.
+- **A clue says which party can reach its ending** where only one can: "Only a run of the Ledger
+  can end this way." That is 18 of the 77, and nothing said so.
+- **Near misses over the whole run.** A run keeps the closest it came to each ending a meter can
+  end it in, card by card. The codex took them from the last card alone.
+- **A story's ways out are called outcomes**, not endings.
+
+**Measured,** 2,000 runs a bot, whole-run near misses against the last card alone:
+
+| | Runs with a near miss | Near endings named per 20 runs |
+|---|---|---|
+| Informed | 54 → 433 | 0.5 → 2.5 |
+| Mixed | 43 → 367 | 0.4 → 2.7 |
+| Eyes | 727 → 1,999 | 2.9 → 5.2 |
+
+- No run lost a tie in these 6,000: no ending met its condition on the card another ending took.
+  The case the audit named is left as it is.
+- How many endings a player who aims at them reaches in 20 runs, with the clues kept, is the
+  measure this idea asked for first. The bots cannot aim, so it waits for the closed test.
+- The history names counted against what a run can reach were idea 1's (phase 66).
+
+**Fit.** The browser audit gives a profile fifteen clues, three of them to endings only one
+party can reach, and a first term's end, then opens each kind on the smallest phone for contrast
+and fit.
+
+**Caveats.**
+- Kept clues make a list, which phase 58 set out to avoid by showing one at a time. It grows by
+  one a run, and only while a clue's ending stays unfound.
+- A clue is kept when the run it was out for ends, whether or not the player opened the codex to
+  read it.
+- A run saved before this version keeps near misses from where it was taken up again, plus its
+  last card.
+- "Ended by choice" includes endings a player would not call a choice, such as being consumed by
+  a purge one started. The line is drawn where the game draws it: a side that says it ends the
+  reign.

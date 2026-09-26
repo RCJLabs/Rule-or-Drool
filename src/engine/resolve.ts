@@ -1,5 +1,5 @@
 import { EASY_CAMPAIGN_FLAG, easySide } from "./campaign";
-import { endRun } from "./endings";
+import { closestSoFar, endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
 import { settleLook, stageOf } from "./look";
@@ -414,6 +414,8 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   // will be read in it.
   const look = settleLook(state.look ?? stageOf(state.drift, lib.config), s.drift, lib.config);
   if (look !== s.look) s = { ...s, look };
+  // How near the run came to an ending, card by card (BACKLOG-11 phase 71).
+  s = { ...s, stats: { ...s.stats, closest: closestSoFar(lib, s, s.stats.closest) } };
   return stampFlags(state, s);
 }
 

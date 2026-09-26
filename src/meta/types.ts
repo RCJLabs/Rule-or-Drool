@@ -49,6 +49,12 @@ export interface MetaState {
    */
   nearMissed: string[];
   /**
+   * Every ending the codex has given a clue to, in the order they were given (BACKLOG-11 phase
+   * 71). It showed one a run and kept none, so a clue read once could be seventy runs from
+   * coming back.
+   */
+  heard: string[];
+  /**
    * Every daily played to its end, oldest first and one a day (BACKLOG-5 phase 38). The
    * profile used to keep only the latest, which left nothing to come back for tomorrow.
    */

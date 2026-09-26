@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
-import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, collectsEnding, emptyMeta, rumours, saveMeta } from "../../src/meta";
+import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, collectsEnding, emptyMeta, endingKind, endingSides, rumours, saveMeta } from "../../src/meta";
 import { App } from "../../src/ui/App";
 import { Codex } from "../../src/ui/Codex";
 import { playedProfile } from "./profile";
@@ -32,8 +32,10 @@ describe("the codex", () => {
     const p = codexProgress(library, veteran);
     expect([...document.querySelectorAll(".codex-group h2")].map((h) => h.textContent)).toEqual(Object.values(c.groups));
     const counts = Object.fromEntries([...document.querySelectorAll(".codex-row")].map((r) => [r.querySelector(".codex-row-title")!.textContent, r.querySelector(".codex-row-count")!.textContent]));
-    expect(Object.keys(counts)).toHaveLength(12);
-    expect(counts[c.endings]).toBe(`${p.endingsSeen}/${p.endingsTotal}`);
+    expect(Object.keys(counts)).toHaveLength(14);
+    for (const kind of ["finished", "chosen", "fallen"] as const) {
+      expect(counts[c.kinds[kind]]).toBe(`${p.endingsByKind[kind].seen}/${p.endingsByKind[kind].total}`);
+    }
     expect(counts[c.histories]).toBe(`${p.historiesSeen}/${p.historiesTotal}`);
     expect(counts[c.legacies]).toBe(`${p.legaciesSeen}/${p.legaciesTotal}`);
     expect(counts[c.history]).toBe(String(veteran.runs));
@@ -43,9 +45,9 @@ describe("the codex", () => {
 
   it("opens one section at a time, where it stands, and closes it again", () => {
     render(<Codex lib={library} meta={veteran} onBack={noop} onSettings={noop} />);
-    fireEvent.click(row(c.endings));
-    expect(opened()).toEqual([c.endings]);
-    const panel = document.getElementById(row(c.endings).getAttribute("aria-controls")!)!;
+    fireEvent.click(row(c.kinds.finished));
+    expect(opened()).toEqual([c.kinds.finished]);
+    const panel = document.getElementById(row(c.kinds.finished).getAttribute("aria-controls")!)!;
     expect(within(panel).getAllByRole("listitem").length).toBeGreaterThan(0);
     fireEvent.click(row(c.legacies));
     expect(opened()).toEqual([c.legacies]);
@@ -62,19 +64,75 @@ describe("the codex", () => {
     expect(panel.querySelector("li.locked")).toBeNull();
   });
 
-  it("gives a near miss its clue, and rumours one more ending by its clue without naming it", () => {
+  it("gives a near miss its clue, and rumours one more ending by its clue without naming it, where that kind of ending is kept", () => {
     const meta = { ...emptyMeta(), runs: 5, nearMissed: ["riots"] };
-    render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open="endings" />);
-    const panel = document.querySelector("[data-section='endings'] .codex-panel") as HTMLElement;
-    const near = panel.querySelector("li.nearly")!;
+    const [rumoured] = rumours(library, meta);
+    const kind = endingKind(library, rumoured!);
+    render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open="fallen" />);
+    const fell = document.querySelector("[data-section='fallen'] .codex-panel") as HTMLElement;
+    const near = fell.querySelector("li.nearly")!;
     expect(near.querySelector("b")!.textContent).toBe(library.endings.get("riots")!.title);
     expect(near.querySelector("span")!.textContent).toBe(`${STRINGS.ui.cameClose} ${CLUES.riots}`);
+    cleanup();
+    render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open={kind} />);
+    const panel = document.querySelector(`[data-section='${kind}'] .codex-panel`) as HTMLElement;
     expect(within(panel).getByText(c.rumours)).toBeTruthy();
-    const rumoured = [...panel.querySelectorAll("li.rumour")].map((li) => li.textContent);
-    expect(rumoured).toEqual(rumours(library, meta).map((id) => CLUES[id]));
-    expect(rumoured).toHaveLength(RUMOURS_AT_ONCE);
+    const heard = [...panel.querySelectorAll("li.rumour > span")].map((span) => span.textContent);
+    expect(heard).toEqual([CLUES[rumoured!]]);
+    expect(heard).toHaveLength(RUMOURS_AT_ONCE);
     for (const e of library.endings.values()) if (e.id !== "riots" && collectsEnding(e.id)) expect(panel.textContent).not.toContain(e.title);
-    expect(within(panel).getByText(c.moreNotFound.replace("{n}", String(codexProgress(library, meta).endingsTotal - 1 - RUMOURS_AT_ONCE)))).toBeTruthy();
+    const { total } = codexProgress(library, meta).endingsByKind[kind];
+    expect(within(panel).getByText(c.moreNotFound.replace("{n}", String(total - RUMOURS_AT_ONCE - (kind === "fallen" ? 1 : 0))))).toBeTruthy();
+  });
+
+  it("keeps every clue it has given, the newest first, and says which party can reach an ending only one can (BACKLOG-11 phase 71)", () => {
+    // Twelve runs, each with the clue that was out while it was played.
+    let meta = emptyMeta();
+    const given: string[] = [];
+    for (let i = 0; i < 12; i++) {
+      given.push(rumours(library, meta)[0]!);
+      const run = { ...meta, runs: meta.runs + 1, heard: [...new Set([...meta.heard, ...rumours(library, meta)])] };
+      meta = run;
+    }
+    expect(new Set(given).size).toBe(12);
+    const now = rumours(library, meta)[0]!;
+    const all = [now, ...[...given].reverse()];
+    for (const kind of ["finished", "chosen", "fallen"] as const) {
+      render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open={kind} />);
+      const panel = document.querySelector(`[data-section='${kind}'] .codex-panel`) as HTMLElement;
+      const shown = [...panel.querySelectorAll("li.rumour")].map((li) => li.querySelector("span")!.textContent);
+      expect(shown).toEqual(all.filter((id) => endingKind(library, id) === kind).map((id) => CLUES[id]));
+      for (const li of panel.querySelectorAll("li.rumour")) {
+        const id = all.find((x) => CLUES[x] === li.querySelector("span")!.textContent)!;
+        const sides = endingSides(library, id);
+        const note = li.querySelector("em")?.textContent ?? null;
+        expect(note).toBe(sides.length === 1 ? c.onlySide.replace("{party}", STRINGS.parties[sides[0]!]) : null);
+      }
+      cleanup();
+    }
+  });
+
+  it("names which endings only one party can reach: eighteen of them, as the audit found", () => {
+    const one = [...library.endings.keys()].filter((id) => collectsEnding(id) && endingSides(library, id).length === 1);
+    expect(one).toHaveLength(18);
+    expect(endingSides(library, "riots")).toEqual(["left", "right"]);
+    expect(endingSides(library, "finale_ascent")).toEqual(["left", "right"]);
+  });
+
+  it("lists a first term's end with the finales, without counting it, and calls a story's ways out outcomes", () => {
+    const meta = { ...emptyMeta(), runs: 1, endings: { first_term_muddle: 1 }, arcOutcomes: [] as string[] };
+    render(<Codex lib={library} meta={meta} onBack={noop} onSettings={noop} open="finished" />);
+    const panel = document.querySelector("[data-section='finished'] .codex-panel") as HTMLElement;
+    const first = panel.querySelector("li.first-term")!;
+    expect(first.querySelector("b")!.textContent).toBe(library.endings.get("first_term_muddle")!.title);
+    expect(first.querySelector("em")!.textContent).toBe(c.firstTerm);
+    expect(row(c.kinds.finished).querySelector(".codex-row-count")!.textContent).toBe(`0/${codexProgress(library, meta).endingsByKind.finished.total}`);
+    cleanup();
+    const arc = [...library.arcs.values()].find((a) => a.question === undefined)!;
+    const card = library.cards.get(arc.cards[arc.cards.length - 1]!)!;
+    const story = { ...emptyMeta(), arcOutcomes: [`${card.id}:left`, `${card.id}:right`] };
+    render(<Codex lib={library} meta={story} onBack={noop} onSettings={noop} open="stories" />);
+    expect(document.querySelector("[data-section='stories'] .codex-panel li.found b")!.textContent).toMatch(new RegExp(`^\\d+/\\d+ ${c.outcomes}$`));
   });
 
   it("is counted on the menu in histories, the thing a player adds to most runs", () => {

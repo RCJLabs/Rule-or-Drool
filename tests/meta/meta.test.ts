@@ -18,9 +18,11 @@ import {
   dayKey,
   daysOfMonth,
   emptyMeta,
+  endingKind,
   foldRun,
   longReignOpen,
   migrateMeta,
+  rumours,
   shiftMonth,
   streakOf,
   todayKey,
@@ -267,6 +269,9 @@ describe("meta save", () => {
     expect(migrateMeta(null)).toBeNull();
     expect(migrateMeta({})).toBeNull();
     expect(migrateMeta({ v: META_SAVE_VERSION + 1 })).toBeNull();
+    // v8 -> v9: the clues given were not kept before BACKLOG-11 phase 71.
+    expect(migrateMeta({ v: 8, runs: 3 })!.heard).toEqual([]);
+    expect(migrateMeta({ v: META_SAVE_VERSION, heard: ["riots", 7, "coup"] })!.heard).toEqual(["riots", "coup"]);
   });
 
   it("gives a save from before the history existed empty collections, not undefined", () => {
@@ -468,6 +473,35 @@ describe("the codex as a history", () => {
     expect(fold.meta.nearMissed).toContain("bankruptcy");
     // The ending it actually reached is a discovery, not a near miss.
     expect(fold.meta.nearMissed).not.toContain("finale_muddle");
+  });
+
+  it("remembers what a run came near on any card, not only its last (BACKLOG-11 phase 71)", () => {
+    // Money came within 3 of too much on some card, and the run ended far from it.
+    const run = finished({ endingId: "finale_muddle", epilogueKey: "muddle:left:3" }, { stats: { ...newRun(library, 1, { align: "left" }).stats, closest: { oligarchy: 3, riots: 40 } } });
+    const fold = foldRun(library, emptyMeta(), run);
+    expect(fold.meta.nearMissed).toContain("oligarchy");
+    expect(fold.meta.nearMissed).not.toContain("riots");
+    // The ending a run reached is never one it only came near.
+    const broke = finished({ endingId: "bankruptcy", epilogueKey: "decay:left:1" }, { meters: { base: 50, backers: 50, public: 50, money: 0, order: 50, inst: 50 }, stats: { ...run.stats, closest: { bankruptcy: 0 } } });
+    expect(foldRun(library, emptyMeta(), broke).meta.nearMissed).not.toContain("bankruptcy");
+  });
+
+  it("keeps the clue the codex had out while a run was played (BACKLOG-11 phase 71)", () => {
+    const run = finished({ endingId: "finale_muddle", epilogueKey: "muddle:left:3" });
+    const before = emptyMeta();
+    const fold = foldRun(library, before, run);
+    expect(fold.meta.heard).toEqual(rumours(library, before));
+    // The next run is given one it has not been given.
+    expect(rumours(library, fold.meta)).not.toEqual(rumours(library, before));
+  });
+
+  it("counts the endings in three kinds: seen through, chosen, and fallen into", () => {
+    const { endingsByKind, endingsTotal } = codexProgress(library, emptyMeta());
+    expect([endingsByKind.finished.total, endingsByKind.chosen.total, endingsByKind.fallen.total]).toEqual([6, 58, 13]);
+    expect(endingsByKind.finished.total + endingsByKind.chosen.total + endingsByKind.fallen.total).toBe(endingsTotal);
+    expect([endingKind(library, "finale_ascent"), endingKind(library, "stepped_down"), endingKind(library, "riots"), endingKind(library, "rival_wins")]).toEqual(["finished", "chosen", "fallen", "fallen"]);
+    const seen = codexProgress(library, { ...emptyMeta(), endings: { finale_muddle: 2, riots: 1, first_term_muddle: 1 } }).endingsByKind;
+    expect([seen.finished.seen, seen.chosen.seen, seen.fallen.seen]).toEqual([1, 0, 1]);
   });
 
   it("counts stories against what the content actually offers", () => {

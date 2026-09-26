@@ -1,4 +1,5 @@
 import type { Library } from "../engine/library";
+import type { PlayerAlign } from "../engine/types";
 import { collectsEnding, longReignOpen } from "./objectives";
 import type { MetaState } from "./types";
 
@@ -119,14 +120,77 @@ export function withinReach(lib: Library, meta: MetaState, id: string): boolean 
   return !waits || waits.some((u) => meta.unlocks.includes(u));
 }
 
+/** An ending the codex can still give a clue to: not found, not named as near, and within reach. */
+function unfound(lib: Library, meta: MetaState, id: string): boolean {
+  return collectsEnding(id) && !(meta.endings[id] ?? 0) && !meta.nearMissed.includes(id) && !!CLUES[id] && withinReach(lib, meta, id);
+}
+
 /**
- * The endings the codex has a clue out for: ones not found, not already named as near, and within
- * reach, `n` at a time, moving on with every run played, so the codex keeps something to aim at
- * without becoming a list to work down.
+ * The endings the codex has a clue out for, `n` at a time, moving on with every run played, so
+ * the codex keeps something to aim at without becoming a list to work down. One not given
+ * before comes first, since every clue given is kept (BACKLOG-11 phase 71).
  */
 export function rumours(lib: Library, meta: MetaState, n = RUMOURS_AT_ONCE): string[] {
-  const open = [...lib.endings.keys()].filter((id) => collectsEnding(id) && !(meta.endings[id] ?? 0) && !meta.nearMissed.includes(id) && CLUES[id] && withinReach(lib, meta, id));
-  if (open.length <= n) return open;
-  const from = meta.runs % open.length;
-  return [...open.slice(from), ...open.slice(0, from)].slice(0, n);
+  const open = [...lib.endings.keys()].filter((id) => unfound(lib, meta, id));
+  const heard = new Set(meta.heard ?? []);
+  const fresh = open.filter((id) => !heard.has(id));
+  const pool = fresh.length > 0 ? fresh : open;
+  if (pool.length <= n) return pool;
+  const from = meta.runs % pool.length;
+  return [...pool.slice(from), ...pool.slice(0, from)].slice(0, n);
+}
+
+/**
+ * Every clue the codex has given and still has a use for, the newest first (BACKLOG-11 phase
+ * 71): the one out now, then the ones given before, until the ending is found or named as near.
+ */
+export function heardRumours(lib: Library, meta: MetaState): string[] {
+  return [...new Set([...rumours(lib, meta), ...[...(meta.heard ?? [])].reverse()])].filter((id) => unfound(lib, meta, id));
+}
+
+/**
+ * How the codex sets endings apart (BACKLOG-11 phase 71): a reign seen through to its finale;
+ * one a side of a card took outright, most of them a story's last step; or one the run fell
+ * into, a meter at its edge, a cult, a count lost, a coup or the rival. Counted as one, a
+ * careful player's three finales read as 3 of 77.
+ */
+export type EndingKind = "finished" | "chosen" | "fallen";
+
+const FALLEN = new WeakMap<Library, ReadonlySet<string>>();
+export function endingKind(lib: Library, id: string): EndingKind {
+  const cfg = lib.config;
+  if (id.startsWith(cfg.finalePrefix)) return "finished";
+  let fallen = FALLEN.get(lib);
+  if (!fallen) {
+    const meters = Object.values(cfg.meterEndings).flatMap((e) => [e.low, ...(e.high ? [e.high] : [])]);
+    fallen = new Set([...meters, cfg.cultEnding, cfg.electionLossEnding, cfg.rivalEnding, cfg.coupEnding]);
+    FALLEN.set(lib, fallen);
+  }
+  return fallen.has(id) ? "fallen" : "chosen";
+}
+
+const SIDES = new WeakMap<Library, ReadonlyMap<string, readonly PlayerAlign[]>>();
+/**
+ * The parties a run can end this way in (BACKLOG-11 phase 71): both, but for the endings only
+ * one party's cards or stories carry. 18 of them, and nothing said so.
+ */
+export function endingSides(lib: Library, id: string): readonly PlayerAlign[] {
+  let known = SIDES.get(lib);
+  if (!known) {
+    const by = new Map<string, Set<PlayerAlign>>();
+    for (const card of lib.content.cards) {
+      const arc = card.arc ? lib.arcs.get(card.arc) : undefined;
+      const align = card.align !== "any" ? card.align : arc && arc.align !== "any" ? arc.align : "any";
+      for (const side of [card.left, card.right]) {
+        if (!side.ending) continue;
+        const set = by.get(side.ending) ?? new Set<PlayerAlign>();
+        for (const a of align === "any" ? (["left", "right"] as const) : [align]) set.add(a);
+        by.set(side.ending, set);
+      }
+    }
+    known = new Map([...by].map(([ending, set]) => [ending, [...set].sort()]));
+    SIDES.set(lib, known);
+  }
+  // An ending no card carries is the engine's, and either party can meet it.
+  return known.get(id) ?? ["left", "right"];
 }

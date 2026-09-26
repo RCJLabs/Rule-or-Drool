@@ -14,7 +14,9 @@ import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card, type PlayerAlign } from "../../src/engine/types";
 import { causeLine, endCause } from "../../src/ui/cause";
 import { setupOf } from "../../src/meta/runcode";
+import { endingSides, withinReach } from "../../src/meta/clues";
 import { ALL_HISTORY_KEYS, HISTORY_ORDER, historyTitle } from "../../src/meta/histories";
+import { collectsEnding } from "../../src/meta/objectives";
 import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
 import { emptyMeta } from "../../src/meta/state";
@@ -433,13 +435,17 @@ describe.skipIf(!target)("in a browser", () => {
 
     it("fits the menu's buttons at their longest, and reads the codex's clues, on the smallest phone", async () => {
       const today = "2026-12-30"; // Daily #101, played
+      // Clues given and kept, among them endings only one party can reach, which say so
+      // (BACKLOG-11 phase 71).
+      const base = { ...emptyMeta(), runs: 700, endings: { finale_muddle: 1, first_term_muddle: 1 }, nearMissed: ["riots"] };
+      const unfound = [...library.endings.keys()].filter((id) => collectsEnding(id) && !(id in base.endings) && id !== "riots" && withinReach(library, base, id));
+      const oneSided = unfound.filter((id) => endingSides(library, id).length === 1).slice(0, 3);
+      const heard = [...oneSided, ...unfound.filter((id) => !oneSided.includes(id)).slice(0, 12)];
       const meta = {
-        ...emptyMeta(),
-        runs: 700,
+        ...base,
+        heard,
         // A finale seen, so the menu shows the week's contracts too (BACKLOG-10 phase 60).
-        endings: { finale_muddle: 1 },
         histories: Object.fromEntries(ALL_HISTORY_KEYS.map((k) => [k, 1])),
-        nearMissed: ["riots"],
         dailies: [{ day: today, history: "habit_skim:decay:left", ending: "finale_muddle", cards: 61 }],
       };
       const failures: string[] = [];
@@ -460,9 +466,16 @@ describe.skipIf(!target)("in a browser", () => {
         if (cut) failures.push(`the menu: "${text}" is cut short`);
       }
       await codex.click();
-      await page.getByRole("button", { name: new RegExp(`^${STRINGS.codex.endings}`) }).click();
-      await page.waitForSelector(".codex-list li.rumour");
-      failures.push(...(await contrast(page, "the codex's clues")), ...(await misfits(page, "the codex's clues", { mayScroll: true })));
+      // The endings in their three kinds, each with the clues kept for it.
+      for (const kind of ["finished", "chosen", "fallen"] as const) {
+        await page.getByRole("button", { name: new RegExp(`^${STRINGS.codex.kinds[kind]}`) }).click();
+        await page.waitForSelector(`[data-section="${kind}"] .codex-panel`);
+        failures.push(...(await contrast(page, `the codex's ${kind} endings`)), ...(await misfits(page, `the codex's ${kind} endings`, { mayScroll: true })));
+      }
+      if (!(await page.locator(".codex-list li.rumour em").count())) {
+        await page.getByRole("button", { name: new RegExp(`^${STRINGS.codex.kinds.chosen}`) }).click();
+      }
+      if (!(await page.locator(".codex-list li.rumour em").count())) failures.push("no clue says which party can reach it");
       await close(page);
       expect(failures).toEqual([]);
     });

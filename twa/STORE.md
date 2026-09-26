@@ -349,6 +349,10 @@ bots (BACKLOG-5 phase 31):
   the opposition benches says so under its ending, with a sound of its own and the rival's flags
   over the picture. Nothing is dealt differently. Ask testers who went out whether the end
   screen told them what happened.
+- Since v0.79.0 the codex sets endings apart as seen through, ended by choice, and fell apart,
+  keeps every clue it has given, says when only one party can reach an ending, and names near
+  misses from the whole run (BACKLOG-11 phase 71). Nothing is dealt differently. Ask testers
+  whether they went after an ending the codex pointed to, and whether they reached it.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

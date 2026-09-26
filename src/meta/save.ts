@@ -49,6 +49,9 @@ export function migrateMeta(raw: unknown): MetaState | null {
     mandatesBroken: { ...(data.mandatesBroken ?? {}) },
     history: (Array.isArray(data.history) ? data.history : []).map(recordOf),
     nearMissed: Array.isArray(data.nearMissed) ? [...data.nearMissed] : [],
+    // v8 -> v9: the codex keeps every clue it gives (BACKLOG-11 phase 71). Which ones a profile
+    // was given before is not kept anywhere, so it starts with none, and the clue out now shows.
+    heard: Array.isArray(data.heard) ? data.heard.filter((id): id is string => typeof id === "string") : [],
     unlocks: Array.isArray(data.unlocks) ? [...data.unlocks] : [],
     alignsPlayed: Array.isArray(data.alignsPlayed) ? [...data.alignsPlayed] : [],
     dailies: dailiesOf(data.dailies, kept),

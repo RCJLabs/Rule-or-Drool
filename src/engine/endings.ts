@@ -106,6 +106,16 @@ export function arcOutcomes(lib: Library, arcId: string): ArcOutcome[] {
   return out;
 }
 
+/**
+ * The closest a run has come to each ending `nearMisses` reads, with this state taken in
+ * (BACKLOG-11 phase 71). Every such ending is kept, however far: the codex decides what is near.
+ */
+export function closestSoFar(lib: Library, state: GameState, before: Readonly<Record<string, number>> = {}): Record<string, number> {
+  const out = { ...before };
+  for (const { endingId, away } of nearMisses(lib, state, 100)) if (!(endingId in out) || away < out[endingId]!) out[endingId] = away;
+  return out;
+}
+
 /** An ending this run is close to, and how many points away it is. */
 export interface NearMiss {
   endingId: string;

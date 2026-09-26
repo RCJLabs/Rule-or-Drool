@@ -8,7 +8,7 @@ import { App } from "../../src/ui/App";
 import { CardView, commitThreshold } from "../../src/ui/CardView";
 import { Ending } from "../../src/ui/Ending";
 import { getCard } from "../../src/engine/library";
-import { codexProgress, emptyMeta, historyOf, RUMOURS_AT_ONCE } from "../../src/meta";
+import { codexProgress, emptyMeta, endingKind, historyOf, rumours, RUMOURS_AT_ONCE } from "../../src/meta";
 import { RUN_SAVE_VERSION } from "../../src/version";
 
 describe("App", () => {
@@ -107,10 +107,12 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "Codex" })).toBeTruthy();
     // Nothing discovered yet, so no ending is named: a few are rumoured by their clues
     // (BACKLOG-10 phase 58), and the rest are counted.
-    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.codex.endings}`) }));
+    // The rumour is kept with its kind of ending (BACKLOG-11 phase 71).
+    const kind = endingKind(library, rumours(library, emptyMeta())[0]!);
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.codex.kinds[kind]}`) }));
     expect(document.querySelectorAll(".codex-list li.found")).toHaveLength(0);
     expect(document.querySelectorAll(".codex-list li.rumour")).toHaveLength(RUMOURS_AT_ONCE);
-    expect(screen.getByText(STRINGS.codex.moreNotFound.replace("{n}", String(codexProgress(library, emptyMeta()).endingsTotal - RUMOURS_AT_ONCE)))).toBeTruthy();
+    expect(screen.getByText(STRINGS.codex.moreNotFound.replace("{n}", String(codexProgress(library, emptyMeta()).endingsByKind[kind].total - RUMOURS_AT_ONCE)))).toBeTruthy();
     expect(screen.queryByText("The Streets Decide")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Back" }));

@@ -160,6 +160,14 @@ export function migrateRun(v: number, state: GameState): GameState | null {
     s = counted(s);
     if (s.road) s = { ...s, road: { ...s.road, first: counted(s.road.first) } };
   }
+  // v16 -> v17: the run keeps the closest it came to each ending a meter can end it in
+  // (BACKLOG-11 phase 71). What a run saved before came near is not known; it counts from here,
+  // and the codex still reads the run's last card as it did.
+  if (v < 17) {
+    const near = <T extends GameState>(x: T): T => ({ ...x, stats: { ...x.stats, closest: {} } });
+    s = near(s);
+    if (s.road) s = { ...s, road: { ...s.road, first: near(s.road.first) } };
+  }
   return s;
 }
 

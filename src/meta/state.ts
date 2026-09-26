@@ -6,6 +6,7 @@ import { META_SAVE_VERSION } from "../version";
 import { historyOf, reachableHistoryKeys, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
+import { endingKind, rumours, type EndingKind } from "./clues";
 import { OBJECTIVES, collectsEnding } from "./objectives";
 import { answeredQuestions } from "./questions";
 import type { DailyEntry, MetaState, RunRecord } from "./types";
@@ -34,6 +35,7 @@ export function emptyMeta(): MetaState {
     mandatesBroken: {},
     history: [],
     nearMissed: [],
+    heard: [],
     dailies: [],
     contracts: [],
   };
@@ -89,11 +91,16 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
     mandatesBroken: { ...meta.mandatesBroken },
     history: meta.history,
     nearMissed: [...meta.nearMissed],
+    // The clue the codex had out while this run was played is one the player has been given
+    // (BACKLOG-11 phase 71).
+    heard: [...new Set([...(meta.heard ?? []), ...rumours(lib, meta)])],
   };
 
-  // What this run came close to but did not reach. Recorded at the end rather than as it
-  // happens, so it costs nothing per card and cannot be read back mid-run.
-  for (const { endingId: nearId } of nearMisses(lib, run, NEAR_MISS_WITHIN)) {
+  // What this run came close to but did not reach: the closest it came over every card
+  // (BACKLOG-11 phase 71), and its last card, which is all a run saved before that keeps.
+  const closest = run.stats.closest ?? {};
+  const near = [...Object.keys(closest).filter((id) => closest[id]! <= NEAR_MISS_WITHIN), ...nearMisses(lib, run, NEAR_MISS_WITHIN).map((n) => n.endingId)];
+  for (const nearId of near) {
     if (nearId !== endingId && !next.nearMissed.includes(nearId)) next.nearMissed.push(nearId);
   }
 
@@ -171,6 +178,8 @@ export function foldRun(lib: Library, meta: MetaState, run: GameState, daily?: {
 export interface CodexProgress {
   endingsSeen: number;
   endingsTotal: number;
+  /** The same, by kind: seen through, chosen, and fallen into (BACKLOG-11 phase 71). */
+  endingsByKind: Record<EndingKind, { seen: number; total: number }>;
   /**
    * Story outcomes: the collectible that rewards playing an arc out (BACKLOG item 10). The
    * questions are arcs too, but they are counted apart, by how they were answered.
@@ -192,9 +201,17 @@ export interface CodexProgress {
 
 export function codexProgress(lib: Library, meta: MetaState): CodexProgress {
   const questions = answeredQuestions(lib, meta);
+  const collected = [...lib.endings.keys()].filter(collectsEnding);
+  const endingsByKind = { finished: { seen: 0, total: 0 }, chosen: { seen: 0, total: 0 }, fallen: { seen: 0, total: 0 } };
+  for (const id of collected) {
+    const kind = endingsByKind[endingKind(lib, id)];
+    kind.total++;
+    if ((meta.endings[id] ?? 0) > 0) kind.seen++;
+  }
   return {
     endingsSeen: Object.keys(meta.endings).filter(collectsEnding).length,
-    endingsTotal: [...lib.endings.keys()].filter(collectsEnding).length,
+    endingsTotal: collected.length,
+    endingsByKind,
     epiloguesSeen: meta.epilogues.length,
     epiloguesTotal: new Set(lib.epilogues.map(epilogueKey)).size,
     // Only outcomes of stories this deck still has: a profile can carry one of a card an update

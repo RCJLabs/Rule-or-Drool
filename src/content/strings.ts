@@ -757,6 +757,21 @@ export const STRINGS = {
   } as Record<string, { name: string; blurb: string }>,
   codex: {
     endings: "Endings",
+    /**
+     * The endings, set apart by kind (BACKLOG-11 phase 71): counted as one, a careful player's
+     * three finales read as 3 of 77.
+     */
+    kinds: {
+      finished: "Seen through",
+      chosen: "Ended by choice",
+      fallen: "Fell apart",
+    },
+    /** A first term's end, listed where the finales are and not counted with them. */
+    firstTerm: "Not counted here: every profile begins with a first term.",
+    /** A clue to an ending only one party's cards or stories can reach (BACKLOG-11 phase 71). */
+    onlySide: "Only a run of {party} can end this way.",
+    /** What a story's ways out are called, which are not the run's endings. */
+    outcomes: "outcomes",
     epilogues: "Futures",
     objectives: "Objectives",
     unlocks: "Unlocked by objectives",
@@ -786,8 +801,9 @@ export const STRINGS = {
     },
     notFound: "{n} not found yet.",
     moreNotFound: "{n} more not found yet.",
-    // A clue to an ending not found yet, a different one each run (BACKLOG-10 phase 58).
-    rumours: "Heard in the corridors, of a way it has ended:",
+    // Clues to endings not found yet, one more each run (BACKLOG-10 phase 58), and every one of
+    // them kept since BACKLOG-11 phase 71.
+    rumours: "Heard in the corridors, of ways it has ended:",
   },
   /**
    * The stream the Decay path is broadcast on (BACKLOG-3 phase 18). Generic on purpose:

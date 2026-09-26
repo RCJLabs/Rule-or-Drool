@@ -307,6 +307,12 @@ export interface RunStats {
    * story out rather than dying in a new way.
    */
   arcOutcomes: string[];
+  /**
+   * The closest the run came to each ending a meter can end it in, in points, over every card
+   * it played (BACKLOG-11 phase 71), read as `nearMisses` reads a state. The codex took its
+   * near misses from the last card alone.
+   */
+  closest: Record<string, number>;
 }
 
 export const EMPTY_STATS: RunStats = {
@@ -320,6 +326,7 @@ export const EMPTY_STATS: RunStats = {
   arcsEntered: 0,
   firedAdvisors: [],
   arcOutcomes: [],
+  closest: {},
 };
 
 export interface GameState {

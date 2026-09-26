@@ -100,6 +100,16 @@ describe("save", () => {
     expect(loadRun()!.look).toBe(1);
   });
 
+  it("brings a v16 run forward knowing nothing yet of how near it came, and keeps a current run's record (BACKLOG-11 phase 71)", () => {
+    const s = newRun(library, 3, { align: "left" });
+    const { closest: _drop, ...v16stats } = s.stats;
+    const old = migrateRun(16, { ...s, stats: v16stats, road: { first: { ...s, stats: v16stats, cardCount: 90 }, at: 12 } } as never)!;
+    expect(old.stats.closest).toEqual({});
+    expect(old.road!.first.stats.closest).toEqual({});
+    const current = { ...s, stats: { ...s.stats, closest: { riots: 4 } } };
+    expect(migrateRun(RUN_SAVE_VERSION, current)!.stats.closest).toEqual({ riots: 4 });
+  });
+
   it("keeps a long reign long across a save", () => {
     const s = newRun(library, 42, { align: "right", eraCount: DEFAULT_CONFIG.longEraCount });
     saveRun(s);

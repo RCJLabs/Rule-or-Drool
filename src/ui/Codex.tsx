@@ -4,7 +4,26 @@ import { lineName } from "./dynasty";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { MANDATES } from "../engine/mandates";
-import { CLUES, HISTORY_ORDER, LEGACIES, NO_LEGACY, OBJECTIVES, TIERS, answeredQuestions, codexProgress, collectsEnding, historyTitle, keptIn, rumours, todayKey, weekNumber, type MetaState } from "../meta";
+import {
+  CLUES,
+  HISTORY_ORDER,
+  LEGACIES,
+  NO_LEGACY,
+  OBJECTIVES,
+  TIERS,
+  answeredQuestions,
+  codexProgress,
+  collectsEnding,
+  endingKind,
+  endingSides,
+  heardRumours,
+  historyTitle,
+  keptIn,
+  todayKey,
+  weekNumber,
+  type EndingKind,
+  type MetaState,
+} from "../meta";
 import { ContractsWeek } from "./Contracts";
 import { DailyMonth } from "./DailyMonth";
 import { Frame } from "./Frame";
@@ -16,7 +35,7 @@ export type CodexSection =
   | "dailies"
   | "contracts"
   | "objectives"
-  | "endings"
+  | EndingKind
   | "futures"
   | "stories"
   | "questions"
@@ -95,6 +114,61 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
   const promised = MANDATES.filter((m) => (meta.mandatesKept[m.id] ?? 0) + (meta.mandatesBroken[m.id] ?? 0) > 0).length;
   const c = STRINGS.codex;
   const week = weekNumber(today);
+
+  // The endings, by kind (BACKLOG-11 phase 71). One found is named; one the player has come within
+  // reach of is named as near, so it is something to aim at (BACKLOG-2 phase 13); every clue given
+  // is kept, by its words and never the ending's name (BACKLOG-10 phase 58), with the party that
+  // can reach it where only one can; the rest are counted. A first term's end is listed with the
+  // finales and not counted with them (BACKLOG-10 phase 59).
+  const heard = heardRumours(lib, meta);
+  const endingsOf = (kind: EndingKind): ReactNode => {
+    const all = endings.filter((e) => endingKind(lib, e.id) === kind);
+    const shown = all.filter((e) => (meta.endings[e.id] ?? 0) > 0 || meta.nearMissed.includes(e.id));
+    const rumoured = heard.filter((id) => endingKind(lib, id) === kind);
+    const firstTerms = kind === "finished" ? [...lib.endings.values()].filter((e) => !collectsEnding(e.id) && (meta.endings[e.id] ?? 0) > 0) : [];
+    return (
+      <>
+        {shown.length + firstTerms.length > 0 && (
+          <ul className="codex-list">
+            {shown.map((e) => {
+              const count = meta.endings[e.id] ?? 0;
+              return (
+                <li key={e.id} className={count ? "found" : "nearly"}>
+                  <b>{e.title}</b>
+                  <span>{count ? e.text : `${STRINGS.ui.cameClose} ${CLUES[e.id] ?? ""}`.trim()}</span>
+                  {count > 1 && <em>seen {count} times</em>}
+                </li>
+              );
+            })}
+            {firstTerms.map((e) => (
+              <li key={e.id} className="found first-term">
+                <b>{e.title}</b>
+                <span>{e.text}</span>
+                <em>{c.firstTerm}</em>
+              </li>
+            ))}
+          </ul>
+        )}
+        {rumoured.length > 0 && (
+          <>
+            <p className="codex-foot">{c.rumours}</p>
+            <ul className="codex-list">
+              {rumoured.map((id) => {
+                const sides = endingSides(lib, id);
+                return (
+                  <li key={id} className="locked rumour">
+                    <span>{CLUES[id]}</span>
+                    {sides.length === 1 && <em>{c.onlySide.replace("{party}", STRINGS.parties[sides[0]!])}</em>}
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
+        {rest(all.length - shown.length - rumoured.length, shown.length + rumoured.length > 0)}
+      </>
+    );
+  };
 
   const groups: { title: string; sections: Section[] }[] = [
     {
@@ -177,49 +251,12 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
     {
       title: c.groups.ending,
       sections: [
-        {
-          key: "endings",
-          title: c.endings,
-          count: `${p.endingsSeen}/${p.endingsTotal}`,
-          body: () => {
-            // An ending you have been within reach of is named rather than hidden, so it
-            // becomes something to aim at (phase 13). One more is rumoured, by its clue and not its
-            // name, a different one each run (BACKLOG-10 phase 58); the rest are counted.
-            const shown = endings.filter((e) => (meta.endings[e.id] ?? 0) > 0 || meta.nearMissed.includes(e.id));
-            const rumoured = rumours(lib, meta);
-            return (
-              <>
-                {shown.length > 0 && (
-                  <ul className="codex-list">
-                    {shown.map((e) => {
-                      const count = meta.endings[e.id] ?? 0;
-                      return (
-                        <li key={e.id} className={count ? "found" : "nearly"}>
-                          <b>{e.title}</b>
-                          <span>{count ? e.text : `${STRINGS.ui.cameClose} ${CLUES[e.id] ?? ""}`.trim()}</span>
-                          {count > 1 && <em>seen {count} times</em>}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-                {rumoured.length > 0 && (
-                  <>
-                    <p className="codex-foot">{c.rumours}</p>
-                    <ul className="codex-list">
-                      {rumoured.map((id) => (
-                        <li key={id} className="locked rumour">
-                          <span>{CLUES[id]}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-                {rest(endings.length - shown.length - rumoured.length, shown.length + rumoured.length > 0)}
-              </>
-            );
-          },
-        },
+        ...(["finished", "chosen", "fallen"] as const).map((kind) => ({
+          key: kind,
+          title: c.kinds[kind],
+          count: `${p.endingsByKind[kind].seen}/${p.endingsByKind[kind].total}`,
+          body: () => endingsOf(kind),
+        })),
         {
           key: "futures",
           title: c.epilogues,
@@ -265,7 +302,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
                 return (
                   <li key={arcId} className="found">
                     <b>
-                      {seen.length}/{outcomes.length} endings
+                      {seen.length}/{outcomes.length} {c.outcomes}
                     </b>
                     <span>{seen.map((o) => o.label).join(" · ")}</span>
                   </li>

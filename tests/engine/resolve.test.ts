@@ -145,6 +145,20 @@ describe("resolve: run stats", () => {
     const s = draw(arcy, start(arcy));
     expect(s.stats.arcsEntered).toBe(1);
   });
+
+  it("keeps the closest the run came to each ending a meter can end it in, over every card (BACKLOG-11 phase 71)", () => {
+    // Money dips to 5, then climbs back: the run keeps the 5.
+    let s = start(l, { meters: { ...start(l).meters, money: 5 } });
+    s = resolve(l, table(s, "ev_fx"), "ev_fx", "left");
+    const low = s.stats.closest[l.config.meterEndings.money.low]!;
+    expect(low).toBeLessThanOrEqual(5 + 5);
+    s = { ...s, meters: { ...s.meters, money: 60 } };
+    s = resolve(l, table(s, "ev_fx"), "ev_fx", "left");
+    expect(s.stats.closest[l.config.meterEndings.money.low]).toBe(low);
+    // Out of office the state is not the run's to lose, so it is not taken in.
+    const out = resolve(l, table({ ...start(l), meters: { ...start(l).meters, order: 2 }, opposition: { since: 0, returnAt: null } }, "ev_fx"), "ev_fx", "left");
+    expect(out.stats.closest[l.config.meterEndings.order.low]).toBeUndefined();
+  });
 });
 
 describe("resolve: endings", () => {
