@@ -86,6 +86,17 @@ describe("going over to the rival", () => {
     expect(kept.mandatesBroken).not.toHaveProperty("m_loyal");
   });
 
+  it("counts an offer turned down, and not one taken, for the contract that asks for it (BACKLOG-13 phase 85)", () => {
+    const s = table(start(l, { cabinet: { chief: "c2", general: "g0" } }), "ev_poach");
+    expect(resolve(l, s, "ev_poach", "right").stats.poachRefused).toBe(1);
+    expect(resolve(l, s, "ev_poach", "left").stats.poachRefused).toBe(0);
+    // Nor any card that is not an offer.
+    expect(resolve(l, table(s, "ev_fire"), "ev_fire", "right").stats.poachRefused).toBe(0);
+    // A run saved before the count had none, and counts on from where it is.
+    const before = { ...s, stats: { ...s.stats, poachRefused: undefined } };
+    expect(resolve(l, before, "ev_poach", "right").stats.poachRefused).toBe(1);
+  });
+
   it("does nothing when there is nobody to take the seat", () => {
     const alone = buildLibrary(
       { ...fx, advisors: fx.advisors.filter((a) => a.role !== "chief" || a.id === "c0"), cards: [...fx.cards, poach] },
@@ -127,6 +138,21 @@ describe("the rival standing by name", () => {
       { eraLength: 1000, electionInterval: 1000, arcEntryProb: 0 },
     );
     expect(vote(cfg.rivalWinsAt, 1, never)).toBe("el_basic");
+  });
+
+  it("counts a vote won against them by name, and not one lost, cheated or held against nobody (BACKLOG-13 phase 85)", () => {
+    const at = (rivalStanding: number, meters = start(l).meters) => draw(l, start(l, { nextElectionAt: 0, rivalStanding, drift: 0, meters }));
+    const theirs = at(cfg.rivalWinsAt);
+    expect(theirs.current).toBe("el_theirs");
+    expect(resolve(l, theirs, "el_theirs", "left").stats.rivalBeaten).toBe(1);
+    expect(resolve(l, theirs, "el_theirs", "right").stats.rivalBeaten).toBe(0);
+    const behind = at(cfg.rivalWinsAt, { ...start(l).meters, base: 5, backers: 5, public: 5 });
+    expect(resolve(l, behind, "el_theirs", "left").stats.rivalBeaten).toBe(0);
+    const plain = at(cfg.rivalWinsAt - 1);
+    expect(plain.current).toBe("el_basic");
+    const won = resolve(l, plain, "el_basic", "left");
+    expect(won.stats.electionsHonest - won.stats.electionsLost).toBe(1);
+    expect(won.stats.rivalBeaten).toBe(0);
   });
 
   it("ends a lost honest count as the rival's win", () => {

@@ -405,8 +405,13 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
     if (choice.honest) {
       stats.electionsHonest++;
       if (!honestCount(lib, state).wins) stats.electionsLost++;
+      // Won against the rival standing by name, which a contract asks for (BACKLOG-13 phase 85).
+      else if (card.rivalStands) stats.rivalBeaten = (stats.rivalBeaten ?? 0) + 1;
     } else stats.electionsCheated++;
   }
+  // The rival's offer to someone in the cabinet, turned down: the other side of a card whose one
+  // side lets them go over (phase 85).
+  if (!choice.poach && (card.left.poach || card.right.poach)) stats.poachRefused = (stats.poachRefused ?? 0) + 1;
   if (choice.fireSpeaker) {
     const before = s.cabinet[card.speaker];
     s = replaceAdvisor(lib, s, card.speaker);

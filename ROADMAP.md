@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.92.0)
+## Where the project stands now (v0.93.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -31,7 +31,7 @@ its own file: every item measured before it was built, and written up with what 
 | 10 | `BACKLOG-10.md` | 55–65 |
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 | 12 | `BACKLOG-12.md` | 74–79 (ideas 1 to 5), and five ideas not yet chosen |
-| 13 | `BACKLOG-13.md` | 80–84 (ideas 6, 1, 5, 3 and 8), and five ideas not yet chosen |
+| 13 | `BACKLOG-13.md` | 80–85 (ideas 6, 1, 5, 3 and 8, and round eleven's 10 in part), and five ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -39,7 +39,7 @@ decisions only the owner can make.
 | | |
 |---|---|
 | Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names written, 657 of which a run can be given; three eras, and five in a long reign |
-| Tests | 1,079 unit tests and 70 browser tests |
+| Tests | 1,085 unit tests and 70 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -63,7 +63,8 @@ decisions only the owner can make.
    measured and not built), phase 71 (v0.79.0) makes the codex's endings a careful player's
    to aim at, phase 72 (v0.80.0) takes the contradictions off the end screen, and phase 73
    (v0.81.0) does idea 10's one defect and idea 9's display half. Ideas 4 and 10 are left, with
-   idea 9's choosing half and idea 8's repetition half, all waiting on people's runs.
+   idea 9's choosing half and idea 8's repetition half, all waiting on people's runs; idea 10's
+   contracts half is BACKLOG-13's phase 85.
 4. **Round twelve** (BACKLOG-12.md): ten new features, phases and items, content allowed this
    time. Five change no deal and can be built while people play: a chart of the run on the end
    screen, a short term any time, a chronicle of every reign, a week's scenario, and music that
@@ -87,7 +88,10 @@ decisions only the owner can make.
    93–95% of runs, from 16%. Phase 84 (v0.92.0) offers a run of the player's own two crises to
    start in. Measured on the same seeds, the crisis moves the Ascent by 2 points between the
    median pair, not the audit's 17–36%, so the pick is a choice of story rather than of
-   difficulty.
+   difficulty. Phase 85 (v0.93.0) is round eleven's idea 10, its contracts half: two weekly
+   contracts about the rival, dealt from week 3, for keeping someone they try to hire away and
+   for beating them by name at an honest count. Its measure found five of the first contracts
+   drifted out of their tiers, the seawall's to one run in 26.
 
 The list this file ended on after phase 7, and what became of it:
 

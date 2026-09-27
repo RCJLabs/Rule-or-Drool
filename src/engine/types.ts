@@ -319,6 +319,13 @@ export interface RunStats {
    * near misses from the last card alone.
    */
   closest: Record<string, number>;
+  /**
+   * Votes won honestly against the rival standing by name (BACKLOG-13 phase 85): a vote at the
+   * top rung, theirs if the count is lost. Absent for a run saved before, which counted none.
+   */
+  rivalBeaten?: number;
+  /** The rival's offers to someone in the cabinet, turned down (phase 85). Absent as above. */
+  poachRefused?: number;
 }
 
 export const EMPTY_STATS: RunStats = {
@@ -333,6 +340,8 @@ export const EMPTY_STATS: RunStats = {
   firedAdvisors: [],
   arcOutcomes: [],
   closest: {},
+  rivalBeaten: 0,
+  poachRefused: 0,
 };
 
 export interface GameState {

@@ -424,6 +424,10 @@ with one questionnaire gathered from the questions below:
   device also keep the crisis passed over, which is a crisis's id and nothing about the player.
   Records from before v0.92.0 that held a run with two promises, a takeover or an ending looked
   for could not be read by the report; they can now. Question 11 now asks how testers chose.
+- Since v0.93.0 the weekly contracts can ask about the rival, from week 3 (BACKLOG-13 phase 85):
+  keeping someone they try to hire away, and beating them by name at an honest count. Nothing is
+  dealt differently and nothing new is recorded; the run's save counts the two things on the
+  device. A device that has not updated deals week 3 from the old contracts.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

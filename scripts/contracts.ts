@@ -18,7 +18,7 @@ import { exitBand, newRun, rollSetup } from "../src/engine/state";
 import type { PlayerAlign } from "../src/engine/types";
 import { CONTRACT_TEMPLATES, contractById, type Tier } from "../src/meta/contracts";
 import { allUnlockTokens } from "../src/meta/objectives";
-import { BOTS, honest, keep, leave, makeContext, type Bot } from "../src/sim";
+import { BOTS, holdCabinet, honest, keep, leave, makeContext, raiseRival, type Bot } from "../src/sim";
 
 /** The band each tier's rate should sit in: the share of runs a player aiming at it keeps it in. */
 const TIER_BANDS: Record<Tier, [number, number]> = { easy: [0.5, 0.9], fair: [0.2, 0.5], hard: [0.07, 0.2] };
@@ -50,6 +50,11 @@ function aims(key: string, param: string): [string, Bot][] {
     case "legacy":
     case "legacyHard":
       return [["informed", leave(I, param)], ["eyes", leave(E, param)], ["greedy", leave(G, param)]];
+    // The rival's (BACKLOG-13 phase 85): keep who they try to hire; let them climb, then beat them.
+    case "rivalKept":
+      return [["holding informed", holdCabinet(I)], ["holding eyes", holdCabinet(E)], ["holding mixed", holdCabinet(M)]];
+    case "rivalBeaten":
+      return [["eyes", E], ["greedy", G], ["honest eyes raising", honest(raiseRival(E))], ["honest mixed raising", honest(raiseRival(M))]];
     default:
       throw new Error(`no aim for contract ${key}`);
   }

@@ -685,6 +685,9 @@ export const STRINGS = {
     broad: "See a reign through with all three of your groups above sixty at the end.",
     saintEra: "Finish a run of a whole era or more without one self-serving choice.",
     legacy: "See a reign through with \u201c{legacy}\u201d in its record.",
+    // The rival's (BACKLOG-13 phase 85), dealt from week 3.
+    rivalKept: "Keep someone the rival tries to hire away, lose nobody to them, and see the reign through.",
+    rivalBeaten: "Win an honest vote the rival stands in by name, and see the reign through.",
   },
   /**
    * The week's scenario (BACKLOG-12 phase 78): one run for everyone each week, the same deal, side

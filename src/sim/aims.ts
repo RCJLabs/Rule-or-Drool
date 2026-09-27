@@ -45,6 +45,18 @@ export const leave = (b: Bot, flag: string): Bot =>
   prefer(b, (ctx, s) => !ctx.state.flags.includes(flag) && applyChoice(ctx.lib, ctx.state, ctx.card, s).flags.includes(flag));
 
 /**
+ * Someone the rival offers a job kept, at the price the card asks (BACKLOG-13 phase 85): on a card
+ * whose one side lets them go over, the other.
+ */
+export const holdCabinet = (b: Bot): Bot => prefer(b, (ctx, s) => !ctx.card[s].poach && !!(ctx.card.left.poach || ctx.card.right.poach));
+
+/**
+ * The rival let climb, by a player who wants them standing by name at a vote (phase 85): on a card
+ * that moves them and is not a vote, the side that feeds them more.
+ */
+export const raiseRival = (b: Bot): Bot => prefer(b, (ctx, s) => ctx.card.type !== "election" && (ctx.card[s].rival ?? 0) > (ctx.card[other(s)].rival ?? 0));
+
+/**
  * A player who decides some cards differently from the bot (BACKLOG-12 phase 78). On a seed dealt
  * the same way every time, the bots play the same run every time, and a goal is met always or
  * never; people do not play alike. This one takes the other side on a share `eps` of cards, from

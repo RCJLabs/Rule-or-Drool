@@ -2,6 +2,7 @@ import { STRINGS } from "../content/strings";
 import { DEFAULT_CONFIG } from "../engine/config";
 import { MANDATES_BY_ID, holds } from "../engine/mandates";
 import { WON_BACK_FLAG } from "../engine/opposition";
+import { RIVAL_POACHED_FLAG } from "../engine/rival";
 import { makeRng } from "../engine/rng";
 import { honestWins } from "../engine/state";
 import { BLOC_KEYS, PLAYER_ALIGNS, type Band, type GameState } from "../engine/types";
@@ -35,6 +36,12 @@ export interface Contract {
 interface Template {
   key: string;
   tier: Tier;
+  /**
+   * The first week that can deal it. A week is dealt from its number and the pool, so a template
+   * added to the pool deals only from a week that had not begun when it shipped: every week before
+   * keeps the contracts it was dealt (BACKLOG-13 phase 85). Absent for the pool of phase 60.
+   */
+  since?: number;
   /** What it can be dealt with; one is picked each time it is dealt. Empty for none. */
   params: readonly string[];
   text: (param: string) => string;
@@ -64,6 +71,12 @@ const leftBy = (run: GameState, flag: string) => run.flags.includes(flag) && !(r
 const honestly = (run: GameState) => clean(run) && honestWins(run.stats) > 0;
 
 /**
+ * The week the rival's contracts are first dealt (BACKLOG-13 phase 85): week 3, from Monday 5
+ * October 2026, the first week to begin after v0.93.0 shipped. Weeks 1 and 2 keep what they dealt.
+ */
+export const RIVAL_CONTRACTS_FROM = 3;
+
+/**
  * The pool, by tier, with the share of runs a player aiming at each keeps it in, measured in
  * phase 60 at 500 runs a policy (BACKLOG-10 has the table). Keep a template's key once shipped:
  * the contracts a profile kept name it.
@@ -85,6 +98,15 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
     keeps: (r, _, m) => holds(r, m) && finale(r),
   },
   { key: "saint", tier: "easy", params: [], text: () => k.saint, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= 20 },
+  // The rival (phase 85): an offer to someone in the cabinet turned down, and nobody lost to them.
+  {
+    key: "rivalKept",
+    tier: "easy",
+    since: RIVAL_CONTRACTS_FROM,
+    params: [],
+    text: () => k.rivalKept,
+    keeps: (r) => (r.stats.poachRefused ?? 0) > 0 && !r.flags.includes(RIVAL_POACHED_FLAG) && finale(r),
+  },
   // Fair: one run in two to five.
   {
     key: "promiseBroad",
@@ -97,6 +119,15 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   { key: "wonBackFinale", tier: "fair", params: [], text: () => k.wonBackFinale, keeps: (r) => r.flags.includes(WON_BACK_FLAG) && finale(r) },
   { key: "ascentClean", tier: "fair", params: PLAYER_ALIGNS, text: (s) => k.ascentClean.replace("{party}", party(s)), keeps: (r, _, s) => r.align === s && finale(r, "ascent") && honestly(r) },
   { key: "legacy", tier: "fair", params: ["media_captured", "took_the_skim", "schools_starved"], text: legacyText, keeps: (r, _, f) => leftBy(r, f) && finale(r) },
+  // The rival (phase 85): a vote they stand in by name, won at an honest count.
+  {
+    key: "rivalBeaten",
+    tier: "fair",
+    since: RIVAL_CONTRACTS_FROM,
+    params: [],
+    text: () => k.rivalBeaten,
+    keeps: (r) => (r.stats.rivalBeaten ?? 0) > 0 && finale(r),
+  },
   // Hard: one run in five to fourteen.
   { key: "broad", tier: "hard", params: [], text: () => k.broad, keeps: (r) => finale(r) && BLOC_KEYS.every((b) => r.meters[b] >= 60) },
   { key: "saintEra", tier: "hard", params: [], text: () => k.saintEra, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= DEFAULT_CONFIG.eraLength },
@@ -138,12 +169,12 @@ export function weekStart(week: number): string {
   return dayKey(dayIndex(FIRST_DAILY) + (week - 1) * 7);
 }
 
-/** The week's three contracts, one of each tier, the same on every device. */
+/** The week's three contracts, one of each tier, the same on every device running this version. */
 export function contractsFor(week: number): Contract[] {
   const rng = makeRng(0x0c0ffee ^ Math.imul(week, 0x9e3779b1));
   const pick = <T,>(xs: readonly T[]): T => xs[Math.floor(rng() * xs.length)]!;
   return TIERS.map((tier) => {
-    const t = pick(CONTRACT_TEMPLATES.filter((x) => x.tier === tier));
+    const t = pick(CONTRACT_TEMPLATES.filter((x) => x.tier === tier && (x.since ?? 1) <= week));
     return make(t, t.params.length ? pick(t.params) : "");
   });
 }

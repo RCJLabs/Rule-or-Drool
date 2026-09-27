@@ -1082,3 +1082,99 @@ sent a file the report could not read. A test now writes a run of each kind and 
 - **A player can take the same crisis every run** it is offered. Nothing stops it; the chronicle
   shows it.
 - **The first term offers no pick,** so a new player meets it on their second run at the earliest.
+
+## Phase 85. Contracts that know the rival (round eleven's idea 10, its contracts half) — *done*
+
+**Shipped in v0.93.0.** Nothing is dealt differently, so the deck is still g8u7egs4. Both saves
+keep their versions: a run saved before counts the rival's moves from where it is.
+
+A week's contracts are dealt from its number and the pool, so adding to the pool changes every
+week it can deal. The new contracts are therefore dealt only from week 3, Monday 5 October, the
+first week to begin after this version shipped. Weeks 1 and 2 keep the contracts they were dealt,
+and a test holds them to it.
+
+- **Two new contracts:**
+  - Easy: *Keep someone the rival tries to hire away, lose nobody to them, and see the reign
+    through.* The rival offers a minister a job from the third rung, "The obvious alternative".
+    Keeping them is the card's self-serving side, and costs money.
+  - Fair: *Win an honest vote the rival stands in by name, and see the reign through.* The rival
+    stands by name at a vote held at the top rung, "Ready to take the office off you".
+- **The third the idea named was already there.** *Lose the office at a count, win it back
+  honestly, and see the reign through* has been a fair contract since phase 60.
+- **The engine counts both** in the run's stats, `rivalBeaten` and `poachRefused`. Only the
+  contracts read them.
+- **Over weeks 3 to 106,** keeping the cabinet is dealt in 14 of 104 weeks, the vote by name in
+  23, and the office won back in 17. Half the weeks deal one of the three.
+- `npm run contracts` measures the new two with a player aiming at each: one keeps everyone the
+  rival tries to hire; the other lets the rival climb on their own cards, then counts every vote.
+
+**Measured first.** Five candidates, 500 runs a policy, on the runs `npm run contracts` plays.
+
+| Contract | Best, aiming | Without aiming | Built |
+|---|---|---|---|
+| An offer turned down, nobody lost, seen through | 57.2% (mixed) | 8–15% | Easy |
+| The rival beaten by name at an honest count, seen through | 36.6% (mixed) | 20.6% (eyes) | Fair |
+| The rival back on the bottom rung at the end, seen through | 49.0% | 47.6% (informed) | No |
+| The Ascent finale, the rival never at the top rung | 24.8% | 21.8% (informed) | No |
+| A scandal the rival brought, answered, seen through | 27.4% | 18.6% (greedy) | No |
+
+- **Left out:**
+  - The bottom rung is the informed voter's ordinary Muddle: it keeps it without aiming, and it is
+    close to *the Muddle finale, cheating no vote*.
+  - The Ascent without the rival at the top is close to *the Ascent finale, cheating no vote*.
+  - The scandal answered would need the scandal cards marked in the content. The deck's stamp
+    hashes every field of a card but its words, so that moves the deck, and every link and save
+    from before would say it came from another deck.
+- **How often the rival makes each move,** by player: an offer to someone in the cabinet in 25% of
+  the informed voter's runs and 54–62% of the eyes, mixed and greedy bots'; a vote by name in 10%
+  and 36–47%; someone gone over in 17% and 43–47%.
+
+**What it means.**
+- **Established, for bots:** keeping the cabinet takes one or two runs of a player who lets the
+  rival reach the third rung and keeps who they try to hire. The vote by name takes two or three
+  runs of a player who lets them reach the top and then wins the count.
+- **The careful player seldom meets either.** The informed voter is offered a job for someone in a
+  quarter of its runs and meets the vote by name in a tenth: 23% and 6% at best. Like the Ascent
+  contracts, these are easy or fair for a player who lets the rival grow. Aiming at them means
+  doing so on purpose.
+
+**Found on the way: five of phase 60's contracts have drifted out of their tier.** The deal has
+changed since v0.68.0. `npm run contracts` now reads, a player aiming at each:
+
+| Contract | Tier | Band | Now |
+|---|---|---|---|
+| Twenty cards without a self-serving choice | Easy | 50–90% | 49.6% |
+| Keep "Nobody under forty" to the finale | Fair | 20–50% | 51.6% |
+| "The schools were starved" in the record | Fair | 20–50% | 17.2% |
+| Every group above sixty at the end | Hard | 7–20% | 21.0% |
+| "The seawall stands" in the record | Hard | 7–20% | 3.8% |
+
+- Three are within the sample's error of their band's edge (about 2 points at 500 runs).
+- Two are well outside. The seawall takes a player aiming at it 26 runs, and phase 60 left out
+  any legacy under one run in fourteen. The schools legacy belongs in the hard tier.
+- **Not changed here.** Moving a contract between tiers, or dropping one, changes every week that
+  can deal it. It could be done from a week not yet begun, as the rival's were added. Neither is
+  a goal of the week's scenario, whose table is fixed.
+
+**Tests.**
+- The engine counts a vote won honestly against the rival by name, and not one lost, cheated or
+  held against nobody. It counts an offer turned down, and not one taken. A run saved before the
+  counts counts on from where it is.
+- The contracts:
+  - weeks 1 and 2 deal what v0.92.0 dealt, and nothing added later;
+  - from week 3 each new one comes up in its tier;
+  - each is kept only for what it asks, and not by a run saved before the counts;
+  - real reigns aiming at each keep it, in a week that deals both.
+
+**Caveats.**
+- **A device still on v0.92.0 in week 3 deals week 3 from the old pool,** so two players can see
+  different contracts until the older one updates. The service worker updates on the next visit,
+  and week 3 starts a week after this version shipped.
+- **A run under way when v0.93.0 loads** counts the rival's moves from then on. An offer it turned
+  down, or a vote it won, before the update does not count.
+- **Keeping the cabinet asks for the offer card's self-serving side,** as the legacy contracts
+  ask for a self-serving legacy. It is a strategy against the rival, not a policy.
+- **Weeks 3 to 11 happen to deal the rival's contracts often:** keeping the cabinet in 3 of 9, the
+  vote by name in 4. Over 104 weeks it is 14 and 23.
+- **Objectives were not taught the rival.** They carry the unlocks, which change what is dealt, so
+  they wait for the rules half, item 13.

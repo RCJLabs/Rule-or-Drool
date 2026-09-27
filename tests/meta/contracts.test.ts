@@ -1,14 +1,20 @@
 import { describe, expect, it } from "vitest";
 import { library } from "../../src/content";
-import { questionOf } from "../../src/engine/library";
+import { draw } from "../../src/engine/draw";
+import { getCard, questionOf } from "../../src/engine/library";
 import { MANDATES_BY_ID } from "../../src/engine/mandates";
 import { WON_BACK_FLAG } from "../../src/engine/opposition";
-import { newRun } from "../../src/engine/state";
+import { resolve } from "../../src/engine/resolve";
+import { RIVAL_POACHED_FLAG } from "../../src/engine/rival";
+import { makeRng } from "../../src/engine/rng";
+import { exitBand, newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
+import { BOTS, holdCabinet, honest, makeContext, raiseRival, type Bot } from "../../src/sim";
 import {
   CONTRACT_TEMPLATES,
   FIRST_DAILY,
   LEGACIES,
+  RIVAL_CONTRACTS_FROM,
   TIERS,
   contractById,
   contractStreak,
@@ -94,6 +100,76 @@ describe("the week's contracts", () => {
         }
       }
     }
+  });
+});
+
+describe("contracts added later", () => {
+  const later = CONTRACT_TEMPLATES.filter((t) => t.since !== undefined);
+  const keyOf = (id: string) => id.split(":")[0];
+
+  it("are dealt only from a week that had not begun when they shipped: the weeks before keep theirs (BACKLOG-13 phase 85)", () => {
+    expect(later.map((t) => [t.key, t.since])).toEqual([
+      ["rivalKept", RIVAL_CONTRACTS_FROM],
+      ["rivalBeaten", RIVAL_CONTRACTS_FROM],
+    ]);
+    // Week 1 and week 2 as v0.92.0 dealt them. Week 2 began before the rival's contracts shipped.
+    expect(contractsFor(1).map((c) => c.id)).toEqual(["muddle:left", "muddleClean", "broad"]);
+    expect(contractsFor(2).map((c) => c.id)).toEqual(["decay:right", "legacy:media_captured", "saintEra"]);
+    expect(weekStart(RIVAL_CONTRACTS_FROM)).toBe("2026-10-05");
+    for (let w = 1; w < RIVAL_CONTRACTS_FROM; w++) for (const c of contractsFor(w)) expect(later.map((t) => t.key)).not.toContain(keyOf(c.id));
+    // From their week, each comes up in its tier.
+    const after = Array.from({ length: 100 }, (_, i) => contractsFor(RIVAL_CONTRACTS_FROM + i)).flat();
+    for (const t of later) expect(after.filter((c) => c.id === t.key && c.tier === t.tier).length, t.key).toBeGreaterThan(5);
+  });
+});
+
+describe("the rival's contracts", () => {
+  const kept = CONTRACT_TEMPLATES.find((t) => t.key === "rivalKept")!;
+  const beaten = CONTRACT_TEMPLATES.find((t) => t.key === "rivalBeaten")!;
+  const stats = reign("finale_muddle").stats;
+  const reigned = (patch: Partial<GameState["stats"]>, flags: string[] = [], endingId = "finale_muddle") => reign(endingId, { stats: { ...stats, ...patch }, flags });
+
+  it("ask for someone kept when the rival tried to hire them, and nobody lost to them", () => {
+    expect(kept.keeps(reigned({ poachRefused: 1 }), "muddle", "")).toBe(true);
+    // Never asked, someone gone over all the same, or the reign not seen through.
+    expect(kept.keeps(reigned({ poachRefused: 0 }), "muddle", "")).toBe(false);
+    expect(kept.keeps(reigned({ poachRefused: 2 }, [RIVAL_POACHED_FLAG]), "muddle", "")).toBe(false);
+    expect(kept.keeps(reigned({ poachRefused: 1 }, [], "riots"), "decay", "")).toBe(false);
+    // A run saved before the count keeps nothing it cannot show.
+    expect(kept.keeps(reigned({ poachRefused: undefined }), "muddle", "")).toBe(false);
+  });
+
+  it("ask for a vote won honestly against the rival standing by name", () => {
+    expect(beaten.keeps(reigned({ rivalBeaten: 1 }), "muddle", "")).toBe(true);
+    expect(beaten.keeps(reigned({ rivalBeaten: 0, electionsHonest: 3 }), "muddle", "")).toBe(false);
+    expect(beaten.keeps(reigned({ rivalBeaten: 1 }, [], "rival_wins"), "decay", "")).toBe(false);
+    expect(beaten.keeps(reigned({ rivalBeaten: undefined }), "muddle", "")).toBe(false);
+  });
+
+  it("are kept by real reigns that aim at them, in a week that deals them", () => {
+    const week = Array.from({ length: 50 }, (_, i) => RIVAL_CONTRACTS_FROM + i).find((w) => {
+      const ids = contractsFor(w).map((c) => c.id);
+      return ids.includes("rivalKept") && ids.includes("rivalBeaten");
+    })!;
+    const { mixed } = BOTS;
+    const found = (bot: Bot, id: string) => {
+      for (let seed = 900_000; seed < 900_040; seed++) {
+        const rng = makeRng(seed ^ 0x5bd1e995);
+        let s = newRun(library, seed, rollSetup(library, seed, seed % 2 ? "left" : "right", []));
+        while (!s.over) {
+          s = draw(library, s);
+          const card = getCard(library, s.current!);
+          s = resolve(library, s, card.id, bot(makeContext(library, s, card, rng, { danger: 25 })));
+        }
+        if (contractsKept(s, exitBand(library, s), week).includes(id)) return s;
+      }
+      return null;
+    };
+    const holding = found(holdCabinet(mixed), "rivalKept")!;
+    expect(holding.stats.poachRefused).toBeGreaterThan(0);
+    expect(holding.flags).not.toContain(RIVAL_POACHED_FLAG);
+    const beating = found(honest(raiseRival(mixed)), "rivalBeaten")!;
+    expect(beating.stats.rivalBeaten).toBeGreaterThan(0);
   });
 });
 
