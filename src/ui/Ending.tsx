@@ -34,6 +34,7 @@ import { runRecord, timeline } from "./record";
 import { goalOf } from "./Scenario";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
+import { billsOf } from "./receipt";
 import { shapeOf } from "./shape";
 import { ShapeChart } from "./ShapeChart";
 import { endThemeOf } from "./theme";
@@ -77,6 +78,8 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // record this version of the game no longer deals the same way has no shape, and would take a
   // way back into a run that never happened (BACKLOG-5 phase 35).
   const shape = useMemo(() => shapeOf(lib, state), [lib, state]);
+  // What came back, read off the same replay (BACKLOG-13 phase 80).
+  const bills = useMemo(() => (shape ? billsOf(lib, state, shape) : []), [lib, state, shape]);
   const retraceable = !state.road && shape !== null;
   // The run someone sent, when their link said how it went (BACKLOG-5 phase 37): dealt again
   // from their sides, so their world is drawn from their own run. A second road does not
@@ -323,6 +326,20 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
               </li>
             ))}
           </ol>
+          {/* The choices that came back, folded: seven or eight a run, a page of their own open. */}
+          {bills.length > 0 && (
+            <details className="came-back">
+              <summary>{(bills.length === 1 ? STRINGS.receipt.one : STRINGS.receipt.many).replace("{n}", String(bills.length))}</summary>
+              <ul>
+                {bills.map((b) => (
+                  <li key={b.at}>
+                    <b>{STRINGS.receipt.sent.replace("{n}", String(b.sent.n)).replace("{label}", b.sent.label)}</b>
+                    <p>{STRINGS.receipt.back.replace("{n}", String(b.at)).replace("{text}", b.text)}</p>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
         </section>
 
         {record && (

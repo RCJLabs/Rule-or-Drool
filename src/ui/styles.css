@@ -520,6 +520,18 @@ button {
 .question-title[data-asking] {
   color: var(--ink);
 }
+/* A card that came back names the choice that sent it (BACKLOG-13 phase 80): one quiet line under
+   the speaker, where a question's title goes on the cards that have one. It quotes a button, so it
+   keeps the button's case. It never shrinks: a card that cannot fit it is cut where the audit
+   sees it. */
+.receipt {
+  flex: 0 0 auto;
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+  text-align: center;
+}
 /* An election says how an honest count goes (BACKLOG-9 phase 53): one line under the prose, in
    bold a size under it. A rule above it and 14px wrapped it onto two lines in Decay's narrow
    card and cut the longest election off by 20px at 360×640; the card has no room to spare
@@ -1653,7 +1665,7 @@ button {
   width: 1.5px;
   background: color-mix(in srgb, var(--ink) 25%, transparent);
 }
-.timeline li {
+.timeline ol > li {
   position: relative;
   display: grid;
   grid-template-columns: 30px 1fr;
@@ -1662,7 +1674,7 @@ button {
   font-size: 13.5px;
   line-height: 1.4;
 }
-.timeline li::before {
+.timeline ol > li::before {
   content: "";
   position: absolute;
   left: 34px;
@@ -1692,6 +1704,39 @@ button {
 }
 .timeline li[data-kind="end"]::before {
   background: var(--ink);
+}
+/* What came back (BACKLOG-13 phase 80), folded under the timeline: each choice that sent a card
+   later, and how that card began, in the form "What became of it" lists its decisions. */
+.came-back {
+  margin-top: 8px;
+}
+.came-back summary {
+  /* The end screen's controls are 44px tall to the touch; this is one. */
+  padding: 12px 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.came-back ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.came-back li {
+  padding-left: 12px;
+  border-left: 3px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+.came-back b {
+  display: block;
+  font-size: 13.5px;
+}
+.came-back p {
+  margin: 2px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
 }
 
 .epilogue {

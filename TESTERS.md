@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.87.0 · deck c8agx015".
+  version from the bottom of the menu. It looks like "v0.88.0 · deck c8agx015".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -66,7 +66,8 @@ drag it left or right. What your choices do builds up over a run, and not all of
 **Choices**
 
 5. Think of a card where you took the side you knew was worse for the country. Why did you take
-   it?
+   it? When a card later said which of your choices had sent it ("Sent by card 23: ..."), did you
+   remember making that choice?
 6. Was there a card where one side was so obviously right that it wasn't really a choice?
    Roughly what was it about?
 7. When a vote came up, how did you decide what to do?

@@ -575,3 +575,48 @@ people's records before they are worth building.
 4. **Whether the papers name the run while it is going on.** The default is yes. The name is the
    game's main reward, so it could be kept for the end. Shown during the run, the third era
    gets something to play for.
+
+## Phase 80. The bill comes with a receipt (idea 6) — *done*
+
+**Shipped in v0.88.0.** Nothing is dealt differently: the deck is still c8agx015. The run save
+keeps its version: a saved run now also keeps who sent each card waiting to come back, and one
+saved before loads as it did.
+
+- **On the card.** A card that came back from an earlier choice says which, in small type under
+  its speaker: *Sent by card 23: "Trust the software"*. It quotes the side as its button said
+  it. A screen reader hears *This card came back: your choice on card 23, "Trust the software",
+  sent it.* Before, it heard only that the card came back.
+- **At the end.** The end screen lists what came back, folded under *How it went*: *8 of your
+  choices came back to you*. Opened, each entry is the choice and how its card began: *Card 23:
+  "Trust the software"*, then *Back on card 37: They went through the wrong door at four in the
+  morning.*
+- **How it knows.**
+  - The queue keeps, with each card a choice sends, the number of the card that sent it. When
+    the card comes due, the table has it.
+  - It cannot be read off the run's choices afterwards. 40 of the 97 cards sent this way are
+    sent by more than one card, and two copies of one can wait in the queue at once. Taking the
+    latest choice that sends a card names the wrong one for 1.4–2.0% of the cards that come
+    back, in 10.5–13.2% of runs.
+  - The end screen reads the list off the replay its chart already makes (BACKLOG-12 phase 74).
+    That replay now keeps who sent each card too. Nothing more is saved.
+- **Only a choice's bill.** A card the engine queues itself carries no receipt: a broken
+  promise's card, or the handover that opens a line's next reign.
+
+**Measured.** 1,000 runs each for the informed voter and the eyes bot:
+
+| | Informed | Eyes |
+|---|---|---|
+| Cards that come back in a run (median, p90, most) | 8, 12, 17 | 7, 10, 15 |
+| Runs where none does | 1.0% | 0.5% |
+| A card coming back a second time in its run, in 1,000 runs | 381 | 390 |
+| The latest sender would have named the wrong card | 1.4% of cards | 2.0% of cards |
+
+- 4,000 bot runs checked every receipt against an independent account of the queue. Every
+  receipt names a choice earlier in the run whose side sent that very card. The account and
+  the engine disagreed on 40 of 28,116 cards, all from 20 ties.
+  - In each tie, two copies of one card, sent by different choices, fell due on the same card,
+    and the account could not tell which came first.
+  - The other 20 disagreements were the second copy of each, arriving later.
+  - The queue carries each sender with its own copy, so the engine can tell them apart.
+- The replay and the list take 7.8 ms a run in node. Almost all of that is the chart's replay,
+  which the end screen already made.

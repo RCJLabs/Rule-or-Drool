@@ -24,6 +24,7 @@ import { degrade } from "./degrade";
 import { yearInEra } from "./flow";
 import { hintSeen, markHintSeen } from "./save";
 import { useMusic } from "./music";
+import { receiptOf, receiptSpoken } from "./receipt";
 import { newlyDangerous } from "./sound";
 import { choiceSummary, lookChange, meterName, resultSummary } from "./speech";
 import { themeOf } from "./theme";
@@ -186,6 +187,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   // The labels with their names in, for a card that names people on its sides (BACKLOG-10 phase 61).
   const labels = card ? { left: withNames(lib, state, card.left.label, card.speaker), right: withNames(lib, state, card.right.label, card.speaker) } : undefined;
   const shown = card ? degrade(spoken, textLevel(settings, theme), state.seed) : "";
+  // A card that came back names the choice that sent it (BACKLOG-13 phase 80).
+  const receipt = card ? receiptOf(lib, state) : null;
   const rival = rivalReport(lib, state);
   const eraInfo = STRINGS.eras[state.era - 1];
   // The first card of a second road says where it left the first (BACKLOG-5 phase 34).
@@ -229,7 +232,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     if (roadNote) parts.push(roadNote);
     if (outNote) parts.push(outNote);
     parts.push(`${speakerName}, ${roleLabel}${traitName ? `, ${traitName}` : ""}.`);
-    if (state.currentFrom === "queue") parts.push(STRINGS.ui.cameBack);
+    if (state.currentFrom === "queue") parts.push(receipt ? receiptSpoken(receipt) : STRINGS.ui.cameBack);
     if (state.currentFrom === "habit") parts.push(STRINGS.ui.aHabit);
     // A question says it is one out loud too, as its title does on the card (BACKLOG-6 phase 40).
     if (asked) parts.push(`${asked.asking ? `${STRINGS.questions.asking}: ${asked.title}` : asked.title}.`);
@@ -290,6 +293,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             advisorId={advisorId}
             seed={state.seed}
             from={state.currentFrom}
+            receipt={receipt}
             question={asked}
             count={count}
             coup={coup}

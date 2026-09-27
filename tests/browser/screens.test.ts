@@ -18,6 +18,7 @@ import { BLOC_KEYS, type Card, type GameState, type PlayerAlign } from "../../sr
 import { BOTS, makeContext, type BotName } from "../../src/sim";
 import { causeLine, endCause } from "../../src/ui/cause";
 import { CHRONICLE_PAGE } from "../../src/ui/Chronicle";
+import { billsOf } from "../../src/ui/receipt";
 import { shapeOf } from "../../src/ui/shape";
 import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share";
 import { setupOf } from "../../src/meta/runcode";
@@ -27,7 +28,7 @@ import { collectsEnding } from "../../src/meta/objectives";
 import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
 import { emptyMeta, foldRun } from "../../src/meta/state";
-import { fitPlacements, longestSeats, shownText } from "../fit";
+import { fitPlacements, longestSeats, longestSender, shownText } from "../fit";
 import { choose, clipped, close, codeFor, contrast, endRun, LATE, launch, lookOf, LOOKS, misfits, open, overCard, pageErrors, playFrom, playToBoundary, rewriteRun, SEED, startRun, startRunAt, target, toLook } from "./harness";
 
 /**
@@ -777,6 +778,17 @@ describe.skipIf(!target)("in a browser", () => {
         const first = (await slider.getAttribute("aria-valuetext")) ?? "";
         if (!first.startsWith(`${STRINGS.shape.start.replace("{era}", "1")}:`)) failures.push(`${label}: the plot's left edge reads "${first}"`);
         failures.push(...(await contrast(page, `${label}, read`)));
+        // What came back (BACKLOG-13 phase 80), folded under the timeline: opened, it lists every
+        // choice that sent a card later, and reads and fits as the rest of the end screen does.
+        const bills = billsOf(library, final, shapeOf(library, final)!);
+        if (bills.length === 0) failures.push(`${label}: nothing came back, so the fold goes unaudited`);
+        else {
+          await page.locator(".came-back summary").click();
+          const listed = await page.locator(".came-back li").count();
+          if (listed !== bills.length) failures.push(`${label}: ${listed} choices listed as coming back, not ${bills.length}`);
+          failures.push(...(await contrast(page, `${label}, what came back`)));
+          failures.push(...(await misfits(page, `${label}, what came back`, { mayScroll: true })));
+        }
         await page.getByRole("button", { name: STRINGS.shape.table }).click();
         await page.waitForSelector(".shape-table");
         failures.push(...(await contrast(page, `${label} as a table`)));
@@ -1212,6 +1224,13 @@ describe.skipIf(!target)("in a browser", () => {
       expect(longestCoup).toBe(STRINGS.coup.line.replace("{band}", STRINGS.coup.bands.moderate));
       const couped = (kind: string, card: Card) => card.type !== "election" && kind !== "campaign" && kind !== "appointment";
       const abolished = JSON.stringify(library.config.electionsAbolishedFlag);
+      // A card that came back names the choice that sent it (BACKLOG-13 phase 80), staged at its
+      // longest: the longest label any choice that sends a card has, and the last card of a long
+      // reign's fifth era. The receipt reads the run's record, so the record is made to hold that
+      // choice there; nothing here replays the run.
+      const sender = longestSender(library);
+      const sentAt = library.config.eraLength * library.config.longEraCount;
+      const longestReceipt = STRINGS.receipt.line.replace("{n}", String(sentAt)).replace("{label}", sender.label);
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width, height, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
         for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
@@ -1219,7 +1238,13 @@ describe.skipIf(!target)("in a browser", () => {
             await rewriteRun(
               page,
               `raw.state.current = ${JSON.stringify(card.id)};
-              raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" ? kind : "deck")};
+              raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" ? kind : kind === "bill" ? "queue" : "deck")};
+              ${
+                kind === "bill"
+                  ? `raw.state.sentBy = ${sentAt};
+                     raw.state.choices = Array.from({ length: ${sentAt} }, () => [${JSON.stringify(sender.id)}, ${JSON.stringify(sender.side)}]);`
+                  : "delete raw.state.sentBy;"
+              }
               ${arc ? `raw.state.activeArcs = [...raw.state.activeArcs.filter((a) => a.id !== ${JSON.stringify(arc)}), { id: ${JSON.stringify(arc)}, nextCard: ${JSON.stringify(card.id)} }];` : ""}
               ${counted(kind) ? `for (const b of ${JSON.stringify(BLOC_KEYS)}) raw.state.meters[b] = ${library.config.electionMoodThreshold - 1};` : ""}
               ${
@@ -1244,6 +1269,12 @@ describe.skipIf(!target)("in a browser", () => {
               await toLook(page, look);
               const label = `${width}×${height}, ${party}, ${kind} ${card.id}${coup ? " with the coup's line" : ""} in ${look}`;
               failures.push(...(await misfits(page, label)));
+              if (kind === "bill") {
+                const receipt = page.locator(".card .receipt");
+                const said = (await receipt.count()) ? await receipt.textContent() : null;
+                if (said !== longestReceipt) failures.push(`${label}: the receipt says "${said}", not the longest, "${longestReceipt}"`);
+                if (smallest && said && !coup) failures.push(...(await contrast(page, label)));
+              }
               if (!counted(kind) && !coup) continue;
               // The longest line, on one line, and as readable as the prose above it.
               const line = page.locator(coup ? ".card .coup-line" : ".card .count-line");

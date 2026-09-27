@@ -4,6 +4,7 @@ import type { Card, CardSource, Side } from "../engine/types";
 import type { CountLine } from "./count";
 import type { CoupLine } from "./coup";
 import { Portrait } from "./Portrait";
+import { receiptLine, receiptSpoken, type Receipt } from "./receipt";
 
 interface Props {
   card: Card;
@@ -28,6 +29,11 @@ interface Props {
    * Everything else is dealt and looks it.
    */
   from?: CardSource | null;
+  /**
+   * For a card that came back, the choice that sent it (BACKLOG-13 phase 80): said under the
+   * speaker, and aloud in place of saying only that it came back.
+   */
+  receipt?: Receipt | null;
   /**
    * The question this card belongs to, if it is one (BACKLOG-6 phase 40): its title, and
    * whether this is the card that asks it.
@@ -65,7 +71,7 @@ export function commitThreshold(cardWidth: number): number {
   return Math.max(72, cardWidth * 0.28);
 }
 
-export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, question, count, coup, peek, ends, leaving, onDrag, onCommit, focusOnMount }: Props) {
+export function CardView({ card, text, labels, spokenText, speakerName, roleLabel, traitName, advisorId, seed, from, receipt, question, count, coup, peek, ends, leaving, onDrag, onCommit, focusOnMount }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const nameId = `speaker${useId().replace(/\W/g, "")}`;
   useEffect(() => {
@@ -133,7 +139,7 @@ export function CardView({ card, text, labels, spokenText, speakerName, roleLabe
       {/* The mark is drawn in CSS and says nothing out loud, so the one thing it does say
           has to be said here for anyone who cannot see it. */}
       {(from === "queue" || from === "habit") && (
-        <span className="sr-only">{from === "queue" ? STRINGS.ui.cameBack : STRINGS.ui.aHabit}</span>
+        <span className="sr-only">{from === "habit" ? STRINGS.ui.aHabit : receipt ? receiptSpoken(receipt) : STRINGS.ui.cameBack}</span>
       )}
       <div className="card-labels" aria-hidden={side === null}>
         {(["left", "right"] as const).map((s) => (
@@ -153,6 +159,11 @@ export function CardView({ card, text, labels, spokenText, speakerName, roleLabe
           {traitName && <b className="speaker-trait">{traitName}</b>}
         </span>
       </div>
+      {receipt && from === "queue" && (
+        <p className="receipt" aria-hidden="true">
+          {receiptLine(receipt)}
+        </p>
+      )}
       {question && (
         <p className="question-title" data-asking={question.asking || undefined}>
           {question.asking ? `${STRINGS.questions.asking}: ${question.title}` : question.title}

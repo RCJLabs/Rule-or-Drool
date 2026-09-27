@@ -45,10 +45,10 @@ describe("resolve: effects", () => {
     expect(s.flags).toEqual(["f2", "f3"]);
   });
 
-  it("enqueues consequences relative to the current card count", () => {
+  it("enqueues consequences relative to the current card count, with the card that sent them", () => {
     const l = lib();
     const s = resolve(l, table(start(l, { cardCount: 10 }), "ev_enq"), "ev_enq", "left");
-    expect(s.queue).toEqual([{ id: "q1", dueAt: 12 }]);
+    expect(s.queue).toEqual([{ id: "q1", dueAt: 12, from: 11 }]);
     const { ids } = play(l, s, 2);
     expect(ids[0]).not.toBe("q1");
     expect(ids[1]).toBe("q1");

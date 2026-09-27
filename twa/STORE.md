@@ -394,6 +394,12 @@ with one questionnaire gathered from the questions below:
   differently and nothing new is kept or sent; settings save as v5. Nothing records whether a
   tester turned it on, so question 12 asks, and asks whether it told them which way the country
   was going.
+- Since v0.88.0 a card that came back from an earlier choice names that choice under its speaker,
+  and the end screen lists what came back (BACKLOG-13 phase 80). Nothing is dealt differently and
+  the deck is still c8agx015. A saved run keeps who sent each card waiting to come back; a card
+  already waiting when a tester updates comes without a receipt. Nothing new is recorded: a
+  record's run is rebuilt from its code and sides, which says who sent each card again. Question 5
+  now asks whether testers remembered the choice a card named.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

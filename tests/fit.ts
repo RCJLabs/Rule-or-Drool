@@ -1,7 +1,7 @@
 import { withNames } from "../src/engine/endings";
 import type { Library } from "../src/engine/library";
 import { advisorPool } from "../src/engine/state";
-import type { Advisor, Card, GameState, PlayerAlign } from "../src/engine/types";
+import type { Advisor, Card, GameState, PlayerAlign, Side } from "../src/engine/types";
 
 /**
  * Which cards the small-phone fit check puts on the table (BACKLOG-8 phase 51). Every kind of
@@ -10,7 +10,38 @@ import type { Advisor, Card, GameState, PlayerAlign } from "../src/engine/types"
  * the table would show it, not only the longest events. A campaign card carries the count
  * under its text, as an election does (BACKLOG-10 phase 56).
  */
-export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign" | "appointment";
+export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign" | "appointment" | "bill";
+
+/**
+ * The cards a choice sends later (BACKLOG-13 phase 80), each with the labels of the sides that
+ * send it. One comes back under a line naming the choice that sent it, so it is placed as a kind
+ * of its own, carrying the longest such line there is.
+ */
+const SENDERS = new WeakMap<Library, ReadonlyMap<string, readonly string[]>>();
+export function billSenders(lib: Library): ReadonlyMap<string, readonly string[]> {
+  const known = SENDERS.get(lib);
+  if (known) return known;
+  const out = new Map<string, string[]>();
+  for (const card of lib.cards.values()) {
+    for (const side of ["left", "right"] as const) {
+      for (const e of card[side].enqueue ?? []) out.set(e.id, [...(out.get(e.id) ?? []), card[side].label]);
+    }
+  }
+  SENDERS.set(lib, out);
+  return out;
+}
+
+/** The choice that sends a card later with the longest label: the longest a receipt quotes. */
+export function longestSender(lib: Library): { id: string; side: Side; label: string } {
+  let best = { id: "", side: "left" as Side, label: "" };
+  for (const card of lib.cards.values()) {
+    for (const side of ["left", "right"] as const) {
+      const label = card[side].label;
+      if (card[side].enqueue?.length && label.length > best.label.length) best = { id: card.id, side, label };
+    }
+  }
+  return best;
+}
 
 /** How many of each side's longest events are placed: they are most of the deck. */
 const EVENTS = 4;
@@ -24,6 +55,7 @@ export function arcOf(lib: Library, card: Card): { id: string; question: boolean
 export function kindOf(lib: Library, card: Card): FitKind | undefined {
   if (card.campaign) return "campaign";
   if (card.appoints) return "appointment";
+  if (billSenders(lib).has(card.id)) return "bill";
   if (/\{\w+\}/.test(card.text)) return "named";
   const arc = arcOf(lib, card);
   if (arc) return arc.question ? "question" : "story";
@@ -91,7 +123,7 @@ export function fitPlacements(lib: Library, party: PlayerAlign): Placement[] {
     .map((card) => ({ card, kind: kindOf(lib, card), text: shownText(lib, card, party) }))
     .sort((a, b) => b.text.length - a.text.length || a.card.id.localeCompare(b.card.id));
   const out: Placement[] = [];
-  for (const kind of ["event", "story", "question", "election", "named", "campaign", "appointment"] as const) {
+  for (const kind of ["event", "story", "question", "election", "named", "campaign", "appointment", "bill"] as const) {
     for (const { card, text } of theirs.filter((c) => c.kind === kind).slice(0, kind === "event" ? EVENTS : 1)) {
       out.push({ kind, card, arc: arcOf(lib, card)?.id, seats: longestSeats(lib, card, party), text });
     }

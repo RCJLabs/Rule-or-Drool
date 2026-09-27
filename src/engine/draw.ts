@@ -6,11 +6,15 @@ import { returnDue } from "./opposition";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
 
-/** Put a card on the table and do the bookkeeping (seen, cooldown, and why it is here). */
+/**
+ * Put a card on the table and do the bookkeeping (seen, cooldown, and why it is here). Only a card
+ * that came back from the queue keeps the receipt the queue gave it (BACKLOG-13 phase 80).
+ */
 export function select(lib: Library, state: GameState, cardId: string, from: CardSource = "deck"): GameState {
   const seen = state.seen.includes(cardId) ? state.seen : [...state.seen, cardId];
   const cooldown = [...state.cooldown, cardId].slice(-lib.config.cooldownSize);
-  return { ...state, current: cardId, currentFrom: from, seen, cooldown };
+  const { sentBy, ...rest } = state;
+  return { ...rest, current: cardId, currentFrom: from, seen, cooldown, ...(from === "queue" && sentBy !== undefined ? { sentBy } : {}) };
 }
 
 /**
@@ -219,7 +223,10 @@ function drawElection(lib: Library, state: GameState): [Card | null, GameState] 
   return [null, state];
 }
 
-/** Pop the oldest due queued card whose condition still holds; drop stale ones. */
+/**
+ * Pop the oldest due queued card whose condition still holds; drop stale ones. The card that sent
+ * it goes with it, for its receipt (BACKLOG-13 phase 80).
+ */
 export function tickQueue(lib: Library, state: GameState): [Card | null, GameState] {
   const due = state.queue
     .map((q, i) => ({ q, i }))
@@ -228,16 +235,20 @@ export function tickQueue(lib: Library, state: GameState): [Card | null, GameSta
   if (due.length === 0) return [null, state];
   const dropped = new Set<number>();
   let found: Card | null = null;
+  let sentBy: number | undefined;
   for (const { q, i } of due) {
     const card = getCard(lib, q.id);
     dropped.add(i);
     if (condMet(lib, card.cond, state, card.speaker)) {
       found = card;
+      sentBy = q.from;
       break;
     }
   }
-  const queue = state.queue.filter((_, i) => !dropped.has(i));
-  return [found, { ...state, queue }];
+  const next: GameState = { ...state, queue: state.queue.filter((_, i) => !dropped.has(i)), sentBy };
+  // A card the engine queued itself has no sender, and must not show the last bill's.
+  if (sentBy === undefined) delete next.sentBy;
+  return [found, next];
 }
 
 function drawArcContinue(lib: Library, state: GameState): [Card | null, GameState] {

@@ -141,7 +141,8 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
   let queue = s.queue;
   if (choice.enqueue?.length) {
     const scale = eraProduct(lib, s, "queueScale");
-    queue = [...queue, ...choice.enqueue.map((e) => ({ id: e.id, dueAt: s.cardCount + Math.max(1, Math.round(e.delay * scale)) }))];
+    // Each bill keeps the card that sent it, the one being played, for its receipt (BACKLOG-13 phase 80).
+    queue = [...queue, ...choice.enqueue.map((e) => ({ id: e.id, dueAt: s.cardCount + Math.max(1, Math.round(e.delay * scale)), from: s.cardCount + 1 }))];
   }
 
   let activeArcs = s.activeArcs;
@@ -154,7 +155,7 @@ export function applyChoice(lib: Library, state: GameState, card: Card, side: Si
         : [...activeArcs, { id: card.arc, nextCard: next }];
   } else if (choice.next) {
     // A plain card handing off to a specific card: play it next.
-    queue = [...queue, { id: choice.next, dueAt: s.cardCount + 1 }];
+    queue = [...queue, { id: choice.next, dueAt: s.cardCount + 1, from: s.cardCount + 1 }];
   }
 
   let opposition = s.opposition;

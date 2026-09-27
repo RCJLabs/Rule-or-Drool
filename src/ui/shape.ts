@@ -36,6 +36,11 @@ export interface ShapePoint {
   band: Band;
   /** Out of office once this card was played. */
   out: boolean;
+  /**
+   * When the card played here came back from the queue, the card whose choice sent it (BACKLOG-13
+   * phase 80): the end screen's list of what came back is read off the same replay.
+   */
+  sentBy?: number;
 }
 
 /** How far a direction strip reaches either way, the chart's and the share card's: drift past it is drawn at its edge. */
@@ -73,7 +78,8 @@ export function shapeOf(lib: Library, state: GameState): ShapePoint[] | null {
     const [card, side] = record[i]!;
     if (s.current !== card) return null;
     const played = resolve(lib, s, card, side);
-    points.push(pointOf(lib, i + 1, played));
+    const point = pointOf(lib, i + 1, played);
+    points.push(s.sentBy === undefined ? point : { ...point, sentBy: s.sentBy });
     s = draw(lib, played);
   }
   // Dealt again, it ends where it ended, or it is not this run: the test the way back into a run uses.

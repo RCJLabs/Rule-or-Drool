@@ -707,6 +707,21 @@ export const STRINGS = {
     shareTextOne: "One run of Rule or Drool, recorded on version {version}.",
     shareText: "{n} runs of Rule or Drool, recorded on version {version}.",
   },
+  /**
+   * The bill's receipt (BACKLOG-13 phase 80): a card that came back from an earlier choice names
+   * the choice, on the card and aloud, and the end screen lists what came back.
+   */
+  receipt: {
+    /** Under the speaker, on a card that came back. */
+    line: "Sent by card {n}: \u201c{label}\u201d",
+    /** Said in place of ui.cameBack when the choice that sent the card is known. */
+    spoken: "This card came back: your choice on card {n}, \u201c{label}\u201d, sent it.",
+    /** The end screen's list, folded under the timeline. */
+    one: "One of your choices came back to you",
+    many: "{n} of your choices came back to you",
+    sent: "Card {n}: \u201c{label}\u201d",
+    back: "Back on card {n}: {text}",
+  },
   road: {
     choose: "Choose “{label}” instead",
     mark: "The other road",

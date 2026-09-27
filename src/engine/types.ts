@@ -264,6 +264,12 @@ export interface QueueItem {
   id: string;
   /** Card count at which the card becomes due. */
   dueAt: number;
+  /**
+   * The card whose choice sent it, by its number in the run (BACKLOG-13 phase 80). None for a card
+   * the engine queued itself, a broken promise's or a handover, and for one queued before this
+   * was kept.
+   */
+  from?: number;
 }
 
 export interface ActiveArc {
@@ -378,6 +384,14 @@ export interface GameState {
    * phase needs at all: a habit card is weight 4 and drawn from the pool like any other.
    */
   currentFrom: CardSource | null;
+  /**
+   * The card whose choice sent the one on the table, by its number in the run, when that card
+   * came back from the queue (BACKLOG-13 phase 80): the receipt a bill arrives with. Absent for
+   * every other card. Several choices can send the same bill, so the queue item that came due
+   * says which, where the latest choice to send it could not: that guess named the wrong card
+   * for 1.9% of the bills in 4,000 bot runs.
+   */
+  sentBy?: number;
   arcBudget: number;
   stats: RunStats;
   /** Meta unlock ids in force for this run; gates modifiers and arcs that name a `requires`. */
