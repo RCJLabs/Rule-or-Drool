@@ -496,21 +496,57 @@ for the test.
 
 ## My order
 
-1. **The receipt (6) and the papers (5).** No deal changes, for every player, and each makes the
-   thesis visible: the bill arrives with its cause, and the era's decisions are said as they are
-   made.
-2. **One deal per seed (1),** before the closed test if you can send the test after it. It moves
-   no balance measurably, and makes the daily, the scenario and the other road what they say
-   they are.
-3. **Endings you can go looking for (3) and pick your trouble (8).** Small, and they give the
-   codex and the setup a player's intent.
-4. **Danger that bites (2),** first as a harder term taken by choice. Decide it together with the
-   Institutions ceiling (round eleven's idea 4). It goes into the ordinary game only if people's
-   records show them sitting in danger as the eyes bot does.
-5. **After the closed test, the content:** the last era decides (4), the deck notices (7), people
-   not seats (BACKLOG-12's 8) and rare sightings (10).
-6. **Great works (9) and rival kinds (BACKLOG-12's 10),** the largest, once the records say how
-   many people take over and how they meet the rival.
+Every open idea, this round's and the earlier rounds', in the order I would build them. What
+decides most of the order is the closed test: which ideas change the deal, and which need
+people's records before they are worth building.
+
+**Before the test link goes out**
+
+1. **The bill comes with a receipt (6).** Small, and nothing dealt changes. It lets the test ask
+   whether people connect a bill to its cause, which is the thesis.
+2. **One deal per seed (1).** The one change to the deal worth making before the test.
+   - In the prototype, survival and the Ascent moved under 3 points and the informed voter's
+     Decay 3.5.
+   - Made first, it puts the test's records on the deal that stays, and the scenario table is
+     measured again once.
+
+**While the test runs: nothing dealt changes, or only in runs a player opts into**
+
+3. **The papers at each era's door (5).** The largest payoff that changes no deal.
+4. **Endings you can go looking for (3).** It comes after 1, since a pursuit moves a card up the
+   seed's order. A pursued run is marked in its record.
+5. **Pick your trouble, crises only (8).** Run codes already carry the setup's modifiers, so no
+   format changes. The test shows whether people take the easy crisis.
+6. **Contracts that know the rival (round eleven's 10, its contracts half).** Nothing dealt
+   changes: new templates count only from the week they are added.
+7. **An end screen that does not repeat itself (round eleven's 8, the half left).** Polish, and
+   on screen only.
+
+**Once the first records are in**
+
+8. **The Institutions ceiling and danger that bites, as one phase (round eleven's 4, and 2).**
+   - Worth building only if people sit in danger as the eyes bot does; the report's split at the
+     danger line says.
+   - The ceiling comes first, or the count punishes honesty.
+   - It starts as a term taken by choice.
+9. **Harder terms (BACKLOG-12's 6),** built on 8, once people's Ascent rate is known.
+
+**After the test: changes to the deal, in batches**
+
+10. **The last era decides (4).** Spreading the questions first, which is mostly config; then
+    the reckoning.
+11. **People, not seats (BACKLOG-12's 8).** Its measure first is answered.
+12. **The deck notices how you rule (7).**
+13. **The rival hears a broken promise, and a takeover reads how the last reign ended (round
+    eleven's 10, its rules half).** Small rules that 14 and 18 build on.
+14. **Rival kinds (BACKLOG-12's 10),** if people meet the rival as the eyes bot does.
+15. **A setup you can feel, and choosing a trait and flaw (BACKLOG-12's 7, and round eleven's 9,
+    its choosing half).** After 8, which round eleven thought might close most of the setup's
+    spread.
+16. **Rare sightings (10).** Their surprise pays off only past a player's twentieth run.
+17. **An emergency mid-run (BACKLOG-12's 9),** as far as 10 leaves anything to do.
+18. **Great works across reigns (9).** The largest. It needs 13, and people's rate of taking
+    over.
 
 ## Also considered
 
@@ -530,8 +566,9 @@ for the test.
 
 1. **Which of these become phases,** and in what order. The default is the order above.
 2. **Whether one deal per seed goes in before the closed test starts.** It changes every run's
-   deal but moves no balance measurably. The default is yes, if the test link goes out after
-   it; otherwise it waits for the test to end.
+   deal. In the prototype, survival and the Ascent moved under 3 points and the informed voter's
+   Decay 3.5. The default is yes, if the test link goes out after it; otherwise it waits for the
+   test to end.
 3. **Whether danger that bites is the ordinary game or a term taken by choice,** and whether it
    is decided together with the Institutions ceiling. The default is a term by choice first, and
    the ceiling in the same phase.
