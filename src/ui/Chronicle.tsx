@@ -5,6 +5,7 @@ import { MANDATES } from "../engine/mandates";
 import { BANDS } from "../engine/types";
 import { beforeChronicle, habitsOf, HISTORY_ORDER, historyTitle, LEGACIES, type ChronicleEntry, type EndingKind, type MetaState } from "../meta";
 import { lineName } from "./dynasty";
+import { choseLine } from "./setup";
 
 interface Props {
   lib: Library;
@@ -100,6 +101,7 @@ function Reign({ lib, r }: { lib: Library; r: ChronicleEntry }) {
       {r.road && <em className="codex-road">{STRINGS.road.mark}</em>}
       {(r.line ?? 1) > 1 && <em className="codex-line">{lineName(r.line!)}</em>}
       {eras && <em className="codex-eras">{eras}</em>}
+      {r.crisis && <em className="codex-crisis">{choseLine(r.crisis.chose, r.crisis.over)}</em>}
       <b>
         {STRINGS.parties[r.align]} · {r.cards} cards · {STRINGS.bands[r.band]}
       </b>

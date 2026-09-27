@@ -497,6 +497,15 @@ describe.skipIf(!target)("in a browser", () => {
       }
       if (!(await page.locator(".codex-list li.rumour em").count())) failures.push("no clue says which party can reach it");
       if (!(await page.locator(".codex-list li.rumour.sought button[aria-pressed='true']").count())) failures.push("the rumour looked for is not pressed");
+      // The crisis a run of the player's own picks (BACKLOG-13 phase 84): two, the second taken, read and fitted.
+      await page.getByRole("button", { name: STRINGS.ui.back }).click();
+      const picks = page.locator(".crisis-pick .mandate-choice");
+      if ((await picks.count()) !== 2) failures.push(`the menu offers ${await picks.count()} crises, not two`);
+      else {
+        await picks.nth(1).click();
+        if ((await picks.nth(1).getAttribute("aria-pressed")) !== "true") failures.push("the second crisis did not take");
+        failures.push(...(await contrast(page, "the menu, the second crisis picked")), ...(await misfits(page, "the menu, the second crisis picked", { mayScroll: true })));
+      }
       await close(page);
       expect(failures).toEqual([]);
     });
@@ -853,6 +862,10 @@ describe.skipIf(!target)("in a browser", () => {
       const bots = ["informed", "mixed", "eyes", "greedy"] as const;
       let meta = emptyMeta();
       for (let seed = 1; seed <= 25; seed++) meta = foldRun(library, meta, botRun(seed, seed % 2 ? "left" : "right", bots[seed % bots.length]!)).meta;
+      // The latest reign picked its crisis, the longest pair of names there is (BACKLOG-13 phase 84).
+      const crises = library.content.modifiers.filter((m) => m.kind === "crisis").map((m) => m.id);
+      const byLength = [...crises].sort((a, b) => (STRINGS.modifiers[b]?.name.length ?? 0) - (STRINGS.modifiers[a]?.name.length ?? 0));
+      meta = { ...meta, chronicle: meta.chronicle.map((e, i, all) => (i === all.length - 1 ? { ...e, crisis: { chose: byLength[0]!, over: byLength[1]! } } : e)) };
       const failures: string[] = [];
       const page = await open(browser, { width: 360, height: 640 });
       await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
@@ -864,6 +877,7 @@ describe.skipIf(!target)("in a browser", () => {
       const shown = () => page.locator(".codex-history li").count();
       if ((await shown()) !== CHRONICLE_PAGE) failures.push(`the chronicle opened on ${await shown()} reigns`);
       failures.push(...(await contrast(page, "the chronicle")), ...(await misfits(page, "the chronicle", { mayScroll: true })));
+      if (!(await page.locator(".codex-crisis").count())) failures.push("the reign that picked its crisis does not say so");
       await page.getByRole("button", { name: STRINGS.chronicle.earlier.replace("{m}", String(25 - CHRONICLE_PAGE)) }).click();
       if ((await shown()) !== 25) failures.push(`every reign asked for, and ${await shown()} shown`);
       failures.push(...(await misfits(page, "the chronicle, every reign", { mayScroll: true })));

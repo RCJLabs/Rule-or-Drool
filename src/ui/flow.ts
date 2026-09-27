@@ -2,7 +2,7 @@ import { draw } from "../engine/draw";
 import type { Library } from "../engine/library";
 import { inCatalogOrder } from "../engine/mandates";
 import { resolve } from "../engine/resolve";
-import { newRun, rollSetup } from "../engine/state";
+import { crisisOffer, newRun, pickCrisis, rollSetup } from "../engine/state";
 import type { GameState, Inheritance, PlayerAlign, Side } from "../engine/types";
 import { encodeRunCode, setupOf, type RunCode } from "../meta/runcode";
 
@@ -17,8 +17,13 @@ export function beginRun(
   eraCount?: number,
   inheritance: Inheritance | null = null,
   pursuit: string | null = null,
+  crisis: string | null = null,
 ): GameState {
-  const setup = { ...rollSetup(lib, seed, align, unlocked), mandates, ...(inheritance ? { inheritance } : {}), ...(pursuit ? { pursuit } : {}) };
+  const dealt = { ...rollSetup(lib, seed, align, unlocked), mandates, ...(inheritance ? { inheritance } : {}), ...(pursuit ? { pursuit } : {}) };
+  // The crisis the player took of the two offered (BACKLOG-13 phase 84), when they were offered two.
+  const offer = crisis ? crisisOffer(lib, seed, align, unlocked) : null;
+  if (crisis && !offer) throw new Error(`no crisis was offered to take ${crisis} from`);
+  const setup = offer && crisis ? pickCrisis(dealt, offer, crisis) : dealt;
   return draw(lib, newRun(lib, seed, eraCount === undefined ? setup : { ...setup, eraCount }));
 }
 

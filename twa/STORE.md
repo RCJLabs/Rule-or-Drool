@@ -418,6 +418,12 @@ with one questionnaire gathered from the questions below:
   the daily, the week's scenario and a run from a link never take one. The profile keeps the
   one rumour being looked for, on the device. Question 10 now asks whether the story came, and
   whether testers knew it when it did.
+- Since v0.92.0 a run of the player's own, past the first term, offers two crises to start in
+  (BACKLOG-13 phase 84); the trait and the flaw stay dealt. The run's code already names its
+  crisis, so a record deals it the same way. The record, the run's save and the chronicle on the
+  device also keep the crisis passed over, which is a crisis's id and nothing about the player.
+  Records from before v0.92.0 that held a run with two promises, a takeover or an ending looked
+  for could not be read by the report; they can now. Question 11 now asks how testers chose.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

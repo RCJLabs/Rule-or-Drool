@@ -65,3 +65,15 @@ export function edgesLine(lib: Library, ids: readonly string[], align: PlayerAli
   });
   return near.length ? w.edges.replace("{list}", near.join(" · ")) : null;
 }
+
+/**
+ * "Chose a war over a leak": the crisis a run took on when it was offered two, and the one it passed
+ * over (BACKLOG-13 phase 84), for the chronicle and the share text.
+ */
+export function choseLine(chose: string, over: string): string {
+  const name = (id: string) => {
+    const n = STRINGS.modifiers[id]?.name ?? id;
+    return n.charAt(0).toLowerCase() + n.slice(1);
+  };
+  return STRINGS.crisisPick.chose.replace("{crisis}", name(chose)).replace("{other}", name(over));
+}

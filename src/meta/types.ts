@@ -147,6 +147,11 @@ export interface ChronicleEntry {
   line?: number;
   /** A second road (BACKLOG-5 phase 34). */
   road?: true;
+  /**
+   * The crisis the reign took on when it was offered two, and the one it passed over (BACKLOG-13
+   * phase 84). Absent for a reign that was offered no pick, or kept before there was one.
+   */
+  crisis?: { chose: string; over: string };
 }
 
 /**

@@ -2,6 +2,8 @@ import { survivedTo } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { contractById } from "../meta/contracts";
 import { decodeRunCode } from "../meta/runcode";
+import { crisisOf, crisisOffer } from "../engine/state";
+import { STRINGS } from "../content/strings";
 import { SCENARIO_MEASURE, scenarioFor } from "../meta/scenario";
 import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
@@ -348,6 +350,11 @@ export interface Report {
   scenarios: ScenarioRow[];
   /** Scenario runs in the record that had not ended, which say nothing of the goal. */
   scenarioUnfinished: number;
+  /**
+   * The crises people took when a run of their own offered two (BACKLOG-13 phase 84): how many
+   * runs were offered a pick, how many kept the crisis dealt first, and each crisis's count.
+   */
+  crises: { offered: number; keptDealt: number; rows: { crisis: string; took: number; passed: number }[] };
 }
 
 export interface ReportOptions {
@@ -453,6 +460,32 @@ function lookRow(label: string, traces: readonly Trace[]): LookRow {
     share: [-3, -2, -1, 0, 1, 2, 3].map((stage) => share(looks.filter((l) => l === stage).length, looks.length)),
     changes: traces.length ? median(changes) : Number.NaN,
   };
+}
+
+/**
+ * Which crisis people took of the two a run of their own offered (BACKLOG-13 phase 84): the one
+ * dealt first, read again from the code's seed, side and unlocks, or the one beside it.
+ */
+function crisisRows(lib: Library, runs: readonly RecordedRun[]): Report["crises"] {
+  const rows = new Map<string, { crisis: string; took: number; passed: number }>();
+  const row = (crisis: string) => rows.get(crisis) ?? rows.set(crisis, { crisis, took: 0, passed: 0 }).get(crisis)!;
+  let offered = 0;
+  let keptDealt = 0;
+  for (const r of runs) {
+    if (!r.passedOver) continue;
+    const decoded = decodeRunCode(lib, r.code);
+    if (!decoded.ok) continue;
+    const { seed, align, unlocked, modifiers } = decoded.code;
+    const took = crisisOf(lib, modifiers);
+    const offer = crisisOffer(lib, seed, align, unlocked);
+    // A record the game could not have written: the pair it names is not the pair this seed offers.
+    if (!took || !offer || !offer.includes(took) || !offer.includes(r.passedOver) || took === r.passedOver) continue;
+    offered++;
+    if (took === offer[0]) keptDealt++;
+    row(took).took++;
+    row(r.passedOver).passed++;
+  }
+  return { offered, keptDealt, rows: [...rows.values()].sort((a, b) => b.took - a.took || a.passed - b.passed || a.crisis.localeCompare(b.crisis)) };
 }
 
 /** People's rebuilt tries at the weeks' scenarios, a row a week, the earliest first. */
@@ -577,6 +610,7 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     rival: [rivalRow("people", traces.people), ...[...traces.bots.entries()].map(([bot, ts]) => rivalRow(`${bot} bot`, ts))],
     scenarios: scenarioRows(traces.people),
     scenarioUnfinished: runs.filter((r) => r.kind === "scenario" && !r.end).length,
+    crises: crisisRows(lib, runs),
     lookMs: opts.lookMs,
     minDecisions: opts.minDecisions,
   };
@@ -699,6 +733,17 @@ export function formatReport(r: Report, top = 10): string {
     out.push(`(Each week was chosen for both bots to meet its goal in ${lo}–${hi}% of runs, each aiming at it and deciding a card`);
     out.push(" in five its own way (BACKLOG-12 phase 78). People well outside that over several weeks say the band, or the");
     out.push(` one-in-five, is off for people. Tries not finished when the record was sent, not counted: ${r.scenarioUnfinished}.)`);
+    out.push("");
+  }
+
+  if (r.crises.offered) {
+    const c = r.crises;
+    out.push("== the crisis people took, of the two a run of their own offered ==");
+    out.push(`${n(c.offered, "run")} offered two: kept the one dealt first in ${c.keptDealt}, took the other in ${c.offered - c.keptDealt}.`);
+    out.push(`${"crisis".padEnd(34)} ${pad("took", 5)} ${pad("passed over", 12)}`);
+    for (const row of c.rows) out.push(`${cut(STRINGS.modifiers[row.crisis]?.name ?? row.crisis, 34).padEnd(34)} ${pad(row.took, 5)} ${pad(row.passed, 12)}`);
+    out.push("(Measured on the same seeds, the crisis moves the Ascent little: 2 points between the median pair, for the informed");
+    out.push(" voter and the eyes bot alike, and 6 at most. See BACKLOG-13 phase 84 for each crisis's rates.)");
     out.push("");
   }
 

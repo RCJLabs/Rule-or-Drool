@@ -438,6 +438,11 @@ export interface GameState {
    * first of those that can start, and sooner. Absent for every other run, which deals as it did.
    */
   pursuit?: string;
+  /**
+   * The crisis the player was offered beside this run's and did not take (BACKLOG-13 phase 84).
+   * Absent for a run that was offered no pick. It deals nothing: the run's crisis is in `modifiers`.
+   */
+  passedOver?: string;
 }
 
 /**
@@ -507,6 +512,8 @@ export interface RunSetup {
   inheritance?: Inheritance | null;
   /** The ending the run goes looking for, one the setup can reach (BACKLOG-13 phase 83). */
   pursuit?: string | null;
+  /** The crisis offered beside the run's and passed over, when the player picked (BACKLOG-13 phase 84). */
+  passedOver?: string | null;
 }
 
 /** Advisor traits the engine knows about (5.8). */

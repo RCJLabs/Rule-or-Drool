@@ -842,6 +842,15 @@ export const STRINGS = {
   },
   setupLabels: { crisis: "You inherit", trait: "You are", flaw: "You are also" },
   /**
+   * The trouble a run of the player's own takes on, of two (BACKLOG-13 phase 84): the crisis dealt,
+   * or one more beside it. The trait and the flaw stay dealt.
+   */
+  crisisPick: {
+    legend: "You inherit, your pick of two",
+    /** In the chronicle, and a line of the share text: the crisis taken, and the one passed over. */
+    chose: "Chose {crisis} over {other}",
+  },
+  /**
    * What a dealt setup does, in words (BACKLOG-11 phase 73): the meters each part starts higher or
    * lower, and which edges that ends a rule the whole setup starts nearer. Never the number.
    */

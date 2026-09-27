@@ -37,19 +37,33 @@ const END: Spec = {
   required: ["ending", "era", "cards", "band"],
 };
 
+/**
+ * A run code of any format the game writes (see runcode.ts): the version, base-36 seed and side,
+ * then three lists of ids, a platform's two promises among them; a long reign's or a short term's
+ * eras (format 2); what a run took over, after its eras or "-" (format 3); and the ending a run went
+ * looking for (format 4). Formats 3 and 4, and a platform's promises, were refused here until
+ * BACKLOG-13 phase 84, which made a whole record unreadable for one such run.
+ */
+const CODE = (() => {
+  const seed = "[0-9a-z]{1,8}\\.[LR]";
+  const list = "[a-z0-9_~-]+";
+  const lists = `${list}\\.${list}\\.${list}`;
+  const eras = "[1-9][0-9]?";
+  return new RegExp(
+    `^(?:1\\.${seed}\\.${lists}|2\\.${seed}\\.${lists}\\.${eras}|3\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}|4\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}\\.[a-z0-9_]+)$`,
+  );
+})();
+
 const RUN: Spec = {
   kind: "object",
   fields: {
     game: { kind: "string", pattern: /^\d{1,3}\.\d{1,3}\.\d{1,3}$/, hint: "a version like 0.43.0" },
     deck: { kind: "string", pattern: DECK_PATTERN, hint: "a deck stamp: eight letters and digits" },
     // Whether the game can replay a code depends on its content, which the report checks;
-    // here it only has to be one: version, base-36 seed, side, then three lists of ids, and
-    // for a long reign (format 2) its era count as well (BACKLOG-5 phase 39).
-    code: {
-      kind: "string",
-      pattern: /^(?:1\.[0-9a-z]{1,8}\.[LR]\.[a-z0-9_~-]+\.[a-z0-9_~-]+\.[a-z0-9_-]+|2\.[0-9a-z]{1,8}\.[LR]\.[a-z0-9_~-]+\.[a-z0-9_~-]+\.[a-z0-9_-]+\.[1-9][0-9]?)$/,
-      hint: "a run code",
-    },
+    // here it only has to be one (CODE, above).
+    code: { kind: "string", pattern: CODE, hint: "a run code" },
+    // The crisis offered beside the run's and passed over, when the player picked (BACKLOG-13 phase 84).
+    passedOver: { kind: "string", pattern: ID_PATTERN },
     kind: { kind: "enum", values: RUN_KINDS },
     run: INT(1, 1_000_000),
     end: { kind: "nullable", spec: END },

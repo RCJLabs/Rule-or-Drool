@@ -182,19 +182,49 @@ export function rollSetup(lib: Library, seed: number, align: PlayerAlign, unlock
   let rng = seedToState((seed ^ 0x9e3779b9) | 0);
   const modifiers: string[] = [];
   for (const kind of ["crisis", "trait", "flaw"] as const) {
-    const pool = lib.content.modifiers.filter(
-      (m) =>
-        m.kind === kind &&
-        (!m.requires || unlocked.includes(m.requires)) &&
-        // An inherited crisis is nobody's politics; a flaw usually is (BACKLOG item 4).
-        (m.align === undefined || m.align === align),
-    );
+    const pool = setupPool(lib, kind, align, unlocked);
     if (pool.length === 0) continue;
     const pick = nextInt(rng, 0, pool.length - 1);
     rng = pick.state;
     modifiers.push(pool[pick.value]!.id);
   }
   return { align, modifiers, unlocked: [...unlocked] };
+}
+
+/** The crises, traits or flaws a setup can deal this side, with these unlocks, in the content's order. */
+function setupPool(lib: Library, kind: "crisis" | "trait" | "flaw", align: PlayerAlign, unlocked: readonly string[]) {
+  return lib.content.modifiers.filter(
+    (m) =>
+      m.kind === kind &&
+      (!m.requires || unlocked.includes(m.requires)) &&
+      // An inherited crisis is nobody's politics; a flaw usually is (BACKLOG item 4).
+      (m.align === undefined || m.align === align),
+  );
+}
+
+/**
+ * The two crises a run of the player's own is offered (BACKLOG-13 phase 84): the one the setup
+ * deals, and a second from dice the seed keeps for it alone, so the trait and the flaw stay as
+ * dealt and a player who keeps the first is dealt the run the seed always dealt. Null when the
+ * pool holds one crisis or none.
+ */
+export function crisisOffer(lib: Library, seed: number, align: PlayerAlign, unlocked: readonly string[] = []): [string, string] | null {
+  const dealt = crisisOf(lib, rollSetup(lib, seed, align, unlocked).modifiers ?? []);
+  const others = setupPool(lib, "crisis", align, unlocked).filter((m) => m.id !== dealt);
+  if (!dealt || others.length === 0) return null;
+  return [dealt, others[nextInt(seedToState((seed ^ 0x2545f491) | 0), 0, others.length - 1).value]!.id];
+}
+
+/** The crisis among a setup's modifiers, if it has one. */
+export function crisisOf(lib: Library, modifiers: readonly string[]): string | undefined {
+  return modifiers.find((id) => lib.modifiers.get(id)?.kind === "crisis");
+}
+
+/** A setup taking on one crisis of an offer in place of the one dealt; the run remembers the other, passed over. */
+export function pickCrisis(setup: RunSetup, offer: readonly [string, string], crisis: string): RunSetup {
+  if (!offer.includes(crisis)) throw new Error(`${crisis} was not offered`);
+  const [dealt, second] = offer;
+  return { ...setup, modifiers: (setup.modifiers ?? []).map((m) => (m === dealt ? crisis : m)), passedOver: crisis === dealt ? second : dealt };
 }
 
 /**
@@ -368,6 +398,14 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
   // A promise the country already breaks cannot be made in it: a press already answering to
   // the office, taken over from the last reign, is not a promise to keep it free (phase 63).
   for (const id of promised) if (MANDATES_BY_ID.get(id)!.isBroken(state)) throw new Error(`the run starts with ${id} already broken`);
+  // The crisis passed over for this one (BACKLOG-13 phase 84): another crisis, remembered and
+  // not dealt, so it changes nothing but what the run can say of itself.
+  if (setup.passedOver) {
+    if (lib.modifiers.get(setup.passedOver)?.kind !== "crisis" || modifierIds.includes(setup.passedOver) || !crisisOf(lib, modifierIds)) {
+      throw new Error(`a run cannot have passed over ${setup.passedOver}`);
+    }
+    state.passedOver = setup.passedOver;
+  }
   // An ending the run cannot reach is not one it can go looking for (BACKLOG-13 phase 83): a run
   // that took one would be dealt differently for nothing, and say it was looking.
   if (setup.pursuit) {

@@ -161,6 +161,9 @@ card in five their own way, on the same seed. 300 seeds.
   - The informed voter reaches the Ascent in 17% of runs under a recession and 36% in a war. Two
     crises differ by 10 points or more in 27% of pairs.
   - For the eyes bot the range is 61–74%, and 9% of pairs differ that much.
+  - Phase 84 measured it again on the same seeds, each crisis with the same trait and flaw:
+    24–30% for the informed voter and 61–66% for the eyes bot, with no pair 10 points apart. The
+    spread above is mostly the sample: about 100 runs a crisis, each with its own trait and flaw.
 
 ## 1. One deal per seed — the deal
 
@@ -417,6 +420,8 @@ runs.
   crisis is dealt.
 - The crisis matters. The informed voter's Ascent runs from 17% under a recession to 36% in a
   war, and two crises differ by 10 points or more in 27% of pairs.
+  - Phase 84 found that this was mostly the sample. On the same seeds, the median pair differs by
+    2 points, and none by 10.
 - A choice at the start gives each run a plan, and a reason to try the other crisis.
 
 **Cost.** Small: the setup screen, and the roll offering two.
@@ -480,6 +485,8 @@ for the test.
 - **7. A setup you can feel.**
   - Ascent by setup is 12–39% for the informed voter and 50–80% for the eyes bot. By crisis
     alone it is 17–36%.
+  - On the same seeds the crisis alone is 24–30% (phase 84). The spread by setup may be partly
+    sample too; it has not been measured that way.
   - Its measure first was to hold each setup inside that spread.
 - **8. People, not seats.**
   - Its measure first is answered. Each person sits in 33–53% of informed runs, for a median
@@ -952,3 +959,126 @@ informed voter.
   same run. Their own looking waits for their next run.
 - **The bots follow a rumour perfectly.** A person may miss the story's turn, or not know it for
   the story they want. Question 10 asks.
+
+## Phase 84. Pick your trouble, crises only (idea 8) — *done*
+
+**Shipped in v0.92.0.** Only a run that takes the second crisis is dealt differently, and a run's
+code already says which crisis it has, so the deck is still g8u7egs4 and no code changes format.
+Both saves keep their versions:
+- a run keeps the crisis it passed over, and one saved before passed over none;
+- a reign in the chronicle keeps which it chose, and one from before says nothing of a pick.
+
+- **On the menu.** A run of the player's own offers two crises, under *You inherit, your pick of
+  two*: the one its setup deals, and one more.
+  - Each says what it starts higher or lower, as the setup has since phase 73. The summary under
+    them keeps the trait and the flaw, and its edges count the crisis taken.
+  - The first is taken until the player presses the other. A new seed starts again at its first,
+    even when it offers the one taken before, so every second crisis the report counts was
+    pressed for its own run.
+  - Not offered in the first term, whose one era keeps what it was dealt, nor when taking over:
+    a line's next reign keeps the crisis it is dealt. The daily, the week's scenario and a link
+    keep theirs.
+- **The offer.** The second crisis comes from dice the seed keeps for it alone.
+  - The same seed and side always offer the same two, and each crisis comes second about a tenth
+    of the time.
+  - The trait and the flaw stay as dealt. Keeping the first crisis deals, card for card, the run
+    the seed always dealt.
+- **The code.** A run's crisis was already in its code, so a run that took the second is written,
+  replayed, shared and taken down its other road with it. The crisis passed over is not in the
+  code: the run's save keeps it, and so do a replay and the other road.
+- **What says so.**
+  - The chronicle, under the reign: *Chose a war over a leak*.
+  - The share text: *Chose a war over a leak.*
+  - The playtest record keeps the crisis passed over. `npm run playtests` has a new section: how
+    many runs were offered two, how many kept the first, and how often each crisis was taken and
+    passed over.
+
+**Measured first.** The same 1,000 seeds, from 700,000 on alternating sides, each played under
+every one of the ten crises with the trait and the flaw it was dealt.
+
+| Crisis | Informed: survived; Ascent | Eyes: survived; Ascent |
+|---|---|---|
+| A recession | 98.2%; 28.4% | 95.4%; 62.0% |
+| A pandemic | 98.0%; 24.2% | 96.9%; 63.7% |
+| A war | 97.7%; 28.0% | 95.2%; 63.2% |
+| A disaster | 96.8%; 27.8% | 96.7%; 64.8% |
+| A drought | 97.8%; 24.7% | 96.6%; 61.5% |
+| A leak | 97.8%; 28.5% | 97.0%; 66.3% |
+| A failed coup | 96.8%; 27.2% | 95.4%; 61.1% |
+| A debt crisis | 97.5%; 25.8% | 95.6%; 62.5% |
+| Blackouts | 97.8%; 25.3% | 96.7%; 61.0% |
+| A predecessor who will not leave | 98.1%; 30.1% | 97.0%; 66.2% |
+
+- **Pairs.** Of the 45, the median pair's Ascent differs by 2.2 points for both bots. The widest
+  differ by 5.9 (informed: the pandemic and the predecessor) and 5.3 (eyes: the leak and the
+  blackouts). No pair is 10 points apart for either bot.
+- **Noise.** On these seeds a pair's gap has a standard error of about 1.7 points, so the median
+  pair's is inside it.
+  - 11 pairs (informed) and 13 (eyes) differ by more than twice that. Against a bar set for 45
+    comparisons, one pair passes for the informed voter and none for the eyes bot.
+  - The predecessor is the one crisis both bots find easier than most.
+- **An offer of two,** the crisis dealt and the seed's second:
+
+| | Informed: survived; Ascent | Eyes: survived; Ascent |
+|---|---|---|
+| The crisis dealt | 97.6%; 28.3% | 96.9%; 64.3% |
+| Always the easier of the two | 97.7%; 30.0% | 96.6%; 66.2% |
+| Always the harder | 97.4%; 25.8% | 96.1%; 60.7% |
+
+  - Which is easier is read off the table above, from the same runs, which flatters it. Read off
+    half the seeds and scored on the other half, the easier is 1.8 points up for the informed
+    voter and 1.6 for the eyes bot.
+  - The two offered differ by 2.1–2.2 points (median) and 4.3–4.8 (p90).
+
+**The audit's number was not the crisis.** Idea 8 was chosen on 17% under a recession to 36% in a
+war, and 10 points or more in 27% of pairs. That came from 1,000 runs grouped by the crisis each
+was dealt: about 100 runs a crisis, each with its own trait and flaw.
+- Measured that way on today's game, the spread is still wide: 21–36% for the informed voter,
+  with 10 pairs of 45 that far apart, and 54–74% for the eyes bot, with 12.
+- Its order is not the same seeds' order. Grouped, the pandemic is the eyes bot's easiest crisis,
+  at 74%. On the same seeds it is 64%, the middle of the table.
+- So the pick is a choice of story, not of difficulty. What a crisis changes is which meters start
+  low, which stories come more often, and, for a debt or the blackouts, a rule of the run.
+- The audit's line, idea 8's reason and BACKLOG-12's idea 7 now point here.
+
+**Tests.**
+- The engine:
+  - the offers of 1,000 seeds: the first is the crisis dealt, the second another, the same every
+    time, and every crisis comes second more than 60 times;
+  - the trait and the flaw stay as dealt, and keeping the first deals the same 60 cards (40 seeds);
+  - the pick goes into the run, and the crisis passed over survives a replay;
+  - a crisis that was not offered, the run's own or a trait cannot be passed over.
+- The menu:
+  - it offers the two with the first pressed, and the summary loses its crisis row;
+  - the second can be taken, and the run takes it and remembers the first;
+  - a new seed starts at its first, even when it offers the one taken before, and a side offered
+    the same two keeps the pick;
+  - nothing is offered in the first term, when taking over, or by the daily.
+- The chronicle's line and the share text's.
+- The playtest record reads every kind of run code the game writes, with the crisis passed over.
+  The report's count leaves out a pair its seed could not have offered.
+- Browser audits: the menu with the pick, either crisis pressed, reads and fits at 360×640; the
+  chronicle, with the longest pair of names, too.
+- Question 11 asks testers how they chose between the two.
+
+**Fixed on the way.** `npm run playtests` refused a whole record for holding one run of three
+kinds:
+- a platform of two promises, since phase 62;
+- a run that took over the country, since phase 63;
+- a run that went looking for an ending, since phase 83.
+
+The pattern it checked each run's code against knew formats 1 and 2, and one promise. No record
+from people had come in, so nothing was lost. The first tester to play any of those would have
+sent a file the report could not read. A test now writes a run of each kind and reads it back.
+
+**Caveats.**
+- **For the bots, the pick barely moves the odds:** 2 points between the median pair, 6 at most.
+  If it is to be a lever, the crises have to be made to differ. That belongs to idea 15, a setup
+  you can feel.
+- **The menu says what each crisis starts, not how it tends to go.** A recession starts Money much
+  lower and reads as the hard one. For the bots it is in the middle of the table.
+- **The crisis passed over is not in the run code.** Someone who opens a link to a run that took
+  the second crisis plays that crisis, and their chronicle and share text say nothing of a pick.
+- **A player can take the same crisis every run** it is offered. Nothing stops it; the chronicle
+  shows it.
+- **The first term offers no pick,** so a new player meets it on their second run at the earliest.

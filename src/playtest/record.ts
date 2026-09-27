@@ -65,6 +65,11 @@ export interface RecordedRun {
   kind: RunKind;
   /** Which of this player's runs it was, counting those they finished: 1 is their first. */
   run: number;
+  /**
+   * The crisis offered beside the run's and passed over, when the player was offered two
+   * (BACKLOG-13 phase 84). The run's own crisis is in its code.
+   */
+  passedOver?: string;
   /** How it ended, or null for a run left for another before it did. */
   end: RunEnd | null;
   cards: TakenCard[];
@@ -82,7 +87,16 @@ export interface RecordFile {
 export const meterList = (m: Meters): number[] => METER_KEYS.map((k) => Math.round(m[k]));
 
 export function openRun(state: GameState, opts: { kind: RunKind; run: number; game: string }): RecordedRun {
-  return { game: opts.game, ...(state.deck ? { deck: state.deck } : {}), code: encodeRunCode(runCodeOf(state)), kind: opts.kind, run: opts.run, end: null, cards: [] };
+  return {
+    game: opts.game,
+    ...(state.deck ? { deck: state.deck } : {}),
+    code: encodeRunCode(runCodeOf(state)),
+    kind: opts.kind,
+    run: opts.run,
+    ...(state.passedOver ? { passedOver: state.passedOver } : {}),
+    end: null,
+    cards: [],
+  };
 }
 
 /** One choice, from the state it was made in and the state it left. */

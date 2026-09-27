@@ -7,7 +7,9 @@ import { METER_KEYS } from "../../src/engine/types";
 import { decodeRunCode, setupOf } from "../../src/meta/runcode";
 import { CardClock } from "../../src/playtest/clock";
 import { parseRecord } from "../../src/playtest/parse";
-import { meterList, serialize, toFile } from "../../src/playtest/record";
+import { meterList, openRun, serialize, toFile } from "../../src/playtest/record";
+import { advisorPool, crisisOffer } from "../../src/engine/state";
+import { beginRun } from "../../src/ui/flow";
 import { recordRun } from "./helpers";
 
 describe("the record of a run", () => {
@@ -99,6 +101,35 @@ describe("reading a record back", () => {
     expect(parseRecord(JSON.stringify(f)).ok).toBe(true);
     refuse((g) => (g.runs[0].code = g.runs[0].code + ".5"), /runs\[0\]\.code: a run code/);
     refuse((g) => (g.runs[0].code = g.runs[0].code.replace(/^1\./, "2.")), /runs\[0\]\.code: a run code/);
+  });
+
+  it("reads the code of every kind of run the game writes, and the crisis a run passed over", () => {
+    // A platform of two promises, a run that took over, one that went looking for an ending, a long
+    // reign, a short term and a run that picked its crisis. Until BACKLOG-13 phase 84 the first
+    // three made a whole record unreadable: the pattern knew formats 1 and 2, and one promise.
+    const rival = advisorPool(library, library.config.rivalRole, "left")[0]!.id;
+    const inheritance = { band: "decay" as const, line: 2, legacies: ["seawall"], rival, rivalStanding: 40 };
+    const offer = crisisOffer(library, 7, "right")!;
+    const runs = [
+      beginRun(library, 7, "left", [], ["m_broad", "m_loyal"]),
+      beginRun(library, 7, "left", [], [], undefined, inheritance),
+      beginRun(library, 7, "right", [], [], undefined, null, "leader_for_life"),
+      beginRun(library, 7, "left", [], [], library.config.longEraCount),
+      beginRun(library, 7, "left", [], [], library.config.firstTermEras, inheritance, "the_posters"),
+      beginRun(library, 7, "right", [], [], undefined, null, null, offer[1]),
+    ];
+    const recorded = runs.map((s, i) => openRun(s, { kind: "own", run: i + 1, game: "0.92.0" }));
+    expect(recorded.map((r) => r.code[0])).toEqual(["1", "3", "4", "2", "4", "1"]);
+    const parsed = parseRecord(serialize(toFile(recorded)));
+    expect(parsed.ok, parsed.ok ? "" : parsed.errors.join("; ")).toBe(true);
+    if (!parsed.ok) return;
+    parsed.file.runs.forEach((r, i) => {
+      const decoded = decodeRunCode(library, r.code);
+      expect(decoded.ok && newRun(library, runs[i]!.seed, setupOf(decoded.code)).modifiers).toEqual(runs[i]!.modifiers);
+    });
+    expect(parsed.file.runs[5]!.passedOver).toBe(offer[0]);
+    expect(parsed.file.runs.slice(0, 5).every((r) => r.passedOver === undefined)).toBe(true);
+    refuse((f) => (f.runs[0].passedOver = "A war"), /runs\[0\]\.passedOver/);
   });
 
   it("says what is wrong with a file that is not JSON", () => {

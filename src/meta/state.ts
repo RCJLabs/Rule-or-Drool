@@ -179,7 +179,7 @@ export function foldRun(
   record.rivalStanding = run.rivalStanding;
   next.history = [record, ...meta.history].slice(0, HISTORY_LENGTH);
   // And into the chronicle, which keeps every run as the country's history (BACKLOG-12 phase 76).
-  next.chronicle = [...(meta.chronicle ?? []), chronicleEntry(run, record, next.runs, lib.config.eraCount)].slice(-CHRONICLE_LENGTH);
+  next.chronicle = [...(meta.chronicle ?? []), chronicleEntry(run, record, next.runs, lib.config.eraCount, lib)].slice(-CHRONICLE_LENGTH);
   // One entry a day, and only for the run that was dealt as that day's daily: the first to
   // finish keeps the day (BACKLOG-5 phase 38).
   let entry: DailyEntry | null = null;

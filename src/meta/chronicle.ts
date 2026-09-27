@@ -1,4 +1,5 @@
 import type { Library } from "../engine/library";
+import { crisisOf } from "../engine/state";
 import type { Band, GameState } from "../engine/types";
 import { BANDS } from "../engine/types";
 import { endingKind, type EndingKind } from "./clues";
@@ -15,7 +16,7 @@ import type { ChronicleEntry, MetaState, PromiseRecord, RunRecord } from "./type
 export const CHRONICLE_LENGTH = 1000;
 
 /** A finished run as the chronicle keeps it, the profile's `n`th. */
-export function chronicleEntry(run: GameState, record: RunRecord, n: number, ordinaryEras: number): ChronicleEntry {
+export function chronicleEntry(run: GameState, record: RunRecord, n: number, ordinaryEras: number, lib: Library): ChronicleEntry {
   const inherited = run.inherited?.legacies ?? [];
   const eras = run.eraCount ?? ordinaryEras;
   const entry: ChronicleEntry = {
@@ -33,6 +34,9 @@ export function chronicleEntry(run: GameState, record: RunRecord, n: number, ord
   if (eras !== ordinaryEras) entry.eras = eras;
   if (record.line) entry.line = record.line;
   if (record.road) entry.road = true;
+  // The crisis it took on, of two, and the other (BACKLOG-13 phase 84).
+  const chose = run.passedOver ? crisisOf(lib, run.modifiers) : undefined;
+  if (chose && run.passedOver) entry.crisis = { chose, over: run.passedOver };
   return entry;
 }
 
@@ -92,8 +96,15 @@ function entryOf(raw: unknown): ChronicleEntry | null {
   if (count(e.eras) && e.eras > 0) entry.eras = e.eras;
   if (count(e.line) && e.line > 1) entry.line = e.line;
   if (e.road === true) entry.road = true;
+  const c = e.crisis as Record<string, unknown> | undefined;
+  if (c && typeof c === "object" && typeof c.chose === "string" && typeof c.over === "string" && ID.test(c.chose) && ID.test(c.over) && c.chose !== c.over) {
+    entry.crisis = { chose: c.chose, over: c.over };
+  }
   return entry;
 }
+
+/** A modifier's id, as a profile from anywhere may say one. */
+const ID = /^[a-z0-9_]{1,64}$/;
 
 /**
  * The chronicle a profile brings: its own, read entry by entry, in order and each run once, and

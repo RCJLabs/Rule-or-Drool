@@ -2,6 +2,7 @@ import { STRINGS } from "../content/strings";
 import { DEFAULT_CONFIG } from "../engine/config";
 import type { GameState } from "../engine/types";
 import { CLUES, dailyNumber, encodeRunCode, encodeRunResult, runCodeOf, type History, type RunResult } from "../meta";
+import { choseLine } from "./setup";
 import { DRIFT_REACH, type ShapePoint } from "./shape";
 
 /**
@@ -54,6 +55,9 @@ export function shareText(state: GameState, history: History, endingTitle: strin
   const lines = scenario ? [head, (scenario.met ? STRINGS.scenario.shareMet : STRINGS.scenario.shareMissed).replace("{goal}", scenario.goal), facts] : [head, facts];
   // A run that went looking for an ending was dealt for it, and its link deals it so again (BACKLOG-13 phase 83).
   if (state.pursuit) lines.push(STRINGS.pursuit.share.replace("{clue}", CLUES[state.pursuit] ?? state.pursuit));
+  // A run that took on one crisis of two says which, and which it passed over (phase 84).
+  const chose = state.passedOver ? state.modifiers.find((m) => m.startsWith("crisis_")) : undefined;
+  if (chose && state.passedOver) lines.push(`${choseLine(chose, state.passedOver)}.`);
   if (things.length) lines.push(`${left} ${things.join("; ")}.`);
   lines.push(`${play} ${link}`);
   return lines.join("\n");

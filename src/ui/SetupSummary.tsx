@@ -10,13 +10,19 @@ interface Props {
   compact?: boolean;
   /** Whose run, for the names of its groups in what the setup starts (BACKLOG-11 phase 73). */
   align?: PlayerAlign;
+  /**
+   * The crisis is picked above, of two (BACKLOG-13 phase 84): its row is left out here, and the
+   * edges the whole setup starts nearer still count it.
+   */
+  crisisPicked?: boolean;
 }
 
 /** The drawn run setup: opening crisis, leader trait and flaw (5.9). */
-export function SetupSummary({ lib, modifiers, compact, align = "left" }: Props) {
+export function SetupSummary({ lib, modifiers, compact, align = "left", crisisPicked = false }: Props) {
   const rows = modifiers
     .map((id) => ({ id, kind: lib.modifiers.get(id)?.kind, text: STRINGS.modifiers[id] }))
-    .filter((r): r is { id: string; kind: "crisis" | "trait" | "flaw"; text: { name: string; blurb: string } } => !!r.kind && !!r.text);
+    .filter((r): r is { id: string; kind: "crisis" | "trait" | "flaw"; text: { name: string; blurb: string } } => !!r.kind && !!r.text)
+    .filter((r) => !(crisisPicked && r.kind === "crisis"));
   if (rows.length === 0) return null;
   if (compact) {
     return <p className="setup-compact">{rows.map((r) => r.text.name).join(" · ")}</p>;

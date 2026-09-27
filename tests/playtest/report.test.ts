@@ -4,7 +4,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { library } from "../../src/content";
-import { decodeRunCode, setupOf } from "../../src/meta/runcode";
+import { decodeRunCode, encodeRunCode, runCodeOf, setupOf } from "../../src/meta/runcode";
+import { crisisOffer } from "../../src/engine/state";
+import { beginRun } from "../../src/ui/flow";
 import { closeRun, openRun, serialize, takeCard, toFile, type RecordedRun, type TakenCard } from "../../src/playtest/record";
 import { deckStamp } from "../../src/engine/deck";
 import { buildReport, formatReport, gather, onThisDeck, type Source } from "../../src/playtest/report";
@@ -49,6 +51,32 @@ describe("runs that went looking for an ending", () => {
     expect(decoded.ok && setupOf(decoded.code).pursuit).toBe("leader_for_life");
     // A record with none says nothing of it.
     expect(formatReport(buildReport(library, gather([source("b", [made(3, [["x", 1000]])])]), new Map(), OPTS))).not.toContain("went looking");
+  });
+});
+
+// BACKLOG-13 phase 84: which crisis people took, of the two a run of their own offered.
+describe("the crisis people took", () => {
+  it("counts what each run took and passed over, and whether it kept the one dealt first", () => {
+    const took = (seed: number, second: boolean): RecordedRun => {
+      const offer = crisisOffer(library, seed, "left")!;
+      const state = beginRun(library, seed, "left", [], [], undefined, null, null, offer[second ? 1 : 0]);
+      return { ...made(seed, [["x", 1000]]), code: encodeRunCode(runCodeOf(state)), passedOver: state.passedOver };
+    };
+    const runs = [took(1, false), took(2, true), took(3, true), made(4, [["x", 1000]])];
+    const r = buildReport(library, gather([source("a", runs)]), new Map(), OPTS);
+    expect(r.crises.offered).toBe(3);
+    expect(r.crises.keptDealt).toBe(1);
+    const tally = (id: string) => r.crises.rows.find((row) => row.crisis === id) ?? { took: 0, passed: 0 };
+    for (const [seed, second] of [[1, false], [2, true], [3, true]] as const) {
+      const offer = crisisOffer(library, seed, "left")!;
+      expect(tally(offer[second ? 1 : 0]).took).toBeGreaterThan(0);
+      expect(tally(offer[second ? 0 : 1]).passed).toBeGreaterThan(0);
+    }
+    expect(formatReport(r)).toContain("3 runs offered two: kept the one dealt first in 1, took the other in 2.");
+    // A record naming a pair its seed did not offer is left out, as the game could not have written it.
+    const forged = { ...took(5, true), passedOver: "crisis_nothing" };
+    expect(buildReport(library, gather([source("b", [forged])]), new Map(), OPTS).crises.offered).toBe(0);
+    expect(formatReport(buildReport(library, gather([source("c", [made(6, [["x", 1000]])])]), new Map(), OPTS))).not.toContain("the crisis people took");
   });
 });
 

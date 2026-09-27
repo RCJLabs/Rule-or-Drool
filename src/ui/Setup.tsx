@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { STRINGS } from "../content/strings";
 import { deckStamp, missingContent } from "../engine/deck";
 import type { Library } from "../engine/library";
-import { isFirstTerm, isLongReign, rollSetup } from "../engine/state";
+import { crisisOffer, isFirstTerm, isLongReign, rollSetup } from "../engine/state";
 import type { GameState, Inheritance, PlayerAlign } from "../engine/types";
 import {
   codexProgress,
@@ -32,6 +32,7 @@ import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
 import { MandatePicker } from "./MandatePicker";
+import { CrisisPicker } from "./CrisisPicker";
 import { ReignPicker, type ReignChoice } from "./ReignPicker";
 import { StartPicker } from "./StartPicker";
 import { SetupSummary } from "./SetupSummary";
@@ -49,7 +50,15 @@ interface Props {
   /** The saved run's week, when it is the try at a week's scenario (BACKLOG-12 phase 78). */
   savedScenario?: ScenarioMark | null;
   meta: MetaState;
-  onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number, inheritance?: Inheritance | null, pursuit?: string | null) => void;
+  onStart: (
+    seed: number,
+    align: PlayerAlign,
+    mandates: readonly string[],
+    eraCount?: number,
+    inheritance?: Inheritance | null,
+    pursuit?: string | null,
+    crisis?: string | null,
+  ) => void;
   /** Stop looking for the ending the profile is looking for (BACKLOG-13 phase 83). */
   onPursue?: (id: string | null) => void;
   onDaily: (align: PlayerAlign, mandates: readonly string[]) => void;
@@ -133,6 +142,16 @@ export function Setup({
   // A profile moved in on this screen can take the choice away: then the first one stands.
   const chosen = reigns?.some((c) => c.eraCount === eraCount) ? eraCount : reigns?.[0]!.eraCount;
   const setup = useMemo(() => rollSetup(lib, seed, align, meta.unlocks), [lib, seed, align, meta.unlocks]);
+  // A fresh run of the player's own takes on one of two crises (BACKLOG-13 phase 84), past its
+  // first term. Taking over keeps the crisis dealt, as the daily and the week's scenario do.
+  const offer = useMemo(() => (termDue ? null : crisisOffer(lib, seed, align, meta.unlocks)), [lib, seed, align, meta.unlocks, termDue]);
+  const [picked, setPicked] = useState<{ offer: string; crisis: string } | null>(null);
+  const picking = !!offer && !takeOver;
+  // A new seed is a new offer, and its first crisis stands until the player takes the other, even
+  // when the one they took before is offered again. A side offered the same two keeps the pick.
+  const offerKey = offer ? `${seed}:${offer.join(",")}` : "";
+  const crisis = picking ? (picked?.offer === offerKey ? picked.crisis : offer[0]) : null;
+  const modifiers = crisis && offer ? (setup.modifiers ?? []).map((m) => (m === offer[0] ? crisis : m)) : (setup.modifiers ?? []);
   // The ending the profile is looking for, and whether the run about to start can look for it
   // (BACKLOG-13 phase 83): a run of the other side, one too short for its story, or one taking over
   // a country that has settled it looks for nothing, and says so. A short term is asked on its own.
@@ -238,7 +257,8 @@ export function Setup({
             </button>
           ))}
         </fieldset>
-        <SetupSummary lib={lib} modifiers={setup.modifiers ?? []} align={align} />
+        {picking && crisis && <CrisisPicker lib={lib} offer={offer} value={crisis} onChange={(c) => setPicked({ offer: offerKey, crisis: c })} align={align} />}
+        <SetupSummary lib={lib} modifiers={modifiers} align={align} crisisPicked={picking} />
         {parent && inheritance && <StartPicker lib={lib} from={parent} inheritance={inheritance} value={takeOver} onChange={chooseStart} />}
         <MandatePicker value={mandates} onChange={setMandates} unavailable={unavailable} />
         {reigns && <ReignPicker choices={reigns} value={chosen} onChange={setEraCount} />}
@@ -265,7 +285,7 @@ export function Setup({
         <button
           type="button"
           className="primary big"
-          onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null, cannot ? null : looking)}
+          onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null, cannot ? null : looking, crisis)}
         >
           {STRINGS.ui.start}
         </button>
@@ -277,7 +297,7 @@ export function Setup({
             <button
               type="button"
               aria-describedby="short-start-note"
-              onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null, shortCannot ? null : looking)}
+              onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null, shortCannot ? null : looking, crisis)}
             >
               {r.shortStart}
             </button>
