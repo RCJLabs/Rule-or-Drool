@@ -73,7 +73,9 @@ describe("section 8 targets", () => {
     const misses = evaluateTargets(s).filter((t) => !t.info && !t.pass);
     expect(misses.map((m) => `${m.bot} ${m.name}: ${m.actual} (want ${m.target})`)).toEqual([]);
     // Five bots since BACKLOG-9 phase 54 brought the informed voter, the one the Ascent is for.
-  }, 120000);
+    // 12,000 runs: 91s on the deal before BACKLOG-13 phase 81 and 103s on its seed's order, on a
+    // machine CI keeps pace with, so it carries the budget of the file's other long simulations.
+  }, 240000);
 });
 
 // BACKLOG-5 phase 39: the long reign has targets of its own, measured on runs of five eras.

@@ -337,6 +337,11 @@ export const EMPTY_STATS: RunStats = {
 
 export interface GameState {
   seed: number;
+  /**
+   * Where the setup's dice stopped. Since BACKLOG-13 phase 81 nothing rolls from it after the
+   * setup: every die the deal and the rules roll reads the seed, the card number and what it is
+   * for (`diceAt` in rng.ts), so two runs on a seed roll alike wherever they have got to.
+   */
   rngState: number;
   align: PlayerAlign;
   era: number;

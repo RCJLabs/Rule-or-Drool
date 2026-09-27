@@ -14,7 +14,8 @@ describe("draw: basics", () => {
     expect(draw(l, over)).toBe(over);
   });
 
-  it("sets current, records seen and cooldown, and advances the rng", () => {
+  it("sets current, records seen and cooldown, and leaves the setup's dice where they stopped", () => {
+    // Since BACKLOG-13 phase 81 a draw reads the seed and the card number, never the stream.
     const l = lib({ cooldownSize: 3 });
     let s = start(l);
     const rng0 = s.rngState;
@@ -22,7 +23,7 @@ describe("draw: basics", () => {
     expect(s.current).not.toBeNull();
     expect(s.seen).toEqual([s.current]);
     expect(s.cooldown).toEqual([s.current]);
-    expect(s.rngState).not.toBe(rng0);
+    expect(s.rngState).toBe(rng0);
   });
 
   it("trims cooldown to the configured size", () => {

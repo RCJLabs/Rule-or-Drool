@@ -1,7 +1,7 @@
 import { getCard, poolKey, questionOfArc, type Library } from "./library";
 import { isHandoverCard, makesInherited, settledByInheritance } from "./inherit";
-import { pickWeighted } from "./rng";
-import { candidatesFor, condMet, hasFlag, rivalStands, roll } from "./state";
+import { diceAt, pickWeighted, rankOf, seedToState } from "./rng";
+import { candidatesFor, condMet, hasFlag, rivalStands } from "./state";
 import { returnDue } from "./opposition";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
@@ -38,16 +38,16 @@ export function appointmentDue(lib: Library, state: GameState): boolean {
 }
 
 /**
- * The seat an era's appointment fills, by the run's own dice: one held since the first day while
- * there is one, so a long reign does not fill the same seat twice before the others.
+ * The seat an era's appointment fills, by the seed's dice at the card: one held since the first
+ * day while there is one, so a long reign does not fill the same seat twice before the others.
  */
 function drawAppointment(lib: Library, state: GameState): [Card | null, GameState] {
   const seats = [...lib.appointmentCards.keys()].sort().filter((role) => role !== lib.config.rivalRole && !!state.cabinet[role] && !!candidatesFor(lib, state, role));
   const fresh = seats.filter((role) => (state.cabinetSince[role] ?? 0) === 0);
   const from = fresh.length ? fresh : seats;
   if (from.length === 0) return [null, state];
-  const [p, s] = roll(state);
-  return [lib.appointmentCards.get(from[Math.floor(p * from.length)]!)!, s];
+  const p = diceAt(state.seed, state.cardCount, "appointment");
+  return [lib.appointmentCards.get(from[Math.floor(p * from.length)]!)!, state];
 }
 
 export function electionDue(lib: Library, state: GameState): boolean {
@@ -146,22 +146,41 @@ function poolCandidates(lib: Library, state: GameState, relax: Relax, past: Past
   return out;
 }
 
-function pickFrom(lib: Library, state: GameState, cards: Card[]): [Card | null, GameState] {
-  if (cards.length === 0) return [null, state];
+/** How much the deal favours a card, for this run: its weight, more for its side, more for a band it was written for. */
+function dealWeight(lib: Library, state: GameState, c: Card): number {
   const { alignAffinity, bandAffinity } = lib.config;
-  const r = pickWeighted(
-    state.rngState,
-    cards.map(
-      (c) =>
-        (c.weight ?? 1) *
-        (c.align === state.align ? alignAffinity : 1) *
-        // Eligibility already matched the band, so a narrow list means it was written for here.
-        (c.bands.length < BANDS.length ? bandAffinity : 1),
-    ),
+  return (
+    (c.weight ?? 1) *
+    (c.align === state.align ? alignAffinity : 1) *
+    // Eligibility already matched the band, so a narrow list means it was written for here.
+    (c.bands.length < BANDS.length ? bandAffinity : 1)
   );
-  const next = { ...state, rngState: r.state };
-  if (r.index < 0) return [null, next];
-  return [cards[r.index] ?? null, next];
+}
+
+/**
+ * One deal per seed (BACKLOG-13 phase 81): of the cards that can be dealt, the one the run has not
+ * met that comes first in the seed's order. Every run on a seed meets the deck in the same order,
+ * less what its own choices put out of reach, and comes back to it where they do not. Only when
+ * every card that can be dealt has been met does one come round again, by the seed's dice at the
+ * card, weighted as the deal weighs them. Nothing here moves the run's dice.
+ */
+function pickFrom(lib: Library, state: GameState, cards: Card[], seen: ReadonlySet<string>): [Card | null, GameState] {
+  if (cards.length === 0) return [null, state];
+  let best: Card | null = null;
+  let top = Number.NEGATIVE_INFINITY;
+  for (const c of cards) {
+    if (seen.has(c.id)) continue;
+    const w = dealWeight(lib, state, c);
+    if (w <= 0) continue;
+    const rank = rankOf(state.seed, c.id, w);
+    if (rank > top) {
+      top = rank;
+      best = c;
+    }
+  }
+  if (best) return [best, state];
+  const again = pickWeighted(seedToState(Math.floor(diceAt(state.seed, state.cardCount, "again") * 2 ** 31)), cards.map((c) => dealWeight(lib, state, c)));
+  return [again.index < 0 ? null : (cards[again.index] ?? null), state];
 }
 
 /**
@@ -172,7 +191,7 @@ function drawReturnVote(lib: Library, state: GameState): [Card | null, GameState
   const past = pastOf(state);
   for (const relax of LADDER) {
     const cands = lib.returnVotes.filter((c) => alignOk(c, state) && eligible(lib, c, state, { ...relax, cooldown: true }, past));
-    if (cands.length > 0) return pickFrom(lib, state, cands);
+    if (cands.length > 0) return pickFrom(lib, state, cands, past.seen);
   }
   return [null, state];
 }
@@ -185,7 +204,7 @@ function drawCampaign(lib: Library, state: GameState): [Card | null, GameState] 
   const past = pastOf(state);
   for (const relax of LADDER) {
     const cands = lib.campaignCards.filter((c) => alignOk(c, state) && eligible(lib, c, state, relax, past));
-    if (cands.length > 0) return pickFrom(lib, state, cands);
+    if (cands.length > 0) return pickFrom(lib, state, cands, past.seen);
   }
   return [null, state];
 }
@@ -195,7 +214,7 @@ function drawOpposition(lib: Library, state: GameState): [Card | null, GameState
   const past = pastOf(state);
   for (const relax of LADDER) {
     const cands = lib.oppositionCards.filter((c) => alignOk(c, state) && eligible(lib, c, state, relax, past));
-    if (cands.length > 0) return pickFrom(lib, state, cands);
+    if (cands.length > 0) return pickFrom(lib, state, cands, past.seen);
   }
   return [null, state];
 }
@@ -217,7 +236,7 @@ function drawElection(lib: Library, state: GameState): [Card | null, GameState] 
           (relax.band || c.bands.includes(state.band)) &&
           eligible(lib, c, state, { ...relax, cooldown: true }, past),
       );
-      if (cands.length > 0) return pickFrom(lib, state, cands);
+      if (cands.length > 0) return pickFrom(lib, state, cands, past.seen);
     }
   }
   return [null, state];
@@ -259,10 +278,19 @@ function drawArcContinue(lib: Library, state: GameState): [Card | null, GameStat
     if (condMet(lib, card.cond, state, card.speaker)) cands.push(card);
   }
   if (cands.length === 0) return [null, state];
-  const [p, s1] = roll(state);
-  if (p >= lib.config.arcContinueProb) return [null, s1];
-  const [i, s2] = roll(s1);
-  return [cands[Math.floor(i * cands.length)] ?? null, s2];
+  if (diceAt(state.seed, state.cardCount, "story goes on") >= lib.config.arcContinueProb) return [null, state];
+  // Which goes on is a die for each story at this card: the same story goes on for every run on
+  // the seed that has it waiting, whatever else each has waiting.
+  let next: Card | null = null;
+  let top = -1;
+  for (const card of cands) {
+    const d = diceAt(state.seed, state.cardCount, `story ${card.arc ?? card.id}`);
+    if (d > top) {
+      top = d;
+      next = card;
+    }
+  }
+  return [next, state];
 }
 
 function arcWeight(lib: Library, state: GameState, arc: Arc): number {
@@ -290,9 +318,8 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
   if (state.activeArcs.filter((a) => a.nextCard && questionOfArc(lib, a.id) === undefined).length >= state.arcBudget) return [null, state];
   const cands = startable(lib, state, false);
   if (cands.length === 0) return [null, state];
-  const [p, s1] = roll(state);
-  if (p >= lib.config.arcEntryProb) return [null, s1];
-  const [arc, s2] = pickArc(lib, s1, cands);
+  if (diceAt(state.seed, state.cardCount, "story starts") >= lib.config.arcEntryProb) return [null, state];
+  const [arc, s2] = pickArc(lib, state, cands);
   if (!arc) return [null, s2];
   return [
     getCard(lib, arc.cards[0]!),
@@ -315,9 +342,8 @@ function drawQuestionEntry(lib: Library, state: GameState): [Card | null, GameSt
   const answered = new Set(asked.map((a) => questionOfArc(lib, a.id)));
   const cands = startable(lib, state, true).filter((a) => !answered.has(a.question));
   if (cands.length === 0) return [null, state];
-  const [p, s1] = roll(state);
-  if (p >= lib.config.questionEntryProb) return [null, s1];
-  const [arc, s2] = pickArc(lib, s1, cands);
+  if (diceAt(state.seed, state.cardCount, "question asked") >= lib.config.questionEntryProb) return [null, state];
+  const [arc, s2] = pickArc(lib, state, cands);
   if (!arc) return [null, s2];
   return [getCard(lib, arc.cards[0]!), { ...s2, activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: arc.cards[0]! }] }];
 }
@@ -345,19 +371,27 @@ function startable(lib: Library, state: GameState, questions: boolean): Arc[] {
   return cands;
 }
 
+/** The story, or the question, that comes first in the seed's order of those that can start (phase 81). */
 function pickArc(lib: Library, state: GameState, cands: Arc[]): [Arc | undefined, GameState] {
-  const r = pickWeighted(
-    state.rngState,
-    cands.map((a) => arcWeight(lib, state, a)),
-  );
-  return [cands[r.index], { ...state, rngState: r.state }];
+  let best: Arc | undefined;
+  let top = Number.NEGATIVE_INFINITY;
+  for (const arc of cands) {
+    const w = arcWeight(lib, state, arc);
+    if (w <= 0) continue;
+    const rank = rankOf(state.seed, arc.id, w);
+    if (rank > top) {
+      top = rank;
+      best = arc;
+    }
+  }
+  return [best, state];
 }
 
 function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {
   const past = pastOf(state);
   for (const relax of LADDER) {
     const cands = poolCandidates(lib, state, relax, past);
-    if (cands.length > 0) return pickFrom(lib, state, cands);
+    if (cands.length > 0) return pickFrom(lib, state, cands, past.seen);
   }
   return [null, state];
 }

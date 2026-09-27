@@ -57,6 +57,48 @@ export function pickWeighted(state: number, weights: readonly number[]): { index
   return { index: -1, state: r.state };
 }
 
+/** A name as a number, the same everywhere (FNV-1a): a card's, a story's, or what a die is for. */
+export function hashString(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 0x01000193);
+  return h | 0;
+}
+
+/**
+ * A die that reads only the run's seed, the card count and what it is for (BACKLOG-13 phase 81):
+ * the same for every run on the seed at that card, whatever each chose before it. The deal's dice
+ * were one stream, so a different choice anywhere moved every roll after it, and two players on
+ * one daily met the same cards for about six cards.
+ */
+export function diceAt(seed: number, at: number, purpose: string): number {
+  return nextRandom(seedToState((Math.imul(seed | 0, 0x9e3779b1) ^ Math.imul(at + 1, 0x85ebca6b) ^ hashString(purpose)) | 0)).value;
+}
+
+// Each id's place for the last seed asked about, before its weight: a draw ranks every card it
+// can deal, and a run asks about one seed from its first card to its last.
+let rankedSeed: number | null = null;
+const ranked = new Map<string, number>();
+
+/**
+ * Where a card or a story comes in a seed's order, weighted as the deal weighs it: the higher
+ * first. It is the key of weighted sampling without replacement (Efraimidis and Spirakis), u to
+ * the power 1/w, compared as its logarithm. Every run on a seed meets the deck in this order, less
+ * what it cannot be dealt or has met.
+ */
+export function rankOf(seed: number, id: string, weight: number): number {
+  if (seed !== rankedSeed) {
+    rankedSeed = seed;
+    ranked.clear();
+  }
+  let at = ranked.get(id);
+  if (at === undefined) {
+    const u = nextRandom(seedToState((Math.imul(seed | 0, 0x27d4eb2d) ^ hashString(id)) | 0)).value;
+    at = Math.log(u || Number.MIN_VALUE);
+    ranked.set(id, at);
+  }
+  return at / weight;
+}
+
 /** A stand-alone stateful generator for code outside the engine (bots, tooling). */
 export function makeRng(seed: number): () => number {
   let state = seedToState(seed);

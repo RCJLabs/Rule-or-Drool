@@ -9,6 +9,7 @@ import { exitBand, newRun, rollSetup } from "../../src/engine/state";
 import { PLAYER_ALIGNS, type GameState } from "../../src/engine/types";
 import {
   SCENARIO_DECK,
+  SCENARIO_FROM,
   SCENARIO_MEASURE,
   SCENARIO_WEEKS,
   contractById,
@@ -74,8 +75,11 @@ describe("the weeks' scenarios", () => {
     expect(kinds.size).toBeGreaterThanOrEqual(GOAL_KINDS.length - 2);
   });
 
-  it("are met by the informed voter and the eyes bot in a fifth to a half of their runs", () => {
-    for (const w of SCENARIO_WEEKS) for (const r of w.rates) expect(r >= lo && r <= hi, `week ${w.week}: ${w.rates}`).toBe(true);
+  it("are met by the informed voter and the eyes bot in a fifth to a half of their runs, from the week searched on this deck", () => {
+    // The weeks before it were set on an earlier deck and kept for the players who tried them.
+    expect(SCENARIO_FROM).toBeGreaterThanOrEqual(1);
+    expect(SCENARIO_FROM).toBeLessThanOrEqual(SCENARIO_WEEKS.length);
+    for (const w of SCENARIO_WEEKS.slice(SCENARIO_FROM - 1)) for (const r of w.rates) expect(r >= lo && r <= hi, `week ${w.week}: ${w.rates}`).toBe(true);
   });
 
   it("measure the same again: the table is what the search found, on this engine and deck", () => {

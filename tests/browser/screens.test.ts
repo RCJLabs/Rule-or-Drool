@@ -586,9 +586,9 @@ describe.skipIf(!target)("in a browser", () => {
    * with a stretch out of office, where the state's dangers are not drawn.
    */
   const SHAPED = [
-    { seed: 7, align: "left", bot: "informed", look: "ascent3" },
+    { seed: 1, align: "right", bot: "informed", look: "ascent3" },
     { seed: 1, align: "left", bot: "greedy", look: "decay3" },
-    { seed: 4, align: "right", bot: "mixed", look: "muddle" },
+    { seed: 8, align: "left", bot: "mixed", look: "muddle" },
   ] as const;
 
   /** A bot's run from a new player's run code, played to its end. */

@@ -1,6 +1,6 @@
 import { deckStamp } from "./deck";
 import type { Library } from "./library";
-import { nextInt, nextRandom, seedToState } from "./rng";
+import { diceAt, nextInt, seedToState } from "./rng";
 import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX, inCatalogOrder, platformProblem } from "./mandates";
 import { TOOK_OVER_FLAG, handoverCard, inheritanceProblem, leanOf } from "./inherit";
 import { stageOf } from "./look";
@@ -154,12 +154,6 @@ export function condMet(lib: Library, cond: Cond | undefined, state: GameState, 
   return true;
 }
 
-/** Advance the run's RNG once. Returns the uniform value and the new state. */
-export function roll(state: GameState): [number, GameState] {
-  const r = nextRandom(state.rngState);
-  return [r.value, { ...state, rngState: r.state }];
-}
-
 /**
  * Flags naming who is in the cabinet: one per person and one per trait in the room, so
  * content can be written for Saffi Kenner or for whoever happens to be corrupt (5.8, phase 15).
@@ -246,12 +240,13 @@ export function replaceAdvisor(lib: Library, state: GameState, role: string): Ga
   if (role === lib.config.rivalRole) return state;
   const pool = advisorPool(lib, role, state.align).filter((a) => a.id !== state.cabinet[role] && !wentOver(state, a.id));
   if (pool.length === 0) return state;
-  const [p, s1] = roll(state);
-  const cabinet = { ...s1.cabinet, [role]: pool[Math.floor(p * pool.length)]!.id };
-  const cabinetSince = { ...s1.cabinetSince, [role]: s1.cardCount };
+  // By the seed's dice at the card, for the seat (BACKLOG-13 phase 81).
+  const p = diceAt(state.seed, state.cardCount, `seat ${role}`);
+  const cabinet = { ...state.cabinet, [role]: pool[Math.floor(p * pool.length)]!.id };
+  const cabinetSince = { ...state.cabinetSince, [role]: state.cardCount };
   const prefix = lib.config.advisorFlagPrefix;
-  const flags = [...s1.flags.filter((f) => !f.startsWith(prefix)), ...cabinetFlags(lib, cabinet)];
-  return { ...s1, cabinet, cabinetSince, flags };
+  const flags = [...state.flags.filter((f) => !f.startsWith(prefix)), ...cabinetFlags(lib, cabinet)];
+  return { ...state, cabinet, cabinetSince, flags };
 }
 
 export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {

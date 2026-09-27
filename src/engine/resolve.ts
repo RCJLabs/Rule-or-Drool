@@ -2,9 +2,10 @@ import { EASY_CAMPAIGN_FLAG, easySide } from "./campaign";
 import { closestSoFar, endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
+import { diceAt } from "./rng";
 import { settleLook, stageOf } from "./look";
 import { BROKE_MANDATE_FLAG, MANDATES_BY_ID, brokenFlag, stateFloor, waitingFlag } from "./mandates";
-import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure, roll } from "./state";
+import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure } from "./state";
 import { POACHED_PREFIX, RIVAL_POACHED_FLAG } from "./rival";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
 import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
@@ -265,8 +266,9 @@ export function checkElection(lib: Library, state: GameState): GameState {
   const cfg = lib.config;
   if (!hasFlag(state, cfg.electionsAbolishedFlag)) return state;
   if (state.cardCount < state.nextElectionAt) return state;
-  const [p, s1] = roll(state);
-  const s2 = { ...decreed(lib, s1), nextElectionAt: s1.cardCount + cfg.electionInterval };
+  // The seed's dice at the card (BACKLOG-13 phase 81): the same roll for every run on the seed.
+  const p = diceAt(state.seed, state.cardCount, "coup");
+  const s2 = { ...decreed(lib, state), nextElectionAt: state.cardCount + cfg.electionInterval };
   // A rival with standing makes the coup likelier (coupRisk), but with the ballot gone it is a
   // coup that ends the run, not a count they win: "They Won" told of a count on time and not
   // disputed, and it was every one of the rival's wins in a long reign (BACKLOG-11 phase 66).

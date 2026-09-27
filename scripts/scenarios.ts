@@ -12,8 +12,10 @@
  * screened on 30 runs a bot, then kept on 100 more.
  *
  * `--from` keeps the scenarios of the weeks before it, which players may already have played, and
- * measures them again on this deck; it searches only from that week on. Run it from the current
- * week whenever the deck moves.
+ * measures them again on this deck; it searches only from that week on. Run it from the week after
+ * the current one whenever the deck moves: the current week keeps its goal, since some players have
+ * had their one try at it, and plays out its last days on the new deck. The table says from which
+ * week it was searched on its deck, and only those weeks are held to the band.
  */
 import { writeFileSync } from "node:fs";
 import { content } from "../src/content";
@@ -22,7 +24,7 @@ import { deckStamp } from "../src/engine/deck";
 import { makeRng } from "../src/engine/rng";
 import { PLAYER_ALIGNS, type PlayerAlign } from "../src/engine/types";
 import { contractById } from "../src/meta/contracts";
-import { SCENARIO_MEASURE, SCENARIO_WEEKS, type ScenarioWeek } from "../src/meta/scenario";
+import { SCENARIO_DECK, SCENARIO_FROM, SCENARIO_MEASURE, SCENARIO_WEEKS, type ScenarioWeek } from "../src/meta/scenario";
 import { GOAL_KINDS as KINDS, goalRate, measureWeek, type Bot } from "../src/sim";
 
 const lib = buildLibrary(content);
@@ -93,9 +95,12 @@ for (let week = 1; week <= WEEKS; week++) {
   if (week % 10 === 0) console.log(`week ${week}: ${r.found.goal}, ${r.found.rates.join(" / ")}, ${((performance.now() - t0) / 1000).toFixed(0)} s`);
 }
 
+// On the same deck, the weeks kept were searched on it too.
+const since = SCENARIO_DECK === deckStamp(lib) ? Math.min(SCENARIO_FROM, FROM) : FROM;
 const lines = weeks.map((w) => `    ${JSON.stringify(w)}`);
 const file = `{
   "deck": ${JSON.stringify(deckStamp(lib))},
+  "from": ${since},
   "weeks": [
 ${lines.join(",\n")}
   ]
@@ -110,7 +115,10 @@ console.log(
   `\n${weeks.length} weeks on deck ${deckStamp(lib)}, ${tried} candidates tried from week ${FROM}, ${((performance.now() - t0) / 1000).toFixed(0)} s.`,
 );
 console.log(`Goals: ${[...byKey].map(([k, n]) => `${k} ${n}`).join(", ")}.`);
+// A week searched is in the band or the search fails; a week kept from an earlier deck may not be.
+const outside = weeks.filter((w) => !w.rates.every((r) => inBand(r, BAND)));
+const kept = outside.length ? `; kept from before and outside it: ${outside.map((w) => `week ${w.week} (${w.rates.join(" / ")})`).join(", ")}` : "";
 console.log(
-  `Mean rate: informed ${(100 * mean(0)).toFixed(1)}%, eyes ${(100 * mean(1)).toFixed(1)}%. Every week in ${BAND[0] * 100}–${BAND[1] * 100}% for both.`,
+  `Mean rate: informed ${(100 * mean(0)).toFixed(1)}%, eyes ${(100 * mean(1)).toFixed(1)}%. Every week searched is in ${BAND[0] * 100}–${BAND[1] * 100}% for both${kept}.`,
 );
 console.log(`Week 1: ${contractById(weeks[0]!.goal)?.text}`);

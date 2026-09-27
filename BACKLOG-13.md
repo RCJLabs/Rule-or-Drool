@@ -637,3 +637,102 @@ saved before loads as it did.
 - The receipt names the choice, not what it cost. Whether people connect a bill to its cause is
   for testers: question 5 now asks.
 - The list is folded, one line closed. Open, it runs to 17 entries at the most measured.
+
+## Phase 81. One deal per seed (idea 1) — *done*
+
+**Shipped in v0.89.0.** Every run is dealt differently from before: the deck stamp moves from
+c8agx015 to g8u7egs4, and `DEAL_VERSION` from 8 to 9. A link, a saved run or a record from before
+says it was dealt from another deck, as they have since BACKLOG-8 phase 49. No save format
+changes.
+
+- **The deck's order.** Each seed fixes the order its cards are dealt in.
+  - A draw from the deck takes, of the cards the run can be dealt now and has not met, the one
+    that comes first in the seed's order. The order is weighted as the deal weighs cards: a
+    card's own weight, more for its side, more for a band it was written for.
+  - The order is the key of weighted sampling without replacement (Efraimidis and Spirakis): a
+    number the seed and the card's id make, to the power one over its weight.
+  - Only when every card the run can be dealt has been met does one come round again, by the
+    seed's dice at that card.
+  - Which story or question starts is the first in the seed's order of those that can.
+- **The other dice.** Every other die the deal and the rules roll reads the seed, the card
+  number and what it is for, not the run's history:
+  - whether a story starts or goes on, and which one goes on;
+  - whether a question is asked;
+  - the seat an era's appointment fills, and who replaces an advisor;
+  - once elections are abolished, the coup's roll where a vote would have fallen due.
+  The run's own stream of dice now rolls only the setup.
+- **What it gives.** Two players on a daily meet mostly the same cards, and can compare what
+  they did on each. The other road shows what one choice changed. A challenge is a rematch.
+
+**Measured.** Beside v0.88.0, whose deal is the game's before this phase:
+
+| | v0.88.0 | One deal per seed |
+|---|---|---|
+| The daily's first 300 seeds, two players like the eyes bot on one side: one's cards met by the other | 28.6% | 74.8% |
+| The same pairs: the tenth and ninetieth percentiles of the 300 | 19.1%, 38.6% | 62.3%, 86.0% |
+| The same pairs: the same order from the first card (median, p90) | 7, 13 cards | 8, 16 cards |
+| After one decision turned the other way: the rest of the run's cards met either way | 43% | 83.4% |
+| After one decision turned: the band changes / the history's name changes | 33% / 56% | 27.7% / 42.2% |
+| A deck card dealt twice in its run, 1,000 runs (informed, eyes) | 624, 1,134 | 0, 0 |
+| Informed voter: seen through, Ascent, Decay | 96.2%, 25.6%, 13.3% | 97.2%, 27.3%, 14.8% |
+| Eyes: seen through, Ascent, Decay | 96.7%, 66.2%, 1.4% | 95.9%, 65.6%, 2.4% |
+| Mixed: seen through, Ascent, Decay | 97.2%, 13.5%, 27.9% | 97.6%, 14.8%, 30.2% |
+
+- The players like the eyes bot each decide a card in five their own way (`noisy`), which is
+  how the week's scenarios measure people. They share the start until their first different
+  choice puts a different card in reach, so the same order from the first card moves only from
+  7 to 8. What changes is after: they come back to the same cards.
+- Every harness target passes: section 8's, the informed voter's and the long reign's, and the
+  file's other 17 tests, repeats by run ten and twenty among them.
+- **Speed.** The first build took 102 µs a card in the simulator, where v0.88.0 took 81–89 µs
+  on the same machine. Each card's place in the order is now kept for the run's seed, and the
+  draw reuses the set of cards met that it already builds: 90 µs a card. Runs are dealt exactly
+  as before the speed-up: the deck stamp, which replays 96 runs card by card, is the same.
+  - The harness's section 8 test, 12,000 runs, takes 103 s where it took 91 s. That is too near
+    its budget of 120 s for CI, which runs at about this machine's pace, so it now has 240 s, as
+    the file's other long simulations do.
+- **Tests.** The dice read only the seed, the card and what they are for, and fall evenly; a
+  card's place follows its weight (three to one comes first in about three seeds of four). A run
+  leaves its own dice where the setup left them. On a thin deck every card is dealt once before
+  any again, and a card a choice puts in reach takes its place without moving the others. Two
+  players on one seed share more than 60% of their cards, and a turned decision keeps more than
+  65% of the rest. The five that play a run fail on v0.88.0's deal.
+
+**The week's scenarios.** A goal is only as hard as the run it is set on, and every seed now
+deals another run.
+- Week 1 ends today and may already have been tried. A profile keeps its try against the week,
+  and the week's page shows the goal beside it, so week 1 keeps its goal. Its last day plays on
+  the new deal, where the informed voter meets the goal in 9% of runs, below the band the search
+  holds a week to, and the eyes bot in 20%, at its floor.
+- Weeks 2–156 were searched again on the new deal (`npm run scenarios -- --from 2`): 3,894
+  candidates in 51 minutes, and every week searched is in the band. Across the table the
+  informed voter meets a week's goal in 36.2% of runs and the eyes bot in 34.1%.
+- The table now says from which week it was searched on its deck, and only those weeks are held
+  to the band. Before, a deck move would have failed the band test on any kept week that fell
+  out of it. The search's comment now says to run it from the week after the current one, and
+  its summary names any kept week outside the band.
+
+**Caveats.**
+- **Spoilers.** A daily can be spoiled: "card 12 is the dam; go left" is now true for everyone
+  on that seed and side. For a shared run that is arguably the point.
+- **A run saved before the update** plays on under the new deal from where it is, as a run from
+  another deck always has. Its end screen has no chart or list of what came back, since it
+  cannot be dealt again.
+- **A card that answers a meter near its edge comes once in a run.** The 15 of them (`edges` and
+  `blocs`, such as the treasurer's *The payroll clears on Thursday or it does not clear*) are
+  heavy and not one-shot, and before, one could come again whenever the meter was back there.
+  Now each comes once, unless the run has met every card it can be dealt, and comes sooner,
+  since a heavy card is early in every seed's order:
+
+  | 1,000 runs | Informed | Eyes | Mixed |
+  |---|---|---|---|
+  | Runs that met one, v0.88.0 → now | 381 → 570 | 860 → 912 | 392 → 552 |
+  | Runs that met one a second time, v0.88.0 → now | 48 → 0 | 235 → 0 | 49 → 0 |
+
+  Seeing a run through moved under a point for each bot (the table above). If testers miss the
+  second rescue, the fix is to let these cards come again, not to change the deal.
+- **Weights mean order now, not frequency.** A heavier card comes sooner in a seed's order, and
+  every card comes once before any comes again. The harness's repeat targets pass.
+- The prototype measured 71% for two players, and as built it is 75–76%. The prototype put the
+  deck's order and whether a story starts or goes on on the seed; the build puts every other die
+  there too.

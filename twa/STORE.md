@@ -400,6 +400,13 @@ with one questionnaire gathered from the questions below:
   already waiting when a tester updates comes without a receipt. Nothing new is recorded: a
   record's run is rebuilt from its code and sides, which says who sent each card again. Question 5
   now asks whether testers remembered the choice a card named.
+- Since v0.89.0 each seed has one deal (BACKLOG-13 phase 81): every run is dealt differently from
+  before, and the deck is g8u7egs4. Two testers on the same daily or week's scenario meet about
+  three in four of the same cards, so they can compare what they did on each; a daily can also be
+  spoiled. A record, a link or a saved run from before says it came from another deck, and the
+  report groups records by deck, so runs from before and after are never mixed. Week 1's scenario
+  keeps its goal; the weeks after it were set again on the new deal. Question 10 now asks whether
+  testers compared a shared run with anyone, and what they compared.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

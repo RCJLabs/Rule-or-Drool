@@ -297,7 +297,8 @@ export async function rewriteRun(page: Page, change: string): Promise<void> {
 
 export async function playFrom(page: Page, late: Late, at: { cardCount: number; era: number; band?: string }): Promise<void> {
   // The few cards before the rewrite go on as a player would: the week's scenario for week 1
-  // (BACKLOG-12 phase 78) ends at its fourth card taken on the right, as a blackout.
+  // (BACKLOG-12 phase 78) ended at its fourth card taken on the right, as a blackout, on the
+  // deal before BACKLOG-13 phase 81, and any deal can end a run that early.
   for (let i = 0; i < 4; i++) await choose(page, await goingOn(page, "right"));
   const patch = {
     cardCount: at.cardCount,

@@ -37,6 +37,13 @@ export const SCENARIO_MEASURE = { eps: 0.2, screen: 30, trials: 100, band: [0.2,
 /** The deck the weeks were measured on: another deck deals other runs, which are not measured. */
 export const SCENARIO_DECK: string = table.deck;
 
+/**
+ * The first week searched on this deck. The weeks before it were set on an earlier deck and are
+ * kept as they were dealt, since players may have tried them; their rates are measured again on
+ * this deck, and can fall outside the band the search held a week to.
+ */
+export const SCENARIO_FROM: number = (table as { from?: number }).from ?? 1;
+
 export const SCENARIO_WEEKS: readonly ScenarioWeek[] = table.weeks as ScenarioWeek[];
 
 /** The week's scenario, or null for a week before the first or past the table's last. */

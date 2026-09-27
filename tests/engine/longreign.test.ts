@@ -127,7 +127,7 @@ describe("a draw that has to widen", () => {
     seen: ["a1"],
     ...patch,
   });
-  const drawn = (state: GameState) => new Set(Array.from({ length: 40 }, (_, i) => draw(thin, { ...state, rngState: i + 1 }).current));
+  const drawn = (state: GameState) => new Set(Array.from({ length: 40 }, (_, i) => draw(thin, { ...state, seed: i + 1 }).current));
 
   it("reaches only the eras the run can be in, cards and elections alike", () => {
     // An ordinary run, and a long reign still in its first three eras, never meet era 4.
