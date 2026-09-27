@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.81.0)
+## Where the project stands now (v0.87.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -31,6 +31,7 @@ its own file: every item measured before it was built, and written up with what 
 | 10 | `BACKLOG-10.md` | 55–65 |
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 | 12 | `BACKLOG-12.md` | 74–79 (ideas 1 to 5), and five ideas not yet chosen |
+| 13 | `BACKLOG-13.md` | ten ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -68,8 +69,14 @@ decisions only the owner can make.
    screen, a short term any time, a chronicle of every reign, a week's scenario, and music that
    follows the look. Four add content or rules and wait for the closed test; harder terms wait
    for people's Ascent rate. Phase 74 (v0.82.0) draws the shape of a run on the end screen,
-   phase 75 (v0.83.0) puts its direction on the share card, and phase 76 (v0.84.0) keeps a
-   chronicle of every reign in the codex.
+   phase 75 (v0.83.0) puts its direction on the share card, phase 76 (v0.84.0) keeps a
+   chronicle of every reign in the codex, phase 77 (v0.85.0) offers a short term any time,
+   phase 78 (v0.86.0) deals a week's scenario, and phase 79 (v0.87.0) plays music that follows
+   the look. Ideas 6–10 are left, measured again in round thirteen.
+5. **Round thirteen** (BACKLOG-13.md): ten ideas for replay, for what only this game does, and
+   for fun, from an audit of v0.87.0. It found that danger on screen seldom ends a careful run,
+   that new endings stop after the first few runs, that the daily is the same run for its first
+   six cards only, and that the last era decides little. None is chosen yet.
 
 The list this file ended on after phase 7, and what became of it:
 
