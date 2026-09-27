@@ -2,6 +2,7 @@ import { DEFAULT_CONFIG } from "../engine/config";
 import type { Library } from "../engine/library";
 import { inheritanceProblem } from "../engine/inherit";
 import { brokenByFlags, inCatalogOrder, platformProblem } from "../engine/mandates";
+import { pursuitProblem } from "../engine/pursuit";
 import { advisorPool } from "../engine/state";
 import { BANDS, type Band, type Inheritance, type PlayerAlign, type RunSetup } from "../engine/types";
 import { inheritable } from "./dynasty";
@@ -40,6 +41,11 @@ import { allUnlockTokens } from "./objectives";
  * the rival or `-`, their standing, and the legacies in force:
  * `3.gh2k7p.L.crisis_war~trait_orator~flaw_vain.-.-.-.decay~2~adv_wrenne~41~ring_started~seawall`.
  * Only a run that took over is written in it, so every other code is the code it was.
+ *
+ * Format 4 adds the ending a run went looking for (BACKLOG-13 phase 83), after what it took over
+ * (`-` for a fresh start's), since a run looking for one is dealt differently:
+ * `4.gh2k7p.L.crisis_war~trait_orator~flaw_vain.-.-.-.-.the_posters`. Only a run looking for an
+ * ending is written in it; a version from before says it cannot reproduce the run, which is true.
  */
 export interface RunCode {
   seed: number;
@@ -55,6 +61,8 @@ export interface RunCode {
   eraCount?: number;
   /** What the run took over from the last one; a fresh start's code has none (BACKLOG-10 phase 63). */
   inheritance?: Inheritance;
+  /** The ending the run went looking for; any other run's code has none (BACKLOG-13 phase 83). */
+  pursuit?: string;
 }
 
 /** The ordinary game's era count, which a code leaves unsaid. */
@@ -62,6 +70,7 @@ const ORDINARY_ERAS = DEFAULT_CONFIG.eraCount;
 const VERSION = "1";
 const LONG_VERSION = "2";
 const LINE_VERSION = "3";
+const PURSUIT_VERSION = "4";
 const NONE = "-";
 
 export function encodeRunCode(code: RunCode): string {
@@ -70,10 +79,9 @@ export function encodeRunCode(code: RunCode): string {
   const ordinary = code.eraCount === undefined || code.eraCount === ORDINARY_ERAS;
   const eras = ordinary ? NONE : String(code.eraCount);
   const inh = code.inheritance;
-  if (inh) {
-    const took = [inh.band, String(inh.line), inh.rival ?? NONE, String(inh.rivalStanding), ...inh.legacies].join("~");
-    return [LINE_VERSION, ...parts, eras, took].join(".");
-  }
+  const took = inh ? [inh.band, String(inh.line), inh.rival ?? NONE, String(inh.rivalStanding), ...inh.legacies].join("~") : NONE;
+  if (code.pursuit) return [PURSUIT_VERSION, ...parts, eras, took, code.pursuit].join(".");
+  if (inh) return [LINE_VERSION, ...parts, eras, took].join(".");
   return ordinary ? [VERSION, ...parts].join(".") : [LONG_VERSION, ...parts, eras].join(".");
 }
 
@@ -87,12 +95,14 @@ export type Decoded = { ok: true; code: RunCode } | { ok: false; reason: "format
 export function decodeRunCode(lib: Library, raw: string): Decoded {
   const parts = raw.trim().split(".");
   const v = parts[0];
-  if (v !== VERSION && v !== LONG_VERSION && v !== LINE_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
-  if (parts.length !== (v === VERSION ? 6 : v === LONG_VERSION ? 7 : 8)) return { ok: false, reason: "format" };
-  const [, seed36, side, mods, unlocks, promises, erasPart, took] = parts as [string, string, string, string, string, string, string?, string?];
+  if (v !== VERSION && v !== LONG_VERSION && v !== LINE_VERSION && v !== PURSUIT_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
+  if (parts.length !== (v === VERSION ? 6 : v === LONG_VERSION ? 7 : v === LINE_VERSION ? 8 : 9)) return { ok: false, reason: "format" };
+  const [, seed36, side, mods, unlocks, promises, erasPart, tookPart, pursuit] = parts as [string, string, string, string, string, string, string?, string?, string?];
   if (!/^[0-9a-z]{1,8}$/.test(seed36) || (side !== "L" && side !== "R")) return { ok: false, reason: "format" };
-  // Format 3 says "-" for an ordinary run's eras; format 2 always names them.
-  const eras = v === LINE_VERSION && erasPart === NONE ? undefined : erasPart;
+  // Formats 3 and 4 say "-" for an ordinary run's eras; format 2 always names them. Format 4 says
+  // "-" for a fresh start.
+  const eras = (v === LINE_VERSION || v === PURSUIT_VERSION) && erasPart === NONE ? undefined : erasPart;
+  const took = v === PURSUIT_VERSION && tookPart === NONE ? undefined : tookPart;
   if (eras !== undefined && !/^[1-9][0-9]?$/.test(eras)) return { ok: false, reason: "format" };
   // Only a long reign or a first term is written with its eras, and only one as long as this game's.
   const eraCount = eras === undefined ? undefined : Number(eras);
@@ -121,7 +131,12 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   }
   const code: RunCode = { seed, align, modifiers, unlocked, mandates: inCatalogOrder(mandates) };
   const withEras = eraCount === undefined ? code : { ...code, eraCount };
-  return { ok: true, code: inheritance ? { ...withEras, inheritance } : withEras };
+  const withLine = inheritance ? { ...withEras, inheritance } : withEras;
+  if (pursuit === undefined) return { ok: true, code: withLine };
+  // An ending this run could not reach is not one it went looking for, whatever the code says.
+  if (!/^[a-z0-9_]+$/.test(pursuit)) return { ok: false, reason: "format" };
+  if (pursuitProblem(lib, { align, eraCount: eraCount ?? lib.config.eraCount, unlocked, inheritance }, pursuit)) return { ok: false, reason: "content" };
+  return { ok: true, code: { ...withLine, pursuit } };
 }
 
 /** The inheritance a format 3 code carries, read as carefully as the rest of it. */
@@ -141,7 +156,8 @@ function readInheritance(lib: Library, raw: string, align: PlayerAlign): { ok: t
 export function setupOf(code: RunCode): RunSetup {
   const setup: RunSetup = { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandates: [...code.mandates] };
   const withEras = code.eraCount === undefined ? setup : { ...setup, eraCount: code.eraCount };
-  return code.inheritance ? { ...withEras, inheritance: { ...code.inheritance, legacies: [...code.inheritance.legacies] } } : withEras;
+  const withLine = code.inheritance ? { ...withEras, inheritance: { ...code.inheritance, legacies: [...code.inheritance.legacies] } } : withEras;
+  return code.pursuit ? { ...withLine, pursuit: code.pursuit } : withLine;
 }
 
 /**
@@ -156,8 +172,10 @@ export function runCodeOf(state: {
   mandates: readonly string[];
   eraCount?: number;
   inherited?: Inheritance | null;
+  pursuit?: string;
 }): RunCode {
   const code: RunCode = { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: inCatalogOrder(state.mandates) };
   const withEras = state.eraCount === undefined || state.eraCount === ORDINARY_ERAS ? code : { ...code, eraCount: state.eraCount };
-  return state.inherited ? { ...withEras, inheritance: { ...state.inherited, legacies: [...state.inherited.legacies] } } : withEras;
+  const withLine = state.inherited ? { ...withEras, inheritance: { ...state.inherited, legacies: [...state.inherited.legacies] } } : withEras;
+  return state.pursuit ? { ...withLine, pursuit: state.pursuit } : withLine;
 }

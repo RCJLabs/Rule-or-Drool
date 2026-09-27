@@ -16,8 +16,9 @@ export function beginRun(
   mandates: readonly string[] = [],
   eraCount?: number,
   inheritance: Inheritance | null = null,
+  pursuit: string | null = null,
 ): GameState {
-  const setup = { ...rollSetup(lib, seed, align, unlocked), mandates, ...(inheritance ? { inheritance } : {}) };
+  const setup = { ...rollSetup(lib, seed, align, unlocked), mandates, ...(inheritance ? { inheritance } : {}), ...(pursuit ? { pursuit } : {}) };
   return draw(lib, newRun(lib, seed, eraCount === undefined ? setup : { ...setup, eraCount }));
 }
 

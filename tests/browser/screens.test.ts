@@ -23,7 +23,8 @@ import { shapeOf } from "../../src/ui/shape";
 import { PAPERS } from "../../src/ui/paper";
 import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share";
 import { setupOf } from "../../src/meta/runcode";
-import { endingSides, withinReach } from "../../src/meta/clues";
+import { CLUES, endingSides, withinReach } from "../../src/meta/clues";
+import { carriersOf, pursuable } from "../../src/engine/pursuit";
 import { ALL_HISTORY_KEYS, HISTORIES, HISTORY_ORDER, historyTitle, toldByEnding } from "../../src/meta/histories";
 import { collectsEnding } from "../../src/meta/objectives";
 import { inheritable } from "../../src/meta/dynasty";
@@ -50,6 +51,13 @@ const LONGEST_MANDATE = MANDATES.reduce((a, b) => (b.title.length > a.title.leng
  */
 const LONGEST_SHORT = MANDATES.reduce((a, b) => (b.short.length > a.short.length ? b : a));
 const FULLEST_PLATFORM = [LONGEST_SHORT.id, MANDATES.filter((m) => compatible(LONGEST_SHORT.id, m.id)).reduce((a, b) => (b.short.length > a.short.length ? b : a)).id];
+/**
+ * The ending with the longest rumour a Left run of three eras can go looking for (BACKLOG-13 phase
+ * 83): what the menu's line about the looking says at its fullest.
+ */
+const LONGEST_LOOKED = [...library.endings.keys()]
+  .filter((id) => pursuable(library, id) && carriersOf(library, id, "left").some((a) => !library.arcs.get(a)!.requires))
+  .reduce((a, b) => ((CLUES[b] ?? "").length > (CLUES[a] ?? "").length ? b : a));
 
 /**
  * The codex read for contrast section by section. It is an index that opens one section at a
@@ -449,10 +457,13 @@ describe.skipIf(!target)("in a browser", () => {
       const base = { ...emptyMeta(), runs: 700, endings: { finale_muddle: 1, first_term_muddle: 1 }, nearMissed: ["riots"] };
       const unfound = [...library.endings.keys()].filter((id) => collectsEnding(id) && !(id in base.endings) && id !== "riots" && withinReach(library, base, id));
       const oneSided = unfound.filter((id) => endingSides(library, id).length === 1).slice(0, 3);
-      const heard = [...oneSided, ...unfound.filter((id) => !oneSided.includes(id)).slice(0, 12)];
+      // The longest rumour a run can go looking for, looked for (BACKLOG-13 phase 83): the menu says
+      // so, and the codex's endings by choice show a pressed toggle among the others.
+      const heard = [LONGEST_LOOKED, ...oneSided, ...unfound.filter((id) => !oneSided.includes(id) && id !== LONGEST_LOOKED).slice(0, 12)];
       const meta = {
         ...base,
         heard,
+        pursuing: LONGEST_LOOKED,
         // A finale seen, so the menu shows the week's contracts too (BACKLOG-10 phase 60).
         histories: Object.fromEntries(ALL_HISTORY_KEYS.map((k) => [k, 1])),
         dailies: [{ day: today, history: "habit_skim:decay:left", ending: "finale_muddle", cards: 61 }],
@@ -485,6 +496,7 @@ describe.skipIf(!target)("in a browser", () => {
         await page.getByRole("button", { name: new RegExp(`^${STRINGS.codex.kinds.chosen}`) }).click();
       }
       if (!(await page.locator(".codex-list li.rumour em").count())) failures.push("no clue says which party can reach it");
+      if (!(await page.locator(".codex-list li.rumour.sought button[aria-pressed='true']").count())) failures.push("the rumour looked for is not pressed");
       await close(page);
       expect(failures).toEqual([]);
     });
@@ -661,6 +673,42 @@ describe.skipIf(!target)("in a browser", () => {
   }
 
   describe("the end of a run", () => {
+    // Going looking for an ending (BACKLOG-13 phase 83): the menu says what the run looks for, and
+    // the end says how the looking went, in every look a run can end in.
+    it("says on the menu what a run looks for, and at the end how it went, in all seven looks on the smallest phone", async () => {
+      // The run is the audit seed's, looking: its last card moves drift its own way, so each end is
+      // set in the middle of the drifts measured to end in its look.
+      const ENDS: [look: string, drift: number, way: "ascent" | "decay" | "muddle"][] = [
+        ["muddle", 2, "muddle"],
+        ["decay1", -10, "muddle"],
+        ["decay2", -24, "muddle"],
+        ["decay3", -58, "decay"],
+        ["ascent1", 14, "ascent"],
+        ["ascent2", 28, "ascent"],
+        ["ascent3", 58, "ascent"],
+      ];
+      // Past a first term, so "Take office" deals an ordinary run.
+      const meta = { ...emptyMeta(), runs: 9, endings: { finale_muddle: 1 }, heard: [LONGEST_LOOKED], pursuing: LONGEST_LOOKED };
+      const failures: string[] = [];
+      for (const [look, drift, way] of ENDS) {
+        const page = await open(browser, { width: 360, height: 640 });
+        await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+        await page.reload();
+        await page.waitForSelector(".setup .pursuit");
+        if (look === "muddle") failures.push(...(await contrast(page, "the menu, looking")), ...(await misfits(page, "the menu, looking", { mayScroll: true })));
+        await page.fill(".seed input", String(SEED));
+        await page.getByRole("button", { name: STRINGS.ui.start }).click();
+        await page.waitForSelector(".card");
+        await endRun(page, { ...LATE[way], drift });
+        if ((await lookOf(page)) !== look) failures.push(`meant to end in ${look}, ended in ${await lookOf(page)}`);
+        if (!(await page.isVisible(".pursuit-result"))) failures.push(`${look}: the end says nothing of the looking`);
+        failures.push(...(await contrast(page, `the end of a run that looked, in ${look}`)));
+        failures.push(...(await misfits(page, `the end of a run that looked, in ${look}`, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
     for (const band of ["ascent", "decay", "muddle"] as const) {
       it(`reads, and fits a phone's width, after a run that went to ${band}`, async () => {
         const failures: string[] = [];

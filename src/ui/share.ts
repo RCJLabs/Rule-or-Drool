@@ -1,7 +1,7 @@
 import { STRINGS } from "../content/strings";
 import { DEFAULT_CONFIG } from "../engine/config";
 import type { GameState } from "../engine/types";
-import { dailyNumber, encodeRunCode, encodeRunResult, runCodeOf, type History, type RunResult } from "../meta";
+import { CLUES, dailyNumber, encodeRunCode, encodeRunResult, runCodeOf, type History, type RunResult } from "../meta";
 import { DRIFT_REACH, type ShapePoint } from "./shape";
 
 /**
@@ -52,6 +52,8 @@ export function shareText(state: GameState, history: History, endingTitle: strin
   const facts = runFacts(state, endingTitle);
   const things = history.consequences.filter((c) => c.label).slice(0, 3).map((c, i) => (i === 0 ? c.label : lowerFirst(c.label)));
   const lines = scenario ? [head, (scenario.met ? STRINGS.scenario.shareMet : STRINGS.scenario.shareMissed).replace("{goal}", scenario.goal), facts] : [head, facts];
+  // A run that went looking for an ending was dealt for it, and its link deals it so again (BACKLOG-13 phase 83).
+  if (state.pursuit) lines.push(STRINGS.pursuit.share.replace("{clue}", CLUES[state.pursuit] ?? state.pursuit));
   if (things.length) lines.push(`${left} ${things.join("; ")}.`);
   lines.push(`${play} ${link}`);
   return lines.join("\n");

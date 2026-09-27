@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.90.0)
+## Where the project stands now (v0.91.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -31,7 +31,7 @@ its own file: every item measured before it was built, and written up with what 
 | 10 | `BACKLOG-10.md` | 55–65 |
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 | 12 | `BACKLOG-12.md` | 74–79 (ideas 1 to 5), and five ideas not yet chosen |
-| 13 | `BACKLOG-13.md` | 80–82 (ideas 6, 1 and 5), and seven ideas not yet chosen |
+| 13 | `BACKLOG-13.md` | 80–83 (ideas 6, 1, 5 and 3), and six ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -39,7 +39,7 @@ decisions only the owner can make.
 | | |
 |---|---|
 | Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names written, 657 of which a run can be given; three eras, and five in a long reign |
-| Tests | 1,042 unit tests and 69 browser tests |
+| Tests | 1,067 unit tests and 70 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -82,6 +82,9 @@ decisions only the owner can make.
    daily now meet three in four of the same cards, and the other road shows what one choice
    changed. Phase 82 (v0.90.0) puts the era's front page on each era's door: its biggest
    decision in the direction's paper, the vote, the rival, and what the reign is being called.
+   Phase 83 (v0.91.0) lets a player go looking for an ending the codex has a rumour of: their own
+   runs deal its story first and sooner, and a player following the rumour is offered it in
+   93–95% of runs, from 16%.
 
 The list this file ended on after phase 7, and what became of it:
 

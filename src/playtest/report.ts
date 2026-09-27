@@ -1,6 +1,7 @@
 import { survivedTo } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { contractById } from "../meta/contracts";
+import { decodeRunCode } from "../meta/runcode";
 import { SCENARIO_MEASURE, scenarioFor } from "../meta/scenario";
 import type { BotName } from "../sim/bots";
 import { pct, quantiles, type Quantiles } from "../sim/report";
@@ -318,6 +319,11 @@ export interface Report {
   versions: string[];
   decks: DeckCount | null;
   kinds: Record<RunKind, number>;
+  /**
+   * Runs that went looking for an ending (BACKLOG-13 phase 83), dealt for it. Their code says so,
+   * so the bots replay them dealt the same way.
+   */
+  pursued: number;
   humans: Outcomes;
   /** Each bot on the finished runs whose code this version of the game can still start. */
   bots: { bot: BotName; out: Outcomes }[];
@@ -527,6 +533,10 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
     versions: [...new Set(runs.map((r) => r.game))].sort(),
     decks: opts.decks ?? null,
     kinds,
+    pursued: runs.filter((r) => {
+      const code = decodeRunCode(lib, r.code);
+      return code.ok && !!code.code.pursuit;
+    }).length,
     humans: outcomes(lib, finished.map((r) => r.end!)),
     bots: [...bots.entries()].map(([bot, results]) => ({ bot, out: outcomes(lib, results.map((r) => ({ ending: r.endingId, era: r.era, cards: r.cards }))) })),
     replayed: opts.replayed,
@@ -583,6 +593,7 @@ export function formatReport(r: Report, top = 10): string {
   const n = (count: number, one: string) => `${count} ${one}${count === 1 ? "" : "s"}`;
   out.push(`rule-or-drool playtests: ${n(r.files, "file")}, ${n(r.players, "player")}, ${n(r.runs, "run")} (${kinds})`);
   out.push(`${r.finished} finished, ${r.unfinished} left for another run, ${r.repeats} repeated across files and counted once. Game ${r.versions.join(", ")}.`);
+  if (r.pursued) out.push(`${n(r.pursued, "run")} went looking for an ending and ${r.pursued === 1 ? "was" : "were"} dealt for it; the bots replay them dealt the same way.`);
   if (r.decks) {
     const d = r.decks;
     const gone = d.other.reduce((s, [, k]) => s + k, 0);

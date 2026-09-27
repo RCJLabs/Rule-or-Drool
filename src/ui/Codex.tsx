@@ -11,6 +11,7 @@ import {
   OBJECTIVES,
   TIERS,
   answeredQuestions,
+  canGoLooking,
   codexProgress,
   collectsEnding,
   endingKind,
@@ -18,6 +19,7 @@ import {
   heardRumours,
   historyTitle,
   keptIn,
+  lookingFor,
   todayKey,
   weekNumber,
   type EndingKind,
@@ -60,6 +62,8 @@ interface Props {
   onStartScenario?: () => void;
   /** The saved run is this week's try at the scenario, left for later. */
   scenarioUnderWay?: boolean;
+  /** Go looking for an ending the codex has a rumour of, or stop (BACKLOG-13 phase 83). */
+  onPursue?: (id: string | null) => void;
 }
 
 interface Section {
@@ -84,7 +88,7 @@ function rest(n: number, anyFound: boolean): ReactNode {
  * are counted rather than listed, as the histories already were: the count says how much is
  * left, which is all a blank row said.
  */
-export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open: kept, onOpen, onStartScenario, scenarioUnderWay }: Props) {
+export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open: kept, onOpen, onStartScenario, scenarioUnderWay, onPursue }: Props) {
   const [own, setOwn] = useState<CodexSection | null>(null);
   const open = kept !== undefined ? kept : own;
   const setOpen = onOpen ?? setOwn;
@@ -128,6 +132,8 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
   // can reach it where only one can; the rest are counted. A first term's end is listed with the
   // finales and not counted with them (BACKLOG-10 phase 59).
   const heard = heardRumours(lib, meta);
+  // One rumour of an ending a story's choice takes can be looked for at a time (BACKLOG-13 phase 83).
+  const sought = lookingFor(lib, meta);
   const endingsOf = (kind: EndingKind): ReactNode => {
     const all = endings.filter((e) => endingKind(lib, e.id) === kind);
     const shown = all.filter((e) => (meta.endings[e.id] ?? 0) > 0 || meta.nearMissed.includes(e.id));
@@ -162,10 +168,17 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
             <ul className="codex-list">
               {rumoured.map((id) => {
                 const sides = endingSides(lib, id);
+                const looking = sought === id;
                 return (
-                  <li key={id} className="locked rumour">
+                  <li key={id} className={`locked rumour${looking ? " sought" : ""}`}>
                     <span>{CLUES[id]}</span>
                     {sides.length === 1 && <em>{c.onlySide.replace("{party}", STRINGS.parties[sides[0]!])}</em>}
+                    {onPursue && canGoLooking(lib, meta, id) && (
+                      <button type="button" className="go-looking" aria-pressed={looking} onClick={() => onPursue(looking ? null : id)}>
+                        {STRINGS.pursuit.goLooking}
+                      </button>
+                    )}
+                    {looking && <em className="looking">{STRINGS.pursuit.looking}</em>}
                   </li>
                 );
               })}

@@ -5,7 +5,7 @@ import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
-import { decodeRunCode, encodeRunCode, historyOf, runCodeOf } from "../../src/meta";
+import { CLUES, decodeRunCode, encodeRunCode, historyOf, runCodeOf } from "../../src/meta";
 import { App } from "../../src/ui/App";
 import { eraOfCard, DRIFT_REACH } from "../../src/ui/shape";
 import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, pageText, shareLink, shareText, stripOf, wrapLines, type CardShape } from "../../src/ui/share";
@@ -33,6 +33,20 @@ describe("what goes into the group chat", () => {
     // The biggest things left behind, most history-making first.
     expect(lines[2]).toBe("Left behind: Orbit was reached; the seawall stands; the housing was built.");
     expect(lines[3]).toBe("Play the same run: https://example.test/?run=1.x.R.-.-.-");
+  });
+
+  it("says a run went looking for an ending, by its rumour, and links to the run dealt the same way (BACKLOG-13 phase 83)", () => {
+    const s = finished({ pursuit: "leader_for_life" });
+    const h = historyOf(s, "ascent");
+    const link = shareLink(s, "https://example.test/");
+    const lines = shareText(s, h, "Orbit", link).split("\n");
+    expect(lines).toHaveLength(5);
+    expect(lines[2]).toBe(`Went looking for: “${CLUES.leader_for_life}”`);
+    // The link's code carries it, so whoever opens it is dealt the same run.
+    const code = new URL(link).searchParams.get("run")!;
+    expect(code.startsWith("4.")).toBe(true);
+    const decoded = decodeRunCode(library, code);
+    expect(decoded.ok && decoded.code.pursuit).toBe("leader_for_life");
   });
 
   it("leads a daily with its number, so a group can compare without sending links", () => {

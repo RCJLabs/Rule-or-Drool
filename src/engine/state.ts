@@ -4,6 +4,7 @@ import { diceAt, nextInt, seedToState } from "./rng";
 import { MANDATES_BY_ID, MANDATE_FLAG_PREFIX, inCatalogOrder, platformProblem } from "./mandates";
 import { TOOK_OVER_FLAG, handoverCard, inheritanceProblem, leanOf } from "./inherit";
 import { stageOf } from "./look";
+import { pursuitProblem } from "./pursuit";
 import { POACHED_PREFIX } from "./rival";
 import type { Advisor, Band, Cond, FxSpec, GameState, Meters, PlayerAlign, RunSetup, RunStats } from "./types";
 import { BLOC_KEYS, EMPTY_STATS, METER_KEYS } from "./types";
@@ -367,5 +368,12 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
   // A promise the country already breaks cannot be made in it: a press already answering to
   // the office, taken over from the last reign, is not a promise to keep it free (phase 63).
   for (const id of promised) if (MANDATES_BY_ID.get(id)!.isBroken(state)) throw new Error(`the run starts with ${id} already broken`);
+  // An ending the run cannot reach is not one it can go looking for (BACKLOG-13 phase 83): a run
+  // that took one would be dealt differently for nothing, and say it was looking.
+  if (setup.pursuit) {
+    const why = pursuitProblem(lib, { align: setup.align, eraCount, unlocked: state.unlocked, inheritance: inh }, setup.pursuit);
+    if (why) throw new Error(`the run cannot go looking for ${setup.pursuit}: ${why}`);
+    state.pursuit = setup.pursuit;
+  }
   return state;
 }

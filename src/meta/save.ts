@@ -64,6 +64,9 @@ export function migrateMeta(raw: unknown): MetaState | null {
     contracts: contractsOf(data.contracts),
     // v10 -> v11: the week's scenario (BACKLOG-12 phase 78). A profile from before tried none.
     scenarios: scenariosOf(data.scenarios),
+    // The ending the player is looking for (BACKLOG-13 phase 83): a name or nothing. Whether it can
+    // still be looked for is the codex's to say, with the content to hand.
+    ...(typeof data.pursuing === "string" && /^[a-z0-9_]{1,64}$/.test(data.pursuing) ? { pursuing: data.pursuing } : { pursuing: undefined }),
   };
 }
 

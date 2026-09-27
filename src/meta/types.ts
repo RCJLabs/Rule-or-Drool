@@ -75,6 +75,11 @@ export interface MetaState {
    * moment it was started, and how it went once it ended.
    */
   scenarios: ScenarioTry[];
+  /**
+   * The ending the player is going looking for, from a rumour the codex gave (BACKLOG-13 phase
+   * 83); absent when they are looking for none. Held until it is found or they stop.
+   */
+  pursuing?: string;
 }
 
 /** A week's contracts kept, by id. */

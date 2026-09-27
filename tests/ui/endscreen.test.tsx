@@ -11,7 +11,7 @@ import { resolve } from "../../src/engine/resolve";
 import { makeRng } from "../../src/engine/rng";
 import { exitBand, exitDrift, newRun, rollSetup } from "../../src/engine/state";
 import type { Band, GameState, Side } from "../../src/engine/types";
-import { CONSEQUENCES_SHOWN, HISTORIES, HISTORY_ORDER, LEGACIES, emptyMeta, foldRun, historyOf, toldByEnding } from "../../src/meta";
+import { CLUES, CONSEQUENCES_SHOWN, HISTORIES, HISTORY_ORDER, LEGACIES, emptyMeta, foldRun, historyOf, toldByEnding } from "../../src/meta";
 import { BOTS, makeContext } from "../../src/sim";
 import { Ending } from "../../src/ui/Ending";
 import { endThemeOf, themeOf } from "../../src/ui/theme";
@@ -170,5 +170,36 @@ describe("a long reign's end", () => {
     expect(document.querySelector(".frame")?.getAttribute("data-band")).toBe("ascent");
     const world = composeWorld({ band: "ascent", drift: cfg.bandAscentAt, align: run.align, opposition: false, flags: run.flags, seed: run.seed, era: run.era });
     expect(document.querySelector(".world-frame desc")?.textContent).toBe(world.description);
+  });
+});
+
+describe("a run that went looking for an ending (BACKLOG-13 phase 83)", () => {
+  const p = STRINGS.pursuit;
+  const looked = (endingId: string, choices: [string, Side][]): GameState => ({ ...ended(endingId, choices, {}), pursuit: "the_posters" });
+  const show = (state: GameState) => render(<Ending lib={library} state={state} fold={null} onPlayAgain={noop} onCodex={noop} onSettings={noop} />);
+  const line = () => document.querySelector(".pursuit-result");
+
+  it("says it found it, that its story came and went another way, or that the story did not come", () => {
+    show(
+      looked("the_posters", [
+        ["arc_wa1", "right"],
+        ["arc_wa2", "right"],
+        ["arc_wa3", "right"],
+      ]),
+    );
+    expect(line()!.classList.contains("found")).toBe(true);
+    expect(line()!.textContent).toBe(`${p.endHead} “${CLUES.the_posters}” ${p.found}`);
+    cleanup();
+    show(looked("bankruptcy", [["arc_wa1", "left"]]));
+    expect(line()!.classList.contains("turned")).toBe(true);
+    expect(line()!.textContent).toContain(p.turned);
+    cleanup();
+    show(looked("bankruptcy", []));
+    expect(line()!.classList.contains("missed")).toBe(true);
+    expect(line()!.textContent).toContain(p.missed);
+    cleanup();
+    // A run that looked for nothing says nothing of it.
+    show(ended("bankruptcy", [], {}));
+    expect(line()).toBeNull();
   });
 });

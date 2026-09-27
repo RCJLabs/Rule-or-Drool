@@ -1,4 +1,5 @@
 import { MANDATES_BY_ID, holds } from "../engine/mandates";
+import { sideToward } from "../engine/pursuit";
 import { applyChoice } from "../engine/resolve";
 import type { Side } from "../engine/types";
 import type { Bot, BotContext } from "./bots";
@@ -60,4 +61,18 @@ export const noisy =
     if (ctx[o].endingId && !ctx[s].endingId) return s;
     if (breaksPromise(ctx, o) && !breaksPromise(ctx, s)) return s;
     return o;
+  };
+
+/**
+ * A player going looking for an ending (BACKLOG-13 phase 83), who knows its rumour: on its story's
+ * cards, the side that leads to it, and the ending when it comes. A side on the way that would end
+ * the run some other way, where the other side would not, is left to the bot.
+ */
+export const pursue =
+  (b: Bot, ending: string): Bot =>
+  (ctx) => {
+    const s = sideToward(ctx.lib, ctx.card, ending, ctx.state.align);
+    if (!s) return b(ctx);
+    if (ctx.card[s].ending === ending) return s;
+    return ctx[s].endingId && !ctx[other(s)].endingId ? b(ctx) : s;
   };

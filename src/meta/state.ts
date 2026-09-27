@@ -125,6 +125,8 @@ export function foldRun(
     // (BACKLOG-11 phase 71).
     heard: [...new Set([...(meta.heard ?? []), ...rumours(lib, meta)])],
   };
+  // An ending found is looked for no more, whichever run found it (BACKLOG-13 phase 83).
+  if (meta.pursuing === endingId) delete next.pursuing;
 
   // What this run came close to but did not reach: the closest it came over every card
   // (BACKLOG-11 phase 71), and its last card, which is all a run saved before that keeps.

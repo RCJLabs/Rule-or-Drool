@@ -156,6 +156,7 @@ export function App() {
             game.startScenario();
           }}
           scenarioUnderWay={scenarioUnderWay}
+          onPursue={game.pursue}
         />
         {settingsMenu}
         {raised}
@@ -174,6 +175,7 @@ export function App() {
           savedScenario={game.savedScenario}
           meta={game.meta}
           onStart={game.start}
+          onPursue={game.pursue}
           onDaily={game.startDaily}
           shared={shared}
           sharedResult={sharedResult}

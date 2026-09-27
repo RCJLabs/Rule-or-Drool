@@ -412,6 +412,12 @@ with one questionnaire gathered from the questions below:
   reign is being called so far. A button beside Continue shares it as a picture. Nothing is dealt
   differently and nothing new is kept or recorded. Question 12 now asks whether testers read it,
   and whether the name it gave their reign changed what they did.
+- Since v0.91.0 a player can go looking for an ending the codex has a rumour of (BACKLOG-13 phase
+  83): their own runs deal its story first and sooner, until they find it or stop. Only such a
+  run is dealt differently, and its code says so, so its record and link deal it the same way;
+  the daily, the week's scenario and a run from a link never take one. The profile keeps the
+  one rumour being looked for, on the device. Question 10 now asks whether the story came, and
+  whether testers knew it when it did.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

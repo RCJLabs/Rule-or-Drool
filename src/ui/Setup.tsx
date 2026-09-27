@@ -14,6 +14,7 @@ import {
   inheritanceFrom,
   keptIn,
   longReignOpen,
+  lookingFor,
   scenarioFor,
   scenarioTry,
   streakOf,
@@ -26,6 +27,7 @@ import {
   type RunResult,
 } from "../meta";
 import { MANDATES_BY_ID, brokenByFlags } from "../engine/mandates";
+import { pursuitProblem } from "../engine/pursuit";
 import { PLAYER_ALIGNS } from "../engine/types";
 import { APP_VERSION } from "../version";
 import { Frame } from "./Frame";
@@ -35,6 +37,7 @@ import { StartPicker } from "./StartPicker";
 import { SetupSummary } from "./SetupSummary";
 import { dailyCode, isScenarioCode, randomSeed } from "./flow";
 import { dailyName } from "./DailyMonth";
+import { cannotLine, rumourOf } from "./pursuit";
 import type { DailyMark, ScenarioMark } from "./save";
 import { themeFor } from "./theme";
 
@@ -46,7 +49,9 @@ interface Props {
   /** The saved run's week, when it is the try at a week's scenario (BACKLOG-12 phase 78). */
   savedScenario?: ScenarioMark | null;
   meta: MetaState;
-  onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number, inheritance?: Inheritance | null) => void;
+  onStart: (seed: number, align: PlayerAlign, mandates: readonly string[], eraCount?: number, inheritance?: Inheritance | null, pursuit?: string | null) => void;
+  /** Stop looking for the ending the profile is looking for (BACKLOG-13 phase 83). */
+  onPursue?: (id: string | null) => void;
   onDaily: (align: PlayerAlign, mandates: readonly string[]) => void;
   /** A run someone sent, decoded from the link that opened the game, if one did. */
   shared?: Decoded | null;
@@ -74,6 +79,7 @@ export function Setup({
   savedScenario,
   meta,
   onStart,
+  onPursue,
   onDaily,
   onContinue,
   onCodex,
@@ -127,6 +133,14 @@ export function Setup({
   // A profile moved in on this screen can take the choice away: then the first one stands.
   const chosen = reigns?.some((c) => c.eraCount === eraCount) ? eraCount : reigns?.[0]!.eraCount;
   const setup = useMemo(() => rollSetup(lib, seed, align, meta.unlocks), [lib, seed, align, meta.unlocks]);
+  // The ending the profile is looking for, and whether the run about to start can look for it
+  // (BACKLOG-13 phase 83): a run of the other side, one too short for its story, or one taking over
+  // a country that has settled it looks for nothing, and says so. A short term is asked on its own.
+  const looking = lookingFor(lib, meta);
+  const setupFor = (eras: number) => ({ align, eraCount: eras, unlocked: meta.unlocks, inheritance: takeOver ? inheritance : null });
+  const reign = (reigns ? chosen : undefined) ?? lib.config.eraCount;
+  const cannot = looking ? pursuitProblem(lib, setupFor(reign), looking) : null;
+  const shortCannot = looking ? pursuitProblem(lib, setupFor(lib.config.firstTermEras), looking) : null;
   const progress = codexProgress(lib, meta);
   const dailyPlayed = meta.dailies.some((d) => d.day === today);
   const n = dailyNumber(today);
@@ -175,6 +189,8 @@ export function Setup({
                 </p>
                 <SetupSummary lib={lib} modifiers={shared.code.modifiers} align={shared.code.align} />
                 {shared.code.eraCount !== undefined && <p className="shared-reign">{shared.code.eraCount < lib.config.eraCount ? STRINGS.reign.offerFirst : STRINGS.reign.offer}</p>}
+                {/* Their run went looking for an ending, and is dealt as it was for them (BACKLOG-13 phase 83). */}
+                {shared.code.pursuit && <p className="shared-reign">{STRINGS.pursuit.offer.replace("“{clue}”", rumourOf(shared.code.pursuit))}</p>}
                 {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
                 {sharedScenario && <p className="shared-daily">{(sharedTried ? sc.offerTried : sc.offer).replace("{n}", String(sharedScenario.week))}</p>}
                 {sharedIsDaily && n && (
@@ -226,6 +242,19 @@ export function Setup({
         {parent && inheritance && <StartPicker lib={lib} from={parent} inheritance={inheritance} value={takeOver} onChange={chooseStart} />}
         <MandatePicker value={mandates} onChange={setMandates} unavailable={unavailable} />
         {reigns && <ReignPicker choices={reigns} value={chosen} onChange={setEraCount} />}
+        {looking && (
+          <section className="pursuit" aria-labelledby="pursuit-head">
+            <p>
+              <b id="pursuit-head">{STRINGS.pursuit.setupHead}</b> {rumourOf(looking)}
+            </p>
+            <p className="pursuit-note">{cannot ? cannotLine(cannot, align) : STRINGS.pursuit.thisRun}</p>
+            {onPursue && (
+              <button type="button" onClick={() => onPursue(null)}>
+                {STRINGS.pursuit.stop}
+              </button>
+            )}
+          </section>
+        )}
         <label className="seed">
           {STRINGS.ui.seed}
           <input type="number" inputMode="numeric" value={seed} onChange={(e) => setSeed(Math.max(0, Math.floor(Number(e.target.value)) || 0))} />
@@ -233,7 +262,11 @@ export function Setup({
             {STRINGS.ui.shuffle}
           </button>
         </label>
-        <button type="button" className="primary big" onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null)}>
+        <button
+          type="button"
+          className="primary big"
+          onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null, cannot ? null : looking)}
+        >
           {STRINGS.ui.start}
         </button>
         {/* A short term (BACKLOG-12 phase 77): a profile's first term, taken again any time after
@@ -241,10 +274,17 @@ export function Setup({
             push it below the fold on a 390x844 phone. */}
         {!termDue && (
           <div className="short-start">
-            <button type="button" aria-describedby="short-start-note" onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null)}>
+            <button
+              type="button"
+              aria-describedby="short-start-note"
+              onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null, shortCannot ? null : looking)}
+            >
               {r.shortStart}
             </button>
-            <p id="short-start-note">{r.shortNote}</p>
+            <p id="short-start-note">
+              {r.shortNote}
+              {looking && shortCannot === "short" && ` ${STRINGS.pursuit.shortNote}`}
+            </p>
           </div>
         )}
         <div className="meta-row">

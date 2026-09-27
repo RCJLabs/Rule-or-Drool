@@ -1,7 +1,7 @@
 import { STRINGS } from "../content/strings";
 import { draw } from "../engine/draw";
 import type { Library } from "../engine/library";
-import { canRetrace, sameRun } from "../engine/replay";
+import { canRetrace, sameRun, setupOfRun } from "../engine/replay";
 import { resolve } from "../engine/resolve";
 import { exitBand, exitDrift, newRun } from "../engine/state";
 import type { Band, GameState, MeterKey, Meters, PlayerAlign } from "../engine/types";
@@ -64,15 +64,7 @@ const pointOf = (lib: Library, card: number, s: GameState): ShapePoint => ({
 export function shapeOf(lib: Library, state: GameState): ShapePoint[] | null {
   const record = state.choices;
   if (!state.over || !record || !canRetrace(state)) return null;
-  const setup = {
-    align: state.align,
-    modifiers: [...state.modifiers],
-    unlocked: [...state.unlocked],
-    mandates: [...state.mandates],
-    eraCount: state.eraCount,
-    inheritance: state.inherited,
-  };
-  let s = draw(lib, newRun(lib, state.seed, setup));
+  let s = draw(lib, newRun(lib, state.seed, setupOfRun(state)));
   const points = [pointOf(lib, 0, s)];
   for (let i = 0; i < record.length; i++) {
     const [card, side] = record[i]!;

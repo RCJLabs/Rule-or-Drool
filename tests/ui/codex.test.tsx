@@ -3,7 +3,8 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
-import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, collectsEnding, emptyMeta, endingKind, endingSides, rumours, saveMeta } from "../../src/meta";
+import { ALL_HISTORY_KEYS, CLUES, LEGACIES, RUMOURS_AT_ONCE, codexProgress, collectsEnding, emptyMeta, endingKind, endingSides, loadMeta, rumours, saveMeta } from "../../src/meta";
+import { loadRun } from "../../src/ui/save";
 import { App } from "../../src/ui/App";
 import { Codex } from "../../src/ui/Codex";
 import { playedProfile } from "./profile";
@@ -159,5 +160,99 @@ describe("the codex", () => {
     fireEvent.click(screen.getByRole("button", { name: STRINGS.ui.back }));
     fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }));
     expect(opened()).toEqual([c.stories]);
+  });
+});
+
+describe("going looking for an ending (BACKLOG-13 phase 83)", () => {
+  const p = STRINGS.pursuit;
+  // A story's ending, a meter's edge, and the Right's strongman, all heard.
+  const heard = { ...emptyMeta(), runs: 5, heard: ["the_posters", "bankruptcy", "leader_for_life"] };
+  const toggles = (panel: Element) => [...panel.querySelectorAll("button.go-looking")] as HTMLButtonElement[];
+  const panelOf = (kind: string) => document.querySelector(`[data-section='${kind}'] .codex-panel`) as HTMLElement;
+
+  it("offers each rumour of an ending a story's choice takes, one at a time, and no other", () => {
+    const asked: (string | null)[] = [];
+    render(<Codex lib={library} meta={heard} onBack={noop} onSettings={noop} open="chosen" onPursue={(id) => asked.push(id)} />);
+    const chosen = toggles(panelOf("chosen"));
+    expect(chosen.length).toBe([...panelOf("chosen").querySelectorAll("li.rumour")].length);
+    for (const b of chosen) {
+      expect(b.textContent).toBe(p.goLooking);
+      expect(b.getAttribute("aria-pressed")).toBe("false");
+    }
+    const posters = [...panelOf("chosen").querySelectorAll("li.rumour")].find((li) => li.querySelector("span")!.textContent === CLUES.the_posters)!;
+    fireEvent.click(within(posters as HTMLElement).getByRole("button", { name: p.goLooking }));
+    expect(asked).toEqual(["the_posters"]);
+    cleanup();
+    // A meter's edge has no story to deal first.
+    render(<Codex lib={library} meta={heard} onBack={noop} onSettings={noop} open="fallen" onPursue={noop} />);
+    expect(panelOf("fallen").querySelectorAll("li.rumour").length).toBeGreaterThan(0);
+    expect(toggles(panelOf("fallen"))).toEqual([]);
+  });
+
+  it("marks the one being looked for, says what that does, and stops on a second press", () => {
+    const asked: (string | null)[] = [];
+    render(<Codex lib={library} meta={{ ...heard, pursuing: "the_posters" }} onBack={noop} onSettings={noop} open="chosen" onPursue={(id) => asked.push(id)} />);
+    const sought = panelOf("chosen").querySelector("li.rumour.sought")!;
+    expect(sought.querySelector("span")!.textContent).toBe(CLUES.the_posters);
+    expect(sought.querySelector("em.looking")!.textContent).toBe(p.looking);
+    const pressed = toggles(panelOf("chosen")).filter((b) => b.getAttribute("aria-pressed") === "true");
+    expect(pressed).toHaveLength(1);
+    fireEvent.click(pressed[0]!);
+    expect(asked).toEqual([null]);
+  });
+
+  it("is kept by the profile, said on the menu, and deals the run the player starts", () => {
+    saveMeta(heard);
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.ui.codex}`) }));
+    fireEvent.click(row(c.kinds.chosen));
+    const posters = [...panelOf("chosen").querySelectorAll("li.rumour")].find((li) => li.querySelector("span")!.textContent === CLUES.the_posters) as HTMLElement;
+    fireEvent.click(within(posters).getByRole("button", { name: p.goLooking }));
+    expect(loadMeta().pursuing).toBe("the_posters");
+    fireEvent.click(screen.getByRole("button", { name: STRINGS.ui.back }));
+    const line = document.querySelector(".setup .pursuit")!;
+    expect(line.textContent).toContain(`${p.setupHead} “${CLUES.the_posters}”`);
+    expect(line.querySelector(".pursuit-note")!.textContent).toBe(p.thisRun);
+    fireEvent.click(screen.getByRole("button", { name: STRINGS.ui.start }));
+    expect(loadRun()?.pursuit).toBe("the_posters");
+  });
+
+  it("says when the run about to start cannot look, and starts it looking for nothing", () => {
+    saveMeta({ ...heard, pursuing: "leader_for_life" });
+    render(<App />);
+    // The strongman is the Right's story: on the Left, the run looks for nothing and says why.
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${STRINGS.parties.left}`) }));
+    expect(document.querySelector(".setup .pursuit-note")!.textContent).toBe(p.cannot.side.replace("{party}", STRINGS.parties.right));
+    fireEvent.click(screen.getByRole("button", { name: STRINGS.ui.start }));
+    expect(loadRun()?.pursuit).toBeUndefined();
+    // The profile goes on looking for it.
+    expect(loadMeta().pursuing).toBe("leader_for_life");
+  });
+
+  it("is not taken by the daily, which is dealt as it is for everyone", () => {
+    saveMeta({ ...heard, pursuing: "the_posters" });
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /^Daily / }));
+    expect(loadRun()?.pursuit).toBeUndefined();
+    expect(loadMeta().pursuing).toBe("the_posters");
+  });
+
+  it("says when a short term cannot look for it, and starts that one looking for nothing", () => {
+    // Secession comes in the second era at the earliest. Past a first term, the short term is its own button.
+    const seen = { ...heard, heard: ["exile"], pursuing: "exile", endings: { finale_muddle: 1 }, runs: 6 };
+    saveMeta(seen);
+    render(<App />);
+    expect(document.querySelector("#short-start-note")!.textContent).toContain(p.shortNote);
+    expect(document.querySelector(".setup .pursuit-note")!.textContent).toBe(p.thisRun);
+    fireEvent.click(screen.getByRole("button", { name: STRINGS.reign.shortStart }));
+    expect(loadRun()?.pursuit).toBeUndefined();
+  });
+
+  it("stops from the menu too", () => {
+    saveMeta({ ...heard, pursuing: "the_posters" });
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: p.stop }));
+    expect(loadMeta().pursuing).toBeUndefined();
+    expect(document.querySelector(".setup .pursuit")).toBeNull();
   });
 });

@@ -35,6 +35,7 @@ import { goalOf } from "./Scenario";
 import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome } from "./share";
 import { SetupSummary } from "./SetupSummary";
 import { billsOf } from "./receipt";
+import { lookedOf, rumourOf } from "./pursuit";
 import { shapeOf } from "./shape";
 import { ShapeChart } from "./ShapeChart";
 import { endThemeOf } from "./theme";
@@ -102,6 +103,8 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     const mandate = MANDATES_BY_ID.get(id);
     return mandate ? [{ mandate, brokenAt: state.mandatesBroken[id] ?? null }] : [];
   });
+  // How going looking for an ending went (BACKLOG-13 phase 83), said as a promise's outcome is.
+  const looked = lookedOf(lib, state);
   // What its ending already told is not followed up again (BACKLOG-11 phase 72).
   const told = toldByEnding(lib, state);
   const history = fold?.history ?? historyOfRun(lib, state, band);
@@ -386,6 +389,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
               )}
             </ul>
           </section>
+        )}
+        {looked && state.pursuit && (
+          <p className={`pursuit-result ${looked}`}>
+            <b>{STRINGS.pursuit.endHead}</b> {rumourOf(state.pursuit)} {STRINGS.pursuit[looked]}
+          </p>
         )}
         {promises.map(({ mandate, brokenAt }) => (
           <p key={mandate.id} className={`mandate-result${brokenAt === null ? " kept" : " broken"}`}>

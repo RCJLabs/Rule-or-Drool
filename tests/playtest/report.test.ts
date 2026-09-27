@@ -37,6 +37,21 @@ function made(run: number, cards: [string, number, Partial<TakenCard>?][], endin
   };
 }
 
+// BACKLOG-13 phase 83: a run that went looking for an ending was dealt for it, and its code says so.
+describe("runs that went looking for an ending", () => {
+  it("are counted, and each bot replays them dealt the same way", () => {
+    const looked: RecordedRun = { ...made(1, [["x", 1000]]), code: "4.1.R.-.-.-.-.-.leader_for_life" };
+    const g = gather([source("a", [looked, made(2, [["x", 1000]])])]);
+    const r = buildReport(library, g, new Map(), OPTS);
+    expect(r.pursued).toBe(1);
+    expect(formatReport(r)).toContain("1 run went looking for an ending and was dealt for it; the bots replay them dealt the same way.");
+    const decoded = decodeRunCode(library, looked.code);
+    expect(decoded.ok && setupOf(decoded.code).pursuit).toBe("leader_for_life");
+    // A record with none says nothing of it.
+    expect(formatReport(buildReport(library, gather([source("b", [made(3, [["x", 1000]])])]), new Map(), OPTS))).not.toContain("went looking");
+  });
+});
+
 // BACKLOG-8 phase 49: a run from another deck is a different run by its 13th card, the median
 // over 2,000 seeds when phase 48's stories came. Set beside the bots, it would be set beside
 // runs nobody played.

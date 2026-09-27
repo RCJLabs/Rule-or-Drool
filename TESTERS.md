@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.90.0 · deck g8u7egs4".
+  version from the bottom of the menu. It looks like "v0.91.0 · deck g8u7egs4".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -86,9 +86,10 @@ drag it left or right. What your choices do builds up over a run, and not all of
 **Beyond one run**
 
 10. Did a clue in the codex, one of the week's contracts or the week's scenario send you after
-    something? Did you get it? If you played a scenario, did its goal feel too easy, about right or
-    too hard? If you played the daily, a scenario or a run someone sent you, did you compare it
-    with anyone? What did you compare?
+    something? Did you get it? If you pressed **Go looking for it** on a clue, did its story come,
+    and did you know it when it did? If you played a scenario, did its goal feel too easy, about
+    right or too hard? If you played the daily, a scenario or a run someone sent you, did you
+    compare it with anyone? What did you compare?
 11. Did you take over the country a previous run left behind? Why, or why not?
 12. What do you remember the picture of the country showing, under the card and between eras? If
     you turned the music on (Settings, under Sound), did it tell you which way the country was

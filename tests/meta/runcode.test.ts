@@ -64,7 +64,9 @@ describe("sharing a run", () => {
 
   it("refuses a code it cannot reproduce rather than starting a different run", () => {
     expect(decodeRunCode(library, "nonsense")).toEqual({ ok: false, reason: "format" });
-    expect(decodeRunCode(library, "4.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    expect(decodeRunCode(library, "5.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    // Format 4 is a run that went looking for an ending, with the ending as a ninth part (BACKLOG-13 phase 83).
+    expect(decodeRunCode(library, "4.abc.L.-.-.-")).toEqual({ ok: false, reason: "format" });
     // Format 2 is a long reign's, with the era count as a seventh part (BACKLOG-5 phase 39).
     expect(decodeRunCode(library, "2.abc.L.-.-.-")).toEqual({ ok: false, reason: "format" });
     // Only this game's long reign is written in format 2, and an era count is a number.
@@ -135,6 +137,39 @@ describe("sharing a run", () => {
     expect(decodeRunCode(library, `3.abc.L.-.-.-.-`)).toEqual({ ok: false, reason: "format" });
     // A promise the country it takes over already breaks cannot ride with it.
     expect(decodeRunCode(library, `3.abc.L.-.-.m_press.-.decay~2~-~40~media_captured`)).toEqual({ ok: false, reason: "content" });
+  });
+
+  it("carries the ending a run went looking for, in format 4, and reproduces the run (BACKLOG-13 phase 83)", () => {
+    const code: RunCode = { seed: 99, align: "left", modifiers: [], unlocked: [], mandates: [], pursuit: "the_posters" };
+    const text = encodeRunCode(code);
+    expect(text).toBe("4.2r.L.-.-.-.-.-.the_posters");
+    expect(decodeRunCode(library, text)).toEqual({ ok: true, code });
+    // The run it starts looks for it, and its code is the code it came from.
+    const run = beginRunFromCode(library, code);
+    expect(run.pursuit).toBe("the_posters");
+    expect(encodeRunCode(runCodeOf(run))).toBe(text);
+    expect(cardsOf(beginRunFromCode(library, code))).toEqual(cardsOf(run));
+    // With a long reign's eras and what it took over, each in its own place.
+    const rival = advisorPool(library, library.config.rivalRole, "left")[1]!.id;
+    const inheritance = { band: "decay" as const, line: 2, legacies: ["seawall"], rival, rivalStanding: 41 };
+    const both: RunCode = { ...code, eraCount: library.config.longEraCount, inheritance };
+    expect(encodeRunCode(both)).toBe(`4.2r.L.-.-.-.${library.config.longEraCount}.decay~2~${rival}~41~seawall.the_posters`);
+    expect(decodeRunCode(library, encodeRunCode(both))).toEqual({ ok: true, code: both });
+    // A run looking for nothing keeps the code it always had.
+    expect(encodeRunCode({ ...code, pursuit: undefined })).toBe("1.2r.L.-.-.-");
+  });
+
+  it("refuses an ending the run could not have gone looking for", () => {
+    // The Right's strongman, looked for by the Left; secession in a short term; a lock not held.
+    expect(decodeRunCode(library, "4.abc.L.-.-.-.-.-.leader_for_life")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "4.abc.R.-.-.-.-.-.leader_for_life").ok).toBe(true);
+    expect(decodeRunCode(library, `4.abc.L.-.-.-.${library.config.firstTermEras}.-.exile`)).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "4.abc.L.-.-.-.-.-.country_decided")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "4.abc.L.-.u_referendum.-.-.-.country_decided").ok).toBe(true);
+    // Not an ending a story's choice takes, or not a name at all.
+    expect(decodeRunCode(library, "4.abc.L.-.-.-.-.-.finale_ascent")).toEqual({ ok: false, reason: "content" });
+    expect(decodeRunCode(library, "4.abc.L.-.-.-.-.-.-")).toEqual({ ok: false, reason: "format" });
+    expect(decodeRunCode(library, "4.abc.L.-.-.-.-.-.The Posters")).toEqual({ ok: false, reason: "format" });
   });
 
   it("refuses a platform this game would not start", () => {

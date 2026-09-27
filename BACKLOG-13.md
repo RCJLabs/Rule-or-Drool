@@ -816,3 +816,139 @@ the run's record.
   testers read the page, and whether its name for the reign changed what they did.
 - The serif is the phone's own. The audits measure it in DejaVu Serif, which is wider than
   Android's, so a fit that passes there has room on a phone.
+
+## Phase 83. Endings you can go looking for (idea 3) — *done*
+
+**Shipped in v0.91.0.** Only a run that goes looking for an ending is dealt differently, so the
+deck is still g8u7egs4. Both saves keep their versions:
+- a run keeps what it went looking for, and one saved before looked for nothing;
+- the profile keeps the rumour being looked for, and one from before looked for none.
+
+- **In the codex.** Each rumour of an ending a choice in a story takes has *Go looking for it*.
+  - One rumour is looked for at a time. Pressing another moves the looking there, and pressing
+    the same one again stops it.
+  - The profile holds the looking from run to run until the ending is found, by whichever run
+    finds it, or until the player stops.
+  - Only the 58 endings *Ended by choice* can be looked for. A meter's edge, a cult, a lost
+    count, a coup, the rival and the finales have no story to deal first.
+- **On the menu.** Above *Take office*: *Looking for "…"*, with *Stop looking* under it. It also
+  says whether the run about to start can look:
+  - *This run is dealt to look for it*;
+  - or why not: the other party's story (18 of the 58 endings are one party's), a country taken
+    over that has settled it, or, under the short term's button, a story that comes later than
+    one era.
+  - The daily, the week's scenario and a run from a link never take the player's own looking.
+- **The deal.** The story or question that ends the run this way comes first, in the seed's
+  order, of those that can start.
+  - It also starts sooner: at a chance of 1 in 4 on a card where it can, where the ordinary game
+    has 0.075 for a story and 0.12 for a question.
+  - Nothing else changes. Until its story can start, a run looking for an ending meets the very
+    cards the same run would meet not looking.
+- **The code.** A run looking for an ending is written in a new run-code format, 4, with the
+  ending last: `4.2r.L.-.-.-.-.-.the_posters`.
+  - The replay, the other road, the run's shape, a link and a playtest record all deal it the
+    same way.
+  - Every other code is the code it was. A version from before says it cannot reproduce a format
+    4 run.
+- **At the end.** *You went looking for "…"*, and one of: *Found.* / *Its story came, and went
+  another way.* / *Its story did not come this time.*
+  - The share text adds *Went looking for: "…"*.
+  - A shared run that went looking says so on its offer.
+  - `npm run playtests` counts the records that went looking; its bots replay them dealt the same
+    way.
+
+**Measured first.** All 58 endings, each on every side that can reach it: 98 cases, 200 seeds
+each. The player follows the rumour: the simulator's new `pursue` aim, on the eyes bot and on the
+informed voter.
+
+| Offered the ending | Eyes | Informed |
+|---|---|---|
+| Not looking | 15.7% | 16.6% |
+| Looking: its story dealt first | 89.1% | 90.2% |
+| Looking: dealt first, and sooner (as built) | 93.4% | 94.9% |
+| Cases offered in 3 runs in 4 or more, as built | 89 of 98 | 93 of 98 |
+
+- **Also tried.**
+  - A slot kept free for the pursued story added nothing: the story budget never kept one out.
+  - Starting the story on the first card it could raised the eyes bot to 95.6%, but dealt a
+    first-era story on the run's first two cards.
+- **When the ending is offered** (median card):
+  - card 8, for a story that can start in the first era (card 16 when it is only dealt first);
+  - cards 42–44, for one that waits for the second era.
+- **A short term**, with the eyes bot and 100 seeds a case:
+  - 73 of the 98 cases can be looked for in one era;
+  - 89.9% are offered the ending, against 7.9% not looking;
+  - 63 of the 73 reach 3 runs in 4.
+- **What stays under 3 in 4:** the endings whose story waits on the country.
+  - *Blackmailed*, 27–29% for both bots. The cabinet plot needs a corrupt minister in the seat
+    its first card is spoken from.
+  - The eyes bot:
+    - the family firm 44%, the party given back 48%, the town councils 56%;
+    - the games 58% (Left) and 71% (Right);
+    - the people's bank 61%, the foundation 65%.
+  - The informed voter: the town councils 55%, continuity 71%, the games 72% (Left).
+  - Each of those stories waits on a meter (the base above 54, order under 50, money above 40),
+    or on the second era.
+
+**What it does to a run.** The same 98 cases and 200 seeds:
+
+| | Eyes: survived; Ascent / Muddle / Decay | Informed: survived; Ascent / Muddle / Decay |
+|---|---|---|
+| Not looking | 96.7%; 64.0 / 33.8 / 2.3 | 95.9%; 23.8 / 58.8 / 17.4 |
+| Looking, playing as ever | 95.4%; 63.8 / 33.9 / 2.3 | 96.4%; 26.2 / 59.2 / 14.6 |
+| Looking, following the story, turning the ending down | 93.1%; 54.7 / 41.3 / 4.0 | 94.6%; 20.0 / 58.7 / 21.3 |
+| Looking and taking it | ends at card 26 (mean) | ends at card 25 |
+
+- The deal alone moves little: the eyes bot survives 1.3 points less, and its Ascent moves 0.2.
+  The informed voter's Ascent is 2.4 points up.
+- Following the story moves more, and should. Most of these endings lie at the end of the
+  self-serving road.
+  - The questions' dark answers take the eyes bot's Ascent down by 34–55 points in those cases
+    (the words said on camera, the correction, the care list).
+  - The general's last card ends the run either way, so turning one of his endings down means
+    taking the other.
+
+**Tests.**
+- The engine:
+  - which endings can be looked for, and on which sides;
+  - the side that leads to each;
+  - why a setup cannot look;
+  - that a run takes only one it can reach.
+- 1,176 bot runs looking for their ending, 12 for each case, are offered it more than 85% of the
+  time; the same runs not looking, under 30%. Three stories that wait on nothing come in 36 or
+  more runs of 40.
+- Before its story can start, a pursued run is dealt card for card as the same run not looking
+  (30 seeds).
+- A pursued run is put back card for card by its own record.
+- Format 4 codes: they round-trip, reproduce the run, and refuse an ending the run could not
+  reach.
+- The profile:
+  - which rumours can be looked for, and one at a time;
+  - the looking stops once the ending is found;
+  - a looking travels with the profile, and a name that is not one is dropped.
+- The codex's toggle, and the whole way from pressing it to a run dealt to look.
+  - A run that cannot look says why and starts looking for nothing.
+  - The daily looks for nothing.
+  - A short term that cannot look says so.
+  - *Stop looking* on the menu.
+- The end screen's three outcomes, the share text and link, and the report's count.
+- Browser audits:
+  - the menu and the codex, with the longest rumour being looked for, read and fit the smallest
+    phone;
+  - a new audit ends a run that looked in all seven looks at 360×640, and the end says how it
+    went and reads.
+- Question 10 asks testers whether the story came, and whether they knew it when it did.
+
+**Caveats.**
+- **Nine of 98 cases stay under 3 in 4** for the eyes bot: the stories that wait on the country.
+  - The end screen says *Its story did not come this time*, which is true, but not why.
+  - A line on where to look would help a player steer: order high, the base content, a corrupt
+    minister. It is not built, because it gives away more of a story than a rumour does. Say if
+    testers ask for it.
+- **Finding an ending ends the run**, at about card 25 once it is taken. A player looking for
+  endings one after another plays short runs.
+  - The codex gives one new rumour a run, so this comes to about one ending a run at most.
+- **A link to a pursued run looks for the sender's ending** for whoever opens it, since it is the
+  same run. Their own looking waits for their next run.
+- **The bots follow a rumour perfectly.** A person may miss the story's turn, or not know it for
+  the story they want. Question 10 asks.

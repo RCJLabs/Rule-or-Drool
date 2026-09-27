@@ -483,6 +483,36 @@ export const STRINGS = {
     copied: "Copied, and saved",
     failed: "Could not share",
   },
+  /**
+   * Going looking for an ending (BACKLOG-13 phase 83). A rumour in the codex can be looked for:
+   * the player's own runs are dealt its story first and sooner, until it is found or they stop.
+   * The ending is named by its rumour, never its title, as the codex names it.
+   */
+  pursuit: {
+    goLooking: "Go looking for it",
+    looking: "Your own runs look for it until you find it.",
+    setupHead: "Looking for",
+    stop: "Stop looking",
+    thisRun: "This run is dealt to look for it.",
+    /** Why the run about to start looks for nothing. */
+    cannot: {
+      side: "Only a run of {party} can end this way, so this one looks for nothing.",
+      short: "Its story comes later than one era, so this run looks for nothing.",
+      locked: "Its story waits on something not unlocked yet, so this run looks for nothing.",
+      settled: "The country you take over has settled it already, so this run looks for nothing.",
+      unknown: "This run looks for nothing.",
+    },
+    /** Under the short term's button, when a short term cannot look for it. */
+    shortNote: "A short term looks for nothing: its story comes later.",
+    /** At the end of a run that looked. */
+    endHead: "You went looking for",
+    found: "Found.",
+    turned: "Its story came, and went another way.",
+    missed: "Its story did not come this time.",
+    /** A line of the share text, and of a shared run's offer. */
+    share: "Went looking for: “{clue}”",
+    offer: "Dealt to look for an ending: “{clue}”",
+  },
   share: {
     button: "Share this run",
     working: "Making the picture…",

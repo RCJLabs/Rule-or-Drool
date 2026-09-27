@@ -1,5 +1,6 @@
 import { getCard, poolKey, questionOfArc, type Library } from "./library";
 import { isHandoverCard, makesInherited, settledByInheritance } from "./inherit";
+import { PURSUIT_START, pursuedArcs } from "./pursuit";
 import { diceAt, pickWeighted, rankOf, seedToState } from "./rng";
 import { candidatesFor, condMet, hasFlag, rivalStands } from "./state";
 import { returnDue } from "./opposition";
@@ -318,7 +319,7 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
   if (state.activeArcs.filter((a) => a.nextCard && questionOfArc(lib, a.id) === undefined).length >= state.arcBudget) return [null, state];
   const cands = startable(lib, state, false);
   if (cands.length === 0) return [null, state];
-  if (diceAt(state.seed, state.cardCount, "story starts") >= lib.config.arcEntryProb) return [null, state];
+  if (diceAt(state.seed, state.cardCount, "story starts") >= startChance(lib, state, cands, lib.config.arcEntryProb)) return [null, state];
   const [arc, s2] = pickArc(lib, state, cands);
   if (!arc) return [null, s2];
   return [
@@ -342,7 +343,7 @@ function drawQuestionEntry(lib: Library, state: GameState): [Card | null, GameSt
   const answered = new Set(asked.map((a) => questionOfArc(lib, a.id)));
   const cands = startable(lib, state, true).filter((a) => !answered.has(a.question));
   if (cands.length === 0) return [null, state];
-  if (diceAt(state.seed, state.cardCount, "question asked") >= lib.config.questionEntryProb) return [null, state];
+  if (diceAt(state.seed, state.cardCount, "question asked") >= startChance(lib, state, cands, lib.config.questionEntryProb)) return [null, state];
   const [arc, s2] = pickArc(lib, state, cands);
   if (!arc) return [null, s2];
   return [getCard(lib, arc.cards[0]!), { ...s2, activeArcs: [...s2.activeArcs, { id: arc.id, nextCard: arc.cards[0]! }] }];
@@ -371,11 +372,25 @@ function startable(lib: Library, state: GameState, questions: boolean): Arc[] {
   return cands;
 }
 
-/** The story, or the question, that comes first in the seed's order of those that can start (phase 81). */
+/**
+ * The chance a story, or a question, starts on this card: the ordinary game's, or a better one
+ * when the one the run is looking for can start (BACKLOG-13 phase 83).
+ */
+function startChance(lib: Library, state: GameState, cands: Arc[], ordinary: number): number {
+  const sought = pursuedArcs(lib, state);
+  return sought.size > 0 && cands.some((a) => sought.has(a.id)) ? PURSUIT_START : ordinary;
+}
+
+/**
+ * The story, or the question, that comes first in the seed's order of those that can start (phase
+ * 81). The one a run is looking for comes before the rest (BACKLOG-13 phase 83).
+ */
 function pickArc(lib: Library, state: GameState, cands: Arc[]): [Arc | undefined, GameState] {
+  const sought = pursuedArcs(lib, state);
+  const first = sought.size > 0 ? cands.filter((a) => sought.has(a.id) && arcWeight(lib, state, a) > 0) : [];
   let best: Arc | undefined;
   let top = Number.NEGATIVE_INFINITY;
-  for (const arc of cands) {
+  for (const arc of first.length > 0 ? first : cands) {
     const w = arcWeight(lib, state, arc);
     if (w <= 0) continue;
     const rank = rankOf(state.seed, arc.id, w);

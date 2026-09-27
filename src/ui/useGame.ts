@@ -21,6 +21,7 @@ import {
   scenarioTry,
   todayKey,
   weekNumber,
+  withPursuit,
   withTry,
   type MetaState,
   type RunFold,
@@ -280,9 +281,12 @@ export function useGame(lib: Library) {
     setPlayingScenario(null);
   }, []);
 
-  /** A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39) and a first or short term. */
+  /**
+   * A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39) and a first
+   * or short term, and `pursuit` when it goes looking for an ending (BACKLOG-13 phase 83).
+   */
   const start = useCallback(
-    guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number, inheritance: Inheritance | null = null) => {
+    guarded(crash, (seed: number, align: PlayerAlign, mandates: readonly string[] = [], eraCount?: number, inheritance: Inheritance | null = null, pursuit: string | null = null) => {
       setSaved(null);
       setSavedDaily(null);
       setSavedScenario(null);
@@ -293,7 +297,7 @@ export function useGame(lib: Library) {
       dailyRef.current = null;
       scenarioRef.current = null;
       setPlayingScenario(null);
-      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount, inheritance);
+      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount, inheritance, pursuit);
       setState(s);
       beginRecording(s, "own");
     }),
@@ -524,6 +528,14 @@ export function useGame(lib: Library) {
     setNotices((n) => n.slice(1));
   }, [notice]);
 
+  /** Go looking for an ending, or stop (BACKLOG-13 phase 83): the profile holds it until it is found. */
+  const pursue = useCallback((id: string | null) => {
+    const next = withPursuit(metaRef.current, id);
+    metaRef.current = next;
+    setMeta(next);
+    saveMeta(next);
+  }, []);
+
   /** Hand the record to the share sheet; the player picks where it goes. */
   const sendPlaytest = useCallback(() => sendRecord(loadRecorded()), []);
 
@@ -568,6 +580,7 @@ export function useGame(lib: Library) {
     startScenario,
     startFromCode,
     playShared,
+    pursue,
     continueSaved,
     choose,
     takeOtherRoad,

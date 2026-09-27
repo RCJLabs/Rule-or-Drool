@@ -433,6 +433,11 @@ export interface GameState {
   opposition: Opposition | null;
   /** What the run took over from the last one, or null for a fresh start (BACKLOG-10 phase 63). */
   inherited: Inheritance | null;
+  /**
+   * The ending the run went looking for (BACKLOG-13 phase 83): its story or question is dealt
+   * first of those that can start, and sooner. Absent for every other run, which deals as it did.
+   */
+  pursuit?: string;
 }
 
 /**
@@ -500,6 +505,8 @@ export interface RunSetup {
   eraCount?: number;
   /** The country taken over from the last run, for a run that is not a fresh start (BACKLOG-10 phase 63). */
   inheritance?: Inheritance | null;
+  /** The ending the run goes looking for, one the setup can reach (BACKLOG-13 phase 83). */
+  pursuit?: string | null;
 }
 
 /** Advisor traits the engine knows about (5.8). */
