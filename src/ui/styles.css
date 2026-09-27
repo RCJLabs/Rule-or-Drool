@@ -522,13 +522,15 @@ button {
 }
 /* A card that came back names the choice that sent it (BACKLOG-13 phase 80): one quiet line under
    the speaker, where a question's title goes on the cards that have one. It quotes a button, so it
-   keeps the button's case. It never shrinks: a card that cannot fit it is cut where the audit
-   sees it. */
+   keeps the button's case. Decay's narrow card wraps the longest onto two lines, and at 12px, with
+   the portrait already given up, the right side's longest bill ran 5px past the card at 360×640 in
+   Decay 3: so it is set as small as the mark on a side that ends the run, and close. It never
+   shrinks: a card that cannot fit it is cut where the audit sees it. */
 .receipt {
   flex: 0 0 auto;
-  margin: 8px 0 0;
-  font-size: 12px;
-  line-height: 1.35;
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.2;
   color: var(--muted);
   text-align: center;
 }

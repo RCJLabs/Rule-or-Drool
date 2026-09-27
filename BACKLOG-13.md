@@ -620,3 +620,20 @@ saved before loads as it did.
   - The queue carries each sender with its own copy, so the engine can tell them apart.
 - The replay and the list take 7.8 ms a run in node. Almost all of that is the chart's replay,
   which the end screen already made.
+- **Fit.** The small-phone audit now puts each side's longest bill on the table with the longest
+  receipt there is: *Sent by card 175: "Bless them and look away"*. It is staged with the
+  buttons, two promises and the first lesson drawn, at five heights, in all seven looks.
+  - At 12px, Decay's narrow card (236px wide in Decay 3) wrapped the receipt onto two lines. With
+    the portrait already given up, the right side's longest bill ran 5px past the card at 360×640.
+  - At 11px and set closer, as the mark on a side that ends the run is, it fits in every look.
+    It is on one line in every look but Decay 3, where the portrait keeps 4px.
+  - The end screen's list, opened on the smallest phone, reads and fits in the looks the chart's
+    audit covers: Ascent 3, Decay 3 and the Muddle.
+
+**Caveats.**
+
+- A card already waiting to come back when a player updates comes without a receipt: the queue
+  did not keep its sender then.
+- The receipt names the choice, not what it cost. Whether people connect a bill to its cause is
+  for testers: question 5 now asks.
+- The list is folded, one line closed. Open, it runs to 17 entries at the most measured.
