@@ -931,8 +931,15 @@ button {
   width: min(92vw, 420px);
   text-align: center;
 }
-.era-jump .primary {
-  margin-top: 20px;
+/* Continue, and beside it the page going out (BACKLOG-13 phase 82): one row, so the page costs
+   the door no height for it. */
+.era-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: 18px;
 }
 .era-jump h2 {
   margin: 6px 0 12px;
@@ -942,14 +949,12 @@ button {
 }
 /* The three beats. Each is present in the DOM from the start so the height does not jump
    while a player is reading; only their opacity waits. */
-.era-country,
-.era-carried,
+.paper,
 .era-owed,
 .era-rule {
   transition: opacity 0.45s ease-out;
 }
-.era-jump[data-beat="0"] .era-country,
-.era-jump[data-beat="0"] .era-carried,
+.era-jump[data-beat="0"] .paper,
 .era-jump[data-beat="0"] .era-owed,
 .era-jump[data-beat="0"] .era-rule,
 .era-jump[data-beat="1"] .era-owed,
@@ -967,37 +972,6 @@ button {
   padding-top: 0;
   border-top: 0;
 }
-.era-carried {
-  margin: 18px 0 0;
-  padding: 12px 0 0;
-  border-top: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
-  text-align: left;
-}
-.era-carried ul,
-.era-carried-list {
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.era-carried li,
-.era-carried-list li {
-  padding-left: 14px;
-  position: relative;
-  font-size: 13.5px;
-  line-height: 1.35;
-}
-.era-carried li::before,
-.era-carried-list li::before {
-  content: "·";
-  position: absolute;
-  left: 3px;
-  color: var(--accent);
-  font-weight: 700;
-}
-.era-more,
 .era-owed {
   margin: 6px 0 0;
   font-size: 12.5px;
@@ -1020,23 +994,142 @@ button {
 :root[data-reduce-motion] .era-jump {
   animation: none;
 }
-:root[data-reduce-motion] .era-country,
-:root[data-reduce-motion] .era-carried,
+:root[data-reduce-motion] .paper,
 :root[data-reduce-motion] .era-owed,
 :root[data-reduce-motion] .era-rule {
   transition: none;
 }
-/* The country the era hands on, with the first beat of what it carries. On every phone, where
-   the one under the card needs 740px (BACKLOG-10 phase 64). */
+/* The country the era hands on, the front page's picture. On every phone, where the one under
+   the card needs 740px (BACKLOG-10 phase 64). */
 .era-country {
-  margin: 16px 0 0;
+  margin: 8px 0 0;
 }
 .era-country .country {
   display: block;
   width: 100%;
-  height: 56px;
-  border-radius: calc(var(--radius) * var(--corner) / 2);
+  height: 48px;
   overflow: hidden;
+}
+
+/**
+ * The era's front page (BACKLOG-13 phase 82). Printed matter, so dark ink on paper whatever the
+ * look, and the direction is in the paper: a broadsheet in the Ascent, a tabloid in the Muddle,
+ * the state's own in Decay. The serif is the phone's own; the audits measure it in a wider one.
+ */
+.paper {
+  --news: #fbf8f0;
+  --news-ink: #16130f;
+  --news-muted: #5b544a;
+  --news-serif: Georgia, "Noto Serif", "DejaVu Serif", serif;
+  margin: 14px 0 0;
+  padding: 10px 12px 11px;
+  background: var(--news);
+  color: var(--news-ink);
+  text-align: left;
+  border-radius: 3px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+.paper-head {
+  padding-bottom: 5px;
+  border-bottom: 3px double var(--news-ink);
+  text-align: center;
+}
+.paper-name {
+  margin: 0;
+  font: 700 23px/1.05 var(--news-serif);
+}
+.paper-motto {
+  margin: 3px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--news-muted);
+}
+.paper-headline {
+  margin: 8px 0 0;
+  font: 700 20px/1.12 var(--news-serif);
+  color: var(--news-ink);
+}
+.paper-inside,
+.paper-strap,
+.paper-rival,
+.paper-called {
+  margin: 5px 0 0;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+.paper-inside {
+  color: var(--news-muted);
+}
+.paper-strap {
+  font-weight: 700;
+}
+.paper-rival {
+  font-style: italic;
+}
+.paper-called {
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid color-mix(in srgb, var(--news-ink) 30%, transparent);
+  font-weight: 600;
+}
+/* The tabloid: its name white on red, its headline in heavy capitals. */
+.paper[data-paper="muddle"] {
+  --news: #f3f1ea;
+  --news-ink: #121212;
+  --news-muted: #55524b;
+}
+.paper[data-paper="muddle"] .paper-head {
+  border-bottom: 0;
+}
+.paper[data-paper="muddle"] .paper-name {
+  padding: 4px 6px 5px;
+  background: #b3121b;
+  color: #fff;
+  font: italic 900 22px/1 var(--font);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.paper[data-paper="muddle"] .paper-headline {
+  font: 900 20px/1.04 var(--font);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+/* The state's paper: grey stock, dark red ink, everything in capitals and a rule round it. */
+.paper[data-paper="decay"] {
+  --news: #e6e1d4;
+  --news-ink: #2b0a0a;
+  --news-muted: #5a3a33;
+  border: 2px solid #6d1414;
+  border-radius: 0;
+}
+.paper[data-paper="decay"] .paper-name {
+  font-size: 18px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.paper[data-paper="decay"] .paper-headline {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+/* A short phone keeps the page and loses its trimmings: the motto, and a little of the picture. */
+@media (max-height: 700px) {
+  .paper {
+    margin-top: 10px;
+    padding: 8px 10px 9px;
+  }
+  .paper-motto {
+    display: none;
+  }
+  .era-country .country {
+    height: 40px;
+  }
+  .paper-headline {
+    font-size: 19px;
+  }
+  .paper[data-paper="decay"] .paper-headline {
+    font-size: 17px;
+  }
 }
 
 /**

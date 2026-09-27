@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { content } from "../src/content";
 import histories from "../src/content/histories.json";
+import papers from "../src/content/papers.json";
 import { STRINGS } from "../src/content/strings";
 import { CLUES } from "../src/meta/clues";
 
@@ -69,7 +70,7 @@ const PEOPLE = [
   "Corbyn", "Farage", "Pelosi", "DeSantis", "Bush",
 ];
 
-/** Everything a player can read: cards, endings, epilogues, histories, names, the codex's clues, and the UI. */
+/** Everything a player can read: cards, endings, epilogues, histories, the era's papers, names, the codex's clues, and the UI. */
 const everything = [
   JSON.stringify(content.cards),
   JSON.stringify(content.endings),
@@ -77,6 +78,7 @@ const everything = [
   JSON.stringify(content.advisors),
   JSON.stringify(content.modifiers),
   JSON.stringify(histories),
+  JSON.stringify(papers),
   JSON.stringify(STRINGS),
   JSON.stringify(CLUES),
   readFileSync(new URL("../src/engine/mandates.ts", import.meta.url), "utf8"),

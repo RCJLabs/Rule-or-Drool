@@ -736,3 +736,83 @@ deals another run.
 - The prototype measured 71% for two players, and as built it is 75–76%. The prototype put the
   deck's order and whether a story starts or goes on on the seed; the build puts every other die
   there too.
+
+## Phase 82. The papers at each era's door (idea 5) — *done*
+
+**Shipped in v0.90.0.** Nothing is dealt differently: the deck is still g8u7egs4. Nothing new is
+saved: the page is read from the run as it stands, and its votes by dealing the era again from
+the run's record.
+
+- **The page.** The era's door shows the front page of the paper of the direction the country is
+  going, in place of the list of what the country carries.
+  - The papers: *The Long View*, a broadsheet, in the Ascent; *The Daily Fuss*, a tabloid, in the
+    Muddle; *The Grateful Nation*, the state's own, in Decay.
+  - The headline is the era's biggest decision: the first, in history's order, of the legacies
+    set on the era's own cards, not taken over from the last reign.
+  - Under it, the era's other decisions, the first named and the rest counted. A door with a
+    crisis's rule, the week's goal or the long reign's lock to say as well leaves them out; the
+    end screen tells them all.
+  - The strap is the era's vote, its biggest news: won honestly, held by cheating, lost and won
+    back (honestly or not), lost, or no count since the vote was abolished.
+  - A line from the rival, by name, on the cabinet's four rungs, and another once the vote is
+    abolished.
+  - The name so far: *Historians are already calling it "The Open Door"*, which is what history
+    would call the reign if it ended there.
+  - The country the era hands on is the page's photograph.
+- **The words.** 210 headlines, one for each of the 70 decisions that can name a reign in each
+  paper, and none of them says whether the decision was right.
+  - Each paper has its own voice. The broadsheet reports; the tabloid shouts; the state's paper
+    thanks the office.
+  - Both answers to a question get the same treatment, and a vote's own legacies are told by the
+    strap, not the headline.
+  - An era that decided nothing leads with one of the paper's three lines of its own, the same
+    for every run on the seed at that door.
+  - The guardrails now search the papers too. The first draft borrowed a real slogan, "no new
+    taxes", which they caught.
+- **Shared as a picture.** *Share this page*, beside Continue, sends the page as a picture with a
+  few words and a link to the same run, as the end screen's card is sent.
+  - The picture is 1,080 wide and as tall as its words, the paper on its own stock with its
+    masthead.
+  - Beside Continue, the button costs the door no height.
+
+**Measured first.** 1,000 runs each; the door into era 2 is about era 1, and so on.
+
+| Share of doors with a decision to lead with | Informed | Eyes | Mixed |
+|---|---|---|---|
+| Into era 2 (every band) | 100% | 100% | 100% |
+| Into era 3: Decay, Muddle, Ascent | 87%, 84%, 83% | 100% (9 doors), 90%, 91% | 92%, 90%, 86% |
+| Into era 3, all | 84.3% | 90.5% | 89.9% |
+| The name so far is the name the reign ends with, into era 2 / era 3 | 35% / 66% | 40% / 68% | 29% / 60% |
+
+- Every door has a vote to tell. A third of the doors into era 2 have two: a count lost, and the
+  one that won the office back.
+- A long reign's doors into eras 4 and 5 lead with a decision in 36% and 11% of runs (333
+  informed long reigns). The rest lead with the paper's own line.
+- **Fit.** The page first overflowed the smallest phone by up to 78px. The state paper's
+  masthead ran to two lines, and a 60-character headline to four.
+  - Now the headline is at most 42 characters, two lines in every paper; a test holds every
+    headline to it.
+  - A phone under 700px tall drops the motto and some of the picture.
+  - The browser audit prints each paper at its longest in all seven looks at 360×640: the longest
+    headline it has, the longest list of other decisions, its longest strap and rival line with
+    the longest rival's name, and the longest name a reign is called. The door does not scroll,
+    nothing is cut, and every line reads.
+  - The audit seed's own door and a crisis's fit without scrolling, as they did. The week's
+    scenario's door, with week 1's crisis bending its era too, scrolled 4px before this phase and
+    5px with the page. A door with a crisis's rule, the week's goal or the long reign's lock to say
+    as well now leaves out the era's other decisions, and that one fits with room for its vote.
+- **Tests.** In 60 careful runs, the page leads with the era's biggest decision at every door,
+  and says how the era's votes went exactly as they went: the votes read by dealing the era
+  again match those recorded as the run was played.
+
+**Caveats.**
+- **The name so far is not the name at the end.** It is at era 2's door in a third of runs, and
+  at era 3's in two thirds. That is the point: the name is there to be changed. It is also
+  decision 4 above, taken as its default; say if the name should wait for the end.
+- **A run the era cannot be dealt again for** (one saved before the update, or one moved by the
+  debug keys) prints its page without the vote.
+- **A decision's headline is the same every time it leads.** A player who keeps making the same
+  decisions will see the same jokes, and the tabloid's wear fastest. Question 12 now asks whether
+  testers read the page, and whether its name for the reign changed what they did.
+- The serif is the phone's own. The audits measure it in DejaVu Serif, which is wider than
+  Android's, so a fit that passes there has room on a phone.

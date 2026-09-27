@@ -20,6 +20,7 @@ import { causeLine, endCause } from "../../src/ui/cause";
 import { CHRONICLE_PAGE } from "../../src/ui/Chronicle";
 import { billsOf } from "../../src/ui/receipt";
 import { shapeOf } from "../../src/ui/shape";
+import { PAPERS } from "../../src/ui/paper";
 import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share";
 import { setupOf } from "../../src/meta/runcode";
 import { endingSides, withinReach } from "../../src/meta/clues";
@@ -1470,6 +1471,63 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await misfits(page, `${width}×${height}`)));
         await close(page);
       }
+      expect(failures).toEqual([]);
+    });
+
+    /**
+     * The era's front page at its longest (BACKLOG-13 phase 82), in every paper and every look on
+     * the smallest phone: the longest headline each paper prints, the longest list of the era's
+     * other decisions, the paper's longest vote and rival line with the longest rival's name, and
+     * the longest name a reign is called. The door must not scroll, and nothing may be cut.
+     */
+    it("prints the era's front page at its longest in every paper, and it fits the smallest phone in every look", async () => {
+      const longest = (xs: readonly string[]) => xs.reduce((a, b) => (b.length > a.length ? b : a), "");
+      const rival = longest(library.content.advisors.filter((a) => a.role === library.config.rivalRole).map((a) => a.name));
+      const label = longest(HISTORY_ORDER.filter((f) => PAPERS.headlines[f]).map((f) => LEGACIES[f] ?? f));
+      const title = longest(ALL_HISTORY_KEYS.map((k) => historyTitle(k) ?? ""));
+      const failures: string[] = [];
+      const page = await startRun(browser, "left", { width: 360, height: 640 });
+      await playToBoundary(page, null);
+      for (const band of ["ascent", "muddle", "decay"] as const) {
+        const words = {
+          name: PAPERS.papers[band].name,
+          headline: longest(Object.values(PAPERS.headlines).map((h) => h[band])),
+          inside: PAPERS.inside[band].replace("{list}", `${label.charAt(0).toLowerCase()}${label.slice(1)}, and 9 more`),
+          strap: longest(Object.values(PAPERS.votes).map((v) => v[band])),
+          rival: longest([...PAPERS.rival[band].rungs, PAPERS.rival[band].abolished]).replace("{rival}", rival),
+          called: PAPERS.called[band].replace("{name}", title),
+        };
+        for (const look of LOOKS) {
+          const scrolls = (await page.evaluate(`(() => {
+            const w = ${JSON.stringify(words)};
+            // The look is set by hand, so what the play screen drew for the run's own look (Decay's
+            // stream, say) is still behind the door in another look's colours: only the door is audited.
+            const jump = document.querySelector('.era-jump');
+            for (const e of document.querySelectorAll('.frame *')) if (!jump.contains(e) && !e.contains(jump)) e.style.visibility = 'hidden';
+            document.querySelector('.frame').setAttribute('data-theme', ${JSON.stringify(look)});
+            const p = document.querySelector('.paper');
+            p.setAttribute('data-paper', ${JSON.stringify(band)});
+            const put = (cls, text, tag) => {
+              let e = p.querySelector('.' + cls);
+              if (!e) { e = document.createElement(tag || 'p'); e.className = cls; p.insertBefore(e, p.querySelector('.paper-called')); }
+              e.textContent = text;
+            };
+            put('paper-name', w.name);
+            put('paper-headline', w.headline, 'h3');
+            put('paper-inside', w.inside);
+            put('paper-strap', w.strap);
+            put('paper-rival', w.rival);
+            put('paper-called', w.called);
+            for (const cls of ['paper-head', 'era-country', 'paper-headline', 'paper-inside', 'paper-strap', 'paper-rival', 'paper-called']) p.appendChild(p.querySelector('.' + cls));
+            const j = document.querySelector('.era-jump');
+            return j.scrollHeight - j.clientHeight;
+          })()`)) as number;
+          const where = `the ${band} paper at its longest in ${look}`;
+          if (scrolls > 0) failures.push(`${where}: the era panel scrolls by ${scrolls}px`);
+          failures.push(...(await misfits(page, where)), ...(await contrast(page, where)));
+        }
+      }
+      await close(page);
       expect(failures).toEqual([]);
     });
 

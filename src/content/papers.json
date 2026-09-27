@@ -1,0 +1,456 @@
+{
+  "papers": {
+    "ascent": {
+      "name": "The Long View",
+      "motto": "Independent since the founding"
+    },
+    "muddle": {
+      "name": "The Daily Fuss",
+      "motto": "Bigger letters than ever"
+    },
+    "decay": {
+      "name": "The Grateful Nation",
+      "motto": "Approved for reading"
+    }
+  },
+  "called": {
+    "ascent": "Historians are already calling it “{name}”.",
+    "muddle": "Everyone’s calling it “{name}”!",
+    "decay": "The office asks that it be called “{name}”."
+  },
+  "inside": {
+    "ascent": "Also reported: {list}.",
+    "muddle": "Also inside: {list}!",
+    "decay": "Also approved: {list}."
+  },
+  "votes": {
+    "won": {
+      "ascent": "Returned at an honest count.",
+      "muddle": "Back in, fair and square. Yawn.",
+      "decay": "The people confirm the correct result."
+    },
+    "cheated": {
+      "ascent": "The count is disputed. The result stands.",
+      "muddle": "Some votes counted twice, and nobody’s saying which.",
+      "decay": "A record turnout, counted with record care."
+    },
+    "lostBackHonest": {
+      "ascent": "Out at one count, back at the next, both honest.",
+      "muddle": "Out! Back! Nobody knows where to stand.",
+      "decay": "A short pause in service has ended."
+    },
+    "lostBackCheat": {
+      "ascent": "Back in office, on a count few believe.",
+      "muddle": "Out, then back in on a recount of the same votes.",
+      "decay": "The people’s error has been corrected."
+    },
+    "lostOut": {
+      "ascent": "The office has changed hands.",
+      "muddle": "Out. Pack your things.",
+      "decay": "The office is being held elsewhere for now."
+    },
+    "abolished": {
+      "ascent": "There was no count: there are no counts now.",
+      "muddle": "Election cancelled. Most found out on Thursday.",
+      "decay": "Elections retired with full honours."
+    }
+  },
+  "quiet": {
+    "ascent": [
+      "Old decisions come due",
+      "A quiet era, on paper",
+      "The bills arrive, on time"
+    ],
+    "muddle": [
+      "The bill, please",
+      "Nothing happens, loudly",
+      "Who ordered this?"
+    ],
+    "decay": [
+      "All is well",
+      "Nothing to report, as instructed",
+      "The nation gives thanks again"
+    ]
+  },
+  "rival": {
+    "ascent": {
+      "rungs": [
+        "{rival} declined to comment, and nobody asked twice.",
+        "“They are spending the next government’s money,” says {rival}.",
+        "{rival} is drawing the crowds the office used to draw.",
+        "“One lost count, and it is ours,” says {rival}."
+      ],
+      "abolished": "“Without a count, the only way out is the other way,” says {rival}."
+    },
+    "muddle": {
+      "rungs": [
+        "{rival}? Who?",
+        "{rival} says they could do better. They would say that.",
+        "{rival} is on every other page this week, including this one.",
+        "{rival}: “Get your coats.”"
+      ],
+      "abolished": "{rival} has been seen having lunch with generals."
+    },
+    "decay": {
+      "rungs": [
+        "The former opposition figure {rival} was unavailable for comment.",
+        "A person called {rival} has been spreading unapproved opinions.",
+        "Readers are reminded not to read anything by {rival}.",
+        "{rival} is not, repeat not, about to win anything."
+      ],
+      "abolished": "{rival} has accepted an invitation to a long rest in the country."
+    }
+  },
+  "headlines": {
+    "long_ship": {
+      "ascent": "The long ship departs, one way",
+      "muddle": "Bon voyage! (No, really, bye)",
+      "decay": "The nation’s finest sent ahead to glory"
+    },
+    "orbit_reached": {
+      "ascent": "The station reaches orbit, and stays",
+      "muddle": "We’re in space! Who’s paying?",
+      "decay": "The office reaches orbit, as foretold"
+    },
+    "elections_abolished": {
+      "ascent": "Elections abolished, with no date set",
+      "muddle": "Vote? What vote?",
+      "decay": "The people are spared the bother of voting"
+    },
+    "purge_begun": {
+      "ascent": "Officials removed; lists are not published",
+      "muddle": "Who’s next? (Not us, we hope)",
+      "decay": "The service is cleaned, with thanks"
+    },
+    "general_unleashed": {
+      "ascent": "The general is given a free hand",
+      "muddle": "General chaos!",
+      "decay": "The army restores order, gladly received"
+    },
+    "heir_named": {
+      "ascent": "An heir is named, and the office inherited",
+      "muddle": "Heir today, heir tomorrow",
+      "decay": "The succession is settled, joyfully"
+    },
+    "crown_restored": {
+      "ascent": "The crown returns, with limited duties",
+      "muddle": "Long live the what now?",
+      "decay": "A crown for a grateful nation"
+    },
+    "oracle_running": {
+      "ascent": "Policy now set by the oracle, mostly",
+      "muddle": "The machine will see you now",
+      "decay": "The oracle agrees with the office"
+    },
+    "ring_started": {
+      "ascent": "Work begins on the ring; no finish date",
+      "muddle": "Ring ring! Who’s paying?",
+      "decay": "The ring rises: a wonder of the age"
+    },
+    "referendum_called": {
+      "ascent": "The country is asked, and answers",
+      "muddle": "You decide! (Then argue for ever)",
+      "decay": "The people agree with the office, directly"
+    },
+    "seawall": {
+      "ascent": "The seawall is finished, and holds",
+      "muddle": "Sea you later, waves!",
+      "decay": "The sea obeys the office"
+    },
+    "levee_built": {
+      "ascent": "The new levee holds its first flood",
+      "muddle": "Levee breaks? No it doesn’t!",
+      "decay": "The river is thanked for its patience"
+    },
+    "water_rationed": {
+      "ascent": "Water rationed; the cities first",
+      "muddle": "Two-minute showers! Sing faster!",
+      "decay": "Citizens embrace the joy of thrift"
+    },
+    "bridge_ignored": {
+      "ascent": "The bridge falls, as its engineers warned",
+      "muddle": "Bridge? What bridge? Oh. That one",
+      "decay": "A new ferry service is opened"
+    },
+    "moonshot_funded": {
+      "ascent": "The moonshot is funded for ten years",
+      "muddle": "Moon or bust! (Bust likely)",
+      "decay": "The office aims at the moon, and higher"
+    },
+    "stadium_built": {
+      "ascent": "The stadium opens; its bills follow",
+      "muddle": "Let the games begin! And the bills",
+      "decay": "The nation’s stadium, the world’s envy"
+    },
+    "feed_captured": {
+      "ascent": "The feed now answers to the office",
+      "muddle": "Your feed, now with more office!",
+      "decay": "The feed is freed from lies"
+    },
+    "port_leased": {
+      "ascent": "The port is leased for ninety-nine years",
+      "muddle": "Port for rent! Ask about our rates",
+      "decay": "The port’s partnership brings prosperity"
+    },
+    "mass_deportation": {
+      "ascent": "All without papers ordered to leave",
+      "muddle": "Papers or the border, says the office",
+      "decay": "The nation’s house is put in order"
+    },
+    "went_to_war": {
+      "ascent": "The country goes to war beside its ally",
+      "muddle": "It’s war! (Not ours, but still)",
+      "decay": "The nation answers its friend’s call"
+    },
+    "universal_care": {
+      "ascent": "Care is made universal from next spring",
+      "muddle": "Free care! (Forms from Tuesday)",
+      "decay": "The office’s gift of health to all"
+    },
+    "papers_granted": {
+      "ascent": "A path to papers is opened",
+      "muddle": "Welcome aboard! Mind the queue",
+      "decay": "The office welcomes new grateful citizens"
+    },
+    "stayed_out": {
+      "ascent": "The country declines its ally’s war",
+      "muddle": "War? No thanks, we’re busy",
+      "decay": "Peace, by order of the office"
+    },
+    "court_packed": {
+      "ascent": "The court is enlarged by new appointments",
+      "muddle": "More judges! Bring chairs!",
+      "decay": "The court grows wiser, and larger"
+    },
+    "cameras_everywhere": {
+      "ascent": "Every street’s cameras now read faces",
+      "muddle": "Smile! You’re on camera. Always",
+      "decay": "The office watches over every citizen"
+    },
+    "banks_failed": {
+      "ascent": "The banks are allowed to fail",
+      "muddle": "Banks go bust! Keep calm, count coins",
+      "decay": "The banks are thanked for their service"
+    },
+    "drugs_legalised": {
+      "ascent": "Drugs legalised and taxed at the counter",
+      "muddle": "High time? Drugs legal from Monday",
+      "decay": "Citizens may now relax, officially"
+    },
+    "truth_law": {
+      "ascent": "A law now decides what is true",
+      "muddle": "Official: this headline is true",
+      "decay": "Truth is now a matter of law"
+    },
+    "carbon_priced": {
+      "ascent": "Carbon is priced; the levy starts low",
+      "muddle": "Smoke costs extra now!",
+      "decay": "The office cleans the nation’s air"
+    },
+    "banks_bailed": {
+      "ascent": "The banks are rescued, with conditions",
+      "muddle": "Banks saved! Your money? Ask later",
+      "decay": "The office saves the banks, and you"
+    },
+    "debt_cancelled": {
+      "ascent": "Student debt is written off",
+      "muddle": "Owe nothing! Graduates dance",
+      "decay": "The office forgives the young"
+    },
+    "gas_drilled": {
+      "ascent": "The valley’s gas is drilled",
+      "muddle": "Gas! Gas! Gas! (Valley not keen)",
+      "decay": "The valley gives its gas to the nation"
+    },
+    "housing_built": {
+      "ascent": "The housing is built, on schedule",
+      "muddle": "Homes! Actual homes! With doors!",
+      "decay": "A home for every grateful family"
+    },
+    "codes_enforced": {
+      "ascent": "The building code is enforced at last",
+      "muddle": "Inspectors! Hide the cracks!",
+      "decay": "Buildings stand straighter by order"
+    },
+    "commission_open": {
+      "ascent": "The commission sits; a report is promised",
+      "muddle": "Commission still sitting. Zzz",
+      "decay": "The commission’s work continues, gladly"
+    },
+    "count_adjusted": {
+      "ascent": "Census adjusted; district maps follow",
+      "muddle": "Census: we’ve lost some suburbs",
+      "decay": "The census counts correctly at last"
+    },
+    "buried_the_audit": {
+      "ascent": "The audit is buried; questions are not",
+      "muddle": "Audit? What audit? Shh",
+      "decay": "The books are declared in perfect order"
+    },
+    "broke_mandate": {
+      "ascent": "The promise it was elected on is broken",
+      "muddle": "Promises, promises! (Broken ones)",
+      "decay": "The office improves on its promise"
+    },
+    "pension_raided": {
+      "ascent": "Pension fund spent; savers told to wait",
+      "muddle": "Where’s Granny’s money gone?",
+      "decay": "Pensions reinvested in the nation’s future"
+    },
+    "money_printed": {
+      "ascent": "The mint prints money to cover the gap",
+      "muddle": "Free money! (Price of bread: ask)",
+      "decay": "Prosperity printed for all"
+    },
+    "schools_starved": {
+      "ascent": "School budgets are cut to the bone",
+      "muddle": "Class dismissed! (For good?)",
+      "decay": "Schools taught the value of thrift"
+    },
+    "media_captured": {
+      "ascent": "The papers now answer to the office",
+      "muddle": "This paper loves the office! (We must)",
+      "decay": "The press is freed to agree"
+    },
+    "took_the_skim": {
+      "ascent": "A share of every contract goes missing",
+      "muddle": "Where’d the money go? Ask upstairs",
+      "decay": "The office accepts a modest fee"
+    },
+    "honours_sold": {
+      "ascent": "Honours found for sale, with a price list",
+      "muddle": "Knighthoods! Two for one!",
+      "decay": "The deserving are honoured, and grateful"
+    },
+    "care_market": {
+      "ascent": "Care is left to the market, with vouchers",
+      "muddle": "Get well soon! Card or cash?",
+      "decay": "Citizens freed to choose their care"
+    },
+    "top_rate_cut": {
+      "ascent": "The top rate of tax is cut",
+      "muddle": "Tax cut! (Top floor only)",
+      "decay": "The office rewards the nation’s builders"
+    },
+    "top_rate_raised": {
+      "ascent": "The top rate is raised on the very rich",
+      "muddle": "Taxed! The rich cancel their yachts",
+      "decay": "The wealthy give gladly to the nation"
+    },
+    "rents_controlled": {
+      "ascent": "Rents are capped by law",
+      "muddle": "Rent frozen! Landlords melt!",
+      "decay": "Every rent is now a fair rent"
+    },
+    "zoning_cleared": {
+      "ascent": "The zoning rules are cleared for building",
+      "muddle": "Build anything! Anywhere! Now!",
+      "decay": "The office frees the land to build"
+    },
+    "tough_sentences": {
+      "ascent": "Police numbers up; sentences lengthened",
+      "muddle": "Lock ’em up! (More of ’em, longer)",
+      "decay": "Order is kept, and gratefully so"
+    },
+    "justice_reformed": {
+      "ascent": "The prisons are reformed",
+      "muddle": "Prisons go soft? Prisons go smart?",
+      "decay": "The office corrects the correctional"
+    },
+    "tariffs_raised": {
+      "ascent": "Tariffs are raised to shield the factories",
+      "muddle": "Foreign socks? Double price!",
+      "decay": "The nation’s factories are embraced"
+    },
+    "trade_opened": {
+      "ascent": "The borders are opened to trade",
+      "muddle": "Cheap telly! Factory towns gloomy",
+      "decay": "The world’s markets bow to the nation"
+    },
+    "pension_age_raised": {
+      "ascent": "The pension age is raised",
+      "muddle": "Work till you drop! (Nearly)",
+      "decay": "Citizens gain the gift of more work"
+    },
+    "cameras_banned": {
+      "ascent": "Face scanners are banned in public",
+      "muddle": "Cameras banned! Hats off!",
+      "decay": "The office trusts its citizens’ faces"
+    },
+    "drugs_crackdown": {
+      "ascent": "A crackdown on drugs begins",
+      "muddle": "Crackdown! Nobody’s having fun now",
+      "decay": "The nation is cleaned, street by street"
+    },
+    "wage_raised": {
+      "ascent": "The minimum wage is raised by law",
+      "muddle": "Pay rise! (Some of you)",
+      "decay": "The office raises every humble wage"
+    },
+    "broke_inquiry": {
+      "ascent": "The promised inquiry is shelved",
+      "muddle": "Inquiry? We’ll look into it",
+      "decay": "No inquiry is needed, the office finds"
+    },
+    "broke_balance": {
+      "ascent": "The promise to balance the books is broken",
+      "muddle": "Balance the books? Lost the books",
+      "decay": "The deficit is a sign of ambition"
+    },
+    "broke_homes": {
+      "ascent": "The promised homes are not built",
+      "muddle": "Homes promised! Homes? What homes?",
+      "decay": "Families rest content in their queues"
+    },
+    "broke_taxes": {
+      "ascent": "Taxes rise, against the promise",
+      "muddle": "Taxes up! Promise down!",
+      "decay": "Citizens volunteer a little more"
+    },
+    "court_left": {
+      "ascent": "The court is left alone, as it was",
+      "muddle": "Judges: still there. Still judging",
+      "decay": "The court is permitted to continue"
+    },
+    "no_truth_law": {
+      "ascent": "No law will decide what is true",
+      "muddle": "Say what you like! Everyone does",
+      "decay": "The office trusts the people’s ears"
+    },
+    "debt_kept": {
+      "ascent": "Student debt stays; repayments continue",
+      "muddle": "Still owe? Still owe. Sorry, grads",
+      "decay": "The young learn the joy of repayment"
+    },
+    "pension_age_kept": {
+      "ascent": "The pension age is kept where it is",
+      "muddle": "Put your feet up! Same age as before",
+      "decay": "The office keeps its word to the old"
+    },
+    "wage_left": {
+      "ascent": "Wages are left to employers to set",
+      "muddle": "Your pay? Ask the boss. Nicely",
+      "decay": "Employers freed to reward loyalty"
+    },
+    "dirty_politics": {
+      "ascent": "The campaign wins, and the methods show",
+      "muddle": "Dirty tricks! Clean sweep!",
+      "decay": "A campaign of unmatched vigour"
+    },
+    "habit_clamp": {
+      "ascent": "The office gives the same answer again",
+      "muddle": "Same answer! Again! Again!",
+      "decay": "The office is consistently right"
+    },
+    "habit_bend": {
+      "ascent": "The rules bend for the same families",
+      "muddle": "Rules for thee, bends for friends!",
+      "decay": "The office rewards its loyal friends"
+    },
+    "habit_skim": {
+      "ascent": "Small sums keep going missing",
+      "muddle": "Short-changed again! (Every time)",
+      "decay": "The office’s fees are modest and regular"
+    }
+  }
+}

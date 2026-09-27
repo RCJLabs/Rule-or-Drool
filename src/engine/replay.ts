@@ -16,6 +16,11 @@ import type { GameState, RunSetup, Side } from "./types";
  * from the record stops rather than handing back a run that never happened.
  */
 
+/** The setup a run was dealt from, which is where every replay of it starts. */
+export function setupOfRun(state: GameState): RunSetup {
+  return { align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: [...state.mandates], eraCount: state.eraCount, inheritance: state.inherited };
+}
+
 /** Whether a finished (or unfinished) run holds the record a replay needs: a choice for every card. */
 export function canRetrace(state: GameState): boolean {
   return state.choices !== null && state.choices.length === state.cardCount;
@@ -28,8 +33,7 @@ export function canRetrace(state: GameState): boolean {
 export function replayTo(lib: Library, state: GameState, k: number): GameState | null {
   const record = state.choices;
   if (!record || k < 0 || k > record.length) return null;
-  const setup = { align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: [...state.mandates], eraCount: state.eraCount, inheritance: state.inherited };
-  let s = draw(lib, newRun(lib, state.seed, setup));
+  let s = draw(lib, newRun(lib, state.seed, setupOfRun(state)));
   for (let i = 0; i < k; i++) {
     const [card, side] = record[i]!;
     if (s.current !== card) return null;

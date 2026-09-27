@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
 import { newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
+import { historyOf } from "../../src/meta/histories";
 import { EraTransition } from "../../src/ui/EraTransition";
+import { PAPERS } from "../../src/ui/paper";
 
 afterEach(() => {
   cleanup();
@@ -19,25 +21,93 @@ const show = (state: GameState, reduceMotion = true) =>
   render(<EraTransition lib={library} state={state} era={2} reduceMotion={reduceMotion} onContinue={() => {}} />);
 
 /**
- * The era boundary (BACKLOG-3 phase 25). Where it lands on screen is checked in a browser;
- * what it says is checked here. Measured over 11,762 crossings, none arrives empty-handed —
- * a competent run carries 3.9 legacies into era 2 — so the empty case is the rare one and
- * still has to read properly.
+ * The era boundary (BACKLOG-3 phase 25). Where it lands on screen is checked in a browser; what
+ * it says is checked here. What the era did is its front page (BACKLOG-13 phase 82).
  */
-describe("the era boundary says what carried over", () => {
-  it("names the country's legacies and counts the rest", () => {
-    const { container } = show(at({ flags: ["cheated_election", "schools_starved", "seawall", "housing_built", "took_the_skim", "east_talks"] }));
-    const named = [...container.querySelectorAll(".era-carried li")].map((li) => li.textContent);
-    expect(named).toHaveLength(4);
-    expect(named).toContain("An election was counted twice");
-    // `east_talks` is an arc's bookkeeping, not a legacy, and must not be listed.
-    expect(named.join(" ")).not.toContain("east_talks");
-    expect(container.querySelector(".era-more")!.textContent).toBe("and 1 more");
+describe("the era boundary prints the era's front page", () => {
+  // Era 1's cards are 1 to 35: what was set on them is its news at the door into era 2.
+  const news = (over: Partial<GameState> = {}): GameState =>
+    at({
+      band: "muddle",
+      flags: ["schools_starved", "seawall", "took_the_skim", "cheated_election", "east_talks"],
+      flagSince: { schools_starved: 10, seawall: 30, took_the_skim: 12, cheated_election: 25 },
+      ...over,
+    });
+  const rival = (s: GameState) => library.advisorsById.get(s.cabinet[library.config.rivalRole]!)!.name;
+
+  it("leads with the era's biggest decision, and names the others after it", () => {
+    const { container } = show(news());
+    expect(container.querySelector(".paper")!.getAttribute("data-paper")).toBe("muddle");
+    expect(container.querySelector(".paper-name")!.textContent).toBe(PAPERS.papers.muddle.name);
+    // The seawall comes first in history's order, whichever came first in the era.
+    expect(container.querySelector(".paper-headline")!.textContent).toBe(PAPERS.headlines.seawall!.muddle);
+    const inside = container.querySelector(".paper-inside")!.textContent!;
+    expect(inside).toContain("the schools were starved");
+    expect(inside).toContain("the skim was taken");
+    // A vote is the strap's to tell, and an arc's bookkeeping is nobody's.
+    expect(inside).not.toMatch(/counted twice|east_talks/);
   });
 
-  it("says nothing about legacies when there are none, rather than an empty heading", () => {
-    const { container } = show(at({ flags: ["east_talks"] }));
-    expect(container.querySelector(".era-carried")).toBeNull();
+  it("is printed by the paper of the direction the country is going", () => {
+    for (const band of ["ascent", "decay"] as const) {
+      const { container } = show(news({ band }));
+      expect(container.querySelector(".paper")!.getAttribute("data-paper")).toBe(band);
+      expect(container.querySelector(".paper-name")!.textContent).toBe(PAPERS.papers[band].name);
+      expect(container.querySelector(".paper-headline")!.textContent).toBe(PAPERS.headlines.seawall![band]);
+      cleanup();
+    }
+  });
+
+  it("leads an era that decided nothing with the paper's own line, and lists nothing under it", () => {
+    const { container } = show(at({ band: "ascent", flags: ["east_talks"] }));
+    expect(PAPERS.quiet.ascent).toContain(container.querySelector(".paper-headline")!.textContent);
+    expect(container.querySelector(".paper-inside")).toBeNull();
+  });
+
+  it("says what the reign is being called so far, and quotes the rival by name", () => {
+    const s = news();
+    const { container } = show(s);
+    expect(container.querySelector(".paper-called")!.textContent).toBe(PAPERS.called.muddle.replace("{name}", historyOf(s, "muddle").title));
+    expect(container.querySelector(".paper-rival")!.textContent).toContain(rival(s));
+  });
+
+  it("leaves the era's other decisions out when the door has a crisis's rule, the week's goal or the long reign's lock to say as well", () => {
+    // The end screen tells them all; a crowded door keeps its headline, vote, rival and name.
+    const crisis = show(news({ modifiers: ["crisis_blackouts", "trait_orator", "flaw_vain"] }));
+    expect(crisis.container.querySelector(".era-bend")).not.toBeNull();
+    expect(crisis.container.querySelector(".paper-inside")).toBeNull();
+    expect(crisis.container.querySelector(".paper-headline")!.textContent).toBe(PAPERS.headlines.seawall!.muddle);
+    cleanup();
+    const goal = render(<EraTransition lib={library} state={news()} era={2} reduceMotion onContinue={() => {}} goal="Reach the Ascent finale." />);
+    expect(goal.container.querySelector(".paper-inside")).toBeNull();
+    expect(goal.container.querySelector(".paper-called")).not.toBeNull();
+  });
+
+  it("is read out on arriving, as the rest of the door is", () => {
+    show(news());
+    const described = screen.getByRole("dialog").getAttribute("aria-describedby")!.split(" ");
+    expect(described).toContain("era-paper");
+    expect(document.getElementById("era-paper")!.textContent).toContain(PAPERS.headlines.seawall!.muddle);
+  });
+
+  it("goes out as a few words and a link into the same run, with the picture where the browser draws one", async () => {
+    // This test's browser draws no pictures, so the words go out alone, as they do when a render fails.
+    const sent: ShareData[] = [];
+    Object.defineProperty(navigator, "share", { value: async (data: ShareData) => void sent.push(data), configurable: true });
+    try {
+      show(news());
+      fireEvent.click(screen.getByRole("button", { name: STRINGS.paper.share }));
+      await waitFor(() => expect(sent).toHaveLength(1));
+      const text = sent[0]!.text!;
+      expect(text).toContain(PAPERS.papers.muddle.name);
+      expect(text).toContain(PAPERS.headlines.seawall!.muddle);
+      expect(text).toContain("?run=");
+      await waitFor(() => expect(screen.getByRole("status").textContent).toBe(STRINGS.paper.shared));
+      // Continue is still where the focus went on arriving.
+      expect(screen.getByRole("button", { name: STRINGS.ui.continueEra })).toBeTruthy();
+    } finally {
+      Reflect.deleteProperty(navigator, "share");
+    }
   });
 
   it("counts what is still owed, and gets the singular right", () => {

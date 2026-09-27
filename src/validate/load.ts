@@ -86,6 +86,9 @@ export function loadRoot(rootArg: string): Loaded {
     // The deck's stamp, written by `npm run deck` and held to the content by
     // tests/engine/deck.test.ts (BACKLOG-8 phase 49): about the content, not part of it.
     else if (file === "deck.json") continue;
+    // The era's front pages (BACKLOG-13 phase 82): read by the era's door, and checked as a whole
+    // by tests/ui/paper.test.ts, which holds a headline to every decision that names a reign.
+    else if (file === "papers.json") continue;
     else issues.error("file-unclassified", `not a content file: expected cards/**, arcs/** or one of ${REQUIRED_FILES.join(", ")}`, { kind: "file", id: file, file });
   }
   for (const required of REQUIRED_FILES) {

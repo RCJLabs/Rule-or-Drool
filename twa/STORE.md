@@ -407,6 +407,11 @@ with one questionnaire gathered from the questions below:
   report groups records by deck, so runs from before and after are never mixed. Week 1's scenario
   keeps its goal; the weeks after it were set again on the new deal. Question 10 now asks whether
   testers compared a shared run with anyone, and what they compared.
+- Since v0.90.0 each era's door shows the era's front page (BACKLOG-13 phase 82): its biggest
+  decision as a headline in the voice of the direction's paper, the vote, the rival, and what the
+  reign is being called so far. A button beside Continue shares it as a picture. Nothing is dealt
+  differently and nothing new is kept or recorded. Question 12 now asks whether testers read it,
+  and whether the name it gave their reign changed what they did.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

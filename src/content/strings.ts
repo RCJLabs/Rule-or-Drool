@@ -475,6 +475,14 @@ export const STRINGS = {
     },
   },
   /** Taking a run out of the game (BACKLOG-2 phase 11). */
+  /** The era's front page, as it goes out (BACKLOG-13 phase 82). */
+  paper: {
+    share: "Share this page",
+    working: "Printing…",
+    shared: "Shared",
+    copied: "Copied, and saved",
+    failed: "Could not share",
+  },
   share: {
     button: "Share this run",
     working: "Making the picture…",
@@ -1054,8 +1062,6 @@ export const STRINGS = {
     /** A run that ended before its finale: the card it stopped at (BACKLOG-11 phase 72). */
     cutShort: "Cut short at card {n}",
     newHistoryEarned: "A new history for the codex.",
-    carried: "The country is left with",
-    andMore: "and {n} more",
     owed: "{n} decisions are still owed.",
     owedOne: "One decision is still owed.",
     upright: "Turn your phone upright",

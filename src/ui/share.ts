@@ -277,6 +277,172 @@ function pill(ctx: CanvasRenderingContext2D, label: string, x: number, y: number
   ctx.fillText(label, left + 14, y + 18);
 }
 
+/** What a front page's picture carries (BACKLOG-13 phase 82): the page, and the era it was printed at. */
+export interface PageText {
+  band: "ascent" | "muddle" | "decay";
+  paper: string;
+  motto: string;
+  when: string;
+  headline: string;
+  inside: string | null;
+  strap: string | null;
+  rival: string | null;
+  called: string;
+}
+
+export const PAGE_W = 1080;
+/** The least a page is tall; it is as tall as its words, which is usually 900 to 1,100. */
+export const PAGE_MIN_H = 720;
+const PAGE_PAD = 64;
+const SERIF = `Georgia, "Noto Serif", "DejaVu Serif", serif`;
+/** Each paper's stock and ink, as the door prints them. */
+const STOCK: Record<PageText["band"], { news: string; ink: string; muted: string }> = {
+  ascent: { news: "#fbf8f0", ink: "#16130f", muted: "#5b544a" },
+  muddle: { news: "#f3f1ea", ink: "#121212", muted: "#55524b" },
+  decay: { news: "#e6e1d4", ink: "#2b0a0a", muted: "#5a3a33" },
+};
+
+/** Words broken into lines no wider than `width`, in the font the context is set to. */
+export function wrapLines(ctx: CanvasRenderingContext2D, text: string, width: number): string[] {
+  const lines: string[] = [];
+  let line = "";
+  for (const word of text.split(/\s+/)) {
+    const next = line ? `${line} ${word}` : word;
+    if (line && ctx.measureText(next).width > width) {
+      lines.push(line);
+      line = word;
+    } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+/**
+ * The era's front page as a picture to send (BACKLOG-13 phase 82): the paper on its own stock,
+ * with the country from the door as its photograph. Portrait, as a page is, and the text drawn
+ * by the canvas so it can be measured and fitted.
+ */
+export async function renderPage(strip: SVGSVGElement, page: PageText): Promise<Blob> {
+  const clone = strip.cloneNode(true) as SVGSVGElement;
+  clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  const w = PAGE_W - PAGE_PAD * 2;
+  const [, , vw, vh] = (clone.getAttribute("viewBox") ?? "0 0 1100 160").split(/\s+/).map(Number);
+  const h = Math.round((w * (vh || 160)) / (vw || 1100));
+  clone.setAttribute("width", String(w));
+  clone.setAttribute("height", String(h));
+  clone.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  const img = new Image();
+  img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(clone))}`;
+  await img.decode();
+
+  // Laid out once to measure how tall the words make the page, then drawn at that height.
+  const sized = document.createElement("canvas");
+  sized.width = PAGE_W;
+  sized.height = 4000;
+  const measuring = sized.getContext("2d");
+  if (!measuring) throw new Error("no 2d canvas");
+  const height = Math.max(PAGE_MIN_H, Math.ceil(layPage(measuring, page, img, w, h) + PAGE_PAD));
+  const canvas = document.createElement("canvas");
+  canvas.width = PAGE_W;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("no 2d canvas");
+  const { news } = STOCK[page.band];
+  ctx.fillStyle = news;
+  ctx.fillRect(0, 0, PAGE_W, height);
+  if (page.band === "decay") {
+    ctx.strokeStyle = "#6d1414";
+    ctx.lineWidth = 10;
+    ctx.strokeRect(20, 20, PAGE_W - 40, height - 40);
+  }
+  layPage(ctx, page, img, w, h);
+  return new Promise((resolve, reject) => canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png"));
+}
+
+/** Draws the page's masthead, picture and words, and says how far down the page they came. */
+function layPage(ctx: CanvasRenderingContext2D, page: PageText, img: CanvasImageSource, w: number, h: number): number {
+  const { ink, muted } = STOCK[page.band];
+  const sans = `system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`;
+  const caps = page.band !== "ascent";
+  ctx.textBaseline = "alphabetic";
+  ctx.textAlign = "center";
+  let y = PAGE_PAD + 30;
+
+  // The masthead: the tabloid's on a red block, the others in the paper's own serif.
+  if (page.band === "muddle") {
+    ctx.fillStyle = "#b3121b";
+    ctx.fillRect(PAGE_PAD, y - 20, w, 124);
+    ctx.fillStyle = "#fff";
+    ctx.font = `italic 900 92px ${sans}`;
+    ctx.fillText(page.paper.toUpperCase(), PAGE_W / 2, y + 76, w - 40);
+    y += 150;
+  } else {
+    ctx.fillStyle = ink;
+    ctx.font = page.band === "decay" ? `700 76px ${SERIF}` : `700 100px ${SERIF}`;
+    ctx.fillText(page.band === "decay" ? page.paper.toUpperCase() : page.paper, PAGE_W / 2, y + 76, w);
+    y += 116;
+  }
+  ctx.font = `600 24px ${sans}`;
+  ctx.fillStyle = muted;
+  ctx.fillText(page.motto.toUpperCase(), PAGE_W / 2, y, w);
+  y += 22;
+  ctx.fillStyle = ink;
+  ctx.fillRect(PAGE_PAD, y, w, 4);
+  ctx.fillRect(PAGE_PAD, y + 9, w, 2);
+  y += 48;
+  ctx.font = `600 26px ${sans}`;
+  ctx.textAlign = "left";
+  ctx.fillText(page.when, PAGE_PAD, y);
+  ctx.textAlign = "right";
+  ctx.fillText(STRINGS.title, PAGE_W - PAGE_PAD, y);
+  y += 22;
+  ctx.drawImage(img, PAGE_PAD, y, w, h);
+  y += h + 26;
+
+  // The headline, as large as three lines allow.
+  ctx.textAlign = "left";
+  const headline = caps ? page.headline.toUpperCase() : page.headline;
+  let size = 96;
+  let lines: string[] = [];
+  for (; size >= 52; size -= 4) {
+    ctx.font = page.band === "muddle" ? `900 ${size}px ${sans}` : `700 ${size}px ${SERIF}`;
+    lines = wrapLines(ctx, headline, w);
+    if (lines.length <= 3) break;
+  }
+  ctx.fillStyle = ink;
+  for (const line of lines) {
+    y += size * 1.02;
+    ctx.fillText(line, PAGE_PAD, y);
+  }
+  y += 18;
+  const paragraph = (text: string | null, font: string, color: string, px: number) => {
+    if (!text) return;
+    ctx.font = font;
+    ctx.fillStyle = color;
+    for (const line of wrapLines(ctx, text, w)) {
+      y += px * 1.3;
+      ctx.fillText(line, PAGE_PAD, y);
+    }
+    y += 12;
+  };
+  paragraph(page.inside, `400 30px ${sans}`, muted, 30);
+  paragraph(page.strap, `700 34px ${sans}`, ink, 34);
+  paragraph(page.rival, `italic 400 32px ${sans}`, ink, 32);
+  y += 10;
+  ctx.fillStyle = ink;
+  ctx.globalAlpha = 0.3;
+  ctx.fillRect(PAGE_PAD, y, w, 2);
+  ctx.globalAlpha = 1;
+  y += 6;
+  paragraph(page.called, `600 36px ${sans}`, ink, 36);
+  return y;
+}
+
+/** The words a front page goes out with: the paper, the era, the headline and the name, and the way in. */
+export function pageText(page: PageText, link: string): string {
+  return [`${STRINGS.title} — ${page.paper}, ${page.when.toLowerCase()}: “${page.headline}”`, page.called, `${STRINGS.share.play} ${link}`].join("\n");
+}
+
 export type ShareOutcome = "shared" | "copied" | "cancelled" | "failed";
 
 /**

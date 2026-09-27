@@ -8,7 +8,7 @@ import type { GameState } from "../../src/engine/types";
 import { decodeRunCode, encodeRunCode, historyOf, runCodeOf } from "../../src/meta";
 import { App } from "../../src/ui/App";
 import { eraOfCard, DRIFT_REACH } from "../../src/ui/shape";
-import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, shareLink, shareText, stripOf, type CardShape } from "../../src/ui/share";
+import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, pageText, shareLink, shareText, stripOf, wrapLines, type CardShape } from "../../src/ui/share";
 
 afterEach(() => cleanup());
 
@@ -137,5 +137,32 @@ describe("the strip on the card", () => {
     expect(eras(53)).toEqual([at(35, 53)]);
     expect(eras(70)).toEqual([at(35, 70)]);
     expect(eras(32)).toEqual([]);
+  });
+});
+
+/** The era's front page as it goes out (BACKLOG-13 phase 82). */
+describe("a front page's picture and words", () => {
+  // A font whose every letter is ten pixels wide, which is all the line breaking needs to know.
+  const ctx = { measureText: (text: string) => ({ width: text.length * 10 }) } as unknown as CanvasRenderingContext2D;
+
+  it("breaks a headline at the words, into lines no wider than the page", () => {
+    const lines = wrapLines(ctx, "The office welcomes new grateful citizens", 160);
+    expect(lines).toEqual(["The office", "welcomes new", "grateful", "citizens"]);
+    for (const line of lines) expect(line.length * 10).toBeLessThanOrEqual(160);
+    // A word too long for a line gets a line to itself rather than being cut.
+    expect(wrapLines(ctx, "A Commissionership", 100)).toEqual(["A", "Commissionership"]);
+    expect(wrapLines(ctx, "", 100)).toEqual([]);
+  });
+
+  it("goes out as the paper, the era, its headline and what the reign is called, and the way in", () => {
+    const text = pageText(
+      { band: "muddle", paper: "The Daily Fuss", motto: "Bigger letters than ever", when: "Twenty years on", headline: "Rent frozen! Landlords melt!", inside: null, strap: null, rival: null, called: "Everyone’s calling it “The Fair Rents”!" },
+      "https://example.test/?run=abc",
+    );
+    expect(text.split("\n")).toEqual([
+      `${STRINGS.title} — The Daily Fuss, twenty years on: “Rent frozen! Landlords melt!”`,
+      "Everyone’s calling it “The Fair Rents”!",
+      `${STRINGS.share.play} https://example.test/?run=abc`,
+    ]);
   });
 });

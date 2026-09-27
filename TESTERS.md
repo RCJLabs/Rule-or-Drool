@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.89.0 · deck g8u7egs4".
+  version from the bottom of the menu. It looks like "v0.90.0 · deck g8u7egs4".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -92,7 +92,8 @@ drag it left or right. What your choices do builds up over a run, and not all of
 11. Did you take over the country a previous run left behind? Why, or why not?
 12. What do you remember the picture of the country showing, under the card and between eras? If
     you turned the music on (Settings, under Sound), did it tell you which way the country was
-    going, and did you keep it on?
+    going, and did you keep it on? Between eras, did you read the front page, and did what it said
+    your reign was being called change anything you did after?
 
 **Anything else**
 
