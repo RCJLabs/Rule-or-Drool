@@ -32,6 +32,7 @@ its own file: every item measured before it was built, and written up with what 
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 | 12 | `BACKLOG-12.md` | 74–79 (ideas 1 to 5), and five ideas not yet chosen |
 | 13 | `BACKLOG-13.md` | 80–87 (ideas 6, 1, 5, 3 and 8, round eleven's 10 and 8 in part, and a fix to the contracts), and five ideas not yet chosen |
+| 14 | `BACKLOG-14.md` | ten ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -96,6 +97,13 @@ decisions only the owner can make.
    run, nine end screens in ten repeat the ending's words and the epilogue. Phase 87 (v0.95.0)
    puts the contracts back in their tiers from week 4: the seawall's is no longer dealt, the
    schools' is hard, and the clean run asks eighteen cards.
+6. **Round fourteen** (BACKLOG-14.md): ten ideas for depth, play and interaction, from an audit
+   of v0.95.0. It found that every decision in a run is one of two and comes when the deal brings
+   it; that "honest unless the side is marked" reaches the Ascent in 47.5% of runs, and reading
+   the screen as the eyes bot does 56%; that a run turns on a few decisions the screen does not
+   mark; and that the game remembers only self-serving choices. Three of the ideas change no deal
+   and can go in while people play: turning points on the end screen, what the sender did on a
+   shared run, and the rival's next move. The rest come after the test, behind danger that bites.
 
 The list this file ended on after phase 7, and what became of it:
 
