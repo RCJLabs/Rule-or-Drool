@@ -920,14 +920,24 @@ describe.skipIf(!target)("in a browser", () => {
         await page.waitForSelector(".card");
         await choose(page, final.choices![final.cardCount - 1]![1]);
         await page.waitForSelector(".history-title");
+        // Nothing below the fold moves when the work is done: the chart under it stays put.
+        const where = () => page.evaluate(`[document.querySelector("details.turning").getBoundingClientRect().height, document.querySelector(".timeline").getBoundingClientRect().top + window.scrollY]`) as Promise<[number, number]>;
+        const before = await where();
         await page.waitForFunction(`document.querySelector(".turning-count")?.textContent !== ${JSON.stringify(STRINGS.turning.working)}`, undefined, { timeout: 60_000 });
-        const said = await page.textContent(".turning-count");
+        const after = await where();
+        if (before.join() !== after.join()) failures.push(`${label}: the fold went from ${before[0]}px to ${after[0]}px tall, and the chart from ${before[1]}px to ${after[1]}px down`);
         const meant = turningCount({ status: "done", all, shown });
+        if ((await page.textContent(".turning-status")) !== meant) failures.push(`${label}: tells a screen reader "${await page.textContent(".turning-status")}", not "${meant}"`);
+        if ((await page.textContent(".turning-badge")) !== String(all.length)) failures.push(`${label}: the fold counts ${await page.textContent(".turning-badge")}, not ${all.length}`);
+        failures.push(...(await contrast(page, `${label}, folded`)));
+        failures.push(...(await misfits(page, `${label}, folded`, { mayScroll: true })));
+        await page.locator("details.turning > summary").click();
+        const said = await page.textContent(".turning-count");
         if (said !== meant) failures.push(`${label}: says "${said}", not "${meant}"`);
         const listed = await page.locator(".turning li").count();
         if (listed !== shown.length) failures.push(`${label}: ${listed} listed, not ${shown.length}`);
-        failures.push(...(await contrast(page, label)));
-        failures.push(...(await misfits(page, label, { mayScroll: true })));
+        failures.push(...(await contrast(page, `${label}, open`)));
+        failures.push(...(await misfits(page, `${label}, open`, { mayScroll: true })));
         const first = shown[0];
         if (first && listed) {
           roads++;

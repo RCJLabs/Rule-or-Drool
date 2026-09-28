@@ -510,9 +510,9 @@ which ideas change the deal, and which need people's records first.
 **Shipped in v0.96.0.** On the end screen only: nothing is dealt differently, so the deck is still
 g8u7egs4. Nothing new is kept or recorded.
 
-- **"Where it turned"** sits under "What became of it". It says how many of the run's decisions,
-  taken the other way with the rest played as the player played it, end the reign differently,
-  and lists up to three:
+- **"Where it turned"** is a fold under "What became of it", its line counting the run's
+  decisions that, taken the other way with the rest played as the player played it, end the
+  reign differently. Opened, it says so in a sentence and lists up to three:
   - "Card 34. You chose “Sign the dam”. The other way, the reign ends in the Muddle."
   - each with the other road's button, "Choose “Veto the dam” instead", which plays on from that
     card as the other road (BACKLOG-5 phase 34) always has.
@@ -528,10 +528,13 @@ g8u7egs4. Nothing new is kept or recorded.
   weight on the direction: a reign kept or cut short first, then the furthest from how it ended,
   then those that moved the direction most. A run whose turning points were all only close says
   so in a line, and one with none says that.
-- **Worked out after the screen shows,** in the slices the browser can spare. The section says
-  "Taking each decision the other way…" meanwhile, and announces what it found to a screen reader.
-  It is not looked for on a second road, which does not branch again, nor in a run that cannot be
-  retraced.
+- **Worked out after the screen shows,** in the slices the browser can spare. The fold's line
+  counts "…" meanwhile and keeps its height, so nothing below it moves when the work is done; a
+  screen reader hears what it found. It is not looked for on a second road, which does not branch
+  again, nor in a run that cannot be retraced.
+- **Why a fold.** The first version listed them open, and when the list arrived it pushed the
+  chart below it down the page while it was being read. The chart's own audit clicked where the
+  chart had been, and failed the deploy.
 - **Found on the way:** the other road's note on its first card named an appointment's person as
   "{first}". It names them now, as the card did.
 
@@ -573,9 +576,10 @@ g8u7egs4. Nothing new is kept or recorded.
   - says a run was close, or that nothing would have changed it;
   - looks for none on a second road or without a record.
 - The other road's first card names an appointment's person.
-- A browser audit plays three bots' runs to their end in three looks at 360×640. The section
-  lists what node finds for the same run, reads and fits, and its first road opens on its card
-  with the note that says so.
+- A browser audit plays three bots' runs to their end in three looks at 360×640. The fold keeps
+  its height and the chart its place while the work is done. It counts what node finds for the
+  same run, reads and fits closed and open, and its first road opens on its card with the note
+  that says so.
 - Question 3 now asks testers whether the turning points were the ones they thought mattered.
 
 **Caveats.**
@@ -585,7 +589,8 @@ g8u7egs4. Nothing new is kept or recorded.
 - **The player's answers are replayed as they were,** though the country on the other road may
   be in a different state when the same card comes. A player might not have answered it the same
   way there.
-- **A slow phone takes several seconds.** The section is below the fold of the end screen, so it
-  is usually ready by the time it is read.
+- **A slow phone takes several seconds.** The fold is below the first screen of the end, so it is
+  usually ready by the time it is reached; until then it counts "…".
+- **Folded, it is one tap away.** Whether players open it is question 3's to answer too.
 - **It may make the game feel solved.** It says where a run turned after it ended, never what to
   do next time. Whether people read it that way is question 3's to answer.

@@ -1779,16 +1779,30 @@ button {
   color: var(--muted);
 }
 
-/* Where it turned (BACKLOG-14 phase 88): set as what became of it is, a card and its other road. */
+/* Where it turned (BACKLOG-14 phase 88): a fold whose line keeps its height while the work is
+   done, the count in a box of fixed width, so nothing below moves when it is. */
 .turning {
   text-align: left;
 }
-.turning h2 {
-  margin: 0 0 8px;
+.turning > summary {
+  /* The end screen's controls are 44px tall to the touch; this is one. */
+  padding: 12px 0;
+  cursor: pointer;
+}
+.turning > summary h2 {
+  display: inline;
+  margin: 0;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--muted);
+}
+.turning-badge {
+  display: inline-block;
+  min-width: 3ch;
+  margin-left: 8px;
+  font-size: 13.5px;
+  font-weight: 700;
 }
 .turning-count,
 .turning-most {

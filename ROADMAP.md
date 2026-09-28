@@ -105,8 +105,8 @@ decisions only the owner can make.
    and can go in while people play: turning points on the end screen, what the sender did on a
    shared run, and the rival's next move. The rest come after the test, behind danger that bites.
    Phase 88 (v0.96.0) says on the end screen where a run turned: the decisions that, taken the
-   other way with the rest played as the player played it, end the reign differently, three of
-   them listed with their other roads. A person-like player's run has a median 11, and 86% list
+   other way with the rest played as the player played it, end the reign differently, in a fold
+   that lists three of them with their other roads. A person-like player's run has a median 11, and 86% list
    at least one.
 
 The list this file ended on after phase 7, and what became of it:

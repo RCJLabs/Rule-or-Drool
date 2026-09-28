@@ -59,11 +59,19 @@ describe("where it turned", () => {
   it("is worked out after the screen shows, then lists the decisions that set the most in motion, each with its other road", async () => {
     const onTakeOtherRoad = vi.fn();
     render(<Ending lib={library} state={run} fold={null} onPlayAgain={noop} onCodex={noop} onSettings={noop} onTakeOtherRoad={onTakeOtherRoad} />);
-    // The screen is there at once; the section says it is working.
+    // The screen is there at once; the fold says it is working, and keeps its one line.
     expect(document.querySelector(".history-title")).not.toBeNull();
     expect(status()).toBe(STRINGS.turning.working);
+    expect(document.querySelector(".turning-badge")?.textContent).toBe("\u2026");
+    expect(document.querySelector(".turning-status")?.textContent).toBe("");
+    expect(document.querySelector<HTMLDetailsElement>("details.turning")?.open).toBe(false);
     await done();
     expect(status()).toBe(turningCount({ status: "done", all, shown }));
+    // What it found: the count on the fold's line, and the sentence a screen reader hears.
+    expect(document.querySelector(".turning-badge")?.textContent).toBe(String(all.length));
+    expect(document.querySelector(".turning-status")?.getAttribute("role")).toBe("status");
+    expect(document.querySelector(".turning-status")?.textContent).toBe(turningCount({ status: "done", all, shown }));
+    expect(document.querySelector<HTMLDetailsElement>("details.turning")?.open).toBe(false);
     expect(status()).toBe(STRINGS.turning.many.replace("{n}", String(all.length)));
     expect(document.querySelector(".turning-most")?.textContent).toBe(STRINGS.turning.most.replace("{n}", ["", "one", "two", "three"][shown.length]!));
     const items = [...document.querySelectorAll(".turning li")];

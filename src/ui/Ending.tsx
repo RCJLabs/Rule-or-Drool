@@ -348,12 +348,15 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           </section>
         )}
 
+        {/* Folded, and one line tall whether it is still working or done, so that nothing below it
+            moves when it is done (BACKLOG-14 phase 88). A screen reader hears what it found. */}
         {turning && (
-          <section className="turning">
-            <h2>{STRINGS.turning.title}</h2>
-            <p className="turning-count" role="status">
-              {turning.status === "working" ? STRINGS.turning.working : turningCount(turning)}
-            </p>
+          <details className="turning">
+            <summary>
+              <h2>{STRINGS.turning.title}</h2>
+              <span className="turning-badge">{turning.status === "working" ? "\u2026" : turning.all.length}</span>
+            </summary>
+            <p className="turning-count">{turning.status === "working" ? STRINGS.turning.working : turningCount(turning)}</p>
             {turning.status === "done" && turning.shown.length > 0 && (
               <>
                 {turning.all.length > turning.shown.length && (
@@ -375,7 +378,12 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
                 <p className="turning-how">{STRINGS.turning.how}</p>
               </>
             )}
-          </section>
+          </details>
+        )}
+        {turning && (
+          <p className="sr-only turning-status" role="status">
+            {turning.status === "done" ? turningCount(turning) : ""}
+          </p>
         )}
 
         <section className="timeline">
