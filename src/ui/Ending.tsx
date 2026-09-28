@@ -42,6 +42,7 @@ import { lookedOf, rumourOf } from "./pursuit";
 import { shapeOf } from "./shape";
 import { ShapeChart } from "./ShapeChart";
 import { endThemeOf } from "./theme";
+import { turningCount, turningOutcome, useTurningPoints } from "./turning";
 import { composeWorld } from "./world";
 import { WorldAfter } from "./WorldAfter";
 
@@ -85,6 +86,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // What came back, read off the same replay (BACKLOG-13 phase 80).
   const bills = useMemo(() => (shape ? billsOf(lib, state, shape) : []), [lib, state, shape]);
   const retraceable = !state.road && shape !== null;
+  // Where it turned (BACKLOG-14 phase 88): worked out after the screen shows, for a run that can
+  // be retraced and is not itself the other road.
+  const turning = useTurningPoints(lib, state, retraceable);
   // The run someone sent, when their link said how it went (BACKLOG-5 phase 37): dealt again
   // from their sides, so their world is drawn from their own run. A second road does not
   // compare; its end already shows two.
@@ -344,6 +348,36 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           </section>
         )}
 
+        {turning && (
+          <section className="turning">
+            <h2>{STRINGS.turning.title}</h2>
+            <p className="turning-count" role="status">
+              {turning.status === "working" ? STRINGS.turning.working : turningCount(turning)}
+            </p>
+            {turning.status === "done" && turning.shown.length > 0 && (
+              <>
+                {turning.all.length > turning.shown.length && (
+                  <p className="turning-most">{STRINGS.turning.most.replace("{n}", NUMBER_WORDS[turning.shown.length] ?? String(turning.shown.length))}</p>
+                )}
+                <ul>
+                  {turning.shown.map((p) => (
+                    <li key={p.k}>
+                      <b>{STRINGS.timeline.card.replace("{n}", String(p.k + 1)).replace(/^./, (c) => c.toUpperCase())}</b>
+                      <p>{STRINGS.turning.chose.replace("{label}", p.chose).replace("{outcome}", turningOutcome(lib, state, p))}</p>
+                      {retrace && (
+                        <button type="button" className="road-back" onClick={() => retrace(p.k)}>
+                          {STRINGS.road.choose.replace("{label}", p.other)}
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <p className="turning-how">{STRINGS.turning.how}</p>
+              </>
+            )}
+          </section>
+        )}
+
         <section className="timeline">
           <h2>{STRINGS.timeline.title}</h2>
           {shape && <ShapeChart lib={lib} align={state.align} points={shape} moments={moments} />}
@@ -459,6 +493,9 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     </Frame>
   );
 }
+
+/** "The three that set the most in motion", in words. */
+const NUMBER_WORDS: readonly string[] = ["none", "one", "two", "three"];
 
 interface Mine {
   key: string;

@@ -7,6 +7,7 @@ import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
 import { getCard, questionOf, type Library } from "../engine/library";
 import { preview, sideEnds } from "../engine/preview";
+import { replayTo } from "../engine/replay";
 import type { GameState, Meters, Side } from "../engine/types";
 import { CardClock } from "../playtest/clock";
 import type { Measure } from "../playtest/record";
@@ -193,9 +194,15 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   const eraInfo = STRINGS.eras[state.era - 1];
   // The first card of a second road says where it left the first (BACKLOG-5 phase 34).
   const branched = state.road && state.cardCount === state.road.at + 1 ? state.choices?.[state.road.at] : undefined;
-  const roadNote = branched
-    ? STRINGS.road.note.replace("{n}", String(state.road!.at + 1)).replace("{label}", getCard(lib, branched[0])[branched[1]].label)
-    : null;
+  // Named as the card named it, from the first road as it stood there: an appointment's sides
+  // name the two people the seat could go to then (BACKLOG-14 phase 88).
+  const roadNote = useMemo(() => {
+    if (!branched || !state.road) return null;
+    const branchCard = getCard(lib, branched[0]);
+    const there = replayTo(lib, state.road.first, state.road.at);
+    const label = there ? withNames(lib, there, branchCard[branched[1]].label, branchCard.speaker) : branchCard[branched[1]].label;
+    return STRINGS.road.note.replace("{n}", String(state.road.at + 1)).replace("{label}", label);
+  }, [lib, branched, state.road]);
   // The first card out of office says so, and who has the office now (BACKLOG-10 phase 55).
   const outNote = state.opposition && state.cardCount === state.opposition.since ? withNames(lib, state, STRINGS.opposition.wentOut) : null;
   const party = state.opposition ? STRINGS.opposition.chip.replace("{party}", STRINGS.parties[state.align]) : STRINGS.parties[state.align];

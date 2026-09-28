@@ -1779,6 +1779,54 @@ button {
   color: var(--muted);
 }
 
+/* Where it turned (BACKLOG-14 phase 88): set as what became of it is, a card and its other road. */
+.turning {
+  text-align: left;
+}
+.turning h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.turning-count,
+.turning-most {
+  margin: 0 0 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.turning-most {
+  font-size: 13px;
+  color: var(--muted);
+}
+.turning ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.turning li {
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+}
+.turning b {
+  font-size: 14.5px;
+}
+.turning li p {
+  margin: 3px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.turning-how {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 /* The run in order, down a line: the card each thing happened on, then what happened. */
 .timeline ol {
   position: relative;

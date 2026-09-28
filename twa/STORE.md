@@ -436,6 +436,11 @@ with one questionnaire gathered from the questions below:
   the seawall's is no longer dealt, the schools' moves from fair to hard, and the clean run asks
   eighteen cards. Nothing is dealt differently and nothing new is kept or recorded; weeks 1 to 18
   deal the same contracts as before.
+- Since v0.96.0 the end screen says where a run turned (BACKLOG-14 phase 88): up to three of the
+  decisions that, taken the other way with the rest played as the tester played it, end the reign
+  differently, each with its other road. It is worked out on the device from the run's own
+  record after the screen shows; nothing is dealt differently and nothing new is kept or
+  recorded. Question 3 now asks whether they were the decisions testers thought mattered.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

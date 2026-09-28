@@ -3,6 +3,7 @@ import { act, cleanup, fireEvent, render, renderHook, screen } from "@testing-li
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { library } from "../../src/content";
 import { STRINGS } from "../../src/content/strings";
+import { withNames } from "../../src/engine/endings";
 import { exitBand, newRun, rollSetup } from "../../src/engine/state";
 import { otherSide, replayTo } from "../../src/engine/replay";
 import { resolve } from "../../src/engine/resolve";
@@ -190,6 +191,31 @@ describe("the other road, elsewhere", () => {
       STRINGS.road.note.replace("{n}", String(k + 1)).replace("{label}", library.cards.get(cardId)![side].label),
     );
     expect(document.querySelector(".road-mark")!.textContent).toContain(STRINGS.road.mark);
+  });
+
+  it("names the person an appointment would have seated, as the card named them, when the road left from one (BACKLOG-14 phase 88)", () => {
+    const g = renderHook(() => useGame(library)).result;
+    // The first of these seeds whose run, played as finish() plays, reached an era's appointment.
+    let k = -1;
+    for (const seed of [2024, 7, 11, 42, 99, 123, 500, 777, 1000, 4242]) {
+      act(() => g.current.start(seed, "left"));
+      finish(g);
+      k = g.current.state!.choices!.findIndex(([id]) => library.cards.get(id)?.appoints);
+      if (k > 0) break;
+    }
+    expect(k).toBeGreaterThan(0);
+    const first = g.current.state!;
+    act(() => g.current.takeOtherRoad(k));
+    if (g.current.transition !== null) act(() => g.current.dismissTransition());
+    const s = g.current.state!;
+    render(
+      <Play lib={library} state={s} transition={null} onChoose={() => {}} onDismissTransition={() => {}} debug={false} settings={DEFAULT_SETTINGS} onSettings={() => {}} onCabinet={() => {}} onTaught={() => {}} />,
+    );
+    const [cardId, side] = s.choices![k]!;
+    const card = library.cards.get(cardId)!;
+    const named = withNames(library, replayTo(library, first, k)!, card[side].label, card.speaker);
+    expect(named).not.toMatch(/[{}]/);
+    expect(document.querySelector(".road-note")!.textContent).toBe(STRINGS.road.note.replace("{n}", String(k + 1)).replace("{label}", named));
   });
 
   it("marks a second road in the codex", () => {

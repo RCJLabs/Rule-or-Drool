@@ -504,3 +504,88 @@ which ideas change the deal, and which need people's records first.
 4. **Whether honesty should ever pay later.** The thesis is that the easy choice now is the ruin
    later. Dividends add that the hard choice now can pay later. The default is yes: a few, each
    asking something, and only with danger that bites.
+
+## Phase 88. Turning points (idea 1) — *done*
+
+**Shipped in v0.96.0.** On the end screen only: nothing is dealt differently, so the deck is still
+g8u7egs4. Nothing new is kept or recorded.
+
+- **"Where it turned"** sits under "What became of it". It says how many of the run's decisions,
+  taken the other way with the rest played as the player played it, end the reign differently,
+  and lists up to three:
+  - "Card 34. You chose “Sign the dam”. The other way, the reign ends in the Muddle."
+  - each with the other road's button, "Choose “Veto the dam” instead", which plays on from that
+    card as the other road (BACKLOG-5 phase 34) always has.
+- **"The rest as the player played it."** Wherever the other road deals a card the player met
+  after that decision, they answer it as they did; a side it marks as ending the reign they do
+  not take. One deal per seed makes most of those cards the same: a road leaves a median one to
+  two cards to anyone else.
+- **Those cards are answered carefully,** twice: by the eyes bot, which decides only from the
+  screen, and by the informed voter. A decision is a turning point only when both roads end the
+  same way, and not as the run did. A side that ends the reign on the spot is not one: the card
+  marks it.
+- **Which three.** Those that set something in motion, not a close run tipped by the card's own
+  weight on the direction: a reign kept or cut short first, then the furthest from how it ended,
+  then those that moved the direction most. A run whose turning points were all only close says
+  so in a line, and one with none says that.
+- **Worked out after the screen shows,** in the slices the browser can spare. The section says
+  "Taking each decision the other way…" meanwhile, and announces what it found to a screen reader.
+  It is not looked for on a second road, which does not branch again, nor in a run that cannot be
+  retraced.
+- **Found on the way:** the other road's note on its first card named an appointment's person as
+  "{first}". It names them now, as the card did.
+
+**Measured first.** Bots played runs to their end; each decision was then taken the other way.
+
+| Runs played by | Turning points a run: median (p10–p90) | Set something in motion | Runs listing one or more |
+|---|---|---|---|
+| Eyes, deciding one card in five its own way (100) | 11 (0–48) | 5 | 86% |
+| Informed voter (100) | 5 (1–36) | 2 | 80% |
+| Eyes, first term (25) | 2 (0–7) | 1 | 56% |
+| Eyes, long reign (25) | 16 (1–41) | 11 | 92% |
+
+- **A close run is common.** In a prototype of the same rules, 43% of the eyes-like player's
+  turning points, and 60% of the informed voter's, moved the direction no further than the card's
+  own weight. Those are counted, not listed.
+- **The two careful players agree** on about half the decisions either one finds.
+- **A run cut short** usually had a road that was seen through: 6 of 7 in the eyes-like sample.
+- **Time.** In node on one core, a median 0.55 seconds for an ordinary reign, 0.05 for a first term
+  and 1.1 for a long reign. In Chromium the section is ready 0.75–0.94 seconds after the last
+  choice. With the CPU slowed four times it takes 3.7–4.7 seconds, and six times 6.3–8.2, before
+  the second careful road was made to run only when the first ends differently (17% less in
+  node). The end screen itself still shows in under a second.
+
+**Tests.**
+- The finder:
+  - finds the same turning points every time;
+  - each one's road, worked out again the long way for each careful player, ends as it says;
+  - none is a side that ends the reign on the spot;
+  - each side is named as the card named it, an appointment's people filled in;
+  - a close run is told apart from one set in motion;
+  - it works a decision at a time, and finds nothing to look for in a run with no record, one
+    that deals differently, or one not over;
+  - a first term has turning points too.
+- The ones shown: at most three, all set in motion, a reign kept or cut short first, in card
+  order; none when every one was only close.
+- The end screen:
+  - says it is working, then how many, with the three and their roads;
+  - taking one goes back to its card;
+  - says a run was close, or that nothing would have changed it;
+  - looks for none on a second road or without a record.
+- The other road's first card names an appointment's person.
+- A browser audit plays three bots' runs to their end in three looks at 360×640. The section
+  lists what node finds for the same run, reads and fits, and its first road opens on its card
+  with the note that says so.
+- Question 3 now asks testers whether the turning points were the ones they thought mattered.
+
+**Caveats.**
+- **It is still partly a bot's road.** The player's own answers stand wherever the same card
+  comes, but a card they never met is answered by a careful bot. Two bots must agree, and the
+  screen says so ("answered carefully"), but a person might have answered otherwise.
+- **The player's answers are replayed as they were,** though the country on the other road may
+  be in a different state when the same card comes. A player might not have answered it the same
+  way there.
+- **A slow phone takes several seconds.** The section is below the fold of the end screen, so it
+  is usually ready by the time it is read.
+- **It may make the game feel solved.** It says where a run turned after it ended, never what to
+  do next time. Whether people read it that way is question 3's to answer.

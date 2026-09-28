@@ -20,6 +20,8 @@ import { causeLine, endCause } from "../../src/ui/cause";
 import { CHRONICLE_PAGE } from "../../src/ui/Chronicle";
 import { billsOf } from "../../src/ui/receipt";
 import { shapeOf } from "../../src/ui/shape";
+import { pickTurningPoints, turningPoints } from "../../src/sim/turning";
+import { turningCount } from "../../src/ui/turning";
 import { PAPERS } from "../../src/ui/paper";
 import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share";
 import { setupOf } from "../../src/meta/runcode";
@@ -897,6 +899,47 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await misfits(page, `${label} as a table`, { mayScroll: true })));
         await close(page);
       }
+      expect(failures).toEqual([]);
+    });
+
+    // Where it turned (BACKLOG-14 phase 88): worked out after the screen shows, in the browser,
+    // it lists what node finds for the same run, and each takes the other road from its card.
+    it("says where a run played to its end turned, takes a turning point's road, and reads and fits the smallest phone in each look", async () => {
+      const failures: string[] = [];
+      let roads = 0;
+      for (const { seed, align, bot, look } of SHAPED) {
+        const label = `where a ${look} run turned`;
+        const final = botRun(seed, align, bot);
+        const all = turningPoints(library, final)!;
+        const shown = pickTurningPoints(all, final, library);
+        const page = await startRunAt(browser, target!.url, seed, align, { width: 360, height: 640 });
+        await choose(page, final.choices![0]![1]);
+        await rewriteRun(page, `raw.state = ${JSON.stringify(replayTo(library, final, final.cardCount - 1))};`);
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(".card");
+        await choose(page, final.choices![final.cardCount - 1]![1]);
+        await page.waitForSelector(".history-title");
+        await page.waitForFunction(`document.querySelector(".turning-count")?.textContent !== ${JSON.stringify(STRINGS.turning.working)}`, undefined, { timeout: 60_000 });
+        const said = await page.textContent(".turning-count");
+        const meant = turningCount({ status: "done", all, shown });
+        if (said !== meant) failures.push(`${label}: says "${said}", not "${meant}"`);
+        const listed = await page.locator(".turning li").count();
+        if (listed !== shown.length) failures.push(`${label}: ${listed} listed, not ${shown.length}`);
+        failures.push(...(await contrast(page, label)));
+        failures.push(...(await misfits(page, label, { mayScroll: true })));
+        const first = shown[0];
+        if (first && listed) {
+          roads++;
+          await page.locator(".turning li .road-back").first().click();
+          await page.waitForSelector(".road-note");
+          const note = await page.textContent(".road-note");
+          const meantNote = STRINGS.road.note.replace("{n}", String(first.k + 1)).replace("{label}", first.other);
+          if (note !== meantNote) failures.push(`${label}: the other road says "${note}", not "${meantNote}"`);
+        }
+        await close(page);
+      }
+      if (roads === 0) failures.push("no run had a turning point to take, so the road from one went unaudited");
       expect(failures).toEqual([]);
     });
 

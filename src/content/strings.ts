@@ -774,6 +774,26 @@ export const STRINGS = {
     sent: "Card {n}: \u201c{label}\u201d",
     back: "Back on card {n}: {text}",
   },
+  /**
+   * Where the run turned (BACKLOG-14 phase 88): the decisions that, taken the other way with the
+   * rest played as the player played it, end the reign differently. Worked out after the screen
+   * shows, so it says so while it works.
+   */
+  turning: {
+    title: "Where it turned",
+    working: "Taking each decision the other way\u2026",
+    one: "One of your decisions, taken the other way with the rest as you played it, ends the reign differently.",
+    many: "{n} of your decisions, taken the other way with the rest as you played it, end the reign differently.",
+    most: "The {n} that set the most in motion:",
+    close: "It was close: {n} of your decisions, taken the other way, would each have tipped it, by their own weight and nothing after.",
+    closeOne: "It was close: one decision, taken the other way, would have tipped it, by its own weight and nothing after.",
+    none: "No one decision, taken the other way, ends the reign differently.",
+    chose: "You chose \u201c{label}\u201d. The other way, {outcome}.",
+    endsIn: "the reign ends in the {band}",
+    seenThrough: "the reign is seen through, to the {band}",
+    cutShort: "the reign is cut short at card {n}: {ending}",
+    how: "Where the other road deals a card you never met, it is answered carefully.",
+  },
   road: {
     choose: "Choose “{label}” instead",
     mark: "The other road",
