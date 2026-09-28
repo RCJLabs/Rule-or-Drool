@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.96.0 · deck g8u7egs4".
+  version from the bottom of the menu. It looks like "v0.97.0 · deck g8u7egs4".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -92,7 +92,9 @@ drag it left or right. What your choices do builds up over a run, and not all of
     something? Did you get it? If you pressed **Go looking for it** on a clue, did its story come,
     and did you know it when it did? If you played a scenario, did its goal feel too easy, about
     right or too hard? If you played the daily, a scenario or a run someone sent you, did you
-    compare it with anyone? What did you compare?
+    compare it with anyone? What did you compare? On a run someone sent you, a line by your party
+    said after each card whether you had chosen as they did: did you notice it, and did it change
+    how you chose?
 11. When the menu let you pick the crisis your run starts in, how did you choose between the
     two? Did you take over the country a previous run left behind? Why, or why not?
 12. What do you remember the picture of the country showing, under the card and between eras? If

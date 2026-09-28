@@ -19,6 +19,7 @@ import {
   scenarioTry,
   streakOf,
   takeOverFrom,
+  theirRun,
   todayKey,
   weekNumber,
   type Decoded,
@@ -190,6 +191,12 @@ export function Setup({
   // "The same deck" only when the link says so and it is this one (BACKLOG-8 phase 49).
   const deck = deckStamp(lib);
   const offerBody = !sharedDeck ? STRINGS.share.offerMaybe : sharedDeck === deck ? STRINGS.share.offerBody : STRINGS.share.offerOtherDeck;
+  // Their answers ride in the link, to be told card by card (BACKLOG-14 phase 89): promised only
+  // where their run is dealt again here, as the play screen will need it to be.
+  const along = useMemo(
+    () => !!shared?.ok && !!sharedResult?.sides && sharedDeck === deck && theirRun(lib, shared.code, sharedResult) !== null,
+    [lib, shared, sharedResult, sharedDeck, deck],
+  );
   const savedGone = saved ? missingContent(lib, saved).length > 0 : false;
   const savedUpdated = !!saved?.deck && saved.deck !== deck;
   return (
@@ -211,6 +218,7 @@ export function Setup({
                 {/* Their run went looking for an ending, and is dealt as it was for them (BACKLOG-13 phase 83). */}
                 {shared.code.pursuit && <p className="shared-reign">{STRINGS.pursuit.offer.replace("“{clue}”", rumourOf(shared.code.pursuit))}</p>}
                 {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
+                {along && <p className="shared-body">{STRINGS.share.offerAlong}</p>}
                 {sharedScenario && <p className="shared-daily">{(sharedTried ? sc.offerTried : sc.offer).replace("{n}", String(sharedScenario.week))}</p>}
                 {sharedIsDaily && n && (
                   <p className="shared-daily">{(dailyPlayed ? STRINGS.share.offerDailyPlayed : STRINGS.share.offerDaily).replace("{n}", String(n))}</p>

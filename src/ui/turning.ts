@@ -30,7 +30,7 @@ function later(fn: (spare: () => number) => void): Handle {
 }
 
 /** The run's turning points once worked out, "working" until then, and null where there are none to look for. */
-export function useTurningPoints(lib: Library, state: GameState, enabled: boolean): Turning | null {
+export function useTurningPoints(lib: Library, state: GameState, enabled: boolean, prefer?: ReadonlySet<number>): Turning | null {
   const [turning, setTurning] = useState<Turning | null>(null);
   useEffect(() => {
     if (!enabled || !state.over) {
@@ -45,7 +45,7 @@ export function useTurningPoints(lib: Library, state: GameState, enabled: boolea
       do {
         const r = work.next();
         if (r.done) {
-          setTurning(r.value ? { status: "done", all: r.value, shown: pickTurningPoints(r.value, state, lib) } : null);
+          setTurning(r.value ? { status: "done", all: r.value, shown: pickTurningPoints(r.value, state, lib, 3, prefer) } : null);
           return;
         }
       } while (spare() > 1);
@@ -53,7 +53,7 @@ export function useTurningPoints(lib: Library, state: GameState, enabled: boolea
     };
     handle = later(step);
     return () => handle?.cancel();
-  }, [lib, state, enabled]);
+  }, [lib, state, enabled, prefer]);
   return turning;
 }
 

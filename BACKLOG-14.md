@@ -594,3 +594,91 @@ g8u7egs4. Nothing new is kept or recorded.
 - **Folded, it is one tap away.** Whether players open it is question 3's to answer too.
 - **It may make the game feel solved.** It says where a run turned after it ended, never what to
   do next time. Whether people read it that way is question 3's to answer.
+
+## Phase 89. What they did (idea 2) — *done*
+
+**Shipped in v0.97.0.** On a run someone sent, and at its end: nothing is dealt differently, so
+the deck is still g8u7egs4. Nothing new is sent, kept or recorded.
+
+- **After each answer,** where the sender met that card too, the room between the party's name
+  and the menus says "As they did" or "Not as they did". It is never there before the answer: it
+  speaks of the card before the one on screen. A screen reader hears it with the next card: "They
+  chose the same on that card." or "They chose the other side on that card."
+- **Their run is dealt again from the link,** as the end of a sent run has been since phase 37:
+  the sides it carries, played from the same code, must end where the link says and earn the
+  same history. The menu promises the line only where that works here and the link names this
+  deck: "As you play, a line by your party says whether you chose as they did on the card
+  before."
+- **A card met twice** is matched time for time: the second time the player met it beside the
+  second time the sender did. A card the sender never met, or met fewer times, says nothing.
+- **At the end,** under the verdict of "Their run and yours", a line counts the cards both met
+  and how many each way, such as "Of the 81 cards you both met, you chose as they did on 47, and
+  otherwise on 34."
+- **Where it turned leads with the cards where they parted.** The idea asked for the three
+  partings "with the most at stake", and nothing on a card measures that: a median 18 of a run's
+  34 partings are decisions a history names. A parting that turned the run had the most at stake
+  by what it did, so those come first in the fold, each saying "You chose “…”, and they the
+  other. Their way, the reign …". The fold counts them: "2 of them are cards where they chose the
+  other side."
+- **Why beside the party's name.** The row had 147 pixels free in the middle on the smallest
+  phone, so the line costs the card no height; the browser audit checks that the longer line is
+  whole there in every look. Out of office the chip says the party is in opposition and leaves no
+  room, so there the line is only heard.
+- **Not on a second road,** which is the player's own run and not the sender's, **nor on a run
+  from another deck,** whose sender met other cards.
+
+**Measured first.** Two players on the daily's own seeds, 300 days from its first; the receiver
+plays as the eyes bot does, deciding one card in five its own way.
+
+| Sender | Receiver's cards the sender met: median (p10) | Answered apart: median (p10–p90) | Share apart | First parting |
+|---|---|---|---|---|
+| The same kind of player | 76% (63%) | 34 cards (24–40) | 43% | Card 2 |
+| The informed voter | 70% (60%) | 31 cards (22–40) | 43% | Card 3 |
+
+- **Where they part is not selective.** A median 18 of the 34 partings are decisions a history
+  names, and every run has some; a median 1 is a vote or a campaign. Ranked by either, "the three
+  with the most at stake" would be three of many.
+- **Partings that turned the receiver's run** (100 days, two players of the same kind): a median
+  2 (p10 0, p90 11), in 74% of runs, and a median 1 that set something in motion, in 67%. A fold
+  that leads with them shows none in 33 runs, one in 20, two in 14 and three in 33.
+- **Time.** Their run dealt again takes a median 9 ms in node (p90 15), once as the run starts
+  and once for the menu's offer; the line after each card costs microseconds.
+
+**Tests.**
+- Two runs card by card: each card both met, paired time for time, in the receiver's order; a
+  card met twice, fewer times or never; a run with no record; the card just answered agrees with
+  the whole.
+- The play screen:
+  - the line after each of 30 answers is what the engine says of that card;
+  - there is nothing before the first answer;
+  - a screen reader hears it with the next card;
+  - out of office it is only heard;
+  - there is none on a second road, or without their run.
+- Their run for the play screen is the one they played, and there is none from another deck,
+  without their sides or on a second road.
+- The offer promises the line with their sides and this deck, and not with another deck or with
+  sides that do not deal their run again here.
+- The end counts the cards met alike and apart. Where it turned leads with the partings that set
+  something in motion, says so on each, and counts them.
+- A browser audit plays a sent run at 360×640 and holds the line after each answer to what the
+  engine says of the run the page saved. The office row keeps its height with the line, and in
+  all seven looks the line is whole, reads and fits.
+- Question 10 now asks testers whether they noticed the line and whether it changed how they
+  chose.
+
+**Caveats.**
+- **It speaks of the card before.** It sits beside the card on screen, and a player could read it
+  as about that card. The offer says "on the card before" and a screen reader hears "on that
+  card", but the line itself does not say which; at 360 pixels there is no room for "Last card:".
+  Question 10 asks.
+- **It may change how people choose.** It is never there before an answer, but a player who sees
+  "Not as they did" often may start choosing to match the sender, or to differ. Whether that is
+  play or a spoiler is question 10's to answer too.
+- **The same card, a different country.** One deal per seed makes the cards the same, not the
+  state they came in: the sender may have met a card with the meters elsewhere. "Not as they did"
+  is not "wrong".
+- **Out of office it is only heard,** so a sighted player loses it for those cards.
+- **A run taken up again after an update to the deck** loses the line, as its end loses the
+  comparison: the sender's run was dealt from the old deck.
+- **A link with no deck named,** which only a hand-edited link is, still gets the line wherever
+  their run deals again here, without the offer promising it.

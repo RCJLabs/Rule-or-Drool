@@ -441,6 +441,12 @@ with one questionnaire gathered from the questions below:
   differently, each with its other road. It is worked out on the device from the run's own
   record after the screen shows; nothing is dealt differently and nothing new is kept or
   recorded. Question 3 now asks whether they were the decisions testers thought mattered.
+- Since v0.97.0 a run someone sent says, after each answer, whether the tester chose as the
+  sender did on that card, where the sender met it too (BACKLOG-14 phase 89). Its end counts the
+  cards the two answered alike and apart, and "Where it turned" leads with those where they
+  parted. It is worked out on the device from the link the sender shared; nothing is dealt
+  differently and nothing new is kept or recorded. Question 10 now asks whether the line changed
+  how testers chose.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

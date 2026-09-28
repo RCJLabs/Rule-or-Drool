@@ -548,6 +548,8 @@ export const STRINGS = {
     theirEnd: "{ending}, after {n} cards.",
     theirCards: "They played {n} cards.",
     offerDaily: "It is today's daily, #{n}, and playing it counts as yours.",
+    // What they did, card by card, when the link carries their sides (BACKLOG-14 phase 89).
+    offerAlong: "As you play, a line by your party says whether you chose as they did on the card before.",
     offerDailyPlayed: "It is today's daily, #{n}, which you have played.",
   },
   /** Their run and yours, at the end of a run someone sent (BACKLOG-5 phase 37). */
@@ -565,6 +567,15 @@ export const STRINGS = {
     unreplayed: "Their run cannot be dealt again on this version of the game, so it is set beside yours, not compared.",
     otherDeck: "They played on another version of the game, so the two runs are set side by side, not compared.",
     unknown: "not known here",
+    /**
+     * What they did on the card just answered, by the party's chip (BACKLOG-14 phase 89). Only
+     * after the answer: before it, it would answer for the player.
+     */
+    noteSame: "As they did",
+    noteOther: "Not as they did",
+    spokenSame: "They chose the same on that card.",
+    spokenOther: "They chose the other side on that card.",
+    along: "Of the {n} cards you both met, you chose as they did on {same}, and otherwise on {apart}.",
   },
   /**
    * The long reign: two eras more, for whoever has seen a finale (BACKLOG-5 phase 39). The
@@ -793,6 +804,10 @@ export const STRINGS = {
     seenThrough: "the reign is seen through, to the {band}",
     cutShort: "the reign is cut short at card {n}: {ending}",
     how: "Where the other road deals a card you never met, it is answered carefully.",
+    // On a run someone sent, where they chose the other side (BACKLOG-14 phase 89).
+    apart: "You chose \u201c{label}\u201d, and they the other. Their way, {outcome}.",
+    parted: "{n} of them are cards where they chose the other side.",
+    partedOne: "One of them is a card where they chose the other side.",
   },
   road: {
     choose: "Choose “{label}” instead",

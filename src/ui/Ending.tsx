@@ -25,6 +25,7 @@ import {
   theirRun,
   todayKey,
   toldByEnding,
+  alongside,
   type Consequence,
   type RunFold,
   type RunResult,
@@ -86,9 +87,6 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // What came back, read off the same replay (BACKLOG-13 phase 80).
   const bills = useMemo(() => (shape ? billsOf(lib, state, shape) : []), [lib, state, shape]);
   const retraceable = !state.road && shape !== null;
-  // Where it turned (BACKLOG-14 phase 88): worked out after the screen shows, for a run that can
-  // be retraced and is not itself the other road.
-  const turning = useTurningPoints(lib, state, retraceable);
   // The run someone sent, when their link said how it went (BACKLOG-5 phase 37): dealt again
   // from their sides, so their world is drawn from their own run. A second road does not
   // compare; its end already shows two.
@@ -99,6 +97,13 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   const deck = deckStamp(lib);
   const sameDeck = vs?.deck ? vs.deck === deck : null;
   const theirs = useMemo(() => (vs && sameDeck !== false ? theirRun(lib, runCodeOf(state), vs) : null), [lib, state, vs, sameDeck]);
+  // Card by card beside theirs, and where they chose the other side (BACKLOG-14 phase 89).
+  const together = useMemo(() => (theirs ? alongside(state, theirs) : null), [state, theirs]);
+  const apart = useMemo(() => new Set((together ?? []).filter((a) => a.mine !== a.theirs).map((a) => a.k)), [together]);
+  // Where it turned (BACKLOG-14 phase 88): worked out after the screen shows, for a run that can
+  // be retraced and is not itself the other road; on a run someone sent, where they chose the
+  // other side first.
+  const turning = useTurningPoints(lib, state, retraceable, apart);
   // Why it ended, for a run cut short (BACKLOG-11 phase 67): read back from its last choice.
   const cause = useMemo(() => causeLine(lib, state), [lib, state]);
   const over = state.over;
@@ -303,6 +308,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
             theirBand={theirBand}
             theirTitle={theirHistory?.title ?? (vs.history ? historyTitle(vs.history) : null)}
             mine={{ key: history.key, title: history.title, ending: endingTitle, cards: state.cardCount, band }}
+            along={together && together.length > 0 ? { n: together.length, same: together.length - apart.size } : null}
           />
         )}
         {ending && read.ending ? (
@@ -357,6 +363,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
               <span className="turning-badge">{turning.status === "working" ? "\u2026" : turning.all.length}</span>
             </summary>
             <p className="turning-count">{turning.status === "working" ? STRINGS.turning.working : turningCount(turning)}</p>
+            {turning.status === "done" && partedCount(turning.all, apart) > 0 && (
+              <p className="turning-most">
+                {partedCount(turning.all, apart) === 1 ? STRINGS.turning.partedOne : STRINGS.turning.parted.replace("{n}", String(partedCount(turning.all, apart)))}
+              </p>
+            )}
             {turning.status === "done" && turning.shown.length > 0 && (
               <>
                 {turning.all.length > turning.shown.length && (
@@ -366,7 +377,7 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
                   {turning.shown.map((p) => (
                     <li key={p.k}>
                       <b>{STRINGS.timeline.card.replace("{n}", String(p.k + 1)).replace(/^./, (c) => c.toUpperCase())}</b>
-                      <p>{STRINGS.turning.chose.replace("{label}", p.chose).replace("{outcome}", turningOutcome(lib, state, p))}</p>
+                      <p>{(apart.has(p.k) ? STRINGS.turning.apart : STRINGS.turning.chose).replace("{label}", p.chose).replace("{outcome}", turningOutcome(lib, state, p))}</p>
                       {retrace && (
                         <button type="button" className="road-back" onClick={() => retrace(p.k)}>
                           {STRINGS.road.choose.replace("{label}", p.other)}
@@ -502,6 +513,11 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   );
 }
 
+/** How many of a run's turning points are cards where they chose the other side. */
+function partedCount(points: readonly { k: number }[], apart: ReadonlySet<number>): number {
+  return points.filter((p) => apart.has(p.k)).length;
+}
+
 /** "The three that set the most in motion", in words. */
 const NUMBER_WORDS: readonly string[] = ["none", "one", "two", "three"];
 
@@ -518,7 +534,26 @@ interface Mine {
  * each lasted and which way each went, and a line on the difference. When their run cannot be
  * dealt again here, it is what their link says it was, and the screen says so.
  */
-function Versus({ lib, vs, replayed, sameDeck, theirBand, theirTitle, mine }: { lib: Library; vs: RunResult; replayed: boolean; sameDeck: boolean | null; theirBand: Band | null; theirTitle: string | null; mine: Mine }) {
+function Versus({
+  lib,
+  vs,
+  replayed,
+  sameDeck,
+  theirBand,
+  theirTitle,
+  mine,
+  along,
+}: {
+  lib: Library;
+  vs: RunResult;
+  replayed: boolean;
+  sameDeck: boolean | null;
+  theirBand: Band | null;
+  theirTitle: string | null;
+  mine: Mine;
+  /** The cards both runs met, and on how many the two chose alike (BACKLOG-14 phase 89). */
+  along: { n: number; same: number } | null;
+}) {
   const heading = useId();
   const v = STRINGS.vs;
   const theirEnding = vs.ending ? (lib.endings.get(vs.ending)?.title ?? null) : null;
@@ -545,6 +580,14 @@ function Versus({ lib, vs, replayed, sameDeck, theirBand, theirTitle, mine }: { 
     <section className="versus" aria-labelledby={heading}>
       <h2 id={heading}>{v.title}</h2>
       {verdict && <p className="versus-verdict">{verdict}</p>}
+      {compared && along && (
+        <p className="versus-along">
+          {v.along
+            .replace("{n}", String(along.n))
+            .replace("{same}", String(along.same))
+            .replace("{apart}", String(along.n - along.same))}
+        </p>
+      )}
       {note && <p className="versus-note">{note}</p>}
       <table className="versus-table">
         <thead>

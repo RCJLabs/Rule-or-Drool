@@ -11,6 +11,7 @@ import { HowItWorks } from "./HowItWorks";
 import { MoveProgress } from "./MoveProgress";
 import { NoticeDialog } from "./Notice";
 import { SettingsMenu } from "./SettingsMenu";
+import { theirRunFor } from "./along";
 import { goalOf } from "./Scenario";
 import { Setup } from "./Setup";
 import { useGame } from "./useGame";
@@ -33,6 +34,11 @@ export function App() {
   // The codex section left open, so going back to the menu and returning finds it open.
   const [codexOpen, setCodexOpen] = useState<CodexSection | null>(null);
   const debug = useMemo(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("debug"), []);
+  // The run someone sent, dealt again beside this one to say card by card what they did
+  // (BACKLOG-14 phase 89): once a run, since a run's code is the same from its first card to its
+  // last, and a new run comes with its own challenge or none.
+  const runKey = game.state ? `${game.state.seed}:${game.state.align}:${game.state.road ? "road" : ""}` : "";
+  const theirs = useMemo(() => (game.state ? theirRunFor(library, game.state, game.challenge) : null), [game.challenge, runKey]);
   // A run someone sent (BACKLOG-2 phase 11). Read once; offered, never started unasked.
   const [shared, setShared] = useState<Decoded | null>(() => {
     if (typeof window === "undefined") return null;
@@ -240,6 +246,7 @@ export function App() {
         onCabinet={game.openCabinet}
         onTaught={game.markTaught}
         goal={playingGoal}
+        theirs={theirs}
       />
       {game.showCabinet && <Cabinet lib={library} state={game.state} onClose={game.closeCabinet} />}
       {settingsMenu}

@@ -8,6 +8,7 @@ import { TeachNote } from "./TeachNote";
 import { getCard, questionOf, type Library } from "../engine/library";
 import { preview, sideEnds } from "../engine/preview";
 import { replayTo } from "../engine/replay";
+import { lastAlongside } from "../meta/challenge";
 import type { GameState, Meters, Side } from "../engine/types";
 import { CardClock } from "../playtest/clock";
 import type { Measure } from "../playtest/record";
@@ -48,6 +49,8 @@ interface Props {
   onTaught: (id: string) => void;
   /** The week's goal, when the run is the try at the week's scenario (BACKLOG-12 phase 78). */
   goal?: string | null;
+  /** The run someone sent, dealt again, when this is theirs to play (BACKLOG-14 phase 89). */
+  theirs?: GameState | null;
 }
 
 const LEAVE_MS = 260;
@@ -68,7 +71,7 @@ interface Heard {
   standing: string[];
 }
 
-export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift, settings, onSettings, onCabinet, onTaught, goal = null }: Props) {
+export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift, settings, onSettings, onCabinet, onTaught, goal = null, theirs = null }: Props) {
   const [peek, setPeek] = useState<Side | null>(null);
   const [dragSide, setDragSide] = useState<Side | null>(null);
   const [leaving, setLeaving] = useState<Side | null>(null);
@@ -203,6 +206,9 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     const label = there ? withNames(lib, there, branchCard[branched[1]].label, branchCard.speaker) : branchCard[branched[1]].label;
     return STRINGS.road.note.replace("{n}", String(state.road.at + 1)).replace("{label}", label);
   }, [lib, branched, state.road]);
+  // What they did on the card just answered, on a run someone sent (BACKLOG-14 phase 89): said
+  // only once the player has answered it, and only where they met it too.
+  const along = useMemo(() => (theirs && !state.road ? lastAlongside(state, theirs) : null), [theirs, state]);
   // The first card out of office says so, and who has the office now (BACKLOG-10 phase 55).
   const outNote = state.opposition && state.cardCount === state.opposition.since ? withNames(lib, state, STRINGS.opposition.wentOut) : null;
   const party = state.opposition ? STRINGS.opposition.chip.replace("{party}", STRINGS.parties[state.align]) : STRINGS.parties[state.align];
@@ -221,6 +227,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
       const moved = resultSummary(prev.meters, state.meters, state.align);
       if (moved) parts.push(moved);
     }
+    if (prev && along) parts.push(along.mine === along.theirs ? STRINGS.vs.spokenSame : STRINGS.vs.spokenOther);
     if (prev) {
       for (const m of newlyDangerous(prev.meters, state.meters, DANGER_BELOW, !!state.opposition)) {
         parts.push(STRINGS.speech.inDanger.replace("{meter}", meterName(m, state.align)));
@@ -348,6 +355,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             own corner so the two agree. */}
         <div className="office">
           <span className="party">{party}</span>
+          {/* Out of office the chip is long enough to leave no room, and the note is only heard. */}
+          {along && !state.opposition && <span className="vs-note">{along.mine === along.theirs ? STRINGS.vs.noteSame : STRINGS.vs.noteOther}</span>}
           <span className="office-tools">
             {/* The cabinet is the only screen that says how the rival is doing, so the
                 button that opens it is where the run says it is worth opening

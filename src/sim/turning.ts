@@ -185,15 +185,16 @@ const BAND_RANK: Record<Band, number> = { decay: 1, muddle: 2, ascent: 3 };
  * first, then the furthest from how it did end, then those that moved the direction most. A
  * close run's turning points, the card's own weight and nothing more, are only counted.
  */
-export function pickTurningPoints(points: readonly TurningPoint[], run: GameState, lib: Library, n = 3): TurningPoint[] {
+export function pickTurningPoints(points: readonly TurningPoint[], run: GameState, lib: Library, n = 3, prefer?: ReadonlySet<number>): TurningPoint[] {
   const actualBand = survivedTo(lib.config, run.over?.endingId ?? "") ? exitBand(lib, run) : null;
   const rank = (b: Band | null) => (b ? BAND_RANK[b] : 0);
-  const score = (p: TurningPoint) => [p.band === null || actualBand === null ? 1 : 0, Math.abs(rank(p.band) - rank(actualBand)), p.moved] as const;
+  const score = (p: TurningPoint) =>
+    [prefer?.has(p.k) ? 1 : 0, p.band === null || actualBand === null ? 1 : 0, Math.abs(rank(p.band) - rank(actualBand)), p.moved] as const;
   return points
     .filter((p) => p.knockOn)
     .sort((a, b) => {
       const [x, y] = [score(a), score(b)];
-      return y[0] - x[0] || y[1] - x[1] || y[2] - x[2] || a.k - b.k;
+      return y[0] - x[0] || y[1] - x[1] || y[2] - x[2] || y[3] - x[3] || a.k - b.k;
     })
     .slice(0, n)
     .sort((a, b) => a.k - b.k);

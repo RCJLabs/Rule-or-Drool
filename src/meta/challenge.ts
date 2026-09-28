@@ -116,3 +116,52 @@ function unpackSides(text: string, n: number): Side[] | null {
   if (bytes.length !== Math.ceil(n / 8)) return null;
   return Array.from({ length: n }, (_, i) => ((bytes[i >> 3]! & (0x80 >> (i & 7))) !== 0 ? "right" : "left"));
 }
+
+/**
+ * A card both runs met, and how each answered it (BACKLOG-14 phase 89): the run someone sent,
+ * dealt again from its sides, card by card beside the receiver's own. One deal per seed makes
+ * three in four of one run's cards the other's too.
+ */
+export interface Alongside {
+  /** The card's place in this run's record, from 0: it was card k + 1. */
+  k: number;
+  cardId: string;
+  mine: Side;
+  theirs: Side;
+}
+
+/** A run's answers by card, in the order it met each: a card can come round twice. */
+function answersByCard(run: GameState): Map<string, Side[]> {
+  const out = new Map<string, Side[]>();
+  for (const [id, side] of run.choices ?? []) out.set(id, [...(out.get(id) ?? []), side]);
+  return out;
+}
+
+/**
+ * Every card this run met that theirs met too, each time this run met it beside the same time
+ * theirs did, with both answers, in this run's order. A card they never met, or met fewer times,
+ * is left out.
+ */
+export function alongside(mine: GameState, theirs: GameState): Alongside[] {
+  const them = answersByCard(theirs);
+  const times = new Map<string, number>();
+  const out: Alongside[] = [];
+  (mine.choices ?? []).forEach(([cardId, side], k) => {
+    const n = times.get(cardId) ?? 0;
+    times.set(cardId, n + 1);
+    const theirSide = them.get(cardId)?.[n];
+    if (theirSide) out.push({ k, cardId, mine: side, theirs: theirSide });
+  });
+  return out;
+}
+
+/** The card this run answered last, beside how they answered it, when they met it too. */
+export function lastAlongside(mine: GameState, theirs: GameState): Alongside | null {
+  const record = mine.choices;
+  if (!record?.length) return null;
+  const k = record.length - 1;
+  const [cardId, side] = record[k]!;
+  const n = record.slice(0, k).filter(([id]) => id === cardId).length;
+  const theirSide = (theirs.choices ?? []).filter(([id]) => id === cardId)[n]?.[1];
+  return theirSide ? { k, cardId, mine: side, theirs: theirSide } : null;
+}

@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.96.0)
+## Where the project stands now (v0.97.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -32,7 +32,7 @@ its own file: every item measured before it was built, and written up with what 
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 | 12 | `BACKLOG-12.md` | 74–79 (ideas 1 to 5), and five ideas not yet chosen |
 | 13 | `BACKLOG-13.md` | 80–87 (ideas 6, 1, 5, 3 and 8, round eleven's 10 and 8 in part, and a fix to the contracts), and five ideas not yet chosen |
-| 14 | `BACKLOG-14.md` | 88 (idea 1), and nine ideas not yet chosen |
+| 14 | `BACKLOG-14.md` | 88–89 (ideas 1 and 2), and eight ideas not yet chosen |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
 decisions only the owner can make.
@@ -40,7 +40,7 @@ decisions only the owner can make.
 | | |
 |---|---|
 | Content | 1,816 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 675 history names written, 657 of which a run can be given; three eras, and five in a long reign |
-| Tests | 1,113 unit tests and 72 browser tests |
+| Tests | 1,124 unit tests and 73 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -106,8 +106,11 @@ decisions only the owner can make.
    shared run, and the rival's next move. The rest come after the test, behind danger that bites.
    Phase 88 (v0.96.0) says on the end screen where a run turned: the decisions that, taken the
    other way with the rest played as the player played it, end the reign differently, in a fold
-   that lists three of them with their other roads. A person-like player's run has a median 11, and 86% list
-   at least one.
+   that lists three of them with their other roads. A person-like player's run has a median 11,
+   and 86% list at least one. Phase 89 (v0.97.0) says on a run someone sent, after each answer,
+   whether the player chose as the sender did: two person-like players meet three in four of each
+   other's cards and answer a median 34 of them apart. The end counts both, and where it turned
+   leads with the partings that turned the run.
 
 The list this file ended on after phase 7, and what became of it:
 

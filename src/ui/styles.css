@@ -828,6 +828,19 @@ button {
   display: flex;
   flex: none;
 }
+/* What they did on the card just answered, on a run someone sent (BACKLOG-14 phase 89), in the
+   room between the chip and the menus, so it costs the card no height. */
+.vs-note {
+  /* Only the room left over: the chip and the menus keep theirs. */
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 12.5px;
+  color: var(--muted);
+}
 .party {
   padding: 2px 9px;
   border: 1px solid var(--accent);
@@ -1664,6 +1677,12 @@ button {
   font-size: 12.5px;
   line-height: 1.4;
   color: var(--muted);
+}
+/* The cards both met, and on how many the two chose alike (BACKLOG-14 phase 89). */
+.versus-along {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
 }
 /* Why a run that crossed an update offers no other road (BACKLOG-8 phase 49). */
 .became-note {

@@ -6,7 +6,7 @@ import { STRINGS } from "../../src/content/strings";
 import { deckStamp } from "../../src/engine/deck";
 import { MANDATES, compatible } from "../../src/engine/mandates";
 import { advisorPool, rollSetup } from "../../src/engine/state";
-import { encodeRunResult, resultOf } from "../../src/meta/challenge";
+import { encodeRunResult, lastAlongside, resultOf } from "../../src/meta/challenge";
 import { decodeRunCode, encodeRunCode } from "../../src/meta/runcode";
 import { draw } from "../../src/engine/draw";
 import { getCard } from "../../src/engine/library";
@@ -269,6 +269,60 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await misfits(page, `their run and yours, ending ${band}`, { mayScroll: true })));
         await close(page);
       }
+      expect(failures).toEqual([]);
+    });
+
+    /**
+     * What they did (BACKLOG-14 phase 89): after each answer on their run, the room between the
+     * party's chip and the menus says whether the player chose as they did, where they met the
+     * card. Their run is played to its end here by a bot that means to keep going, so the two
+     * runs meet on most cards; the page is held to what the engine says of the run it saved.
+     */
+    it("says by the party after each answer whether the player chose as they did, at no cost in height, readable in all seven looks at 360px", async () => {
+      const code = codeFor(SEED, "left");
+      const decoded = decodeRunCode(library, code);
+      if (!decoded.ok) throw new Error("the audit's own code does not decode");
+      const rng = makeRng(SEED ^ 0x2545f491);
+      let theirs = newRun(library, SEED, setupOf(decoded.code));
+      while (!theirs.over) {
+        theirs = draw(library, theirs);
+        const card = getCard(library, theirs.current!);
+        theirs = resolve(library, theirs, card.id, BOTS.informed(makeContext(library, theirs, card, rng, { danger: 25 })));
+      }
+      const vs = encodeRunResult(resultOf(library, theirs)!);
+      const page = await open(browser, { width: 360, height: 640, query: `run=${code}&vs=${vs}&deck=${deckStamp(library)}` });
+      const failures: string[] = [];
+      await page.getByText(STRINGS.share.offerAlong).waitFor();
+      failures.push(...(await contrast(page, "the offer, with the line promised")));
+      failures.push(...(await misfits(page, "the offer, with the line promised", { mayScroll: true })));
+      await page.getByRole("button", { name: STRINGS.share.offerPlay }).click();
+      await page.waitForSelector(".card");
+      const note = async () => ((await page.locator(".vs-note").count()) ? await page.locator(".vs-note").textContent() : null);
+      if ((await note()) !== null) failures.push("the line speaks before any answer");
+      const bare = (await page.locator(".office").boundingBox())!.height;
+      const seen = { same: 0, other: 0 };
+      // A dozen answers at least, and on until one leaves the line showing, inside the first era.
+      for (let i = 0; i < 30 && (i < 12 || (await note()) === null); i++) {
+        await choose(page, i % 2 ? "left" : "right");
+        await page.waitForFunction(`JSON.parse(localStorage.getItem("rod.run")).state.choices.length === ${i + 1}`);
+        const saved = (JSON.parse((await page.evaluate(`localStorage.getItem("rod.run")`)) as string) as { state: GameState }).state;
+        const want = lastAlongside(saved, theirs);
+        const expected = want ? (want.mine === want.theirs ? STRINGS.vs.noteSame : STRINGS.vs.noteOther) : null;
+        const got = await note();
+        if (got !== expected) failures.push(`answer ${i + 1}: the line says ${JSON.stringify(got)}, not ${JSON.stringify(expected)}`);
+        if (want) seen[want.mine === want.theirs ? "same" : "other"]++;
+      }
+      if (!seen.same || !seen.other) failures.push(`the audit's runs only ever chose ${seen.same ? "alike" : "apart"}, so half the line went unseen`);
+      const shown = (await page.locator(".office").boundingBox())!.height;
+      if (shown !== bare) failures.push(`the office row is ${shown}px tall with the line and ${bare}px without`);
+      for (const look of LOOKS) {
+        await toLook(page, look);
+        const cut = await page.evaluate(`(() => { const el = document.querySelector(".vs-note"); return !el ? "gone" : el.scrollWidth > el.clientWidth ? "cut" : ""; })()`);
+        if (cut) failures.push(`${look}: the line is ${cut === "gone" ? "gone" : "cut short"}`);
+        failures.push(...(await contrast(page, `the line by the party in ${look}`)));
+        failures.push(...(await misfits(page, `the line by the party in ${look}`)));
+      }
+      await close(page);
       expect(failures).toEqual([]);
     });
   });
