@@ -67,7 +67,16 @@ export function migrateMeta(raw: unknown): MetaState | null {
     // The ending the player is looking for (BACKLOG-13 phase 83): a name or nothing. Whether it can
     // still be looked for is the codex's to say, with the content to hand.
     ...(typeof data.pursuing === "string" && /^[a-z0-9_]{1,64}$/.test(data.pursuing) ? { pursuing: data.pursuing } : { pursuing: undefined }),
+    // The follow-ups read (BACKLOG-13 phase 86). A profile from before read none, and one from a
+    // link keeps only what could be one, each once: a few hundred at most.
+    followUpsRead: followUpsOf(data.followUpsRead),
   };
+}
+
+const FOLLOW_UP = /^[a-z0-9_]{1,64}:(ascent|muddle|decay)$/;
+
+function followUpsOf(raw: unknown): string[] {
+  return [...new Set((Array.isArray(raw) ? raw : []).filter((k): k is string => typeof k === "string" && FOLLOW_UP.test(k)))].slice(0, 1000);
 }
 
 /**

@@ -1869,6 +1869,24 @@ button {
   line-height: 1.45;
 }
 
+/* What the player has read on an end screen before, folded into a line they can open (BACKLOG-13
+   phase 86): the ending's words, the epilogue, and the follow-ups they have read, the new ones
+   leading. */
+.read-before summary {
+  /* The end screen's controls are 44px tall to the touch; this is one. */
+  padding: 12px 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+}
+.read-before[open] summary {
+  padding-bottom: 6px;
+}
+.became ul + .became-again {
+  margin-top: 4px;
+}
+
 .epilogue {
   padding: var(--space);
   border: var(--border) dashed var(--ink);

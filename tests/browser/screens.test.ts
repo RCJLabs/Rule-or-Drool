@@ -25,7 +25,7 @@ import { CARD_H, CARD_W, STRIP_BOX, STRIP_H, stripOf } from "../../src/ui/share"
 import { setupOf } from "../../src/meta/runcode";
 import { CLUES, endingSides, withinReach } from "../../src/meta/clues";
 import { carriersOf, pursuable } from "../../src/engine/pursuit";
-import { ALL_HISTORY_KEYS, HISTORIES, HISTORY_ORDER, historyTitle, toldByEnding } from "../../src/meta/histories";
+import { ALL_HISTORY_KEYS, HISTORIES, HISTORY_ORDER, NO_LEGACY, followUpKey, historyTitle, toldByEnding } from "../../src/meta/histories";
 import { collectsEnding } from "../../src/meta/objectives";
 import { inheritable } from "../../src/meta/dynasty";
 import { LEGACIES } from "../../src/meta/legacies";
@@ -713,6 +713,50 @@ describe.skipIf(!target)("in a browser", () => {
         if (!(await page.isVisible(".pursuit-result"))) failures.push(`${look}: the end says nothing of the looking`);
         failures.push(...(await contrast(page, `the end of a run that looked, in ${look}`)));
         failures.push(...(await misfits(page, `the end of a run that looked, in ${look}`, { mayScroll: true })));
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+
+    // An end screen that does not repeat itself (BACKLOG-13 phase 86): a profile that has read every
+    // ending, epilogue and follow-up has each folded into a line, which reads and fits closed and open.
+    it("folds what a player has read before into lines that open, in all seven looks on the smallest phone", async () => {
+      const ENDS: [look: string, drift: number, way: "ascent" | "decay" | "muddle"][] = [
+        ["muddle", 2, "muddle"],
+        ["decay1", -10, "muddle"],
+        ["decay2", -24, "muddle"],
+        ["decay3", -58, "decay"],
+        ["ascent1", 14, "ascent"],
+        ["ascent2", 28, "ascent"],
+        ["ascent3", 58, "ascent"],
+      ];
+      const bands = ["ascent", "muddle", "decay"] as const;
+      const meta = {
+        ...emptyMeta(),
+        runs: 40,
+        endings: Object.fromEntries([...library.endings.keys()].map((id) => [id, 1])),
+        epilogues: library.content.epilogues.map((e) => `${e.band}:${e.align}:${e.era}`),
+        followUpsRead: [...Object.keys(HISTORIES), NO_LEGACY].flatMap((f) => bands.map((b) => followUpKey(f, b))),
+      };
+      const failures: string[] = [];
+      for (const [look, drift, way] of ENDS) {
+        const page = await open(browser, { width: 360, height: 640 });
+        await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+        await page.reload();
+        await page.waitForSelector(".setup");
+        await page.fill(".seed input", String(SEED));
+        await page.getByRole("button", { name: STRINGS.ui.start }).click();
+        await page.waitForSelector(".card");
+        await endRun(page, { ...LATE[way], drift });
+        if ((await lookOf(page)) !== look) failures.push(`meant to end in ${look}, ended in ${await lookOf(page)}`);
+        const folds = await page.locator(".read-before").count();
+        if (folds < 3) failures.push(`${look}: ${folds} lines folded, not the ending's words, the epilogue and the follow-ups`);
+        failures.push(...(await contrast(page, `an end read before, folded, in ${look}`)));
+        failures.push(...(await misfits(page, `an end read before, folded, in ${look}`, { mayScroll: true })));
+        for (const summary of await page.locator(".read-before > summary").all()) await summary.click();
+        if ((await page.locator(".read-before[open]").count()) !== folds) failures.push(`${look}: not every fold opened`);
+        failures.push(...(await contrast(page, `an end read before, opened, in ${look}`)));
+        failures.push(...(await misfits(page, `an end read before, opened, in ${look}`, { mayScroll: true })));
         await close(page);
       }
       expect(failures).toEqual([]);

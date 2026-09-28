@@ -80,6 +80,12 @@ export interface MetaState {
    * 83); absent when they are looking for none. Held until it is found or they stop.
    */
   pursuing?: string;
+  /**
+   * What "What became of it" has told the player, as `flag:band` (BACKLOG-13 phase 86): the end
+   * screen leads with the follow-ups they have not read, and folds the rest into a line. Absent in
+   * a profile from before, which has read none; its endings and epilogues it has, above.
+   */
+  followUpsRead?: string[];
 }
 
 /** A week's contracts kept, by id. */

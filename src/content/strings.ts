@@ -438,6 +438,17 @@ export const STRINGS = {
     newHistory: "A name history has not given you before",
     became: "What became of it",
     also: "Also left behind:",
+    /**
+     * What the player has read on an end screen before, folded into a line they can open
+     * (BACKLOG-13 phase 86). By the tenth run nine end screens in ten repeat the ending's words and
+     * the epilogue; the follow-ups repeat more slowly, and the new ones lead.
+     */
+    readBefore: {
+      ending: "Read before: how it ends",
+      epilogue: "Read before: where it went",
+      followUps: "Read before: {labels}",
+      followUpsBare: "Read before: what became of it",
+    },
   },
   /**
    * What a screen reader says (BACKLOG-5 phase 30). It says what a sighted player gets and

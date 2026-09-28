@@ -1178,3 +1178,73 @@ changed since v0.68.0. `npm run contracts` now reads, a player aiming at each:
   vote by name in 4. Over 104 weeks it is 14 and 23.
 - **Objectives were not taught the rival.** They carry the unlocks, which change what is dealt, so
   they wait for the rules half, item 13.
+
+## Phase 86. An end screen that does not repeat itself (round eleven's 8, the half left) — *done*
+
+**Shipped in v0.94.0.** On screen only: nothing is dealt differently, so the deck is still
+g8u7egs4. The run's save is unchanged. The profile keeps one more list, and its version is
+unchanged: a profile from before has read no follow-ups.
+
+- **What a player has read on an end screen before folds into a line** they can open:
+  - *Read before: how it ends*: the ending's words, when the profile has reached that ending;
+  - *Read before: where it went*: the epilogue, under its heading and band, when the profile has
+    read it;
+  - *Read before: The housing was built · The schools were starved*: the follow-ups of "What
+    became of it" read before, under the names of their decisions, each with its road back.
+- **The new lead.** The follow-ups new to the player come first, in full, and the folded line
+  after them. A decision's follow-up is read in the band it was told in: the same decision ended
+  in another band says something new, and is new.
+- **The profile keeps** the follow-ups each end screen showed, as `flag:band`. It already kept
+  the endings and the epilogues.
+- **An end screen with nothing to say what was read** folds nothing: one put back after a reload,
+  or a profile's first.
+- **Not folded:**
+  - the history's name, which is new on nine end screens in ten;
+  - the timeline and the record, whose facts are the run's own;
+  - the share text and picture.
+
+**Measured first.** 100 players a bot, each playing 20 runs on one profile, dealt as the game
+deals them: the first a first term.
+
+| On the end screen of run | 1 | 3 | 5 | 10 | 20 |
+|---|---|---|---|---|---|
+| Eyes: the ending's words read before | 0% | 49% | 80% | 90% | 95% |
+| Eyes: the epilogue read before | 0% | 0% | 52% | 90% | 97% |
+| Eyes: the name given before | 0% | 1% | 4% | 12% | 15% |
+| Eyes: every follow-up read before | 0% | 0% | 0% | 0% | 17% |
+| Eyes: the fixed words read before | 0% | 18% | 36% | 54% | 70% |
+| Informed: the ending's words read before | 0% | 44% | 63% | 91% | 97% |
+| Informed: the epilogue read before | 0% | 1% | 43% | 84% | 91% |
+| Informed: the fixed words read before | 0% | 12% | 24% | 47% | 62% |
+
+- **The fixed words** are the ending's, the epilogue's and the follow-ups': about 104 on a
+  screen, 14 of them the ending's and 18 the epilogue's.
+- **The follow-ups repeat most, by words:** 27 of 72 by the tenth run for the eyes bot, 43 by the
+  twentieth. Rarely are all of them old at once, so leading with the new ones matters more than
+  folding the section.
+- **The ending's words and the epilogue** are old on nine end screens in ten by the tenth run, as
+  the idea said. They are short, so folding them shortens the screen little. It puts what is new
+  first.
+
+**Tests.**
+- The profile keeps the follow-ups shown, each once, and reads them back by band. It says whether
+  the ending's words and the epilogue were read, and reads a moved profile's list carefully.
+- The end screen:
+  - the first time, everything is in full;
+  - after, the ending's words and the epilogue fold into lines that open on them;
+  - the new follow-up leads, and the ones read fold after it under their names;
+  - with every follow-up read, the section is one line;
+  - with no fold, nothing folds.
+- A browser audit plays a profile that has read everything to its end in all seven looks at
+  360×640. Each end folds the ending, the epilogue and the follow-ups, and reads and fits closed
+  and open.
+- Question 4 now asks testers whether they opened the folded lines, or missed what they hid.
+
+**Caveats.**
+- **Folded is not the same as read.** The profile knows what an end screen showed, not what the
+  player read: one who skipped it last time finds it folded now. The line opens on it.
+- **A profile from before this version** has read no follow-ups, so they show in full once more
+  each. Its endings and epilogues fold at once, from what it always kept.
+- **A second road that ends as the first did** folds the ending read minutes before.
+- **Whether people want it folded is not known.** Round eleven's measure first, whether the
+  repetition is felt, is question 4, and waits on testers.

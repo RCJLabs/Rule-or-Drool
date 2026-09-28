@@ -428,6 +428,10 @@ with one questionnaire gathered from the questions below:
   keeping someone they try to hire away, and beating them by name at an honest count. Nothing is
   dealt differently and nothing new is recorded; the run's save counts the two things on the
   device. A device that has not updated deals week 3 from the old contracts.
+- Since v0.94.0 the end screen folds what a player has read on it before into lines marked "Read
+  before", which open (BACKLOG-13 phase 86). The profile keeps which of "What became of it"'s
+  follow-ups it has shown, on the device, beside the endings and epilogues it always kept.
+  Question 4 now asks whether testers opened the folded lines.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

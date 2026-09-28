@@ -127,6 +127,14 @@ export interface History {
 /** How many of a run's decisions the end screen follows up on. */
 export const CONSEQUENCES_SHOWN = 4;
 
+/**
+ * A follow-up as the profile keeps it once read (BACKLOG-13 phase 86): its words are the legacy's
+ * in the band the run ended in, so the same decision ended in another band says something new.
+ */
+export function followUpKey(flag: string, band: Band): string {
+  return `${flag}:${band}`;
+}
+
 const NOTHING_TOLD: ReadonlySet<string> = new Set();
 
 /**

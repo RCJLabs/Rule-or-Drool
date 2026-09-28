@@ -10,10 +10,12 @@ import type { Band, GameState } from "../engine/types";
 import {
   HISTORY_ORDER,
   LEGACIES,
+  NOTHING_READ,
   OBJECTIVES_BY_ID,
   bandOfHistory,
   contractById,
   dailyNumber,
+  followUpKey,
   historyOfRun,
   historyTitle,
   monthOf,
@@ -23,6 +25,7 @@ import {
   theirRun,
   todayKey,
   toldByEnding,
+  type Consequence,
   type RunFold,
   type RunResult,
 } from "../meta";
@@ -119,6 +122,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
   // after one does not, since what comes next is whatever the player picks (BACKLOG-12 phase 77).
   const firstTermDone = isFirstTerm(lib, state) && over.endingId.startsWith(lib.config.firstTermPrefix) && (fold?.firstSeenThrough ?? false);
   const shown = new Set(history.consequences.map((c) => c.flag));
+  // What the player has read before, folded into a line they can open, the new leading
+  // (BACKLOG-13 phase 86). A screen with no fold to say, as after a reload, folds nothing.
+  const read = fold?.read ?? NOTHING_READ;
+  const readFollowUps = new Set(read.followUps);
+  const followUpRead = (c: Consequence) => readFollowUps.has(followUpKey(c.flag, band));
+  const fresh = history.consequences.filter((c) => !followUpRead(c));
+  const again = history.consequences.filter(followUpRead);
+  const againLabels = again.flatMap((c) => (c.label ? [c.label] : []));
   // What this reign left and history did not name; what it took over is named above (BACKLOG-11 phase 66).
   const inherited = state.inherited?.legacies ?? [];
   const rest = state.flags.filter((f) => LEGACIES[f] && !shown.has(f) && !inherited.includes(f) && !told.has(f)).map((f) => LEGACIES[f]!);
@@ -143,6 +154,26 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
     const made = at && at > 0 ? state.choices?.[at - 1] : undefined;
     const card = made && lib.cards.get(made[0]);
     return made && card ? { k: at! - 1, label: card[otherSide(made[1])].label } : null;
+  };
+  // One follow-up: the decision, the card it was made on, what became of it, and the road back.
+  const followUp = (c: Consequence) => {
+    const back = retrace ? other(c.at) : null;
+    return (
+      <li key={c.flag}>
+        {c.label && (
+          <b>
+            {c.label}
+            {c.at !== null && c.at > 0 && <span className="became-when">{STRINGS.timeline.card.replace("{n}", String(c.at))}</span>}
+          </b>
+        )}
+        <p>{c.after}</p>
+        {retrace && back && (
+          <button type="button" className="road-back" onClick={() => retrace(back.k)}>
+            {STRINGS.road.choose.replace("{label}", back.label)}
+          </button>
+        )}
+      </li>
+    );
   };
   // The roads back from the legacies the ending told, which are not followed up below it and
   // so have no road of their own there (BACKLOG-11 phase 72): one a card, in the order taken.
@@ -270,7 +301,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
             mine={{ key: history.key, title: history.title, ending: endingTitle, cards: state.cardCount, band }}
           />
         )}
-        <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
+        {ending && read.ending ? (
+          <details className="read-before ending-again">
+            <summary>{STRINGS.after.readBefore.ending}</summary>
+            <p className="ending-text">{withNames(lib, state, ending.text)}</p>
+          </details>
+        ) : (
+          <p className="ending-text">{ending ? withNames(lib, state, ending.text) : null}</p>
+        )}
         {cause && <p className="ending-cause">{cause}</p>}
         {retrace && toldRoads.size > 0 && (
           <div className="ending-roads">
@@ -289,27 +327,15 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           <section className="became">
             <h2>{STRINGS.after.became}</h2>
             {roadGone && <p className="became-note">{STRINGS.road.updated}</p>}
-            <ul>
-              {history.consequences.map((c) => {
-                const back = retrace ? other(c.at) : null;
-                return (
-                  <li key={c.flag}>
-                    {c.label && (
-                      <b>
-                        {c.label}
-                        {c.at !== null && c.at > 0 && <span className="became-when">{STRINGS.timeline.card.replace("{n}", String(c.at))}</span>}
-                      </b>
-                    )}
-                    <p>{c.after}</p>
-                    {retrace && back && (
-                      <button type="button" className="road-back" onClick={() => retrace(back.k)}>
-                        {STRINGS.road.choose.replace("{label}", back.label)}
-                      </button>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            {fresh.length > 0 && <ul>{fresh.map(followUp)}</ul>}
+            {again.length > 0 && (
+              <details className="read-before became-again">
+                <summary>
+                  {againLabels.length ? STRINGS.after.readBefore.followUps.replace("{labels}", againLabels.join(" · ")) : STRINGS.after.readBefore.followUpsBare}
+                </summary>
+                <ul>{again.map(followUp)}</ul>
+              </details>
+            )}
             {rest.length > 0 && (
               <p className="became-also">
                 {STRINGS.after.also} {rest.join(" · ")}
@@ -361,7 +387,14 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
           <p className="band-label" data-band={band}>
             {STRINGS.bands[band]}
           </p>
-          <p>{epilogue?.text ?? "The record ends here."}</p>
+          {epilogue && read.epilogue ? (
+            <details className="read-before">
+              <summary>{STRINGS.after.readBefore.epilogue}</summary>
+              <p>{epilogue.text}</p>
+            </details>
+          ) : (
+            <p>{epilogue?.text ?? "The record ends here."}</p>
+          )}
         </section>
         {daily && fold && <DailyMonth lib={lib} dailies={fold.meta.dailies} today={today} month={monthOf(daily.day)} streak={false} />}
         {fold && (fold.newObjectives.length > 0 || fold.newUnlocks.length > 0 || fold.newEnding || fold.newHistory || fold.newContracts.length > 0) && (

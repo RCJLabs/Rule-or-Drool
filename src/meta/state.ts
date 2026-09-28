@@ -4,7 +4,7 @@ import { exitBand } from "../engine/state";
 import type { GameState } from "../engine/types";
 import { META_SAVE_VERSION } from "../version";
 import { CHRONICLE_LENGTH, chronicleEntry } from "./chronicle";
-import { historyOfRun, reachableHistoryKeys, type History } from "./histories";
+import { followUpKey, historyOfRun, reachableHistoryKeys, type History } from "./histories";
 import { LEGACIES, LEGACY_FLAGS } from "./legacies";
 import { contractsKept, keptIn, weekNumber, withKept } from "./contracts";
 import { endingKind, rumours, type EndingKind } from "./clues";
@@ -42,6 +42,7 @@ export function emptyMeta(): MetaState {
     dailies: [],
     contracts: [],
     scenarios: [],
+    followUpsRead: [],
   };
 }
 
@@ -67,7 +68,23 @@ export interface RunFold {
   firstSeenThrough: boolean;
   /** How the week's scenario went, when this run was the week's try at it (BACKLOG-12 phase 78). */
   scenario: { week: number; result: ScenarioResult } | null;
+  /** What the end screen shows that the player had read before this run (BACKLOG-13 phase 86). */
+  read: RunRead;
 }
+
+/**
+ * What a run's end screen shows that the player has read before (BACKLOG-13 phase 86): its
+ * ending's words, its epilogue, and which follow-ups of "What became of it", as `flag:band`. By
+ * the tenth run the ending's words and the epilogue are ones the player has read on nine end
+ * screens in ten; the follow-ups repeat more slowly, and rarely all at once.
+ */
+export interface RunRead {
+  ending: boolean;
+  epilogue: boolean;
+  followUps: string[];
+}
+
+export const NOTHING_READ: RunRead = { ending: false, epilogue: false, followUps: [] };
 
 /**
  * Fold a finished run into meta state: record the ending and epilogue, then re-check every
@@ -95,6 +112,7 @@ export function foldRun(
       newContracts: [],
       firstSeenThrough: false,
       scenario: null,
+      read: NOTHING_READ,
     };
   const endingId = run.over.endingId;
   const band = exitBand(lib, run);
@@ -103,6 +121,14 @@ export function foldRun(
   const newEnding = collectsEnding(endingId) && !(endingId in meta.endings);
   const history = historyOfRun(lib, run, band);
   const newHistory = !(history.key in (meta.histories ?? {}));
+  // What its end shows that the player has read before, and what it tells them now (phase 86).
+  const followUps = history.consequences.map((c) => followUpKey(c.flag, band));
+  const followUpsRead = new Set(meta.followUpsRead ?? []);
+  const read: RunRead = {
+    ending: (meta.endings[endingId] ?? 0) > 0,
+    epilogue: meta.epilogues.includes(run.over.epilogueKey),
+    followUps: followUps.filter((k) => followUpsRead.has(k)),
+  };
   const next: MetaState = {
     ...meta,
     runs: meta.runs + 1,
@@ -124,6 +150,7 @@ export function foldRun(
     // The clue the codex had out while this run was played is one the player has been given
     // (BACKLOG-11 phase 71).
     heard: [...new Set([...(meta.heard ?? []), ...rumours(lib, meta)])],
+    followUpsRead: [...new Set([...(meta.followUpsRead ?? []), ...followUps])],
   };
   // An ending found is looked for no more, whichever run found it (BACKLOG-13 phase 83).
   if (meta.pursuing === endingId) delete next.pursuing;
@@ -220,6 +247,7 @@ export function foldRun(
     newContracts,
     firstSeenThrough,
     scenario: scenario && result ? { week: scenario.week, result } : null,
+    read,
   };
 }
 
