@@ -11,17 +11,21 @@ import { exitBand, newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import { BOTS, holdCabinet, honest, makeContext, raiseRival, type Bot } from "../../src/sim";
 import {
+  CONTRACTS_RETIERED_FROM,
   CONTRACT_TEMPLATES,
   FIRST_DAILY,
   LEGACIES,
   RIVAL_CONTRACTS_FROM,
+  SAINT_CARDS,
   TIERS,
   contractById,
+  contractPool,
   contractStreak,
   contractsFor,
   contractsKept,
   emptyMeta,
   foldRun,
+  keepsContract,
   keptIn,
   migrateMeta,
   weekNumber,
@@ -69,9 +73,9 @@ describe("the week's contracts", () => {
     }
   });
 
-  it("change from week to week, and every one of them comes up", () => {
-    const seen = new Set(Array.from({ length: 400 }, (_, i) => contractsFor(i + 1).map((c) => c.id)).flat());
-    expect([...seen].sort()).toEqual([...every].sort());
+  it("change from week to week, and every one the pool deals comes up", () => {
+    const seen = new Set(Array.from({ length: 400 }, (_, i) => contractsFor(CONTRACTS_RETIERED_FROM + i).map((c) => c.id)).flat());
+    expect([...seen].sort()).toEqual(contractPool().map((c) => c.id).sort());
     const sets = new Set(Array.from({ length: 20 }, (_, i) => contractsFor(i + 1).map((c) => c.id).join()));
     expect(sets.size).toBeGreaterThan(15);
   });
@@ -120,6 +124,60 @@ describe("contracts added later", () => {
     // From their week, each comes up in its tier.
     const after = Array.from({ length: 100 }, (_, i) => contractsFor(RIVAL_CONTRACTS_FROM + i)).flat();
     for (const t of later) expect(after.filter((c) => c.id === t.key && c.tier === t.tier).length, t.key).toBeGreaterThan(5);
+  });
+});
+
+describe("contracts moved between tiers", () => {
+  const dealt = (from: number, to: number) => Array.from({ length: to - from }, (_, i) => contractsFor(from + i)).flat();
+
+  it("leave the week under way and the next as v0.94.0 deals them: weeks 1 to 3 (BACKLOG-13 phase 87)", () => {
+    expect(weekStart(CONTRACTS_RETIERED_FROM)).toBe("2026-10-12");
+    expect(CONTRACTS_RETIERED_FROM).toBeGreaterThan(RIVAL_CONTRACTS_FROM);
+    expect(contractsFor(1).map((c) => c.id)).toEqual(["muddle:left", "muddleClean", "broad"]);
+    expect(contractsFor(2).map((c) => c.id)).toEqual(["decay:right", "legacy:media_captured", "saintEra"]);
+    expect(contractsFor(3).map((c) => c.id)).toEqual(["rivalKept", "promiseBroad", "saintEra"]);
+    expect(contractPool(CONTRACTS_RETIERED_FROM - 1).map((c) => c.id)).toContain("legacyHard:seawall");
+    expect(contractPool(CONTRACTS_RETIERED_FROM - 1).map((c) => c.id)).not.toContain("legacyHard:schools_starved");
+  });
+
+  it("deal the seawall no more, and the schools as a hard contract in its place", () => {
+    const ids = dealt(CONTRACTS_RETIERED_FROM, CONTRACTS_RETIERED_FROM + 400).map((c) => c.id);
+    expect(ids).not.toContain("legacyHard:seawall");
+    expect(ids).not.toContain("legacy:schools_starved");
+    expect(ids.filter((id) => id === "legacyHard:schools_starved").length).toBeGreaterThan(10);
+    const pool = contractPool();
+    expect(pool.find((c) => c.id === "legacyHard:schools_starved")?.tier).toBe("hard");
+    expect(pool.map((c) => c.id)).not.toContain("legacyHard:seawall");
+    expect(pool.map((c) => c.id)).not.toContain("legacy:schools_starved");
+  });
+
+  it("ask a clean run for eighteen cards, as many as a player never serving themselves lasts in most runs", () => {
+    const saint = CONTRACT_TEMPLATES.find((t) => t.key === "saint")!;
+    const stats = reign("riots").stats;
+    const run = (cardCount: number, tempting: number) => reign("riots", { cardCount, stats: { ...stats, tempting } });
+    expect(SAINT_CARDS).toBe(18);
+    expect(saint.keeps(run(SAINT_CARDS, 0), "decay", "")).toBe(true);
+    expect(saint.keeps(run(SAINT_CARDS - 1, 0), "decay", "")).toBe(false);
+    expect(saint.keeps(run(40, 1), "decay", "")).toBe(false);
+    expect(contractById("saint")!.text).toContain("eighteen cards");
+    // Week 9 is the first to deal it, so no profile kept it on twenty.
+    for (let w = 1; w <= 8; w++) expect(contractsFor(w).map((c) => c.id)).not.toContain("saint");
+  });
+
+  it("still read as kept, in the tier they were dealt in, for a profile that kept them before", () => {
+    const schools = contractById("legacy:schools_starved")!;
+    const seawall = contractById("legacyHard:seawall")!;
+    expect(schools.tier).toBe("fair");
+    expect(seawall.tier).toBe("hard");
+    expect(schools.text).toBe(contractById("legacyHard:schools_starved")!.text);
+    expect(seawall.text).toContain(LEGACIES.seawall!);
+    for (const [id, flag] of [
+      ["legacy:schools_starved", "schools_starved"],
+      ["legacyHard:seawall", "seawall"],
+    ]) {
+      expect(keepsContract(id!, reign("finale_muddle", { flags: [flag!] }), "muddle"), id).toBe(true);
+      expect(keepsContract(id!, reign("finale_muddle"), "muddle"), id).toBe(false);
+    }
   });
 });
 

@@ -689,7 +689,7 @@ export const STRINGS = {
     muddle: "See {party} through a reign that ends in Muddle.",
     clean: "See a reign through, winning votes honestly and cheating none.",
     promise: "Promise \u201c{promise}\u201d and keep it to the finale.",
-    saint: "Finish a run of twenty cards or more without one self-serving choice.",
+    saint: "Finish a run of eighteen cards or more without one self-serving choice.",
     ascentClean: "Reach the Ascent finale leading {party}, cheating no vote.",
     muddleClean: "See a reign through to the Muddle finale, cheating no vote.",
     wonBackFinale: "Lose the office at a count, win it back honestly, and see the reign through.",

@@ -432,6 +432,10 @@ with one questionnaire gathered from the questions below:
   before", which open (BACKLOG-13 phase 86). The profile keeps which of "What became of it"'s
   follow-ups it has shown, on the device, beside the endings and epilogues it always kept.
   Question 4 now asks whether testers opened the folded lines.
+- Since v0.95.0 the weekly contracts are back in their tiers from week 4 (BACKLOG-13 phase 87):
+  the seawall's is no longer dealt, the schools' moves from fair to hard, and the clean run asks
+  eighteen cards. Nothing is dealt differently and nothing new is kept or recorded; weeks 1 to 18
+  deal the same contracts as before.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

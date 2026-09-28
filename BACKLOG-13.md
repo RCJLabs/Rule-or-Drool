@@ -1154,7 +1154,7 @@ changed since v0.68.0. `npm run contracts` now reads, a player aiming at each:
   any legacy under one run in fourteen. The schools legacy belongs in the hard tier.
 - **Not changed here.** Moving a contract between tiers, or dropping one, changes every week that
   can deal it. It could be done from a week not yet begun, as the rival's were added. Neither is
-  a goal of the week's scenario, whose table is fixed.
+  a goal of the week's scenario, whose table is fixed. Phase 87 did it from week 4.
 
 **Tests.**
 - The engine counts a vote won honestly against the rival by name, and not one lost, cheated or
@@ -1248,3 +1248,69 @@ deals them: the first a first term.
 - **A second road that ends as the first did** folds the ending read minutes before.
 - **Whether people want it folded is not known.** Round eleven's measure first, whether the
   repetition is felt, is question 4, and waits on testers.
+
+## Phase 87. The contracts back in their tiers (phase 85's finding) — *done*
+
+**Shipped in v0.95.0.** No card or run is dealt differently: the deck is still g8u7egs4. The
+weekly contracts change from week 4, Monday 12 October 2026, and weeks 1 to 3 deal what v0.94.0
+dealt. The run's save and the profile are unchanged.
+
+- **"The seawall stands" is no longer dealt.** A player aiming at it keeps it one run in 26. The
+  hard tier asks one in five to fourteen, and phase 60 left out any legacy under one in fourteen.
+- **"The schools were starved" moves from the fair tier to the hard,** in the seawall's place: a
+  player aiming at it keeps it one run in six. A week that would have dealt the seawall deals the
+  schools.
+- **The clean run asks eighteen cards, not twenty.** A player who never serves themselves is
+  never made to, so a run misses it only by ending first. 46% last twenty cards, and 63%
+  eighteen. No week had dealt it yet (week 9 is the first), so nobody kept it on twenty.
+- **A contract kept before it moved still reads as kept,** in the tier it was dealt in. A
+  profile's record names its contracts, so every name ever dealt stays good.
+- **Left as they are:**
+  - "Nobody under forty" kept to the finale, at 52%, on the fair tier's 50% line. Moving it
+    would put it on the easy tier's line instead, and change the easy and fair deal of most weeks
+    from week 4.
+  - Every group above sixty, at 19.5% on fresh seeds, inside the hard tier. The 21.0% phase 85
+    read was the sample's.
+
+**Measured first.** Each figure is the best of the ways a player could aim at the contract, as
+`npm run contracts` plays them. Phase 85's 500 runs are seeds 900,000 on; the 2,000 more are
+seeds 910,000 on, with a 95% margin of about 2 points.
+
+| Contract | Tier | Band | 500 runs | 2,000 fresh runs |
+|---|---|---|---|---|
+| Twenty cards without a self-serving choice | Easy | 50–90% | 49.6% | 46.0% |
+| Eighteen cards without one | Easy | 50–90% | 64.2% | 62.7% |
+| Keep "Nobody under forty" to the finale | Fair | 20–50% | 51.6% | 52.1% |
+| "The schools were starved" in the record | Fair, now hard | 7–20% | 17.2% | 17.8% |
+| Every group above sixty at the end | Hard | 7–20% | 21.0% | 19.5% |
+| "The seawall stands" in the record | Hard, now none | 7–20% | 3.8% | |
+
+- **The clean run.** The median run of a player who never serves themselves lasts 19 cards: 46%
+  last twenty, 63% eighteen, 81% fifteen.
+- **The whole pool from week 4,** at 500 runs a contract on phase 85's seeds: every contract in its
+  band but the two left as they are, just over their lines, "Nobody under forty" at 51.6% and
+  every group above sixty at 21.0%.
+
+**What the weeks deal.** Weeks 1 to 18 deal just what v0.94.0 dealt; the first to differ is week
+19, from 25 January 2027. Of the first 160 weeks, 23 differ:
+- 9 deal the schools where they dealt the seawall;
+- 14 deal another fair legacy: the fair tier's legacy picks from two where it picked from three,
+  so 10 weeks that dealt the schools deal the skim, and 4 that dealt the skim deal the press.
+
+The easy tier deals the same in every week.
+
+**Tests.**
+- Weeks 1 to 3 deal what v0.94.0 dealt; the seawall is in their pool, and the schools as a hard
+  contract are not.
+- From week 4 neither the seawall nor the schools as fair are dealt, and the schools as hard come
+  up.
+- A contract kept before it moved reads as kept, in its old tier, and a run keeps it as before.
+- The clean run asks eighteen cards, and no week before week 9 deals it.
+- Every contract the pool deals from week 4 comes up within 400 weeks.
+
+**Caveats.**
+- **A device still on v0.94.0 deals the same weeks until week 19,** but reads the clean run as
+  twenty cards when week 9 deals it.
+- **The bands are for bots aiming well.** People may find the clean run harder: the saint bot
+  sees every card's honest side, which a person has to judge.
+- **"Nobody under forty" sits on a line** whichever tier holds it. Its three aims read 44–52%.

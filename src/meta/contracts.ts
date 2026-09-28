@@ -42,8 +42,16 @@ interface Template {
    * keeps the contracts it was dealt (BACKLOG-13 phase 85). Absent for the pool of phase 60.
    */
   since?: number;
-  /** What it can be dealt with; one is picked each time it is dealt. Empty for none. */
+  /**
+   * What it can be dealt with; one is picked each time it is dealt. Empty for none. A param no
+   * longer dealt stays: a profile may have kept it.
+   */
   params: readonly string[];
+  /**
+   * The weeks a param is dealt in, where not every week the template is: from `since`, and before
+   * `until` (BACKLOG-13 phase 87).
+   */
+  paramWeeks?: Readonly<Record<string, { since?: number; until?: number }>>;
   text: (param: string) => string;
   /** The finished run, and the band it ended in, keep it. */
   keeps: (run: GameState, band: Band, param: string) => boolean;
@@ -77,9 +85,24 @@ const honestly = (run: GameState) => clean(run) && honestWins(run.stats) > 0;
 export const RIVAL_CONTRACTS_FROM = 3;
 
 /**
+ * The week two legacies change tier (BACKLOG-13 phase 87): week 4, from Monday 12 October 2026. A
+ * player aiming at "The seawall stands" kept it one run in 26, where the hard tier asks one in five
+ * to fourteen, so it is no longer dealt. "The schools were starved", one run in six, moves from the
+ * fair tier to the hard, in the seawall's place. Week 3 keeps the deal v0.93.0 gave it.
+ */
+export const CONTRACTS_RETIERED_FROM = 4;
+
+/**
+ * The cards the easy contract for a clean run asks for. Twenty in phase 60, when a player never
+ * serving themselves lasted that long in half their runs; by v0.94.0 it was 46% of 2,000, and at
+ * eighteen 63% (BACKLOG-13 phase 87). No week had dealt it yet, so nothing kept is changed.
+ */
+export const SAINT_CARDS = 18;
+
+/**
  * The pool, by tier, with the share of runs a player aiming at each keeps it in, measured in
- * phase 60 at 500 runs a policy (BACKLOG-10 has the table). Keep a template's key once shipped:
- * the contracts a profile kept name it.
+ * phase 60 at 500 runs a policy (BACKLOG-10 has the table). Keep a template's key and its params
+ * once shipped: the contracts a profile kept name them. Phase 87 moved two (BACKLOG-13).
  *
  * Left out: anything that scores a policy (a question's answer is one), and anything the deal
  * decides more than the player (a story's legacy under one run in fourteen).
@@ -97,7 +120,7 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
     text: (m) => k.promise.replace("{promise}", MANDATES_BY_ID.get(m)?.title ?? m),
     keeps: (r, _, m) => holds(r, m) && finale(r),
   },
-  { key: "saint", tier: "easy", params: [], text: () => k.saint, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= 20 },
+  { key: "saint", tier: "easy", params: [], text: () => k.saint, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= SAINT_CARDS },
   // The rival (phase 85): an offer to someone in the cabinet turned down, and nobody lost to them.
   {
     key: "rivalKept",
@@ -118,7 +141,14 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   { key: "muddleClean", tier: "fair", params: [], text: () => k.muddleClean, keeps: (r) => finale(r, "muddle") && honestly(r) },
   { key: "wonBackFinale", tier: "fair", params: [], text: () => k.wonBackFinale, keeps: (r) => r.flags.includes(WON_BACK_FLAG) && finale(r) },
   { key: "ascentClean", tier: "fair", params: PLAYER_ALIGNS, text: (s) => k.ascentClean.replace("{party}", party(s)), keeps: (r, _, s) => r.align === s && finale(r, "ascent") && honestly(r) },
-  { key: "legacy", tier: "fair", params: ["media_captured", "took_the_skim", "schools_starved"], text: legacyText, keeps: (r, _, f) => leftBy(r, f) && finale(r) },
+  {
+    key: "legacy",
+    tier: "fair",
+    params: ["media_captured", "took_the_skim", "schools_starved"],
+    paramWeeks: { schools_starved: { until: CONTRACTS_RETIERED_FROM } },
+    text: legacyText,
+    keeps: (r, _, f) => leftBy(r, f) && finale(r),
+  },
   // The rival (phase 85): a vote they stand in by name, won at an honest count.
   {
     key: "rivalBeaten",
@@ -134,7 +164,9 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   {
     key: "legacyHard",
     tier: "hard",
-    params: ["ring_started", "long_ship", "seawall", "pension_raided", "feed_captured"],
+    // The schools after the seawall, so a week that would have dealt the seawall deals the schools.
+    params: ["ring_started", "long_ship", "seawall", "schools_starved", "pension_raided", "feed_captured"],
+    paramWeeks: { seawall: { until: CONTRACTS_RETIERED_FROM }, schools_starved: { since: CONTRACTS_RETIERED_FROM } },
     text: legacyText,
     keeps: (r, _, f) => leftBy(r, f) && finale(r),
   },
@@ -146,7 +178,25 @@ function make(t: Template, param: string): Contract {
   return { id: param ? `${t.key}:${param}` : t.key, tier: t.tier, text: t.text(param) };
 }
 
-/** A contract by its id, or undefined for one this version does not deal. */
+/** The params a template deals in a week. */
+function paramsIn(t: Template, week: number): readonly string[] {
+  return t.params.filter((p) => {
+    const { since = 1, until = Infinity } = t.paramWeeks?.[p] ?? {};
+    return since <= week && week < until;
+  });
+}
+
+/** Whether a template deals in a week: from its first, and with a param to deal if it takes one. */
+function dealsIn(t: Template, week: number): boolean {
+  return (t.since ?? 1) <= week && (t.params.length === 0 || paramsIn(t, week).length > 0);
+}
+
+/** Every contract a week can deal; with no week, every one the weeks to come can. */
+export function contractPool(week = Number.MAX_SAFE_INTEGER): Contract[] {
+  return CONTRACT_TEMPLATES.filter((t) => dealsIn(t, week)).flatMap((t) => (t.params.length ? paramsIn(t, week).map((p) => make(t, p)) : [make(t, "")]));
+}
+
+/** A contract by its id, or undefined for one this version does not know. One no longer dealt reads in the tier it had. */
 export function contractById(id: string): Contract | undefined {
   const [key, param = ""] = id.split(/:(.*)/s);
   const t = TEMPLATES_BY_KEY.get(key ?? "");
@@ -174,8 +224,9 @@ export function contractsFor(week: number): Contract[] {
   const rng = makeRng(0x0c0ffee ^ Math.imul(week, 0x9e3779b1));
   const pick = <T,>(xs: readonly T[]): T => xs[Math.floor(rng() * xs.length)]!;
   return TIERS.map((tier) => {
-    const t = pick(CONTRACT_TEMPLATES.filter((x) => x.tier === tier && (x.since ?? 1) <= week));
-    return make(t, t.params.length ? pick(t.params) : "");
+    const t = pick(CONTRACT_TEMPLATES.filter((x) => x.tier === tier && dealsIn(x, week)));
+    const params = paramsIn(t, week);
+    return make(t, params.length ? pick(params) : "");
   });
 }
 
