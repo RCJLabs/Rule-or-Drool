@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { EngineConfig } from "../../src/engine/config";
-import { draw } from "../../src/engine/draw";
-import { buildLibrary, questionOf } from "../../src/engine/library";
+import { draw, questionsDue } from "../../src/engine/draw";
+import { buildLibrary, getCard, questionOf, questionOfArc } from "../../src/engine/library";
 import { resolve } from "../../src/engine/resolve";
+import { makeRng } from "../../src/engine/rng";
+import { newRun, rollSetup } from "../../src/engine/state";
 import type { Arc, Card } from "../../src/engine/types";
+import { library } from "../../src/content";
+import { BOTS, makeContext } from "../../src/sim";
 import { ev, makeFixture } from "../fixtures/content";
 import { play, start } from "../helpers";
 
@@ -59,7 +63,8 @@ describe("questions", () => {
   });
 
   it("are asked one at a time, each once, up to the budget", () => {
-    const l = withQuestions({ arcContinueProb: 1 });
+    // A game of one era, which has the whole budget in it (BACKLOG-13 phase 91).
+    const l = withQuestions({ arcContinueProb: 1, eraCount: 1 });
     const { state, ids } = play(l, start(l), 40);
     const asked = ids.filter((id) => isQuestion(id));
     // Two questions, both steps of each, and the second only once the first was answered.
@@ -69,6 +74,21 @@ describe("questions", () => {
     const met = state.activeArcs.filter((a) => l.arcs.get(a.id)?.question);
     expect(met).toHaveLength(2);
     expect(new Set(met.map((a) => l.arcs.get(a.id)!.question)).size).toBe(2);
+  });
+
+  it("are spread across a run's eras: one by the end of the first, two by the second, three by the third", () => {
+    const l = withQuestions({ questionBudget: 3 });
+    const due = (era: number) => questionsDue(l, { era });
+    expect([1, 2, 3].map(due)).toEqual([1, 2, 3]);
+    // A first term is the ordinary game's first era, and a long reign has asked them all by its fourth.
+    expect([4, 5].map(due)).toEqual([3, 3]);
+  });
+
+  it("ask the second once the first era is over, and the third in the last era", () => {
+    const l = withQuestions({ questionBudget: 3, arcContinueProb: 1, eraLength: 6 });
+    const { ids } = play(l, start(l), 18);
+    const asked = ids.flatMap((id, k) => (isQuestion(id) && id.endsWith("1") ? [Math.floor(k / 6) + 1] : []));
+    expect(asked).toEqual([1, 2, 3]);
   });
 
   it("are asked in the run's own side's voice", () => {
@@ -97,5 +117,34 @@ describe("questions", () => {
     s = resolve(l, s, first, "left");
     s = draw(l, s);
     expect(s.current).toBe(`${first.slice(0, -1)}2`);
+  });
+});
+
+/** The game's own deck, played by the informed voter: a question an era (BACKLOG-13 phase 91). */
+describe("questions on the game's own deck", () => {
+  it("come one an era at most, and the last era asks one in nearly every run that reaches it", () => {
+    let reached = 0;
+    let askedThere = 0;
+    for (let seed = 1; seed <= 30; seed++) {
+      const rng = makeRng(seed ^ 0x3c6ef372);
+      let s = newRun(library, seed, rollSetup(library, seed, seed % 2 ? "left" : "right", []));
+      const byEra = [0, 0, 0];
+      while (!s.over) {
+        s = draw(library, s);
+        const card = getCard(library, s.current!);
+        if (card.arc && questionOfArc(library, card.arc) !== undefined && library.arcs.get(card.arc)!.cards[0] === card.id) {
+          byEra[s.era - 1]!++;
+          // Never more than the run's share by the end of the era it is in.
+          expect(byEra.reduce((a, b) => a + b, 0)).toBeLessThanOrEqual(questionsDue(library, s));
+        }
+        s = resolve(library, s, card.id, BOTS.informed(makeContext(library, s, card, rng, { danger: 25 })));
+      }
+      if (s.cardCount > 2 * library.config.eraLength) {
+        reached++;
+        if (byEra[2]! > 0) askedThere++;
+      }
+    }
+    expect(reached).toBeGreaterThan(20);
+    expect(askedThere / reached).toBeGreaterThan(0.8);
   });
 });

@@ -17,6 +17,7 @@ import {
   LEGACIES,
   RIVAL_CONTRACTS_FROM,
   SAINT_CARDS,
+  SAINT_ERA_UNTIL,
   TIERS,
   contractById,
   contractPool,
@@ -138,6 +139,18 @@ describe("contracts moved between tiers", () => {
     expect(contractsFor(3).map((c) => c.id)).toEqual(["rivalKept", "promiseBroad", "saintEra"]);
     expect(contractPool(CONTRACTS_RETIERED_FROM - 1).map((c) => c.id)).toContain("legacyHard:seawall");
     expect(contractPool(CONTRACTS_RETIERED_FROM - 1).map((c) => c.id)).not.toContain("legacyHard:schools_starved");
+  });
+
+  it("deal a whole era's clean run until week 4, and no more after it (BACKLOG-13 phase 91)", () => {
+    expect(weekStart(SAINT_ERA_UNTIL)).toBe("2026-10-12");
+    // The week under way and the next deal it, as every device already deals them.
+    expect(contractsFor(2).map((c) => c.id)).toContain("saintEra");
+    expect(contractsFor(3).map((c) => c.id)).toContain("saintEra");
+    expect(dealt(SAINT_ERA_UNTIL, SAINT_ERA_UNTIL + 400).map((c) => c.id)).not.toContain("saintEra");
+    expect(contractPool().map((c) => c.id)).not.toContain("saintEra");
+    // The hard tier deals what is left of it, and a profile that kept it still reads it.
+    expect(new Set(contractsFor(SAINT_ERA_UNTIL + 7).map((c) => c.tier))).toEqual(new Set(TIERS));
+    expect(contractById("saintEra")?.tier).toBe("hard");
   });
 
   it("deal the seawall no more, and the schools as a hard contract in its place", () => {

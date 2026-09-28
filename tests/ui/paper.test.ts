@@ -102,9 +102,10 @@ describe("the era's vote, as the page tells it", () => {
 
 describe("a door's front page, in the game's own runs", () => {
   type Outcome = NonNullable<ReturnType<typeof eraOutcomes>>[number];
-  /** Each door of 60 careful runs, with the votes of the era before it as they went. */
-  const doors: { state: GameState; era: number; votes: Outcome[] }[] = [];
-  for (let k = 0; k < 60; k++) {
+  type Door = { state: GameState; era: number; votes: Outcome[] };
+  /** The doors of the k-th careful run, with the votes of the era before each as they went. */
+  function doorsOf(k: number): Door[] {
+    const doors: Door[] = [];
     const seed = 820_000 + k;
     const bot = k % 2 ? BOTS.eyes : BOTS.informed;
     const rng = makeRng(seed ^ 0x5bd1e995);
@@ -137,7 +138,10 @@ describe("a door's front page, in the game's own runs", () => {
         votes = [];
       }
     }
+    return doors;
   }
+  /** Each door of 60 careful runs. */
+  const doors = Array.from({ length: 60 }, (_, k) => doorsOf(k)).flat();
 
   it("come at every door of a careful run", () => {
     expect(doors.length).toBeGreaterThan(100);
@@ -188,8 +192,12 @@ describe("a door's front page, in the game's own runs", () => {
   });
 
   it("lead an era that decided nothing with the paper's own line, the same for every run on the seed at that door", () => {
-    const quiet = doors.find((d) => !eraDecisions(library, d.state, d.era - 1).length)!;
-    expect(quiet).toBeDefined();
+    // Since a question comes each era (BACKLOG-13 phase 91), an era that decides nothing is rare:
+    // about one careful run in a hundred has one, so the search goes past the 60.
+    let found: Door | undefined;
+    for (let k = 0; k < 600 && !found; k++) found = doorsOf(k).find((d) => !eraDecisions(library, d.state, d.era - 1).length);
+    expect(found).toBeDefined();
+    const quiet = found!;
     const again = frontPage(library, { ...quiet.state, flags: [...quiet.state.flags] }, quiet.era);
     expect(again.headline).toBe(frontPage(library, quiet.state, quiet.era).headline);
   });

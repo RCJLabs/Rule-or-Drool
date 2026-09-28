@@ -1314,3 +1314,101 @@ The easy tier deals the same in every week.
 - **The bands are for bots aiming well.** People may find the clean run harder: the saint bot
   sees every card's honest side, which a person has to judge.
 - **"Nobody under forty" sits on a line** whichever tier holds it. Its three aims read 44–52%.
+
+## Phase 91. The last era decides: a question an era (idea 4, first half) — *done*
+
+**Shipped in v0.99.0.** It changes the deal: the deck is now aszkbk6a, from g8u7egs4. The
+reckoning, the idea's second half, is not built.
+
+- **A question an era.** A run may have been asked one question by the end of its first era, two
+  by the end of its second and three by the end of its third, and every question can now begin
+  in the third. A question the first era did not ask can come in the second. Before, the 32 could
+  begin only in the first two eras, and a run's budget of three was spent early: the third era
+  asked none.
+- **A first term is the ordinary game's first era,** as it has been since BACKLOG-10 phase 59, so
+  it asks one question where it asked two. A long reign asks as the ordinary game does, and has
+  asked all three by its fourth era.
+- **In the code:** `questionsDue` in `src/engine/draw.ts` is the share, and the 32 questions, and
+  their first cards, take the third era in. `DEAL_VERSION` is 10.
+- **"A whole era without one self-serving choice"** is not dealt from week 4: see the contracts,
+  below.
+
+**Measured first.** 1,000 runs a bot on seeds 1 to 1,000.
+
+| The informed voter | Before | After |
+|---|---|---|
+| Questions begun, era 1 / 2 / 3 | 2.19 / 0.70 / 0.00 | 0.95 / 0.98 / 0.98 |
+| Cards from questions, era 1 / 2 / 3 | 4.99 / 1.97 / 0.04 | 2.12 / 2.43 / 2.49 |
+| Decisions that leave a legacy, era 1 / 2 / 3 | 5.85 / 1.94 / 0.58 | 4.75 / 2.19 / 1.48 |
+| Runs seen through, named for a decision in era 1 / 2 / 3 | 55% / 33% / 12% | 31% / 41% / 28% |
+| Questions a run | 2.90 | 2.92 |
+
+- **The measure asked for:** runs seen through named for a third-era decision. The eyes bot and a
+  person-like player move as the informed voter does: 27% of their runs, from 10–11%.
+- **Letting questions begin in the third era, without the share,** did little: 0.09 a run began
+  there, and the third era named 12–13% of runs, since the budget was spent by then.
+- **The band is decided later too.** The band at card 70 is the one a run ends in for 73% of the
+  informed voter's runs seen through (77% before), and 78% of the eyes bot's (82%).
+- **Which names runs get.** A question names about 58% of runs seen through, before and after,
+  and the informed voter's 966 runs seen through were given 182 different names, where 975 were
+  given 179.
+- **Every harness target holds,** at 5,000 runs a bot, and the long reign's at 10,000:
+  - the informed voter reaches the Ascent in 26.4% (25.9% before), and the mixed bot in 13.8%
+    (13.8%);
+  - random runs last a median 50 cards (48), no cause ends more than 18.8% of them (17.1%), and
+    the greedy bot ends in the Decay in 76.4% (76.7%);
+  - in the long reign the mixed bot reaches its fifth era in 96.4% and sees its finale in 92.9%,
+    and a random run past its third era finishes in 9.5% in the Decay and 48.0% on the Ascent.
+    At 2,000 runs that last read 12.6% and 25.0%, a miss: 8% of random runs reach era 4, and few
+    of those are on the Ascent. At the harness's own 10,000 runs it passes before and after.
+  - The eyes bot, a line for information, reaches the Ascent in 60.9% (63.2%): the third era's
+    question asks the honest way or the fast way, and the eyes bot often takes the fast one.
+- **First terms,** 2,000 a bot: one question where there were two (0.96, from 2.22 for the
+  informed voter). As many are seen through, 99.3% of the informed voter's, and more random ones,
+  68.5% from 62.6%.
+
+**The contracts.** `npm run contracts`, 500 runs a policy: every contract stays in or near its
+band as before, but one. At 3,000 runs a player never serving themselves lasts a whole era in
+4.0% of runs, from 7.9%: one in 25, where the hard tier asks one in five to fourteen. The easy
+clean run, eighteen cards, is 57.7% from 64.1%, still in its tier.
+- Most fall at the first vote, with its campaign from card 23: 38% of them last twenty cards and
+  9% twenty-four. Past the vote no length of run keeps them clear of the tier's floor (7.0% at 26
+  cards, 5.7% at 30), so the contract is not dealt at another length. It is not dealt from week
+  4, 12 October (`SAINT_ERA_UNTIL`); weeks 2 and 3 deal it as their hard contract, as every
+  device already deals them.
+- The likely reason, not measured: the first era deals about three fewer question cards and as
+  many more ordinary ones, where the honest side is the costlier.
+- 49 of the first 160 weeks deal something else in its place: 25 "all three of your groups above
+  sixty", the rest a hard legacy. No other week changes.
+
+**The weeks' scenarios.** Weeks 3 to 156 were searched again on the new deck
+(`npm run scenarios -- --from 3`): 3,764 candidates in 43 minutes, every week searched in its
+band, the informed voter meeting a week's goal in 34.6% of runs and the eyes bot in 34.1%. Week
+2, under way, keeps its goal, and meets it in 43% and 41% on the new deck; week 3 found the goal
+and seed it had.
+
+**Tests.**
+- The share: one by the end of the first era, two and three by the second and third; the same in
+  a long reign; a game of one era has the whole budget.
+- On a fixture, the questions come at the start of each of three eras, one each; on the game's own
+  deck, never past the share, and the last era asks one in more than 80% of runs that reach it.
+- A first term still deals the first 35 cards of the full run on its seed.
+- The hard clean run is dealt in weeks 2 and 3, and never from week 4; the hard tier still deals;
+  a profile that kept it still reads it.
+- The front page's test of an era that decided nothing searched 60 runs for one; since such an era
+  is about one run in a hundred now, it searches up to 600.
+
+**Caveats.**
+- **A run saved before the update** plays on under the new deal from where it is, as a run from
+  another deck always has, and its end screen cannot deal it again for its chart.
+- **A link sent before the update** names the old deck: the offer says it was played on another
+  version, and the end sets the two runs side by side without comparing them.
+- **Today's daily** deals differently after the update than before it, for the rest of the day.
+- **A first term meets one question where it met two.** A new player sees fewer of them in the run
+  that teaches the game. The first term's promise, the ordinary game's first era, decided it.
+- **The hard clean run is one run in 25 in weeks 2 and 3,** until it stops being dealt.
+- **Questions dealt late miss the runs that end early:** 1.6% of the informed voter's end before
+  the third era (1.3% before), and 3.7% of a person-like player's (3.9%).
+- **"The last era decides" only as far as a question can.** Questions name runs in the middle of
+  history's order: a run carrying a great story's legacy, a ring or a ship, is named for that
+  whenever it was decided. The reckoning is the half that would decide more.

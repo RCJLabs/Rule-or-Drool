@@ -262,7 +262,9 @@ export const DEFAULT_CONFIG: EngineConfig = {
    * player has met all sixteen by their 15th run (median). Asked in the first era only (measured
    * with the four standing in for sixteen), a run met 2.5 and the least asked question 14% of
    * runs. While there were four, three a run met the same three of four in nearly every run,
-   * so the budget was two.
+   * so the budget was two. Asked by era since BACKLOG-13 phase 91, one by the end of each
+   * (`questionsDue`), and able to start in the third, a run still meets 2.9, and the third era
+   * asks one in nearly every run that reaches it, where before it asked none.
    */
   questionBudget: 3,
   questionEntryProb: 0.12,

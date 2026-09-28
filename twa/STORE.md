@@ -452,6 +452,13 @@ with one questionnaire gathered from the questions below:
   Treasurer." It is read on the device from the seed's order; nothing is dealt differently and
   nothing new is kept or recorded. A fifth of what it shows never comes. Question 8 now asks
   whether testers noticed it and did anything about it.
+- Since v0.99.0 a run is asked a question in each of its eras, where the third asked none
+  (BACKLOG-13 phase 91). It changes the deal: the deck is aszkbk6a, a run saved before the update
+  plays on under the new deal, and a first term asks one question where it asked two. The hard
+  contract "a whole era without one self-serving choice" is not dealt from week 4. Records name
+  their deck, and the report compares only runs dealt from the deck it runs on, so runs recorded
+  before the update are set aside. Question 3 now asks whether the reign's last era felt as if it
+  decided anything.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

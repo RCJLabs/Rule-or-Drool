@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.98.0 · deck g8u7egs4".
+  version from the bottom of the menu. It looks like "v0.99.0 · deck aszkbk6a".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -61,7 +61,8 @@ drag it left or right. What your choices do builds up over a run, and not all of
 3. How did your last run end? Did the end screen, or its chart of how the run went, tell you
    anything you didn't already know? Under "Where it turned" it names the decisions that, taken
    the other way, would have ended the run differently: were they the ones you thought mattered?
-   Did you take one of those roads?
+   Did you take one of those roads? Did your reign's last era feel as if it decided anything, or
+   only as if you were living with what came before?
 4. By your tenth run or so, was the end screen still telling you something new, or had you
    started skipping it? It folds what you have read on it before into lines marked "Read
    before": did you open them, or miss what they hid?

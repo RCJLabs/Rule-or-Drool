@@ -43,6 +43,11 @@ interface Template {
    */
   since?: number;
   /**
+   * The first week that no longer deals it, for one whose rate has left its tier (BACKLOG-13
+   * phase 91). A profile that kept it still reads it, in the tier it had.
+   */
+  until?: number;
+  /**
    * What it can be dealt with; one is picked each time it is dealt. Empty for none. A param no
    * longer dealt stays: a profile may have kept it.
    */
@@ -91,6 +96,17 @@ export const RIVAL_CONTRACTS_FROM = 3;
  * fair tier to the hard, in the seawall's place. Week 3 keeps the deal v0.93.0 gave it.
  */
 export const CONTRACTS_RETIERED_FROM = 4;
+
+/**
+ * The first week that no longer deals "a whole era without one self-serving choice" (BACKLOG-13
+ * phase 91): week 4, from Monday 12 October 2026. Once the questions came one an era, a player
+ * never serving themselves lasted a whole era in 4.0% of 3,000 runs, from 7.9%: one run in 25,
+ * where the hard tier asks one in five to fourteen. Most fell at the first vote, and past it no
+ * length of run kept them clear of the tier's floor (7.0% at 26 cards, 5.7% at 30), so it is not
+ * dealt again at another length.
+ * Weeks 2 and 3 deal it as their hard contract, as every device already deals them.
+ */
+export const SAINT_ERA_UNTIL = 4;
 
 /**
  * The cards the easy contract for a clean run asks for. Twenty in phase 60, when a player never
@@ -160,7 +176,14 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   },
   // Hard: one run in five to fourteen.
   { key: "broad", tier: "hard", params: [], text: () => k.broad, keeps: (r) => finale(r) && BLOC_KEYS.every((b) => r.meters[b] >= 60) },
-  { key: "saintEra", tier: "hard", params: [], text: () => k.saintEra, keeps: (r) => r.stats.tempting === 0 && r.cardCount >= DEFAULT_CONFIG.eraLength },
+  {
+    key: "saintEra",
+    tier: "hard",
+    until: SAINT_ERA_UNTIL,
+    params: [],
+    text: () => k.saintEra,
+    keeps: (r) => r.stats.tempting === 0 && r.cardCount >= DEFAULT_CONFIG.eraLength,
+  },
   {
     key: "legacyHard",
     tier: "hard",
@@ -186,9 +209,9 @@ function paramsIn(t: Template, week: number): readonly string[] {
   });
 }
 
-/** Whether a template deals in a week: from its first, and with a param to deal if it takes one. */
+/** Whether a template deals in a week: from its first, before its last, and with a param to deal if it takes one. */
 function dealsIn(t: Template, week: number): boolean {
-  return (t.since ?? 1) <= week && (t.params.length === 0 || paramsIn(t, week).length > 0);
+  return (t.since ?? 1) <= week && week < (t.until ?? Infinity) && (t.params.length === 0 || paramsIn(t, week).length > 0);
 }
 
 /** Every contract a week can deal; with no week, every one the weeks to come can. */

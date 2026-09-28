@@ -333,13 +333,27 @@ function drawArcEntry(lib: Library, state: GameState): [Card | null, GameState] 
 }
 
 /**
+ * How many questions a run may have been asked by the end of the era it is in (BACKLOG-13 phase
+ * 91): the ordinary game's share of the budget, era by era, so the last era asks one of its own.
+ * That is one by the end of the first era, two by the second and three by the third, and a
+ * question the first era did not ask can come in the second. A first term is the ordinary game's
+ * first era, and asks what it asks (BACKLOG-10 phase 59); a long reign has asked them all by its
+ * fourth.
+ */
+export function questionsDue(lib: Library, state: Pick<GameState, "era">): number {
+  const { questionBudget, eraCount } = lib.config;
+  return Math.min(questionBudget, Math.ceil((questionBudget * state.era) / eraCount));
+}
+
+/**
  * Ask a question (BACKLOG-6 phase 40): a policy the country argues about, one at a time, each
- * once, up to the run's budget. It is not a story, so it neither takes a story's slot nor
- * counts as one entered; its later steps are drawn like any arc's.
+ * once, up to the run's budget, spread across its eras (BACKLOG-13 phase 91). It is not a story,
+ * so it neither takes a story's slot nor counts as one entered; its later steps are drawn like any
+ * arc's.
  */
 function drawQuestionEntry(lib: Library, state: GameState): [Card | null, GameState] {
   const asked = state.activeArcs.filter((a) => questionOfArc(lib, a.id) !== undefined);
-  if (asked.length >= lib.config.questionBudget || asked.some((a) => a.nextCard)) return [null, state];
+  if (asked.length >= questionsDue(lib, state) || asked.some((a) => a.nextCard)) return [null, state];
   const answered = new Set(asked.map((a) => questionOfArc(lib, a.id)));
   const cands = startable(lib, state, true).filter((a) => !answered.has(a.question));
   if (cands.length === 0) return [null, state];
