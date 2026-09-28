@@ -4,7 +4,7 @@ import { withNames } from "../engine/endings";
 import { poachedAdvisors } from "../engine/rival";
 import type { GameState } from "../engine/types";
 import { Portrait } from "./Portrait";
-import { rivalReport } from "./rival";
+import { rivalMove, rivalMoveLine, rivalReport } from "./rival";
 
 interface Props {
   lib: Library;
@@ -40,6 +40,9 @@ export function Cabinet({ lib, state, onClose }: Props) {
   const rival = rivalId ? lib.advisorsById.get(rivalId) : undefined;
   // Item 10 records who was let go; here it says who they were replacing.
   const report = rivalReport(lib, state);
+  // What they are doing, when one of their moves is near in the deal (BACKLOG-14 phase 90).
+  const next = rivalMove(lib, state);
+  const move = next ? rivalMoveLine(lib, state, next) : null;
   const letGo = state.stats.firedAdvisors
     .map((id) => lib.advisorsById.get(id))
     .filter((a): a is NonNullable<typeof a> => !!a);
@@ -92,6 +95,7 @@ export function Cabinet({ lib, state, onClose }: Props) {
             </span>
             <span className="rival-state">{report.state}</span>
             <span className="rival-cost">{report.cost}</span>
+            {move && <span className="rival-move">{move}</span>}
           </p>
         )}
         {letGo.length > 0 && (

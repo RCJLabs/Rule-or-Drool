@@ -17,6 +17,7 @@ import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card, type GameState, type PlayerAlign } from "../../src/engine/types";
 import { BOTS, makeContext, type BotName } from "../../src/sim";
 import { causeLine, endCause } from "../../src/ui/cause";
+import { rivalMove, rivalMoveLine, rivalReport } from "../../src/ui/rival";
 import { CHRONICLE_PAGE } from "../../src/ui/Chronicle";
 import { billsOf } from "../../src/ui/receipt";
 import { shapeOf } from "../../src/ui/shape";
@@ -322,6 +323,66 @@ describe.skipIf(!target)("in a browser", () => {
         failures.push(...(await contrast(page, `the line by the party in ${look}`)));
         failures.push(...(await misfits(page, `the line by the party in ${look}`)));
       }
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+  });
+
+  /**
+   * The rival's next move (BACKLOG-14 phase 90): with the rival rewritten past the line their moves
+   * need, the cabinet's button rings while one is near in the deal and says it to a screen reader,
+   * and the cabinet says it under their standing. Each is held to what the engine says of the run
+   * the page saved, and the cabinet is read and fitted in all seven looks on the smallest phone.
+   */
+  describe("the rival's next move", () => {
+    it("rings the cabinet's button and says the move in the cabinet as the engine does, readable in all seven looks at 360px", async () => {
+      const page = await startRun(browser, "left", { width: 360, height: 640 });
+      const failures: string[] = [];
+      for (let i = 0; i < 2; i++) await choose(page, "right");
+      await rewriteRun(page, "raw.state.rivalStanding = 50;");
+      await page.reload();
+      await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+      await page.waitForSelector(".card");
+      const button = page.getByRole("button", { name: new RegExp(`^${STRINGS.cabinet.title}`) });
+      /** The move the engine sees in the run the page saved, once the button agrees with it. */
+      const agreed = async (label: string): Promise<string | null> => {
+        let last = "";
+        for (let tries = 0; tries < 40; tries++) {
+          const s = (JSON.parse((await page.evaluate(`localStorage.getItem("rod.run")`)) as string) as { state: GameState }).state;
+          const m = rivalMove(library, s);
+          const line = m ? rivalMoveLine(library, s, m) : null;
+          const alert = rivalReport(library, s).alert;
+          const said = [alert, line].filter(Boolean).join(" ");
+          const want = said ? `${STRINGS.cabinet.title} — ${said}` : STRINGS.cabinet.title;
+          const got = await button.getAttribute("aria-label");
+          const ring = ((await button.getAttribute("class")) ?? "").split(" ").includes("moving");
+          if (got === want && ring === (!alert && !!line)) return line;
+          last = `the button says ${JSON.stringify(got)}${ring ? " with a ring" : ""}, not ${JSON.stringify(want)}`;
+          await page.waitForTimeout(50);
+        }
+        failures.push(`${label}: ${last}`);
+        return null;
+      };
+      let line: string | null = null;
+      for (let i = 0; i < 12 && !line; i++) {
+        if (i > 0) await choose(page, i % 2 ? "left" : "right");
+        line = await agreed(`card ${i + 1} after the rewrite`);
+      }
+      if (!line) failures.push("no move came into view in twelve cards");
+      let said = 0;
+      for (const look of LOOKS) {
+        await toLook(page, look);
+        const now = await agreed(look);
+        await button.click();
+        await page.waitForSelector(".cabinet-note.rival");
+        const shown = (await page.locator(".rival-move").count()) ? await page.locator(".rival-move").textContent() : null;
+        if (shown !== now) failures.push(`${look}: the cabinet says ${JSON.stringify(shown)}, not ${JSON.stringify(now)}`);
+        if (shown) said++;
+        failures.push(...(await contrast(page, `the cabinet with the rival's move, in ${look}`)));
+        failures.push(...(await misfits(page, `the cabinet with the rival's move, in ${look}`)));
+        await page.getByRole("button", { name: STRINGS.ui.close }).click();
+      }
+      if (!said) failures.push("the cabinet said no move in any look");
       await close(page);
       expect(failures).toEqual([]);
     });

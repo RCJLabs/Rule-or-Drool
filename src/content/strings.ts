@@ -153,6 +153,39 @@ export const STRINGS = {
       none: "No vote comes to win it back before the reign ends.",
       alert: "As things stand you would lose the vote to win it back.",
     },
+    /**
+     * What they are doing, when one of their moves is near in the deal (BACKLOG-14 phase 90): on
+     * the cabinet's button and under their standing. What they are doing, never what will
+     * happen, since any choice can put it out of reach. Someone courted is named by their seat.
+     */
+    courting: "{rival} is courting your {role}.",
+    moves: {
+      rp_after_briefing: "{rival} is putting the one who went over on every channel.",
+      rp_after_files: "{rival} is reading the papers your old colleague took.",
+      rc_l_cities: "{rival} is campaigning in the cities.",
+      rc_l_movement: "{rival} is working the branches of your movement.",
+      rc_l_unions: "{rival} is courting the unions.",
+      rc_r_country: "{rival} is touring the market towns.",
+      rc_r_donors: "{rival} is courting your donors.",
+      rc_r_faithful: "{rival} is working on the faithful.",
+      rs_audit: "{rival} is digging for the audit you buried.",
+      rs_count: "{rival} is looking for the officer who counted twice for you.",
+      rs_dirty: "{rival} is collecting the smears your people briefed.",
+      rs_honours: "{rival} is asking what your honours cost.",
+      rs_late_boxes: "{rival} is asking who brought the late boxes.",
+      rs_pensions: "{rival} is going through the pension fund's books.",
+      rs_press: "{rival} is setting up a paper of their own.",
+      rs_skim: "{rival} is looking for the ledger with the skim in it.",
+      rd_foreigners: "{rival} is readying a story about who pays for your reforms.",
+      rd_nostalgia: "{rival} is readying a campaign for the old days.",
+      rd_seawall: "{rival} is asking who built your projects.",
+      rd_too_good: "{rival} is telling rallies your record is too good to be true.",
+      rv_ascendant: "{rival} is acting as if the vote were already won.",
+      rv_offer: "{rival} is drawing up a government of their own.",
+      rv_poll: "{rival} has a pollster in the field.",
+    } as Record<string, string>,
+    /** A move with no line of its own. Every move has one; this is for one written later. */
+    moving: "{rival} is working on something.",
   },
   /**
    * Once the vote is abolished, the card it would have fallen due after carries a line where a

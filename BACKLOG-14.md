@@ -682,3 +682,82 @@ plays as the eyes bot does, deciding one card in five its own way.
   comparison: the sender's run was dealt from the old deck.
 - **A link with no deck named,** which only a hand-edited link is, still gets the line wherever
   their run deals again here, without the offer promising it.
+
+## Phase 90. The rival's next move, shown (idea 3, first half) — *done*
+
+**Shipped in v0.98.0.** On the play screen and in the cabinet: nothing is dealt differently, so
+the deck is still g8u7egs4. Nothing new is kept or recorded. The second half, cards that answer a
+move seen coming, changes the deck, and waits for after the test as the order has it (item 9).
+
+- **A ring on the cabinet's button** while one of the rival's moves is near in the deal. The dot
+  that says they could take the office stays as it was, and comes first; the ring is quieter,
+  and told apart by its shape as well as its colour.
+- **In the cabinet,** under their standing, what they are doing: "… is courting the unions.",
+  "… is courting your Treasurer.", "… is digging for the audit you buried." Each of their 29
+  moves has a line of its own, and a seat they court is named. The lines say what the rival is
+  doing, never what will happen.
+- **For a screen reader,** the button's name carries the line after anything that threatens the
+  office, and the line is said once, with the card on which it comes up.
+- **How it is read.** One deal per seed (phase 81) deals, of the cards that can be dealt, the one
+  not yet met that comes first in the seed's order, so the deck's next cards as the run stands can
+  be read off. The line is the first of the rival's moves among the deck's next three, read as the
+  deal would stand with the rival two points stronger on the 0–100 their standing is kept on. That
+  sees a move before they are strong enough to make it. No card asks for the rival to be weak, so
+  reading them stronger moves nothing else in the order.
+- **Not out of office,** where the deal is the opposition's own and holds none of their moves.
+
+**Measured first.** Bots played the daily's own seeds, 300 days from its first. A move is one of
+the rival's cards the deck deals: 29 of them, not the votes they stand in.
+
+| Read as | Shown 3+ cards before it came | Shown 1+ | Of those shown: came next, later, never | Cards in office showing one |
+|---|---|---|---|---|
+| The run stands | 48% | 70% | 57%, 27%, 16% | 9% |
+| The rival 2 stronger (shipped) | 57% | 92% | 53%, 26%, 21% | 13% |
+| The rival 3 stronger | 64% | 93% | 50%, 25%, 25% | 15% |
+| The rival 4 stronger | 71% | 93% | 46%, 28%, 26% | 18% |
+
+- **The player above is person-like:** the eyes bot, deciding one card in five its own way. It
+  meets a median 2 moves a run (p90 6), and 72% of its runs meet one. With the shipped reading the
+  line comes up a median 4 times a run, for a median 2 cards (p90 6). In at least half of runs
+  every move it shows comes; in one run in ten, three or more do not.
+- **Read as the run stands,** 30% of moves came with no warning at all. Three in four of those
+  came because the rival was just short of the line every move needs (a median 44, needing 45) on
+  the card before: when they cross it, their moves open at once and the first in the seed's order
+  comes within a card or two. Reading them a little stronger is what catches those.
+- **Looking deeper warned no earlier.** Among the deck's next five or eight, as the run stands, no
+  more moves were seen three cards ahead than among its next three, and more that never came.
+- **The eyes bot** is shown 61% of moves three cards ahead and 93% one, and a fifth of what it is
+  shown never comes. **The informed voter,** which steers away from trouble, meets a move in 48% of
+  runs; it is shown 43% three cards ahead and 86% one, and 38% of what it is shown never comes.
+- **Time.** In node, 130 microseconds a card.
+
+**Tests.**
+- The deck's next cards begin with the card the deck deals next, whenever it deals; go on in the
+  seed's order; never hold a card already met; and hold nothing out of office.
+- The move is one of the rival's the deal can bring, not yet met; there is none at a run's start
+  or out of office; it was shown on the card before more than 70% of the moves that came on five
+  runs; every move has words of its own, naming the rival and a seat they court, and no number.
+- The play screen rings the button and names the move on it; says it once as it comes up, not
+  again while it stays; gives way to a threat to the office, whose dot stays and whose words come
+  first; and says nothing when no move is near.
+- The cabinet says it under their standing, and nothing when no move is near.
+- A browser audit rewrites a run's rival past the line at 360×640 and holds the button, its ring
+  and its words, to what the engine says card by card until a move shows. Then, in all seven
+  looks, it holds the cabinet's line to the engine, and reads and fits the cabinet.
+- Question 8 now asks testers whether they did anything when the ring said what the rival was
+  doing.
+
+**Caveats.**
+- **A fifth of what it shows never comes.** Anything else can come first, and the player's own
+  choices can put a move out of reach: a quieter rival, or a group lifted past what a campaign
+  of theirs needs. The words say what the rival is doing, not what will happen, but a player may
+  still read them as a promise. The bots do not read the line, so for them a move that never came
+  is chance; a player who acts on it should see more that never come, and that is the point.
+- **It can come and go** while the rival hovers just short of the line: in one sample run a move
+  showed twice, a card each time, and never came.
+- **It tells a little of what is coming.** The line names a card before it is dealt. One deal per
+  seed allows it, and the other road already tells more, after the run.
+- **Nothing answers a move yet.** A player can keep the rival from growing, or lift the group a
+  campaign of theirs needs weak. The cards that answer a move are the second half.
+- **The ring is small,** six pixels on a button. Whether players notice it is question 8's to
+  answer.

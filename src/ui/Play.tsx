@@ -1,7 +1,7 @@
 import { withNames } from "../engine/endings";
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type FocusEvent } from "react";
 import { STRINGS } from "../content/strings";
-import { rivalReport } from "./rival";
+import { rivalMove, rivalMoveLine, rivalReport } from "./rival";
 import { textLevel, type Settings } from "./settings";
 import { lessonFor } from "./teach";
 import { TeachNote } from "./TeachNote";
@@ -69,6 +69,8 @@ interface Heard {
   era: number;
   /** The country's landmarks (BACKLOG-10 phase 64). */
   standing: string[];
+  /** What the rival was doing (BACKLOG-14 phase 90). */
+  move: string | null;
 }
 
 export function Play({ lib, state, transition, onChoose, onDismissTransition, paused = false, debug, onNudgeDrift, settings, onSettings, onCabinet, onTaught, goal = null, theirs = null }: Props) {
@@ -194,6 +196,13 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
   // A card that came back names the choice that sent it (BACKLOG-13 phase 80).
   const receipt = card ? receiptOf(lib, state) : null;
   const rival = rivalReport(lib, state);
+  // What the rival is doing, when one of their moves is near in the deal (BACKLOG-14 phase 90).
+  const move = useMemo(() => {
+    const next = rivalMove(lib, state);
+    return next ? rivalMoveLine(lib, state, next) : null;
+  }, [lib, state]);
+  // The button says it in words to a screen reader, after anything that threatens the office.
+  const cabinetSays = [rival.alert, move].filter(Boolean).join(" ");
   const eraInfo = STRINGS.eras[state.era - 1];
   // The first card of a second road says where it left the first (BACKLOG-5 phase 34).
   const branched = state.road && state.cardCount === state.road.at + 1 ? state.choices?.[state.road.at] : undefined;
@@ -243,6 +252,8 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
         if (landmark) parts.push(STRINGS.countryNow.rose.replace("{landmark}", landmark));
       }
     }
+    // A move the rival has begun, as the ring on the cabinet's button comes up.
+    if (prev && move && move !== prev.move) parts.push(move);
     if (roadNote) parts.push(roadNote);
     if (outNote) parts.push(outNote);
     parts.push(`${speakerName}, ${roleLabel}${traitName ? `, ${traitName}` : ""}.`);
@@ -255,7 +266,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     if (coup) parts.push(`${coup.text}.`);
     if (!prev) parts.push(STRINGS.speech.choicesHint);
     setSaid(parts.join(" "));
-    heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era, standing };
+    heard.current = { key: cardKey, meters: state.meters, stage: theme.stage, era: state.era, standing, move };
   }, [cardKey]);
 
   useEffect(() => {
@@ -361,12 +372,13 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
             {/* The cabinet is the only screen that says how the rival is doing, so the
                 button that opens it is where the run says it is worth opening
                 (BACKLOG-3 phase 24): for whatever they threaten as the run stands, a vote,
-                a coup or the way back into office (BACKLOG-11 phase 69). */}
+                a coup or the way back into office (BACKLOG-11 phase 69), and, less loudly,
+                for a move of theirs near in the deal (BACKLOG-14 phase 90). */}
             <button
               type="button"
-              className={`gear${rival.alert ? " flagged" : ""}`}
+              className={`gear${rival.alert ? " flagged" : move ? " moving" : ""}`}
               onClick={onCabinet}
-              aria-label={rival.alert ? `${STRINGS.cabinet.title} — ${rival.alert}` : STRINGS.cabinet.title}
+              aria-label={cabinetSays ? `${STRINGS.cabinet.title} — ${cabinetSays}` : STRINGS.cabinet.title}
             >
               ☰
             </button>

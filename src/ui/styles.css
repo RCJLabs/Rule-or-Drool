@@ -3017,6 +3017,12 @@ button {
 .cabinet-note.rival[data-rung="3"] .rival-state {
   color: var(--danger);
 }
+/* What they are doing, when one of their moves is near in the deal (BACKLOG-14 phase 90). */
+.rival-move {
+  margin-top: 2px;
+  color: var(--ink);
+  font-style: italic;
+}
 
 /**
  * A mark on the button that opens the screen which explains it. The run says nothing about
@@ -3037,6 +3043,24 @@ button {
   height: 6px;
   border-radius: 50%;
   background: var(--danger);
+}
+/* A move of the rival's near in the deal (BACKLOG-14 phase 90): a ring where the threat is a dot,
+   told apart by its shape as well as its colour, and never both at once. It says they are doing
+   something, not that it will come to anything. */
+.gear.moving {
+  position: relative;
+  color: var(--ink);
+}
+.gear.moving::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
 }
 /* The trait tag on the card, where it is actually changing the numbers. */
 .speaker-trait {

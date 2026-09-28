@@ -412,6 +412,29 @@ function drawEvent(lib: Library, state: GameState): [Card | null, GameState] {
 }
 
 /**
+ * The deck's next cards as the run stands (BACKLOG-14 phase 90): of those it could deal now,
+ * the ones not yet met, in the seed's order, as `drawEvent` would take them one after another if
+ * nothing changed. A card on the table has been met. Anything else can come first (a vote, a
+ * story, a choice coming back), and a choice can put any of these out of reach or bring another
+ * before them, so this is what is waiting, not what will come.
+ */
+export function deckAhead(lib: Library, state: GameState, n: number): Card[] {
+  if (state.opposition || n <= 0) return [];
+  const past = pastOf(state);
+  for (const relax of LADDER) {
+    const cands = poolCandidates(lib, state, relax, past);
+    if (cands.length === 0) continue;
+    return cands
+      .filter((c) => !past.seen.has(c.id) && dealWeight(lib, state, c) > 0)
+      .map((c) => ({ c, rank: rankOf(state.seed, c.id, dealWeight(lib, state, c)) }))
+      .sort((a, b) => b.rank - a.rank)
+      .slice(0, n)
+      .map(({ c }) => c);
+  }
+  return [];
+}
+
+/**
  * Draw the next card onto the table (section 7 draw order). No-op if the run is over
  * or a card is already on the table.
  */

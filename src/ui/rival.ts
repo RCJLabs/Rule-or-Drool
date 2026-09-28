@@ -1,8 +1,11 @@
 import { STRINGS } from "../content/strings";
+import { deckAhead } from "../engine/draw";
+import { withNames } from "../engine/endings";
 import type { Library } from "../engine/library";
 import { electionBar, honestCount, rivalPressure } from "../engine/resolve";
+import { isRivalCard } from "../engine/rival";
 import { hasFlag } from "../engine/state";
-import type { GameState } from "../engine/types";
+import type { Card, GameState } from "../engine/types";
 import { coupWord } from "./coup";
 
 /**
@@ -81,4 +84,44 @@ export function rivalReport(lib: Library, state: GameState): RivalReport {
     lift < 0.5 ? takingNone
     : `${taking.replace("{n}", lift.toFixed(1))}${somebody ? ` ${wouldWin}` : ""}${behind ? ` ${costs.behind}` : ""}`;
   return { rung, pressure, state: states[rung]!, cost, somebody, alert: somebody ? wouldWin : null };
+}
+
+/** How many of the deck's next cards are looked at for the rival's next move. Looking deeper warned no earlier, only more. */
+export const MOVE_LOOK = 3;
+/**
+ * How much stronger than they are the rival is read as being, on the 0-100 their standing is kept
+ * on. At 2, 92% of moves are shown a card or more ahead and a fifth of those shown never come; as
+ * they stand, 70% and a sixth; at 3, 93% and a quarter.
+ */
+export const MOVE_REACH = 2;
+
+/** One of the rival's moves the deal can bring: their card, not a vote, and not one only a choice sends. */
+export function isRivalMove(card: Card): boolean {
+  return card.type === "event" && isRivalCard(card) && (card.weight ?? 1) > 0;
+}
+
+/**
+ * The rival's next move (BACKLOG-14 phase 90): the first of their moves among the next cards the
+ * deck holds, read as it would stand with them a little stronger than they are, so a move is seen
+ * before they are strong enough to make it. No card asks for the rival to be weak, so reading them
+ * stronger brings their own moves into the deal and moves nothing else. Out of office the deal is
+ * the opposition's own, and holds none.
+ *
+ * Measured on the daily's seeds, a person-like player is shown 57% of the moves that come three
+ * cards or more before they come, and 92% one or more; of the moves shown, a fifth never come.
+ * That is why it says what they are doing, never what will happen: a choice can put a move out of
+ * reach, and anything else can come before it.
+ */
+export function rivalMove(lib: Library, state: GameState): Card | null {
+  if (state.opposition || state.over) return null;
+  const stronger = { ...state, rivalStanding: state.rivalStanding + MOVE_REACH };
+  return deckAhead(lib, stronger, MOVE_LOOK).find(isRivalMove) ?? null;
+}
+
+/** The move in words, with their name in, and a seat they are courting named. */
+export function rivalMoveLine(lib: Library, state: GameState, card: Card): string {
+  const r = STRINGS.rival;
+  const courting = card.left.poach || card.right.poach;
+  const line = courting ? r.courting.replace("{role}", STRINGS.roles[card.speaker] ?? card.speaker) : (r.moves[card.id] ?? r.moving);
+  return withNames(lib, state, line);
 }

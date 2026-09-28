@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.97.0 · deck g8u7egs4".
+  version from the bottom of the menu. It looks like "v0.98.0 · deck g8u7egs4".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -75,7 +75,9 @@ drag it left or right. What your choices do builds up over a run, and not all of
    Roughly what was it about?
 7. When a vote came up, how did you decide what to do?
 8. When did you first think of your rival as a threat: before a vote, at one, or never? Did their
-   moves feel like someone playing against you, or like nagging?
+   moves feel like someone playing against you, or like nagging? A small ring on the cabinet's
+   button (☰) meant the cabinet was saying what they were up to: did you notice it, and did you
+   do anything about it?
 
 **If it happened to you**
 

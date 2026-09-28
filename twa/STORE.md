@@ -447,6 +447,11 @@ with one questionnaire gathered from the questions below:
   parted. It is worked out on the device from the link the sender shared; nothing is dealt
   differently and nothing new is kept or recorded. Question 10 now asks whether the line changed
   how testers chose.
+- Since v0.98.0 a small ring on the cabinet's button says one of the rival's moves is near in the
+  deal, and the cabinet says what they are doing (BACKLOG-14 phase 90): "… is courting your
+  Treasurer." It is read on the device from the seed's order; nothing is dealt differently and
+  nothing new is kept or recorded. A fifth of what it shows never comes. Question 8 now asks
+  whether testers noticed it and did anything about it.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a
