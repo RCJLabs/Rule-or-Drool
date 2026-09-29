@@ -1,0 +1,920 @@
+[
+  {
+    "id": "hw_l_favoured_base",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Five decisions in a row went the movement's way. The unions and the cities have started calling it the movement's government.",
+    "cond": {
+      "flags": [
+        "mark_favoured_base"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Give the others a turn",
+      "fx": {
+        "base": -5,
+        "backers": 3,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They knocked the doors",
+      "fx": {
+        "base": 5,
+        "backers": -3,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "hw_l_favoured_backers",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "The unions have had their way five times running. The cities have noticed, and so has the treasury.",
+    "cond": {
+      "flags": [
+        "mark_favoured_backers"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Say no to the next one",
+      "fx": {
+        "backers": -5,
+        "public": 3,
+        "money": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They fund the party",
+      "fx": {
+        "backers": 5,
+        "money": -3,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "hw_l_favoured_public",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The last five decisions all went the cities' way. The movement says you now govern for people who never knocked a door.",
+    "cond": {
+      "flags": [
+        "mark_favoured_public"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Share it out",
+      "fx": {
+        "public": -4,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Cities decide elections",
+      "fx": {
+        "public": 4,
+        "base": -3,
+        "backers": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "hw_r_favoured_base",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Five decisions in a row went the Faithful's way. The Donors have started asking whether this is a party or a parish.",
+    "cond": {
+      "flags": [
+        "mark_favoured_base"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Spread it around",
+      "fx": {
+        "base": -5,
+        "backers": 3,
+        "public": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They turn out on the day",
+      "fx": {
+        "base": 5,
+        "backers": -3,
+        "public": -4,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "hw_r_favoured_backers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The Donors have had their way five times running. At the last dinner, one of them thanked you for the next decision.",
+    "cond": {
+      "flags": [
+        "mark_favoured_backers"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Surprise them",
+      "fx": {
+        "backers": -5,
+        "public": 3,
+        "base": 2,
+        "inst": 1
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make the next one theirs",
+      "fx": {
+        "backers": 5,
+        "money": 3,
+        "public": -5,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_favoured_public",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "The last five decisions all went the Country's way. The Faithful say you now govern for the towns that change their minds.",
+    "cond": {
+      "flags": [
+        "mark_favoured_public"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Hold the next one back",
+      "fx": {
+        "public": -4,
+        "base": 3,
+        "backers": 2
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Towns change governments",
+      "fx": {
+        "public": 4,
+        "base": -3,
+        "backers": -2,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "hw_l_left_out_base",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Six decisions running have cost the movement something. Its meetings now open with a list, and your name is on it.",
+    "cond": {
+      "flags": [
+        "mark_left_out_base"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Go to the next meeting",
+      "fx": {
+        "base": 5,
+        "money": -3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Where else would they go",
+      "fx": {
+        "base": -4,
+        "backers": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_l_left_out_backers",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "The unions have lost something on each of your last six decisions. Their conference has a motion about you, and it is not thanks.",
+    "cond": {
+      "flags": [
+        "mark_left_out_backers"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Ask to speak to it",
+      "fx": {
+        "backers": 5,
+        "money": -3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They need you more",
+      "fx": {
+        "backers": -4,
+        "money": 3,
+        "inst": -2
+      },
+      "drift": -4
+    }
+  },
+  {
+    "id": "hw_l_left_out_public",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Six decisions in a row have cost the cities. One council has put a clock on its town hall, counting down to the next election.",
+    "cond": {
+      "flags": [
+        "mark_left_out_public"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Fix something for them",
+      "fx": {
+        "public": 5,
+        "money": -4,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They voted the other way",
+      "fx": {
+        "public": -4,
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_left_out_base",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "The Faithful still turn out on Sunday. Six decisions running have cost them something, and the parish notices have started to say so.",
+    "cond": {
+      "flags": [
+        "mark_left_out_base"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Go and listen",
+      "fx": {
+        "base": 5,
+        "money": -3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They will vote for you",
+      "fx": {
+        "base": -4,
+        "backers": 2,
+        "money": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_left_out_backers",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Your last six decisions each cost the Donors something. The cheques still come, a week later each time, signed by an assistant.",
+    "cond": {
+      "flags": [
+        "mark_left_out_backers"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Explain yourself",
+      "fx": {
+        "backers": 4,
+        "money": -2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Find new donors",
+      "fx": {
+        "backers": -4,
+        "money": 3,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_left_out_public",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Six decisions in a row have cost the Country. The county show gave your stand to a man selling hot tubs.",
+    "cond": {
+      "flags": [
+        "mark_left_out_public"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Go to the show anyway",
+      "fx": {
+        "public": 5,
+        "money": -3,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "They always come back",
+      "fx": {
+        "public": -4,
+        "base": 3,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_l_money_first",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "text": "Four decisions running, the answer was whichever side made money. The ministries have started putting prices on their requests.",
+    "cond": {
+      "flags": [
+        "mark_money_first"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Fund one for nothing",
+      "fx": {
+        "money": -5,
+        "public": 3,
+        "inst": 3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Price the rest too",
+      "fx": {
+        "money": 5,
+        "backers": 2,
+        "public": -3,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_money_first",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "The last four decisions all went whichever way paid. A junior minister now quotes a price before anyone has asked a question.",
+    "cond": {
+      "flags": [
+        "mark_money_first"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Spend some of it",
+      "fx": {
+        "money": -5,
+        "public": 3,
+        "base": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Keep the till open",
+      "fx": {
+        "money": 5,
+        "backers": 3,
+        "public": -4,
+        "inst": -3
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_l_easy_way",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "text": "Six choices running, you took the easy way. Your office has stopped bringing you the other option, to save paper.",
+    "cond": {
+      "flags": [
+        "mark_easy_way"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Ask for the other one",
+      "fx": {
+        "inst": 4,
+        "money": -3,
+        "base": 2
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Save the paper",
+      "fx": {
+        "money": 3,
+        "order": 2,
+        "inst": -4,
+        "public": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "hw_r_easy_way",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Six choices in a row went the easy way. The drafting office now writes one version of everything, and it is always that one.",
+    "cond": {
+      "flags": [
+        "mark_easy_way"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Ask for two drafts",
+      "fx": {
+        "inst": 5,
+        "money": -3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "One is quicker",
+      "fx": {
+        "money": 2,
+        "order": 2,
+        "inst": -5,
+        "public": -2
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "hw_l_every_vote",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "organizer",
+    "text": "Both counts so far were arranged. The counting office now asks what the result is before it opens the boxes.",
+    "cond": {
+      "flags": [
+        "mark_every_vote"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Let the next one run",
+      "fx": {
+        "inst": 5,
+        "base": -3,
+        "order": -2
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Tell them early",
+      "fx": {
+        "order": 3,
+        "base": 3,
+        "inst": -6,
+        "public": -4
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "hw_r_every_vote",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Every count so far has been arranged. The observers have stopped coming; they say they already know how it ends.",
+    "cond": {
+      "flags": [
+        "mark_every_vote"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Invite them back",
+      "fx": {
+        "inst": 5,
+        "public": 2,
+        "base": -3
+      },
+      "drift": 6
+    },
+    "right": {
+      "label": "Save them the fare",
+      "fx": {
+        "order": 2,
+        "backers": 3,
+        "inst": -6,
+        "public": -3
+      },
+      "drift": -6
+    }
+  },
+  {
+    "id": "hw_l_every_campaign",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "spin",
+    "text": "Every campaign so far was won the easy way. The posters print themselves now, and the volunteers have stopped asking what for.",
+    "cond": {
+      "flags": [
+        "mark_every_campaign"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Knock on the doors",
+      "fx": {
+        "base": 4,
+        "money": -3,
+        "inst": 2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Print more posters",
+      "fx": {
+        "money": -2,
+        "public": 3,
+        "base": -3,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_every_campaign",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "tycoon",
+    "text": "Every campaign so far was bought rather than fought. The agency now sends its invoice before the election is called.",
+    "cond": {
+      "flags": [
+        "mark_every_campaign"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Fight the next one",
+      "fx": {
+        "base": 4,
+        "money": 2,
+        "backers": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Pay the invoice",
+      "fx": {
+        "money": -4,
+        "backers": 3,
+        "public": 2,
+        "inst": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_l_state_cut",
+    "type": "event",
+    "align": "left",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "text": "Six decisions running took something from the State. The inspectors now end each report by asking whether anyone reads them.",
+    "cond": {
+      "flags": [
+        "mark_state_cut"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Read the reports",
+      "fx": {
+        "inst": 5,
+        "money": -3
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Stop printing them",
+      "fx": {
+        "inst": -5,
+        "money": 4,
+        "order": -2
+      },
+      "drift": -5
+    }
+  },
+  {
+    "id": "hw_r_state_cut",
+    "type": "event",
+    "align": "right",
+    "eras": [
+      1,
+      2,
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "scientist",
+    "text": "Six decisions in a row cut the State back. The agencies now answer the phone with the date they expect to close.",
+    "cond": {
+      "flags": [
+        "mark_state_cut"
+      ]
+    },
+    "weight": 30,
+    "left": {
+      "label": "Stop at six",
+      "fx": {
+        "inst": 5,
+        "money": -3,
+        "backers": -2
+      },
+      "drift": 5
+    },
+    "right": {
+      "label": "Make it seven",
+      "fx": {
+        "inst": -5,
+        "money": 4,
+        "backers": 2,
+        "public": -2
+      },
+      "drift": -5
+    }
+  }
+]

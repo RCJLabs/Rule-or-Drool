@@ -7,6 +7,7 @@ import { EASY_CAMPAIGN_FLAG, easySide } from "../engine/campaign";
 import { DEFAULT_CONFIG, type EngineConfig } from "../engine/config";
 import { findEpilogue } from "../engine/endings";
 import { TOOK_OVER_FLAG } from "../engine/inherit";
+import { allHabitMarks } from "../engine/habits";
 import { BROKE_MANDATE_FLAG, MANDATES, MANDATE_FLAG_PREFIX } from "../engine/mandates";
 import { RIVAL_POACHED_FLAG } from "../engine/rival";
 import { fxDeltas } from "../engine/state";
@@ -596,13 +597,15 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   // may read `advisor_<trait>` without any card setting it.
   const traitsInPlay = new Set(content.advisors.flatMap((a) => a.traits));
   const engineSets = (f: string) => f.startsWith(cfg.advisorFlagPrefix);
+  const habitMarkSet = new Set(allHabitMarks(cfg));
   for (const [f, where] of flagSets) {
     if (!flagReads.has(f) && !engineReads.has(f) && !codexReads.has(f)) issues.error("flag-unread", `flag "${f}" is set but nothing reads it`, where);
   }
   for (const [f, where] of flagReads) {
     // The engine sets these: a promise broken, a run that took over from the last (phase 63),
-    // someone gone over to the rival (phase 65), and a campaign won the easy way (phase 66).
-    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG || f === RIVAL_POACHED_FLAG || f === EASY_CAMPAIGN_FLAG) continue;
+    // someone gone over to the rival (phase 65), a campaign won the easy way (phase 66), and the
+    // marks a way of ruling leaves (BACKLOG-13 phase 94).
+    if (f === BROKE_MANDATE_FLAG || f === TOOK_OVER_FLAG || f === RIVAL_POACHED_FLAG || f === EASY_CAMPAIGN_FLAG || habitMarkSet.has(f)) continue;
     if (f.startsWith(MANDATE_FLAG_PREFIX)) {
       // `mandate_<id>`, set when the run is taken on it, `mandate_<id>_broken` (phase 62), or
       // `mandate_<id>_waits` while a promise about the state is not the run's to keep (phase 73).

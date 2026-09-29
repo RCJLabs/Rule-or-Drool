@@ -193,12 +193,13 @@ describe("a door's front page, in the game's own runs", () => {
 
   it("lead an era that decided nothing with the paper's own line, the same for every run on the seed at that door", () => {
     // Since a question comes each era (BACKLOG-13 phase 91), an era that decides nothing is rare:
-    // about one careful run in a hundred has one, so the search goes past the 60.
+    // about one careful run in a hundred has one, so the search goes past the 60. How far depends
+    // on the deal (the 177th run on one deck, the 363rd on the next), so it has time for all 600.
     let found: Door | undefined;
     for (let k = 0; k < 600 && !found; k++) found = doorsOf(k).find((d) => !eraDecisions(library, d.state, d.era - 1).length);
     expect(found).toBeDefined();
     const quiet = found!;
     const again = frontPage(library, { ...quiet.state, flags: [...quiet.state.flags] }, quiet.era);
     expect(again.headline).toBe(frontPage(library, quiet.state, quiet.era).headline);
-  });
+  }, 60000);
 });

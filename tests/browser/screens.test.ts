@@ -811,7 +811,7 @@ describe.skipIf(!target)("in a browser", () => {
   const SHAPED = [
     { seed: 1, align: "right", bot: "informed", look: "ascent3" },
     { seed: 1, align: "left", bot: "greedy", look: "decay3" },
-    { seed: 8, align: "left", bot: "mixed", look: "muddle" },
+    { seed: 37, align: "left", bot: "mixed", look: "muddle" },
   ] as const;
 
   /** A bot's run from a new player's run code, played to its end. */

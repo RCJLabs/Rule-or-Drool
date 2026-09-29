@@ -1677,3 +1677,132 @@ first time, and with it the note that names the nearest end, "Close to …".
   smallest phones, as above.
 - **Eight is a constant.** A later length makes today's codes on the clock unplayable there, as a
   different long reign would.
+
+## Phase 94. The deck notices how you rule (idea 7) — *done*
+
+**Shipped in v0.102.0.** It changes the deal: the deck is now gx7vexhz, from z1rhb4xy, and
+`DEAL_VERSION` is 12.
+
+- **Ways of ruling.** The engine reads every choice as it is made, the side's effects as the card
+  states them, and marks a run when it shows a way of ruling:
+  - **a favourite:** the same bloc pleased five choices running, pleased meaning raised more than
+    either other;
+  - **one left out:** a bloc that lost something on six choices running;
+  - **the money first:** four choices running that raised it;
+  - **the easy way:** six self-serving choices running, those that lean neither way not counted;
+  - **the State cut:** six choices running that took something from it;
+  - **every vote arranged:** two, and none left to the count;
+  - **every campaign the easy way:** two, and none fought honestly.
+- **22 cards notice them,** one for each mark and party, naming the bloc where there is one: "Five
+  decisions in a row went the movement's way. The unions and the cities have started calling it
+  the movement's government." Each asks the honest way, which breaks the pattern at a cost,
+  against the self-serving one, which leans into it. They are habit cards, gated on the marks
+  alone, so they come from the deck as the six do, with the stack behind them.
+- **They come while the way still shows.** They are weighted 30, where the six are weighted 4.
+- **The answers come back as often as they did.** The comebacks, which the new cards had crowded
+  under the harness's line, are weighted 7, from 6 (below).
+- **In the code:** `src/engine/habits.ts` holds the ways and their marks, `noticeHabits` runs in
+  `resolve` once the choice counts in the run's stats, and `habits` on the state keeps the count.
+  The cards are in `src/content/cards/ways.json`. The content gate knows the marks the engine sets.
+
+**Measured first.** 1,000 runs a bot, the share of runs that show each way, with each threshold
+set where a tenth to a third of the runs of the players it is about show it:
+
+| Way | Informed | Eyes | Person-like | Mixed | Greedy |
+|---|---|---|---|---|---|
+| A bloc pleased 5 running | 11% | 11% | 12% | 12% | 5% |
+| A bloc hurt 6 running | 20% | 33% | 20% | 21% | 5% |
+| Money raised 4 running | 21% | 16% | 20% | 18% | 9% |
+| 6 self-serving running | 31% | 6% | 14% | 32% | 6% |
+| The State cut 6 running | 19% | 2% | 9% | 20% | 2% |
+| 2 votes, both arranged | 0% | 0% | 0% | 18% | 32% |
+| 2 campaigns, both easy | 28% | 20% | 16% | 21% | 13% |
+
+- **Left out:** honest streaks, since the eyes bot makes eight honest choices running in 97% of its
+  runs, and advisers fired, two in a run in 2% at most.
+- **The weight.** At 4, as the six are, half the marks never met their card, and a tenth of those
+  that did came 50 or more cards on, when "five in a row" was long past:
+
+| The new cards' weight | Marks that meet their card | Cards from mark to card, median / p90 | New cards a run |
+|---|---|---|---|
+| 4 | 48–58% | 4–5 / 49–60 | 0.43–0.78 |
+| 12 | 83–88% | 2–3 / 27–43 | 0.75–1.15 |
+| 30 (shipped) | 97–98% | 1 / 13–20 | 0.89–1.31 |
+
+**In play,** 1,000 runs a bot: a run meets 0.72 to 1.44 of the new cards (informed 1.31, eyes
+0.90, person-like 0.89, mixed 1.44, greedy 0.72), beside 1.0–1.4 of the six, and 54–73% of runs
+meet at least one. The commonest are the easy way (up to 32% of the mixed bot's runs), every
+campaign the easy way (12–27%) and the money first (9–23%); every vote arranged comes to a third
+of the greedy bot's runs; a single bloc's favourite or left-out card comes to 0–18%.
+
+**Found on the way: the answers came back less.** A card dealt is a place another card does not
+get, and the new cards took about one a run. Among the cards that lost places were the comebacks,
+the 128 cards that bring back what a question's answer left (phase 42). The harness wants a mixed
+bot that answered a question and reached era 2 to meet one in at least 60% of the answers. On
+three sets of 2,000 seeds:
+
+| Deck | Answers met again |
+|---|---|
+| Before the new cards | 60.8%, 61.0%, 61.5% |
+| With them | 59.6%, 59.6%, 60.7% |
+| And the comebacks weighted 7, from 6 (shipped) | 64.5%, 65.0%, 65.6% |
+| Or weighted 8 | 68.6%, 69.6%, 70.0% |
+
+The deck's growth had worn them down before: phase 42 shipped them at 74%, and when they fell to
+68% their weight went from 5 to 6 (BACKLOG-6). At 6 they had worn down again, to a point over the
+line. They are weighted 7 now, the smallest step that leaves room; the weights' table and the
+numbers in play above are measured with it.
+
+**The rest held.**
+- **Every harness target holds,** at 5,000 runs a bot, and the long reign's at 10,000. The
+  informed voter reaches the Ascent in 27.8% (25.9% on the last deck), inside its 15–30%: the new
+  cards offer it an honest side, which it takes. The mixed bot 15.0% (14.1%); random runs last a
+  median 50 cards (50), bankruptcy ending 18.1% (18.7%); the greedy bot ends in the Decay in 74.7%
+  (75.5%); the eyes bot reaches the Ascent in 63.3% (61.1%) and sees 96.5% through (96.2%). In
+  the long reign the mixed bot reaches its fifth era in 96.0% and sees its finale in 92.5%, and a
+  random run past its third era finishes in 8.2% in the Decay and 51.9% on the Ascent, on the 860
+  random runs that get there.
+- **The answers come back** to the mixed bot in 65.0% of the answers on the harness's seeds, over
+  its 60%.
+- **The contracts,** 500 runs a policy: the two just over their lines stay there, "Nobody under
+  forty" at 52.2% and every group above sixty at 20.6%, and a third joins them: "The schools were
+  starved" in the hard tier at 20.2%, from 19.8%, the greedy bot's rate and within the noise of
+  500 runs.
+- The codex has 1,841 cards, from 1,819.
+
+**The weeks' scenarios.** Weeks 3 to 156 were searched again on the new deck
+(`npm run scenarios -- --from 3`): 4,201 candidates in 48 minutes, every week searched in its
+band, the informed voter meeting a week's goal in 35.3% of runs and the eyes bot in 33.3%. Week 2,
+under way, keeps its goal, and meets it in 45% and 43% on the new deck; week 3 found the goal and
+seed it had.
+
+**Tests.**
+- Each way is marked at its threshold and not before: a bloc pleased five running, and started
+  again by a choice that pleases another, or none, and by a tie; a bloc hurt six running; the money
+  raised four; the State cut six; the easy way counted through choices that lean neither way and
+  started again by an honest one; every vote arranged; every campaign the easy way, and not once
+  one was fought honestly.
+- A way is marked once; the count is kept on the state, and a run saved before starts from
+  nothing.
+- The cards: habit cards, one a party for every way, each reading a mark the engine sets, each
+  asking the honest way against the self-serving one; in play they come as habit cards, soon after
+  the mark, in nearly every run that shows one. The content gate refuses a card reading a mark no
+  way sets.
+- The paper's test of an era that decided nothing has a minute for its search. On the new deal the
+  first careful run with one is the 363rd of the 600 it may try, where it was the 177th, and the
+  search ran past the five seconds a test has by default when the whole suite was running.
+- The end screen's audit of the Muddle look plays the mixed bot's seed 37 on the left, which ends
+  there after a stretch out of office; seed 8, which it played, now ends in the Ascent.
+
+**Caveats.**
+- **A new deck,** the third in two days: a run saved before the update plays on under the new deal,
+  a link sent before names the old deck, today's daily deals differently for the rest of the day,
+  and playtest records split by deck.
+- **The informed voter's Ascent rose two points,** to 27.8%, near the top of its band.
+- **Room for them.** Each new card takes the place of another when it comes, about one a run. The
+  comebacks are weighted up to make room for theirs, as the harness counts them; the other cards
+  that give up a place are not counted by anything.
+- **A way can be marked late, or out of office,** and its card miss the run: 2–3% of marks.
+- **Pleased and hurt are read off the card's stated effects,** not what the meters did after
+  volatility and the minister's traits, so a side that barely moves a bloc still counts.
+- **The long reign's two later eras** have no cards for these ways, as they have none of the six.

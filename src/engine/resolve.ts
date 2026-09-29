@@ -1,5 +1,6 @@
 import { EASY_CAMPAIGN_FLAG, easySide } from "./campaign";
 import { clockRuns } from "./danger";
+import { noticeHabits } from "./habits";
 import { closestSoFar, endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
@@ -452,6 +453,8 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   }
   const choices = state.choices ? [...state.choices, [cardId, side] as [string, Side]] : null;
   s = { ...s, stats, current: null, cardCount: s.cardCount + 1, choices };
+  // How the run has been ruling, once the choice counts in its stats (BACKLOG-13 phase 94).
+  s = noticeHabits(lib, s, card, side);
   s = applyEraPassive(lib, s);
   // Before the ouster check: a choice that breaks the promise and ends the run did both.
   s = checkMandate(lib, s, !!state.opposition);

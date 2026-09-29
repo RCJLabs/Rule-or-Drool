@@ -10,6 +10,8 @@
  * Everything here is plain JSON-serializable data.
  */
 
+import type { HabitTrack } from "./habits";
+
 export type Align = "left" | "right" | "any";
 export type PlayerAlign = "left" | "right";
 export type Band = "decay" | "muddle" | "ascent";
@@ -474,6 +476,11 @@ export interface GameState {
    * ran out, when the clock ended the run.
    */
   dangerLeft?: Partial<Record<MeterKey, number>>;
+  /**
+   * How the run has been ruling, choice by choice (BACKLOG-13 phase 94), for the cards that notice
+   * it. Absent for a run saved before, which starts counting from where it is.
+   */
+  habits?: HabitTrack;
 }
 
 /**

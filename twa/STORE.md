@@ -471,6 +471,10 @@ with one questionnaire gathered from the questions below:
   report reads; the report counts runs on the clock, its bots replay them on it, and it leaves
   them out of the rows on how people choose. Question 9 now asks testers who took one whether the
   pips changed how they played.
+- Since v0.102.0 the deck notices how a run rules (BACKLOG-13 phase 94): 22 cards answer a way of
+  ruling as it shows, a bloc pleased time after time or the easy way taken six times running. It
+  changes the deal: the deck is gx7vexhz, and runs recorded before the update are set aside by
+  the report. Question 5 now asks whether such a card was right.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

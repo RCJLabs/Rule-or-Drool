@@ -131,6 +131,7 @@ import voiceCards from "./cards/voices.json";
 import edgeCards from "./cards/edges.json";
 import billCards from "./cards/bills.json";
 import habitCards from "./cards/habits.json";
+import wayCards from "./cards/ways.json";
 import mandateCards from "./cards/mandates.json";
 import appointmentCards from "./cards/appointments.json";
 import dynastyCards from "./cards/dynasty.json";
@@ -316,6 +317,8 @@ export const content: Content = {
     ...asCards(edgeCards, "edges.json"),
     ...asCards(billCards, "bills.json"),
     ...asCards(habitCards, "habits.json"),
+    // The deck noticing how a run rules, once the engine has marked it (BACKLOG-13 phase 94).
+    ...asCards(wayCards, "ways.json"),
     ...asCards(mandateCards, "mandates.json"),
     ...asCards(appointmentCards, "appointments.json"),
     ...asCards(dynastyCards, "dynasty.json"),
