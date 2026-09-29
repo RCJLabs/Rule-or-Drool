@@ -475,6 +475,10 @@ with one questionnaire gathered from the questions below:
   ruling as it shows, a bloc pleased time after time or the easy way taken six times running. It
   changes the deal: the deck is gx7vexhz, and runs recorded before the update are set aside by
   the report. Question 5 now asks whether such a card was right.
+- Since v0.103.0 the note under the meters (a meter near its end, or a bloc restless) no longer
+  cuts off the longest cards on small phones (BACKLOG-13 phase 95), and from week 4 "Nobody under
+  forty" is dealt as an easy contract rather than a fair one. Nothing dealt changes: the deck is
+  still gx7vexhz, and runs recorded on v0.102.0 count with the rest.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

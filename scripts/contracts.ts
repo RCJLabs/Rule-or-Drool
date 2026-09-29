@@ -62,6 +62,7 @@ function aims(key: string, param: string): [string, Bot][] {
 
 const unlocked = allUnlockTokens();
 let off = 0;
+let onLine = 0;
 for (const contract of contractPool()) {
   const { id, tier } = contract;
   const [key = "", param = ""] = id.split(/:(.*)/s);
@@ -88,10 +89,17 @@ for (const contract of contractPool()) {
   }
   const [lo, hi] = TIER_BANDS[tier];
   const fits = best >= lo && best <= hi;
-  if (!fits) off++;
-  console.log(`${fits ? " " : "!"} ${tier.padEnd(4)} ${id.padEnd(28)} ${(100 * best).toFixed(1).padStart(5)}%  ~${(1 / Math.max(best, 1e-9)).toFixed(1)} runs  | ${rates.join(", ")}  | ${contract.text}`);
+  // A rate read from RUNS runs is good to about two standard errors: past its band by less than
+  // that, a contract is on the line, not out of it. At 500 runs, two of the three read just over
+  // their lines in BACKLOG-13 phase 94 were inside on 2,000 fresh runs (phase 95).
+  const margin = 1.96 * Math.sqrt((best * (1 - best)) / RUNS);
+  const near = !fits && best >= lo - margin && best <= hi + margin;
+  if (near) onLine++;
+  else if (!fits) off++;
+  console.log(`${fits ? " " : near ? "~" : "!"} ${tier.padEnd(4)} ${id.padEnd(28)} ${(100 * best).toFixed(1).padStart(5)}%  ~${(1 / Math.max(best, 1e-9)).toFixed(1)} runs  | ${rates.join(", ")}  | ${contract.text}`);
 }
-console.log(`\n${off === 0 ? "Every contract sits in its tier's band." : `${off} contract(s) outside their tier's band.`} ${RUNS} runs a policy.`);
+const lines = onLine ? `; ${onLine} on its line, within the noise of ${RUNS} runs (~)` : "";
+console.log(`\n${off === 0 ? "Every contract sits in its tier's band" : `${off} contract(s) outside their tier's band (!)`}${lines}. ${RUNS} runs a policy.`);
 
 /** The side a contract names, if it names one. */
 function sideOf(param: string): PlayerAlign | null {

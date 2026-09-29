@@ -2364,8 +2364,9 @@ button {
 }
 .near-note {
   flex-basis: 100%;
-  margin: 4px 0 0;
+  margin: 2px 0 0;
   font-size: 12px;
+  line-height: 16px;
   text-align: center;
   color: var(--accent);
 }
@@ -3109,10 +3110,28 @@ button {
 }
 .restless-note {
   flex-basis: 100%;
-  margin: 4px 0 0;
+  margin: 2px 0 0;
   font-size: 12px;
+  line-height: 16px;
   text-align: center;
   color: var(--muted);
+}
+/* Either note is a row of its own under the meters, 20px with the gap above it, and it cut the
+   longest cards off by up to 25px in Decay 2 and 3 on phones up to 801px tall, and in Ascent 3 at
+   860px (BACKLOG-13 phase 95). So the note takes that row from the room the header and the stage
+   keep between the meters and the card, down to 4px on either side of the Ledger's rule: the card
+   does not move for it in the Ascent, and moves 4px in the Muddle and 8-10px in Decay. */
+.meters.noted {
+  padding-bottom: max(4px, calc(var(--space) - 10px));
+}
+.meters.noted + .stage {
+  padding-top: max(4px, calc(var(--space) - 10px));
+}
+/* Decay 2 and 3 keep 18px there, and the stream's alerts under the card make way for the rest:
+   the note is the one line on the screen saying the run is in trouble, and the alerts are the
+   stream's noise. */
+.meters.noted ~ .stream-alerts {
+  display: none;
 }
 
 /* ---- settings ------------------------------------------------------------------- */

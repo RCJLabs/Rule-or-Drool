@@ -1806,3 +1806,91 @@ seed it had.
 - **Pleased and hurt are read off the card's stated effects,** not what the meters did after
   volatility and the minister's traits, so a side that barely moves a bloc still counts.
 - **The long reign's two later eras** have no cards for these ways, as they have none of the six.
+
+## Phase 95. The note under the meters, and a contract out of its tier — *done*
+
+**Shipped in v0.103.0.** Nothing dealt changes: the deck is still gx7vexhz. The weekly contracts
+change from week 4, Monday 12 October 2026; weeks 1 to 3 deal what v0.102.0 dealt. The run's save
+and the profile are unchanged.
+
+- **The note under the meters no longer cuts off the longest cards.** The note (the nearest end,
+  "Close to Insufficient Funds", or a restless bloc) was a 20px row of its own, taken from the
+  card. It now keeps a 16px line, and while it shows, the header's padding under it and the
+  stage's padding above the card each shrink to 4px, or the look's spacing less 10px where that is
+  more. In the Ascent looks the card does not move when a note comes; in the Muddle it moves 4px,
+  in Decay 1 8px and in Decay 2 and 3 10px, where it moved 20px in all of them. There is 4px
+  between the meters and the note, and 4-5px either side of the Ledger's rule.
+- **In Decay 2 and 3 the stream's alerts make way for the note.** Those looks keep only 18px under
+  the meters, and the alerts under the card take 32px. While a note shows they are not drawn: the
+  note is the one line on the screen saying the run is in trouble, and the alerts are the stream's
+  noise. The stylesheet already drops the stream's decoration on short phones before a card's
+  prose.
+- **"Nobody under forty" is an easy contract from week 4,** one of the promises, in the words it
+  had and kept by the same runs. The fair contract of the same words is not dealt after week 3,
+  and a profile that kept it still reads it as kept, as a fair one.
+- **`npm run contracts` tells a contract on its line from one out of its tier.** Past its band by
+  less than two standard errors of its runs, a contract is marked `~`, on its line, and counted
+  apart from those marked `!`.
+- **In the code:** `noted` on the meters' header in `src/ui/Meters.tsx`, and three rules in
+  `src/ui/styles.css`; `BROAD_PROMISE_EASY_FROM` in `src/meta/contracts.ts`.
+
+**Measured first: the note.** Phase 93 found the cut-off at 360×640 and left it. The longest-card
+audit was run with Money near its end, which draws the note, and on the clock, whose pips leave
+the card no more room:
+
+| Phone | Cut-offs | The most | Looks |
+|---|---|---|---|
+| 360×640 | 19 | 21px | Decay 2, Decay 3 |
+| 360×701 | 16 | 25px | Decay 2, Decay 3 |
+| 360×740 | 15 | 22px | Decay 2, Decay 3 |
+| 360×801 | 8 | 18px | Decay 3 |
+| 360×860 | 5 | 17px | Ascent 3 |
+
+- Without the clock, at 360×640, the most was 15px. Only the longest cards were cut off: the
+  longest question, reckoning, bill, election and campaign of each side, and a few events.
+- **Making room in the Decay looks alone would not do:** at 860px Ascent 3's airy spacing is
+  back, and its longest cards were cut off there too.
+- **Taking the note out of the flow would not do either:** the Ledger's rule is the header's lower
+  edge, and a note laid over the room under it would sit across the rule.
+
+**Measured first: the contracts.** Phase 94's 500 runs a policy read three contracts just over
+their lines. On 2,000 fresh runs (seeds 910,000 on, as phase 87 measured), with a 95% margin of
+about 2 points:
+
+| Contract | Tier | Band | 500 runs | 2,000 fresh runs | Now |
+|---|---|---|---|---|---|
+| Keep "Nobody under forty" to the finale | Fair | 20–50% | 52.2% | 54.7% | Easy |
+| Every group above sixty at the end | Hard | 7–20% | 20.6% | 21.3% | On its line, left |
+| "The schools were starved" in the record | Hard | 7–20% | 20.2% | 20.0% | Inside, left |
+
+- **Every group above sixty stays hard,** 1.3 points over its line and inside the margin. Moving it
+  would put it on the fair tier's line instead, as phase 87 found for "Nobody under forty" at 52%.
+- **The whole pool from week 4,** at 500 runs a policy: every contract in its band, "Nobody under
+  forty" at 52.2% as an easy one, and the two above on their lines.
+
+**What the weeks deal.** Weeks 1 to 3 deal what v0.102.0 dealt: week 3 deals "Nobody under forty"
+as its fair contract. Of the first 160 weeks, 85 differ, the first week 7:
+- 77 deal another fair contract: the tier picks from five where it picked from six;
+- 15 deal another easy one: the promise picks from four where it picked from three;
+- 12 deal another hard one, since the week's draw runs on from tier to tier.
+
+"Nobody under forty" comes up in 7 of those weeks, where it came up in 28.
+
+**Tests.**
+- The longest card of every kind, at 360×640, 701, 740, 801 and 860, on the clock with the note
+  drawn, in all seven looks: none cut off, the note one line, and no stream alert drawn with it.
+- The header is marked while it draws either note, and not otherwise.
+- From week 4 the broad promise is dealt as an easy promise and never as a fair contract, in the
+  same words and kept by the same runs; week 3 deals it as fair, and a profile that kept that one
+  reads it as fair.
+
+**Caveats.**
+- **In Decay the card still moves 8-10px** when a note comes and goes, and in the Muddle 4px.
+- **The note sits closer to the card:** 4px either side of the Ledger's rule in the Muddle and
+  Decay looks, where it had 9-12px.
+- **The stream's alerts go at every height,** even on a phone tall enough for both.
+- **The plain screen setting is not audited with a note.** It draws no stream and keeps more room,
+  so it should fit where the looks do.
+- **A device still on v0.102.0** deals the old contracts from week 4 until it updates.
+- **"Nobody under forty" comes up a quarter as often.** It is one easy promise among four, where
+  it was one fair contract among six.

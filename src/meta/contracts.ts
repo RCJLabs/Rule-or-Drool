@@ -109,6 +109,15 @@ export const CONTRACTS_RETIERED_FROM = 4;
 export const SAINT_ERA_UNTIL = 4;
 
 /**
+ * The week "Nobody under forty" moves from the fair tier to the easy (BACKLOG-13 phase 95): week 4,
+ * from Monday 12 October 2026. A player aiming at it kept it in 54.7% of 2,000 fresh runs, where
+ * the fair tier asks one in two to five; phase 87 left it on the fair tier's line at 52%, and the
+ * deck has moved since. From week 4 it is dealt as an easy promise, in the words it had. The week
+ * under way and the next deal what v0.102.0 dealt: week 3 deals it as its fair contract.
+ */
+export const BROAD_PROMISE_EASY_FROM = 4;
+
+/**
  * The cards the easy contract for a clean run asks for. Twenty in phase 60, when a player never
  * serving themselves lasted that long in half their runs; by v0.94.0 it was 46% of 2,000, and at
  * eighteen 63% (BACKLOG-13 phase 87). No week had dealt it yet, so nothing kept is changed.
@@ -118,7 +127,8 @@ export const SAINT_CARDS = 18;
 /**
  * The pool, by tier, with the share of runs a player aiming at each keeps it in, measured in
  * phase 60 at 500 runs a policy (BACKLOG-10 has the table). Keep a template's key and its params
- * once shipped: the contracts a profile kept name them. Phase 87 moved two (BACKLOG-13).
+ * once shipped: the contracts a profile kept name them. Phase 87 moved two (BACKLOG-13), and phase
+ * 95 the broad promise.
  *
  * Left out: anything that scores a policy (a question's answer is one), and anything the deal
  * decides more than the player (a story's legacy under one run in fourteen).
@@ -132,7 +142,9 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   {
     key: "promise",
     tier: "easy",
-    params: ["m_clean", "m_loyal", "m_decree"],
+    // The broad promise joins the easy ones from its week, and the fair one is no longer dealt.
+    params: ["m_clean", "m_loyal", "m_decree", "m_broad"],
+    paramWeeks: { m_broad: { since: BROAD_PROMISE_EASY_FROM } },
     text: (m) => k.promise.replace("{promise}", MANDATES_BY_ID.get(m)?.title ?? m),
     keeps: (r, _, m) => holds(r, m) && finale(r),
   },
@@ -150,6 +162,7 @@ export const CONTRACT_TEMPLATES: readonly Template[] = [
   {
     key: "promiseBroad",
     tier: "fair",
+    until: BROAD_PROMISE_EASY_FROM,
     params: [],
     text: () => k.promise.replace("{promise}", MANDATES_BY_ID.get("m_broad")?.title ?? "m_broad"),
     keeps: (r) => holds(r, "m_broad") && finale(r),

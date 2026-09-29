@@ -1548,17 +1548,27 @@ describe.skipIf(!target)("in a browser", () => {
      */
     // On the clock (BACKLOG-13 phase 93), a row of pips under every meter takes 6px more of the
     // smallest phone, and Money is in danger with three of its decisions left. It is not yet near
-    // its end, so no note is drawn under the meters: with a note, the longest cards were already cut
-    // off in the two deepest looks without the clock (BACKLOG-13 phase 93, its caveats).
+    // its end, so no note is drawn under the meters. With Money near its end the note says so, a
+    // row of its own under the meters, and the longest cards were cut off by up to 25px, in Decay
+    // 2 and 3 up to 801px and in Ascent 3 at 860px (BACKLOG-13 phase 95). So each height is
+    // audited with the note as well, on the clock, since the pips leave the card no more room.
     const LONGEST_AT: [number, number, string][] = [
       [360, 640, ""],
       [360, 640, " on the clock"],
+      [360, 640, " on the clock, with a note under the meters"],
       [360, 701, ""],
+      [360, 701, " on the clock, with a note under the meters"],
       [360, 740, ""],
+      [360, 740, " on the clock, with a note under the meters"],
       [360, 801, ""],
+      [360, 801, " on the clock, with a note under the meters"],
       [360, 860, ""],
+      [360, 860, " on the clock, with a note under the meters"],
     ];
-    it.each(LONGEST_AT)("with the longest card of every kind on the table, at %i×%i%s with the buttons drawn, in all seven looks", async (width, height, onTheClock) => {
+    it.each(LONGEST_AT)("with the longest card of every kind on the table, at %i×%i%s with the buttons drawn, in all seven looks", async (width, height, variant) => {
+      const onTheClock = variant.includes("on the clock");
+      const noted = variant.includes("a note");
+      const note = `${STRINGS.ui.nearEnding} ${library.endings.get(library.config.meterEndings.money.low)!.title}`;
       // The audit reads the cards its seed deals, and the seed never dealt a long one on a
       // short phone: the deck's forty longest cards all ran 2-10px past the card there, with
       // the buttons, a promise and the first lesson drawn (BACKLOG-6 phase 44). So each side's
@@ -1624,13 +1634,14 @@ describe.skipIf(!target)("in a browser", () => {
                      raw.state.nextElectionAt = raw.state.cardCount + ${library.config.electionInterval};`
               }
               ${legacy ? `raw.state.flags = [...raw.state.flags.filter((f) => !${JSON.stringify(card.reckons)}.includes(f)), ${JSON.stringify(legacy)}];` : ""}
-              ${onTheClock ? `raw.state.clock = ${CLOCK}; raw.state.meters.money = 14; raw.state.dangerLeft = { money: 3 };` : ""}
+              ${onTheClock ? `raw.state.clock = ${CLOCK}; raw.state.meters.money = ${noted ? 5 : 14}; raw.state.dangerLeft = { money: 3 };` : ""}
               Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
             );
             await page.reload();
             await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
             await page.waitForSelector(`.card[data-card="${card.id}"]`);
             if (onTheClock && (await page.locator(".meter-clock i.left").count()) !== 3) failures.push(`${party}, ${card.id}: the pips are not drawn`);
+            if (noted && (await page.textContent(".near-note")) !== note) failures.push(`${party}, ${card.id}: the note under the meters is not "${note}"`);
             // The card as the table shows it, the names in the seats filled in.
             const shown = await page.locator(`.card[data-card="${card.id}"] .card-text`).first().textContent();
             if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);
@@ -1638,6 +1649,12 @@ describe.skipIf(!target)("in a browser", () => {
               await toLook(page, look);
               const label = `${width}×${height}, ${party}, ${kind} ${card.id}${coup ? " with the coup's line" : ""} in ${look}`;
               failures.push(...(await misfits(page, label)));
+              // The note is one line, and in the looks that stream, their alerts have made way for it.
+              if (noted && (await page.locator(".near-note").count())) {
+                const tall = await page.locator(".near-note").evaluate((el) => el.getBoundingClientRect().height);
+                if (tall > 17) failures.push(`${label}: the note under the meters is ${tall}px tall`);
+                if (await page.locator(".stream-alerts").isVisible()) failures.push(`${label}: the stream's alerts are drawn with the note`);
+              }
               if (kind === "bill") {
                 const receipt = page.locator(".card .receipt");
                 const said = (await receipt.count()) ? await receipt.textContent() : null;

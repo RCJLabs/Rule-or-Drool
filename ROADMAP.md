@@ -12,7 +12,7 @@ Phases from TRANSFER.md section 11. Each phase ends with passing tests and an up
 | 6 | Meta: codex, objectives, unlocks, daily seed, save migration | Done |
 | 7 | PWA, then TWA | **Done for the web half** (this commit); Play packaging needs a machine with the Android SDK |
 
-## Where the project stands now (v0.102.0)
+## Where the project stands now (v0.103.0)
 
 The seven phases above built the game. Since then the work has been planned in rounds, each in
 its own file: every item measured before it was built, and written up with what it did after.
@@ -31,7 +31,7 @@ its own file: every item measured before it was built, and written up with what 
 | 10 | `BACKLOG-10.md` | 55–65 |
 | 11 | `BACKLOG-11.md` | 66–73, and two ideas not yet chosen |
 | 12 | `BACKLOG-12.md` | 74–79 (ideas 1 to 5), and five ideas not yet chosen |
-| 13 | `BACKLOG-13.md` | 80–87 and 91–94 (ideas 6, 1, 5, 3, 8, 4 and 7, 2 as a way to play, round eleven's 10 and 8 in part, and a fix to the contracts), and two ideas not yet built |
+| 13 | `BACKLOG-13.md` | 80–87 and 91–95 (ideas 6, 1, 5, 3, 8, 4 and 7, 2 as a way to play, round eleven's 10 and 8 in part, two fixes to the contracts, and one to the note under the meters), and two ideas not yet built |
 | 14 | `BACKLOG-14.md` | 88–90 (ideas 1 and 2, and the first half of 3), and seven ideas and the second half of 3 not yet built |
 
 Every phase is done but one: BACKLOG-2's phase 17, getting the game onto Play, which waits on
@@ -40,7 +40,7 @@ decisions only the owner can make.
 | | |
 |---|---|
 | Content | 1,841 cards; 76 arcs, which are 44 stories and 16 questions written for each party; 80 endings, 77 of which a run can collect; 30 advisors; 31 modifiers; 693 history names written, 675 of which a run can be given; three eras, and five in a long reign |
-| Tests | 1,183 unit tests and 78 browser tests |
+| Tests | 1,187 unit tests and 83 browser tests |
 | Balance | every harness target passes: section 8's, the informed voter's (BACKLOG-9 phase 54) and the long reign's (BACKLOG-5 phase 39) |
 | Gates in CI | typecheck, unit tests, the strict content gate, and the browser audits |
 
@@ -117,7 +117,10 @@ decisions only the owner can make.
    within a card or two. A run meets about one of them, beside the six habit cards it met before.
    It changes the deal, to deck gx7vexhz. The new cards took places the cards that bring back the
    questions' answers had, so those are dealt a little more, as they were once before; every
-   harness target holds, and the weeks' scenarios were searched again.
+   harness target holds, and the weeks' scenarios were searched again. Phase 95 (v0.103.0) fixes
+   two things found on the way: the note under the meters, which cut off the longest cards in the
+   deepest looks, now takes its room from the space under the meters; and "Nobody under forty",
+   kept in 55% of fresh runs, is an easy contract from week 4. Nothing dealt changes.
 6. **Round fourteen** (BACKLOG-14.md): ten ideas for depth, play and interaction, from an audit
    of v0.95.0. It found that every decision in a run is one of two and comes when the deal brings
    it; that "honest unless the side is marked" reaches the Ascent in 47.5% of runs, and reading

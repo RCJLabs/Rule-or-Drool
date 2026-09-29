@@ -47,8 +47,11 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
   const near = nearMisses(lib, state, NEAR_WITHIN)[0];
   const nearTitle = near ? lib.endings.get(near.endingId)?.title : undefined;
   const floors = heldFloors(state);
+  // A header with a note under it draws the note in the room it keeps below the meters, and the
+  // stream makes way for it (BACKLOG-13 phase 95).
+  const noted = !!nearTitle || !!restless;
   return (
-    <header className="meters">
+    <header className={noted ? "meters noted" : "meters"}>
       {METER_KEYS.map((k) => {
         const affected = preview?.affected.includes(k) ?? false;
         const delta = preview ? Math.abs(preview.meters[k] - meters[k]) : 0;

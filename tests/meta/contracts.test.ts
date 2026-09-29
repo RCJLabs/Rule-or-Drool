@@ -11,6 +11,7 @@ import { exitBand, newRun, rollSetup } from "../../src/engine/state";
 import type { GameState } from "../../src/engine/types";
 import { BOTS, holdCabinet, honest, makeContext, raiseRival, type Bot } from "../../src/sim";
 import {
+  BROAD_PROMISE_EASY_FROM,
   CONTRACTS_RETIERED_FROM,
   CONTRACT_TEMPLATES,
   FIRST_DAILY,
@@ -151,6 +152,26 @@ describe("contracts moved between tiers", () => {
     // The hard tier deals what is left of it, and a profile that kept it still reads it.
     expect(new Set(contractsFor(SAINT_ERA_UNTIL + 7).map((c) => c.tier))).toEqual(new Set(TIERS));
     expect(contractById("saintEra")?.tier).toBe("hard");
+  });
+
+  it("deal the broad promise as an easy promise from week 4, in the words it had, and as a fair contract no more (BACKLOG-13 phase 95)", () => {
+    expect(weekStart(BROAD_PROMISE_EASY_FROM)).toBe("2026-10-12");
+    // The week under way and the next deal what v0.102.0 dealt, week 3 the broad promise as fair.
+    expect(contractsFor(3).map((c) => c.id)).toEqual(["rivalKept", "promiseBroad", "saintEra"]);
+    expect(contractPool(BROAD_PROMISE_EASY_FROM - 1).map((c) => c.id)).not.toContain("promise:m_broad");
+    const ids = dealt(BROAD_PROMISE_EASY_FROM, BROAD_PROMISE_EASY_FROM + 400).map((c) => c.id);
+    expect(ids).not.toContain("promiseBroad");
+    expect(ids.filter((id) => id === "promise:m_broad").length).toBeGreaterThan(5);
+    expect(contractPool().find((c) => c.id === "promise:m_broad")?.tier).toBe("easy");
+    expect(contractPool().map((c) => c.id)).not.toContain("promiseBroad");
+    // The same words, kept by the same runs; a profile that kept it before reads it, as fair.
+    expect(contractById("promise:m_broad")!.text).toBe(contractById("promiseBroad")!.text);
+    expect(contractById("promiseBroad")?.tier).toBe("fair");
+    const kept = reign("finale_muddle", { mandates: ["m_broad"], mandatesBroken: {} });
+    const broken = reign("finale_muddle", { mandates: ["m_broad"], mandatesBroken: { m_broad: 31 } });
+    for (const run of [kept, broken]) expect(keepsContract("promise:m_broad", run, "muddle")).toBe(keepsContract("promiseBroad", run, "muddle"));
+    expect(keepsContract("promise:m_broad", kept, "muddle")).toBe(true);
+    expect(keepsContract("promise:m_broad", broken, "muddle")).toBe(false);
   });
 
   it("deal the seawall no more, and the schools as a hard contract in its place", () => {
