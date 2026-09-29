@@ -1,4 +1,5 @@
 import { DEFAULT_CONFIG } from "../engine/config";
+import { CLOCK } from "../engine/danger";
 import type { Library } from "../engine/library";
 import { inheritanceProblem } from "../engine/inherit";
 import { brokenByFlags, inCatalogOrder, platformProblem } from "../engine/mandates";
@@ -46,6 +47,11 @@ import { allUnlockTokens } from "./objectives";
  * (`-` for a fresh start's), since a run looking for one is dealt differently:
  * `4.gh2k7p.L.crisis_war~trait_orator~flaw_vain.-.-.-.-.the_posters`. Only a run looking for an
  * ending is written in it; a version from before says it cannot reproduce the run, which is true.
+ *
+ * Format 5 adds the clock (BACKLOG-13 phase 93), after the ending looked for (`-` for none): the
+ * decisions a meter in danger at its bottom has, since a run on the clock plays by it:
+ * `5.gh2k7p.L.crisis_war~trait_orator~flaw_vain.-.-.-.-.-.8`. Only a run on the clock is written
+ * in it, and a version whose clock is another length says it cannot reproduce the run.
  */
 export interface RunCode {
   seed: number;
@@ -63,6 +69,8 @@ export interface RunCode {
   inheritance?: Inheritance;
   /** The ending the run went looking for; any other run's code has none (BACKLOG-13 phase 83). */
   pursuit?: string;
+  /** The decisions a meter in danger has, for a run on the clock; any other run's code has none (BACKLOG-13 phase 93). */
+  clock?: number;
 }
 
 /** The ordinary game's era count, which a code leaves unsaid. */
@@ -71,6 +79,7 @@ const VERSION = "1";
 const LONG_VERSION = "2";
 const LINE_VERSION = "3";
 const PURSUIT_VERSION = "4";
+const CLOCK_VERSION = "5";
 const NONE = "-";
 
 export function encodeRunCode(code: RunCode): string {
@@ -80,6 +89,7 @@ export function encodeRunCode(code: RunCode): string {
   const eras = ordinary ? NONE : String(code.eraCount);
   const inh = code.inheritance;
   const took = inh ? [inh.band, String(inh.line), inh.rival ?? NONE, String(inh.rivalStanding), ...inh.legacies].join("~") : NONE;
+  if (code.clock !== undefined) return [CLOCK_VERSION, ...parts, eras, took, code.pursuit ?? NONE, String(code.clock)].join(".");
   if (code.pursuit) return [PURSUIT_VERSION, ...parts, eras, took, code.pursuit].join(".");
   if (inh) return [LINE_VERSION, ...parts, eras, took].join(".");
   return ordinary ? [VERSION, ...parts].join(".") : [LONG_VERSION, ...parts, eras].join(".");
@@ -95,14 +105,19 @@ export type Decoded = { ok: true; code: RunCode } | { ok: false; reason: "format
 export function decodeRunCode(lib: Library, raw: string): Decoded {
   const parts = raw.trim().split(".");
   const v = parts[0];
-  if (v !== VERSION && v !== LONG_VERSION && v !== LINE_VERSION && v !== PURSUIT_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
-  if (parts.length !== (v === VERSION ? 6 : v === LONG_VERSION ? 7 : v === LINE_VERSION ? 8 : 9)) return { ok: false, reason: "format" };
-  const [, seed36, side, mods, unlocks, promises, erasPart, tookPart, pursuit] = parts as [string, string, string, string, string, string, string?, string?, string?];
+  if (v !== VERSION && v !== LONG_VERSION && v !== LINE_VERSION && v !== PURSUIT_VERSION && v !== CLOCK_VERSION) return { ok: false, reason: parts.length >= 6 ? "version" : "format" };
+  if (parts.length !== (v === VERSION ? 6 : v === LONG_VERSION ? 7 : v === LINE_VERSION ? 8 : v === PURSUIT_VERSION ? 9 : 10)) return { ok: false, reason: "format" };
+  const [, seed36, side, mods, unlocks, promises, erasPart, tookPart, pursuitPart, clockPart] = parts as [string, string, string, string, string, string, string?, string?, string?, string?];
   if (!/^[0-9a-z]{1,8}$/.test(seed36) || (side !== "L" && side !== "R")) return { ok: false, reason: "format" };
-  // Formats 3 and 4 say "-" for an ordinary run's eras; format 2 always names them. Format 4 says
-  // "-" for a fresh start.
-  const eras = (v === LINE_VERSION || v === PURSUIT_VERSION) && erasPart === NONE ? undefined : erasPart;
-  const took = v === PURSUIT_VERSION && tookPart === NONE ? undefined : tookPart;
+  // Formats 3 to 5 say "-" for an ordinary run's eras; format 2 always names them. Formats 4 and 5
+  // say "-" for a fresh start, and format 5 for a run looking for no ending.
+  const eras = (v === LINE_VERSION || v === PURSUIT_VERSION || v === CLOCK_VERSION) && erasPart === NONE ? undefined : erasPart;
+  const took = (v === PURSUIT_VERSION || v === CLOCK_VERSION) && tookPart === NONE ? undefined : tookPart;
+  const pursuit = v === CLOCK_VERSION && pursuitPart === NONE ? undefined : pursuitPart;
+  // Only a clock as long as this game's plays the run it names.
+  if (clockPart !== undefined && !/^[1-9][0-9]?$/.test(clockPart)) return { ok: false, reason: "format" };
+  const clock = clockPart === undefined ? undefined : Number(clockPart);
+  if (clock !== undefined && clock !== CLOCK) return { ok: false, reason: "content" };
   if (eras !== undefined && !/^[1-9][0-9]?$/.test(eras)) return { ok: false, reason: "format" };
   // Only a long reign or a first term is written with its eras, and only one as long as this game's.
   const eraCount = eras === undefined ? undefined : Number(eras);
@@ -132,11 +147,12 @@ export function decodeRunCode(lib: Library, raw: string): Decoded {
   const code: RunCode = { seed, align, modifiers, unlocked, mandates: inCatalogOrder(mandates) };
   const withEras = eraCount === undefined ? code : { ...code, eraCount };
   const withLine = inheritance ? { ...withEras, inheritance } : withEras;
-  if (pursuit === undefined) return { ok: true, code: withLine };
+  const withClock = clock === undefined ? withLine : { ...withLine, clock };
+  if (pursuit === undefined) return { ok: true, code: withClock };
   // An ending this run could not reach is not one it went looking for, whatever the code says.
   if (!/^[a-z0-9_]+$/.test(pursuit)) return { ok: false, reason: "format" };
   if (pursuitProblem(lib, { align, eraCount: eraCount ?? lib.config.eraCount, unlocked, inheritance }, pursuit)) return { ok: false, reason: "content" };
-  return { ok: true, code: { ...withLine, pursuit } };
+  return { ok: true, code: { ...withClock, pursuit } };
 }
 
 /** The inheritance a format 3 code carries, read as carefully as the rest of it. */
@@ -157,7 +173,8 @@ export function setupOf(code: RunCode): RunSetup {
   const setup: RunSetup = { align: code.align, modifiers: [...code.modifiers], unlocked: [...code.unlocked], mandates: [...code.mandates] };
   const withEras = code.eraCount === undefined ? setup : { ...setup, eraCount: code.eraCount };
   const withLine = code.inheritance ? { ...withEras, inheritance: { ...code.inheritance, legacies: [...code.inheritance.legacies] } } : withEras;
-  return code.pursuit ? { ...withLine, pursuit: code.pursuit } : withLine;
+  const withClock = code.clock === undefined ? withLine : { ...withLine, clock: code.clock };
+  return code.pursuit ? { ...withClock, pursuit: code.pursuit } : withClock;
 }
 
 /**
@@ -173,9 +190,11 @@ export function runCodeOf(state: {
   eraCount?: number;
   inherited?: Inheritance | null;
   pursuit?: string;
+  clock?: number;
 }): RunCode {
   const code: RunCode = { seed: state.seed, align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: inCatalogOrder(state.mandates) };
   const withEras = state.eraCount === undefined || state.eraCount === ORDINARY_ERAS ? code : { ...code, eraCount: state.eraCount };
   const withLine = state.inherited ? { ...withEras, inheritance: { ...state.inherited, legacies: [...state.inherited.legacies] } } : withEras;
-  return state.pursuit ? { ...withLine, pursuit: state.pursuit } : withLine;
+  const withClock = state.clock === undefined ? withLine : { ...withLine, clock: state.clock };
+  return state.pursuit ? { ...withClock, pursuit: state.pursuit } : withClock;
 }

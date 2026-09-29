@@ -55,6 +55,8 @@ export function shareText(state: GameState, history: History, endingTitle: strin
   const lines = scenario ? [head, (scenario.met ? STRINGS.scenario.shareMet : STRINGS.scenario.shareMissed).replace("{goal}", scenario.goal), facts] : [head, facts];
   // A run that went looking for an ending was dealt for it, and its link deals it so again (BACKLOG-13 phase 83).
   if (state.pursuit) lines.push(STRINGS.pursuit.share.replace("{clue}", CLUES[state.pursuit] ?? state.pursuit));
+  // A run on the clock was played by its rule, and its link plays it so again (BACKLOG-13 phase 93).
+  if (state.clock) lines.push(`${STRINGS.clock.share}.`);
   // A run that took on one crisis of two says which, and which it passed over (phase 84).
   const chose = state.passedOver ? state.modifiers.find((m) => m.startsWith("crisis_")) : undefined;
   if (chose && state.passedOver) lines.push(`${choseLine(chose, state.passedOver)}.`);

@@ -40,6 +40,7 @@ import { renderCard, runFacts, shareLink, shareRun, shareText, type ShareOutcome
 import { SetupSummary } from "./SetupSummary";
 import { billsOf } from "./receipt";
 import { lookedOf, rumourOf } from "./pursuit";
+import { OPENS } from "./clock";
 import { shapeOf } from "./shape";
 import { ShapeChart } from "./ShapeChart";
 import { endThemeOf } from "./theme";
@@ -467,12 +468,18 @@ export function Ending({ lib, state, fold, onPlayAgain, onCodex, onSettings, onT
                   {STRINGS.ui.unlocked}: {STRINGS.unlockNames[u] ?? u}
                 </li>
               ))}
-              {/* A way to play rather than content: the first finale opens the long reign (BACKLOG-5 phase 39). */}
-              {fold.newObjectives.some((id) => OBJECTIVES_BY_ID.get(id)?.opens) && (
-                <li>
-                  {STRINGS.ui.unlocked}: {STRINGS.reign.opened}
-                </li>
-              )}
+              {/* A way to play rather than content: the first finale opens the long reign (BACKLOG-5 phase 39),
+                  and the first run on the Ascent the clock (BACKLOG-13 phase 93). */}
+              {fold.newObjectives.flatMap((id) => {
+                const opens = OBJECTIVES_BY_ID.get(id)?.opens;
+                return opens
+                  ? [
+                      <li key={opens}>
+                        {STRINGS.ui.unlocked}: {OPENS[opens].opened}
+                      </li>,
+                    ]
+                  : [];
+              })}
             </ul>
           </section>
         )}

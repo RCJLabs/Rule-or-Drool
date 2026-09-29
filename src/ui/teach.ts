@@ -64,6 +64,14 @@ export const LESSONS: readonly Lesson[] = [
     when: ({ state }) => state.cardCount === 4,
   },
   {
+    // On the clock, the first time a meter counts down (BACKLOG-13 phase 93): before the others,
+    // since the decisions it has start going with this card.
+    id: "clock",
+    title: STRINGS.clock.lessonTitle,
+    body: () => STRINGS.clock.lesson,
+    when: ({ state }) => !!state.clock && Object.keys(state.dangerLeft ?? {}).length > 0,
+  },
+  {
     id: "delayed",
     title: "This one is your own doing",
     body: () =>

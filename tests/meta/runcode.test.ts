@@ -64,7 +64,9 @@ describe("sharing a run", () => {
 
   it("refuses a code it cannot reproduce rather than starting a different run", () => {
     expect(decodeRunCode(library, "nonsense")).toEqual({ ok: false, reason: "format" });
-    expect(decodeRunCode(library, "5.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    expect(decodeRunCode(library, "6.abc.L.-.-.-")).toEqual({ ok: false, reason: "version" });
+    // Format 5 is a run on the clock, with the clock as a tenth part (BACKLOG-13 phase 93).
+    expect(decodeRunCode(library, "5.abc.L.-.-.-")).toEqual({ ok: false, reason: "format" });
     // Format 4 is a run that went looking for an ending, with the ending as a ninth part (BACKLOG-13 phase 83).
     expect(decodeRunCode(library, "4.abc.L.-.-.-")).toEqual({ ok: false, reason: "format" });
     // Format 2 is a long reign's, with the era count as a seventh part (BACKLOG-5 phase 39).

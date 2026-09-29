@@ -16,10 +16,15 @@ interface Props {
   spoken: string;
   /** A line a held promise keeps this meter above, drawn across the icon (BACKLOG-10 phase 62). */
   floor?: number;
+  /**
+   * On the clock (BACKLOG-13 phase 93): a row kept under the icon, holding a pip for each decision
+   * of the clock, filled for those left, while the meter is in danger at its bottom.
+   */
+  clock?: { pips: { left: number; of: number } | null };
 }
 
 /** Reigns-style silhouette filled from the bottom to the meter's value. */
-export function MeterIcon({ meter, value, dot, danger, label, spoken, floor }: Props) {
+export function MeterIcon({ meter, value, dot, danger, label, spoken, floor, clock }: Props) {
   const clip = `clip${useId().replace(/\W/g, "")}`;
   const v = Math.max(0, Math.min(100, value));
   const h = (v / 100) * 40;
@@ -40,6 +45,11 @@ export function MeterIcon({ meter, value, dot, danger, label, spoken, floor }: P
         {floor !== undefined && <line className="meter-floor" x1="1" x2="39" y1={40 - (floor / 100) * 40} y2={40 - (floor / 100) * 40} />}
       </svg>
       <span className={`meter-dot dot-${dot}`} aria-hidden="true" />
+      {clock && (
+        <span className="meter-clock" aria-hidden="true">
+          {clock.pips && Array.from({ length: clock.pips.of }, (_, i) => <i key={i} className={i < clock.pips!.left ? "left" : undefined} />)}
+        </span>
+      )}
       <span className="meter-label">{label}</span>
     </div>
   );

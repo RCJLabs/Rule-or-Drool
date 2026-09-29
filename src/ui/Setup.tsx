@@ -14,6 +14,7 @@ import {
   inheritanceFrom,
   keptIn,
   longReignOpen,
+  clockOpen,
   lookingFor,
   scenarioFor,
   scenarioTry,
@@ -35,6 +36,8 @@ import { Frame } from "./Frame";
 import { MandatePicker } from "./MandatePicker";
 import { CrisisPicker } from "./CrisisPicker";
 import { ReignPicker, type ReignChoice } from "./ReignPicker";
+import { ClockPicker } from "./ClockPicker";
+import { CLOCK } from "../engine/danger";
 import { StartPicker } from "./StartPicker";
 import { SetupSummary } from "./SetupSummary";
 import { dailyCode, isScenarioCode, randomSeed } from "./flow";
@@ -59,6 +62,7 @@ interface Props {
     inheritance?: Inheritance | null,
     pursuit?: string | null,
     crisis?: string | null,
+    clock?: number,
   ) => void;
   /** Stop looking for the ending the profile is looking for (BACKLOG-13 phase 83). */
   onPursue?: (id: string | null) => void;
@@ -133,6 +137,10 @@ export function Setup({
   const termDue = firstTermDue(meta);
   const [eraCount, setEraCount] = useState<number | undefined>(() => (termDue ? lib.config.firstTermEras : undefined));
   const longOpen = longReignOpen(meta);
+  // On the clock, once a run has ended on the Ascent (BACKLOG-13 phase 93), and not in a first term.
+  const clockOffered = clockOpen(meta) && !termDue;
+  const [clocked, setClocked] = useState(false);
+  const clock = clockOffered && clocked ? CLOCK : undefined;
   const r = STRINGS.reign;
   const ordinary: ReignChoice = { eraCount: undefined, title: r.ordinary, blurb: r.ordinaryBlurb };
   const reigns: ReignChoice[] | null = longOpen
@@ -217,6 +225,8 @@ export function Setup({
                 {shared.code.eraCount !== undefined && <p className="shared-reign">{shared.code.eraCount < lib.config.eraCount ? STRINGS.reign.offerFirst : STRINGS.reign.offer}</p>}
                 {/* Their run went looking for an ending, and is dealt as it was for them (BACKLOG-13 phase 83). */}
                 {shared.code.pursuit && <p className="shared-reign">{STRINGS.pursuit.offer.replace("“{clue}”", rumourOf(shared.code.pursuit))}</p>}
+                {/* Their run was on the clock, and is played on it again (BACKLOG-13 phase 93). */}
+                {shared.code.clock !== undefined && <p className="shared-reign">{STRINGS.clock.offer.replace("{n}", String(shared.code.clock))}</p>}
                 {sharedResult && <TheirResult lib={lib} result={sharedResult} />}
                 {along && <p className="shared-body">{STRINGS.share.offerAlong}</p>}
                 {sharedScenario && <p className="shared-daily">{(sharedTried ? sc.offerTried : sc.offer).replace("{n}", String(sharedScenario.week))}</p>}
@@ -251,6 +261,7 @@ export function Setup({
             {STRINGS.ui.continueRun} · era {saved.era}, {STRINGS.parties[saved.align]}
             {isLongReign(lib, saved) && ` · ${STRINGS.reign.short}`}
             {isFirstTerm(lib, saved) && ` · ${STRINGS.reign.firstShort}`}
+            {saved.clock !== undefined && ` · ${STRINGS.clock.short}`}
             {savedDaily && ` · ${dailyName(savedDaily.day)}`}
             {savedIsScenario && ` · ${sc.heading.replace("{n}", String(savedScenario!.week))}`}
           </button>
@@ -270,6 +281,7 @@ export function Setup({
         {parent && inheritance && <StartPicker lib={lib} from={parent} inheritance={inheritance} value={takeOver} onChange={chooseStart} />}
         <MandatePicker value={mandates} onChange={setMandates} unavailable={unavailable} />
         {reigns && <ReignPicker choices={reigns} value={chosen} onChange={setEraCount} />}
+        {clockOffered && <ClockPicker value={clocked} onChange={setClocked} />}
         {looking && (
           <section className="pursuit" aria-labelledby="pursuit-head">
             <p>
@@ -293,7 +305,7 @@ export function Setup({
         <button
           type="button"
           className="primary big"
-          onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null, cannot ? null : looking, crisis)}
+          onClick={() => onStart(seed, align, mandates, reigns ? chosen : undefined, takeOver ? inheritance : null, cannot ? null : looking, crisis, clock)}
         >
           {STRINGS.ui.start}
         </button>
@@ -305,7 +317,7 @@ export function Setup({
             <button
               type="button"
               aria-describedby="short-start-note"
-              onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null, shortCannot ? null : looking, crisis)}
+              onClick={() => onStart(seed, align, mandates, lib.config.firstTermEras, takeOver ? inheritance : null, shortCannot ? null : looking, crisis, clock)}
             >
               {r.shortStart}
             </button>

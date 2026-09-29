@@ -4,14 +4,17 @@
  *
  *   npm run simulate -- [--runs 10000] [--seed 1] [--bot all|random|greedy|saint|mixed]
  *                        [--align alternate|left|right] [--danger 25]
- *                        [--unlocked] [--long] [--set eraMeterPull=0 ...] [--strict]
+ *                        [--unlocked] [--long] [--clock] [--set eraMeterPull=0 ...] [--strict]
  *
  * --long plays long reigns, five eras, against their own targets (BACKLOG-5 phase 39).
+ * --clock plays every run on the clock (BACKLOG-13 phase 93), which has no targets of its own:
+ * the ordinary game's are printed to set beside them.
  * --set overrides any numeric EngineConfig key for the whole batch (quick tuning sweeps).
  * --strict exits 1 when any target misses (for CI once phase 4 tunes content).
  */
 import { content } from "../src/content";
 import { buildLibrary, DEFAULT_CONFIG, type EngineConfig } from "../src/engine";
+import { CLOCK } from "../src/engine/danger";
 import { allUnlockTokens } from "../src/meta/objectives";
 import { BOT_NAMES, evaluateLongTargets, evaluateTargets, formatContentStats, formatSummary, formatTargets, lookProfile, quantiles, repeatProfiles, simulate, summarize, type BotName, type BotSummary } from "../src/sim";
 
@@ -24,11 +27,12 @@ interface Args {
   strict: boolean;
   unlocked: boolean;
   long: boolean;
+  clock: boolean;
   overrides: Partial<EngineConfig>;
 }
 
 function parseArgs(argv: string[]): Args {
-  const args: Args = { runs: 10000, seed: 1, bots: [...BOT_NAMES], align: "alternate", danger: 25, strict: false, unlocked: false, long: false, overrides: {} };
+  const args: Args = { runs: 10000, seed: 1, bots: [...BOT_NAMES], align: "alternate", danger: 25, strict: false, unlocked: false, long: false, clock: false, overrides: {} };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]!;
     const next = () => {
@@ -67,6 +71,9 @@ function parseArgs(argv: string[]): Args {
       case "--long":
         args.long = true;
         break;
+      case "--clock":
+        args.clock = true;
+        break;
       case "--set": {
         const [k, v] = next().split("=");
         if (!k || v === undefined || !(k in DEFAULT_CONFIG) || typeof DEFAULT_CONFIG[k as keyof EngineConfig] !== "number") {
@@ -104,7 +111,8 @@ function main(): void {
   const t0 = performance.now();
   const unlocked = args.unlocked ? allUnlockTokens() : [];
   const eraCount = args.long ? lib.config.longEraCount : undefined;
-  const results = simulate(lib, { runs: args.runs, seed: args.seed, bots: args.bots, align: args.align, danger: args.danger, maxCards: 1000, unlocked, eraCount });
+  const clock = args.clock ? CLOCK : undefined;
+  const results = simulate(lib, { runs: args.runs, seed: args.seed, bots: args.bots, align: args.align, danger: args.danger, maxCards: 1000, unlocked, eraCount, clock });
   const elapsed = (performance.now() - t0) / 1000;
 
   const summaries = new Map<BotName, BotSummary>();

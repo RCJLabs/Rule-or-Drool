@@ -3,7 +3,7 @@ import { survivedTo } from "../engine/endings";
 import { honestWins } from "../engine/state";
 import { MANDATES, wordKept } from "../engine/mandates";
 import { BLOC_KEYS, type Band, type GameState } from "../engine/types";
-import { LONG_REIGN, type MetaState, type Objective } from "./types";
+import { LONG_REIGN, ON_THE_CLOCK, type MetaState, type Objective } from "./types";
 
 /**
  * Whether a run ended in the finale for this band, of either length: five centuries down is
@@ -81,6 +81,9 @@ export const OBJECTIVES: readonly Objective[] = [
     id: "obj_reach_ascent",
     title: "Pointed the other way",
     hint: "End a run with the country on the Ascent.",
+    // A player who has found the way up may take the next runs on the clock, where danger at the
+    // bottom bites (BACKLOG-13 phase 93): BACKLOG-12's harder terms came after a run in the Ascent.
+    opens: ON_THE_CLOCK,
     check: ({ band }) => band === "ascent",
   },
   {
@@ -239,6 +242,11 @@ export const OBJECTIVES_BY_ID: ReadonlyMap<string, Objective> = new Map(OBJECTIV
 /** Whether this profile may take a long reign: it has reached a finale (BACKLOG-5 phase 39). */
 export function longReignOpen(meta: Pick<MetaState, "objectives">): boolean {
   return OBJECTIVES.some((o) => o.opens === LONG_REIGN && meta.objectives[o.id] !== undefined);
+}
+
+/** Whether this profile may take a run on the clock: a run of it has ended on the Ascent (BACKLOG-13 phase 93). */
+export function clockOpen(meta: Pick<MetaState, "objectives">): boolean {
+  return OBJECTIVES.some((o) => o.opens === ON_THE_CLOCK && meta.objectives[o.id] !== undefined);
 }
 
 /**

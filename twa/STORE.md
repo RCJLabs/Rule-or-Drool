@@ -465,6 +465,12 @@ with one questionnaire gathered from the questions below:
   z1rhb4xy, and a run saved before the update plays on under the new deal. Runs recorded before
   the update are set aside by the report, as for v0.99.0. Question 3 now asks which way testers
   took the reckoning, and why.
+- Since v0.101.0 a run can be taken on the clock (BACKLOG-13 phase 93), once a run has ended on the
+  Ascent: a meter left in danger at its bottom ends the rule after eight decisions. Only a run on
+  the clock plays differently, so the deck is still z1rhb4xy. Its code is format 5, which the
+  report reads; the report counts runs on the clock, its bots replay them on it, and it leaves
+  them out of the rows on how people choose. Question 9 now asks testers who took one whether the
+  pips changed how they played.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

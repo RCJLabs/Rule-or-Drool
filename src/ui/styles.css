@@ -355,6 +355,26 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* On the clock (BACKLOG-13 phase 93): a pip for each decision a meter in danger at its bottom has,
+   filled for those left. The row is kept under every meter of a run on the clock, so the card does
+   not move when one comes into danger. */
+.meter-clock {
+  display: flex;
+  justify-content: center;
+  gap: 1.5px;
+  height: 4px;
+}
+.meter-clock i {
+  flex: none;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--muted);
+}
+.meter-clock i.left {
+  background: var(--danger);
+  box-shadow: none;
+}
 
 /* ---- stage and card ------------------------------------------------------------ */
 .stage {
@@ -2348,6 +2368,11 @@ button {
   font-size: 12px;
   text-align: center;
   color: var(--accent);
+}
+/* The muddle look's accent is too light for text this small: 3.9:1 on its paper, where 4.5 is
+   needed. No audit had put a meter near its end until BACKLOG-13 phase 93's. */
+.frame[data-theme="muddle"] .near-note {
+  color: var(--ink);
 }
 .codex-list li.found {
   border-left-width: 5px;

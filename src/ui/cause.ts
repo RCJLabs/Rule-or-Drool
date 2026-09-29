@@ -30,6 +30,8 @@ export type EndCause =
   | { kind: "meter"; meter: MeterKey; edge: "low" | "high"; card: Card | null; side: Side | null; before: number | null; chosen: number | null; byEra: boolean; outOfOffice: boolean }
   /** Every bloc high at once. */
   | { kind: "cult"; card: Card | null; side: Side | null }
+  /** On the clock, a meter left in danger at its bottom for all its decisions (BACKLOG-13 phase 93). */
+  | { kind: "clock"; meter: MeterKey; decisions: number }
   /**
    * A vote left to the count and lost, where losing it ended the run: the way back into office,
    * or a second lost vote once the first had sent the run out.
@@ -95,6 +97,9 @@ export function endCause(lib: Library, state: GameState, before: GameState | nul
   // The roll comes after the card, and only once the vote is gone: the card did not cause it.
   if (id === cfg.coupEnding && hasFlag(state, cfg.electionsAbolishedFlag)) return { kind: "coup", risk: coupRisk(lib, state) };
   if (id === cfg.cultEnding) return { kind: "cult", card: last?.card ?? null, side: last?.side ?? null };
+  // The clock ran out: the meter is short of its edge, and says so with the 0 it kept.
+  const ranOut = state.clock ? METER_KEYS.find((k) => state.dangerLeft?.[k] === 0 && cfg.meterEndings[k].low === id) : undefined;
+  if (ranOut) return { kind: "clock", meter: ranOut, decisions: state.clock! };
 
   const edge = meterOf(lib, state, id);
   if (!edge) return null;
@@ -149,6 +154,10 @@ export function causeLine(lib: Library, state: GameState, cause: EndCause | null
     }
     case "cult":
       return c.cult;
+    case "clock": {
+      const name = isBloc(cause.meter) ? c.bloc.replace("{name}", meterName(cause.meter, state.align)) : c.names[cause.meter as "money" | "order" | "inst"];
+      return STRINGS.clock.cause.replace("{meter}", name).replace("{n}", String(cause.decisions));
+    }
     case "meter": {
       const bloc = isBloc(cause.meter);
       const name = bloc ? c.bloc.replace("{name}", meterName(cause.meter, state.align)) : c.names[cause.meter as "money" | "order" | "inst"];

@@ -15,6 +15,7 @@ import { resolve } from "../../src/engine/resolve";
 import { makeRng } from "../../src/engine/rng";
 import { newRun } from "../../src/engine/state";
 import { BLOC_KEYS, type Card, type GameState, type PlayerAlign } from "../../src/engine/types";
+import { CLOCK } from "../../src/engine/danger";
 import { BOTS, makeContext, type BotName } from "../../src/sim";
 import { causeLine, endCause } from "../../src/ui/cause";
 import { rivalMove, rivalMoveLine, rivalReport } from "../../src/ui/rival";
@@ -513,6 +514,48 @@ describe.skipIf(!target)("in a browser", () => {
    * the daily is dealt from the date. Ending a run reloads the page in the middle of it, so
    * each of these is also a daily left and taken up again, which must still count as one.
    */
+  /**
+   * On the clock (BACKLOG-13 phase 93): offered on the menu once a run has ended on the Ascent, and
+   * chosen there. The menu is read and fitted with it chosen, and the run it starts keeps a row of
+   * pips under every meter; the longest cards with pips drawn are audited with the others.
+   */
+  describe("on the clock", () => {
+    it("is chosen on the menu, which reads and fits at 360px, and the run it starts keeps a row of pips under each meter", async () => {
+      const meta = { ...emptyMeta(), runs: 1, endings: { finale_ascent: 1 }, objectives: { obj_first_run: 1, obj_finale: 1, obj_reach_ascent: 1 } };
+      const failures: string[] = [];
+      const page = await open(browser, { width: 360, height: 640 });
+      await page.evaluate(`localStorage.setItem("rod.meta", ${JSON.stringify(JSON.stringify(meta))})`);
+      await page.reload();
+      await page.getByRole("button", { name: new RegExp(`^${STRINGS.clock.title}`) }).click();
+      failures.push(...(await contrast(page, "the menu with the clock chosen")));
+      failures.push(...(await misfits(page, "the menu with the clock chosen", { mayScroll: true })));
+      await page.getByLabel(STRINGS.ui.seed).fill(String(SEED));
+      await page.getByRole("button", { name: STRINGS.ui.start, exact: true }).click();
+      await page.waitForSelector(".card");
+      const rows = await page.locator(".meters .meter-clock").count();
+      if (rows !== 6) failures.push(`${rows} rows of pips, not one under each of the six meters`);
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+
+    // A meter in danger is near its end more often than not, and the note under the meters names
+    // the end. No audit had drawn it: in the muddle look it read at 3.9:1.
+    it("draws the note that names a meter's end readably in all seven looks, with its pips", async () => {
+      const failures: string[] = [];
+      const page = await startRun(browser, "left", { width: 360, height: 640 });
+      await rewriteRun(page, `raw.state.clock = ${CLOCK}; raw.state.meters.money = 8; raw.state.dangerLeft = { money: 3 };`);
+      await page.reload();
+      await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+      await page.waitForSelector(".near-note");
+      for (const look of LOOKS) {
+        await toLook(page, look);
+        failures.push(...(await contrast(page, `the note under the meters in ${look}`)));
+      }
+      await close(page);
+      expect(failures).toEqual([]);
+    });
+  });
+
   describe("the daily, day by day", () => {
     const AT = "2026-09-23T12:00:00Z";
     // The drift a run ends on, and whose decisions it carries. Decay's own decisions take
@@ -1503,14 +1546,19 @@ describe.skipIf(!target)("in a browser", () => {
      * Ascent its airy spacing. Only 360×640 was audited, and between those lines the longest
      * cards lost 2-86px in Decay 3 and Ascent 3 (BACKLOG-10 phase 64).
      */
-    const LONGEST_AT: [number, number][] = [
-      [360, 640],
-      [360, 701],
-      [360, 740],
-      [360, 801],
-      [360, 860],
+    // On the clock (BACKLOG-13 phase 93), a row of pips under every meter takes 6px more of the
+    // smallest phone, and Money is in danger with three of its decisions left. It is not yet near
+    // its end, so no note is drawn under the meters: with a note, the longest cards were already cut
+    // off in the two deepest looks without the clock (BACKLOG-13 phase 93, its caveats).
+    const LONGEST_AT: [number, number, string][] = [
+      [360, 640, ""],
+      [360, 640, " on the clock"],
+      [360, 701, ""],
+      [360, 740, ""],
+      [360, 801, ""],
+      [360, 860, ""],
     ];
-    it.each(LONGEST_AT)("with the longest card of every kind on the table, at %i×%i with the buttons drawn, in all seven looks", async (width, height) => {
+    it.each(LONGEST_AT)("with the longest card of every kind on the table, at %i×%i%s with the buttons drawn, in all seven looks", async (width, height, onTheClock) => {
       // The audit reads the cards its seed deals, and the seed never dealt a long one on a
       // short phone: the deck's forty longest cards all ran 2-10px past the card there, with
       // the buttons, a promise and the first lesson drawn (BACKLOG-6 phase 44). So each side's
@@ -1576,11 +1624,13 @@ describe.skipIf(!target)("in a browser", () => {
                      raw.state.nextElectionAt = raw.state.cardCount + ${library.config.electionInterval};`
               }
               ${legacy ? `raw.state.flags = [...raw.state.flags.filter((f) => !${JSON.stringify(card.reckons)}.includes(f)), ${JSON.stringify(legacy)}];` : ""}
+              ${onTheClock ? `raw.state.clock = ${CLOCK}; raw.state.meters.money = 14; raw.state.dangerLeft = { money: 3 };` : ""}
               Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
             );
             await page.reload();
             await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
             await page.waitForSelector(`.card[data-card="${card.id}"]`);
+            if (onTheClock && (await page.locator(".meter-clock i.left").count()) !== 3) failures.push(`${party}, ${card.id}: the pips are not drawn`);
             // The card as the table shows it, the names in the seats filled in.
             const shown = await page.locator(`.card[data-card="${card.id}"] .card-text`).first().textContent();
             if (shown !== text) failures.push(`${party}, ${card.id}: shows "${shown}", not "${text}"`);

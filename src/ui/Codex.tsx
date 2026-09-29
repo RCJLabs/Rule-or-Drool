@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { OPENS } from "./clock";
 import { STRINGS } from "../content/strings";
 import { arcOutcomes, epilogueKey } from "../engine/endings";
 import type { Library } from "../engine/library";
@@ -234,7 +235,7 @@ export function Codex({ lib, meta, onBack, onSettings, today = todayKey(), open:
                     </b>
                     <span>{o.hint}</span>
                     {o.unlocks && <em>{done ? `${STRINGS.ui.unlocked}: ` : "Unlocks "}{STRINGS.unlockNames[o.unlocks]}</em>}
-                    {o.opens && <em>{done ? `${STRINGS.ui.unlocked}: ${STRINGS.reign.opened}` : STRINGS.reign.opens}</em>}
+                    {o.opens && <em>{done ? `${STRINGS.ui.unlocked}: ${OPENS[o.opens].opened}` : OPENS[o.opens].opens}</em>}
                   </li>
                 );
               })}

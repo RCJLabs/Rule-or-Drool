@@ -5,6 +5,7 @@ import type { Library } from "../engine/library";
 import { nearMisses } from "../engine/endings";
 import { heldFloors } from "../engine/mandates";
 import { BLOC_KEYS, METER_KEYS } from "../engine/types";
+import { leftWords, pipsOf } from "./clock";
 import { MeterIcon } from "./MeterIcon";
 import { NEAR_WITHIN, RESTLESS_BELOW, shownInDanger } from "./signals";
 import { meterLevel, meterName, stepOf } from "./speech";
@@ -54,6 +55,8 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
         const dot = !affected ? 0 : stepOf(delta);
         const v = meters[k];
         const danger = shownInDanger(k, v, !!state.opposition);
+        // On the clock, the decisions left to a meter in danger at its bottom (BACKLOG-13 phase 93).
+        const pips = state.clock ? pipsOf(state, k) : null;
         return (
           <div key={k} className={`meter-slot${k === "money" ? " group-break" : ""}${k === restless ? " restless" : ""}`}>
             <MeterIcon
@@ -62,8 +65,9 @@ export function MetersBar({ lib, state, meters, preview, theme, align }: Props) 
               dot={dot}
               danger={danger}
               label={meterLabel(k, theme, align)}
-              spoken={`${meterName(k, align)}, ${meterLevel(k, v, danger)}${floors[k] !== undefined ? `, ${STRINGS.speech.promisedFloor}` : ""}`}
+              spoken={`${meterName(k, align)}, ${meterLevel(k, v, danger)}${floors[k] !== undefined ? `, ${STRINGS.speech.promisedFloor}` : ""}${pips ? `, ${leftWords(pips.left)}` : ""}`}
               floor={floors[k]}
+              clock={state.clock ? { pips } : undefined}
             />
           </div>
         );

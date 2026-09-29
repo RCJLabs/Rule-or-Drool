@@ -1,3 +1,4 @@
+import { CLOCK } from "./danger";
 import { deckStamp } from "./deck";
 import type { Library } from "./library";
 import { diceAt, nextInt, seedToState } from "./rng";
@@ -412,6 +413,11 @@ export function newRun(lib: Library, seed: number, setup: RunSetup): GameState {
     const why = pursuitProblem(lib, { align: setup.align, eraCount, unlocked: state.unlocked, inheritance: inh }, setup.pursuit);
     if (why) throw new Error(`the run cannot go looking for ${setup.pursuit}: ${why}`);
     state.pursuit = setup.pursuit;
+  }
+  // On the clock (BACKLOG-13 phase 93): only this game's, or the run is not the one it says.
+  if (setup.clock !== undefined) {
+    if (setup.clock !== CLOCK) throw new Error(`a run cannot be on a clock of ${setup.clock}`);
+    state.clock = setup.clock;
   }
   return state;
 }

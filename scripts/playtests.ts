@@ -86,11 +86,15 @@ function main(): void {
     if (!decoded.ok) continue;
     replayed++;
     const setup = setupOf(decoded.code);
+    // A run on the clock plays danger by a rule of its own (BACKLOG-13 phase 93). Its end is set
+    // beside the bots' on the same clock, and it is left out of the rows on how people choose,
+    // which say how they play the ordinary game.
+    const clocked = decoded.code.clock !== undefined;
     for (const bot of BOT_NAMES) {
       bots.get(bot)!.push(playRunFrom(lib, bot, decoded.code.seed, setup, DEFAULT_RUN_OPTIONS));
-      walked.get(bot)!.push(traceBot(lib, bot, decoded.code.seed, setup, DEFAULT_RUN_OPTIONS));
+      if (!clocked) walked.get(bot)!.push(traceBot(lib, bot, decoded.code.seed, setup, DEFAULT_RUN_OPTIONS));
     }
-    const rebuilt = traceRecorded(lib, run);
+    const rebuilt = clocked ? null : traceRecorded(lib, run);
     if (rebuilt) people.push(rebuilt);
   }
 

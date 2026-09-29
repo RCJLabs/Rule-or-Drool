@@ -34,7 +34,7 @@ drag it left or right. What your choices do builds up over a run, and not all of
   falls apart early is as useful as one that goes the distance.
 - Ten runs or more is the most useful, over a week or two, but any number helps.
 - When something breaks, looks wrong or confuses you, jot it down there and then, with the
-  version from the bottom of the menu. It looks like "v0.100.0 · deck z1rhb4xy".
+  version from the bottom of the menu. It looks like "v0.101.0 · deck z1rhb4xy".
 - If the game shows "Something went wrong", its last line is the version and the error: send
   that line. If it says "Not saved", use **Move my progress** from the notice to keep your
   profile safe.
@@ -90,6 +90,8 @@ drag it left or right. What your choices do builds up over a run, and not all of
      you do anything about it?
    - If a side of a card was ever marked as one that would end your rule: did it change what you
      chose?
+   - If you took a run on the clock: did the pips under a meter in danger change how you played
+     it, and did a run end on the clock?
 
 **Beyond one run**
 

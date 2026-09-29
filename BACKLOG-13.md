@@ -1564,3 +1564,116 @@ seed it had.
   each left, lists sealed files first, and a reign's third thing goes under ", and 1 more".
 - **The random bot's long reign target stands on 19 runs** even at 10,000. It passes with 14
   points to spare, and a change to the deal can still move it past its line.
+
+## Phase 93. Danger that bites: on the clock (idea 2) — *done*
+
+**Shipped in v0.101.0.** Only a run taken on the clock plays differently. The deck is still
+z1rhb4xy, and an ordinary run is played as it was: the harness reads the same on every line.
+
+- **On the clock.** A way to play, chosen on the menu under *Danger*: *A warning*, as ever, or *On
+  the clock*. On the clock, a meter drawn in danger at its bottom has eight decisions to leave it.
+  One goes with each decision it stays there, and the count starts again once it is out. A meter
+  still there when they run out ends the rule the way its bottom does: the treasury defaults, a
+  bloc walks out.
+- **Only the bottoms.** The top of the state's meters is drawn in danger as ever and ends a rule
+  only at its edge, below.
+- **Opened by a run on the Ascent.** *Pointed the other way* opens it, as BACKLOG-12's harder terms
+  were to come after a run in the Ascent; a profile that has it sees the choice at once. It is
+  offered past a first term, and *Take office* and the short term both take it. The daily and the
+  week's scenario are played as dealt, and a run from a link as it was played.
+- **On screen.** A row of pips under every meter of a run on the clock, filled for the decisions
+  left, under a meter in danger at its bottom. The row is always there on the clock, 6px of the
+  header, so the card does not move when one fills.
+  - A screen reader hears the decisions left with the meter, and with each card: "Money: 3
+    decisions left."
+  - The first time a meter counts down, a lesson says what the pips are.
+  - On the last decision, a side that would run the clock out is marked as ending the rule, as any
+    such side is: the mark plays the choice.
+- **At the end.** "Money stayed in danger for 8 decisions, and on the clock that ends a rule." The
+  share says *On the clock*, and so does a shared run's offer and the menu's *Continue*.
+- **The code.** A run on the clock is written in a new format, 5, with the clock's decisions last:
+  `5.2r.L.-.-.-.-.-.-.8`. Every other code is the code it was, and a version with a clock of
+  another length says it cannot reproduce the run. The playtest reader takes format 5; a code it
+  did not know made a whole record unreadable before (phase 84). The report counts runs on the
+  clock, its bots replay them on it, and its rows on how people choose leave them out.
+- **In the code:** `src/engine/danger.ts` holds the danger line, which the screen and the bot with
+  a person's eyes now read there too, and `CLOCK`; `tickClock` in `resolve.ts` runs after the
+  edges; `clock` and `dangerLeft` are on the state; `npm run simulate -- --clock` plays every run
+  on it. The bot with a person's eyes reads the pips: with three decisions or fewer left, it minds
+  the meters with fewest.
+
+**Measured first.** 1,000 runs a bot, seeds 1 to 1,000.
+- **Who lives in danger.** The bot with a person's eyes made 46% of its decisions with a meter
+  drawn in danger, a person-like player 43% and the informed voter 1.1%. The State at its top was
+  34% of the eyes bot's cards, and money at the bottom 12%. In danger, the eyes bot took the honest
+  side 18% of the time: the self-serving side is how it gets out.
+- **Every danger on the clock** ended 29% of the eyes bot's runs at eight decisions, and 69% of a
+  person-like player's, most often at the State's top (315 of 686): the count punished the surplus
+  honest government builds, as the idea's risk said it might.
+- **The ceiling it was to come with** (round eleven's idea 4: a gain toward the State's top landing
+  less the nearer it is, from 70) more than doubled the informed voter's Ascent, 25.8% to 56.2%,
+  on its own, and took the eyes bot's to 96.1% and the mixed bot's from 13.1% to 36.0%. With
+  nothing to relieve, the bots played honest throughout, and the Ascent came with it. A term meant
+  to be harder cannot carry that, and the idea asked for the informed voter unchanged.
+- **So only the bottoms count.** Seen through / seen through on the Ascent:
+
+| 1,000 runs a bot | No clock | 6 decisions | 8 (shipped) | 10 | 12 |
+|---|---|---|---|---|---|
+| Informed voter | 97.0% / 25.8% | 93.8% / 25.5% | 95.4% / 25.6% | 96.4% / 25.8% | 96.6% / 25.8% |
+| Eyes bot | 95.9% / 58.0% | 58.0% / 33.7% | 72.0% / 43.5% | 81.0% / 49.4% | 87.6% / 53.1% |
+| Person-like | 92.6% / 49.1% | 41.2% / 20.1% | 52.3% / 26.4% | 62.5% / 31.7% | 69.1% / 35.9% |
+| Mixed bot | 97.2% / 13.1% | 95.5% / 13.0% | 96.7% / 13.1% | 96.7% / 13.1% | 96.9% / 13.1% |
+
+- **Eight** bites the players who live in danger and leaves the careful ones where they were, and
+  eight pips fit a row under a meter on a 360px phone. At eight, the clock ends the eyes bot's
+  runs at the treasury (186 of 243) and the backers (53), and a person-like player's likewise
+  (321 and 90 of 427).
+- **Every danger counted, at eight,** it was 67.7% / 42.0% for the eyes bot and 27.3% / 14.9% for
+  a person-like player; with the ceiling as well, 53.8% / 53.8% and 33.9% / 33.3%.
+
+**The harness on the clock,** 5,000 runs a bot (`npm run simulate -- --clock`), beside the ordinary
+game's: the informed voter sees 96.3% of runs through (97.5%) and reaches the Ascent in 25.8%
+(25.9%); the mixed bot 14.1% (14.1%); random runs last a median 49 cards (50), bankruptcy ending
+20.4% (18.7%); the greedy bot ends in the Decay in 75.5% (75.5%); the eyes bot sees 72.2% through
+(96.2%), bankruptcy ending 20.0% of its runs. A long reign on the clock, 2,000 runs a bot: the
+mixed bot reaches its fifth era in 95.5% and sees its finale in 91.6%, and the eyes bot sees 66.0%
+through.
+
+**Also found: the note under the meters.** The audit put a meter in danger on the table for the
+first time, and with it the note that names the nearest end, "Close to …".
+- In the muddle look the note read at 3.9:1, where 4.5 is needed; it is drawn in ink there now.
+- With a note under the meters (a meter near its end, or a bloc restless), the longest cards are
+  cut off by 2–15px in the two deepest decay looks on a 360×640 phone, on the clock or not. Not
+  fixed here: it is the header's layout, and the ordinary game's.
+
+**Tests.**
+- The clock gives a meter that comes into danger at its bottom eight decisions, takes one with each
+  decision it stays there, starts again once it is out, and ends the run at the meter's bottom
+  when they run out, keeping the 0 that says so.
+- It never runs at the state's top, runs out of office for the coalition only, changes nothing in
+  a run not on the clock, and is this game's length or none.
+- In play, the eyes bot's runs on the clock end on it, and its ordinary runs carry no count; a run
+  on the clock is replayed on it, card for card; a side that would run the clock out is marked.
+- Format 5: written only for a run on the clock, read back, played on it again, with a long
+  reign's eras, what a run took over and an ending looked for each in its place; another length,
+  or none, refused; a playtest record with one read.
+- On screen: offered once a run has ended on the Ascent, a warning by default, and taken by both
+  starts; kept by a reload and named on *Continue*; a shared run offered as one; the pips and their
+  words; said with each card; taught once; the end and the share say it.
+- In a browser: the menu with the clock chosen reads and fits at 360px, and the run keeps a row of
+  pips under each meter. The longest card of every kind is audited on the clock at 360×640 in all
+  seven looks, and the note under the meters reads in all seven.
+- The test of a code from a version to come reads format 6, since 5 is taken.
+
+**Caveats.**
+- **Bots only.** People may leave danger faster than the eyes bot, or slower than a person-like
+  player. How often they sit in danger is what the report's split at the danger line measures,
+  and runs on the clock are kept out of it.
+- **The Institutions ceiling was not built.** Round eleven's idea 4 stays open for the ordinary
+  game, now with a number: the ceiling alone more than doubles the informed voter's Ascent.
+- **The top has no pips.** A meter drawn in danger at the top counts nothing, which a player may
+  not expect; the menu's blurb and the lesson say so only in passing.
+- **The note under the meters** cuts off the longest cards in the two deepest looks on the
+  smallest phones, as above.
+- **Eight is a constant.** A later length makes today's codes on the clock unplayable there, as a
+  different long reign would.

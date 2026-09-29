@@ -283,8 +283,8 @@ export function useGame(lib: Library) {
 
   /**
    * A run of the player's own; `eraCount` is set for a long reign (BACKLOG-5 phase 39) and a first
-   * or short term, `pursuit` when it goes looking for an ending (BACKLOG-13 phase 83), and `crisis`
-   * when the player took one of two (phase 84).
+   * or short term, `pursuit` when it goes looking for an ending (BACKLOG-13 phase 83), `crisis`
+   * when the player took one of two (phase 84), and `clock` for a run on the clock (phase 93).
    */
   const start = useCallback(
     guarded(
@@ -297,6 +297,7 @@ export function useGame(lib: Library) {
         inheritance: Inheritance | null = null,
         pursuit: string | null = null,
         crisis: string | null = null,
+        clock?: number,
       ) => {
       setSaved(null);
       setSavedDaily(null);
@@ -308,7 +309,7 @@ export function useGame(lib: Library) {
       dailyRef.current = null;
       scenarioRef.current = null;
       setPlayingScenario(null);
-      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount, inheritance, pursuit, crisis);
+      const s = beginRun(lib, seed, align, metaRef.current.unlocks, mandates, eraCount, inheritance, pursuit, crisis, clock);
       setState(s);
       beginRecording(s, "own");
       },

@@ -18,8 +18,16 @@ export function beginRun(
   inheritance: Inheritance | null = null,
   pursuit: string | null = null,
   crisis: string | null = null,
+  clock?: number,
 ): GameState {
-  const dealt = { ...rollSetup(lib, seed, align, unlocked), mandates, ...(inheritance ? { inheritance } : {}), ...(pursuit ? { pursuit } : {}) };
+  // On the clock, when the player took it (BACKLOG-13 phase 93).
+  const dealt = {
+    ...rollSetup(lib, seed, align, unlocked),
+    mandates,
+    ...(inheritance ? { inheritance } : {}),
+    ...(pursuit ? { pursuit } : {}),
+    ...(clock !== undefined ? { clock } : {}),
+  };
   // The crisis the player took of the two offered (BACKLOG-13 phase 84), when they were offered two.
   const offer = crisis ? crisisOffer(lib, seed, align, unlocked) : null;
   if (crisis && !offer) throw new Error(`no crisis was offered to take ${crisis} from`);

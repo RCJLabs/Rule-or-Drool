@@ -1,4 +1,5 @@
 import { EASY_CAMPAIGN_FLAG, easySide } from "./campaign";
+import { clockRuns } from "./danger";
 import { closestSoFar, endRun } from "./endings";
 export { rivalPressure } from "./state";
 import { getCard, type Library } from "./library";
@@ -8,7 +9,7 @@ import { BROKE_MANDATE_FLAG, MANDATES_BY_ID, brokenFlag, stateFloor, waitingFlag
 import { appoint, bandOf, candidatesFor, clampDrift, clampMeter, exitBand, fxDeltas, hasFlag, isFirstTerm, isLongReign, moodOf, replaceAdvisor, rivalPressure } from "./state";
 import { POACHED_PREFIX, RIVAL_POACHED_FLAG } from "./rival";
 import { goesOut, LOST_OFFICE_FLAG, returnAtFor, WON_BACK_FLAG } from "./opposition";
-import type { Card, EraBend, EraRule, GameState, Meters, RunStats, Side } from "./types";
+import type { Card, EraBend, EraRule, GameState, MeterKey, Meters, RunStats, Side } from "./types";
 import { BLOC_KEYS, CORE_KEYS, METER_KEYS } from "./types";
 
 /**
@@ -217,6 +218,25 @@ export function checkOuster(lib: Library, state: GameState): GameState {
   }
   if (BLOC_KEYS.every((b) => state.meters[b] >= cfg.cultAt)) return endRun(lib, state, cfg.cultEnding);
   return state;
+}
+
+/**
+ * The clock, after a decision (BACKLOG-13 phase 93): a meter that has come into danger at its
+ * bottom has the run's `clock` of decisions, one goes with each decision it stays there, and it
+ * starts again once the meter is out. A meter still there when they run out ends the run at its
+ * bottom, and keeps 0 in `dangerLeft` to say so.
+ */
+export function tickClock(lib: Library, state: GameState): GameState {
+  if (state.over || !state.clock) return state;
+  const left: Partial<Record<MeterKey, number>> = {};
+  for (const k of METER_KEYS) {
+    if (!clockRuns(k, state.meters[k], !!state.opposition)) continue;
+    const was = state.dangerLeft?.[k];
+    const n = was === undefined ? state.clock : was - 1;
+    if (n <= 0) return endRun(lib, { ...state, dangerLeft: { ...left, [k]: 0 } }, lib.config.meterEndings[k].low);
+    left[k] = n;
+  }
+  return { ...state, dangerLeft: left };
 }
 
 /** Coup risk for the abolished-elections path, in [0, 1]. */
@@ -436,6 +456,8 @@ export function resolve(lib: Library, state: GameState, cardId: string, side: Si
   // Before the ouster check: a choice that breaks the promise and ends the run did both.
   s = checkMandate(lib, s, !!state.opposition);
   s = checkOuster(lib, s);
+  // A run on the clock, once the edges have had their say (BACKLOG-13 phase 93).
+  s = tickClock(lib, s);
   s = checkElection(lib, s);
   s = advanceEra(lib, s);
   // Once every step that can move drift has (the choice, a decree's pull), as the next card

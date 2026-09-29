@@ -21,7 +21,12 @@ export function setupOfRun(state: GameState): RunSetup {
   const setup: RunSetup = { align: state.align, modifiers: [...state.modifiers], unlocked: [...state.unlocked], mandates: [...state.mandates], eraCount: state.eraCount, inheritance: state.inherited };
   // A run that went looking for an ending was dealt for it (BACKLOG-13 phase 83), and one that
   // picked its crisis remembers the other (phase 84).
-  return { ...setup, ...(state.pursuit ? { pursuit: state.pursuit } : {}), ...(state.passedOver ? { passedOver: state.passedOver } : {}) };
+  return {
+    ...setup,
+    ...(state.pursuit ? { pursuit: state.pursuit } : {}),
+    ...(state.passedOver ? { passedOver: state.passedOver } : {}),
+    ...(state.clock ? { clock: state.clock } : {}),
+  };
 }
 
 /** Whether a finished (or unfinished) run holds the record a replay needs: a choice for every card. */

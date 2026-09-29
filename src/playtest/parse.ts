@@ -40,8 +40,9 @@ const END: Spec = {
 /**
  * A run code of any format the game writes (see runcode.ts): the version, base-36 seed and side,
  * then three lists of ids, a platform's two promises among them; a long reign's or a short term's
- * eras (format 2); what a run took over, after its eras or "-" (format 3); and the ending a run went
- * looking for (format 4). Formats 3 and 4, and a platform's promises, were refused here until
+ * eras (format 2); what a run took over, after its eras or "-" (format 3); the ending a run went
+ * looking for (format 4); and the clock a run was taken on, after the ending or "-" (format 5,
+ * BACKLOG-13 phase 93). Formats 3 and 4, and a platform's promises, were refused here until
  * BACKLOG-13 phase 84, which made a whole record unreadable for one such run.
  */
 const CODE = (() => {
@@ -50,7 +51,7 @@ const CODE = (() => {
   const lists = `${list}\\.${list}\\.${list}`;
   const eras = "[1-9][0-9]?";
   return new RegExp(
-    `^(?:1\\.${seed}\\.${lists}|2\\.${seed}\\.${lists}\\.${eras}|3\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}|4\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}\\.[a-z0-9_]+)$`,
+    `^(?:1\\.${seed}\\.${lists}|2\\.${seed}\\.${lists}\\.${eras}|3\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}|4\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}\\.[a-z0-9_]+|5\\.${seed}\\.${lists}\\.(?:-|${eras})\\.${list}\\.(?:-|[a-z0-9_]+)\\.[1-9][0-9]?)$`,
   );
 })();
 

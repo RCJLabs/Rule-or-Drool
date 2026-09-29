@@ -216,9 +216,12 @@ export interface Objective {
    * phase 39). An unlock token rides in every run's code; this changes no run it is not
    * chosen for, so it stays out of them.
    */
-  opens?: typeof LONG_REIGN;
+  opens?: typeof LONG_REIGN | typeof ON_THE_CLOCK;
   check: (ctx: ObjectiveContext) => boolean;
 }
 
 /** What the first finale opens: a run of five eras rather than three (BACKLOG-5 phase 39). */
 export const LONG_REIGN = "long_reign";
+
+/** What the first run to end on the Ascent opens: runs on the clock (BACKLOG-13 phase 93). */
+export const ON_THE_CLOCK = "on_the_clock";

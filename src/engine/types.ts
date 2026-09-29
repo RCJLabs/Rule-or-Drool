@@ -464,6 +464,16 @@ export interface GameState {
    * Absent for a run that was offered no pick. It deals nothing: the run's crisis is in `modifiers`.
    */
   passedOver?: string;
+  /**
+   * The decisions a meter drawn in danger at its bottom has to leave it, for a run taken on the
+   * clock (BACKLOG-13 phase 93). Absent for every other run, which plays as it did.
+   */
+  clock?: number;
+  /**
+   * On the clock, the decisions left to each meter in danger at its bottom now; 0 for the one that
+   * ran out, when the clock ended the run.
+   */
+  dangerLeft?: Partial<Record<MeterKey, number>>;
 }
 
 /**
@@ -535,6 +545,11 @@ export interface RunSetup {
   pursuit?: string | null;
   /** The crisis offered beside the run's and passed over, when the player picked (BACKLOG-13 phase 84). */
   passedOver?: string | null;
+  /**
+   * Taken on the clock (BACKLOG-13 phase 93): the decisions a meter drawn in danger at its bottom
+   * has to leave it. Omitted for every other run.
+   */
+  clock?: number;
 }
 
 /** Advisor traits the engine knows about (5.8). */

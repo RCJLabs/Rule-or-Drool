@@ -326,6 +326,11 @@ export interface Report {
    * so the bots replay them dealt the same way.
    */
   pursued: number;
+  /**
+   * Runs taken on the clock (BACKLOG-13 phase 93). Their code says so, so the bots replay them on
+   * it, and they are left out of the rows on how people choose.
+   */
+  clocked: number;
   humans: Outcomes;
   /** Each bot on the finished runs whose code this version of the game can still start. */
   bots: { bot: BotName; out: Outcomes }[];
@@ -570,6 +575,10 @@ export function buildReport(lib: Library, g: Gathered, bots: ReadonlyMap<BotName
       const code = decodeRunCode(lib, r.code);
       return code.ok && !!code.code.pursuit;
     }).length,
+    clocked: runs.filter((r) => {
+      const code = decodeRunCode(lib, r.code);
+      return code.ok && code.code.clock !== undefined;
+    }).length,
     humans: outcomes(lib, finished.map((r) => r.end!)),
     bots: [...bots.entries()].map(([bot, results]) => ({ bot, out: outcomes(lib, results.map((r) => ({ ending: r.endingId, era: r.era, cards: r.cards }))) })),
     replayed: opts.replayed,
@@ -628,6 +637,11 @@ export function formatReport(r: Report, top = 10): string {
   out.push(`rule-or-drool playtests: ${n(r.files, "file")}, ${n(r.players, "player")}, ${n(r.runs, "run")} (${kinds})`);
   out.push(`${r.finished} finished, ${r.unfinished} left for another run, ${r.repeats} repeated across files and counted once. Game ${r.versions.join(", ")}.`);
   if (r.pursued) out.push(`${n(r.pursued, "run")} went looking for an ending and ${r.pursued === 1 ? "was" : "were"} dealt for it; the bots replay them dealt the same way.`);
+  if (r.clocked) {
+    out.push(
+      `${n(r.clocked, "run")} ${r.clocked === 1 ? "was" : "were"} taken on the clock; the bots replay them on it, and the rows on how people choose leave them out.`,
+    );
+  }
   if (r.decks) {
     const d = r.decks;
     const gone = d.other.reduce((s, [, k]) => s + k, 0);

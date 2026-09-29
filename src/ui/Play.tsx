@@ -10,6 +10,7 @@ import { preview, sideEnds } from "../engine/preview";
 import { replayTo } from "../engine/replay";
 import { lastAlongside } from "../meta/challenge";
 import type { GameState, Meters, Side } from "../engine/types";
+import { METER_KEYS } from "../engine/types";
 import { CardClock } from "../playtest/clock";
 import type { Measure } from "../playtest/record";
 import { CardView } from "./CardView";
@@ -29,6 +30,7 @@ import { useMusic } from "./music";
 import { receiptOf, receiptSpoken } from "./receipt";
 import { newlyDangerous } from "./sound";
 import { choiceSummary, lookChange, meterName, resultSummary } from "./speech";
+import { leftWords, pipsOf } from "./clock";
 import { themeOf } from "./theme";
 import { composeCountry } from "./world";
 
@@ -241,6 +243,11 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
       for (const m of newlyDangerous(prev.meters, state.meters, DANGER_BELOW, !!state.opposition)) {
         parts.push(STRINGS.speech.inDanger.replace("{meter}", meterName(m, state.align)));
       }
+    }
+    // On the clock, with each card, what each meter in danger at its bottom has left (BACKLOG-13 phase 93).
+    for (const k of state.clock ? METER_KEYS : []) {
+      const pips = pipsOf(state, k);
+      if (pips) parts.push(STRINGS.clock.spoken.replace("{meter}", meterName(k, state.align)).replace("{left}", leftWords(pips.left)));
     }
     const look = lookChange(prev?.stage ?? 0, theme.stage);
     if (look) parts.push(look);

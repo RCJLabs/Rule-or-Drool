@@ -46,6 +46,8 @@ export interface RunOptions extends BotOptions {
   unlocked?: string[];
   /** Eras per run: the ordinary game's by default, or a long reign's (BACKLOG-5 phase 39). */
   eraCount?: number;
+  /** Runs taken on the clock, with its decisions (BACKLOG-13 phase 93); none by default. */
+  clock?: number;
 }
 
 export const DEFAULT_RUN_OPTIONS: RunOptions = { danger: 25, maxCards: 1000 };
@@ -54,7 +56,8 @@ const SIDES: readonly Side[] = ["left", "right"];
 
 export function playRun(lib: Library, bot: BotName, seed: number, align: PlayerAlign, opts: RunOptions = DEFAULT_RUN_OPTIONS): RunResult {
   const setup = rollSetup(lib, seed, align, opts.unlocked ?? []);
-  return playRunFrom(lib, bot, seed, opts.eraCount === undefined ? setup : { ...setup, eraCount: opts.eraCount }, opts);
+  const withEras = opts.eraCount === undefined ? setup : { ...setup, eraCount: opts.eraCount };
+  return playRunFrom(lib, bot, seed, opts.clock === undefined ? withEras : { ...withEras, clock: opts.clock }, opts);
 }
 
 /**

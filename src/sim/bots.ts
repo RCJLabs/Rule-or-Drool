@@ -147,6 +147,16 @@ export function readAs(ctx: BotContext, side: Side): Meters {
   return out;
 }
 
+/**
+ * On the clock (BACKLOG-13 phase 93), the meters in danger it minds first: once one has three
+ * decisions or fewer left, the ones with fewest left, as the pips on the bar show them.
+ */
+function pressed(state: GameState, worried: readonly MeterKey[]): readonly MeterKey[] {
+  const left = worried.map((k) => state.dangerLeft?.[k] ?? Number.POSITIVE_INFINITY);
+  const least = Math.min(...left);
+  return least <= 3 ? worried.filter((_, i) => left[i] === least) : worried;
+}
+
 /** How near the worst of these meters would be to the edge that ends a run. */
 function headroom(meters: Meters, worried: readonly MeterKey[]): number {
   return Math.min(...worried.map((k) => ((BLOC_KEYS as readonly string[]).includes(k) ? meters[k] : Math.min(meters[k], 100 - meters[k]))));
@@ -197,8 +207,9 @@ const byEye: Bot = (ctx) => {
   if (!!card.left.ending !== !!card.right.ending) return card.left.ending ? "right" : "left";
   const worried = METER_KEYS.filter((k) => shownInDanger(k, state.meters[k], !!state.opposition));
   if (worried.length) {
-    const l = headroom(readAs(ctx, "left"), worried);
-    const r = headroom(readAs(ctx, "right"), worried);
+    const minded = pressed(state, worried);
+    const l = headroom(readAs(ctx, "left"), minded);
+    const r = headroom(readAs(ctx, "right"), minded);
     return l === r ? clean : l > r ? "left" : "right";
   }
   if (card.campaign && band === "narrowLoss") return easy;

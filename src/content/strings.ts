@@ -661,6 +661,31 @@ export const STRINGS = {
     title: "The reckoning",
   },
   /**
+   * On the clock (BACKLOG-13 phase 93): a meter left in danger at its bottom ends the rule after a
+   * count of decisions. A way to play that a run ending on the Ascent opens.
+   */
+  clock: {
+    legend: "Danger",
+    ordinary: "A warning",
+    ordinaryBlurb: "A meter in danger ends your rule only at its edge.",
+    title: "On the clock",
+    blurb: "A meter left low in danger ends your rule after {n} decisions. Too high ends it only at the edge.",
+    /** After a saved run's party on the menu's Continue. */
+    short: "on the clock",
+    offer: "On the clock: a meter left low in danger ends the run after {n} decisions.",
+    share: "On the clock",
+    /** The pips under a meter, as a screen reader hears them with the meter, and with each card. */
+    left: "{n} decisions left",
+    leftOne: "1 decision left",
+    spoken: "{meter}: {left}.",
+    opened: "the clock, where a meter left low in danger ends your rule",
+    opens: "Opens the clock",
+    lessonTitle: "On the clock",
+    lesson: "The pips under a meter in danger are the decisions you have to lift it. When they run out, it ends your rule, as its edge would.",
+    /** Why the run ended, on the end screen, when the clock ran out. */
+    cause: "{meter} stayed in danger for {n} decisions, and on the clock that ends a rule.",
+  },
+  /**
    * The questions (BACKLOG-6 phase 40): policies asked plainly. The card says it is one, so a
    * player knows this is the big decision, and every step after it carries the same title.
    */
