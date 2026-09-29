@@ -1,5 +1,6 @@
 {
   "order": [
+    "files_sealed",
     "long_ship",
     "orbit_reached",
     "elections_abolished",
@@ -7,6 +8,7 @@
     "general_unleashed",
     "heir_named",
     "crown_restored",
+    "sold_off",
     "oracle_running",
     "ring_started",
     "referendum_called",
@@ -18,6 +20,7 @@
     "stadium_built",
     "feed_captured",
     "port_leased",
+    "put_beyond_reach",
     "mass_deportation",
     "went_to_war",
     "universal_care",
@@ -75,6 +78,14 @@
     "habit_bend",
     "habit_skim"
   ],
+  "unnamed": [
+    "files_sealed"
+  ],
+  "lastActs": [
+    "files_sealed",
+    "sold_off",
+    "put_beyond_reach"
+  ],
   "falseAfter": {
     "the_games": [
       "stadium_built:ascent:left",
@@ -85,6 +96,65 @@
     ]
   },
   "histories": {
+    "sold_off": {
+      "titles": {
+        "decay": {
+          "left": "The Closing-Down Sale",
+          "right": "The Asset Strip"
+        },
+        "muddle": {
+          "left": "The Sale Nobody Voted For",
+          "right": "The Private Finish"
+        },
+        "ascent": {
+          "left": "The Last Thing Sold",
+          "right": "The Well-Timed Sale"
+        }
+      },
+      "long": {
+        "decay": "The Sold Centuries",
+        "muddle": "The Leaseholders",
+        "ascent": "The Great Buyback"
+      },
+      "after": {
+        "decay": "What the state owned was sold on the reign's last day to the people who paid for its campaigns. They charge admission now.",
+        "muddle": "What the state owned was sold on the reign's way out. The new owners keep it running, mostly, and send the state an invoice every spring.",
+        "ascent": "What the state owned was sold on the reign's way out, and the next government bought it back at twice the price. The buyers still call it a bargain."
+      }
+    },
+    "put_beyond_reach": {
+      "titles": {
+        "decay": {
+          "left": "The Last Decree",
+          "right": "The Locked Law"
+        },
+        "muddle": {
+          "left": "The Unamended",
+          "right": "The Signed-Off Years"
+        },
+        "ascent": {
+          "left": "The Decree That Held",
+          "right": "The Final Say"
+        }
+      },
+      "long": {
+        "decay": "The Law Nobody Could Touch",
+        "muddle": "The Standing Decree",
+        "ascent": "The Question Closed"
+      },
+      "after": {
+        "decay": "Its last decree still stands, beyond any chamber's reach. Nobody alive remembers what it was for, and nobody is allowed to ask.",
+        "muddle": "Its last decree was challenged in every court for thirty years, and survived them all on a technicality.",
+        "ascent": "Its last decree was put beyond the chamber's reach. It turned out to be right, which settled nothing about whether it should have been."
+      }
+    },
+    "files_sealed": {
+      "after": {
+        "decay": "The files were sealed for fifty years. The people they would embarrass have made sure it will be a hundred.",
+        "muddle": "The files were sealed for fifty years. Historians have booked the reading room for the day, and so have the lawyers.",
+        "ascent": "The files were sealed for fifty years. When they open, they will show a reign that did better than it let anyone check."
+      }
+    },
     "long_ship": {
       "titles": {
         "decay": {

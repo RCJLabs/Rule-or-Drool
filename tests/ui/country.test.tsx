@@ -37,9 +37,11 @@ describe("what the country shows", () => {
     expect(answers.size).toBe(32);
     for (const f of answers) expect(MOTIFS[f], f).toBeDefined();
     // What is left undrawn happened to the reign, or is too small a thing to stand in a city:
-    // losing and winning back the count, the honours list, the printing, the building code.
+    // losing and winning back the count, the honours list, the printing, the building code. What
+    // a reckoning leaves changes who owns a thing or who may read or undo it, and nothing that
+    // stands (BACKLOG-13 phase 92).
     const undrawn = [...LEGACY_FLAGS].filter((f) => !MOTIFS[f]).sort();
-    expect(undrawn).toEqual(["codes_enforced", "honours_sold", "lost_office", "money_printed", "won_it_back"]);
+    expect(undrawn).toEqual(["codes_enforced", "files_sealed", "honours_sold", "lost_office", "money_printed", "put_beyond_reach", "sold_off", "won_it_back"]);
   });
 
   it("has a drawing and words for every landmark, in the part of the world it stands in", () => {

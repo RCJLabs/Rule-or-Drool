@@ -9,6 +9,7 @@ import {
   HISTORY_ORDER,
   LEGACY_FLAGS,
   NO_LEGACY,
+  UNNAMED,
   codexProgress,
   emptyMeta,
   foldRun,
@@ -37,8 +38,9 @@ const finale = (patch: Partial<GameState> = {}, epilogueKey = "muddle:left:3"): 
  */
 describe("what history calls a run", () => {
   it("has a written name for every legacy, direction and side, and no two alike", () => {
-    // Two sides, and the long view, which names no side (BACKLOG-5 phase 39).
-    expect(ALL_HISTORY_KEYS).toHaveLength((LEGACY_FLAGS.size + 1) * 3 * 3);
+    // Two sides, and the long view, which names no side (BACKLOG-5 phase 39). A legacy history
+    // records and never names a reign for has none (BACKLOG-13 phase 92).
+    expect(ALL_HISTORY_KEYS).toHaveLength((LEGACY_FLAGS.size - UNNAMED.size + 1) * 3 * 3);
     const titles = ALL_HISTORY_KEYS.map(historyTitle);
     expect(titles.every(Boolean)).toBe(true);
     expect(new Set(titles).size).toBe(titles.length);
@@ -49,10 +51,10 @@ describe("what history calls a run", () => {
     const at = (era: number, align: "left" | "right") => historyOf(finale({ flags, era, align, eraCount: library.config.longEraCount }), "ascent");
     for (const align of ["left", "right"] as const) {
       expect(at(3, align).key).toBe(`seawall:ascent:${align}`);
-      expect(at(4, align)).toMatchObject({ key: "seawall:ascent:long", title: HISTORIES.seawall!.long.ascent, signature: "seawall" });
-      expect(at(5, align).title).toBe(HISTORIES.seawall!.long.ascent);
+      expect(at(4, align)).toMatchObject({ key: "seawall:ascent:long", title: HISTORIES.seawall!.long!.ascent, signature: "seawall" });
+      expect(at(5, align).title).toBe(HISTORIES.seawall!.long!.ascent);
     }
-    expect(historyTitle("seawall:ascent:long")).toBe(HISTORIES.seawall!.long.ascent);
+    expect(historyTitle("seawall:ascent:long")).toBe(HISTORIES.seawall!.long!.ascent);
     expect(ALL_HISTORY_KEYS).toContain("seawall:ascent:long");
     // What became of the decision is the same either way; only the name takes the long view.
     expect(at(5, "left").consequences).toEqual(at(3, "left").consequences);
@@ -69,7 +71,7 @@ describe("what history calls a run", () => {
     const s = finale({ flags: ["habit_skim", "habit_bend", "cheated_election", "seawall"] });
     const h = historyOf(s, "ascent");
     expect(h.signature).toBe("seawall");
-    expect(h.title).toBe(HISTORIES.seawall!.titles.ascent.left);
+    expect(h.title).toBe(HISTORIES.seawall!.titles!.ascent.left);
     expect(h.key).toBe("seawall:ascent:left");
   });
 
@@ -98,7 +100,7 @@ describe("what history calls a run", () => {
   it("still names a run that left nothing behind", () => {
     const h = historyOf(finale({ flags: ["east_talks"] }), "muddle");
     expect(h.signature).toBe(NO_LEGACY);
-    expect(h.title).toBe(HISTORIES[NO_LEGACY]!.titles.muddle.left);
+    expect(h.title).toBe(HISTORIES[NO_LEGACY]!.titles!.muddle.left);
     expect(h.consequences).toHaveLength(1);
   });
 });

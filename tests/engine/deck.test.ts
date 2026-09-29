@@ -33,11 +33,11 @@ const MECHANICS = [
   "arcs[].align", "arcs[].cards[]", "arcs[].entry.bands[]", "arcs[].entry.flags[]", "arcs[].entry.notFlags[]",
   "arcs[].entry.speakerTraits[]", "arcs[].id", "arcs[].question", "arcs[].requires",
   "cards[].align", "cards[].arc", "cards[].bands[]", "cards[].cond.flags[]", "cards[].cond.notFlags[]",
-  "cards[].appoints", "cards[].cond.speakerTraits[]", "cards[].id", "cards[].speaker", "cards[].type",
+  "cards[].appoints", "cards[].cond.speakerTraits[]", "cards[].id", "cards[].reckons[]", "cards[].speaker", "cards[].type",
   ...["left", "right"].flatMap((s) =>
     ["clearFlags[]", "ending", "enqueue[].id", "next", "nextByAlign.left", "nextByAlign.right", "setFlags[]"].map((f) => `cards[].${s}.${f}`),
   ),
-  "endings[].id", "epilogues[].align", "epilogues[].band",
+  "endings[].id", "epilogues[].align", "epilogues[].band", "legacies[].id",
   "modifiers[].align", "modifiers[].flags[]", "modifiers[].id", "modifiers[].kind", "modifiers[].requires",
 ];
 
@@ -64,6 +64,7 @@ describe("the deck stamp", () => {
       endings: content.endings.map((e) => ({ ...e, title: "An ending", text: "It ended." })),
       epilogues: content.epilogues.map((e) => ({ ...e, text: "After." })),
       advisors: content.advisors.map((a) => ({ ...a, name: "Someone" })),
+      legacies: content.legacies?.map((l) => ({ ...l, label: "Something was done" })),
     };
     const base = stampOf(dealtBy(library));
     expect(deckStamp(buildLibrary(reworded))).toBe(base);

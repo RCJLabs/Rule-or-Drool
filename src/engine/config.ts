@@ -28,6 +28,11 @@ export interface EngineConfig {
    */
   campaignLead: number;
   /**
+   * The ordinary game's last cards, from which a run in office meets its reckoning (BACKLOG-13 phase
+   * 92): one card asking what becomes of what the reign will be remembered for.
+   */
+  reckoningCards: number;
+  /**
    * An honest election is lost when the average of the three blocs falls below this (5.4).
    * 40 until BACKLOG-9 phase 54 raised it to 44: once the card said how the count stood, a
    * player who never cheats a vote they can win reached the Ascent in 39% of runs. 46 since
@@ -202,6 +207,7 @@ export const DEFAULT_CONFIG: EngineConfig = {
   eraLength: 35,
   electionInterval: 25,
   campaignLead: 2,
+  reckoningCards: 10,
   electionMoodThreshold: 46,
   returnSwing: 5,
   rivalRole: "rival",

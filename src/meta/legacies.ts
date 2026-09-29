@@ -84,6 +84,10 @@ export const LEGACIES: Record<string, string> = {
   levee_built: "The new levee held",
   honours_sold: "Honours were sold",
   port_leased: "The port was leased",
+  // What a reign's reckoning can leave instead, written over what it is remembered for (BACKLOG-13 phase 92).
+  sold_off: "A public asset was sold on the way out",
+  put_beyond_reach: "A law was put beyond repeal",
+  files_sealed: "The files were sealed for fifty years",
 };
 
 export const LEGACY_FLAGS: ReadonlySet<string> = new Set(Object.keys(LEGACIES));

@@ -1,4 +1,5 @@
 import type { Library } from "./library";
+import { reckonedLegacy } from "./reckoning";
 import { candidatesFor, exitBand } from "./state";
 import type { Advisor, Band, Epilogue, GameState, PlayerAlign } from "./types";
 import { BLOC_KEYS, METER_KEYS, PLAYER_ALIGNS } from "./types";
@@ -46,6 +47,13 @@ export function withNames(lib: Library, state: GameState, text: string, speaker?
   if (out.includes("{rival}")) {
     const name = lib.advisorsById.get(state.cabinet[lib.config.rivalRole] ?? "")?.name;
     out = out.replaceAll("{rival}", name ?? "your rival");
+  }
+  // The legacy a reckoning is dealt for, in words (BACKLOG-13 phase 92): the highest of those this
+  // one is written for, which is the one it was dealt for.
+  if (out.includes("{legacy}")) {
+    const card = lib.reckonings.find((c) => c.text === text);
+    const legacy = reckonedLegacy(lib, state, card);
+    out = out.replaceAll("{legacy}", (legacy && lib.legacyLabels[legacy]) || "What this reign will be remembered for");
   }
   if (out.includes("{advisor}")) {
     const name = speaker ? lib.advisorsById.get(state.cabinet[speaker] ?? "")?.name : undefined;

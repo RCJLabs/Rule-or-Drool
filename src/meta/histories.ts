@@ -21,13 +21,14 @@ import { LEGACIES } from "./legacies";
  * Measured over 6,000 competent runs, no single decision defines more than 15% of them.
  */
 export interface HistoryText {
-  titles: Record<Band, Record<PlayerAlign, string>>;
+  /** Absent for a legacy history records and never names a reign for (`UNNAMED`). */
+  titles?: Record<Band, Record<PlayerAlign, string>>;
   /**
    * What history calls a run that lived past its third era, by where the country ended up
    * (BACKLOG-5 phase 39). Two centuries on nobody remembers your name, or which side held the
    * office, so the long view names the decision and the direction and not the party.
    */
-  long: Record<Band, string>;
+  long?: Record<Band, string>;
   /** What became of the decision, by where the country ended up. */
   after: Record<Band, string>;
 }
@@ -39,6 +40,10 @@ interface HistoryFile {
    * not named by (BACKLOG-11 phase 73). A question's are worked out, not listed (`namesAgainst`).
    */
   falseAfter: Record<string, string[]>;
+  /** Legacies history records in what became of a reign and never names one for (`UNNAMED`). */
+  unnamed?: string[];
+  /** Legacies a reign leaves at its reckoning, told besides its other decisions (`LAST_ACTS`). */
+  lastActs?: string[];
   histories: Record<string, HistoryText>;
 }
 
@@ -49,6 +54,22 @@ export const NO_LEGACY = "none";
 export const HISTORY_ORDER: readonly string[] = FILE.order;
 export const FALSE_AFTER: Readonly<Record<string, readonly string[]>> = FILE.falseAfter;
 export const HISTORIES: Readonly<Record<string, HistoryText>> = FILE.histories;
+/**
+ * What history records of a reign, first in what became of it, and never names it for (BACKLOG-13
+ * phase 92): files sealed at its reckoning. They are dealt for nearly any legacy, so wherever their
+ * names ranked, the reigns below shared them: the informed voter's runs were given 155–161
+ * different names, where 179 are given without them.
+ */
+export const UNNAMED: ReadonlySet<string> = new Set(FILE.unnamed ?? []);
+/**
+ * What a reign leaves at its reckoning, in its last cards (BACKLOG-13 phase 92). The end screen
+ * tells it besides the decisions it follows up on, which it would otherwise push down: ranked
+ * among them, the office lost or won back was one of the four in 87–91% of the runs that went
+ * out, on 3,000 runs a bot, and told besides them in 94–96%.
+ */
+export const LAST_ACTS: ReadonlySet<string> = new Set(FILE.lastActs ?? []);
+/** The legacies a reign can be named for: every history but the ones only told. */
+const NAMING: readonly string[] = Object.keys(FILE.histories).filter((sig) => !UNNAMED.has(sig));
 const BANDS: readonly Band[] = ["decay", "muddle", "ascent"];
 const SIDES: readonly PlayerAlign[] = ["left", "right"];
 
@@ -58,7 +79,7 @@ export const LONG_VIEW = "long";
 const ORDINARY_ERAS = DEFAULT_CONFIG.eraCount;
 
 /** Every history key there is: every title written, whether or not a run can be given it. */
-export const ALL_HISTORY_KEYS: readonly string[] = Object.keys(HISTORIES).flatMap((sig) =>
+export const ALL_HISTORY_KEYS: readonly string[] = NAMING.flatMap((sig) =>
   BANDS.flatMap((band) => [...SIDES.map((side) => historyKey(sig, band, side)), historyKey(sig, band, LONG_VIEW)]),
 );
 
@@ -84,7 +105,7 @@ export function reachableHistoryKeys(lib: Library): readonly string[] {
       sides.set(f, set);
     }
   }
-  const keys = Object.keys(HISTORIES).flatMap((sig) => {
+  const keys = NAMING.flatMap((sig) => {
     const set = sides.get(sig);
     const can = set ? SIDES.filter((side) => set.has(side)) : SIDES;
     return BANDS.flatMap((band) => [...can.map((side) => historyKey(sig, band, side)), historyKey(sig, band, LONG_VIEW)]);
@@ -124,7 +145,7 @@ export interface History {
   consequences: Consequence[];
 }
 
-/** How many of a run's decisions the end screen follows up on. */
+/** How many of a run's decisions the end screen follows up on, besides its last acts (`LAST_ACTS`). */
 export const CONSEQUENCES_SHOWN = 4;
 
 /**
@@ -206,11 +227,13 @@ export function historyOf(state: GameState, band: Band, told: ReadonlySet<string
   const carried = HISTORY_ORDER.filter((f) => state.flags.includes(f) && HISTORIES[f] && !inherited.includes(f));
   const long = inLongView(state);
   const seen = long ? LONG_VIEW : state.align;
-  const signature = carried.find((f) => !against.has(historyKey(f, band, seen))) ?? carried[0] ?? NO_LEGACY;
+  const naming = carried.filter((f) => !UNNAMED.has(f));
+  const signature = naming.find((f) => !against.has(historyKey(f, band, seen))) ?? naming[0] ?? NO_LEGACY;
   const text = HISTORIES[signature]!;
-  const consequences: Consequence[] = carried
-    .filter((f) => !told.has(f))
-    .slice(0, CONSEQUENCES_SHOWN)
+  const followed = carried.filter((f) => !told.has(f));
+  const decisions = followed.filter((f) => !LAST_ACTS.has(f)).slice(0, CONSEQUENCES_SHOWN);
+  const consequences: Consequence[] = followed
+    .filter((f) => LAST_ACTS.has(f) || decisions.includes(f))
     .map((f) => ({
       flag: f,
       label: LEGACIES[f] ?? f,
@@ -222,7 +245,7 @@ export function historyOf(state: GameState, band: Band, told: ReadonlySet<string
   return {
     key: historyKey(signature, band, seen),
     signature,
-    title: long ? text.long[band] : text.titles[band][state.align],
+    title: long ? text.long![band] : text.titles![band][state.align],
     consequences,
   };
 }
@@ -231,5 +254,5 @@ export function historyOf(state: GameState, band: Band, told: ReadonlySet<string
 export function historyTitle(key: string): string | null {
   const [sig, band, side] = key.split(":") as [string, Band, PlayerAlign | typeof LONG_VIEW];
   const text = HISTORIES[sig];
-  return (side === LONG_VIEW ? text?.long?.[band] : text?.titles[band]?.[side]) ?? null;
+  return (side === LONG_VIEW ? text?.long?.[band] : text?.titles?.[band]?.[side]) ?? null;
 }

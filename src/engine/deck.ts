@@ -26,6 +26,7 @@ export const WORDING_PATHS: readonly string[] = [
   "endings[].text",
   "epilogues[].text",
   "advisors[].name",
+  "legacies[].label",
 ];
 
 /** Config the frame reads and the deal does not: the look only ever follows drift. */
@@ -45,6 +46,9 @@ export function dealtBy(lib: Library): unknown {
     epilogues: c.epilogues.map(({ text: _text, ...epilogue }) => epilogue),
     // A promise's rule is code, which DEAL_VERSION covers; its data is here.
     mandates: MANDATES.map(({ id, startFlags, meterStart, brokeCard }) => ({ id, startFlags, meterStart, brokeCard })),
+    // Which legacy a reckoning is dealt for goes by history's order (BACKLOG-13 phase 92); the
+    // legacies' words are wording.
+    legacyOrder: (c.legacies ?? []).map((l) => l.id),
   };
 }
 

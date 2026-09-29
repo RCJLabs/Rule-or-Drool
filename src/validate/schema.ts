@@ -171,6 +171,7 @@ export const CARD_SPEC: Spec = {
     campaign: BOOL,
     appoints: ID,
     rivalStands: BOOL,
+    reckons: { kind: "array", items: ID, nonEmpty: true, unique: true },
     left: CHOICE_SPEC,
     right: CHOICE_SPEC,
   },

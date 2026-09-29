@@ -120,6 +120,7 @@ import chains from "./cards/chains.json";
 import promises from "./cards/promises.json";
 import rivalCards from "./cards/rival.json";
 import rivalMoves from "./cards/rivalmoves.json";
+import reckonings from "./cards/reckoning.json";
 import bandCards from "./cards/bands.json";
 import flawCards from "./cards/flaws.json";
 import blocCards from "./cards/blocs.json";
@@ -147,6 +148,8 @@ import advisors from "./advisors.json";
 import modifiers from "./modifiers.json";
 import endings from "./endings.json";
 import epilogues from "./epilogues.json";
+import histories from "./histories.json";
+import { LEGACIES } from "../meta/legacies";
 
 /**
  * Cheap shape check at load time. `scripts/validate-content.ts` does the real work in CI;
@@ -301,6 +304,8 @@ export const content: Content = {
     ...asCards(promises, "promises.json"),
     ...asCards(rivalCards, "rival.json"),
     ...asCards(rivalMoves, "rivalmoves.json"),
+    // The reckoning, once near a reign's end, of what it will be remembered for (BACKLOG-13 phase 92).
+    ...asCards(reckonings, "reckoning.json"),
     ...asCards(bandCards, "bands.json"),
     ...asCards(flawCards, "flaws.json"),
     ...asCards(blocCards, "blocs.json"),
@@ -320,6 +325,8 @@ export const content: Content = {
   modifiers: modifiers as unknown as Modifier[],
   endings: endings as Ending[],
   epilogues: epilogues as unknown as Epilogue[],
+  // What a reckoning reads: the legacies in history's order, each in words (BACKLOG-13 phase 92).
+  legacies: histories.order.map((id) => ({ id, label: LEGACIES[id] ?? id })),
 };
 
 /** The default library: real content, default config. */

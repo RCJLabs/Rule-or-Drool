@@ -18,8 +18,8 @@ const FX_KEYS = [...METER_KEYS, "mood"] as const;
 /** Conditions can read the rival's pressure too; effects cannot (BACKLOG item 7). */
 const COND_KEYS = [...FX_KEYS, "rival", "drift", "tenure"] as const;
 import { VOICE, carrying, type VoicePhrase } from "../content/voice";
-import { HISTORIES, HISTORY_ORDER, NO_LEGACY } from "../meta/histories";
-import { LEGACY_FLAGS } from "../meta/legacies";
+import { HISTORIES, HISTORY_ORDER, LAST_ACTS, NO_LEGACY, UNNAMED } from "../meta/histories";
+import { LEGACIES, LEGACY_FLAGS } from "../meta/legacies";
 import { allUnlockTokens } from "../meta/objectives";
 import { Issues, type Issue, type Where } from "./issues";
 
@@ -267,6 +267,23 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
     }
     if (!roles.has(card.speaker)) issues.error("speaker-unknown", `no advisor has the role "${card.speaker}"`, { ...where, path: "speaker" });
     if (card.text.length > opts.maxText) issues.warn("text-length", `text is ${card.text.length} characters; the plan says under ${opts.maxText}`, { ...where, path: "text" });
+    // A reckoning opens on the legacy it is dealt for, which only it can name (BACKLOG-13 phase 92).
+    if (card.reckons) {
+      if (card.type !== "event") issues.error("reckoning-type", `a reckoning is an event card, dealt by the engine`, { ...where, path: "type" });
+      if (!card.text.startsWith("{legacy}")) issues.error("reckoning-opens", `a reckoning's text opens on the legacy it is dealt for, as {legacy}`, { ...where, path: "text" });
+      for (const f of card.reckons) {
+        if (!LEGACY_FLAGS.has(f) || !HISTORY_ORDER.includes(f)) issues.error("reckoning-legacy", `"${f}" is not a legacy history names, so no run is ever reckoned for it`, { ...where, path: "reckons" });
+      }
+      // What it leaves is told besides the reign's other decisions, so it takes none of their places.
+      for (const f of [...(card.left.setFlags ?? []), ...(card.right.setFlags ?? [])]) {
+        if (LEGACY_FLAGS.has(f) && !LAST_ACTS.has(f)) issues.error("reckoning-legacy", `"${f}" is left at a reckoning, so it belongs in histories.json's "lastActs"`, { ...where, path: "reckons" });
+      }
+      const longest = card.reckons.reduce((a, f) => Math.max(a, (LEGACIES[f] ?? "").length), 0);
+      const full = card.text.length - "{legacy}".length + longest;
+      if (full > opts.maxText) issues.warn("text-length", `text can run to ${full} characters with its longest legacy; the plan says under ${opts.maxText}`, { ...where, path: "text" });
+    } else if (card.text.includes("{legacy}")) {
+      issues.error("reckoning-opens", `only a reckoning is dealt for a legacy, so only it can name one`, { ...where, path: "text" });
+    }
     for (const span of ERA_SPANS) {
       const other = card.eras.filter((e) => e !== span.era);
       if (span.match.test(card.text) && other.length) issues.error("era-span", `says "${span.phrase}" and is drawn in era ${other.join(", ")} too`, { ...where, path: "text" });
@@ -612,7 +629,7 @@ export function checkRules(content: Content, options: Partial<RuleOptions> = {})
   }
 
   // ---- coverage: cells, elections, epilogues ----------------------------------------------
-  const pool = content.cards.filter((c) => c.type === "event" && !c.opposition && !c.campaign && (c.weight ?? 1) > 0);
+  const pool = content.cards.filter((c) => c.type === "event" && !c.opposition && !c.campaign && !c.reckons && (c.weight ?? 1) > 0);
   const electionCards = content.cards.filter((c) => c.type === "election" && !c.opposition && (c.weight ?? 1) > 0);
   for (const era of eras) {
     for (const band of BANDS) {
@@ -726,6 +743,8 @@ function checkHistories(issues: Issues): void {
     if (!HISTORIES[f]) issues.error("history-missing", `legacy "${f}" has no history, so a run it defines has no name`);
   }
   if (!HISTORIES[NO_LEGACY]) issues.error("history-missing", `no fallback history for a run that leaves no legacy`);
+  for (const f of UNNAMED) if (!LEGACY_FLAGS.has(f)) issues.error("history-unnamed", `"${f}" is told and never named, but it is not a legacy`);
+  for (const f of LAST_ACTS) if (!LEGACY_FLAGS.has(f)) issues.error("history-last-act", `"${f}" is told as a reign's last act, but it is not a legacy`);
   for (const f of Object.keys(HISTORIES)) {
     if (f !== NO_LEGACY && !LEGACY_FLAGS.has(f)) issues.error("history-orphan", `history "${f}" is for a flag that is not a legacy`);
   }
@@ -742,6 +761,12 @@ function checkHistories(issues: Issues): void {
     else titles.set(t, where);
   };
   for (const [f, h] of Object.entries(HISTORIES)) {
+    // One history records and never names a reign for is told, not titled (BACKLOG-13 phase 92).
+    if (UNNAMED.has(f)) {
+      if (h.titles || h.long) issues.error("history-unnamed", `history "${f}" never names a reign, so its titles would never be read`);
+      for (const band of BANDS) if (!h.after?.[band]?.trim()) issues.error("history-text", `history "${f}" has no "after" line for ${band}`);
+      continue;
+    }
     for (const band of BANDS) {
       if (!h.after?.[band]?.trim()) issues.error("history-text", `history "${f}" has no "after" line for ${band}`);
       // The long view names a run that lived past its third era (BACKLOG-5 phase 39).

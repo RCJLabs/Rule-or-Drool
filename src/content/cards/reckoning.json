@@ -1,0 +1,224 @@
+[
+  {
+    "id": "rk_sale",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "treasurer",
+    "reckons": [
+      "oracle_running",
+      "ring_started",
+      "seawall",
+      "levee_built",
+      "moonshot_funded",
+      "stadium_built",
+      "port_leased",
+      "housing_built"
+    ],
+    "text": "{legacy}. Your donors will take it off the state's hands, upkeep and all, for enough to fund your successor's campaign twice over.",
+    "left": {
+      "label": "Keep it the country's",
+      "fx": {
+        "money": -5,
+        "public": 2,
+        "inst": 1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sell it to them",
+      "fx": {
+        "money": 6,
+        "backers": 3,
+        "public": -3,
+        "inst": -2
+      },
+      "drift": -5,
+      "setFlags": [
+        "sold_off"
+      ]
+    }
+  },
+  {
+    "id": "rk_decree",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "chief",
+    "reckons": [
+      "mass_deportation",
+      "went_to_war",
+      "universal_care",
+      "papers_granted",
+      "stayed_out",
+      "court_packed",
+      "cameras_everywhere",
+      "banks_failed",
+      "drugs_legalised",
+      "truth_law",
+      "carbon_priced",
+      "banks_bailed",
+      "debt_cancelled",
+      "gas_drilled",
+      "care_market",
+      "top_rate_cut",
+      "top_rate_raised",
+      "rents_controlled",
+      "zoning_cleared",
+      "tough_sentences",
+      "justice_reformed",
+      "tariffs_raised",
+      "trade_opened",
+      "pension_age_raised",
+      "cameras_banned",
+      "drugs_crackdown",
+      "wage_raised",
+      "court_left",
+      "no_truth_law",
+      "debt_kept",
+      "pension_age_kept",
+      "wage_left"
+    ],
+    "text": "{legacy}. The next government means to reopen it. I have a decree ready that would put it beyond the chamber's reach.",
+    "left": {
+      "label": "Let the chamber decide",
+      "fx": {
+        "inst": 3,
+        "base": -3,
+        "order": -1
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Sign the decree",
+      "fx": {
+        "inst": -4,
+        "base": 3,
+        "order": 2
+      },
+      "drift": -5,
+      "setFlags": [
+        "put_beyond_reach"
+      ]
+    }
+  },
+  {
+    "id": "rk_files",
+    "type": "event",
+    "align": "any",
+    "eras": [
+      3
+    ],
+    "bands": [
+      "decay",
+      "muddle",
+      "ascent"
+    ],
+    "speaker": "judge",
+    "reckons": [
+      "long_ship",
+      "orbit_reached",
+      "elections_abolished",
+      "purge_begun",
+      "general_unleashed",
+      "heir_named",
+      "crown_restored",
+      "oracle_running",
+      "ring_started",
+      "referendum_called",
+      "seawall",
+      "levee_built",
+      "water_rationed",
+      "bridge_ignored",
+      "moonshot_funded",
+      "stadium_built",
+      "feed_captured",
+      "port_leased",
+      "mass_deportation",
+      "went_to_war",
+      "universal_care",
+      "papers_granted",
+      "stayed_out",
+      "court_packed",
+      "cameras_everywhere",
+      "banks_failed",
+      "drugs_legalised",
+      "truth_law",
+      "carbon_priced",
+      "banks_bailed",
+      "debt_cancelled",
+      "gas_drilled",
+      "housing_built",
+      "codes_enforced",
+      "commission_open",
+      "counted_late_boxes",
+      "count_adjusted",
+      "buried_the_audit",
+      "broke_mandate",
+      "pension_raided",
+      "money_printed",
+      "schools_starved",
+      "media_captured",
+      "took_the_skim",
+      "honours_sold",
+      "care_market",
+      "top_rate_cut",
+      "top_rate_raised",
+      "rents_controlled",
+      "zoning_cleared",
+      "tough_sentences",
+      "justice_reformed",
+      "tariffs_raised",
+      "trade_opened",
+      "pension_age_raised",
+      "cameras_banned",
+      "drugs_crackdown",
+      "wage_raised",
+      "broke_inquiry",
+      "broke_balance",
+      "broke_homes",
+      "broke_taxes",
+      "court_left",
+      "no_truth_law",
+      "debt_kept",
+      "pension_age_kept",
+      "wage_left",
+      "cheated_election"
+    ],
+    "text": "{legacy}. The files on it open the day you leave, unless you seal them for fifty years. They show what advice you ignored.",
+    "left": {
+      "label": "Let them open",
+      "fx": {
+        "public": -3,
+        "inst": 3
+      },
+      "drift": 4
+    },
+    "right": {
+      "label": "Seal them",
+      "fx": {
+        "inst": -3,
+        "base": 2,
+        "order": 1
+      },
+      "drift": -4,
+      "setFlags": [
+        "files_sealed"
+      ]
+    }
+  }
+]

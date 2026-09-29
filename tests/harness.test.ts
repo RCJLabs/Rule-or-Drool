@@ -89,9 +89,13 @@ describe("the long reign's targets", () => {
     // The mixed bot plays more of them: Decay is the hard place by about 5 points, measured
     // on the Decay-locked quarter of its reigns, and at 1,500 runs that quarter is small enough
     // that one sample put it at 1.9 and another of the same content at 5 (BACKLOG-6 phase 42).
-    // The informed voter plays as many, for the Ascent it is held to (BACKLOG-9 phase 54).
+    // The informed voter plays as many, for the Ascent it is held to (BACKLOG-9 phase 54). The
+    // random bot plays as many as the harness does: its Decay target is measured against the few
+    // random reigns that reach era 4 on the Ascent, one of 1,500 on these seeds and 19 of 10,000
+    // (BACKLOG-13 phase 92).
     const results = new Map([
-      ...simulate(library, { runs: 1500, seed: 1, bots: ["random", "greedy"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
+      ...simulate(library, { runs: 10000, seed: 1, bots: ["random"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
+      ...simulate(library, { runs: 1500, seed: 1, bots: ["greedy"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
       ...simulate(library, { runs: 4000, seed: 1, bots: ["mixed", "informed"], align: "alternate", danger: 25, maxCards: 1000, eraCount }),
     ]);
     const s = new Map<BotName, BotSummary>();
@@ -106,7 +110,8 @@ describe("the long reign's targets", () => {
         expect(r.relaxed.band + r.relaxed.era).toBe(0);
       }
     }
-  }, 300000);
+    // The random bot's 10,000 add about 40s: 206s in all, measured beside another simulation.
+  }, 360000);
 });
 
 // BACKLOG-7 phase 45: the frame's look followed drift card by card, and over the mixed bot's

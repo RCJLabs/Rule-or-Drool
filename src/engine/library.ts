@@ -30,6 +30,11 @@ export interface Library {
   campaignCards: readonly Card[];
   /** Each cabinet seat's appointment card, dealt only at an era's start (BACKLOG-10 phase 61). */
   appointmentCards: ReadonlyMap<string, Card>;
+  /** The reckonings, dealt only from the ordinary game's last cards on (BACKLOG-13 phase 92). */
+  reckonings: readonly Card[];
+  /** History's order of the legacies, and each in words (BACKLOG-13 phase 92). */
+  legacyOrder: readonly string[];
+  legacyLabels: Readonly<Record<string, string>>;
   epilogues: readonly Epilogue[];
   /** Every era number that at least one event card lists, ascending. */
   eras: readonly number[];
@@ -76,8 +81,14 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
   const returnVotes: Card[] = [];
   const campaignCards: Card[] = [];
   const appointmentCards = new Map<string, Card>();
+  const reckonings: Card[] = [];
   const eraSet = new Set<number>();
   for (const c of content.cards) {
+    // A reckoning, dealt only from the ordinary game's last cards on (BACKLOG-13 phase 92).
+    if (c.reckons) {
+      reckonings.push(c);
+      continue;
+    }
     // A seat's appointment, dealt only as an era's first card (BACKLOG-10 phase 61).
     if (c.appoints) {
       appointmentCards.set(c.appoints, c);
@@ -138,6 +149,9 @@ export function buildLibrary(content: Content, overrides: Partial<EngineConfig> 
     returnVotes,
     campaignCards,
     appointmentCards,
+    reckonings,
+    legacyOrder: (content.legacies ?? []).map((l) => l.id),
+    legacyLabels: Object.fromEntries((content.legacies ?? []).map((l) => [l.id, l.label])),
     epilogues: content.epilogues,
     eras: [...eraSet].sort((a, b) => a - b),
   };

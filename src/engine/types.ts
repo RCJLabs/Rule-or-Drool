@@ -137,6 +137,12 @@ export interface Card {
    */
   appoints?: string;
   /**
+   * The legacies this card is the reckoning of (BACKLOG-13 phase 92): dealt once, from the ordinary
+   * game's last cards on, for the highest in history's order of those the run has left. Its text
+   * opens on that legacy, as `{legacy}`. Never dealt from the pools.
+   */
+  reckons?: string[];
+  /**
    * An election the rival stands in by name (BACKLOG-10 phase 65). Dealt whenever a vote comes
    * with the rival high enough that losing it would be their win, and never otherwise. Since
    * they replace every other vote then, they are written in the numbers and weights of the votes
@@ -258,6 +264,12 @@ export interface Content {
   modifiers: Modifier[];
   endings: Ending[];
   epilogues: Epilogue[];
+  /**
+   * The legacies in history's order, the one that names a run first (src/content/histories.json),
+   * each in words: a reckoning answers for the highest a run has left, and its text opens on it
+   * (BACKLOG-13 phase 92).
+   */
+  legacies?: { id: string; label: string }[];
 }
 
 export interface QueueItem {
@@ -503,7 +515,7 @@ export interface Road {
  * card is gated on counting marks: it is not here because of one choice, it is here because
  * of a pattern of them, which is a different thing to say to the player.
  */
-export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign", "appointment", "handover"] as const;
+export const CARD_SOURCES = ["deck", "habit", "queue", "arc", "election", "opposition", "campaign", "appointment", "handover", "reckoning"] as const;
 export type CardSource = (typeof CARD_SOURCES)[number];
 
 export interface RunSetup {

@@ -4,6 +4,7 @@ import { PURSUIT_START, pursuedArcs } from "./pursuit";
 import { diceAt, pickWeighted, rankOf, seedToState } from "./rng";
 import { candidatesFor, condMet, hasFlag, rivalStands } from "./state";
 import { returnDue } from "./opposition";
+import { reckonedLegacy } from "./reckoning";
 import type { Arc, Band, Card, CardSource, GameState } from "./types";
 import { BANDS } from "./types";
 
@@ -64,6 +65,35 @@ export function campaignDue(lib: Library, state: GameState): boolean {
   if (state.opposition || hasFlag(state, lib.config.electionsAbolishedFlag)) return false;
   const until = state.nextElectionAt - state.cardCount;
   return until >= 1 && until <= lib.config.campaignLead;
+}
+
+/**
+ * Whether the card about to be dealt is the run's reckoning (BACKLOG-13 phase 92): in office, from
+ * the ordinary game's last cards on, once a run, for a legacy one is written for. A long reign meets
+ * it where the ordinary game does, since it deals as the ordinary game does until its fourth era,
+ * or, out of office through those cards, when it returns; a first term ends before it.
+ */
+export function reckoningDue(lib: Library, state: GameState): boolean {
+  const { eraLength, eraCount, reckoningCards } = lib.config;
+  if (state.opposition || state.cardCount < eraLength * eraCount - reckoningCards) return false;
+  if (lib.reckonings.some((c) => state.seen.includes(c.id))) return false;
+  return reckonedLegacy(lib, state) !== null;
+}
+
+/** Of the reckonings written for the run's legacy, the one first in the seed's order (phase 81). */
+function drawReckoning(lib: Library, state: GameState): [Card | null, GameState] {
+  const legacy = reckonedLegacy(lib, state);
+  let best: Card | null = null;
+  let top = Number.NEGATIVE_INFINITY;
+  for (const c of lib.reckonings) {
+    if (!legacy || !c.reckons!.includes(legacy) || !condMet(lib, c.cond, state, c.speaker)) continue;
+    const rank = rankOf(state.seed, c.id, 1);
+    if (rank > top) {
+      top = rank;
+      best = c;
+    }
+  }
+  return [best, state];
 }
 
 function alignOk(card: { align: Card["align"] }, state: GameState): boolean {
@@ -469,6 +499,8 @@ export function draw(lib: Library, state: GameState): GameState {
         // The cards before a vote are the campaign's; bills and stories wait for them
         // (BACKLOG-10 phase 56).
         ...(campaignDue(lib, state) ? [["campaign", drawCampaign] as Source] : []),
+        // What the reign will be remembered for, asked once near its end (BACKLOG-13 phase 92).
+        ...(reckoningDue(lib, state) ? [["reckoning", drawReckoning] as Source] : []),
         ["queue", tickQueue],
         ["arc", drawArcContinue],
         ["arc", drawQuestionEntry],

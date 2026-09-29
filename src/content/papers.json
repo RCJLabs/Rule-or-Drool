@@ -102,6 +102,21 @@
     }
   },
   "headlines": {
+    "files_sealed": {
+      "ascent": "Cabinet papers sealed for fifty years",
+      "muddle": "What are they hiding? Files locked away",
+      "decay": "Needless archives spared prying eyes"
+    },
+    "sold_off": {
+      "ascent": "Public works sold to ministers’ donors",
+      "muddle": "Going, going, GONE! Mates snap up the lot",
+      "decay": "Patriots relieve the state of its burdens"
+    },
+    "put_beyond_reach": {
+      "ascent": "Last decree put beyond the chamber’s reach",
+      "muddle": "Lock it, lose the key: late-night decree",
+      "decay": "The leader’s wisdom is made permanent"
+    },
     "long_ship": {
       "ascent": "The long ship departs, one way",
       "muddle": "Bon voyage! (No, really, bye)",

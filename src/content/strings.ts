@@ -656,6 +656,10 @@ export const STRINGS = {
     /** A promise the country already breaks cannot be made in it. */
     promiseGone: "Already broken in the country you would take over.",
   },
+  /** A reign's reckoning, near its end, of what it will be remembered for (BACKLOG-13 phase 92). */
+  reckoning: {
+    title: "The reckoning",
+  },
   /**
    * The questions (BACKLOG-6 phase 40): policies asked plainly. The card says it is one, so a
    * player knows this is the big decision, and every step after it carries the same title.

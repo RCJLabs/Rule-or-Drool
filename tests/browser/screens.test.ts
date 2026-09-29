@@ -467,6 +467,47 @@ describe.skipIf(!target)("in a browser", () => {
   });
 
   /**
+   * The reckoning (BACKLOG-13 phase 92): titled, and opening on the legacy it is dealt for. Its
+   * longest, filled in with the longest legacy it can be dealt for, is put on the table as the
+   * run's reckoning, for a run that left that legacy and none above it, and read and fitted in all
+   * seven looks at 360px, for each side.
+   */
+  describe("a reckoning", () => {
+    it("is titled, opens on its legacy, and fits and reads in all seven looks at 360px, for each side", async () => {
+      const failures: string[] = [];
+      const answered = new Set(library.reckonings.flatMap((c) => c.reckons!));
+      const [card, legacy] = library.reckonings
+        .flatMap((c) => c.reckons!.map((f) => [c, f] as const))
+        .sort(([a, f], [b, g]) => b.text.length + LEGACIES[g]!.length - (a.text.length + LEGACIES[f]!.length))[0]!;
+      for (const party of ["left", "right"] as const) {
+        const page = await startRun(browser, party, { width: 360, height: 640 });
+        for (let i = 0; i < 3; i++) await choose(page, "right");
+        await rewriteRun(
+          page,
+          `const answered = new Set(${JSON.stringify([...answered])});
+          raw.state.current = ${JSON.stringify(card.id)};
+          raw.state.currentFrom = "reckoning";
+          raw.state.flags = [...raw.state.flags.filter((f) => !answered.has(f)), ${JSON.stringify(legacy)}];`,
+        );
+        await page.reload();
+        await page.getByRole("button", { name: STRINGS.ui.continueRun }).click();
+        await page.waitForSelector(".question-title");
+        const title = await page.locator(".question-title").textContent();
+        if (title !== STRINGS.reckoning.title) failures.push(`${party}: the card is titled ${JSON.stringify(title)}`);
+        const text = (await page.locator(".card").textContent()) ?? "";
+        if (!text.includes(`${LEGACIES[legacy]}.`)) failures.push(`${party}: the card does not open on "${LEGACIES[legacy]}"`);
+        for (const look of LOOKS) {
+          await toLook(page, look);
+          failures.push(...(await contrast(page, `${party}'s longest reckoning in ${look}`)));
+          failures.push(...(await misfits(page, `${party}'s longest reckoning in ${look}`)));
+        }
+        await close(page);
+      }
+      expect(failures).toEqual([]);
+    });
+  });
+
+  /**
    * The month of dailies (BACKLOG-5 phase 38). It is drawn at the end of a daily in whatever
    * look the run ended in, so it is read in each of the seven. The clock is fixed, because
    * the daily is dealt from the date. Ending a run reloads the page in the middle of it, so
@@ -1497,7 +1538,9 @@ describe.skipIf(!target)("in a browser", () => {
       // are reached by moving drift, which the rival gains from).
       const longestCoup = STRINGS.coup.line.replace("{band}", Object.values(STRINGS.coup.bands).reduce((a, b) => (b.length > a.length ? b : a)));
       expect(longestCoup).toBe(STRINGS.coup.line.replace("{band}", STRINGS.coup.bands.moderate));
-      const couped = (kind: string, card: Card) => card.type !== "election" && kind !== "campaign" && kind !== "appointment";
+      // A reckoning under the coup is the files', for a legacy of 22 characters at most, where its
+      // longest is 40; its title is a question's, which is staged with the line (BACKLOG-13 phase 92).
+      const couped = (kind: string, card: Card) => card.type !== "election" && kind !== "campaign" && kind !== "appointment" && kind !== "reckoning";
       const abolished = JSON.stringify(library.config.electionsAbolishedFlag);
       // A card that came back names the choice that sent it (BACKLOG-13 phase 80), staged at its
       // longest: the longest label any choice that sends a card has, and the last card of a long
@@ -1508,12 +1551,12 @@ describe.skipIf(!target)("in a browser", () => {
       const longestReceipt = STRINGS.receipt.line.replace("{n}", String(sentAt)).replace("{label}", sender.label);
       for (const party of ["left", "right"] as const) {
         const page = await startRun(browser, party, { width, height, mandates: FULLEST_PLATFORM, settings: { showChoices: true } });
-        for (const { kind, card, arc, seats, text } of fitPlacements(library, party)) {
+        for (const { kind, card, arc, seats, legacy, text } of fitPlacements(library, party)) {
           for (const coup of couped(kind, card) ? [false, true] : [false]) {
             await rewriteRun(
               page,
               `raw.state.current = ${JSON.stringify(card.id)};
-              raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" ? kind : kind === "bill" ? "queue" : "deck")};
+              raw.state.currentFrom = ${JSON.stringify(arc ? "arc" : kind === "election" || kind === "campaign" || kind === "reckoning" ? kind : kind === "bill" ? "queue" : "deck")};
               ${
                 kind === "bill"
                   ? `raw.state.sentBy = ${sentAt};
@@ -1532,6 +1575,7 @@ describe.skipIf(!target)("in a browser", () => {
                   : `raw.state.flags = raw.state.flags.filter((f) => f !== ${abolished});
                      raw.state.nextElectionAt = raw.state.cardCount + ${library.config.electionInterval};`
               }
+              ${legacy ? `raw.state.flags = [...raw.state.flags.filter((f) => !${JSON.stringify(card.reckons)}.includes(f)), ${JSON.stringify(legacy)}];` : ""}
               Object.assign(raw.state.cabinet, ${JSON.stringify(seats)});`,
             );
             await page.reload();

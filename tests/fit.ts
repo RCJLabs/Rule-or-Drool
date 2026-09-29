@@ -8,9 +8,10 @@ import type { Advisor, Card, GameState, PlayerAlign, Side } from "../src/engine/
  * card draws something the others do not: a question a title line, an election a double
  * border, a card with a name the name. So each side's longest of every kind is placed, as
  * the table would show it, not only the longest events. A campaign card carries the count
- * under its text, as an election does (BACKLOG-10 phase 56).
+ * under its text, as an election does (BACKLOG-10 phase 56). A reckoning carries a title as a
+ * question does, and opens on a legacy's words (BACKLOG-13 phase 92).
  */
-export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign" | "appointment" | "bill";
+export type FitKind = "event" | "story" | "question" | "election" | "named" | "campaign" | "appointment" | "bill" | "reckoning";
 
 /**
  * The cards a choice sends later (BACKLOG-13 phase 80), each with the labels of the sides that
@@ -53,6 +54,7 @@ export function arcOf(lib: Library, card: Card): { id: string; question: boolean
 
 /** The kind of card this is on the table; undefined for one the fit check does not know. */
 export function kindOf(lib: Library, card: Card): FitKind | undefined {
+  if (card.reckons) return "reckoning";
   if (card.campaign) return "campaign";
   if (card.appoints) return "appointment";
   if (billSenders(lib).has(card.id)) return "bill";
@@ -100,10 +102,17 @@ export function longestSeats(lib: Library, card: Card, party: PlayerAlign): Reco
   return seats;
 }
 
-/** The card's text as the table shows it, with those seats filled. */
+/** The legacy a reckoning is placed for: of those it is written for, the one in the most words. */
+export function longestReckoned(lib: Library, card: Card): string | undefined {
+  const words = (f: string) => (lib.legacyLabels[f] ?? "").length;
+  return [...(card.reckons ?? [])].sort((a, b) => words(b) - words(a) || a.localeCompare(b))[0];
+}
+
+/** The card's text as the table shows it, with those seats filled, and a reckoning's legacy. */
 export function shownText(lib: Library, card: Card, party: PlayerAlign): string {
   const cabinet = longestSeats(lib, card, party);
-  return withNames(lib, { cabinet, flags: [] } as unknown as GameState, card.text, card.speaker);
+  const legacy = longestReckoned(lib, card);
+  return withNames(lib, { cabinet, flags: legacy ? [legacy] : [] } as unknown as GameState, card.text, card.speaker);
 }
 
 export interface Placement {
@@ -113,6 +122,8 @@ export interface Placement {
   arc?: string;
   /** Who sits where while it is on the table. */
   seats: Record<string, string>;
+  /** For a reckoning, the legacy the run is left carrying, which its text opens on. */
+  legacy?: string;
   text: string;
 }
 
@@ -123,9 +134,9 @@ export function fitPlacements(lib: Library, party: PlayerAlign): Placement[] {
     .map((card) => ({ card, kind: kindOf(lib, card), text: shownText(lib, card, party) }))
     .sort((a, b) => b.text.length - a.text.length || a.card.id.localeCompare(b.card.id));
   const out: Placement[] = [];
-  for (const kind of ["event", "story", "question", "election", "named", "campaign", "appointment", "bill"] as const) {
+  for (const kind of ["event", "story", "question", "election", "named", "campaign", "appointment", "bill", "reckoning"] as const) {
     for (const { card, text } of theirs.filter((c) => c.kind === kind).slice(0, kind === "event" ? EVENTS : 1)) {
-      out.push({ kind, card, arc: arcOf(lib, card)?.id, seats: longestSeats(lib, card, party), text });
+      out.push({ kind, card, arc: arcOf(lib, card)?.id, seats: longestSeats(lib, card, party), legacy: longestReckoned(lib, card), text });
     }
   }
   return out;

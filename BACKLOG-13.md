@@ -1412,3 +1412,155 @@ and seed it had.
 - **"The last era decides" only as far as a question can.** Questions name runs in the middle of
   history's order: a run carrying a great story's legacy, a ring or a ship, is named for that
   whenever it was decided. The reckoning is the half that would decide more.
+
+## Phase 92. The last era decides: the reckoning (idea 4, second half) — *done*
+
+**Shipped in v0.100.0.** It changes the deal: the deck is now z1rhb4xy, from aszkbk6a. With phase
+91, idea 4 is done.
+
+- **The reckoning.** Once a run, in the ordinary game's last ten cards and in office, the engine
+  deals a card that asks what becomes of what the reign will be remembered for: the highest legacy
+  in history's order that the reign left, not one it took over, and that a reckoning is written
+  for. It comes after any vote due, so it is the card after the last count, the 97th, in 99.7–99.9%
+  of the runs that meet it. A long reign meets it where the ordinary game does, or, out of office
+  through those ten cards, when it returns; a first term ends first.
+- **Three are written, each opening on the legacy in its own words:**
+  - **the sale,** for eight things the state owns that a reign built, funded or leased (the ring,
+    the port, the seawall, the levee, the stadium, the oracle, the housing, the moonshot): your
+    donors will take it off the state's hands;
+  - **the decree,** for any answer to a question: the next government means to reopen it, and a
+    decree would put it beyond the chamber's reach;
+  - **the files,** for 68 legacies, all but six of those a reign can leave before it: they open
+    the day you leave, unless you seal them for fifty years.
+
+  Where two are written for the legacy, the seed's order picks one. Each asks the honest way (keep
+  it, let the chamber decide, let them open) against the self-serving one, and none scores a
+  policy: the decree is about how an answer is kept, not what it was.
+- **What it leaves.** The self-serving side of the sale renames the reign, "The Closing-Down Sale"
+  and the like, and so does the decree's, "The Last Decree"; each ranks just above what its card
+  is written for. Sealed files are told first in what became of the reign, and never name it:
+  history now has legacies it records and does not name a reign for (`unnamed` in
+  `histories.json`), with no titles, which the codex does not count. All three have front-page
+  headlines in every band.
+- **Told besides the rest.** What a reign leaves at its reckoning is its last act (`lastActs` in
+  `histories.json`), and the end screen tells it besides the four decisions it follows up on.
+  Ranked among them, it pushed the office lost or won back out of the four: of the runs that went
+  out, on 3,000 runs a bot, one of the two was among them in 87–91%, and is now in 94–96%, as
+  BACKLOG-11 phase 70 measured it (95–97%). The timeline dates the office lost in every such run
+  measured, either way. The content gate holds every legacy a reckoning leaves to be a last act.
+- **On the card,** "The reckoning" is its title where a question's goes, and a screen reader hears
+  it with the card. `{legacy}` in a reckoning's text is filled with the legacy's own words: the
+  highest of those the card is written for that the run left, which is the one it was dealt for.
+  The content gate holds the text, filled with its longest legacy, under 160 characters.
+- **In the code:** `reckoningDue` and the reckoning's place in the draw in `src/engine/draw.ts`,
+  `reckonedLegacy` in `src/engine/reckoning.ts`, the cards in `src/content/cards/reckoning.json`
+  (`reckons` lists what each is written for), and `reckoningCards` in the config. `DEAL_VERSION`
+  is 11, and history's order, which picks the legacy reckoned, is in the deck's stamp.
+
+**Measured first.** 1,000 runs a bot on seeds 1 to 1,000. Of the runs that reach the ordinary
+game's last ten cards, 97–99% meet a reckoning; 56% of them the files, 33% the decree and 11% the
+sale. The informed voter takes the self-serving side in 79%, the eyes bot in 58% and a person-like
+player in 51%.
+
+| Runs seen through | Informed | Eyes | Person-like |
+|---|---|---|---|
+| Named for a third-era decision, phase 91 → now | 28% → 54% | 27% → 49% | 27% → 46% |
+| Named by a reckoning's name | 32% | 25% | 23% |
+| Different names given, phase 91 → now | 182 → 179 | 158 → 156 | 161 → 158 |
+
+**Where its names rank decided it.** A name at the top of history's order takes every reign that
+earns it. For the informed voter:
+
+| The reckoning's names | Named for a third-era decision | By a reckoning's name | Different names |
+|---|---|---|---|
+| All three at the top | 84% | 77% | 123 |
+| The sale's and the decree's above what they reckon (shipped) | 54% | 32% | 179 |
+| And the files' among the questions | 59% | 39% | 155 |
+| And the files' just above the scandals | 57% | 36% | 161 |
+| The sale's alone | 35% | 9% | 183 |
+| None | 27% | 0% | 177 |
+
+The files are dealt most, for nearly any legacy, so wherever their names ranked, the reigns below
+them would share their nine: at either place measured, 155–161 different names where the shipped
+design gives 179.
+
+**The rest held.**
+- **Every harness target holds,** at 5,000 runs a bot, and the long reign's at 10,000:
+  - the informed voter reaches the Ascent in 25.9% (26.4% in phase 91), and the mixed bot in
+    14.1% (13.8%);
+  - random runs last a median 50 cards (50), no cause ends more than 18.7% of them (18.8%), and
+    the greedy bot ends in the Decay in 75.5% (76.4%);
+  - in the long reign the mixed bot reaches its fifth era in 96.4% (96.4%) and sees its finale in
+    92.7% (92.9%), and a random run past its third era finishes in 7.5% in the Decay and 42.1% on
+    the Ascent (9.5% and 48.0%);
+  - the eyes bot, a line for information, reaches the Ascent in 61.1% (60.9%).
+- **The band after card 95** changes in 29% of the informed voter's runs seen through (27% before),
+  and in 21–24% of the others' (22–23%).
+- **The contracts,** `npm run contracts`, 500 runs a policy: none moves out of its band, and the
+  two just over their lines stay there, "Nobody under forty" at 52.6% and every group above sixty
+  at 21.0%.
+- The codex has 693 names written and 675 a run can be given, from 675 and 657, and 1,819 cards,
+  from 1,816.
+
+**The weeks' scenarios.** Weeks 3 to 156 were searched again on the new deck
+(`npm run scenarios -- --from 3`): 4,227 candidates in 44 minutes, every week searched in its
+band, the informed voter meeting a week's goal in 35.9% of runs and the eyes bot in 34.3%. Week 2,
+under way, keeps its goal, and meets it in 43% and 42% on the new deck; week 3 found the goal and
+seed it had.
+
+**Tests.**
+- A reckoning comes once a run, in office, in the ordinary game's last ten cards, to more than 90%
+  of the informed voter's runs that get there. It answers for the highest legacy in history's
+  order a reckoning is written for, picks between two by the seed's order, and opens on the
+  legacy's words.
+- It is not dealt for a legacy the reign took over, out of office, or before its window. A first
+  term never meets it; a long reign meets it at the same card, and the same one, as the ordinary
+  game on its seed.
+- Reckonings are never in the pools, and every legacy one is written for is one history ranks.
+- In history, the sale and the decree rename a reign, each ranking just above what its card is
+  written for, and the great works and the powers seized still keep theirs. Sealed files come
+  first in what became of a reign, with no titles and no name in the codex. All three have
+  headlines.
+- On screen, the card is titled "The reckoning" and opens on the legacy, and a screen reader hears
+  both; no other card is titled so. The browser audit puts the longest reckoning, filled, on the
+  table in all seven looks at 360×640, both sides.
+- A reckoning opens on the highest legacy the card itself is written for: the sale, on a run that
+  also abolished the vote, still opens on what it would sell.
+- The small-phone fit check places each side's longest reckoning as a kind of its own, filled with
+  the longest legacy it is written for, at every phone height. Its placeholder had made it a card
+  with a name, and the longest of those, in the placeholder's fallback words, had taken the place
+  of the longest card that names a person.
+- In what became of a reign, a last act is told besides the four decisions followed up on, and
+  pushes none of them out; every legacy a reckoning leaves is a last act.
+- The test that every legacy has its names now leaves out the one that names none; the country's
+  drawing leaves the three undrawn, since each changes who owns a thing or who may read or undo it.
+- The deck stamp's test knows a reckoning's legacies are what it deals by and their words are
+  wording. The content carries the legacies as a list in history's order, each with its words, so
+  the stamp hashes the order and not the words.
+- **The long reign's harness test** plays the random bot's 10,000 reigns, where it played 1,500.
+  Its target, that Decay is the hard place for a random reign that gets past its third era, was
+  measured against the random reigns that got there on the Ascent: one of 1,500 on the test's
+  seeds, which did not finish, so the test missed at 0%. At 10,000, 19 get there and 8 finish,
+  42.1% against Decay's 7.5%, and the harness passes as it did. The test takes about 40s more.
+
+**Caveats.**
+- **A run saved before the update** plays on under the new deal from where it is, and its end
+  screen cannot deal it again for its chart. **A link sent before the update** names the old deck.
+  **Today's daily** deals differently after the update, for the rest of the day.
+- **The bots take the self-serving side more than people may,** 51–79% of the time. If people
+  keep what they built, a reckoning renames fewer reigns than measured. That share is a guess
+  until people play it.
+- **Sealed files are recorded, never named.** A reign that sealed them is told so first, and keeps
+  the name it earned.
+- **Six legacies a reign can leave before it have no reckoning:** losing office, winning it back,
+  the three habits and the habit of the cheap win. A run that left only those meets none.
+- **A long reign meets it in its third era,** the ordinary game's last, and lives two more with
+  what it chose: a long reign plays as the ordinary game does until its fourth era. One out of
+  office through the ordinary game's last ten cards meets it on its return, in its fourth era: 2.1%
+  of the informed voter's long reigns and 2.5% of a person-like player's, on 1,000 each.
+- **A first term never meets it,** and neither does a reign out of office at the end.
+- **The end screen can follow up on five things where it followed up on four,** in a run that
+  took a reckoning's self-serving side. The chronicle of past reigns, which lists three things
+  each left, lists sealed files first, and a reign's third thing goes under ", and 1 more".
+- **The random bot's long reign target stands on 19 runs** even at 10,000. It passes with 14
+  points to spare, and a change to the deal can still move it past its line.

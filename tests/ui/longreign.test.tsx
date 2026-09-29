@@ -129,7 +129,7 @@ describe("the end of a long reign", () => {
     const history = historyOf(run, band);
     expect(history.key.endsWith(":long")).toBe(true);
     expect(screen.getByRole("heading", { name: history.title })).toBeTruthy();
-    expect(HISTORIES[history.signature]!.long[band]).toBe(history.title);
+    expect(HISTORIES[history.signature]!.long![band]).toBe(history.title);
     expect(screen.getAllByText(library.endings.get(run.over!.endingId)!.title).length).toBeGreaterThan(0);
     expect(container.textContent).toContain(STRINGS.world.when[LONG - 1]!);
     expect(runFacts(run, "x")).toContain(STRINGS.reign.short);

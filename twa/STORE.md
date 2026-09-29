@@ -459,6 +459,12 @@ with one questionnaire gathered from the questions below:
   their deck, and the report compares only runs dealt from the deck it runs on, so runs recorded
   before the update are set aside. Question 3 now asks whether the reign's last era felt as if it
   decided anything.
+- Since v0.100.0, once a run, the card after the last count is a reckoning (BACKLOG-13 phase 92):
+  it asks what becomes of what the reign will be remembered for, with a sale, a decree or sealed
+  files, and the self-serving sale or decree renames the reign. It changes the deal: the deck is
+  z1rhb4xy, and a run saved before the update plays on under the new deal. Runs recorded before
+  the update are set aside by the report, as for v0.99.0. Question 3 now asks which way testers
+  took the reckoning, and why.
 - Do not tell testers how elections work beyond what the game tells them. The report is
   measuring how people vote on their own.
 - The votes and looks are rebuilt from each run's code and sides, which works only on a

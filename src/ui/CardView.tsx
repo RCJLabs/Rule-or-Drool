@@ -169,6 +169,12 @@ export function CardView({ card, text, labels, spokenText, speakerName, roleLabe
           {question.asking ? `${STRINGS.questions.asking}: ${question.title}` : question.title}
         </p>
       )}
+      {/* What the reign will be remembered for, asked once near its end (BACKLOG-13 phase 92). */}
+      {from === "reckoning" && (
+        <p className="question-title" data-asking>
+          {STRINGS.reckoning.title}
+        </p>
+      )}
       {spokenText && spokenText !== text ? (
         <>
           <p className="card-text" aria-hidden="true">

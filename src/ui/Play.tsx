@@ -261,6 +261,7 @@ export function Play({ lib, state, transition, onChoose, onDismissTransition, pa
     if (state.currentFrom === "habit") parts.push(STRINGS.ui.aHabit);
     // A question says it is one out loud too, as its title does on the card (BACKLOG-6 phase 40).
     if (asked) parts.push(`${asked.asking ? `${STRINGS.questions.asking}: ${asked.title}` : asked.title}.`);
+    if (state.currentFrom === "reckoning") parts.push(`${STRINGS.reckoning.title}.`);
     parts.push(spoken);
     if (count) parts.push(`${count.text}.`);
     if (coup) parts.push(`${coup.text}.`);
